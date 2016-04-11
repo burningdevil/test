@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+
+export PROJECT_NAME='test-mud3'
+export ORGANIZATION_NAME='ecosystem-test'
+export COMPANY_NAME='microstrategy'
+
+export ECOSYSTEM_ROOT_PARENT_PATH='/usr/local'
+export ECOSYSTEM_ROOT_NAME='eco.root'
+export ECOSYSTEM_ROOT_VERSION='next'
+export ECOSYSTEM_ROOT_PATH="${ECOSYSTEM_ROOT_PARENT_PATH}/${ECOSYSTEM_ROOT_NAME}-${ECOSYSTEM_ROOT_VERSION}"
+
+if [[ ! -e "${ECOSYSTEM_ROOT_PATH}" ]]; then
+  kill -s INT $$
+  git clone from repo with ref tag of $ECOSYSTEM_ROOT_VERSION
+fi
+
+export ECOSYSTEM_ROOT_SHELL_PATH="${ECOSYSTEM_ROOT_PATH}/shell"
+export ECOSYSTEM_ROOT_SHELL_LIB_PATH="${ECOSYSTEM_ROOT_SHELL_PATH}/lib"
+export ECOSYSTEM_ROOT_SHELL_LIB_CONTROL_PATH="${ECOSYSTEM_ROOT_SHELL_LIB_PATH}/control"
+
+source "${ECOSYSTEM_ROOT_SHELL_LIB_CONTROL_PATH}/bootstrap.bash"
