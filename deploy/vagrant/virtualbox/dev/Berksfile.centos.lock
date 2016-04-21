@@ -1,0 +1,20 @@
+DEPENDENCIES
+  chef_commons
+    git: https://github.microstrategy.com/ecosystem-cookbooks/chef_commons.git
+    revision: 1898418ff859b62bee5efef2ccc786cabb1f8676
+    tag: 1.1.9
+
+GRAPH
+  ark (1.0.1)
+    build-essential (>= 0.0.0)
+    seven_zip (>= 0.0.0)
+    windows (>= 0.0.0)
+  build-essential (3.2.0)
+    seven_zip (>= 0.0.0)
+  chef_commons (1.1.9)
+    ark (>= 0.0.0)
+  chef_handler (1.3.0)
+  seven_zip (2.0.0)
+    windows (>= 1.2.2)
+  windows (1.39.2)
+    chef_handler (>= 0.0.0)

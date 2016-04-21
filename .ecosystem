@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 
-export PROJECT_NAME='test-mud3'
-export ORGANIZATION_NAME='ecosystem-test'
+export PROJECT_NAME='TKN-.-project_name-.-TKN'
+export ORGANIZATION_NAME='TKN-.-project_parent_name-.-TKN'
 export COMPANY_NAME='microstrategy'
 
 export ECOSYSTEM_ROOT_PARENT_PATH='/usr/local'
@@ -11,6 +11,7 @@ export ECOSYSTEM_ROOT_VERSION='next'
 export ECOSYSTEM_ROOT_PATH="${ECOSYSTEM_ROOT_PARENT_PATH}/${ECOSYSTEM_ROOT_NAME}-${ECOSYSTEM_ROOT_VERSION}"
 
 if [[ ! -e "${ECOSYSTEM_ROOT_PATH}" ]]; then
+  echo "fix it!"
   kill -s INT $$
   git clone from repo with ref tag of $ECOSYSTEM_ROOT_VERSION
 fi

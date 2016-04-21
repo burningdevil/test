@@ -5,4 +5,11 @@
 
 include_recipe "workspace::base"
 
-include_recipe 'virtualbox'
+case node['platform']
+when 'windows'
+  #maybe later
+when "mac_os_x"
+  include_recipe 'virtualbox'
+else
+  #probably not
+end
