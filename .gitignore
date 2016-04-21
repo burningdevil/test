@@ -1,0 +1,32 @@
+
+logs
+
+.scratch
+.*-flag
+.fog
+
+.shell/set.personal.env.bash
+TKN-.-project_name-.-TKN.sublime-workspace
+
+.tmp
+.filecache
+.cache
+.build
+
+.vagrant
+overrides.*
+
+infrastructure/packer/**/iso
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+# vim
+.swp
