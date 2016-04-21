@@ -1,0 +1,12 @@
+Vagrant::Project.configure(:virtualbox) do |env|
+  TKN-.-snake_case_project_name-.-TKN :TKN-.-snake_case_project_name-.-TKN do
+
+    provider{
+      network{
+        ip_address "10.6.7.100"
+      }
+      memory '480'
+    }
+
+  end
+end

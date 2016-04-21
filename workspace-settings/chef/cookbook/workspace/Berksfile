@@ -1,0 +1,2 @@
+load_berks_file($WORKSPACE_SETTINGS[:ecosystem][:root][:chef][:berksfile])
+
