@@ -6,7 +6,7 @@ module Vagrant
     module Environment
       module Virtualbox
         class Blank < Vagrant::Project::Environment::Base
-          register :blank_virtualbox, self.inspect
+          register :environment, :blank_virtualbox, self.inspect
           
           def configure_provider(machine, &block)
             machine.provider.set_defaults{|vbox|

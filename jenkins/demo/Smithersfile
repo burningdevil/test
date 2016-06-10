@@ -1,0 +1,33 @@
+job 'stage-3-demo' do
+  description 'the third stage in the pipeline
+designed to deploy a shared demo environment
+only when all regression tests are passing'
+  
+  configure_common_items{}
+
+  assigned_node_number 2
+
+  builders do
+    bash do
+      script '#!/usr/bin/env bash
+set +xe
+
+export PATH=/usr/local/sbin:/usr/local/bin:$PATH
+
+export WORKSPACE_SETTING=esxi_demo
+source .ecosystem
+
+rake deploy
+'
+    end
+  end
+  
+  publishers do
+    html do
+      report_name 'Vagrant Logs'
+      report_directory_path "path/to/vagrant/logs"
+      index_file_name 'index.html'
+    end
+  end
+
+end

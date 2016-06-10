@@ -20,7 +20,7 @@ module Vagrant
 
         end
 
-        register :blank, self.inspect
+        register :machine, :blank, self.inspect
 
         def configuration_class
           Vagrant::Project::Machine::Blank::Configuration

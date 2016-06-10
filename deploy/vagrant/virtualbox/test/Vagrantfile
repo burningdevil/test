@@ -1,0 +1,22 @@
+Vagrant::Project.configure(:virtualbox) do |env|
+  TKN-.-snake_case_project_name-.-TKN_centos :TKN-.-snake_case_project_name-.-TKN do
+
+    provider{
+      network{
+        ip_address "10.6.7.101"
+      }
+
+      memory '3072'
+
+      synced_folders{
+        host_path  $WORKSPACE_SETTINGS[:paths][:project][:tests][:home]
+        guest_path "/home/vagrant/tests"
+        create true
+      }
+    }
+
+
+
+  end
+
+end

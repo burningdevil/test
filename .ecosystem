@@ -1,23 +1,54 @@
 #!/usr/bin/env bash
 
-
 export PROJECT_NAME='TKN-.-project_name-.-TKN'
 export ORGANIZATION_NAME='TKN-.-project_parent_name-.-TKN'
 export COMPANY_NAME='microstrategy'
+export ECOSYSTEM_ROOT_VERSION=${ECOSYSTEM_ROOT_VERSION:='1.0.157.next'}
 
-export ECOSYSTEM_ROOT_PARENT_PATH='/usr/local'
+#<(((((((((((((((-------------------------------------------------------------------)))))))))))))))>#
+#<(((((((((((((((------------------- PLEASE DON'T EDIT BELOW -----------------------)))))))))))))))>#
+
+
+export ECOSYSTEM_ROOT_PATHS_PARENT_HOME='/usr/local'
 export ECOSYSTEM_ROOT_NAME='eco.root'
-export ECOSYSTEM_ROOT_VERSION='next'
-export ECOSYSTEM_ROOT_PATH="${ECOSYSTEM_ROOT_PARENT_PATH}/${ECOSYSTEM_ROOT_NAME}-${ECOSYSTEM_ROOT_VERSION}"
+export ECOSYSTEM_ROOT_PATHS_HOME="${ECOSYSTEM_ROOT_PATHS_PARENT_HOME}/${ECOSYSTEM_ROOT_NAME}-${ECOSYSTEM_ROOT_VERSION}"
 
-if [[ ! -e "${ECOSYSTEM_ROOT_PATH}" ]]; then
-  echo "fix it!"
-  kill -s INT $$
-  git clone from repo with ref tag of $ECOSYSTEM_ROOT_VERSION
+if [[ -z "$USER" ]]; then
+  if [[ -n "$JENKINS_HOME" ]]; then
+    export USER=jenkins
+  else
+    kill -s INT $$
+  fi
 fi
 
-export ECOSYSTEM_ROOT_SHELL_PATH="${ECOSYSTEM_ROOT_PATH}/shell"
-export ECOSYSTEM_ROOT_SHELL_LIB_PATH="${ECOSYSTEM_ROOT_SHELL_PATH}/lib"
-export ECOSYSTEM_ROOT_SHELL_LIB_CONTROL_PATH="${ECOSYSTEM_ROOT_SHELL_LIB_PATH}/control"
+if [[ ! -e "${ECOSYSTEM_ROOT_PATHS_HOME}/.git" ]]; then
+  cd "${ECOSYSTEM_ROOT_PATHS_PARENT_HOME}"
 
-source "${ECOSYSTEM_ROOT_SHELL_LIB_CONTROL_PATH}/bootstrap.bash"
+  sudo mkdir "${ECOSYSTEM_ROOT_PATHS_HOME}"
+  sudo chown $USER "${ECOSYSTEM_ROOT_PATHS_HOME}"
+
+  git clone https://github.microstrategy.com/ecosystem-incubator/eco.root.git "${ECOSYSTEM_ROOT_PATHS_HOME}"
+
+  cd ${ECOSYSTEM_ROOT_PATHS_HOME}
+  git checkout tags/"${ECOSYSTEM_ROOT_VERSION}"
+
+  cd "${ECOSYSTEM_ROOT_PATHS_PARENT_HOME}"
+fi
+
+export ECOSYSTEM_ROOT_PATHS_SHELL_HOME="${ECOSYSTEM_ROOT_PATHS_HOME}/shell"
+export ECOSYSTEM_ROOT_PATHS_SHELL_LIB_HOME="${ECOSYSTEM_ROOT_PATHS_SHELL_HOME}/lib"
+export ECOSYSTEM_ROOT_PATHS_SHELL_LIB_CONTROL_HOME="${ECOSYSTEM_ROOT_PATHS_SHELL_LIB_HOME}/control"
+
+source "${ECOSYSTEM_ROOT_PATHS_SHELL_LIB_CONTROL_HOME}/bootstrap.bash"
+
+
+cd "${ECOSYSTEM_ROOT_PATHS_HOME}"
+if ! git branch | grep '\*' | grep -q detached ; then
+  warn "
+#####################################################################################################
+                      WARNING ECO.ROOT IS ON A BRANCH NOT A SPECIFIC VERSION(TAG)
+                    YOUR WARRANTY IS VOID, IE YOUR ARE ON YOUR OWN WITHOUT SUPPORT
+#####################################################################################################
+"
+fi
+cd "${PATHS_PROJECT_HOME}"

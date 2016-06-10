@@ -6,7 +6,7 @@ module Vagrant
     module Environment
       module Virtualbox
         class Test < Vagrant::Project::Environment::Base
-          register :'virtualbox-test', self.inspect
+          register :environment, :'virtualbox-test', self.inspect
           
           def configure_provider(machine, &block)
             machine.provider.set_defaults{|vbox|
