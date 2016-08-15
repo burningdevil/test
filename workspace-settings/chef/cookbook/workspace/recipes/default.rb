@@ -3,6 +3,8 @@
 # Recipe:: default
 #
 
-include_recipe "workspace::base"
-
-include_recipe 'virtualbox'
+if ENV['USER'] == 'jenkins'
+  include_recipe 'workspace::jenkins'
+else
+  include_recipe 'workspace::user'
+end
