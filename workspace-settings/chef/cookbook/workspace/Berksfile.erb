@@ -5,6 +5,13 @@ cookbook_from_git 'chef_commons', '1.1.11'
 cookbook_from_git 'extras', '0.1.61'
 
 cookbook 'build-essential'
+<% $toolset.each { |name, version| -%>
+<%  if $cookbook_resource[name][:version].nil? -%>
+<%= $cookbook_resource[name][:source] %> '<%= $cookbook_resource[name][:name] %>'
+<%  else -%>
+<%= $cookbook_resource[name][:source] %> '<%= $cookbook_resource[name][:name] %>', '<%= $cookbook_resource[name][:version] %>'
+<%  end -%>
+<% } -%>
 
 __END__
 below are some examples of additional cookbooks

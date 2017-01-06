@@ -1,8 +1,8 @@
-gradle_version = <%= $toolset[:gradle] %>
+gradle_version = '<%= $toolset[:gradle] %>'
 
 case gradle_version
 when '2.13'
-  gradle = checksum = '01078159f79fbe09fc006b040886423d8736dae8'
+  gradle_checksum = '01078159f79fbe09fc006b040886423d8736dae8'
 else
   Chef::Application.fatal!("this JDK version is not supported in #{node['platform']}, please contact DevOps to add it.")
 end

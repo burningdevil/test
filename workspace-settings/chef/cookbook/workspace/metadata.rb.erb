@@ -8,6 +8,9 @@ version          '1.0.0'
 depends 'chef_commons'
 depends 'virtualbox'
 depends 'extras'
+<% $toolset.each { |name, version| -%>
+depends '<%= $cookbook_resource[name][:name] %>'
+<% } -%>
 
 __END__
 below are some examples of additional cookbooks
