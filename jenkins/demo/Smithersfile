@@ -39,7 +39,7 @@ export PATH=/usr/local/sbin:/usr/local/bin:$PATH
 export WORKSPACE_SETTING=esxi_demo
 source .ecosystem
 
-rake rt_deploy[$APPLICATION_VERSION]
+rake deploy[$APPLICATION_VERSION]
 '
     end
   end
