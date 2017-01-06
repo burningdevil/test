@@ -18,3 +18,8 @@ desc "package project in #{$WORKSPACE_SETTINGS[:paths][:project][:production][:h
 task :package do
   good "Puts your pacakge command here."
 end
+
+desc "deploy project in #{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}"
+task :deploy, :version do |t, args|
+  good "Puts deployment code here."
+end

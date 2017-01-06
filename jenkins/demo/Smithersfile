@@ -2,7 +2,7 @@ job 'stage-3-demo' do
   description 'the third stage in the pipeline
 designed to deploy a shared demo environment
 only when all regression tests are passing'
-  
+
   configure_common_items{}
 
   properties do
@@ -43,7 +43,7 @@ rake rt_deploy[$APPLICATION_VERSION]
 '
     end
   end
-  
+
   publishers do
     html do
       report_name 'Vagrant Logs'

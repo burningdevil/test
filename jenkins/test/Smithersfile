@@ -2,7 +2,7 @@ job 'stage-2-regression-test' do
   description 'the second stage in the pipeline
 designed to execute all acceptance tests against a
 dedicated runtime environment managed by this job'
-  
+
   configure_common_items{}
 
   properties do
@@ -39,21 +39,21 @@ export PATH=/usr/local/sbin:/usr/local/bin:$PATH
 export WORKSPACE_SETTING=esxi_test
 source .ecosystem
 
-rake rt_deploy[$APPLICATION_VERSION] acceptance_test
+rake test
 '
     end
   end
 
   publishers do
-    html do
-      report_name 'Vagrant Logs'
-      report_directory_path "deploy/vagrant/esxi/test/logs"
-      index_file_name 'index.html'
-    end
-
-    cucumber do
-      file_include_pattern 'acceptance_test.json'
-    end
+    # html do
+    #   report_name 'Vagrant Logs'
+    #   report_directory_path "deploy/vagrant/esxi/test/logs"
+    #   index_file_name 'index.html'
+    # end
+    #
+    # cucumber do
+    #   file_include_pattern 'acceptance_test.json'
+    # end
 
     parameterized_trigger do
       job_short_names %w{
