@@ -1,6 +1,4 @@
-
-task :prepush_test => [:rt_deploy]
-task :upload => [:prepush_test]
+Rake::Task[:upload].clear_prerequisites
 
 desc "deploy project in #{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}"
 task :deploy, :version do |t, args|
