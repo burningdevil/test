@@ -1,7 +1,6 @@
 job 'stage-3-demo' do
-  description 'the third stage in the pipeline
-designed to deploy a shared demo environment
-only when all regression tests are passing'
+  description 'The third stage in the pipeline:
+designed to deploy a shared demo environment'
   
   configure_common_items{}
 
@@ -36,7 +35,7 @@ set +xe
 
 export PATH=/usr/local/sbin:/usr/local/bin:$PATH
 
-export WORKSPACE_SETTING=esxi_demo
+export WORKSPACE_SETTING=aws_demo
 source .ecosystem
 
 rake rt_deploy[$APPLICATION_VERSION]
