@@ -5,11 +5,10 @@ and publish a versioned deployment package'
   
   configure_common_items{}
 
-  assigned_node_number 1
-
+  #assigned_node_number 1
+  assigned_node_string 'amazon_linux'
   triggers do
-    scm_polling do
-      set_to_every_minute
+    github_push do
     end
   end
 
