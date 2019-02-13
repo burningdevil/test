@@ -5,8 +5,8 @@ and publish a versioned deployment package'
 
   configure_common_items{}
 
-  #assigned_node_number 1
-  assigned_node_string 'amazon_linux'
+  assigned_node_string '<%= $slave_label %>'
+
   triggers do
     github_push do
     end

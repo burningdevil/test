@@ -2,7 +2,7 @@ job 'stage-3-demo' do
   description 'the third stage in the pipeline
 designed to deploy a shared demo environment
 only when all regression tests are passing'
-  
+
   configure_common_items{}
 
   properties do
@@ -27,7 +27,7 @@ only when all regression tests are passing'
     end
   end
 
-  assigned_node_number 1
+  assigned_node_string '<%= $slave_label %>'
 
   builders do
     bash do
