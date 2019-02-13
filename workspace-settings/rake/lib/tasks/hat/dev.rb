@@ -3,27 +3,12 @@ require 'common/version'
 
 include ShellHelper::Shell
 
-raise "edit/replace below with specifics for this project"
+desc "build project in #{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}"
+task :build do
+  good "Puts your build command here: #{__FILE__}:#{__LINE__}, for example mvn compile or grable build"
+end
 
-{
-  compile: :compileJava,
-  test: 'test coverageCheck',
-  open_coverage_report: :coverageReport,
-  crap4j_report: :crap4jReport,
-  clean: :clean,
-  package: :build,
-  bless_coverage: :coverageBless,
-}.each{|task_name, command|
-  desc "#{command} project in #{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}"
-  task task_name do
-    shell_command!(
-      "gradle #{command}", 
-      cwd: $WORKSPACE_SETTINGS[:paths][:project][:production][:home],
-      environment: {
-        'BRANCH_NAME' => Common::Version.application_branch,
-        'COMMIT_HASH' => Common::Version.application_commit_hash,
-        'APPLICATION_VERSION' => Common::Version.application_version
-      }
-    )
-  end
-}
+desc "package project in #{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}"
+task :package do
+  good "Puts your pacakge command here: #{__FILE__}:#{__LINE__}"
+end

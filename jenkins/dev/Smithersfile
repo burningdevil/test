@@ -2,7 +2,7 @@ job 'stage-1-dev' do
   description 'The first stage in the pipeline:
 designed to complete quickly -- < 10 mins --
 and publish a versioned deployment package'
-  
+
   configure_common_items{}
 
   #assigned_node_number 1
@@ -22,7 +22,7 @@ export PATH=/usr/local/sbin:/usr/local/bin:$PATH
 export WORKSPACE_SETTING=aws_dev
 source .ecosystem
 
-rake upload
+rake build
 '
     end
   end

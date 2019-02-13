@@ -1,7 +1,7 @@
 job 'stage-2-regression-test' do
   description 'The second stage in the pipeline:
 designed to execute all acceptance tests'
-  
+
   configure_common_items{}
 
   properties do
@@ -38,7 +38,7 @@ export PATH=/usr/local/sbin:/usr/local/bin:$PATH
 export WORKSPACE_SETTING=aws_test
 source .ecosystem
 
-rake rt_deploy[$APPLICATION_VERSION] acceptance_test
+rake test
 '
     end
   end
