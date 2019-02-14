@@ -37,5 +37,3 @@ when "mac_os_x"
 else
   #probably not
 end
-node.override[:virtualbox][:version]  = '5.0.20-106931'
-include_recipe 'virtualbox'
