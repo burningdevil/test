@@ -5,7 +5,7 @@ branches that were deleted.'
   def name
     return @name unless @name.nil?
     @name = [
-      '<%= $project_name %>',
+      '<%= @project_name %>',
       'destroyer'
     ].join(environment.delimiter)
   end
@@ -23,8 +23,8 @@ branches that were deleted.'
   scm do
     git do
       included_regions 'jenkins/.*/Smithersfile'
-      repo_name '<%= $project_name %>'
-      organization_name '<%= $org_name %>'
+      repo_name '<%= @project_name %>'
+      organization_name '<%= @org_name %>'
       branch_name '**'
     end
   end

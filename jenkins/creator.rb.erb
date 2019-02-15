@@ -8,7 +8,7 @@ if an existing job is enable it will remain enabled.'
   def name
     return @name unless @name.nil?
     @name = [
-      '<%= $project_name %>',
+      '<%= @project_name %>',
       'creator'
     ].join(environment.delimiter)
   end
@@ -26,8 +26,8 @@ if an existing job is enable it will remain enabled.'
   scm do
     git do
       included_regions 'jenkins/.*/Smithersfile'
-      repo_name '<%= $project_name %>'
-      organization_name '<%= $org_name %>'
+      repo_name '<%= @project_name %>'
+      organization_name '<%= @org_name %>'
       branch_name '**'
     end
   end

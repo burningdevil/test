@@ -5,10 +5,10 @@ cookbook_from_git 'extras', '0.1.61'
 cookbook 'seven_zip', '~> 2.0.0'
 
 cookbook 'build-essential'
-<% $toolset.each { |name, version| -%>
-<%  if $cookbook_resource[name][:version].nil? -%>
-<%= $cookbook_resource[name][:source] %> '<%= $cookbook_resource[name][:name] %>'
+<% @toolset.each { |name, version| -%>
+<%  if @cookbook_resource[name][:version].nil? -%>
+<%= @cookbook_resource[name][:source] %> '<%= @cookbook_resource[name][:name] %>'
 <%  else -%>
-<%= $cookbook_resource[name][:source] %> '<%= $cookbook_resource[name][:name] %>', '<%= $cookbook_resource[name][:version] %>'
+<%= @cookbook_resource[name][:source] %> '<%= @cookbook_resource[name][:name] %>', '<%= @cookbook_resource[name][:version] %>'
 <%  end -%>
 <% } -%>

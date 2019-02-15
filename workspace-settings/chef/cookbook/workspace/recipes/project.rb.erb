@@ -5,7 +5,7 @@
 
 include_recipe 'chef_commons'
 
-toolset = <%= $toolset %>
+toolset = <%= @toolset %>
 
 toolset.each do |name, version|
   include_recipe "workspace::#{name}_attributes_overrides"

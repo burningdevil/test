@@ -5,7 +5,7 @@ and publish a versioned deployment package'
 
   configure_common_items{}
 
-  assigned_node_string '<%= $slave_label %>'
+  assigned_node_string '<%= @slave_label %>'
 
   triggers do
     github_push do
