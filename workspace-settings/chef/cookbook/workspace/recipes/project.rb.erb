@@ -7,5 +7,8 @@ include_recipe 'chef_commons'
 
 <% @toolset.split(',').each { |name_version| -%>
 include_recipe 'workspace::<%= @@cookbook_resource[name_version]['name'] %>_attributes_overrides'
+<% } -%>
+
+<% @toolset.split(',').each { |name_version| -%>
 include_recipe '<%= @@cookbook_resource[name_version]['name'] %>'
 <% } -%>
