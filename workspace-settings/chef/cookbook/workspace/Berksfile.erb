@@ -6,9 +6,9 @@ cookbook 'seven_zip', '~> 2.0.0'
 
 cookbook 'build-essential'
 <% @toolset.split(',').each { |name_version| -%>
-<%  if @@cookbook_resource[name_version][:cookbook_version].nil? -%>
-<%= @@cookbook_resource[name_version][:source] %> '<%= @@cookbook_resource[name_version][:name] %>'
+<%  if @@cookbook_resource[name_version]['cookbook_version'].nil? -%>
+<%= @@cookbook_resource[name_version]['source'] %> '<%= @@cookbook_resource[name_version]['name'] %>'
 <%  else -%>
-<%= @@cookbook_resource[name_version][:source] %> '<%= @@cookbook_resource[name_version][:name] %>', '<%= @@cookbook_resource[name_version][:cookbook_version] %>'
+<%= @@cookbook_resource[name_version]['source'] %> '<%= @@cookbook_resource[name_version]['name'] %>', '<%= @@cookbook_resource[name_version]['cookbook_version'] %>'
 <%  end -%>
 <% } -%>
