@@ -3,7 +3,7 @@
 # Recipe:: attributes_overrides
 #
 
-java_version = <%= @toolset[:java] %>
+java_version = <%= version %>
 
 case java_version
 when 7
@@ -13,9 +13,9 @@ when 7
   java_windows_checksum = '8cb35ac640e28535b977057a941d74bfafeab764'
 when 8
   java_minor_version = 8
-  java_patch_version = 74
-  java_osx_checksum = '3117194c12f0c6a072b93ad5e299ecf017262fed'
-  java_windows_checksum = 'fdd3eece9ddb19cc4bb13096752b065d313e1c31'
+  java_patch_version = 172
+  java_osx_checksum = '7266528f188e4a6c11be340f9bc69cdbd7f5afe7'
+  java_windows_checksum = '5578168c1516bb0c5a22230044712dc26a708938'
 else
   Chef::Application.fatal!("this JDK version is not supported in #{node['platform']}, please contact DevOps to add it.")
 end
