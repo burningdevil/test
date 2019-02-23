@@ -1,10 +1,10 @@
-gradle_version = <%= version %>
+gradle_version = '<%= version %>'
 
 case gradle_version
 when '2.13'
   gradle_checksum = '01078159f79fbe09fc006b040886423d8736dae8'
 else
-  Chef::Application.fatal!("this JDK version is not supported in #{node['platform']}, please contact DevOps to add it.")
+  Chef::Application.fatal!("this Gradle version is not supported, please contact DevOps to add it.")
 end
 
 node.override[:gradle].deep_merge!(
