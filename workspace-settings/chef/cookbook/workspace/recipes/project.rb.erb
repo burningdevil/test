@@ -8,6 +8,6 @@ include_recipe 'chef_commons'
 toolset = <%= @toolset %>
 
 toolset.split(',').each do |name_version|
-  include_recipe "workspace::#{@@cookbook_resource[name_version][:name]}_attributes_overrides"
-  include_recipe @@cookbook_resource[name_version][:name]
+  include_recipe "workspace::#{@@cookbook_resource[name_version]['name']}_attributes_overrides"
+  include_recipe @@cookbook_resource[name_version]['name']
 end
