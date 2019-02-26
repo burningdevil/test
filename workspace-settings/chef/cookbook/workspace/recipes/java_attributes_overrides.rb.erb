@@ -21,7 +21,7 @@ else
 end
 
 case node['platform']
-when 'redhat', 'centos', 'fedora'
+when 'redhat', 'centos', 'fedora', 'amazon'
   node.override[:java].deep_merge!({
     install_flavor: 'oracle_rpm',
     java_home: "/usr/java/jdk1.#{java_minor_version}.0_#{java_patch_version}",
