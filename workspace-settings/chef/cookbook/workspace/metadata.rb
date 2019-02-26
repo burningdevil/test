@@ -7,6 +7,4 @@ version          '1.0.0'
 
 depends 'chef_commons'
 depends 'extras'
-<% @toolset.split(',').each { |name_version| -%>
-depends '<%= @@cookbook_resource[name_version]['name'] %>'
-<% } -%>
+
