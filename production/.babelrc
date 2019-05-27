@@ -1,0 +1,18 @@
+{
+    "presets": [
+        "@babel/env",
+        "@babel/react"
+    ],
+    "plugins": [
+        "@babel/transform-runtime",
+        "@babel/plugin-proposal-class-properties",
+        ["transform-react-remove-prop-types", { "mode": "wrap" }]
+    ],
+    "env": {
+        "es": {
+            "presets": [
+                ["@babel/env", { "modules": false }]
+            ]
+        }
+    }
+}

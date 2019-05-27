@@ -1,0 +1,21 @@
+# Build
+/es
+/lib
+/umd
+/dist
+/message
+/example/dist
+
+# Dependency
+/node_modules
+
+# Test
+/coverage
+
+# Logs
+logs
+*.log
+npm-debug.log.*
+
+# NPM's Package.lock file(We use Yarn's lock file)
+package-lock.json
