@@ -2,8 +2,8 @@
 logs
 
 .shell/set.personal.env.bash
-test-react-mud.sublime-workspace
-test-react-mud.sublime-project
+TKN-.-project_name-.-TKN.sublime-workspace
+TKN-.-project_name-.-TKN.sublime-project
 
 .tmp
 .filecache
@@ -28,7 +28,7 @@ Thumbs.db
 # vim
 .swp
 
-deploy/chef/cookbook/test_react_mud/files/default/dist-file
+deploy/chef/cookbook/TKN-.-snake_case_project_name-.-TKN/files/default/dist-file
 scratch
 deploy/runtime-share
 tests/acceptance/.reports

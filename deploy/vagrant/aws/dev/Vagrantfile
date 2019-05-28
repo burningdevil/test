@@ -1,5 +1,5 @@
 Vagrant::Project.configure(:aws) do |env|
-  test_react_mud_centos :"test_react_mud_centos_#{Git.branch_name}_dev" do
+  TKN-.-snake_case_project_name-.-TKN_centos :"TKN-.-snake_case_project_name-.-TKN_centos_#{Git.branch_name}_dev" do
 
   end
 end

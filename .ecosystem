@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-export PROJECT_NAME='test-react-mud'
-export ORGANIZATION_NAME='DevOps'
+export PROJECT_NAME='TKN-.-project_name-.-TKN'
+export ORGANIZATION_NAME='TKN-.-project_parent_name-.-TKN'
 export COMPANY_NAME='microstrategy'
 export ECOSYSTEM_ROOT_VERSION=${ECOSYSTEM_ROOT_VERSION:='1.0.909.next'}
 
