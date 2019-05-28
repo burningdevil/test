@@ -4,9 +4,11 @@
         "@babel/react"
     ],
     "plugins": [
-        "@babel/transform-runtime",
-        "@babel/plugin-proposal-class-properties",
-        ["transform-react-remove-prop-types", { "mode": "wrap" }]
+        "@babel/proposal-class-properties",
+        "@babel/proposal-object-rest-spread",
+        ["@babel/transform-runtime", { "helpers": false, }],
+        ["transform-react-remove-prop-types", { "mode": "wrap" }],
+        "@babel/syntax-dynamic-import"
     ],
     "env": {
         "es": {
