@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 const autoprefixer = require('autoprefixer');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
@@ -64,7 +65,7 @@ const config = {
             },
             {
                 test: /\.(eot|otf|ttf|woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
-                loader: '/usr/local/lib/node_modules/nwb/node_modules/url-loader/dist/cjs.js',
+                loader: 'url-loader',
                 options: {
                     limit: 10000
                 }
