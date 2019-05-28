@@ -8,12 +8,12 @@ require 'uri'
 module Vagrant
   module Project
     module Machine
-      class TKN-.-camel_case_project_name-.-TKNCentos < Base
+      class TestReactMudCentos < Base
         class Configuration < Vagrant::Project::Machine::Config::Base
           include LoggingHelper::LogToTerminal
 
           def initialize
-            Berkshelf::Berksfile.preposition_berksfile(File.expand_path('TKN-.-snake_case_project_name-.-TKN.berks', File.dirname(__FILE__)))
+            Berkshelf::Berksfile.preposition_berksfile(File.expand_path('test_react_mud.berks', File.dirname(__FILE__)))
           end
 
           def configure_this(provisioner)
@@ -25,9 +25,9 @@ module Vagrant
             provider.os_version '6.7'
 
             provisioner.configure{|chef|
-              chef.add_recipe "TKN-.-snake_case_project_name-.-TKN"
+              chef.add_recipe "test_react_mud"
               chef.json = {
-                TKN-.-snake_case_project_name-.-TKN: {
+                test_react_mud: {
                   
                 }
               }
@@ -36,10 +36,10 @@ module Vagrant
 
         end
 
-        register :machine, :TKN-.-snake_case_project_name-.-TKN_centos, self.inspect
+        register :machine, :test_react_mud_centos, self.inspect
 
         def configuration_class
-          Vagrant::Project::Machine::TKN-.-camel_case_project_name-.-TKNCentos::Configuration
+          Vagrant::Project::Machine::TestReactMudCentos::Configuration
         end
 
         def provisioner_class

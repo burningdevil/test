@@ -1,6 +1,6 @@
-name             'TKN-.-snake_case_project_name-.-TKN'
+name             'test_react_mud'
 maintainer       'Someone'
 maintainer_email 'someone@microstrategy.com'
-description      'Installs/Configures TKN-.-snake_case_project_name-.-TKN servers'
+description      'Installs/Configures test_react_mud servers'
 long_description 'Installs and configures the servers this project produces'
 version          '1.0.0'
