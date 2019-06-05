@@ -1,4 +1,6 @@
-import WorkstationEnv from './Workstation'
+import * as WorkstationEnv from './Workstation'
+
+declare var window: any
 
 let getEnvironmentInformation = () => {
   return {

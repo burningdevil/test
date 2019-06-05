@@ -1,7 +1,8 @@
 
 const descPrefix = 'mstrWeb.'
 
-let DESCRIPTORS = null
+declare var window: any
+let DESCRIPTORS: any = null
 function getDescriptors() {
   if (!DESCRIPTORS) {
     DESCRIPTORS = window.mstrDescriptors && window.mstrDescriptors.descriptors
@@ -9,7 +10,7 @@ function getDescriptors() {
   return DESCRIPTORS || {}
 }
 
-export default function (descID, defText) {
+export default function (descID: number, defText: string) {
   let $DESCRIPTORS = getDescriptors()
 
   if (descID !== null && descID !== undefined) {

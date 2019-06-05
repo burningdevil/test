@@ -1,17 +1,18 @@
 import { connectionBackend } from '../services/ConnectionBackend'
 import base64 from '../utils/base64'
-import RestApiError from '../server/RestApiError'
+import { RestApiError } from '../server/RestApiError'
 import { PARSE_METHOD } from '../utils/ParseMethods'
 
 const parseJsonFunc = PARSE_METHOD.JSON
 const baseUrl = '/api'
-let authToken = null
+let authToken: string = null
 let isLogin = false
 
-function createHeaders(projectId) {
+function createHeaders(projectId: string) {
   const headers = {
     'Accept': 'application/json',
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'X-MSTR-AuthToken': ''
   }
 
   if (authToken) {
@@ -21,11 +22,11 @@ function createHeaders(projectId) {
   return headers
 }
 
-export function getHeader(res, header) {
+export function getHeader(res: any, header: any) {
   return res.headers.get(header.toLowerCase())
 }
 
-function checkResponseStatus(response) {
+function checkResponseStatus(response: any) {
 
   // Get status code
   const status = response.status
@@ -37,7 +38,7 @@ function checkResponseStatus(response) {
   } else {
     // handle network is down
     if (!status && response.message === 'Failed to fetch') {
-      const error = new RestApiError(status, '', response.message)
+      const error = new RestApiError(status, null, response.message)
 
       // Always log error to console
       window.console.error('fetchUtils::checkStatus(): ', error)
@@ -48,7 +49,7 @@ function checkResponseStatus(response) {
     // Is it a Web Task error code?
     const taskErrorCode = getHeader(response, 'X-MSTR-TaskErrorCode')
     if (taskErrorCode < 0) {
-      const error = new RestApiError(status, '', base64.decodeHttpHeader(getHeader(response, 'X-MSTR-TaskFailureMsg')), taskErrorCode, statusText)
+      const error = new RestApiError(status, null, base64.decodeHttpHeader(getHeader(response, 'X-MSTR-TaskFailureMsg')), taskErrorCode, statusText)
 
       // Always log error to console
       window.console.error('fetchUtils::checkStatus(): ', error)
@@ -59,7 +60,7 @@ function checkResponseStatus(response) {
     return response.json().catch(() => {
       // DE99259, in some cases the response text could not be parsed as JSON.
       return {}
-    }).then(json => {
+    }).then((json: any) => {
       // Create error object and throw
       const errorCode = json.code || ''
       const iServerErrorCode = json.iServerCode || ''
@@ -75,16 +76,17 @@ function checkResponseStatus(response) {
   }
 }
 
-let baseRequest = (method, path, body, headers = {}, parseFunc = parseJsonFunc) => {
+let baseRequest = (method: string, path: string, body: any, headers = {}, parseFunc = parseJsonFunc) => {
   let params = {
     credentials: 'include',
     cache: 'no-cache',
     method: method.toUpperCase(),
     headers: {
-      ...createHeaders(),
+      ...createHeaders(null),
       ...headers
     },
-    mode: 'cors'
+    mode: 'cors',
+    body
   }
   if (body) {
     params.body = JSON.stringify(body)
@@ -108,13 +110,13 @@ let login = () => {
     })
 }
 
-function timeout(ms) {
+function timeout(ms: any) {
   return new Promise((resolve) => {
     setTimeout(resolve, ms)
   })
 }
 
-async function request (method, path, body, headers, parseFunc){
+async function request (method: string, path: string, body: any, headers: any, parseFunc: any){
   // in login state and no authToken back yet, wait 1000 ms
   while (isLogin && !authToken) {
     await timeout(1000)
@@ -130,27 +132,27 @@ async function request (method, path, body, headers, parseFunc){
 
 export default {
 
-  get: function (path, parseFunc = parseJsonFunc) {
+  get: function (path: string, parseFunc = parseJsonFunc) {
     return request.call(this, 'get', path, null, {}, parseFunc)
   },
 
-  post: function (path, body, parseFunc = parseJsonFunc) {
+  post: function (path: string, body: any, parseFunc = parseJsonFunc) {
     return request.call(this, 'post', path, body, {}, parseFunc)
   },
 
-  del: function (path, body, parseFunc = parseJsonFunc) {
+  del: function (path: string, body: any, parseFunc = parseJsonFunc) {
     return request.call(this, 'del', path, body, {}, parseFunc)
   },
 
-  put: function put(path, body, parseFunc = parseJsonFunc) {
+  put: function put(path: string, body: any, parseFunc = parseJsonFunc) {
     return request.call(this, 'put', path, body, {}, parseFunc)
   },
 
-  patch: function patch(path, body, parseFunc = parseJsonFunc) {
+  patch: function patch(path: string, body: any, parseFunc = parseJsonFunc) {
     return request.call(this, 'patch', path, body, {}, parseFunc)
   },
 
-  project: function (method, path, body, headers = {}, parseFunc = parseJsonFunc) {
+  project: function (method: string, path: string, body: any, headers = {}, parseFunc = parseJsonFunc) {
     return request.call(this, method, path, body, headers, parseFunc)
   }
 

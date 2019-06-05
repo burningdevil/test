@@ -6,6 +6,9 @@ import { rootReducer } from './reducers'
 
 import rootSaga from './sagas'
 
+declare var __DEV__: any
+declare var window: any
+
 const sagaMiddleware = createSagaMiddleware()
 
 const createStore = (initialState = {}) => {
@@ -17,7 +20,7 @@ const createStore = (initialState = {}) => {
   // ======================================================
   // Store Enhancers
   // ======================================================
-  const enhancers = []
+  const enhancers: Array<Function> = []
   let composeEnhancers = compose
 
   if (__DEV__) {
@@ -39,9 +42,7 @@ const createStore = (initialState = {}) => {
   )
   sagaMiddleware.run(rootSaga)
 
-  store.asyncReducers = {}
-
-  // if (module.hot) {
+    // if (module.hot) {
   //   module.hot.accept('./reducers', () => {
   //     const reducers = require('./reducers').default
   //     store.replaceReducer(reducers(store.asyncReducers))

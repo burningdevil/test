@@ -1,9 +1,17 @@
-import _ from 'lodash'
+import * as _ from 'lodash'
 import desc from '../utils/desc'
-import compareVersions from 'compare-versions'
+import * as compareVersions from 'compare-versions'
 
+declare var workstation: any
+declare var window: any
+
+// Missing variables and function from the template John created
 const CURRENT_VERSION = '11.1.1'
 const HYPER_SUBTYPE = 'HYPER'
+const preSaveCheck = () => {}
+const save = () => {}
+const saveAs = () => {}
+
 export default {
   getCubeId: async function () {
     let object = await workstation.selectedObject.getCurrent()
@@ -20,12 +28,12 @@ export default {
     return (object.subType === HYPER_SUBTYPE) ? object.name : null
   },
   saveAs: window.workstation && workstation.dialogs.saveAs,
-  confirm: (cfg) => {
+  confirm: (cfg: any) => {
     return new Promise((resolve, reject) => {
       return resolve(window.confirm(cfg.message))
     })
   },
-  error: function(cfg) {
+  error: function(cfg: any) {
     let { fatal, ...params } = cfg
     params = {
       title: desc(16310,'Error'),
@@ -53,11 +61,11 @@ export default {
   isServerOutdated: async function() {
     // When web is outdated, disable save button. Other case, as normal
     let f = window.workstation && workstation.utils.getEnvironmentInfo
-    let r = {}
+    let r: any
     if (f) {
       r = await f()
     }
-    let { webVersion = '0' } = r
+    let webVersion = r.webVersion || '0'
     console.log(compareVersions(webVersion.replace('J', ''), CURRENT_VERSION))
     return compareVersions(webVersion.replace('J', ''), CURRENT_VERSION) < 0
   },
@@ -65,7 +73,7 @@ export default {
   setWindowTitle: window.workstation && workstation.window.setTitle,
   postSave: window.workstation && workstation.data.refreshObject,
   getHelpBaseUrl: window.workstation && window.workstation.utils.getHelpBaseUrl,
-  onAppStart: function (store) {
+  onAppStart: function (store: any) {
     let me = this
     if (workstation) {
       workstation.menus.addOnSave(() => {
@@ -80,35 +88,35 @@ export default {
         }
       })
 
-      workstation.window.addOnClose(async () => {
-        let state = store.getState()
-        let reportId = selectReportId(state)
+      // workstation.window.addOnClose(async () => {
+      //   let state = store.getState()
+      //   let reportId = selectReportId(state)
 
-        let originalCardDef = selectContentOriginalCardDef(state)
-        let templateDirty = selectContentTemplateDirty(state)
-        if ((!reportId ||
-            templateDirty ||
-            !_.isEqual(JSON.parse(originalCardDef), JSON.parse(toServerFormat(selectCard(state))))) && preSaveCheck.call(me, store)
-        ) { // if it's a new hyper card, warn user to save
-          let clickedBtn = await workstation.dialogs.confirmation({ message: desc(16311, 'You haven\'t saved yet. Do you want to save it now?') })
-          switch (clickedBtn) {
-          case 1: // save
-            store.dispatch(saveAndClose())
-            break
+      //   let originalCardDef = selectContentOriginalCardDef(state)
+      //   let templateDirty = selectContentTemplateDirty(state)
+      //   if ((!reportId ||
+      //       templateDirty ||
+      //       !_.isEqual(JSON.parse(originalCardDef), JSON.parse(toServerFormat(selectCard(state))))) && preSaveCheck.call(me, store)
+      //   ) { // if it's a new hyper card, warn user to save
+      //     let clickedBtn = await workstation.dialogs.confirmation({ message: desc(16311, 'You haven\'t saved yet. Do you want to save it now?') })
+      //     switch (clickedBtn) {
+      //     case 1: // save
+      //       store.dispatch(saveAndClose())
+      //       break
 
-          case 0: // don't save and close
-            me.closeWindow()
-            break
+      //     case 0: // don't save and close
+      //       me.closeWindow()
+      //       break
 
-          case -1: // cancel
-            break
+      //     case -1: // cancel
+      //       break
 
-          default:
-          }
-        } else {
-          me.closeWindow()
-        }
-      })
+      //     default:
+      //     }
+      //   } else {
+      //     me.closeWindow()
+      //   }
+      // })
     }
   }
 

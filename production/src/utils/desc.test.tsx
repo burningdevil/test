@@ -1,5 +1,7 @@
 import desc from './desc'
 
+declare var window: any
+
 test('desc: english, empty ID', () => {
   window.mstrDescriptors = {
     descriptors: {

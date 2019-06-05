@@ -2,12 +2,12 @@ import error from '../utils/error'
 const getFolderId = () => '5B56F71811E8C7EBE6140080EFF5CEA4'
 
 export default {
-  getCubeId: () => 'D71650694598584D99B1A19FED1D81EA',//'9370EB2611E8C04971990080EF45821E', // Customer 360
+  getCubeId: () => 'D71650694598584D99B1A19FED1D81EA', // '9370EB2611E8C04971990080EF45821E', // Customer 360
   // getCubeId: () => 'D56FA38411E8D3A764820080EFE59161', // Unpublished cube
-  getReportId:() => '', //'2EE1088E11E92986DF1C0080EF659B3C',//'B663554411E8DDE824190080EFE5988D', //'D678CAC211E8DA72659B0080EFC51B1A', // '14A29EBB11E8D305648E0080EF55D81D',
+  getReportId:() => '', // '2EE1088E11E92986DF1C0080EF659B3C',//'B663554411E8DDE824190080EFE5988D', //'D678CAC211E8DA72659B0080EFC51B1A', // '14A29EBB11E8D305648E0080EF55D81D',
   getHyperName: () => 'New Card 1' + Date.now(),
   closeWindow: () => console.log('closewindow'),
-  setWindowTitle: (title) => {
+  setWindowTitle: (title: string) => {
     document.title = title
   },
   saveAs: () => {
@@ -21,19 +21,19 @@ export default {
       })
     })
   },
-  confirm: (cfg) => {
+  confirm: (cfg: any) => {
     return new Promise((resolve, reject) => {
       return resolve(window.confirm(cfg.message))
     })
   },
-  error: function(cfg) {
+  error: function(cfg: any) {
     let params = {
       title: 'Error',
       message: 'An Error has occurred.',
       buttonCaption: 'OK',
       ...cfg
     }
-    error({ message: params.message + ' ' + params.additionalInformation })
+    error(params.message + ' ' + params.additionalInformation)
   },
   writable: function() {
     return true
