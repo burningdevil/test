@@ -1,6 +1,6 @@
-# Microstrategy App Starter Kit (MASK) for Workstation
+# Microstrategy Workstation Plugin Appication Template
 
-It is the web app starter kit for Workstation. It's uses React/Redux as its base technology to build the web app. Key technologies also include
+It is the web app starter kit for Workstation. It uses React/Redux as its base technology to build the web app. Key technologies also include
 
 - webpack (bundler)
 - saga (side effect)
@@ -9,6 +9,9 @@ It is the web app starter kit for Workstation. It's uses React/Redux as its base
 - ant.design
 - eslint
 - Unit Tests: jest and enzyme
+
+You can find some other features we are planning to add in the following Confluence page.
+https://microstrategy.atlassian.net/wiki/spaces/TTWA/pages/748590656/Workstation+Plugin+App+Template+High+Level+Requirements
 
 ## Requirements
 
