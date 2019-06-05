@@ -1,0 +1,39 @@
+@import "variables";
+
+$HYPER_ICON: "hyperIcon";
+$font-icon-family: $HYPER_ICON;
+
+
+$FONT_ICON_UNICODE_ARROW: "\E800";
+$FONT_ICON_UNICODE_DONUT: "\E852";
+
+
+// arrow icon, used in Collapse Header, Select Pull Down
+@mixin arrow_font_icon{
+  content: $FONT_ICON_UNICODE_ARROW;
+  font-family: $HYPER_ICON !important; // !important to overwrite the !important defined in antd controls
+  font-size: 10px;
+  font-weight: 700;
+}
+
+// Donut icon, used in Donut Format Section
+@mixin donut_font_icon {
+  content: $FONT_ICON_UNICODE_DONUT;
+  font-family: $HYPER_ICON;
+  margin-right: 6px;
+}
+
+// used for general font icon styling, eg, broken image, link
+@mixin font-icon {
+  font-family: $font-icon-family;
+  font-style: normal;
+  speak: none;
+  display: inline-block;
+  text-align: center;
+  width: 1em;
+
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+}
+

@@ -1,0 +1,123 @@
+@import './variables';
+
+* {
+  user-select: none;
+}
+INPUT, TEXTAREA{
+  user-select: text;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: local('Roboto'), local('Roboto'), url('./assets/fonts/Roboto/Roboto-Regular.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'Roboto';
+  src: local('Roboto Medium'), local('Roboto Medium'), url('./assets/fonts/Roboto/Roboto-Medium.ttf');
+  font-weight: 500;
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'Roboto';
+  src: local('Roboto Light'), local('Roboto Light'), url('./assets/fonts/Roboto/Roboto-Light.ttf');
+  font-weight: 300;
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'Roboto';
+  src: local('Roboto Bold'), local('Roboto Bold'), url('./assets/fonts/Roboto/Roboto-Bold.ttf');
+  font-weight: bold;
+  font-style: normal;
+}
+
+.mstr-font-size{
+  &-1{
+    font-size: 11px;
+  }
+  &-2{
+    font-size: 12px;
+  }
+  &-3{
+    font-size: 13px;
+  }
+  &-4{
+    font-size: 14px;
+  }
+  &-5{
+    font-size: 15px;
+  }
+  &-6{
+    font-size: 16px;
+  }
+  &-7{
+    font-size: 17px;
+  }
+  &-8{
+    font-size: 18px;
+  }
+  &-9{
+    font-size: 19px;
+  }
+  &-10{
+    font-size: 20px;
+  }
+  &-11{
+    font-size: 21px;
+  }
+}
+
+.mstr-font-size-attr{
+  &-2{
+    font-size: 11px;
+  }
+  &-3{
+    font-size: 12px;
+  }
+  &-4{
+    font-size: 13px;
+  }
+  &-5{
+    font-size: 14px;
+  }
+  &-6{
+    font-size: 15px;
+  }
+  &-7{
+    font-size: 16px;
+  }
+  &-8{
+    font-size: 17px;
+  }
+  &-9{
+    font-size: 18px;
+  }
+  &-10{
+    font-size: 19px;
+  }
+  &-11{
+    font-size: 20px;
+  }
+}
+
+.mstr-font-weight{
+  &-light{
+    font-weight: 300;
+  }
+  &-regular{
+    font-weight: 400;
+  }
+  &-medium{
+    font-weight: 500;
+  }
+  &-bold{
+    font-weight: 700;
+  }
+}

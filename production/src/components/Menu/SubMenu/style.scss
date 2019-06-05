@@ -1,0 +1,24 @@
+@import '../../../variables';
+
+li.ant-menu-submenu.mstr-as-sub-menu{
+  margin: 0 !important;
+  padding: 0 4px 0 8px;
+  //padding-right 4px is for submenu start position
+  height: 26px;
+  line-height: 26px;
+  color: $primary-black;
+  font-size: 12px;
+  position:relative;
+  &:hover{
+    background-color: $primary-blue;
+    color: $primary-white;
+  }
+  .ant-menu-submenu-title{
+    height: 26px;
+    line-height: 26px;
+    font-size: 12px;
+    position:static;
+    padding-left: 10px;   // padding is the part of the box while margin is not
+    margin-left: -10px;   // The position of submenu is depending on the edge of the title box
+  }
+}

@@ -1,20 +1,7 @@
 {
-    "presets": [
-        "@babel/env",
-        "@babel/react"
-    ],
-    "plugins": [
-        "@babel/proposal-class-properties",
-        "@babel/proposal-object-rest-spread",
-        ["@babel/transform-runtime", { "helpers": false, }],
-        ["transform-react-remove-prop-types", { "mode": "wrap" }],
-        "@babel/syntax-dynamic-import"
-    ],
-    "env": {
-        "es": {
-            "presets": [
-                ["@babel/env", { "modules": false }]
-            ]
-        }
-    }
+  "presets": ["react", "es2015", "stage-0"],
+  "plugins": ["transform-runtime",["import", {
+    "libraryName": "antd",
+    "style": "css"
+  }]]
 }

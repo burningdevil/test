@@ -1,0 +1,662 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Basic render 1`] = `
+ReactWrapper {
+  Symbol(enzyme.__unrendered__): <DonutWidget
+    text="percentage"
+    value={0.5}
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateError": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "function",
+    "props": Object {
+      "text": "percentage",
+      "value": 0.5,
+    },
+    "ref": null,
+    "rendered": Object {
+      "instance": <div
+        class="donutSvg"
+      >
+        <svg
+          class="donut"
+          height="80"
+          width="80"
+        >
+          <circle
+            class="donut-hole"
+            cx="40"
+            cy="40"
+            fill="#fff"
+            r="30"
+          />
+          <circle
+            class="donut-ring"
+            cx="40"
+            cy="40"
+            fill="transparent"
+            r="35"
+            stroke="#F0EEEE"
+            stroke-width="10"
+          />
+          <circle
+            class="donut-segment circle-animation"
+            cx="40"
+            cy="40"
+            fill="transparent"
+            r="35"
+            stroke-dasharray="109.95574287564276 109.95574287564276"
+            stroke-dashoffset="219.9114857512855"
+            stroke-width="10"
+          />
+          <text
+            alignment-baseline="middle"
+            tclass="chart-number"
+            text-anchor="middle"
+            x="50%"
+            y="50%"
+          >
+            percentage
+          </text>
+        </svg>
+      </div>,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": <svg
+          className="donut"
+          height="80"
+          width="80"
+        >
+          <circle
+            className="donut-hole"
+            cx={40}
+            cy={40}
+            fill="#fff"
+            r={30}
+          />
+          <circle
+            className="donut-ring"
+            cx={40}
+            cy={40}
+            fill="transparent"
+            r={35}
+            stroke="#F0EEEE"
+            strokeWidth={10}
+          />
+          <circle
+            className="donut-segment circle-animation"
+            cx={40}
+            cy={40}
+            fill="transparent"
+            onAnimationEnd={[Function]}
+            r={35}
+            strokeDasharray="109.95574287564276 109.95574287564276"
+            strokeDashoffset={219.9114857512855}
+            strokeWidth={10}
+          />
+          <text
+            alignmentBaseline="middle"
+            tclass="chart-number"
+            textAnchor="middle"
+            x="50%"
+            y="50%"
+          >
+            percentage
+          </text>
+        </svg>,
+        "className": "donutSvg",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": <svg
+            class="donut"
+            height="80"
+            width="80"
+          >
+            <circle
+              class="donut-hole"
+              cx="40"
+              cy="40"
+              fill="#fff"
+              r="30"
+            />
+            <circle
+              class="donut-ring"
+              cx="40"
+              cy="40"
+              fill="transparent"
+              r="35"
+              stroke="#F0EEEE"
+              stroke-width="10"
+            />
+            <circle
+              class="donut-segment circle-animation"
+              cx="40"
+              cy="40"
+              fill="transparent"
+              r="35"
+              stroke-dasharray="109.95574287564276 109.95574287564276"
+              stroke-dashoffset="219.9114857512855"
+              stroke-width="10"
+            />
+            <text
+              alignment-baseline="middle"
+              tclass="chart-number"
+              text-anchor="middle"
+              x="50%"
+              y="50%"
+            >
+              percentage
+            </text>
+          </svg>,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <circle
+                className="donut-hole"
+                cx={40}
+                cy={40}
+                fill="#fff"
+                r={30}
+              />,
+              <circle
+                className="donut-ring"
+                cx={40}
+                cy={40}
+                fill="transparent"
+                r={35}
+                stroke="#F0EEEE"
+                strokeWidth={10}
+              />,
+              <circle
+                className="donut-segment circle-animation"
+                cx={40}
+                cy={40}
+                fill="transparent"
+                onAnimationEnd={[Function]}
+                r={35}
+                strokeDasharray="109.95574287564276 109.95574287564276"
+                strokeDashoffset={219.9114857512855}
+                strokeWidth={10}
+              />,
+              <text
+                alignmentBaseline="middle"
+                tclass="chart-number"
+                textAnchor="middle"
+                x="50%"
+                y="50%"
+              >
+                percentage
+              </text>,
+            ],
+            "className": "donut",
+            "height": "80",
+            "width": "80",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": <circle
+                class="donut-hole"
+                cx="40"
+                cy="40"
+                fill="#fff"
+                r="30"
+              />,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "className": "donut-hole",
+                "cx": 40,
+                "cy": 40,
+                "fill": "#fff",
+                "r": 30,
+              },
+              "ref": null,
+              "rendered": Array [
+                undefined,
+              ],
+              "type": "circle",
+            },
+            Object {
+              "instance": <circle
+                class="donut-ring"
+                cx="40"
+                cy="40"
+                fill="transparent"
+                r="35"
+                stroke="#F0EEEE"
+                stroke-width="10"
+              />,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "className": "donut-ring",
+                "cx": 40,
+                "cy": 40,
+                "fill": "transparent",
+                "r": 35,
+                "stroke": "#F0EEEE",
+                "strokeWidth": 10,
+              },
+              "ref": null,
+              "rendered": Array [
+                undefined,
+              ],
+              "type": "circle",
+            },
+            Object {
+              "instance": <circle
+                class="donut-segment circle-animation"
+                cx="40"
+                cy="40"
+                fill="transparent"
+                r="35"
+                stroke-dasharray="109.95574287564276 109.95574287564276"
+                stroke-dashoffset="219.9114857512855"
+                stroke-width="10"
+              />,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "className": "donut-segment circle-animation",
+                "cx": 40,
+                "cy": 40,
+                "fill": "transparent",
+                "onAnimationEnd": [Function],
+                "r": 35,
+                "stroke": undefined,
+                "strokeDasharray": "109.95574287564276 109.95574287564276",
+                "strokeDashoffset": 219.9114857512855,
+                "strokeWidth": 10,
+              },
+              "ref": null,
+              "rendered": Array [
+                undefined,
+              ],
+              "type": "circle",
+            },
+            Object {
+              "instance": <text
+                alignment-baseline="middle"
+                tclass="chart-number"
+                text-anchor="middle"
+                x="50%"
+                y="50%"
+              >
+                percentage
+              </text>,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "alignmentBaseline": "middle",
+                "children": "percentage",
+                "fill": undefined,
+                "tclass": "chart-number",
+                "textAnchor": "middle",
+                "x": "50%",
+                "y": "50%",
+              },
+              "ref": null,
+              "rendered": Array [
+                "percentage",
+              ],
+              "type": "text",
+            },
+          ],
+          "type": "svg",
+        },
+      ],
+      "type": "div",
+    },
+    "type": [Function],
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "function",
+      "props": Object {
+        "text": "percentage",
+        "value": 0.5,
+      },
+      "ref": null,
+      "rendered": Object {
+        "instance": <div
+          class="donutSvg"
+        >
+          <svg
+            class="donut"
+            height="80"
+            width="80"
+          >
+            <circle
+              class="donut-hole"
+              cx="40"
+              cy="40"
+              fill="#fff"
+              r="30"
+            />
+            <circle
+              class="donut-ring"
+              cx="40"
+              cy="40"
+              fill="transparent"
+              r="35"
+              stroke="#F0EEEE"
+              stroke-width="10"
+            />
+            <circle
+              class="donut-segment circle-animation"
+              cx="40"
+              cy="40"
+              fill="transparent"
+              r="35"
+              stroke-dasharray="109.95574287564276 109.95574287564276"
+              stroke-dashoffset="219.9114857512855"
+              stroke-width="10"
+            />
+            <text
+              alignment-baseline="middle"
+              tclass="chart-number"
+              text-anchor="middle"
+              x="50%"
+              y="50%"
+            >
+              percentage
+            </text>
+          </svg>
+        </div>,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": <svg
+            className="donut"
+            height="80"
+            width="80"
+          >
+            <circle
+              className="donut-hole"
+              cx={40}
+              cy={40}
+              fill="#fff"
+              r={30}
+            />
+            <circle
+              className="donut-ring"
+              cx={40}
+              cy={40}
+              fill="transparent"
+              r={35}
+              stroke="#F0EEEE"
+              strokeWidth={10}
+            />
+            <circle
+              className="donut-segment circle-animation"
+              cx={40}
+              cy={40}
+              fill="transparent"
+              onAnimationEnd={[Function]}
+              r={35}
+              strokeDasharray="109.95574287564276 109.95574287564276"
+              strokeDashoffset={219.9114857512855}
+              strokeWidth={10}
+            />
+            <text
+              alignmentBaseline="middle"
+              tclass="chart-number"
+              textAnchor="middle"
+              x="50%"
+              y="50%"
+            >
+              percentage
+            </text>
+          </svg>,
+          "className": "donutSvg",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": <svg
+              class="donut"
+              height="80"
+              width="80"
+            >
+              <circle
+                class="donut-hole"
+                cx="40"
+                cy="40"
+                fill="#fff"
+                r="30"
+              />
+              <circle
+                class="donut-ring"
+                cx="40"
+                cy="40"
+                fill="transparent"
+                r="35"
+                stroke="#F0EEEE"
+                stroke-width="10"
+              />
+              <circle
+                class="donut-segment circle-animation"
+                cx="40"
+                cy="40"
+                fill="transparent"
+                r="35"
+                stroke-dasharray="109.95574287564276 109.95574287564276"
+                stroke-dashoffset="219.9114857512855"
+                stroke-width="10"
+              />
+              <text
+                alignment-baseline="middle"
+                tclass="chart-number"
+                text-anchor="middle"
+                x="50%"
+                y="50%"
+              >
+                percentage
+              </text>
+            </svg>,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <circle
+                  className="donut-hole"
+                  cx={40}
+                  cy={40}
+                  fill="#fff"
+                  r={30}
+                />,
+                <circle
+                  className="donut-ring"
+                  cx={40}
+                  cy={40}
+                  fill="transparent"
+                  r={35}
+                  stroke="#F0EEEE"
+                  strokeWidth={10}
+                />,
+                <circle
+                  className="donut-segment circle-animation"
+                  cx={40}
+                  cy={40}
+                  fill="transparent"
+                  onAnimationEnd={[Function]}
+                  r={35}
+                  strokeDasharray="109.95574287564276 109.95574287564276"
+                  strokeDashoffset={219.9114857512855}
+                  strokeWidth={10}
+                />,
+                <text
+                  alignmentBaseline="middle"
+                  tclass="chart-number"
+                  textAnchor="middle"
+                  x="50%"
+                  y="50%"
+                >
+                  percentage
+                </text>,
+              ],
+              "className": "donut",
+              "height": "80",
+              "width": "80",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": <circle
+                  class="donut-hole"
+                  cx="40"
+                  cy="40"
+                  fill="#fff"
+                  r="30"
+                />,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "className": "donut-hole",
+                  "cx": 40,
+                  "cy": 40,
+                  "fill": "#fff",
+                  "r": 30,
+                },
+                "ref": null,
+                "rendered": Array [
+                  undefined,
+                ],
+                "type": "circle",
+              },
+              Object {
+                "instance": <circle
+                  class="donut-ring"
+                  cx="40"
+                  cy="40"
+                  fill="transparent"
+                  r="35"
+                  stroke="#F0EEEE"
+                  stroke-width="10"
+                />,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "className": "donut-ring",
+                  "cx": 40,
+                  "cy": 40,
+                  "fill": "transparent",
+                  "r": 35,
+                  "stroke": "#F0EEEE",
+                  "strokeWidth": 10,
+                },
+                "ref": null,
+                "rendered": Array [
+                  undefined,
+                ],
+                "type": "circle",
+              },
+              Object {
+                "instance": <circle
+                  class="donut-segment circle-animation"
+                  cx="40"
+                  cy="40"
+                  fill="transparent"
+                  r="35"
+                  stroke-dasharray="109.95574287564276 109.95574287564276"
+                  stroke-dashoffset="219.9114857512855"
+                  stroke-width="10"
+                />,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "className": "donut-segment circle-animation",
+                  "cx": 40,
+                  "cy": 40,
+                  "fill": "transparent",
+                  "onAnimationEnd": [Function],
+                  "r": 35,
+                  "stroke": undefined,
+                  "strokeDasharray": "109.95574287564276 109.95574287564276",
+                  "strokeDashoffset": 219.9114857512855,
+                  "strokeWidth": 10,
+                },
+                "ref": null,
+                "rendered": Array [
+                  undefined,
+                ],
+                "type": "circle",
+              },
+              Object {
+                "instance": <text
+                  alignment-baseline="middle"
+                  tclass="chart-number"
+                  text-anchor="middle"
+                  x="50%"
+                  y="50%"
+                >
+                  percentage
+                </text>,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "alignmentBaseline": "middle",
+                  "children": "percentage",
+                  "fill": undefined,
+                  "tclass": "chart-number",
+                  "textAnchor": "middle",
+                  "x": "50%",
+                  "y": "50%",
+                },
+                "ref": null,
+                "rendered": Array [
+                  "percentage",
+                ],
+                "type": "text",
+              },
+            ],
+            "type": "svg",
+          },
+        ],
+        "type": "div",
+      },
+      "type": [Function],
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+        "legacyContextMode": "parent",
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getChildContext": Object {
+            "calledByRenderer": false,
+          },
+          "getDerivedStateFromProps": Object {
+            "hasShouldComponentUpdateBug": false,
+          },
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
+      },
+    },
+  },
+}
+`;

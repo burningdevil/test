@@ -1,0 +1,36 @@
+@import "../../../mixins";
+.mstr-react-panel-tab-title {
+  height: 24px;
+  .title-text-wrapper {
+    float: left;
+    padding: 0 8px 0 0;
+    transform: translateY(-1px);
+  }
+  .title-text {
+    max-width: 200px;
+    @include ellipsisText;
+    font-size: 12px;
+  }
+  .table-icon-wrapper {
+    margin-left: 4px;
+    margin-right: 4px;
+    transform: translateY(0px);
+  }
+  .tab-icon {
+    float: right;
+  }
+  .left-icon {
+    float: left;
+  }
+  .table-icon-font {
+    font-size: 15px;
+  }
+}
+
+.ant-tabs-tab-active {
+  .mstr-react-panel-tab-title {
+    .title-text {
+      max-width: 160px;
+    }
+  }
+}

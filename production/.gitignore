@@ -1,21 +1,45 @@
-# Build
-/es
-/lib
-/umd
-/dist
-/message
-/example/dist
-
-# Dependency
-/node_modules
-
-# Test
-/coverage
-
-# Logs
 logs
-*.log
-npm-debug.log.*
 
-# NPM's Package.lock file(We use Yarn's lock file)
-package-lock.json
+workspace-settings/bundle/vendor/cache/
+workspace-settings/shell/set.personal.env.bash
+
+.tmp
+.filecache
+.cache
+.build
+.gradle
+.idea
+
+.vagrant
+overrides.*
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+# vim
+.swp
+
+scratch
+deploy/runtime-share
+tests/acceptance/.reports
+
+# Application specific configuration
+.DS_STORE
+*.log
+
+node_modules
+
+dist
+coverage
+public/descriptors
+server/.librc.json
+.stats.json
+.idea/
+.vscode/

@@ -1,0 +1,28 @@
+$toolbar-height: 46px;
+
+$font-family: Roboto, Helvertica, Arial;
+
+
+$primary-white : #FFF !default; //Main canvas bg; Button font; Secondary button; Join panel section background
+$primary-gray : #FAFAFA !default; //Primary panel bg
+$primary-black : #35383A !default; //Main text color
+$pure-black : #000 !default;
+$primary-blue: #3892ED !default;
+
+$hover-gray: rgba($primary-black, 0.06);
+$input-shadow: rgba($primary-black, 0.05);
+$icon-size: 18px;
+
+$splitter-gray:rgba($primary-black, 0.1);
+
+
+$toolbar-text-color: $primary-black;
+
+$disable-opacity: 0.3;
+
+$SMALL_FONT_LINE_HEIGHT: 1.3; //used when minimum font size is lower than 14px
+$LARGE_FONT_LINE_HEIGHT: 1.2; //Used when minimum font size is larger than 14px
+
+$selected-widget-box-shadow: inset 0 0 0 1px $primary-white;
+$selected-widget-border: 1px solid $primary-blue;
+
