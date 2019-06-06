@@ -12,28 +12,28 @@ const preSaveCheck = () => {}
 const save = () => {}
 const saveAs = () => {}
 
-export default {
-  getCubeId: async function () {
+export class Workstation {
+  async getCubeId() {
     let object = await workstation.selectedObject.getCurrent()
     return (object.subType !== HYPER_SUBTYPE) ? object.id : null
-  },
+  }
 
-  getReportId: async function () {
+  async getReportId() {
     let object = await workstation.selectedObject.getCurrent()
     return (object.subType === HYPER_SUBTYPE) ? object.id : null
-  },
+  }
 
-  getHyperName: async function () {
+  async getHyperName() {
     let object = await workstation.selectedObject.getCurrent()
     return (object.subType === HYPER_SUBTYPE) ? object.name : null
-  },
-  saveAs: window.workstation && workstation.dialogs.saveAs,
-  confirm: (cfg: any) => {
+  }
+  saveAs = window.workstation && workstation.dialogs.saveAs
+  confirm(cfg: any) {
     return new Promise((resolve, reject) => {
       return resolve(window.confirm(cfg.message))
     })
-  },
-  error: function(cfg: any) {
+  }
+  error(cfg: any) {
     let { fatal, ...params } = cfg
     params = {
       title: desc(16310,'Error'),
@@ -49,16 +49,16 @@ export default {
         me.closeWindow()
       }
     })
-  },
-  writable: async function() {
+  }
+  async writable() {
     let f = window.workstation && workstation.selectedObject.getIsReadOnly
     let r = false
     if (f) {
       r = await f()
     }
     return !r
-  },
-  isServerOutdated: async function() {
+  }
+  async isServerOutdated() {
     // When web is outdated, disable save button. Other case, as normal
     let f = window.workstation && workstation.utils.getEnvironmentInfo
     let r: any
@@ -68,12 +68,12 @@ export default {
     let webVersion = r.webVersion || '0'
     console.log(compareVersions(webVersion.replace('J', ''), CURRENT_VERSION))
     return compareVersions(webVersion.replace('J', ''), CURRENT_VERSION) < 0
-  },
-  closeWindow: window.workstation && window.workstation.window.close,
-  setWindowTitle: window.workstation && workstation.window.setTitle,
-  postSave: window.workstation && workstation.data.refreshObject,
-  getHelpBaseUrl: window.workstation && window.workstation.utils.getHelpBaseUrl,
-  onAppStart: function (store: any) {
+  }
+  closeWindow = window.workstation && window.workstation.window.close
+  setWindowTitle = window.workstation && workstation.window.setTitle
+  postSave = window.workstation && workstation.data.refreshObject
+  getHelpBaseUrl = window.workstation && window.workstation.utils.getHelpBaseUrl
+  onAppStart(store: any) {
     let me = this
     if (workstation) {
       workstation.menus.addOnSave(() => {
@@ -119,5 +119,6 @@ export default {
       // })
     }
   }
-
 }
+
+export const WorkstationEnv = new Workstation()
