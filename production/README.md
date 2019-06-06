@@ -50,8 +50,4 @@ npm run buildWS
 
 ## Deployment on Workstation
 
-Copy the whole 'dist' folder to workstation corresponding directory. 
-
-```
-cp ./dist -rf [workstation deployment directory]
-```
+TBD for plugin infrastructure
