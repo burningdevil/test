@@ -1,4 +1,4 @@
-export default url => {
+export default (url: any) => {
   return new Promise((resolve, reject) => {
     var element = document.createElement('script')
 

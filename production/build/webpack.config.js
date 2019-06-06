@@ -27,7 +27,7 @@ const config = {
   },
   resolve: {
     modules: [inProject(project.srcDir), 'node_modules'],
-    extensions: ['*', '.js', '.jsx', '.json']
+    extensions: ['*', '.js', '.jsx', '.json', '.tsx']
   },
   externals: project.externals,
   module: {
@@ -103,6 +103,15 @@ config.module.rules.push({
   ]
 })
 
+// TypeScript
+config.module.rules.push({
+  // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'. 
+  test: /\.tsx?$/,
+  loaders: [
+    "react-hot-loader/webpack",
+    "awesome-typescript-loader"
+  ]
+})
 // Styles
 // ------------------------------------
 config.plugins.push(

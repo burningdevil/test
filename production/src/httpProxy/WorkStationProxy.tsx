@@ -1,10 +1,12 @@
-import RestApiError from '../server/RestApiError'
+import { RestApiError } from '../server/RestApiError'
 import { PARSE_METHOD } from '../utils/ParseMethods'
 import { getErrorMessage } from './errors'
 
+declare var workstation: any
+
 const parseJsonFunc = PARSE_METHOD.JSON
 
-function checkResponseStatus(response) {
+function checkResponseStatus(response: any) {
   // Get status code
   const status = response.status
   const statusText = response.statusText
@@ -15,7 +17,7 @@ function checkResponseStatus(response) {
   } else {
     // handle network is down
     if (!status && response.message === 'Failed to fetch') {
-      const error = new RestApiError(status, '', response.message)
+      const error = new RestApiError(status, null, response.message)
 
       // Always log error to console
       window.console.error('fetchUtils::checkStatus(): ', error)
@@ -26,7 +28,7 @@ function checkResponseStatus(response) {
     return response.json().catch(() => {
       // DE99259, in some cases the response text could not be parsed as JSON.
       return {}
-    }).then(json => {
+    }).then((json: any) => {
       // Create error object and throw
       const errorCode = json.code || ''
       const iServerErrorCode = json.iServerCode || ''
@@ -42,8 +44,8 @@ function checkResponseStatus(response) {
   }
 }
 
-function requestToNative({ path, body = null, headers, method = 'GET', parseFunc = parseJsonFunc }) {
-  let options = { method }
+function requestToNative(path: string, body: any = null, headers: any, method = 'GET', parseFunc = parseJsonFunc) {
+  let options = { method, body, headers }
   if (body) {
     options = {
       ...options,
@@ -58,31 +60,31 @@ function requestToNative({ path, body = null, headers, method = 'GET', parseFunc
   }
   return workstation.data.fetch(`api${path}`, options)
     .then(checkResponseStatus, checkResponseStatus)
-    .then(res => res[parseFunc] ? res[parseFunc]() : res)
+    .then((res: any) => res[parseFunc] ? res[parseFunc]() : res)
 }
 
 export default {
-  post: function post(path, body, parseFunc = parseJsonFunc) {
-    return requestToNative({ path, body, method: 'POST', parseFunc })
+  post: function post(path: string, body: any, parseFunc = parseJsonFunc) {
+    return requestToNative(path, body, 'POST', parseFunc)
   },
 
-  get: function get(path, parseFunc = parseJsonFunc) {
-    return requestToNative({ path, method: 'GET', parseFunc })
+  get: function get(path: string, parseFunc = parseJsonFunc) {
+    return requestToNative(path, 'GET', parseFunc)
   },
 
-  del: function del(path, body, parseFunc = parseJsonFunc) {
-    return requestToNative({ path, body, method: 'DELETE', parseFunc })
+  del: function del(path: string, body: any, parseFunc = parseJsonFunc) {
+    return requestToNative(path, body, 'DELETE', parseFunc)
   },
 
-  put: function put(path, body, parseFunc = parseJsonFunc) {
-    return requestToNative({ path, body, method: 'PUT', parseFunc })
+  put: function put(path: string, body: any, parseFunc = parseJsonFunc) {
+    return requestToNative(path, body, 'PUT', parseFunc)
   },
 
-  patch: function patch(path, body, parseFunc = parseJsonFunc) {
-    return requestToNative({ path, body, method: 'PATCH', parseFunc })
+  patch: function patch(path: string, body: any, parseFunc = parseJsonFunc) {
+    return requestToNative(path, body, 'PATCH', parseFunc)
   },
 
-  project: function (method, path, body, headers, parseFunc = parseJsonFunc) {
+  project: function (method: string, path: string, body: any, headers: any, parseFunc = parseJsonFunc) {
     return requestToNative.call(this, { path, body, method, headers, parseFunc })
   }
 }

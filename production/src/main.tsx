@@ -1,33 +1,32 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import * as React from 'react'
+import * as ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import createStore from './store/createStore'
 import RestProxy from './httpProxy/RestProxy'
-
 import BrowserDebug from './env/BrowserDebug'
-
 import App from './App'
-
 import './styles/main.scss'
 import WorkStationProxy from './httpProxy/WorkStationProxy'
 import Workstation from './env/Workstation'
 import insertScript from './utils/insertScript'
 import getLang from './utils/getLang'
 
+declare var __IS_WS__: any
+declare var __DEV__: any
+declare var __TEST__: any
+declare var window: any
+declare var module: any
+
 export const HttpProxy = (() => {
   return __IS_WS__ ? WorkStationProxy : RestProxy
 })()
-
-export const env = __IS_WS__ ? Workstation : BrowserDebug
-
+export const env: any = __IS_WS__ ? Workstation : BrowserDebug
 // Store Initialization
 // ------------------------------------
 const store = createStore(window.__INITIAL_STATE__)
-
 // Render Setup
 // ------------------------------------
 const MOUNT_NODE = document.getElementById('root')
-
 let render = () => {
   ReactDOM.render(
     <Provider store={store}>
@@ -36,18 +35,15 @@ let render = () => {
     MOUNT_NODE
   )
 }
-
 // Development Tools
 // ------------------------------------
 if (__DEV__) {
   if (module.hot) {
     const renderApp = render
-    const renderError = (error) => {
+    const renderError = (error: any) => {
       const RedBox = require('redbox-react').default
-
       ReactDOM.render(<RedBox error={error} />, MOUNT_NODE)
     }
-
     render = () => {
       try {
         renderApp()
@@ -56,7 +52,6 @@ if (__DEV__) {
         renderError(e)
       }
     }
-
     // Setup hot module replacement
     module.hot.accept(() =>
       setImmediate(() => {
@@ -66,7 +61,6 @@ if (__DEV__) {
     )
   }
 }
-
 // Let's Go!
 // ------------------------------------
 if (!__TEST__) {
@@ -74,5 +68,14 @@ if (!__TEST__) {
     .then(render)
     .catch(render)
 }
-
 env.onAppStart && env.onAppStart(store)
+// Test TypeScript
+type Message = {
+  body: string,
+  from: string
+}
+let message: Message = {
+  from: 'Max',
+  body: 'Hi!'
+}
+console.log(`New message from ${message.from}: ${message.body}`)

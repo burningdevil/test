@@ -4,7 +4,9 @@
 const _keyStr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/='
 const $FROM_CHAR_CODE = String.fromCharCode
 
-function utf8Encode(string) {
+declare var mstrmojo: any
+
+function utf8Encode(string: string) {
   string = string.replace(/\r\n/g, '\n')
   let utfText = ''
 
@@ -25,7 +27,7 @@ function utf8Encode(string) {
   return utfText
 }
 
-function utf8Decode(utfText) {
+function utf8Decode(utfText: string) {
   let string = ''
   let i = 0
   let c = 0
@@ -59,7 +61,7 @@ export default {
    *
    * @returns {String} The decoded response header.
    */
-  decodeHttpHeader: function decodeHttpHeader(value) {
+  decodeHttpHeader: function decodeHttpHeader(value: string) {
     const rEncoded = /\=\?UTF-8\?B\?(.+?)\?\=/g
     if (value && value.indexOf('=?UTF-8?B?') === 0) {
       let decMsg = ''
@@ -79,7 +81,7 @@ export default {
    *
    * @returns {String} The Base64 encoded string.
    */
-  encode: function encode(input) {
+  encode: function encode(input: string) {
     let output = ''
     let chr1, chr2, chr3, enc1, enc2, enc3, enc4
     let i = 0
@@ -114,7 +116,7 @@ export default {
    *
    * @returns {String} The decoded string.
    */
-  decode: function decode(input) {
+  decode: function decode(input: string) {
     let output = ''
     let i = 0
     var chr1, chr2, chr3, enc1, enc2, enc3, enc4

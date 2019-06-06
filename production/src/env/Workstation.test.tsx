@@ -1,4 +1,6 @@
-import WorkstationEnv from './Workstation'
+import { WorkstationEnv } from './Workstation'
+
+declare var window: any
 
 let getEnvironmentInformation = () => {
   return {
@@ -43,6 +45,7 @@ test('Workstation, isServerOutdated, web version is not available:\t 0', async (
 test('Workstation, isServerOutdated, EMPTY:\t', async () => {
   getEnvironmentInformation = () => {
     return {
+      webVersion: null
     }
   }
   let isOutDated = await WorkstationEnv.isServerOutdated()
