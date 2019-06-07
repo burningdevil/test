@@ -7,7 +7,7 @@ import BrowserDebug from './env/BrowserDebug'
 import App from './App'
 import './styles/main.scss'
 import WorkStationProxy from './httpProxy/WorkStationProxy'
-import Workstation from './env/Workstation'
+import { WorkstationEnv } from './env/Workstation'
 import insertScript from './utils/insertScript'
 import getLang from './utils/getLang'
 
@@ -20,7 +20,7 @@ declare var module: any
 export const HttpProxy = (() => {
   return __IS_WS__ ? WorkStationProxy : RestProxy
 })()
-export const env: any = __IS_WS__ ? Workstation : BrowserDebug
+export const env: any = __IS_WS__ ? WorkstationEnv : BrowserDebug
 // Store Initialization
 // ------------------------------------
 const store = createStore(window.__INITIAL_STATE__)
