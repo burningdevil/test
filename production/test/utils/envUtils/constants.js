@@ -7,7 +7,18 @@ const WIN_CAPABILITIES = {
   deviceName: 'WindowsPC',
   app: workstationPath,
   appArguments: '-p 54213',
-  newCommandTimeout: 30000,
+  cookies : [
+    // for debug purpose
+    {'name':'command_delay', 'value': 0 },
+    // try to locate element every 'loop_delay' within 'implicit_timeout'
+    {'name':'implicit_timeout', 'value': 10 },
+    {'name':'loop_delay', 'value': 1 },
+    // mouse speed
+    {'name':'mouse_speed', 'value':400},
+    // take screenshots on errors locating elements
+    // {'name':'global_diagnostics_directory', 'value':'/Users/qfan/ws-app-automation/screenshots'},
+    // {'name':'screen_shot_on_error', 'value': true }
+  ]
 };
 
 
@@ -47,9 +58,10 @@ const setValuePerPlatform = (winValue, macValue) => {
 // export
 export const APPIUM_SERVER_URL = 'http://localhost:4723/wd/hub';
 export const UB_INTERVAL = 200;
+export const MAC_XPATH = mac_xpath;
+export const WIN_XPATH = win_xpath;
 export const APP_OS = setValuePerPlatform('windows', 'mac');
 export const Chrome_Type = setValuePerPlatform('3rdParty/windows/chromedriver.exe', '3rdParty/mac/chromedriver');
 export const APP_CAPABILITIES = setValuePerPlatform(WIN_CAPABILITIES, MAC_CAPABILITIES);
-export const APP_XPATH = setValuePerPlatform(win_xpath, mac_xpath);
 
 

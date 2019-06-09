@@ -1,18 +1,18 @@
-import AddEnv from './AddEnv';
+import EnvConnection from './EnvConnection';
 import DossierEditor from './DossierEditor.js';
 import MainWindow from './MainWindow';
 import Toolbar from './Toolbar'
 import SmartTab from './SmartTab'
 
 function WindowBuilder() {
-  const addEnv = new AddEnv();
+  const envConnection = new EnvConnection();
   const dossierEditor = new DossierEditor();
   const mainWindow = new MainWindow();
   const toolbar = new Toolbar();
   const smartTab = new SmartTab();
 
   return {
-    addEnv,
+    envConnection,
     dossierEditor,
     mainWindow,
     toolbar,

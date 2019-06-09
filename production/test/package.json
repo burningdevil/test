@@ -27,6 +27,7 @@
     "@babel/preset-env": "^7.4.3",
     "@babel/register": "^7.4.0",
     "babel-plugin-dynamic-import-node": "^2.2.0",
-    "babel-preset-env": "^1.7.0"
+    "babel-preset-env": "^1.7.0",
+    "yargs": "^13.2.4"
   }
 }

@@ -1,8 +1,8 @@
 import RootApp from './RootApp';
-const env = XPATH['env'];
+const env = MAC_XPATH['env'];
 const wd = require('wd');
 
-export default class AddEnv extends RootApp {
+export default class EnvConnection extends RootApp {
 
   // ** Locators ** //
   async getAddNewEnv() {
@@ -14,13 +14,16 @@ export default class AddEnv extends RootApp {
         ]},
       mac: { xpath: env.addNewEnv}
     });
+    // let elm = await this.app.elementByName('Add New Environment Connection');
+    // elm = await elm.elementByClassName('Button')
+    // return elm;
   }
 
   async getConnectDialog() {
     return this.getNativeElement({
       windows:{ 
         locators: [
-          { method: 'Name', value: 'Connect to Environment' }
+          { method: 'Name', value: 'Connection' }
         ]},
       mac: { xpath: env.connectDialog}
     });
@@ -30,7 +33,7 @@ export default class AddEnv extends RootApp {
     return this.getNativeElement({
       windows:{ 
         locators: [
-          { method: 'Name', value: 'Connect to Environment' },
+          { method: 'Name', value: 'Connection' },
           { method: 'Name', value: 'Environment Name Field' }
         ]},
       mac: { xpath: env.inputEnvName}
@@ -41,7 +44,7 @@ export default class AddEnv extends RootApp {
     return this.getNativeElement({
       windows:{ 
         locators: [
-          { method: 'Name', value: 'Connect to Environment' },
+          { method: 'Name', value: 'Connection' },
           { method: 'Name', value: 'Dossier Web Url Field' }
         ]},
       mac: { xpath: env.inputEnvUrl}
@@ -52,11 +55,10 @@ export default class AddEnv extends RootApp {
     return this.getNativeElement({
       windows:{ 
         locators: [
-          { method: 'Name', value: 'Connect to Environment' },
-          { method: 'Name', value: mode }
+          { method: 'Name', value: 'Connection' },
+          { method: 'Name', value: mode },
         ]},
-      mac: { 
-        xpath: env.loginMode.replace('ReplaceMe', mode)}
+      mac: { xpath: env.loginMode.replace('ReplaceMe', mode)}
     });
   }
 
@@ -65,7 +67,7 @@ export default class AddEnv extends RootApp {
     return this.getNativeElement({
       windows:{ 
         locators: [
-          { method: 'Name', value: 'Connect to Environment' },
+          { method: 'Name', value: 'Connection' },
           { method: 'Name', value: 'Continue' }
         ]},
       mac: { xpath: env.continueToConnect }
@@ -88,7 +90,7 @@ export default class AddEnv extends RootApp {
       windows:{ 
         locators: [
           { method: 'Name', value: 'Connect to Environment' },
-          { method: 'Name', value: 'PasswordBox' }
+          { method: 'ClassName', value: 'PasswordBox' }
         ]},
       mac: { xpath: env.userPwd }
     });
@@ -151,21 +153,19 @@ export default class AddEnv extends RootApp {
     });
   }
 
-  async getEnvContextOption(option) {
+  async getRemoveEnvOption() {
     return this.getNativeElement({
       windows:{ 
         locators: [
-          { method: 'Name', value: option }
+          { method: 'Name', value: 'Remove Environment' }
         ]},
-      mac: { xpath: env.envContextOption.replace('ReplaceMe', option) }
+      mac: { xpath: env.envContextOption.replace('ReplaceMe', 'Remove') }
     });
   }
 
   // ** Actions ** //
   // connect to environment with the name and url provided
   async connectEnv(envName, envUrl) {
-     console.log(`connecting to environment`);
-
       // bring up 'add new environment' dialog
       await this.moveToAndClick(await this.getAddNewEnv());
 
@@ -174,15 +174,20 @@ export default class AddEnv extends RootApp {
 
       // input environment Url
       let envUrlElem = await this.getInputEnvUrl();
-      await envUrlElem.moveTo(); 
-      await this.app.sleep(100);
+     
       // mac version will automatically dismiss the colon, 
       // that's why you see the wired implementation here to use Shift + Semicolon to type colon
-      let envUrlSplited = envUrl.split(':');
-      await envUrlElem.type(envUrlSplited[0]);
-      await envUrlElem.type(wd.SPECIAL_KEYS["Shift"] + wd.SPECIAL_KEYS["Semicolon"] + wd.SPECIAL_KEYS["Shift"]);
-      await envUrlElem.sendKeys(envUrlSplited[1]);
-      return this.app.sleep(1000);
+      if (OSType === 'windows') {
+        await this.moveToAndSendKey(envUrlElem,envUrl);
+      } else {
+        await envUrlElem.moveTo(); 
+        await this.app.sleep(100);
+        let envUrlSplited = envUrl.split(':');
+        await envUrlElem.type(envUrlSplited[0]);
+        await envUrlElem.type(wd.SPECIAL_KEYS["Shift"] + wd.SPECIAL_KEYS["Semicolon"] + wd.SPECIAL_KEYS["Shift"]);
+        await envUrlElem.sendKeys(envUrlSplited[1]);
+        return this.app.sleep(1000);
+      }
     // await this.app.waitFor(isEnabled(await this.getContinueToConnect()),1000).should.eventually.be.ok;
 }
 
@@ -207,7 +212,7 @@ export default class AddEnv extends RootApp {
     let existingEnv = await this.getExistingEnv(name);
     await this.moveToAndClick(existingEnv);
     await this.rightClick();
-    await this.moveToAndClick(await this.getEnvContextOption('Remove'));
+    await this.moveToAndClick(await this.getRemoveEnvOption());
     return this.app.sleep(8000);
   }
 }

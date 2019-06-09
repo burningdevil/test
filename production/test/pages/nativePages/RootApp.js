@@ -7,24 +7,28 @@ export default class RootApp {
   // helper methods
   async getNativeElement(obj) {
     if (OSType === 'windows') {
-      let elm = this.app;
-      obj.windows.locators.forEach(async (locator) => { 
+      let elm = await this.app; 
+      for(let index=0; index<obj.windows.locators.length; index++) {
+        let locator = obj.windows.locators[index];
         switch (locator.method) {
-          case "XPath":
-            return this.app.elementByXPath(locator.value);
           case "Name":
             elm = await elm.elementByName(locator.value);
+            break;
           case "ClassName":
             elm = await elm.elementByClassName(locator.value);
+            break;
+          case "AccessibilityId":
+            elm = await elm.elementByAccessibilityId(locator.value);
+            break;
           default:
             throw Error('please properly define the using method to locate the element');
           }
-      })
+      }
       return elm;
     } else {
         return this.app.elementByXPath(obj.mac.xpath);
     }
-}
+  }
 
   // actions
   async moveToAndClick(referenceObject) {
@@ -65,10 +69,11 @@ export default class RootApp {
   async switchToWindow(windowHandle) {
     return this.app.window(windowHandle);
   }
+  
 
   // assertion
   async isElementDisplayedByXPath(xpath) {
     return this.app.elementByXPath(xpath).isDisplayed();
   }
-
+  
 }

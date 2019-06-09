@@ -2,6 +2,10 @@
 require('@babel/register');
 require('@babel/polyfill');
 
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
+chai.use(chaiAsPromised);
+
 exports.config = {
   directConnect: true,
   // use custom chrome driver
@@ -49,14 +53,19 @@ exports.config = {
     global.workstationPath = require('yargs').argv.path;
 
     const constants = require('./utils/envUtils/constants');
-    global.XPATH = constants.APP_XPATH;
+    global.MAC_XPATH = constants.MAC_XPATH;
+    global.WIN_XPATH = constants.WIN_XPATH;
     global.OSType = constants.APP_OS;
-
+    global.windowsMap = new Map();
+    global.expect = chai.expect;
     const startWorkstation = require('./utils/wsUtils/startWorkstation');
     const initializeWebView = require('./utils/wsUtils/initializeWebView');
     // global workstationApp will be used later
     global.workstationApp  = await startWorkstation();
+    const {registerWindow} = require('./utils/wsUtils/windowHelper')
+    await registerWindow('Workstation Main Window');
     await initializeWebView();
+    console.log(windowsMap);
   },
 
   onPrepare: async () => {
@@ -68,7 +77,7 @@ exports.config = {
 
     // build windows for Workstation
     const WindowBuilder = require('./pages/nativePages/WindowBuilder'); //change here
-    ({ addEnv, mainWindow, dossierEditor, toolbar, smartTab } = WindowBuilder());
+    ({ envConnection, mainWindow, dossierEditor, toolbar, smartTab } = WindowBuilder());
 
     // Set Cucumber Step Timeout
     let { setDefaultTimeout } = require('cucumber');

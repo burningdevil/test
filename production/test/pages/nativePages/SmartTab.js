@@ -1,5 +1,5 @@
 import RootApp from './RootApp';
-const smartTab = XPATH['smartTab'];
+const smartTab = MAC_XPATH['smartTab'];
 
 export default class SmartTab extends RootApp {
   //Locators
@@ -7,8 +7,8 @@ export default class SmartTab extends RootApp {
     return this.getNativeElement({
       windows:{ 
         locators: [
-          { method: '', value: '' },
-          { method: '', value: '' }
+          { method: 'Name', value: 'Smart Mode' },
+          { method: 'Name', value: tabName },
         ]},
       mac: { xpath: smartTab.tab.replace('ReplaceMe', tabName) }
     });
@@ -18,8 +18,9 @@ export default class SmartTab extends RootApp {
     return this.getNativeElement({
       windows:{ 
         locators: [
-          { method: '', value: '' },
-          { method: '', value: '' }
+          { method: 'Name', value: 'Smart Mode' },
+          { method: 'Name', value: `${itemName}s` },
+          { method: 'ClassName', value: 'Button' },
         ]},
       mac: { xpath: smartTab.createNewItem.replace('ReplaceMe', itemName) }
     });
@@ -31,7 +32,8 @@ export default class SmartTab extends RootApp {
   }
 
   async createNewItem(itemName) {
-    return this.moveToAndClick(await this.getCreateNewItem(itemName));
+    await this.moveToAndClick(await this.getCreateNewItem(itemName));
+    return this.app.sleep(2000);
   }
 
 }

@@ -1,5 +1,5 @@
 import RootApp from './RootApp';
-const quickSearch = XPATH['quickSearch'];
+const quickSearch = MAC_XPATH['quickSearch'];
 
 export default class MainWindow extends RootApp {
   // locator

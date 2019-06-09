@@ -1,5 +1,5 @@
 import RootApp from './RootApp';
-const toolbar = XPATH['toolbar'];
+const toolbar = MAC_XPATH['toolbar'];
 
 export default class Toolbar extends RootApp {
 
@@ -74,8 +74,7 @@ export default class Toolbar extends RootApp {
     return this.getNativeElement({
       windows:{ 
         locators: [
-          { method: '', value: '' },
-          { method: '', value: '' } 
+          { method: 'Name', value: 'Search' },
         ]},
       mac: { xpath: toolbar.searchInputBox}
     });

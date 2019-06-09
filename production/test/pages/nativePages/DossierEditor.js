@@ -1,7 +1,5 @@
 import RootApp from './RootApp';
-const dossierEditor = XPATH['dossierEditor'];
-
-let object ={}
+const dossierEditor = MAC_XPATH['dossierEditor'];
 
 export default class DossierEditor extends RootApp {
 
@@ -10,8 +8,7 @@ export default class DossierEditor extends RootApp {
     return this.getNativeElement({
       windows:{ 
         locators: [
-          { method: '', value: '' },
-          { method: '', value: '' }
+          { method: 'Name', value: dossierName },
         ]},
       mac: { xpath: dossierEditor.container.replace('ReplaceMe', dossierName) }
     });
@@ -21,8 +18,8 @@ export default class DossierEditor extends RootApp {
     return this.getNativeElement({
       windows:{ 
         locators: [
-          { method: '', value: '' },
-          { method: '', value: '' }
+          { method: 'Name', value: dossierName },
+          { method: 'AccessibilityId', value: 'WindowCloseButton' }
         ]},
       mac: { xpath: dossierEditor.close.replace('ReplaceMe', dossierName) }
     });
@@ -44,4 +41,5 @@ export default class DossierEditor extends RootApp {
       return false;
     }
   }
+
 }

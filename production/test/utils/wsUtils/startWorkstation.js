@@ -8,6 +8,7 @@ async function startWorkstation() {
 
     let workstationApp = await wd.promiseChainRemote(APPIUM_SERVER_URL);
     await workstationApp.init(APP_CAPABILITIES)
+    await workstationApp.setImplicitWaitTimeout(10000);
     await workstationApp.sleep(2000);
     return workstationApp ;
 }
