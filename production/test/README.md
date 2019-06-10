@@ -7,11 +7,11 @@ Workstation Framework team automated this E2E Testing Framework for both Worksta
 General:
 - Install [Node.JS](https://nodejs.org) 
 - Install Appium: [Installing Appium](http://appium.io/docs/en/about-appium/getting-started/)
-For Windows:
+### For Windows:
 - Enable OS Developer Mode for WinAppDriver
 - Install Workstation Windows
 - [Enable application Developer Mode for Workstation Windows](https://microstrategy.atlassian.net/wiki/spaces/TECTOOLSWORKSTATION/pages/447709932/How+to+configure+the+developer+mode)
-For Mac:
+### For Mac:
 - Install the native OS X binary [AppiumForMac](https://github.com/appium/appium-for-mac/releases/tag/v0.3.0)
 - Follow the [installation instruction](https://github.com/appium/appium-for-mac#109-1010-1011-1012) to enable AppiumForMac to use the Accessibility API of Mac OS X
 - Install Workstation Mac with CEF (Currently the CEF version has not been merged yet, please download the dev build from [oneDriver](https://microstrategy-my.sharepoint.com/:f:/p/qfan/EpRHKbKMVqBMi0rr8fIJwb8Bb1zsIMsRcrXvIdKNA0owQw) )
