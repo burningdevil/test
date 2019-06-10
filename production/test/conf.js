@@ -45,27 +45,36 @@ exports.config = {
 
   // parameters with default values
   params: {
-    
+    envs: []
   },
 
+  // Launch workstation and initialize a CEF webview for Protractor to connect to.
+  // params are not available in beforeLaunch() method.
   beforeLaunch: async () => {
-    // get constants based on the runtime environment
-    global.workstationPath = require('yargs').argv.path;
-
-    const constants = require('./utils/envUtils/constants');
-    global.MAC_XPATH = constants.MAC_XPATH;
-    global.WIN_XPATH = constants.WIN_XPATH;
-    global.OSType = constants.APP_OS;
+    // setting global variables
+    global.workstationPath = require('yargs').argv.appPath;
     global.windowsMap = new Map();
     global.expect = chai.expect;
+
+    // setting globale variables
+    const constants = require('./utils/envUtils/constants');
+    ({
+      MAC_XPATH: global.MAC_XPATH,
+      OSType: global.OSType,
+    } = constants);
+
+    // Start Workstation. 
+    // This workstation driver is stored globally to be used anywhere else.
+    // For windows, the Main Workstation Window handle is registered globally
     const startWorkstation = require('./utils/wsUtils/startWorkstation');
-    const initializeWebView = require('./utils/wsUtils/initializeWebView');
-    // global workstationApp will be used later
     global.workstationApp  = await startWorkstation();
-    const {registerWindow} = require('./utils/wsUtils/windowHelper')
-    await registerWindow('Workstation Main Window');
+    if (OSType === 'windows') {
+      const {registerWindow} = require('./utils/wsUtils/windowHelper');
+      await registerWindow('Workstation Main Window');
+    }
+    // Initialize a CEF webview
+    const initializeWebView = require('./utils/wsUtils/initializeWebView');
     await initializeWebView();
-    console.log(windowsMap);
   },
 
   onPrepare: async () => {
@@ -79,7 +88,7 @@ exports.config = {
     const WindowBuilder = require('./pages/nativePages/WindowBuilder'); //change here
     ({ envConnection, mainWindow, dossierEditor, toolbar, smartTab } = WindowBuilder());
 
-    // Set Cucumber Step Timeout
+    // set Cucumber Step Timeout
     let { setDefaultTimeout } = require('cucumber');
     setDefaultTimeout(60 * 1000);// 60 seconds 
   },

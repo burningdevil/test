@@ -1,8 +1,8 @@
 const application = "/AXApplication[@AXTitle='MicroStrategy Workstation']";
-const mainWindow = application + "/AXWindow[@AXSubrole='AXStandardWindow']";
-const envDialoguePath = application + "/AXWindow[@AXTitle='Connect to Environment' and @AXSubrole='AXDialog']"
-const toolbar = mainWindow + "/AXToolbar[0]";
-const smartTabGroup = mainWindow + "/AXSplitGroup[0]/AXGroup[0]/AXScrollArea[0]/AXOutline[0]/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]";
+const mainWindow = `${application}/AXWindow[@AXSubrole='AXStandardWindow']`;
+const envDialoguePath = `${application}/AXWindow[@AXTitle='Connect to Environment' and @AXSubrole='AXDialog']`;
+const toolbar = `${mainWindow}/AXToolbar[0]`;
+const smartTabGroup = `${mainWindow}/AXSplitGroup[0]/AXGroup[0]/AXScrollArea[0]/AXOutline[0]/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]`;
 
 const mac_xpath = {
   env: {
@@ -23,7 +23,7 @@ const mac_xpath = {
   },
   toolbar: {
     refresh: `${toolbar}/AXButton[0]`,
-    iconView: `${toolbar}/AXGroup[1]/AXRadioGroup[0]/AXRadioButton[0]`, //should we combine iconView and listView?
+    iconView: `${toolbar}/AXGroup[1]/AXRadioGroup[0]/AXRadioButton[0]`,
     listView: `${toolbar}/AXGroup[1]/AXRadioGroup[0]/AXRadioButton[1]`,
     arrangeBy: `${toolbar}/AXGroup[2]/AXMenuButton[@AXTitle='Arrange By: Type']`,
     sortBy: `${toolbar}/AXGroup[3]/AXMenuButton[@AXTitle='Sort By: Name']`,
@@ -32,18 +32,18 @@ const mac_xpath = {
     clearSearchInput: `${toolbar}/AXGroup[4]/AXTextField[@AXValue='ft' and @AXSubrole='AXSearchField']/AXButton[1]`
   },
   smartTab: {
-    tab: smartTabGroup + "/AXStaticText[@AXValue='ReplaceMe']", //[@AXValue='Dossiers']
-    createNewItem: smartTabGroup + "/AXButton[@AXHelp='ReplaceMe']"
+    tab: `${smartTabGroup}/AXStaticText[@AXValue='ReplaceMe']`,
+    createNewItem: `${smartTabGroup}/AXButton[@AXHelp='ReplaceMe']`
   },
   quickSearch: {
-    listContainer: mainWindow + "/AXToolbar[0]/AXGroup[4]/AXTextField[0]/AXPopover[0]"
+    listContainer: `${mainWindow}/AXToolbar[0]/AXGroup[4]/AXTextField[0]/AXPopover[0]`
   },
   dossierEditor: {
     container: `${application}/AXWindow[@AXTitle='ReplaceMe']`,
     close: `${application}/AXWindow[@AXTitle='ReplaceMe']/AXButton[@AXSubrole='AXCloseButton']`
   },
   workstationMainWindow: {
-    closeWorkstation: mainWindow + "/AXButton[@AXSubrole='AXCloseButton']"
+    closeWorkstation: `${mainWindow}/AXButton[@AXSubrole='AXCloseButton']`
   },
 }
 

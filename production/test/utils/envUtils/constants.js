@@ -1,5 +1,4 @@
 import mac_xpath from './mac_xpath'
-import win_xpath from './win_xpath'
 
 // Windows Specific
 const WIN_CAPABILITIES = {
@@ -57,11 +56,8 @@ const setValuePerPlatform = (winValue, macValue) => {
 
 // export
 export const APPIUM_SERVER_URL = 'http://localhost:4723/wd/hub';
-export const UB_INTERVAL = 200;
 export const MAC_XPATH = mac_xpath;
-export const WIN_XPATH = win_xpath;
-export const APP_OS = setValuePerPlatform('windows', 'mac');
-export const Chrome_Type = setValuePerPlatform('3rdParty/windows/chromedriver.exe', '3rdParty/mac/chromedriver');
+export const OSType = setValuePerPlatform('windows', 'mac');
 export const APP_CAPABILITIES = setValuePerPlatform(WIN_CAPABILITIES, MAC_CAPABILITIES);
 
 

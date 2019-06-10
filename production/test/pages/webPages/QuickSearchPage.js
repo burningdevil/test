@@ -18,7 +18,7 @@ export default class QuickSearchPage extends BasePage {
   getQuickSearchListItemByName(name) {
     return this.getQuickSearchListItems().filter(async (elm) => {
       let elmText = await elm.$('.QuickSearchItem-text-name').getText();
-      return elmText.includes(name);
+      return elmText === name;
     }).first();
   }
 

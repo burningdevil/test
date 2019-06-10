@@ -17,9 +17,12 @@ async function initializeWebView() {
     let searchInputBox = await workstationApp.elementByXPath(toolbar.searchInputBox);
     await moveToAndClick(searchInputBox);
     await searchInputBox.sendKeys('Initializing web view');
-    await workstationApp.sleep(1000);
+    await workstationApp.sleep(500);
     await searchInputBox.clear();
-    await workstationApp.sleep(2000);
+    await searchInputBox.sendKeys('trigger popup again');
+    await workstationApp.sleep(500);
+    await searchInputBox.clear();
+    await workstationApp.sleep(1000);
   }
 }
 

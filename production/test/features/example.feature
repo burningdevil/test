@@ -1,25 +1,30 @@
-# features/test.feature
-Feature: QuickSearch in Workstation
+# features/example.feature
+Feature: Workstation Automation
   As a SET
-  I would like to check the search with CEF in Workstation
-  To prove the capability of this Test Infrastructure
+  I would like to verify the Test Infrastructure (Appium + Protractor) 
+  For Workstation Windows and Workstation Mac with CEF
 
-  @mac_example
-  Scenario: [TC42657] Quick Search in Workstation Mac with CEF
+  @mac_example @e2e
+  Scenario Outline: [TC42657] Quick Search Dossier in Workstation Mac with CEF
     When I add a new environment named AQDT with url https://aqueduct-tech.customer.cloud.microstrategy.com/MicroStrategyLibrary
     And I login with LDAP mode using name yourname and password yourpwd
     Then I select project Rally Analytics
-    When I select tab Dossiers
-    And I search for TEC.UB
-    Then Result Popup should be displayed with 3 items
-    When I click on item TEC.UB
-    Then Dossier TEC.UB should be displayed
-    Then I close Dossier TEC.UB
+    When I first-time select tab Dossiers and wait for cache generation
+    And I search for <itemName>
+    Then Result Popup should be displayed with <count> items
+    When I click on item <itemName>
+    Then Dossier <itemName> should be displayed
+    Then I close Dossier <itemName>
     Then I select tab Environments
     And I remove environment AQDT
 
+    Examples:
+      | itemName  | count |
+      | TEC.UB    | 3     |
+      | TEC.AT    | 4     |
+
   @windows_example
-  Scenario: [TC42657] Winsows Workstation
+  Scenario: Windows Workstation 
     When I add a new environment named AQDT with url https://aqueduct-tech.customer.cloud.microstrategy.com/MicroStrategyLibrary
     And I login with LDAP mode using name yourname and password yourpwd
     Then I select project Rally Analytics
