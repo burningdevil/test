@@ -10,11 +10,29 @@ export default class SmartTab extends RootApp {
           { method: 'Name', value: 'Smart Mode' },
           { method: 'Name', value: tabName },
         ]},
-      mac: { xpath: smartTab.tab.replace('ReplaceMe', tabName) }
+      mac: { xpath: smartTab.tab.replace(/ReplaceMe/g, tabName) }
     });
   }
 
   getCreateNewItem(itemName) {
+    let macBtnHelpStr;
+    
+    if (OSType === 'mac') {
+      switch(itemName) {
+        case "Application":
+          macBtnHelpStr = 'Create New Application';
+          break;
+        case "Dossier":
+          macBtnHelpStr = 'Create a new dossier';
+          break;
+        case "Dataset":
+          macBtnHelpStr = 'Create a new dataset';
+          break;
+        default:
+          throw Error("Error! Please check the MAC AXPath");
+      }
+    }
+
     return this.getNativeElement({
       windows:{ 
         locators: [
@@ -22,7 +40,7 @@ export default class SmartTab extends RootApp {
           { method: 'Name', value: `${itemName}s` },
           { method: 'ClassName', value: 'Button' },
         ]},
-      mac: { xpath: smartTab.createNewItem.replace('ReplaceMe', itemName) }
+      mac: { xpath: smartTab.createNewItem.replace(/ReplaceMe/g, macBtnHelpStr) }
     });
   }
 

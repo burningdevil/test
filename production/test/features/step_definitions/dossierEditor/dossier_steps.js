@@ -16,7 +16,6 @@ Then('I close Dossier {dossierName}', async function (dossierName) {
   } else {
     return dossierEditor.closeDossierEditor(dossierName);
   }
-
 });
 
 

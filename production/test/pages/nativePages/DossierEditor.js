@@ -10,7 +10,7 @@ export default class DossierEditor extends RootApp {
         locators: [
           { method: 'Name', value: dossierName },
         ]},
-      mac: { xpath: dossierEditor.container.replace('ReplaceMe', dossierName) }
+      mac: { xpath: dossierEditor.container.replace(/ReplaceMe/g, dossierName) }
     });
   }
 
@@ -21,7 +21,7 @@ export default class DossierEditor extends RootApp {
           { method: 'Name', value: dossierName },
           { method: 'AccessibilityId', value: 'WindowCloseButton' }
         ]},
-      mac: { xpath: dossierEditor.close.replace('ReplaceMe', dossierName) }
+      mac: { xpath: dossierEditor.close.replace(/ReplaceMe/g, dossierName) }
     });
   }
 

@@ -29,11 +29,11 @@ const mac_xpath = {
     sortBy: `${toolbar}/AXGroup[3]/AXMenuButton[@AXTitle='Sort By: Name']`,
     selectApplication: `${toolbar}/AXButton[1]`,
     searchInputBox: `${toolbar}/AXGroup[4]/AXTextField[@AXSubrole='AXSearchField']`,
-    clearSearchInput: `${toolbar}/AXGroup[4]/AXTextField[@AXValue='ft' and @AXSubrole='AXSearchField']/AXButton[1]`
+    clearSearchInput: `${toolbar}/AXGroup[4]/AXTextField[@AXSubrole='AXSearchField']/AXButton[1]`
   },
   smartTab: {
     tab: `${smartTabGroup}/AXStaticText[@AXValue='ReplaceMe']`,
-    createNewItem: `${smartTabGroup}/AXButton[@AXHelp='ReplaceMe']`
+    createNewItem: `${smartTabGroup}/AXButton[@AXHelp='ReplaceMe']`,
   },
   quickSearch: {
     listContainer: `${mainWindow}/AXToolbar[0]/AXGroup[4]/AXTextField[0]/AXPopover[0]`

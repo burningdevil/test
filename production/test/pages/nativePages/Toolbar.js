@@ -118,7 +118,8 @@ export default class Toolbar extends RootApp {
   }
 
   async clickClearSearch() {
-      return this.moveToAndClick(await this.getClearSearch());
+      await this.moveToAndClick(await this.getClearSearch());
+      return this.app.sleep(500);
   }
 
   async search(searchString) {
