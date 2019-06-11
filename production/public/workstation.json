@@ -10,7 +10,7 @@
           "displayName": "API Documentation",
           "command": "openApi",
           "ribbonColor": "#238AD0",
-          "icon":"three.png",
+          "icon": "three.png",
           "selectedIcon": "three.png",
           "location": {
             "section": "Resources",
@@ -21,10 +21,20 @@
     },
     "menus": {
       "items": [
-	    {
-          "key": "sampleMenu",
+        {
+          "key": "openModule1Menu",
           "icon": "one.png",
-          "command": "openGeneric"
+          "command": "openModule1"
+        },
+        {
+          "key": "openModule2Menu",
+          "icon": "one.png",
+          "command": "openModule2"
+        },
+        {
+          "key": "openModule3Menu",
+          "icon": "one.png",
+          "command": "openModule3"
         },
         {
           "key": "apiDocs",
@@ -44,12 +54,38 @@
       ],
       "contextMenuItems": [
         {
-          "item": "sampleMenu",
-		  "objectTypes": [
+          "item": "openModule1Menu",
+          "objectTypes": [
             "Folder",
             "Dossier"
-          ]
-        }        
+          ],
+          "location": {
+            "section": "General",
+            "index": 0
+          }
+        },
+        {
+          "item": "openModule2Menu",
+          "objectTypes": [
+            "Folder",
+            "Dossier"
+          ],
+          "location": {
+            "section": "General",
+            "index": 1
+          }
+        },
+        {
+          "item": "openModule3Menu",
+          "objectTypes": [
+            "Folder",
+            "Dossier"
+          ],
+          "location": {
+            "section": "General",
+            "index": 2
+          }
+        }
       ]
     }
   }
