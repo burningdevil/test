@@ -8,7 +8,7 @@ General:
 - Install [Node.JS](https://nodejs.org) 
 - Install Appium: [Installing Appium](http://appium.io/docs/en/about-appium/getting-started/)
 ### For Windows:
-- Enable OS Developer Mode for WinAppDriver
+- Enable OS Developer Mode
 - Install Workstation Windows
 - [Enable application Developer Mode for Workstation Windows](https://microstrategy.atlassian.net/wiki/spaces/TECTOOLSWORKSTATION/pages/447709932/How+to+configure+the+developer+mode)
 ### For Mac:
