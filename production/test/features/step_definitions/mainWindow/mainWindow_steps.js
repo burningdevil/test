@@ -1,3 +1,5 @@
+// you can separate this step file to several more if needed
+
 const { Given, When, Then } = require('cucumber');
 const {registerNewWindow, switchToWindow} = require('../../../Utils/wsUtils/windowHelper')
 
@@ -14,6 +16,10 @@ Then('I select project {projectName}', async function (projectName) {
   return envConnection.chooseProject(projectName);
 });
 
+Then('I click OK to connect after selecting project(s)', async function () {
+  return envConnection.clickOkToConnect();
+});
+
 Then('I remove environment {envName}', async function (envName) {
   return envConnection.removeEnv(envName);
 });
@@ -21,7 +27,7 @@ Then('I remove environment {envName}', async function (envName) {
 // ** Navigations in Main Window ** //
 Then('I select tab {tabName}', async function (tabName) {
   await smartTab.selectTab(tabName);
-  return smartTab.app.sleep(1000);
+  return smartTab.app.sleep(500);
 });
 
 // ** Navigations in Main Window ** //
@@ -44,7 +50,11 @@ When('I create a new item {string}', async function (itemName) {
 
 // ** Search Related ** //
 When('I search for {searchString}', async function (searchString) {
-  await toolbar.search(searchString);
+  return toolbar.search(searchString);
+});
+
+Then('I clear search', async function () {
+  return toolbar.clickClearSearch();
 });
 
 Then('Result Popup should be displayed with {int} items', async function (countOf) {

@@ -5,19 +5,7 @@ const WIN_CAPABILITIES = {
   platformName: 'Windows',
   deviceName: 'WindowsPC',
   app: workstationPath,
-  appArguments: '-p 54213',
-  cookies : [
-    // for debug purpose
-    {'name':'command_delay', 'value': 0 },
-    // try to locate element every 'loop_delay' within 'implicit_timeout'
-    {'name':'implicit_timeout', 'value': 10 },
-    {'name':'loop_delay', 'value': 1 },
-    // mouse speed
-    {'name':'mouse_speed', 'value':400},
-    // take screenshots on errors locating elements
-    // {'name':'global_diagnostics_directory', 'value':'/Users/qfan/ws-app-automation/screenshots'},
-    // {'name':'screen_shot_on_error', 'value': true }
-  ]
+  appArguments: '-p 54213'
 };
 
 
@@ -30,7 +18,7 @@ const MAC_CAPABILITIES = {
     // for debug purpose
     {'name':'command_delay', 'value': 0 },
     // try to locate element every 'loop_delay' within 'implicit_timeout'
-    {'name':'implicit_timeout', 'value': 10 },
+    {'name':'implicit_timeout', 'value': 12 },
     {'name':'loop_delay', 'value': 1 },
     // mouse speed
     {'name':'mouse_speed', 'value':400},

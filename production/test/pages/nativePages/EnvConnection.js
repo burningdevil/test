@@ -14,9 +14,6 @@ export default class EnvConnection extends RootApp {
         ]},
       mac: { xpath: env.addNewEnv}
     });
-    // let elm = await this.app.elementByName('Add New Environment Connection');
-    // elm = await elm.elementByClassName('Button')
-    // return elm;
   }
 
   async getConnectDialog() {
@@ -58,7 +55,7 @@ export default class EnvConnection extends RootApp {
           { method: 'Name', value: 'Connection' },
           { method: 'Name', value: mode },
         ]},
-      mac: { xpath: env.loginMode.replace('ReplaceMe', mode)}
+      mac: { xpath: env.loginMode.replace(/ReplaceMe/g, mode)}
     });
   }
 
@@ -126,7 +123,7 @@ export default class EnvConnection extends RootApp {
           { method: 'Name', value: 'Select Applications' },
           { method: 'Name', value: applicationName }
         ]},
-      mac: { xpath: env.selectProject.replace('ReplaceMe', applicationName) }
+      mac: { xpath: env.selectProject.replace(/ReplaceMe/g, applicationName) }
     });
   }
 
@@ -149,7 +146,7 @@ export default class EnvConnection extends RootApp {
           { method: 'Name', value: 'Available Environments' },
           { method: 'Name', value: `${environmentName}\nRestEnvironment` }
         ]},
-      mac: { xpath: env.existingEnv.replace('ReplaceMe',environmentName) }
+      mac: { xpath: env.existingEnv.replace(/ReplaceMe/g,environmentName) }
     });
   }
 
@@ -159,7 +156,7 @@ export default class EnvConnection extends RootApp {
         locators: [
           { method: 'Name', value: 'Remove Environment' }
         ]},
-      mac: { xpath: env.envContextOption.replace('ReplaceMe', 'Remove') }
+      mac: { xpath: env.envContextOption.replace(/ReplaceMe/g, 'Remove') }
     });
   }
 
@@ -197,15 +194,18 @@ export default class EnvConnection extends RootApp {
     await this.moveToAndSendKey(await this.getInputUserName(), userName);
     await this.moveToAndSendKey(await this.getInputUserPwd(), userPwd);
     await this.moveToAndClick(await this.getLoginToConnect());
-    return this.app.sleep(2000);
   }
 
   async chooseProject(projectName) {
     // select application
     await this.moveToAndClick(await this.getProjectByName(projectName));
-    // Ok to connect
+    return this.app.sleep(100);
+  }
+
+  async clickOkToConnect() {
+    // Ok to connect after choosing projects
     await this.moveToAndClick(await this.getOKToConnect());
-    return this.app.sleep(5000);
+    return this.app.sleep(1000);
   }
 
   async removeEnv(name) {

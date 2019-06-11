@@ -6,6 +6,8 @@ const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 
+const protractorArgs = require('./protractorArgs.json')
+
 exports.config = {
   directConnect: true,
   // use custom chrome driver
@@ -44,15 +46,13 @@ exports.config = {
   },
 
   // parameters with default values
-  params: {
-    envs: []
-  },
+  params: protractorArgs.browserParams,
 
   // Launch workstation and initialize a CEF webview for Protractor to connect to.
   // params are not available in beforeLaunch() method.
   beforeLaunch: async () => {
     // setting global variables
-    global.workstationPath = require('yargs').argv.appPath;
+    global.workstationPath = (process.platform === 'win32') ? protractorArgs.args.appPath['windows'] : protractorArgs.args.appPath['mac'];
     global.windowsMap = new Map();
     global.expect = chai.expect;
 
@@ -79,6 +79,10 @@ exports.config = {
 
   onPrepare: async () => {
     browser.waitForAngularEnabled(false);
+
+    // set Cucumber Step Timeout
+    let { setDefaultTimeout } = require('cucumber');
+    setDefaultTimeout(60 * 1000);// 60 seconds 
     
     // build web view page objects
     const PageBuilder = require('./pages/webPages/PageBuilder');
@@ -88,13 +92,36 @@ exports.config = {
     const WindowBuilder = require('./pages/nativePages/WindowBuilder'); //change here
     ({ envConnection, mainWindow, dossierEditor, toolbar, smartTab } = WindowBuilder());
 
-    // set Cucumber Step Timeout
-    let { setDefaultTimeout } = require('cucumber');
-    setDefaultTimeout(60 * 1000);// 60 seconds 
+    // connect to environment
+    for(let envIndex=0; envIndex<browser.params.envInfo.length; envIndex++) {
+      ({envName, envUrl, loginMode, userName, userPwd, projects} = browser.params.envInfo[envIndex]);
+      await envConnection.connectEnv(envName, envUrl);
+      await envConnection.loginToEnv(loginMode, userName, userPwd);
+      for(let projectIndex=0;projectIndex<projects.length;projectIndex++){
+        await envConnection.chooseProject(projects[projectIndex]);
+      }
+      await envConnection.clickOkToConnect();
+    }
+
+    // first-time cache generation for mac (if needed)
+    if (OSType === 'mac') {
+      await smartTab.selectTab('Dossiers');
+      await smartTab.app.sleep(30000);
+    }
   },
 
-  onComplete: () => {
+  onComplete: async () => {
+    // remove environment
+    await smartTab.selectTab('Environments')
+    for(let envIndex=0; envIndex<browser.params.envInfo.length; envIndex++) {
+      await envConnection.removeEnv(browser.params.envInfo[envIndex].envName)
+    }
+  },
+
+  afterLaunch: () => {
+    // quit Workstation
     const quitWorkstation = require('./utils/wsUtils/quitWorkstation');
     return quitWorkstation();
   }
+
 }

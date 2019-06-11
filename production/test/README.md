@@ -1,7 +1,7 @@
 
 # Workstation E2E Testing Framework 
 
-Workstation Framework team automated this E2E Testing Framework for both Workstation Windows and Workstation Mac. The framework is based on [Protractor](https://github.com/angular/protractor)), [Cucumber](https://github.com/cucumber/cucumber) and [Appium](http://appium.io/). 
+Workstation Framework team automated this E2E Testing Framework for both Workstation Windows and Workstation Mac. The framework is based on [Protractor](https://github.com/angular/protractor), [Cucumber](https://github.com/cucumber/cucumber) and [Appium](http://appium.io/). 
 
 ## Requirements
 General:
@@ -14,7 +14,7 @@ General:
 ### For Mac:
 - Install the native OS X binary [AppiumForMac](https://github.com/appium/appium-for-mac/releases/tag/v0.3.0)
 - Follow the [installation instruction](https://github.com/appium/appium-for-mac#109-1010-1011-1012) to enable AppiumForMac to use the Accessibility API of Mac OS X
-- Install Workstation Mac with CEF (Currently the CEF version has not been merged yet, please download the dev build from [oneDriver](https://microstrategy-my.sharepoint.com/:f:/p/qfan/EpRHKbKMVqBMi0rr8fIJwb8Bb1zsIMsRcrXvIdKNA0owQw) )
+- Install Workstation Mac with CEF (Currently the CEF version has not been merged yet, please download the dev build from [oneDrive](https://microstrategy-my.sharepoint.com/:f:/p/qfan/EpRHKbKMVqBMi0rr8fIJwb8Bb1zsIMsRcrXvIdKNA0owQw) )
 
 ## Install
 Clone this repository. Then go to
@@ -30,16 +30,17 @@ yarn install
 ## Quick Start
 This test framework includes example E2E test workflows for both Workstation Windows and Workstation Mac. Before you run the example test, please:
 - Start Appium Server in the machine you are going to run the test
-- Modify the AQDT LDAP login information in file /features/example.features (step 'And I login with LDAP mode using name yourname and password yourpwd')
+- Modify the AQDT LDAP login information, the Workstation App Path in file ./protractorArgs.json (yourname and yourpwd, appPath)
 
 You can run the tests from command line with the pre-defined npm scripts.
+
 For Mac:
 ```
-npm run test -- --appPath='/Users/qfan/bin/MicroStrategy workstation.app' --cucumberOpts.tags '@mac_example'
+npm run test -- --cucumberOpts.tags '@mac_example'
 ```
 For Windows
 ```
-npm run test -- --appPath='C:\Program Files\MicroStrategy\Workstation\Workstation.exe' --cucumberOpts.tags '@windows_example'
+npm run test -- --cucumberOpts.tags '@windows_example'
 ```
 
 Note:
@@ -50,9 +51,9 @@ Note:
 * [Framework Architecture](docs/framework-architecture.md)
 * [Setup the Environment](docs/setup-and-run.md)
 * [Implement Test](docs/implement-test.md)
-    *[Design Features and Scenarios](docs/implement-test.md#design-features-and-scenarios)
-    *[Implement Steps](docs/implement-test.md#implement-steps)
-    *[Implement Page Objects](docs/implement-test.md#implement-page-objects)
+    * [Design Features and Scenarios](docs/implement-test.md#design-features-and-scenarios)
+    * [Implement Steps](docs/implement-test.md#implement-steps)
+    * [Implement Page Objects](docs/implement-test.md#implement-page-objects)
 * [Performance Test](docs/performance-test.md)
 * [Analyze Test Results](docs/test_results.md)
 * [CI Pipeline](docs/ci-pipeline.md)
