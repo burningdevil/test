@@ -28,6 +28,21 @@ After completing the [installation](#installation) step, you're ready to start t
 $ yarn start  # Start the development server (or `npm start`)
 ```
 
+### Configure the Library Server to connect to
+
+1. create a file named *.librc.json* under folder __production/server__
+2. specify the connection info with json structure like
+
+```json
+{
+  "server": "http://localhost:8282",
+  "base": "/consume-dev",
+  "username": "tqmsuser",
+  "password": "",
+  "projectID":"B628A31F11E7BD953EAE0080EF0583BD"
+}
+```
+
 ## Create You Own Application
 Under src/modules folder, you will find three example pages. Two of them are React based modules and Module 2 is actually a mojo based web application.
 
@@ -55,21 +70,13 @@ One more thing you can remove is in the index.html file. This section is just an
     <script src="./mojo/Module2-mojo-my-button.js"></script>
     <!-- End mojo dependencies. -->
 
+## Update from Template
+From while to while, there might new common changes added to this template repository. If your application repository is derived from this template, you can use the following Git commands to inherit those latest changes from the template.
 
-### Configure the Library Server to connect to
-
-1. create a file named *.librc.json* under folder __production/server__
-2. specify the connection info with json structure like
-
-```json
-{
-  "server": "http://localhost:8282",
-  "base": "/consume-dev",
-  "username": "tqmsuser",
-  "password": "",
-  "projectID":"B628A31F11E7BD953EAE0080EF0583BD"
-}
-```
+    git remote add plugin-template git@github.microstrategy.com:ecosystem/react.mud.git
+    git fetch --all
+    git checkout m2020
+    git merge plugin-template/app
 
 ## Build for Workstation
 
