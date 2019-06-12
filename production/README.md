@@ -1,4 +1,4 @@
-# Microstrategy Workstation Plugin Appication Template
+# MicroStrategy Workstation Plugin Application Template
 
 It is the web app starter kit for Workstation. It uses React/Redux as its base technology to build the web app. Key technologies also include
 
