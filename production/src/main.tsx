@@ -24,6 +24,7 @@ export const env: any = __IS_WS__ ? WorkstationEnv : BrowserDebug
 // Store Initialization
 // ------------------------------------
 const store = createStore(window.__INITIAL_STATE__)
+
 // Render Setup
 // ------------------------------------
 const MOUNT_NODE = document.getElementById('root')
@@ -69,13 +70,3 @@ if (!__TEST__) {
     .catch(render)
 }
 env.onAppStart && env.onAppStart(store)
-// Test TypeScript
-type Message = {
-  body: string,
-  from: string
-}
-let message: Message = {
-  from: 'Max',
-  body: 'Hi!'
-}
-console.log(`New message from ${message.from}: ${message.body}`)

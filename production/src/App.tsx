@@ -1,15 +1,23 @@
 import * as React from 'react'
-import { Button } from '@mstr/web-components'
-import '@mstr/web-components/dist/web-styles.css'
-import './app.scss'
+import { HashRouter, Route, Link } from 'react-router-dom';
+import Module1 from './modules/Module1'
+import Module2 from './modules/Module2'
+import Module3 from './modules/Module3'
 
-export default class App extends React.Component<any, any> {
+export default class App extends React.Component<any, any> {  
+  // Pages Setup
+  routes = (
+    <div>
+      <Route path="/m1" component={Module1} />
+      <Route path="/m2" component={Module2} />
+      <Route path="/m3" component={Module3} />
+    </div>
+  )
   render() {
     return (
-      <div>
-        <Button primary={true} text="Click me!"></Button>
-        ><div className="">hello world!</div>
-      </div>
+      <HashRouter>
+        {this.routes}
+      </HashRouter>
     )
   }
 }
