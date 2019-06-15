@@ -1,4 +1,16 @@
 #IMPLEMENTING NATIVE AND WEB PAGES
+
+This document will guide you through how to automate a new test case.
+
+## Before Start
+- You have already designed a Test Case for one functionality and it is ready/stable to be automated.
+- You have the repository in your local and have setup and run successfully.
+
+## Design Cucumber Test Scenarios
+
+## Design and Implement Test Steps
+
+## Implement Page Objects
 We typically add any of the web or native pages under "pages" folder.
 All the page objects are categorized in 2 folder
     - Native pages
@@ -45,3 +57,7 @@ Web Pages:
     
     PageBuilder:
         PageBuilder returns instances for all the page objects except for the BasePage.
+
+## Test & Debug
+
+## Add Descriptions and POC
