@@ -6,6 +6,7 @@ Workstation Framework team automated this E2E Testing Framework for both Worksta
 ## Requirements
 General:
 - Install [Node.JS](https://nodejs.org) 
+- Install [Yarn](https://github.com/yarnpkg/yarn)
 - Install Appium: [Installing Appium](http://appium.io/docs/en/about-appium/getting-started/)
 ### For Windows:
 - Appium claims WAD(WinAppDriver) is bundled and no need to install WAD separately. However, if you meet 'Could not verify WinAppDriver install' error when starting, please check the required WAD version in file installer.js under \AppData\Local\Programs\appium-desktop\resources\app\node_modules\appium\node_modules\appium-windows-driver\lib and install WAD separately.
@@ -37,11 +38,11 @@ You can run the tests from command line with the pre-defined npm scripts.
 
 For Mac:
 ```
-npm run test -- --cucumberOpts.tags '@mac_example'
+yarn test -- --cucumberOpts.tags '@mac_example'
 ```
 For Windows
 ```
-npm run test -- --cucumberOpts.tags '@windows_example'
+yarn test -- --cucumberOpts.tags '@windows_example'
 ```
 
 Note:
