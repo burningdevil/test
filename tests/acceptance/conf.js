@@ -1,6 +1,7 @@
 // Enable ES6 for Protractor
 require('@babel/register');
-require('@babel/polyfill');
+require('core-js/stable');
+require('regenerator-runtime');
 
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');

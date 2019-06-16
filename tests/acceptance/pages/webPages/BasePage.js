@@ -22,6 +22,7 @@ export default class BasePage {
     async wait(...condition) {
         return this.brwsr.wait(...condition);
     }
+    
     // Keyboard inputs
     async click({ elem, offset = { x: 0, y: 0 } }) {
         await this.brwsr.actions().mouseMove(elem).perform();

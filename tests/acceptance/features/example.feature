@@ -26,7 +26,7 @@ Feature: Example For Workstation Automation
 
     Examples:
       | itemName  | count |
-      | TEC.UB    | 3     |
+      | TEC.PD    | 3     |
       | TEC.AT    | 4     |
 
 #####   

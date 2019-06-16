@@ -16,7 +16,7 @@ Generally Page Objects for Workstation native will be reusable across teams.
 Please create a new branch and submit a pull request for whatever you want to improve. Code review will be performed by the designated POC.
 - TL-Workstation-Framework - Qingqing Fan
 - TL-Workstation-Architect - Chenqian Wu
-In the PR, please also modify the [reusable pattern list](./reusable-pattern-list) so others can easily check.
+In the PR, please also modify the [Reusable Pattern List](./reusable-pattern-list) so others can easily check.
 
 ## Style Guide
 ### JavaScript

@@ -16,7 +16,7 @@ General:
 ### For Mac:
 - Install the native OS X binary [AppiumForMac](https://github.com/appium/appium-for-mac/releases/tag/v0.3.0)
 - Follow the [installation instruction](https://github.com/appium/appium-for-mac#109-1010-1011-1012) to enable AppiumForMac to use the Accessibility API of Mac OS X
-- Install Workstation Mac with CEF (Currently the CEF version has not been merged yet, please download the dev build from [oneDrive](https://microstrategy-my.sharepoint.com/:f:/p/qfan/EpRHKbKMVqBMi0rr8fIJwb8Bb1zsIMsRcrXvIdKNA0owQw) )
+- Install Workstation Mac with CEF (Currently the CEF version has not been merged yet, please download the dev build from [oneDrive](https://microstrategy-my.sharepoint.com/:u:/p/qfan/EUTa_jGDmLhNrfZ-9C_aSQABBugwObi_W3M2YQkWahnz4A) )
 
 ## Install
 Clone this repository. Then go to

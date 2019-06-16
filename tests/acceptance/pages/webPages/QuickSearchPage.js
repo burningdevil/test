@@ -22,19 +22,6 @@ export default class QuickSearchPage extends BasePage {
     }).first();
   }
 
-  // Browser Utils
-  async executeScript(...args) {
-    return this.brwsr.executeScript(...args);
-  }
-
-  async sleep(duration) {
-    return this.brwsr.sleep(duration);
-  }
-
-  async wait(...condition) {
-    return this.brwsr.wait(...condition);
-  }
-
   // actions
   async awaitRendering() {
     return this.wait(this.EC.presenceOf(this.getQuickSearchList()), 3000, 'Result List is not present');
