@@ -41,13 +41,21 @@ exports.config = {
   cucumberOpts: {
     require: './features/step_definitions/**/*.js',  // require step definition files before executing features
     format: ["pretty", "json:Cucumber.json"],            // <string[]> (type[:path]) specify the output format, optionally supply PATH to redirect formatter output (repeatable)
-    // tags: ['@workstation'],
+    tags: ['@ub'],
     profile: false,
     'no-source': true
   },
 
   // parameters with default values
-  params: protractorArgs.browserParams,
+  // params: protractorArgs.browserParams,
+  params: {
+    login: {
+      username: '',
+      password: ''
+    },
+    enableUB: 'true',
+    ubReportAddress: './reports/raw/report1.json'
+  },
 
   // Launch workstation and initialize a CEF webview for Protractor to connect to.
   // params are not available in beforeLaunch() method.
@@ -93,29 +101,76 @@ exports.config = {
     const WindowBuilder = require('./pages/nativePages/WindowBuilder'); //change here
     ({ envConnection, mainWindow, dossierEditor, toolbar, smartTab } = WindowBuilder());
 
-    // connect to environment
-    for(let envIndex=0; envIndex<browser.params.envInfo.length; envIndex++) {
-      ({envName, envUrl, loginMode, userName, userPwd, projects} = browser.params.envInfo[envIndex]);
-      await envConnection.connectEnv(envName, envUrl);
-      await envConnection.loginToEnv(loginMode, userName, userPwd);
-      for(let projectIndex=0;projectIndex<projects.length;projectIndex++){
-        await envConnection.chooseProject(projects[projectIndex]);
-      }
-      await envConnection.clickOkToConnect();
-    }
+    // // connect to environment
+    // for(let envIndex=0; envIndex<browser.params.envInfo.length; envIndex++) {
+    //   ({envName, envUrl, loginMode, userName, userPwd, projects} = browser.params.envInfo[envIndex]);
+    //   await envConnection.connectEnv(envName, envUrl);
+    //   await envConnection.loginToEnv(loginMode, userName, userPwd);
+    //   for(let projectIndex=0;projectIndex<projects.length;projectIndex++){
+    //     await envConnection.chooseProject(projects[projectIndex]);
+    //   }
+    //   await envConnection.clickOkToConnect();
+    // }
 
-    // first-time cache generation for mac (if needed)
-    if (OSType === 'mac') {
-      await smartTab.selectTab('Dossiers');
-      await smartTab.app.sleep(30000);
+    // // first-time cache generation for mac (if needed)
+    // if (OSType === 'mac') {
+    //   await smartTab.selectTab('Dossiers');
+    //   await smartTab.app.sleep(30000);
+    // }
+
+    //get PID list of workstation and workstation helpers
+    const psList = require('ps-list');
+    let mylist = await psList(); 	//=> [{pid: 3213, name: 'node', cmd: 'node test.js', ppid: 1, uid: 501, cpu: 0.1, memory: 1.5}, …]
+    let workstationPidList = [];
+    let workstationHelperPidList = [];
+    mylist.forEach(function (process) {
+      if (process.name === "MicroStrategy Workstation") {
+        workstationPidList.push(process.pid);
+      }
+      if (process.name === "MicroStrategy Workstation Helper") {
+        workstationHelperPidList.push(process.pid);
+      }
+    });
+    global.workstationPidLists = {
+      workstationPidList : workstationPidList,
+      workstationHelperPidList : workstationHelperPidList
+    };
+    console.log("global: the pid of workstation is: " + global.workstationPidList);
+
+    //init ubData 
+    global.ubData = [];
+
+    //clear data in report3
+    let fs = require('fs');
+
+    // if(fs.existsSync()){
+    try{
+      fs.unlinkSync(`${browser.params.ubReportAddress}`, (err) => {
+        if (err) {
+          console.log("no such file");
+        } else {
+          console.log(`${browser.params.ubReportAddress} is deleted`);
+        }
+      });
+    } catch(err) {
+      console.log("no such file");
+      console.log(err);
     }
   },
 
   onComplete: async () => {
     // remove environment
-    await smartTab.selectTab('Environments')
-    for(let envIndex=0; envIndex<browser.params.envInfo.length; envIndex++) {
-      await envConnection.removeEnv(browser.params.envInfo[envIndex].envName)
+    // await smartTab.selectTab('Environments')
+    // for(let envIndex=0; envIndex<browser.params.envInfo.length; envIndex++) {
+    //   await envConnection.removeEnv(browser.params.envInfo[envIndex].envName)
+    // }
+
+
+    let fs = require('fs');
+    if(!fs.existsSync()){
+      //for user to understand UB workflow
+      console.info(`generating ${browser.params.ubReportAddress}`);
+      fs.appendFileSync(`${browser.params.ubReportAddress}`, JSON.stringify(global.ubData, null, 2), 'UTF-8');
     }
   },
 
