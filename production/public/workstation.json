@@ -16,6 +16,18 @@
             "section": "Resources",
             "index": 1
           }
+        },
+        {
+          "key": "sfModule3",
+          "displayName": "Environment History",
+          "command": "openEnvHistory",
+          "ribbonColor": "#238AD0",
+          "icon": "three.png",
+          "selectedIcon": "three.png",
+          "location": {
+            "section": "Manage",
+            "index": 0
+          }
         }
       ]
     },
