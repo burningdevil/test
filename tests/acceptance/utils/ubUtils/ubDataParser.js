@@ -11,11 +11,11 @@ let workstationHelpersResult = parseWorkstationHelpersList(workstationHelperList
 
 let fs = require('fs');
 try {
-    fs.unlinkSync('./ubReport.json', (err) => {
+    fs.unlinkSync('./reports/ubIndividual/ubReport1.json', (err) => {
     if (err) {
         console.error("no such file");
     } else {
-        console.info('./ubReport.json was deleted');
+        console.info('./reports/ubIndividual/ubReport1.json was deleted');
     }
     });
 } catch (err) {
