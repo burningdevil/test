@@ -9,21 +9,23 @@ let workstationResult = parseWorkstationList(workstationDataList);
 let workstationHelpersResult = parseWorkstationHelpersList(workstationHelperList);
 // console.log(workstationHelpersResult);
 
+let upReportAddress = "./reports/ubIndividual/ubReport5.json";
+
 let fs = require('fs');
 try {
-    fs.unlinkSync('./reports/ubIndividual/ubReport1.json', (err) => {
+    fs.unlinkSync(upReportAddress, (err) => {
     if (err) {
         console.error("no such file");
     } else {
-        console.info('./reports/ubIndividual/ubReport1.json was deleted');
+        console.info(`${upReportAddress} was deleted`);
     }
     });
 } catch (err) {
-    console.error("./reports/ubIndividual/ubReport1.json did not exist");
+    console.error(`${upReportAddress} did not exist`);
 }
 
-console.info("generating ./reports/ubIndividual/ubReport1.json");
-fs.appendFileSync('./reports/ubIndividual/ubReport1.json', JSON.stringify({workstation: workstationResult, workstationHelpers: workstationHelpersResult}, null, 2), 'UTF-8');
+console.info(`generating ${upReportAddress}`);
+fs.appendFileSync(upReportAddress, JSON.stringify({workstation: workstationResult, workstationHelpers: workstationHelpersResult}, null, 2), 'UTF-8');
 
 
 function parseWorkstationList(dataList) {
