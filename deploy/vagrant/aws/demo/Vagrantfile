@@ -1,5 +1,0 @@
-Vagrant::Project.configure(:aws) do |env|
-  TKN-.-snake_case_project_name-.-TKN_centos :"TKN-.-snake_case_project_name-.-TKN_centos_#{Git.branch_name}_demo" do
-
-  end
-end

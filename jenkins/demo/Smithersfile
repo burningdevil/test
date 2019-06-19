@@ -27,7 +27,7 @@ only when all regression tests are passing'
     end
   end
 
-  assigned_node_string '<%= @slave_label %>'
+  assigned_node_string 'amazon_linux'
 
   builders do
     bash do
@@ -39,17 +39,13 @@ export PATH=/usr/local/sbin:/usr/local/bin:$PATH
 export WORKSPACE_SETTING=aws_demo
 source .ecosystem
 
-rake deploy[$APPLICATION_VERSION]
+rake upload
 '
     end
   end
 
   publishers do
-    html do
-      report_name 'Vagrant Logs'
-      report_directory_path "path/to/vagrant/logs"
-      index_file_name 'index.html'
-    end
+
   end
 
 end
