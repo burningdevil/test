@@ -166,18 +166,19 @@ exports.config = {
     // }
 
 
+    
+  },
+
+  afterLaunch: async () => {
+    // quit Workstation
+    const quitWorkstation = require('./utils/wsUtils/quitWorkstation');
+    await quitWorkstation();
     let fs = require('fs');
     if(!fs.existsSync()){
       //for user to understand UB workflow
       console.info(`generating ${browser.params.ubReportAddress}`);
       fs.appendFileSync(`${browser.params.ubReportAddress}`, JSON.stringify(global.ubData, null, 2), 'UTF-8');
     }
-  },
-
-  afterLaunch: () => {
-    // quit Workstation
-    const quitWorkstation = require('./utils/wsUtils/quitWorkstation');
-    return quitWorkstation();
   }
 
 }
