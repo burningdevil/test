@@ -6,7 +6,7 @@ include ShellHelper::Shell
 desc "build project in #{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}"
 task :build do
   node_modules_folder = "#{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}/workstation-architect/production/node_modules"
-  FileUtils.rm_rf(node_modules_folder) if File.exist?(build_folder)
+  FileUtils.rm_rf(node_modules_folder) if File.exist?(node_modules_folder)
   shell_command!(
     'docker run -v /Users/chwu/Projects/microstrategy/kiai/workstation-architect/production:/mnt/production --entrypoint "/bin/sh" node:10-alpine /mnt/production/build.sh',
     cwd: $WORKSPACE_SETTINGS[:paths][:project][:production][:home]
