@@ -19,10 +19,10 @@ set +xe
 
 export PATH=/usr/local/sbin:/usr/local/bin:$PATH
 
-export WORKSPACE_SETTING=aws_dev
+export WORKSPACE_SETTING=dev
 source .ecosystem
 
-rake build upload
+rake upload
 '
     end
   end
