@@ -91,7 +91,7 @@ exports.config = {
 
     // build windows for Workstation
     const WindowBuilder = require('./pages/nativePages/WindowBuilder'); //change here
-    ({ envConnection, mainWindow, dossierEditor, toolbar, smartTab } = WindowBuilder());
+    ({ envConnection, mainWindow, dossierEditor, toolbar, smartTab, menuBar } = WindowBuilder());
 
     // connect to environment
     for(let envIndex=0; envIndex<browser.params.envInfo.length; envIndex++) {

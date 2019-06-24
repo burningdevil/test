@@ -1,13 +1,13 @@
 async function quitWorkstation() {
     console.log(`Quitting Workstation...`);
     if (OSType === 'windows') {
-        return  workstationApp.closeApp();
+        await  workstationApp.closeApp();
     } else {
-        const workstationMainWindow = MAC_XPATH['workstationMainWindow'];
-        let close = await workstationApp.elementByXPath(workstationMainWindow.closeWorkstation);
-        await close.click();
-        return workstationApp.sleep(1000);
+        await menuBar.clickMenuItem('MicroStrategy Workstation');
+        await menuBar.clickMenuItemOption('MicroStrategy Workstation', 'Quit MicroStrategy Workstation');
+        await workstationApp.sleep(2000);
     }
+    workstationApp.quit();
 }
 
 module.exports = quitWorkstation;

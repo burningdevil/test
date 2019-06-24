@@ -2,7 +2,7 @@
 
 ## General
 - Launch Workstaiton
-- Close Workstation
+- Close/Quit Workstation
 
 ## Native Page Objects
 ### Environment
@@ -13,6 +13,9 @@
 - Switch Tabs
 - First-time caching after switching Tab (Mac)
 - Create a new item for the specific Tab
+
+### Menu Bars
+- Select Menu Option (Mac)
 
 ### Dossier Editor
 - Dossier Editor display check
