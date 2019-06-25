@@ -15,7 +15,7 @@ end
 
 desc "package project in #{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}"
 task :package => [:build] do
-  build_folder = "#{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}/workstation-architect/.build"
+  build_folder = "#{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}/.build"
   FileUtils.rm_rf(build_folder) if File.exist?(build_folder)
   FileUtils.mkdir_p(build_folder) unless File.exist?(build_folder)
   shell_command!(
