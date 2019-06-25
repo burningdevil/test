@@ -6,7 +6,7 @@ produces and publishes a versioned deployment package'
 
   configure_common_items{}
 
-  assigned_node_string '<%= @slave_label %>'
+  assigned_node_string 'amazon_linux'
 
   concurrent_build true
 
@@ -22,7 +22,7 @@ produces and publishes a versioned deployment package'
       script '#!/usr/bin/env bash
 set +xe
 export PATH=/usr/local/sbin:/usr/local/bin:$PATH
-export WORKSPACE_SETTING=aws_dev
+export WORKSPACE_SETTING=dev
 
 source .ecosystem
 
