@@ -32,7 +32,23 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
     let counter;
 
     if (browser.params.enableUB === 'true') {
-      counter = setInterval(function () {
+      pidusage(workstationPidList, function (err, stats) {  
+        if (stats) {
+
+          stats.feature = featureDescriptions.featureName;
+          stats.scenario= featureDescriptions.scenarioName;
+          stats.pattern = pattern;
+          stats.patternID = patternID;
+
+          stats.source = "Workstation";
+          
+          wsUBData.push(stats);
+        } else {
+          console.log("no status");
+          wsUBData.push({"pattern" : pattern});
+        }
+      });
+      counter = await setInterval(function () {
         pidusage(workstationPidList, function (err, stats) {  
           if (stats) {
 
@@ -45,6 +61,7 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
             
             wsUBData.push(stats);
           } else {
+            console.log("no status");
             wsUBData.push({"pattern" : pattern});
           }
           // console.log(stats)
@@ -84,7 +101,7 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
       throw new Error('error happened in the function wrapper');
     } finally {
       if (counter) {
-        clearInterval(counter);
+        await clearInterval(counter);
       }
     }
 
@@ -118,7 +135,7 @@ Before(async function (scenarioResult) {
 });
 
 
-After(function () {
+After(async function () {
 
   patternID = 0;
   global.ubData.push({

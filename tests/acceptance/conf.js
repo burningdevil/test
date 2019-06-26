@@ -47,15 +47,15 @@ exports.config = {
   },
 
   // parameters with default values
-  // params: protractorArgs.browserParams,
-  params: {
-    login: {
-      username: '',
-      password: ''
-    },
-    enableUB: 'true',
-    ubReportAddress: './reports/raw/report1.json'
-  },
+  params: protractorArgs.browserParams,
+  // params: {
+  //   // login: {
+  //   //   username: '',
+  //   //   password: ''
+  //   // },
+  //   // enableUB: 'true',
+    
+  // },
 
   // Launch workstation and initialize a CEF webview for Protractor to connect to.
   // params are not available in beforeLaunch() method.
@@ -101,22 +101,22 @@ exports.config = {
     const WindowBuilder = require('./pages/nativePages/WindowBuilder'); //change here
     ({ envConnection, mainWindow, dossierEditor, toolbar, smartTab } = WindowBuilder());
 
-    // // connect to environment
-    // for(let envIndex=0; envIndex<browser.params.envInfo.length; envIndex++) {
-    //   ({envName, envUrl, loginMode, userName, userPwd, projects} = browser.params.envInfo[envIndex]);
-    //   await envConnection.connectEnv(envName, envUrl);
-    //   await envConnection.loginToEnv(loginMode, userName, userPwd);
-    //   for(let projectIndex=0;projectIndex<projects.length;projectIndex++){
-    //     await envConnection.chooseProject(projects[projectIndex]);
-    //   }
-    //   await envConnection.clickOkToConnect();
-    // }
+    // connect to environment
+    for(let envIndex=0; envIndex<browser.params.envInfo.length; envIndex++) {
+      ({envName, envUrl, loginMode, userName, userPwd, projects} = browser.params.envInfo[envIndex]);
+      await envConnection.connectEnv(envName, envUrl);
+      await envConnection.loginToEnv(loginMode, userName, userPwd);
+      for(let projectIndex=0;projectIndex<projects.length;projectIndex++){
+        await envConnection.chooseProject(projects[projectIndex]);
+      }
+      await envConnection.clickOkToConnect();
+    }
 
-    // // first-time cache generation for mac (if needed)
-    // if (OSType === 'mac') {
-    //   await smartTab.selectTab('Dossiers');
-    //   await smartTab.app.sleep(30000);
-    // }
+    // first-time cache generation for mac (if needed)
+    if (OSType === 'mac') {
+      await smartTab.selectTab('Dossiers');
+      await smartTab.app.sleep(30000);
+    }
 
     //get PID list of workstation and workstation helpers
     const psList = require('ps-list');
@@ -132,10 +132,10 @@ exports.config = {
       }
     });
     global.workstationPidLists = {
-      workstationPidList : workstationPidList,
-      workstationHelperPidList : workstationHelperPidList
+      workstationPidList,
+      workstationHelperPidList
     };
-    console.log("global: the pid of workstation is: " + global.workstationPidList);
+    console.log("global: the pid of workstation is: " + workstationPidList);
 
     //init ubData 
     global.ubData = [];
@@ -159,11 +159,11 @@ exports.config = {
   },
 
   onComplete: async () => {
-    // remove environment
-    // await smartTab.selectTab('Environments')
-    // for(let envIndex=0; envIndex<browser.params.envInfo.length; envIndex++) {
-    //   await envConnection.removeEnv(browser.params.envInfo[envIndex].envName)
-    // }
+    //remove environment
+    await smartTab.selectTab('Environments')
+    for(let envIndex=0; envIndex<browser.params.envInfo.length; envIndex++) {
+      await envConnection.removeEnv(browser.params.envInfo[envIndex].envName)
+    }
 
 
     

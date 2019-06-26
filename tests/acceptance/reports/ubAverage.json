@@ -1,0 +1,182 @@
+{
+  "workstation": [
+    {
+      "feature": "Example For Workstation Automation",
+      "scenario": "Search and open luntan3",
+      "pattern": "I search for {searchString}",
+      "patternID": "1",
+      "source": "Workstation",
+      "maxCPU": 41.8420036846452,
+      "avgCPU": 21.321001842322598,
+      "maxMemory": 696433868.8,
+      "avgMemory": 696160256,
+      "duration": 501
+    },
+    {
+      "feature": "Example For Workstation Automation",
+      "scenario": "Search and open luntan3",
+      "pattern": "Result Popup should be displayed with {int} items",
+      "patternID": "2",
+      "source": "Workstation",
+      "maxCPU": 11.4,
+      "avgCPU": 5.7,
+      "maxMemory": 700806758.4,
+      "avgMemory": 700803072,
+      "duration": 505.8
+    },
+    {
+      "feature": "Example For Workstation Automation",
+      "scenario": "Search and open luntan3",
+      "pattern": "I click on item {itemName}",
+      "patternID": "3",
+      "source": "Workstation",
+      "maxCPU": 60.2,
+      "avgCPU": 6,
+      "maxMemory": 1082162380.8,
+      "avgMemory": 1053044408.32,
+      "duration": 9567
+    },
+    {
+      "feature": "Example For Workstation Automation",
+      "scenario": "Search and open luntan3",
+      "pattern": "I clear search",
+      "patternID": "6",
+      "source": "Workstation",
+      "maxCPU": 26.8,
+      "avgCPU": 26.8,
+      "maxMemory": 1074235801.6,
+      "avgMemory": 1074235801.6,
+      "duration": 0
+    },
+    {
+      "feature": "Example For Workstation Automation",
+      "scenario": "Search and open luntan4",
+      "pattern": "I search for {searchString}",
+      "patternID": "1",
+      "source": "Workstation",
+      "maxCPU": 2.4,
+      "avgCPU": 2.4,
+      "maxMemory": 1074000691.2,
+      "avgMemory": 1074000691.2,
+      "duration": 0
+    },
+    {
+      "feature": "Example For Workstation Automation",
+      "scenario": "Search and open luntan4",
+      "pattern": "Result Popup should be displayed with {int} items",
+      "patternID": "2",
+      "source": "Workstation",
+      "maxCPU": 10.4,
+      "avgCPU": 5.2,
+      "maxMemory": 1017357107.2,
+      "avgMemory": 1017354240,
+      "duration": 505.6
+    },
+    {
+      "feature": "Example For Workstation Automation",
+      "scenario": "Search and open luntan4",
+      "pattern": "I click on item {itemName}",
+      "patternID": "3",
+      "source": "Workstation",
+      "maxCPU": 48,
+      "avgCPU": 3.1100000000000003,
+      "maxMemory": 1173596569.6,
+      "avgMemory": 1165214105.6,
+      "duration": 9563
+    },
+    {
+      "feature": "Example For Workstation Automation",
+      "scenario": "Search and open luntan4",
+      "pattern": "I clear search",
+      "patternID": "6",
+      "source": "Workstation",
+      "maxCPU": 13.2,
+      "avgCPU": 13.2,
+      "maxMemory": 1164633702.4,
+      "avgMemory": 1164633702.4,
+      "duration": 0
+    }
+  ],
+  "workstationHelpers": [
+    {
+      "feature": "Example For Workstation Automation",
+      "scenario": "Search and open luntan3",
+      "pattern": "I search for {searchString}",
+      "patternID": "1",
+      "source": "Workstation Helper",
+      "cpu": 0.5123332710765325,
+      "memory": 62138368,
+      "duration": 500.8
+    },
+    {
+      "feature": "Example For Workstation Automation",
+      "scenario": "Search and open luntan3",
+      "pattern": "Result Popup should be displayed with {int} items",
+      "patternID": "2",
+      "source": "Workstation Helper",
+      "cpu": 2.9,
+      "memory": 65756774.4,
+      "duration": 506.4
+    },
+    {
+      "feature": "Example For Workstation Automation",
+      "scenario": "Search and open luntan3",
+      "pattern": "I click on item {itemName}",
+      "patternID": "3",
+      "source": "Workstation Helper",
+      "cpu": 5,
+      "memory": 69718835.2,
+      "duration": 9566.8
+    },
+    {
+      "feature": "Example For Workstation Automation",
+      "scenario": "Search and open luntan3",
+      "pattern": "I clear search",
+      "patternID": "6",
+      "source": "Workstation Helper",
+      "cpu": 1.3,
+      "memory": 70051840,
+      "duration": 0
+    },
+    {
+      "feature": "Example For Workstation Automation",
+      "scenario": "Search and open luntan4",
+      "pattern": "I search for {searchString}",
+      "patternID": "1",
+      "source": "Workstation Helper",
+      "cpu": 0,
+      "memory": 69851136,
+      "duration": 0
+    },
+    {
+      "feature": "Example For Workstation Automation",
+      "scenario": "Search and open luntan4",
+      "pattern": "Result Popup should be displayed with {int} items",
+      "patternID": "2",
+      "source": "Workstation Helper",
+      "cpu": 1.1,
+      "memory": 70141132.8,
+      "duration": 505.8
+    },
+    {
+      "feature": "Example For Workstation Automation",
+      "scenario": "Search and open luntan4",
+      "pattern": "I click on item {itemName}",
+      "patternID": "3",
+      "source": "Workstation Helper",
+      "cpu": 2,
+      "memory": 71289241.6,
+      "duration": 9563
+    },
+    {
+      "feature": "Example For Workstation Automation",
+      "scenario": "Search and open luntan4",
+      "pattern": "I clear search",
+      "patternID": "6",
+      "source": "Workstation Helper",
+      "cpu": 0.9,
+      "memory": 71662387.2,
+      "duration": 0
+    }
+  ]
+}

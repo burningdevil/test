@@ -9,7 +9,7 @@ let workstationResult = parseWorkstationList(workstationDataList);
 let workstationHelpersResult = parseWorkstationHelpersList(workstationHelperList);
 // console.log(workstationHelpersResult);
 
-let upReportAddress = "./reports/ubIndividual/ubReport5.json";
+let upReportAddress = "./reports/ubIndividual/ubReport1.json";
 
 let fs = require('fs');
 try {

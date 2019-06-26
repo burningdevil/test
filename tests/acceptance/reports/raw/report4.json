@@ -1,0 +1,4032 @@
+[
+  {
+    "workstation": [
+      {
+        "68568": {
+          "cpu": 41.07272727272727,
+          "memory": 710688768,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 22590,
+          "elapsed": 55000,
+          "timestamp": 1561511903074
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I search for {searchString}",
+        "patternID": 1,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 710811648,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 22610,
+          "elapsed": 55000,
+          "timestamp": 1561511903574
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I search for {searchString}",
+        "patternID": 1,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 11,
+          "memory": 715874304,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 22720,
+          "elapsed": 56000,
+          "timestamp": 1561511904186
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "Result Popup should be displayed with {int} items",
+        "patternID": 2,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 715878400,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 22720,
+          "elapsed": 56000,
+          "timestamp": 1561511904692
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "Result Popup should be displayed with {int} items",
+        "patternID": 2,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 46,
+          "memory": 803090432,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 23180,
+          "elapsed": 57000,
+          "timestamp": 1561511905339
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 905695232,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 23740,
+          "elapsed": 57000,
+          "timestamp": 1561511905845
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 63,
+          "memory": 1094754304,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24370,
+          "elapsed": 58000,
+          "timestamp": 1561511906351
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1098735616,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24720,
+          "elapsed": 58000,
+          "timestamp": 1561511906857
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1098735616,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24720,
+          "elapsed": 59000,
+          "timestamp": 1561511907359
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1098735616,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24720,
+          "elapsed": 59000,
+          "timestamp": 1561511907857
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 2,
+          "memory": 1098764288,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24740,
+          "elapsed": 60000,
+          "timestamp": 1561511908360
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1098764288,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24740,
+          "elapsed": 60000,
+          "timestamp": 1561511908866
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 10,
+          "memory": 1098858496,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24840,
+          "elapsed": 61000,
+          "timestamp": 1561511909370
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1098514432,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24850,
+          "elapsed": 61000,
+          "timestamp": 1561511909875
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1098268672,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24850,
+          "elapsed": 62000,
+          "timestamp": 1561511910378
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1097826304,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24850,
+          "elapsed": 62000,
+          "timestamp": 1561511910883
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 1,
+          "memory": 1097625600,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24860,
+          "elapsed": 63000,
+          "timestamp": 1561511911383
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1097625600,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24860,
+          "elapsed": 63000,
+          "timestamp": 1561511911888
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1097625600,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24860,
+          "elapsed": 64000,
+          "timestamp": 1561511912389
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1097625600,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24860,
+          "elapsed": 64000,
+          "timestamp": 1561511912893
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 1,
+          "memory": 1097613312,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24870,
+          "elapsed": 65000,
+          "timestamp": 1561511913397
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1095208960,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24880,
+          "elapsed": 65000,
+          "timestamp": 1561511913896
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 5,
+          "memory": 1095094272,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24930,
+          "elapsed": 66000,
+          "timestamp": 1561511914402
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1095094272,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24930,
+          "elapsed": 66000,
+          "timestamp": 1561511914908
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 25,
+          "memory": 1087676416,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 25180,
+          "elapsed": 67000,
+          "timestamp": 1561511915682
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I clear search",
+        "patternID": 6,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 4,
+          "memory": 1087524864,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 25220,
+          "elapsed": 68000,
+          "timestamp": 1561511916514
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I search for {searchString}",
+        "patternID": 1,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 10,
+          "memory": 1031409664,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 25320,
+          "elapsed": 69000,
+          "timestamp": 1561511917352
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "Result Popup should be displayed with {int} items",
+        "patternID": 2,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1031380992,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 25330,
+          "elapsed": 69000,
+          "timestamp": 1561511917858
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "Result Popup should be displayed with {int} items",
+        "patternID": 2,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 13,
+          "memory": 1063530496,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 25460,
+          "elapsed": 70000,
+          "timestamp": 1561511918489
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1155137536,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26100,
+          "elapsed": 70000,
+          "timestamp": 1561511918990
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 34,
+          "memory": 1193406464,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26440,
+          "elapsed": 71000,
+          "timestamp": 1561511919492
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1193410560,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26440,
+          "elapsed": 71000,
+          "timestamp": 1561511919995
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1193385984,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26440,
+          "elapsed": 72000,
+          "timestamp": 1561511920496
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1193385984,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26440,
+          "elapsed": 72000,
+          "timestamp": 1561511920996
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 2,
+          "memory": 1193435136,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26460,
+          "elapsed": 73000,
+          "timestamp": 1561511921502
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 8,
+          "memory": 1193295872,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26540,
+          "elapsed": 74000,
+          "timestamp": 1561511922001
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1193017344,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26540,
+          "elapsed": 74000,
+          "timestamp": 1561511922504
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 1,
+          "memory": 1192628224,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26550,
+          "elapsed": 75000,
+          "timestamp": 1561511923010
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1192214528,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26550,
+          "elapsed": 75000,
+          "timestamp": 1561511923514
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1192062976,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26550,
+          "elapsed": 76000,
+          "timestamp": 1561511924019
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1191968768,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26560,
+          "elapsed": 76000,
+          "timestamp": 1561511924522
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 1,
+          "memory": 1191968768,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26570,
+          "elapsed": 77000,
+          "timestamp": 1561511925025
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1191108608,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26570,
+          "elapsed": 77000,
+          "timestamp": 1561511925529
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1184804864,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26570,
+          "elapsed": 78000,
+          "timestamp": 1561511926031
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1184788480,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26570,
+          "elapsed": 78000,
+          "timestamp": 1561511926534
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 1,
+          "memory": 1182863360,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26580,
+          "elapsed": 79000,
+          "timestamp": 1561511927038
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1182863360,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26580,
+          "elapsed": 79000,
+          "timestamp": 1561511927540
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1182863360,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26580,
+          "elapsed": 80000,
+          "timestamp": 1561511928042
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1184518144,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26800,
+          "elapsed": 80000,
+          "timestamp": 1561511928774
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I clear search",
+        "patternID": 6,
+        "source": "Workstation"
+      }
+    ],
+    "workstation_helper": [
+      {
+        "68573": {
+          "cpu": 0.35185185185185186,
+          "memory": 55386112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 190,
+          "elapsed": 54000,
+          "timestamp": 1561511903076
+        },
+        "68578": {
+          "cpu": 0.6326530612244898,
+          "memory": 73076736,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 310,
+          "elapsed": 49000,
+          "timestamp": 1561511903076
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I search for {searchString}",
+        "patternID": 1,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 55386112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 190,
+          "elapsed": 54000,
+          "timestamp": 1561511903576
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 73076736,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 310,
+          "elapsed": 49000,
+          "timestamp": 1561511903576
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I search for {searchString}",
+        "patternID": 1,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 3,
+          "memory": 58089472,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 220,
+          "elapsed": 55000,
+          "timestamp": 1561511904188
+        },
+        "68578": {
+          "cpu": 3,
+          "memory": 77647872,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 340,
+          "elapsed": 50000,
+          "timestamp": 1561511904188
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "Result Popup should be displayed with {int} items",
+        "patternID": 2,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58089472,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 220,
+          "elapsed": 55000,
+          "timestamp": 1561511904695
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 77647872,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 340,
+          "elapsed": 50000,
+          "timestamp": 1561511904695
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "Result Popup should be displayed with {int} items",
+        "patternID": 2,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 2,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 56000,
+          "timestamp": 1561511905342
+        },
+        "68578": {
+          "cpu": 10,
+          "memory": 85491712,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 51000,
+          "timestamp": 1561511905342
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 56000,
+          "timestamp": 1561511905847
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85491712,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 51000,
+          "timestamp": 1561511905847
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 57000,
+          "timestamp": 1561511906353
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85491712,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 52000,
+          "timestamp": 1561511906353
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 57000,
+          "timestamp": 1561511906859
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85491712,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 52000,
+          "timestamp": 1561511906859
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 58000,
+          "timestamp": 1561511907361
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85491712,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 53000,
+          "timestamp": 1561511907361
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 58000,
+          "timestamp": 1561511907859
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85491712,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 53000,
+          "timestamp": 1561511907859
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 59000,
+          "timestamp": 1561511908364
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85491712,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 54000,
+          "timestamp": 1561511908364
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 59000,
+          "timestamp": 1561511908868
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85491712,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 54000,
+          "timestamp": 1561511908868
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 60000,
+          "timestamp": 1561511909372
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85491712,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 55000,
+          "timestamp": 1561511909372
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 60000,
+          "timestamp": 1561511909877
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85491712,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 55000,
+          "timestamp": 1561511909877
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 61000,
+          "timestamp": 1561511910380
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85463040,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 56000,
+          "timestamp": 1561511910380
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 61000,
+          "timestamp": 1561511910885
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85463040,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 56000,
+          "timestamp": 1561511910885
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 62000,
+          "timestamp": 1561511911386
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85463040,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 57000,
+          "timestamp": 1561511911386
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 62000,
+          "timestamp": 1561511911890
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85463040,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 57000,
+          "timestamp": 1561511911890
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 63000,
+          "timestamp": 1561511912391
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85463040,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 58000,
+          "timestamp": 1561511912391
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 63000,
+          "timestamp": 1561511912896
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85463040,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 58000,
+          "timestamp": 1561511912896
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 64000,
+          "timestamp": 1561511913399
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85463040,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 59000,
+          "timestamp": 1561511913399
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 64000,
+          "timestamp": 1561511913898
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85463040,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 450,
+          "elapsed": 59000,
+          "timestamp": 1561511913898
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 65000,
+          "timestamp": 1561511914405
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85463040,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 450,
+          "elapsed": 60000,
+          "timestamp": 1561511914405
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 65000,
+          "timestamp": 1561511914910
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85463040,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 450,
+          "elapsed": 60000,
+          "timestamp": 1561511914910
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 2,
+          "memory": 58613760,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 260,
+          "elapsed": 66000,
+          "timestamp": 1561511915684
+        },
+        "68578": {
+          "cpu": 1,
+          "memory": 85798912,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 460,
+          "elapsed": 61000,
+          "timestamp": 1561511915684
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I clear search",
+        "patternID": 6,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58355712,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 260,
+          "elapsed": 67000,
+          "timestamp": 1561511916517
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85635072,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 460,
+          "elapsed": 62000,
+          "timestamp": 1561511916517
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I search for {searchString}",
+        "patternID": 1,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 1,
+          "memory": 58662912,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 68000,
+          "timestamp": 1561511917354
+        },
+        "68578": {
+          "cpu": 1,
+          "memory": 85880832,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 470,
+          "elapsed": 63000,
+          "timestamp": 1561511917354
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "Result Popup should be displayed with {int} items",
+        "patternID": 2,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58662912,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 68000,
+          "timestamp": 1561511917861
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85880832,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 470,
+          "elapsed": 63000,
+          "timestamp": 1561511917861
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "Result Popup should be displayed with {int} items",
+        "patternID": 2,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 69000,
+          "timestamp": 1561511918491
+        },
+        "68578": {
+          "cpu": 6,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 64000,
+          "timestamp": 1561511918491
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 69000,
+          "timestamp": 1561511918993
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 64000,
+          "timestamp": 1561511918993
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 70000,
+          "timestamp": 1561511919494
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 65000,
+          "timestamp": 1561511919494
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 70000,
+          "timestamp": 1561511919998
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 65000,
+          "timestamp": 1561511919998
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 71000,
+          "timestamp": 1561511920499
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 66000,
+          "timestamp": 1561511920499
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 71000,
+          "timestamp": 1561511921000
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 66000,
+          "timestamp": 1561511921000
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 72000,
+          "timestamp": 1561511921504
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 67000,
+          "timestamp": 1561511921504
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 73000,
+          "timestamp": 1561511922003
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 68000,
+          "timestamp": 1561511922003
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 73000,
+          "timestamp": 1561511922507
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 68000,
+          "timestamp": 1561511922507
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 74000,
+          "timestamp": 1561511923012
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 69000,
+          "timestamp": 1561511923012
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 74000,
+          "timestamp": 1561511923516
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 69000,
+          "timestamp": 1561511923516
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 75000,
+          "timestamp": 1561511924021
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 70000,
+          "timestamp": 1561511924021
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 75000,
+          "timestamp": 1561511924524
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 70000,
+          "timestamp": 1561511924524
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 76000,
+          "timestamp": 1561511925027
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 71000,
+          "timestamp": 1561511925027
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 76000,
+          "timestamp": 1561511925531
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 71000,
+          "timestamp": 1561511925531
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 77000,
+          "timestamp": 1561511926033
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 72000,
+          "timestamp": 1561511926033
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 77000,
+          "timestamp": 1561511926537
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 72000,
+          "timestamp": 1561511926537
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 78000,
+          "timestamp": 1561511927040
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 73000,
+          "timestamp": 1561511927040
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 78000,
+          "timestamp": 1561511927542
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 73000,
+          "timestamp": 1561511927542
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 79000,
+          "timestamp": 1561511928044
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 74000,
+          "timestamp": 1561511928044
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58900480,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 290,
+          "elapsed": 79000,
+          "timestamp": 1561511928776
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 88383488,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 540,
+          "elapsed": 74000,
+          "timestamp": 1561511928776
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I clear search",
+        "patternID": 6,
+        "source": "Workstation Helper"
+      }
+    ]
+  },
+  {
+    "workstation": [
+      {
+        "68568": {
+          "cpu": 41.07272727272727,
+          "memory": 710688768,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 22590,
+          "elapsed": 55000,
+          "timestamp": 1561511903074
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I search for {searchString}",
+        "patternID": 1,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 710811648,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 22610,
+          "elapsed": 55000,
+          "timestamp": 1561511903574
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I search for {searchString}",
+        "patternID": 1,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 11,
+          "memory": 715874304,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 22720,
+          "elapsed": 56000,
+          "timestamp": 1561511904186
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "Result Popup should be displayed with {int} items",
+        "patternID": 2,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 715878400,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 22720,
+          "elapsed": 56000,
+          "timestamp": 1561511904692
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "Result Popup should be displayed with {int} items",
+        "patternID": 2,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 46,
+          "memory": 803090432,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 23180,
+          "elapsed": 57000,
+          "timestamp": 1561511905339
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 905695232,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 23740,
+          "elapsed": 57000,
+          "timestamp": 1561511905845
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 63,
+          "memory": 1094754304,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24370,
+          "elapsed": 58000,
+          "timestamp": 1561511906351
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1098735616,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24720,
+          "elapsed": 58000,
+          "timestamp": 1561511906857
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1098735616,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24720,
+          "elapsed": 59000,
+          "timestamp": 1561511907359
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1098735616,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24720,
+          "elapsed": 59000,
+          "timestamp": 1561511907857
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 2,
+          "memory": 1098764288,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24740,
+          "elapsed": 60000,
+          "timestamp": 1561511908360
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1098764288,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24740,
+          "elapsed": 60000,
+          "timestamp": 1561511908866
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 10,
+          "memory": 1098858496,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24840,
+          "elapsed": 61000,
+          "timestamp": 1561511909370
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1098514432,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24850,
+          "elapsed": 61000,
+          "timestamp": 1561511909875
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1098268672,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24850,
+          "elapsed": 62000,
+          "timestamp": 1561511910378
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1097826304,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24850,
+          "elapsed": 62000,
+          "timestamp": 1561511910883
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 1,
+          "memory": 1097625600,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24860,
+          "elapsed": 63000,
+          "timestamp": 1561511911383
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1097625600,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24860,
+          "elapsed": 63000,
+          "timestamp": 1561511911888
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1097625600,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24860,
+          "elapsed": 64000,
+          "timestamp": 1561511912389
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1097625600,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24860,
+          "elapsed": 64000,
+          "timestamp": 1561511912893
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 1,
+          "memory": 1097613312,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24870,
+          "elapsed": 65000,
+          "timestamp": 1561511913397
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1095208960,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24880,
+          "elapsed": 65000,
+          "timestamp": 1561511913896
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 5,
+          "memory": 1095094272,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24930,
+          "elapsed": 66000,
+          "timestamp": 1561511914402
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1095094272,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 24930,
+          "elapsed": 66000,
+          "timestamp": 1561511914908
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 25,
+          "memory": 1087676416,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 25180,
+          "elapsed": 67000,
+          "timestamp": 1561511915682
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I clear search",
+        "patternID": 6,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 4,
+          "memory": 1087524864,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 25220,
+          "elapsed": 68000,
+          "timestamp": 1561511916514
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I search for {searchString}",
+        "patternID": 1,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 10,
+          "memory": 1031409664,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 25320,
+          "elapsed": 69000,
+          "timestamp": 1561511917352
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "Result Popup should be displayed with {int} items",
+        "patternID": 2,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1031380992,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 25330,
+          "elapsed": 69000,
+          "timestamp": 1561511917858
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "Result Popup should be displayed with {int} items",
+        "patternID": 2,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 13,
+          "memory": 1063530496,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 25460,
+          "elapsed": 70000,
+          "timestamp": 1561511918489
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1155137536,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26100,
+          "elapsed": 70000,
+          "timestamp": 1561511918990
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 34,
+          "memory": 1193406464,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26440,
+          "elapsed": 71000,
+          "timestamp": 1561511919492
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1193410560,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26440,
+          "elapsed": 71000,
+          "timestamp": 1561511919995
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1193385984,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26440,
+          "elapsed": 72000,
+          "timestamp": 1561511920496
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1193385984,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26440,
+          "elapsed": 72000,
+          "timestamp": 1561511920996
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 2,
+          "memory": 1193435136,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26460,
+          "elapsed": 73000,
+          "timestamp": 1561511921502
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 8,
+          "memory": 1193295872,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26540,
+          "elapsed": 74000,
+          "timestamp": 1561511922001
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1193017344,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26540,
+          "elapsed": 74000,
+          "timestamp": 1561511922504
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 1,
+          "memory": 1192628224,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26550,
+          "elapsed": 75000,
+          "timestamp": 1561511923010
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1192214528,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26550,
+          "elapsed": 75000,
+          "timestamp": 1561511923514
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1192062976,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26550,
+          "elapsed": 76000,
+          "timestamp": 1561511924019
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1191968768,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26560,
+          "elapsed": 76000,
+          "timestamp": 1561511924522
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 1,
+          "memory": 1191968768,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26570,
+          "elapsed": 77000,
+          "timestamp": 1561511925025
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1191108608,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26570,
+          "elapsed": 77000,
+          "timestamp": 1561511925529
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1184804864,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26570,
+          "elapsed": 78000,
+          "timestamp": 1561511926031
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1184788480,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26570,
+          "elapsed": 78000,
+          "timestamp": 1561511926534
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 1,
+          "memory": 1182863360,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26580,
+          "elapsed": 79000,
+          "timestamp": 1561511927038
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1182863360,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26580,
+          "elapsed": 79000,
+          "timestamp": 1561511927540
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1182863360,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26580,
+          "elapsed": 80000,
+          "timestamp": 1561511928042
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation"
+      },
+      {
+        "68568": {
+          "cpu": 0,
+          "memory": 1184518144,
+          "ppid": 1,
+          "pid": 68568,
+          "ctime": 26800,
+          "elapsed": 80000,
+          "timestamp": 1561511928774
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I clear search",
+        "patternID": 6,
+        "source": "Workstation"
+      }
+    ],
+    "workstation_helper": [
+      {
+        "68573": {
+          "cpu": 0.35185185185185186,
+          "memory": 55386112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 190,
+          "elapsed": 54000,
+          "timestamp": 1561511903076
+        },
+        "68578": {
+          "cpu": 0.6326530612244898,
+          "memory": 73076736,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 310,
+          "elapsed": 49000,
+          "timestamp": 1561511903076
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I search for {searchString}",
+        "patternID": 1,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 55386112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 190,
+          "elapsed": 54000,
+          "timestamp": 1561511903576
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 73076736,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 310,
+          "elapsed": 49000,
+          "timestamp": 1561511903576
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I search for {searchString}",
+        "patternID": 1,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 3,
+          "memory": 58089472,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 220,
+          "elapsed": 55000,
+          "timestamp": 1561511904188
+        },
+        "68578": {
+          "cpu": 3,
+          "memory": 77647872,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 340,
+          "elapsed": 50000,
+          "timestamp": 1561511904188
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "Result Popup should be displayed with {int} items",
+        "patternID": 2,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58089472,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 220,
+          "elapsed": 55000,
+          "timestamp": 1561511904695
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 77647872,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 340,
+          "elapsed": 50000,
+          "timestamp": 1561511904695
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "Result Popup should be displayed with {int} items",
+        "patternID": 2,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 2,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 56000,
+          "timestamp": 1561511905342
+        },
+        "68578": {
+          "cpu": 10,
+          "memory": 85491712,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 51000,
+          "timestamp": 1561511905342
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 56000,
+          "timestamp": 1561511905847
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85491712,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 51000,
+          "timestamp": 1561511905847
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 57000,
+          "timestamp": 1561511906353
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85491712,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 52000,
+          "timestamp": 1561511906353
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 57000,
+          "timestamp": 1561511906859
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85491712,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 52000,
+          "timestamp": 1561511906859
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 58000,
+          "timestamp": 1561511907361
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85491712,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 53000,
+          "timestamp": 1561511907361
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 58000,
+          "timestamp": 1561511907859
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85491712,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 53000,
+          "timestamp": 1561511907859
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 59000,
+          "timestamp": 1561511908364
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85491712,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 54000,
+          "timestamp": 1561511908364
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 59000,
+          "timestamp": 1561511908868
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85491712,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 54000,
+          "timestamp": 1561511908868
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 60000,
+          "timestamp": 1561511909372
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85491712,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 55000,
+          "timestamp": 1561511909372
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 60000,
+          "timestamp": 1561511909877
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85491712,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 55000,
+          "timestamp": 1561511909877
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 61000,
+          "timestamp": 1561511910380
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85463040,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 56000,
+          "timestamp": 1561511910380
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 61000,
+          "timestamp": 1561511910885
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85463040,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 56000,
+          "timestamp": 1561511910885
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 62000,
+          "timestamp": 1561511911386
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85463040,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 57000,
+          "timestamp": 1561511911386
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 62000,
+          "timestamp": 1561511911890
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85463040,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 57000,
+          "timestamp": 1561511911890
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 63000,
+          "timestamp": 1561511912391
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85463040,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 58000,
+          "timestamp": 1561511912391
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 63000,
+          "timestamp": 1561511912896
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85463040,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 58000,
+          "timestamp": 1561511912896
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 64000,
+          "timestamp": 1561511913399
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85463040,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 440,
+          "elapsed": 59000,
+          "timestamp": 1561511913399
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 64000,
+          "timestamp": 1561511913898
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85463040,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 450,
+          "elapsed": 59000,
+          "timestamp": 1561511913898
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 65000,
+          "timestamp": 1561511914405
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85463040,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 450,
+          "elapsed": 60000,
+          "timestamp": 1561511914405
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58224640,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 240,
+          "elapsed": 65000,
+          "timestamp": 1561511914910
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85463040,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 450,
+          "elapsed": 60000,
+          "timestamp": 1561511914910
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 2,
+          "memory": 58613760,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 260,
+          "elapsed": 66000,
+          "timestamp": 1561511915684
+        },
+        "68578": {
+          "cpu": 1,
+          "memory": 85798912,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 460,
+          "elapsed": 61000,
+          "timestamp": 1561511915684
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan3",
+        "pattern": "I clear search",
+        "patternID": 6,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58355712,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 260,
+          "elapsed": 67000,
+          "timestamp": 1561511916517
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85635072,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 460,
+          "elapsed": 62000,
+          "timestamp": 1561511916517
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I search for {searchString}",
+        "patternID": 1,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 1,
+          "memory": 58662912,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 68000,
+          "timestamp": 1561511917354
+        },
+        "68578": {
+          "cpu": 1,
+          "memory": 85880832,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 470,
+          "elapsed": 63000,
+          "timestamp": 1561511917354
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "Result Popup should be displayed with {int} items",
+        "patternID": 2,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58662912,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 68000,
+          "timestamp": 1561511917861
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 85880832,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 470,
+          "elapsed": 63000,
+          "timestamp": 1561511917861
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "Result Popup should be displayed with {int} items",
+        "patternID": 2,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 69000,
+          "timestamp": 1561511918491
+        },
+        "68578": {
+          "cpu": 6,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 64000,
+          "timestamp": 1561511918491
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 69000,
+          "timestamp": 1561511918993
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 64000,
+          "timestamp": 1561511918993
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 70000,
+          "timestamp": 1561511919494
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 65000,
+          "timestamp": 1561511919494
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 70000,
+          "timestamp": 1561511919998
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 65000,
+          "timestamp": 1561511919998
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 71000,
+          "timestamp": 1561511920499
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 66000,
+          "timestamp": 1561511920499
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 71000,
+          "timestamp": 1561511921000
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 66000,
+          "timestamp": 1561511921000
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 72000,
+          "timestamp": 1561511921504
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 67000,
+          "timestamp": 1561511921504
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 73000,
+          "timestamp": 1561511922003
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 68000,
+          "timestamp": 1561511922003
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 73000,
+          "timestamp": 1561511922507
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 68000,
+          "timestamp": 1561511922507
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 74000,
+          "timestamp": 1561511923012
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 69000,
+          "timestamp": 1561511923012
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 74000,
+          "timestamp": 1561511923516
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 69000,
+          "timestamp": 1561511923516
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 75000,
+          "timestamp": 1561511924021
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 70000,
+          "timestamp": 1561511924021
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 75000,
+          "timestamp": 1561511924524
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 70000,
+          "timestamp": 1561511924524
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 76000,
+          "timestamp": 1561511925027
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 71000,
+          "timestamp": 1561511925027
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 76000,
+          "timestamp": 1561511925531
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 71000,
+          "timestamp": 1561511925531
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 77000,
+          "timestamp": 1561511926033
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 72000,
+          "timestamp": 1561511926033
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 77000,
+          "timestamp": 1561511926537
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 72000,
+          "timestamp": 1561511926537
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 78000,
+          "timestamp": 1561511927040
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 73000,
+          "timestamp": 1561511927040
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 78000,
+          "timestamp": 1561511927542
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 73000,
+          "timestamp": 1561511927542
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58458112,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 270,
+          "elapsed": 79000,
+          "timestamp": 1561511928044
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 87945216,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 530,
+          "elapsed": 74000,
+          "timestamp": 1561511928044
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I click on item {itemName}",
+        "patternID": 3,
+        "source": "Workstation Helper"
+      },
+      {
+        "68573": {
+          "cpu": 0,
+          "memory": 58900480,
+          "ppid": 68568,
+          "pid": 68573,
+          "ctime": 290,
+          "elapsed": 79000,
+          "timestamp": 1561511928776
+        },
+        "68578": {
+          "cpu": 0,
+          "memory": 88383488,
+          "ppid": 68568,
+          "pid": 68578,
+          "ctime": 540,
+          "elapsed": 74000,
+          "timestamp": 1561511928776
+        },
+        "feature": "Example For Workstation Automation",
+        "scenario": "Search and open luntan4",
+        "pattern": "I clear search",
+        "patternID": 6,
+        "source": "Workstation Helper"
+      }
+    ]
+  }
+]

@@ -32,9 +32,9 @@ Then('I select tab {tabName}', async function (tabName) {
 
 // ** Navigations in Main Window ** //
 // this step waits for caching to be completed
-Then('I first-time select tab {tabName} and wait for cache generation', async function (tabName) {
+When('I first-time select tab {tabName} and wait for cache generation', async function (tabName) {
   await smartTab.selectTab(tabName);
-  return smartTab.app.sleep(30000);
+  return smartTab.app.sleep(3000);
 });
 
 // ** Tab Related ** //
