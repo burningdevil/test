@@ -33,7 +33,7 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
 
     if (browser.params.enableUB === 'true') {
       pidusage(workstationPidList, function (err, stats) {  
-        if (stats) {
+        if (stats && pattern) {
 
           stats.feature = featureDescriptions.featureName;
           stats.scenario= featureDescriptions.scenarioName;
@@ -43,9 +43,20 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
           stats.source = "Workstation";
           
           wsUBData.push(stats);
-        } else {
-          console.log("no status");
-          wsUBData.push({"pattern" : pattern});
+        }
+      });
+
+      pidusage(workstationHelperPidList, function (err, stats) {  
+        if (stats && pattern) {
+
+          stats.feature = featureDescriptions.featureName;
+          stats.scenario= featureDescriptions.scenarioName;
+          stats.pattern = pattern;
+          stats.patternID = patternID;
+
+          stats.source = "Workstation Helper";
+
+          wsHelperData.push(stats);
         }
       });
       counter = await setInterval(function () {
@@ -60,20 +71,7 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
             stats.source = "Workstation";
             
             wsUBData.push(stats);
-          } else {
-            console.log("no status");
-            wsUBData.push({"pattern" : pattern});
           }
-          // console.log(stats)
-          // => {
-          //   cpu: 10.0,            // percentage (from 0 to 100*vcore)
-          //   memory: 357306368,    // bytes
-          //   ppid: 312,            // PPID
-          //   pid: 727,             // PID
-          //   ctime: 867000,        // ms user + system time
-          //   elapsed: 6650000,     // ms since the start of the process
-          //   timestamp: 864000000  // ms since epoch
-          // }
         });
         pidusage(workstationHelperPidList, function (err, stats) {  
           if (stats) {
@@ -86,8 +84,6 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
             stats.source = "Workstation Helper";
 
             wsHelperData.push(stats);
-          } else {
-            wsHelperData.push({"pattern" : pattern});
           }
         });
       }, this.ubInterval);
