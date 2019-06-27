@@ -1,8 +1,10 @@
 const application = "/AXApplication[@AXTitle='MicroStrategy Workstation']";
+const osMenuBar = `${application}/AXMenuBar[0]`;
 const mainWindow = `${application}/AXWindow[@AXSubrole='AXStandardWindow']`;
 const envDialoguePath = `${application}/AXWindow[@AXTitle='Connect to Environment' and @AXSubrole='AXDialog']`;
 const toolbar = `${mainWindow}/AXToolbar[0]`;
 const smartTabGroup = `${mainWindow}/AXSplitGroup[0]/AXGroup[0]/AXScrollArea[0]/AXOutline[0]/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]`;
+
 
 const mac_xpath = {
   env: {
@@ -45,6 +47,11 @@ const mac_xpath = {
   workstationMainWindow: {
     closeWorkstation: `${mainWindow}/AXButton[@AXSubrole='AXCloseButton']`
   },
+  menuBar: {
+    menuItem: `${osMenuBar}/AXMenuBarItem[@AXTitle='ReplaceMenuItemName']`,
+    menuOption:`${osMenuBar}/AXMenuBarItem[@AXTitle='ReplaceMenuItemName']/AXMenu[0]/AXMenuItem[@AXTitle='ReplaceOption']`
+  }
+  
 }
 
 module.exports = mac_xpath;

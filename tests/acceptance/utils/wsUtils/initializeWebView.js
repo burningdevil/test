@@ -1,16 +1,20 @@
+const {registerNewWindow, switchToWindow} = require('./windowHelper')
+
 async function initializeWebView() {
   console.log('Initializing Webview...');
 
-  let searchInputBox;
-
   if (OSType === 'windows') {
     // for windows switch to Getting Started tab
-    let tabGetStarted = await workstationApp.elementByName('Getting Started');
-    await tabGetStarted.click();
+    let tabDossier = await workstationApp.elementByName('Dossiers');
+    let createDossierButton = await tabDossier.elementByClassName('Button');
+    await createDossierButton.click();
     await workstationApp.sleep(1000);
-    let tabEnvironments = await workstationApp.elementByName('Environments');
-    await tabEnvironments.click();
+    await registerNewWindow(`webview helper`);
+    await switchToWindow(`webview helper`);
+    let minimizeBtn = await workstationApp.elementByAccessibilityId('WindowMinimizeButton');
+    await minimizeBtn.click();
     await workstationApp.sleep(1000);
+    await switchToWindow('Workstation Main Window');
   } else {
     // workstation Mac only has Quick Search as CEF webview for now
     const toolbar = MAC_XPATH['toolbar'];
