@@ -55,6 +55,7 @@ export default class RootApp {
 
   async contextClick() {
     await this.app.sleep(100);
+    // to press mouse right button
     await this.app.buttonDown(2);
     await this.app.sleep(100);
     return this.app.buttonUp();

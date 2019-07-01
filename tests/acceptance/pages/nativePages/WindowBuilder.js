@@ -4,6 +4,7 @@ import MainWindow from './MainWindow';
 import Toolbar from './Toolbar';
 import SmartTab from './SmartTab';
 import MenuBar from './MenuBar';
+import HyperCard from './HyperCard';
 
 
 function WindowBuilder() {
@@ -13,11 +14,13 @@ function WindowBuilder() {
   const toolbar = new Toolbar();
   const smartTab = new SmartTab();
   const menuBar = new MenuBar();
+  const hyperCard = new HyperCard();
 
   mainWindow.toolbar = toolbar;
   mainWindow.smartTab = smartTab;
   mainWindow.menuBar = menuBar;
   dossierEditor.menuBar = menuBar;
+  hyperCard.menuBar = menuBar;
 
   return {
     envConnection,
@@ -25,7 +28,8 @@ function WindowBuilder() {
     mainWindow,
     toolbar,
     smartTab,
-    menuBar
+    menuBar,
+    hyperCard
   }
 }
 

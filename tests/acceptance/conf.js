@@ -7,7 +7,8 @@ const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 
-const protractorArgs = require('./protractorArgs.json')
+const parseArguments = require('./utils/envUtils/parseArguments');
+const customArgObj = parseArguments();
 
 exports.config = {
   directConnect: true,
@@ -47,35 +48,39 @@ exports.config = {
   },
 
   // parameters with default values
-  params: protractorArgs.browserParams,
+  params: customArgObj.params,
 
   // Launch workstation and initialize a CEF webview for Protractor to connect to.
   // params are not available in beforeLaunch() method.
   beforeLaunch: async () => {
     // setting global variables
-    global.workstationPath = (process.platform === 'win32') ? protractorArgs.args.appPath['windows'] : protractorArgs.args.appPath['mac'];
-    global.windowsMap = new Map();
     global.expect = chai.expect;
 
-    // setting globale variables
-    const constants = require('./utils/envUtils/constants');
-    ({
-      MAC_XPATH: global.MAC_XPATH,
-      OSType: global.OSType,
-    } = constants);
+    // if launch Workstation needed
+    if(customArgObj.args.launchWS) {
+      global.workstationPath = (process.platform === 'win32') ? customArgObj.args.appPath['windows'] : customArgObj.args.appPath['mac'];
+      global.windowsMap = new Map();
 
-    // Start Workstation. 
-    // This workstation driver is stored globally to be used anywhere else.
-    // For windows, the Main Workstation Window handle is registered globally
-    const startWorkstation = require('./utils/wsUtils/startWorkstation');
-    global.workstationApp  = await startWorkstation();
-    if (OSType === 'windows') {
-      const {registerWindow} = require('./utils/wsUtils/windowHelper');
-      await registerWindow('Workstation Main Window');
+      // setting globale variables
+      const constants = require('./utils/envUtils/constants');
+      ({
+        MAC_XPATH: global.MAC_XPATH,
+        OSType: global.OSType,
+      } = constants);
+
+      // Start Workstation. 
+      // This workstation driver is stored globally to be used anywhere else.
+      // For windows, the Main Workstation Window handle is registered globally
+      const startWorkstation = require('./utils/wsUtils/startWorkstation');
+      global.workstationApp  = await startWorkstation();
+      if (OSType === 'windows') {
+        const {registerWindow} = require('./utils/wsUtils/windowHelper');
+        await registerWindow('Workstation Main Window');
+      }
+      // Initialize a CEF webview
+      const initializeWebView = require('./utils/wsUtils/initializeWebView');
+      await initializeWebView();
     }
-    // Initialize a CEF webview
-    const initializeWebView = require('./utils/wsUtils/initializeWebView');
-    await initializeWebView();
   },
 
   onPrepare: async () => {
@@ -87,35 +92,40 @@ exports.config = {
     
     // build web view page objects
     const PageBuilder = require('./pages/webPages/PageBuilder');
-    ({ quickSearchPage } = PageBuilder());
+    ({ quickSearchPage, hyperPage } = PageBuilder());
 
     // build windows for Workstation
     const WindowBuilder = require('./pages/nativePages/WindowBuilder'); //change here
-    ({ envConnection, mainWindow, dossierEditor, toolbar, smartTab, menuBar } = WindowBuilder());
+    ({ envConnection, mainWindow, dossierEditor, toolbar, smartTab, menuBar, hyperCard } = WindowBuilder());
 
-    // connect to environment
-    for(let envIndex=0; envIndex<browser.params.envInfo.length; envIndex++) {
-      ({envName, envUrl, loginMode, userName, userPwd, projects} = browser.params.envInfo[envIndex]);
-      await envConnection.connectEnv(envName, envUrl);
-      await envConnection.loginToEnv(loginMode, userName, userPwd);
-      for(let projectIndex=0;projectIndex<projects.length;projectIndex++){
-        await envConnection.chooseProject(projects[projectIndex]);
+    if(customArgObj.args.connectEnv) {
+      // TODO: remove exiting environment
+      // connect to environment
+      for(let envIndex=0; envIndex<browser.params.envInfo.length; envIndex++) {
+        ({envName, envUrl, loginMode, userName, userPwd, projects} = browser.params.envInfo[envIndex]);
+        await envConnection.connectEnv(envName, envUrl);
+        await envConnection.loginToEnv(loginMode, userName, userPwd);
+        for(let projectIndex=0;projectIndex<projects.length;projectIndex++){
+          await envConnection.chooseProject(projects[projectIndex]);
+        }
+        await envConnection.clickOkToConnect();
       }
-      await envConnection.clickOkToConnect();
-    }
 
-    // first-time cache generation for mac (if needed)
-    if (OSType === 'mac') {
-      await smartTab.selectTab('Dossiers');
-      await smartTab.app.sleep(30000);
+      // first-time cache generation for mac (temporary)
+      if (OSType === 'mac') {
+        await smartTab.selectTab('Dossiers');
+        await smartTab.app.sleep(30000);
+      }
     }
   },
 
   onComplete: async () => {
-    // remove environment
-    await smartTab.selectTab('Environments')
-    for(let envIndex=0; envIndex<browser.params.envInfo.length; envIndex++) {
-      await envConnection.removeEnv(browser.params.envInfo[envIndex].envName)
+    if (customArgObj.args.removeEnv) {
+      // remove environment
+      await smartTab.selectTab('Environments')
+      for(let envIndex=0; envIndex<browser.params.envInfo.length; envIndex++) {
+        await envConnection.removeEnv(browser.params.envInfo[envIndex].envName)
+      }
     }
   },
 
