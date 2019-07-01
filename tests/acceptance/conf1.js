@@ -132,8 +132,9 @@ exports.config = {
       console.log("global: the pid of workstation is: " + workstationPidList);
 
 
-    //init ubData 
-    global.ubData = [];
+      //init ubData 
+      global.ubData = [];
+      
     }
     
 

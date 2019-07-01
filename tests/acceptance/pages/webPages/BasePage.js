@@ -22,6 +22,19 @@ export default class BasePage {
     async wait(...condition) {
         return this.brwsr.wait(...condition);
     }
+
+    // for WebView management
+    async switchToNewWebView() {
+        let handles = await browser.getAllWindowHandles();
+        await browser.switchTo().window(handles[handles.length -1]); 
+        console.log('Switch to new WebView: ', await browser.getTitle());
+    }
+
+    async switchToDefaultWebView() {
+        let handles = await browser.getAllWindowHandles();
+        await browser.switchTo().window(handles[0]);
+        console.log('Switch back to the default webview: ', await browser.getTitle());
+    }
     
     // Keyboard inputs
     async click({ elem, offset = { x: 0, y: 0 } }) {
@@ -29,7 +42,6 @@ export default class BasePage {
         await this.brwsr.actions().mouseMove(offset).perform();
         return this.brwsr.actions().click().perform();
     }
-
 
     // Element locators
 

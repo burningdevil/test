@@ -3,7 +3,7 @@ let {After, Before} = require('cucumber');
 let { setDefinitionFunctionWrapper } = require('cucumber');
 let protractorArgs = require("../../protractorArgs.json");
 
-const UB_INTERVAL = protractorArgs.browserParams.ubInterval;
+const UB_INTERVAL = protractorArgs.params.ubInterval;
 
 let wsUBData = [];
 let wsHelperData = [];

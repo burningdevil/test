@@ -4,11 +4,31 @@ const smartTab = MAC_XPATH['smartTab'];
 export default class SmartTab extends RootApp {
   //Locators
   async getTab(tabName) {
+    let tabHelperStr;
+    if (OSType === 'windows') {
+      switch(tabName.toLowerCase()) {
+        case "cards":
+          tabHelperStr = 'Hyper';
+          break;
+        case "dossiers":
+          tabHelperStr = 'Dossiers';
+          break;
+        case "datasets":
+          tabHelperStr = 'Datasets';
+          break;
+        case "environments":
+          tabHelperStr = 'Environments';
+          break;
+        default:
+          throw Error("Error! Please check the element locator");
+      }
+    }
+
     return this.getNativeElement({
       windows:{ 
         locators: [
           { method: 'Name', value: 'Smart Mode' },
-          { method: 'Name', value: tabName },
+          { method: 'Name', value: tabHelperStr },
         ]},
       mac: { xpath: smartTab.tab.replace(/ReplaceMe/g, tabName) }
     });
@@ -18,18 +38,32 @@ export default class SmartTab extends RootApp {
     let macBtnHelpStr;
     
     if (OSType === 'mac') {
-      switch(itemName) {
-        case "Application":
+      switch(itemName.toLowerCase()) {
+        case "application":
           macBtnHelpStr = 'Create New Application';
           break;
-        case "Dossier":
+        case "dossier":
           macBtnHelpStr = 'Create a new dossier';
           break;
-        case "Dataset":
+        case "dataset":
           macBtnHelpStr = 'Create a new dataset';
           break;
         default:
           throw Error("Error! Please check the MAC AXPath");
+      }
+    } else {
+      switch(itemName.toLowerCase()) {
+        case "card":
+          macBtnHelpStr = 'Hyper';
+          break;
+        case "dossier":
+          macBtnHelpStr = 'Dossiers';
+          break;
+        case "dataset":
+          macBtnHelpStr = 'Datasets';
+          break;
+        default:
+          throw Error("Error! Please check the element locator");
       }
     }
 
@@ -37,12 +71,13 @@ export default class SmartTab extends RootApp {
       windows:{ 
         locators: [
           { method: 'Name', value: 'Smart Mode' },
-          { method: 'Name', value: `${itemName}s` },
+          { method: 'Name', value: macBtnHelpStr },
           { method: 'ClassName', value: 'Button' },
         ]},
       mac: { xpath: smartTab.createNewItem.replace(/ReplaceMe/g, macBtnHelpStr) }
     });
   }
+
 
   // ** Actions ** //
   async selectTab(tabName) {
@@ -53,5 +88,4 @@ export default class SmartTab extends RootApp {
     await this.moveToAndClick(await this.getCreateNewItem(itemName));
     return this.app.sleep(2000);
   }
-
 }

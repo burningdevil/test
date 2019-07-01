@@ -2,49 +2,137 @@
   "workstation": [
     {
       "feature": "Example For Workstation Automation",
-      "scenario": "Search and open luntan3",
+      "scenario": "ub search for test1",
       "pattern": "I search for {searchString}",
       "patternID": "1",
       "source": "Workstation",
-      "maxCPU": 0,
-      "avgCPU": 0,
-      "maxMemory": 716382208,
-      "avgMemory": 716369920,
+      "maxCPU": 6.2,
+      "avgCPU": 3.1,
+      "maxMemory": 781050675.2,
+      "avgMemory": 778199859.2,
+      "duration": 501.2
+    },
+    {
+      "feature": "Example For Workstation Automation",
+      "scenario": "ub search for test1",
+      "pattern": "I clear search",
+      "patternID": "2",
+      "source": "Workstation",
+      "maxCPU": 14,
+      "avgCPU": 7,
+      "maxMemory": 810763059.2,
+      "avgMemory": 795504640,
+      "duration": 503.4
+    },
+    {
+      "feature": "Example For Workstation Automation",
+      "scenario": "ub search for test2",
+      "pattern": "I search for {searchString}",
+      "patternID": "1",
+      "source": "Workstation",
+      "maxCPU": 2,
+      "avgCPU": 1,
+      "maxMemory": 810813030.4,
+      "avgMemory": 810789683.2,
       "duration": 502
     },
     {
       "feature": "Example For Workstation Automation",
-      "scenario": "Search and open luntan3",
+      "scenario": "ub search for test2",
       "pattern": "I clear search",
       "patternID": "2",
       "source": "Workstation",
-      "maxCPU": 16,
-      "avgCPU": 8,
-      "maxMemory": 722235392,
-      "avgMemory": 719312896,
-      "duration": 504
+      "maxCPU": 11.6,
+      "avgCPU": 5.8,
+      "maxMemory": 840738406.4,
+      "avgMemory": 825775718.4,
+      "duration": 503.8
+    },
+    {
+      "feature": "Example For Workstation Automation",
+      "scenario": "ub search for test3",
+      "pattern": "I search for {searchString}",
+      "patternID": "1",
+      "source": "Workstation",
+      "maxCPU": 1.4,
+      "avgCPU": 0.7,
+      "maxMemory": 840760524.8,
+      "avgMemory": 840749056,
+      "duration": 504.2
+    },
+    {
+      "feature": "Example For Workstation Automation",
+      "scenario": "ub search for test3",
+      "pattern": "I clear search",
+      "patternID": "2",
+      "source": "Workstation",
+      "maxCPU": 15.2,
+      "avgCPU": 7.6,
+      "maxMemory": 855729766.4,
+      "avgMemory": 848245145.6,
+      "duration": 505.4
     }
   ],
   "workstationHelpers": [
     {
       "feature": "Example For Workstation Automation",
-      "scenario": "Search and open luntan3",
+      "scenario": "ub search for test1",
       "pattern": "I search for {searchString}",
       "patternID": "1",
       "source": "Workstation Helper",
-      "cpu": 1.1813631492800767,
-      "memory": 71577600,
-      "duration": 505
+      "cpu": 0.4318080113455105,
+      "memory": 65179511.46666666,
+      "duration": 503.8
     },
     {
       "feature": "Example For Workstation Automation",
-      "scenario": "Search and open luntan3",
+      "scenario": "ub search for test1",
       "pattern": "I clear search",
       "patternID": "2",
       "source": "Workstation Helper",
-      "cpu": 0.25,
-      "memory": 55225344.25,
-      "duration": 506
+      "cpu": 1.4,
+      "memory": 4815532.066666666,
+      "duration": 505.4
+    },
+    {
+      "feature": "Example For Workstation Automation",
+      "scenario": "ub search for test2",
+      "pattern": "I search for {searchString}",
+      "patternID": "1",
+      "source": "Workstation Helper",
+      "cpu": 0,
+      "memory": 68699204.26666667,
+      "duration": 504.2
+    },
+    {
+      "feature": "Example For Workstation Automation",
+      "scenario": "ub search for test2",
+      "pattern": "I clear search",
+      "patternID": "2",
+      "source": "Workstation Helper",
+      "cpu": 0.5,
+      "memory": 4815531.166666666,
+      "duration": 505.8
+    },
+    {
+      "feature": "Example For Workstation Automation",
+      "scenario": "ub search for test3",
+      "pattern": "I search for {searchString}",
+      "patternID": "1",
+      "source": "Workstation Helper",
+      "cpu": 0.1,
+      "memory": 68917521.06666666,
+      "duration": 505.6
+    },
+    {
+      "feature": "Example For Workstation Automation",
+      "scenario": "ub search for test3",
+      "pattern": "I clear search",
+      "patternID": "2",
+      "source": "Workstation Helper",
+      "cpu": 0.8,
+      "memory": 4815531.466666667,
+      "duration": 507
     }
   ]
 }

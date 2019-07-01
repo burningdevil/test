@@ -1,5 +1,5 @@
 {
-    "browserParams": {
+    "params": {
         "envInfo": [
             {
                 "envName": "AQDT",
@@ -16,8 +16,11 @@
         "enableUB":"true"
     },
     "args": {
+        "launchWS": true ,
+        "connectEnv": true,
+        "removeEnv": true,
         "appPath": {
-            "mac": "MicroStrategy Workstation Accessibility",
+            "mac": "MicroStrategy Workstation ub",
             "windows": "C:\\Program Files\\MicroStrategy\\Workstation\\Workstation.exe"
         }
     }
