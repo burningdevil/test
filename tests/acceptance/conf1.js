@@ -7,7 +7,7 @@ const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 
-const protractorArgs = require('./protractorArgs.json')
+const protractorArgs = require('./protractorArgs1.json')
 
 exports.config = {
   directConnect: true,

@@ -1,32 +1,49 @@
-let report = require("../../reports/raw/report1.json");
-let workstationDataList = report[0].workstation;
-let workstationHelperList = report[0].workstation_helper;
+const fs = require('fs');
 
+function generateUBReports(rawUBReportFolder) {
 
-let workstationResult = parseWorkstationList(workstationDataList);
-// console.log(workstationResult);
+  fs.readdirSync(rawUBReportFolder).forEach(file => {
+      if (file.endsWith(".json")) {
+          
+        console.log(file);
+        parseRawUBData(`../../reports/raw/${file}`);
+      }
+  });
 
-let workstationHelpersResult = parseWorkstationHelpersList(workstationHelperList);
-// console.log(workstationHelpersResult);
-
-let upReportAddress = "./reports/ubIndividual/ubReport1.json";
-
-let fs = require('fs');
-try {
-    fs.unlinkSync(upReportAddress, (err) => {
-    if (err) {
-        console.error("no such file");
-    } else {
-        console.info(`${upReportAddress} was deleted`);
-    }
-    });
-} catch (err) {
-    console.error(`${upReportAddress} did not exist`);
 }
 
-console.info(`generating ${upReportAddress}`);
-fs.appendFileSync(upReportAddress, JSON.stringify({workstation: workstationResult, workstationHelpers: workstationHelpersResult}, null, 2), 'UTF-8');
+function parseRawUBData (rawUBDataAddress) {
+  let report = require(rawUBDataAddress);
+  let workstationDataList = report[0].workstation;
+  let workstationHelperList = report[0].workstation_helper;
+  
+  
+  let workstationResult = parseWorkstationList(workstationDataList);
+  // console.log(workstationResult);
+  
+  let workstationHelpersResult = parseWorkstationHelpersList(workstationHelperList);
+  // console.log(workstationHelpersResult);
 
+  let rawReportName = rawUBDataAddress.slice(rawUBDataAddress.lastIndexOf("/") + 1);
+  let upReportAddress = `./reports/ubIndividual/UB${rawReportName}`;
+  
+  let fs = require('fs');
+  try {
+      fs.unlinkSync(upReportAddress, (err) => {
+      if (err) {
+          console.error("no such file");
+      } else {
+          console.info(`${upReportAddress} was deleted`);
+      }
+      });
+  } catch (err) {
+      console.error(`${upReportAddress} did not exist`);
+  }
+  
+  console.info(`generating ${upReportAddress}`);
+  fs.appendFileSync(upReportAddress, JSON.stringify({workstation: workstationResult, workstationHelpers: workstationHelpersResult}, null, 2), 'UTF-8');
+  
+}
 
 function parseWorkstationList(dataList) {
   
@@ -186,6 +203,7 @@ function getPIDList(list) {
 }
 
 module.exports = {
+  generateUBReports: generateUBReports,
   parseWorkstationList: parseWorkstationList,
   parseWorkstationHelpersList: parseWorkstationHelpersList,
 }

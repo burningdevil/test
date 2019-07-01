@@ -11,7 +11,7 @@
             }
         ],
         
-        "ubReportAddress": "./reports/raw/report1.json",
+        "ubReportAddress": "./reports/raw/report2.json",
         "ubInterval":500,
         "enableUB":"true"
     },

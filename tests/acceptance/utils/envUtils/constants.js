@@ -43,7 +43,6 @@ const setValuePerPlatform = (winValue, macValue) => {
 };
 
 // export
-export const UB_INTERVAL = 500;
 export const APPIUM_SERVER_URL = 'http://localhost:4723/wd/hub';
 export const MAC_XPATH = mac_xpath;
 export const OSType = setValuePerPlatform('windows', 'mac');

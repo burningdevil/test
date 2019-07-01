@@ -75,24 +75,24 @@ Feature: Example For Workstation Automation
     # When I first-time select tab Dossiers and wait for cache generation
     And I search for luntanub
 
-    Then Result Popup should be displayed with 3 items
-    When I click on item LUNTANUB4
-    Then Dossier LUNTANUB4 should be displayed
-    When I close Dossier LUNTANUB4
+    # Then Result Popup should be displayed with 3 items
+    # When I click on item LUNTANUB4
+    # Then Dossier LUNTANUB4 should be displayed
+    # When I close Dossier LUNTANUB4
     And I clear search
 
-  @ub
-  Scenario: Search and open luntan4
-    # When I add a new environment named AQDT with url https://aqueduct-tech.customer.cloud.microstrategy.com/MicroStrategyLibrary
-    # And I login with LDAP mode using name yourname and password yourpwd
-    # Then I select project Rally Analytics
-    # And I click OK to connect after selecting project(s)
-    # When I first-time select tab Dossiers and wait for cache generation
-    # When I first-time select tab Dossiers and wait for cache generation
-    And I search for luntanub
+  # @ub
+  # Scenario: Search and open luntan4
+  #   # When I add a new environment named AQDT with url https://aqueduct-tech.customer.cloud.microstrategy.com/MicroStrategyLibrary
+  #   # And I login with LDAP mode using name yourname and password yourpwd
+  #   # Then I select project Rally Analytics
+  #   # And I click OK to connect after selecting project(s)
+  #   # When I first-time select tab Dossiers and wait for cache generation
+  #   # When I first-time select tab Dossiers and wait for cache generation
+  #   And I search for luntanub
 
-    Then Result Popup should be displayed with 3 items
-    When I click on item LUNTANUB5
-    Then Dossier LUNTANUB5 should be displayed
-    When I close Dossier LUNTANUB5
-    And I clear search
+  #   Then Result Popup should be displayed with 3 items
+  #   When I click on item LUNTANUB5
+  #   Then Dossier LUNTANUB5 should be displayed
+  #   When I close Dossier LUNTANUB5
+  #   And I clear search

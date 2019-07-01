@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "protractor conf.js --disableChecks"
+    "test": "protractor conf.js --disableChecks",
+    "ubTest": "protractor conf.js --disableChecks --enableUB=true"
   },
   "author": "",
   "license": "ISC",

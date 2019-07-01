@@ -1,39 +1,44 @@
-let report1 = require("../../reports/ubIndividual/ubReport1.json");
-let report2 = require("../../reports/ubIndividual/ubReport2.json");
-let report3 = require("../../reports/ubIndividual/ubReport3.json");
-let report4 = require("../../reports/ubIndividual/ubReport4.json");
-let report5 = require("../../reports/ubIndividual/ubReport5.json");
+const fs = require('fs');
 
-let reports = [];
-reports.push(report1);
-reports.push(report2);
-reports.push(report3);
-reports.push(report4);
-reports.push(report5);
-
-let workstationAverageReport = getWorkstationAverageReport(reports);
-let workstationHelpersAverageReport = getWorkstationHelpersAverageReport(reports);
-
-let averageReport = {workstation: workstationAverageReport, workstationHelpers: workstationHelpersAverageReport};
-
-let upReportAddress = "./reports/ubAverage.json";
-let fs = require('fs');
-try {
-    fs.unlinkSync(upReportAddress, (err) => {
-    if (err) {
-        console.error("no such file");
-    } else {
-        console.info(`${upReportAddress} was deleted`);
-    }
-    });
-} catch (err) {
-    console.error(`${upReportAddress} did not exist`);
+module.exports = function getAverage(individualUBFolder) {
+    let reports = collectIndividualUBReports(individualUBFolder);
+    generateAverageReport(reports);
 }
 
-console.info(`generating ${upReportAddress}`);
-fs.appendFileSync(upReportAddress, JSON.stringify(averageReport, null, 2), 'UTF-8');
+function collectIndividualUBReports (individualUBFolder) {
 
+    let reports = [];
 
+    fs.readdirSync(individualUBFolder).forEach(file => {
+        if (file.endsWith(".json")) {
+            let report = require(`../.${individualUBFolder}${file}`);
+            reports.push(report);
+        }
+    });
+
+    return reports;
+}
+
+function generateAverageReport(reports) {
+    let workstationAverageReport = getWorkstationAverageReport(reports);
+    let workstationHelpersAverageReport = getWorkstationHelpersAverageReport(reports);
+    
+    let averageReport = {workstation: workstationAverageReport, workstationHelpers: workstationHelpersAverageReport};
+    
+    let ubReportAddress = "./reports/ubAverage.json";
+    
+
+    try {
+        fs.unlinkSync(ubReportAddress, (err) => {
+            console.info(`${ubReportAddress} was deleted`);
+        });
+    } catch (err) {
+        console.error(`Couldn't remove ${ubReportAddress}, maybe it did not exist`);
+        console.log(err);
+    }
+    console.info(`generating ${ubReportAddress}`);
+    fs.appendFileSync(ubReportAddress, JSON.stringify(averageReport, null, 2), 'UTF-8');
+}
 
 function getWorkstationAverageReport(reports) {
 

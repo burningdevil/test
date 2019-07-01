@@ -1,9 +1,9 @@
 let { setWorldConstructor } = require('cucumber');
 let {After, Before} = require('cucumber');
 let { setDefinitionFunctionWrapper } = require('cucumber');
+let protractorArgs = require("../../protractorArgs.json");
 
-import { UB_INTERVAL } from '../../utils/envUtils/constants';
-
+const UB_INTERVAL = protractorArgs.browserParams.ubInterval;
 
 let wsUBData = [];
 let wsHelperData = [];
@@ -17,21 +17,25 @@ let patternID = 0;
 // Wrap around each step
 setDefinitionFunctionWrapper(function (fn, opts, pattern) {
   return async function() {
-    
-    await console.log('before: ');
 
     if (pattern) {
-      await console.log("pattern: " + pattern);
-      await console.log("patternID: " + patternID);
-      await patternID++;
+      patternID++;
     }
   
-    let workstationPidList = global.workstationPidLists.workstationPidList;
-    let workstationHelperPidList = global.workstationPidLists.workstationHelperPidList;
-    let pidusage = require('pidusage');
+    let workstationPidList;
+    let workstationHelperPidList;
+    let pidusage;
     let counter;
 
-    if (browser.params.enableUB === 'true') {
+    //if UB monitor is enabled, workstationPidLists will be defined in global
+    if (typeof workstationPidLists !== "undefined") {
+      workstationPidList = workstationPidLists.workstationPidList;
+      workstationHelperPidList = workstationPidLists.workstationHelperPidList;
+      pidusage = require('pidusage');
+      counter;
+    }
+
+    if (browser.params.enableUB === "true") {
       pidusage(workstationPidList, function (err, stats) {  
         if (stats && pattern) {
 
@@ -100,48 +104,40 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
         await clearInterval(counter);
       }
     }
-
-    await console.info('after');
   };
 });
 
 
 
 function CustomWorld() {
-  console.log("Setting Cucumber World");
+
   this.ubInterval = UB_INTERVAL;
-  console.log("this.ubInterval is:" + this.ubInterval);
 
 }
 
 Before(async function (scenarioResult) {
   patternID = 0;
 
-  // console.log("hehehe" + scenarioResult);
-
-  // console.log("Start logging scenario");
-
-  // console.log("Feature is: " +  scenarioResult.scenario.feature.name);
+  // console.log(`Feature is: ${scenarioResult.scenario.feature.name}`);
   featureDescriptions.featureName = scenarioResult.scenario.feature.name;
 
-  // console.log("Scenario is " + scenarioResult.scenario.name);
+  // console.log(`Scenario is ${scenarioResult.scenario.name}`);
   featureDescriptions.scenarioName = scenarioResult.scenario.name;
-  // console.log("End logging scenario");
   
 });
-
 
 After(async function () {
 
   patternID = 0;
-  global.ubData.push({
-    workstation : wsUBData,
-    workstation_helper: wsHelperData
-  });
+  if (browser.params.enableUB === "true") {
+    //ubData is defined in global
+    ubData.push({
+      workstation : wsUBData,
+      workstation_helper: wsHelperData
+    });
+  }
+  
   
 });
-
-
-
 
 setWorldConstructor(CustomWorld);
