@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "protractor conf.js --disableChecks",
-    "ubTest": "protractor conf.js --disableChecks --enableUB=true"
+    "ubTest": "node utils/ubUtils/runUB.js"
   },
   "author": "",
   "license": "ISC",
