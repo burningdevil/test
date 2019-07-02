@@ -53,6 +53,11 @@ exports.config = {
   // Launch workstation and initialize a CEF webview for Protractor to connect to.
   // params are not available in beforeLaunch() method.
   beforeLaunch: async () => {
+
+    //replace the builder.js in node_modules to the builder.js in utils/ubUtils/
+    let replaceUBBuilder = require("./utils/ubUtils/ubBuilderReplacer.js");
+    replaceUBBuilder();
+
     // setting global variables
     global.expect = chai.expect;
 

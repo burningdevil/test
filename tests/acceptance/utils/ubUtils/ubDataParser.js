@@ -30,11 +30,7 @@ function parseRawUBData (rawUBDataAddress) {
   let fs = require('fs');
   try {
       fs.unlinkSync(upReportAddress, (err) => {
-      if (err) {
-          console.error("no such file");
-      } else {
-          console.info(`${upReportAddress} was deleted`);
-      }
+        console.info(`${upReportAddress} was deleted`);
       });
   } catch (err) {
       console.error(`${upReportAddress} did not exist`);
