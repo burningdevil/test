@@ -26,7 +26,7 @@ Feature: Example For Workstation Automation
 # Example Test Scenario for New Dossier in Workstation Windows
 # Author: qfan  06/30/2019
 ##### 
-  @windows_example @debug
+  @windows_example 
   Scenario Outline: Windows Workstation - Hyper
     When I select tab Cards
     When I open card <cardName>
@@ -34,6 +34,6 @@ Feature: Example For Workstation Automation
     And I close card <cardName>
 
         Examples:
-      | cardName  |
+      | cardName  
       | 550blitz  |
       | Accounts  |

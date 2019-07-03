@@ -131,8 +131,10 @@ exports.config = {
 
   afterLaunch: () => {
     // quit Workstation
-    const quitWorkstation = require('./utils/wsUtils/quitWorkstation');
-    return quitWorkstation();
+    if (customArgObj.args.launchWS) {
+      const quitWorkstation = require('./utils/wsUtils/quitWorkstation');
+      return quitWorkstation();
+    }
   }
 
 }

@@ -1,5 +1,4 @@
 import RootApp from './RootApp';
-const smartTab = MAC_XPATH['smartTab'];
 
 export default class HyperCard extends RootApp {
   //Locators
