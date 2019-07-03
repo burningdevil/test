@@ -3,6 +3,8 @@
 ## General
 - Launch Workstaiton
 - Close/Quit Workstation
+- Switch Windows (OS Windows)
+- Switch WebViews
 
 ## Native Page Objects
 ### Environment
@@ -20,6 +22,10 @@
 ### Dossier Editor
 - Dossier Editor display check
 - Close Dossier Editor
+
+### Hyper Card Editor
+- Clear Card (WebView)
+- Close Card (Native)
 
 ### Quick Search (Mac)
 - type in search box
