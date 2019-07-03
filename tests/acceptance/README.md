@@ -6,7 +6,7 @@ Workstation Framework team automated this E2E Testing Framework for both Worksta
 ## Requirements
 General:
 - Install [Node.JS](https://nodejs.org) 
-- Install [Yarn](https://github.com/yarnpkg/yarn)
+- (optional but recommmeded) Install [Yarn](https://github.com/yarnpkg/yarn)
 - Install Appium: [Installing Appium](http://appium.io/docs/en/about-appium/getting-started/)
 ### For Windows:
 - Appium claims WAD(WinAppDriver) is bundled and no need to install WAD separately. However, if you meet 'Could not verify WinAppDriver install' error when starting, please check the required WAD version in file installer.js under \AppData\Local\Programs\appium-desktop\resources\app\node_modules\appium\node_modules\appium-windows-driver\lib and install WAD separately.
@@ -21,12 +21,16 @@ General:
 ## Install
 Clone this repository. Then go to
 ```
-cd production/test
+cd tests/acceptance
 ```
 ### Install Packages
 Install all necessary node modules specified in the file [package.json](./package.json)
 ```
 yarn install
+```
+or
+```
+npm install
 ```
 
 ## Quick Start
@@ -38,16 +42,25 @@ You can run the tests from command line with the pre-defined npm scripts.
 
 For Mac:
 ```
-yarn test -- --cucumberOpts.tags '@mac_example'
+yarn test --cucumberOpts.tags '@mac_example'
 ```
+or
+```
+npm run test -- --cucumberOpts.tags '@mac_example'
+```
+
 For Windows
 ```
-yarn test -- --cucumberOpts.tags '@windows_example'
+yarn test --cucumberOpts.tags '@windows_example'
+```
+or
+```
+npm run test -- --cucumberOpts.tags '@windows_example'
 ```
 
 Note:
 - Ideally the test scenario should be same for both Workstation Windows and Mac. However current Workstation Mac with CEF only has Quick Search (local search) implemented which is not there at all in Workstation Windows. In the future please expect only one same scenario for both Workstation Windows and Mac.
-- The test may fail for Workstation Mac if in the future the returned Dossier results from Quick Search differs in AQDT environment.
+- The test may fail if test objects change in AQDT environment.
 
 
 ## User Guide
@@ -60,6 +73,7 @@ Here are some topics that may help you better understand how to use this templat
     * [Design Features and Scenarios](docs/implement-test.md#design-features-and-scenarios)
     * [Implement Steps](docs/implement-test.md#implement-steps)
     * [Implement Page Objects](docs/implement-test.md#implement-page-objects)
+    * [Locate Elements](docs/implement-test.md#how-to-locate-elements)
 * [Performance Test](docs/performance-test.md)
 * [Analyze Test Results](docs/test_results.md)
 * [CI Pipeline](docs/ci-pipeline.md)

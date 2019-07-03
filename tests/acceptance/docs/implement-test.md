@@ -1,4 +1,4 @@
-#IMPLEMENTING New Tests
+# Implement New Tests
 
 This document will guide you through steps to automate a new test case.
 
@@ -114,7 +114,7 @@ getExampleElement(parameter) {
   }
 ```
 
-Regarding how to figure out the locator values for specific elements, please refer to [how-to-locate-element](./how-to-locate-elements.md)
+Regarding how to figure out the locator values for specific elements, please refer to [How To Locate Element](./how-to-locate-elements.md)
 
 ## Test & Debug
 
@@ -122,7 +122,7 @@ Regarding how to figure out the locator values for specific elements, please ref
 One simple way to only run your test scenario is to put a special tag for it: `@debug`. Then you can pass in the tag when running the test command:  
 
 ```
-yarn test -- --cucumberOpts.tags '@debug'
+yarn test --cucumberOpts.tags '@debug'
 ```
 
 ### Node Debugger
