@@ -1,8 +1,7 @@
-"use strict"
 /**
  * Based on https://github.com/midniteio/step-dictionary
  * Execute with command
- * node utils/generateE2EDictionary.js
+ * node utils/generateCucumberStepsDictionary.js
 */
 var path = require('path');
 var _ = require('lodash');
