@@ -9,11 +9,7 @@
                 "userPwd": "13647245012Att",
                 "projects": ["Rally Analytics"]
             }
-        ],
-        
-        "ubReportAddress": "./reports/raw/report1.json",
-        "ubInterval":500,
-        "enableUB":"true"
+        ]
     },
     "args": {
         "launchWS": true ,
@@ -22,6 +18,11 @@
         "appPath": {
             "mac": "MicroStrategy Workstation ub",
             "windows": "C:\\Program Files\\MicroStrategy\\Workstation\\Workstation.exe"
+        },
+        "ubConf": {
+            "ubReportPath": "./reports/raw/report1.json",
+            "ubInterval":500,
+            "enableUB":false
         }
     }
 }

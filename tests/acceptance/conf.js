@@ -42,7 +42,8 @@ exports.config = {
   cucumberOpts: {
     require: './features/step_definitions/**/*.js',  // require step definition files before executing features
     format: ["pretty", "json:Cucumber.json"],            // <string[]> (type[:path]) specify the output format, optionally supply PATH to redirect formatter output (repeatable)
-    tags: ['@ub'],
+    tags: ['@workstation'],
+
     profile: false,
     'no-source': true
   },
@@ -54,9 +55,11 @@ exports.config = {
   // params are not available in beforeLaunch() method.
   beforeLaunch: async () => {
 
-    //replace the builder.js in node_modules to the builder.js in utils/ubUtils/
-    let replaceUBBuilder = require("./utils/ubUtils/ubBuilderReplacer.js");
-    replaceUBBuilder();
+    if (customArgObj.args.ubConf.enableUB === true) {
+      //replace the builder.js in node_modules to the builder.js in utils/ubUtils/
+      let replaceUBBuilder = require("./utils/ubUtils/ubBuilderReplacer.js");
+      replaceUBBuilder();
+    }
 
     // setting global variables
     global.expect = chai.expect;
@@ -123,7 +126,7 @@ exports.config = {
       }
 
       //get PID list of workstation and workstation helpers
-      if (browser.params.enableUB === "true") {
+      if (customArgObj.args.ubConf.enableUB) {
         const psList = require('ps-list');
         let mylist = await psList(); 	//=> [{pid: 3213, name: 'node', cmd: 'node test.js', ppid: 1, uid: 501, cpu: 0.1, memory: 1.5}, …]
         let workstationPidList = [];
@@ -141,7 +144,6 @@ exports.config = {
           workstationHelperPidList
         };
         console.log("global: the pid of workstation is: " + workstationPidList);
-  
   
         //init ubData 
         global.ubData = [];
@@ -166,13 +168,13 @@ exports.config = {
     const quitWorkstation = require('./utils/wsUtils/quitWorkstation');
     await quitWorkstation();
 
-    if (browser.params.enableUB === "true") {
+    if (customArgObj.args.ubConf.enableUB === true) {
       //clear data in raw ub report
       let fs = require('fs');
 
       try{
-        fs.unlinkSync(`${browser.params.ubReportAddress}`, (err) => {
-          console.log(`${browser.params.ubReportAddress} is deleted`);
+        fs.unlinkSync(`${customArgObj.args.ubConf.ubReportPath}`, (err) => {
+          console.log(`${customArgObj.args.ubConf.ubReportPath} is deleted`);
         });
       } catch(err) {
         console.log("Failed to remove the raw ub report, maybe it's already removed");
@@ -180,8 +182,8 @@ exports.config = {
       }
 
       //generate the ub report
-      console.info(`generating ${browser.params.ubReportAddress}`);
-      fs.appendFileSync(`${browser.params.ubReportAddress}`, JSON.stringify(global.ubData, null, 2), 'UTF-8');
+      console.info(`generating ${customArgObj.args.ubConf.ubReportPath}`);
+      fs.appendFileSync(`${customArgObj.args.ubConf.ubReportPath}`, JSON.stringify(ubData, null, 2), 'UTF-8');
     }
     
   }

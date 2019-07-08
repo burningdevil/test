@@ -6,7 +6,7 @@ const execSync = require('child_process').execSync;
 
 let output;
 for (let i = 1; i <= 5; i++) {
-    output = execSync(`yarn test --params.ubReportAddress ./reports/raw/report${i}.json`, { encoding: 'utf-8' });  // the default is 'buffer'
+    output = execSync(`yarn test --args.ubConf.enableUB true --args.ubConf.ubReportPath ./reports/raw/report${i}.json`, { encoding: 'utf-8' }); 
     console.log(`Output for the ${i}st round is: ${output}`);
 }
 

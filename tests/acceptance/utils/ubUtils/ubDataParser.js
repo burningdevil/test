@@ -200,6 +200,4 @@ function getPIDList(list) {
 
 module.exports = {
   generateUBReports: generateUBReports,
-  parseWorkstationList: parseWorkstationList,
-  parseWorkstationHelpersList: parseWorkstationHelpersList,
 }

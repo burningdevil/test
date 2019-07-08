@@ -34,22 +34,11 @@ Feature: Example For Workstation Automation
     And I close card <cardName>
 
         Examples:
-      | cardName  
+      | cardName  |
       | 550blitz  |
       | Accounts  |
-
 
   @ub
   Scenario: ub search for test1
     When I search for test1
-    And I clear search
-
-  @ub
-  Scenario: ub search for test2
-    When I search for test2
-    And I clear search
-
-  @ub
-  Scenario: ub search for test3
-    When I search for test3
     And I clear search

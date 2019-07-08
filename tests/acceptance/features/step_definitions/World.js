@@ -3,7 +3,7 @@ let {After, Before} = require('cucumber');
 let { setDefinitionFunctionWrapper } = require('cucumber');
 let protractorArgs = require("../../protractorArgs.json");
 
-const UB_INTERVAL = protractorArgs.params.ubInterval;
+const UB_INTERVAL = protractorArgs.args.ubConf.ubInterval;
 
 let wsUBData = [];
 let wsHelperData = [];
@@ -35,7 +35,7 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
       counter;
     }
 
-    if (browser.params.enableUB === "true") {
+    if (protractorArgs.args.ubConf.enableUB === true) {
       pidusage(workstationPidList, function (err, stats) {  
         if (stats && pattern) {
 
@@ -129,7 +129,7 @@ Before(async function (scenarioResult) {
 After(async function () {
 
   patternID = 0;
-  if (browser.params.enableUB === "true") {
+  if (protractorArgs.args.ubConf.enableUB === true) {
     //ubData is defined in global
     ubData.push({
       workstation : wsUBData,
