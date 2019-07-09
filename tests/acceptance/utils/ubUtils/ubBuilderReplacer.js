@@ -1,18 +1,18 @@
 const fs = require('fs');
 
 module.exports = function replaceUBBuilder() {
-    let cucumberBuilderAddress = "./node_modules/cucumber/lib/support_code_library/builder.js";
+    let cucumberBuilderPath = "./node_modules/cucumber/lib/support_code_library/builder.js";
    
     try {
-      fs.unlinkSync(cucumberBuilderAddress);
+      fs.unlinkSync(cucumberBuilderPath);
     } catch (err) {
-      console.info(`Failed to remove ${cucumberBuilderAddress}, maybe it's already removed`);
+      console.info(`Failed to remove ${cucumberBuilderPath}, maybe it's already removed`);
       console.log(err);
     }
 
-    let ubBuilderAddress = "./utils/ubUtils/builder.js"
-    var newUBBuilderContent = fs.readFileSync(ubBuilderAddress, 'utf8');
+    let ubBuilderPath = "./utils/ubUtils/builder.js"
+    var newUBBuilderContent = fs.readFileSync(ubBuilderPath, 'utf8');
 
-    console.info(`re-generating ${cucumberBuilderAddress}`);
-    fs.appendFileSync(cucumberBuilderAddress, newUBBuilderContent, 'UTF-8');
+    console.info(`re-generating ${cucumberBuilderPath}`);
+    fs.appendFileSync(cucumberBuilderPath, newUBBuilderContent, 'UTF-8');
 }
