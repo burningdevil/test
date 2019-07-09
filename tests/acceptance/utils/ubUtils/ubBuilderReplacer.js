@@ -4,11 +4,10 @@ module.exports = function replaceUBBuilder() {
     let cucumberBuilderAddress = "./node_modules/cucumber/lib/support_code_library/builder.js";
    
     try {
-      fs.unlinkSync(cucumberBuilderAddress, (err) => {
-        console.info(`${cucumberBuilderAddress} was deleted`);
-      });
+      fs.unlinkSync(cucumberBuilderAddress);
     } catch (err) {
-      console.error(`${cucumberBuilderAddress} did not exist`);
+      console.info(`Failed to remove ${cucumberBuilderAddress}, maybe it's already removed`);
+      console.log(err);
     }
 
     let ubBuilderAddress = "./utils/ubUtils/builder.js"

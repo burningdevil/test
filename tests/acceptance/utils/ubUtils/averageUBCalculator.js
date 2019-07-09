@@ -29,11 +29,9 @@ function generateAverageReport(reports) {
     
 
     try {
-        fs.unlinkSync(ubReportAddress, (err) => {
-            console.info(`${ubReportAddress} was deleted`);
-        });
+        fs.unlinkSync(ubReportAddress);
     } catch (err) {
-        console.error(`Couldn't remove ${ubReportAddress}, maybe it did not exist`);
+        console.info(`Couldn't remove ${ubReportAddress}, maybe it did not exist`);
         console.log(err);
     }
     console.info(`generating ${ubReportAddress}`);

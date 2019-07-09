@@ -29,9 +29,7 @@ function parseRawUBData (rawUBDataAddress) {
   
   let fs = require('fs');
   try {
-      fs.unlinkSync(upReportAddress, (err) => {
-        console.info(`${upReportAddress} was deleted`);
-      });
+      fs.unlinkSync(upReportAddress);
   } catch (err) {
       console.error(`${upReportAddress} did not exist`);
   }
@@ -97,13 +95,9 @@ function parseWorkstationList(dataList) {
     }
 
     result.push(ubElement);
-
   } 
-
   return result;
 }
-
-
 
 function parseWorkstationHelpersList(dataList) {
   let result = [];
@@ -159,7 +153,6 @@ function parseWorkstationHelpersList(dataList) {
         }
 
       }
-
       cpuSum += maxCPU;
       memorySum += maxMemory;
     }
@@ -174,11 +167,8 @@ function parseWorkstationHelpersList(dataList) {
       memory: memorySum/pidList.length,
       duration: duration,
     }
-
     result.push(ubElement);
-
   } 
-
   return result;
 }
 

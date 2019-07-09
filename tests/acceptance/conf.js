@@ -55,7 +55,7 @@ exports.config = {
   // params are not available in beforeLaunch() method.
   beforeLaunch: async () => {
 
-    if (customArgObj.args.ubConf.enableUB === true) {
+    if (customArgObj.args.ubConf.enableUB) {
       //replace the builder.js in node_modules to the builder.js in utils/ubUtils/
       let replaceUBBuilder = require("./utils/ubUtils/ubBuilderReplacer.js");
       replaceUBBuilder();
@@ -124,31 +124,30 @@ exports.config = {
         await smartTab.selectTab('Dossiers');
         await smartTab.app.sleep(30000);
       }
+    }
 
-      //get PID list of workstation and workstation helpers
-      if (customArgObj.args.ubConf.enableUB) {
-        const psList = require('ps-list');
-        let mylist = await psList(); 	//=> [{pid: 3213, name: 'node', cmd: 'node test.js', ppid: 1, uid: 501, cpu: 0.1, memory: 1.5}, …]
-        let workstationPidList = [];
-        let workstationHelperPidList = [];
-        mylist.forEach(function (process) {
-          if (process.name === "MicroStrategy Workstation") {
-            workstationPidList.push(process.pid);
-          }
-          if (process.name === "MicroStrategy Workstation Helper") {
-            workstationHelperPidList.push(process.pid);
-          }
-        });
-        global.workstationPidLists = {
-          workstationPidList,
-          workstationHelperPidList
-        };
-        console.log("global: the pid of workstation is: " + workstationPidList);
-  
-        //init ubData 
-        global.ubData = [];
-        
-      }
+    //get PID list of workstation and workstation helpers
+    if (customArgObj.args.ubConf.enableUB) {
+      const psList = require('ps-list');
+      let mylist = await psList(); 	//=> [{pid: 3213, name: 'node', cmd: 'node test.js', ppid: 1, uid: 501, cpu: 0.1, memory: 1.5}, …]
+      let workstationPidList = [];
+      let workstationHelperPidList = [];
+      mylist.forEach(function (process) {
+        if (process.name === "MicroStrategy Workstation") {
+          workstationPidList.push(process.pid);
+        }
+        if (process.name === "MicroStrategy Workstation Helper") {
+          workstationHelperPidList.push(process.pid);
+        }
+      });
+      global.workstationPidLists = {
+        workstationPidList,
+        workstationHelperPidList
+      };
+      console.log("global: the pid of workstation is: " + workstationPidList);
+
+      //init ubData 
+      global.ubData = [];
       
     }
   },
@@ -173,11 +172,9 @@ exports.config = {
       let fs = require('fs');
 
       try{
-        fs.unlinkSync(`${customArgObj.args.ubConf.ubReportPath}`, (err) => {
-          console.log(`${customArgObj.args.ubConf.ubReportPath} is deleted`);
-        });
+        fs.unlinkSync(`${customArgObj.args.ubConf.ubReportPath}`);
       } catch(err) {
-        console.log("Failed to remove the raw ub report, maybe it's already removed");
+        console.info(`Failed to remove the raw ub report ${customArgObj.args.ubConf.ubReportPath}, maybe it's already removed`);
         console.log(err);
       }
 
