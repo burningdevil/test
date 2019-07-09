@@ -5,8 +5,8 @@
                 "envName": "AQDT",
                 "envUrl": "https://aqueduct-tech.customer.cloud.microstrategy.com/MicroStrategyLibrary",
                 "loginMode": "LDAP",
-                "userName": "luntan",
-                "userPwd": "13647245012Att",
+                "userName": "yourname",
+                "userPwd": "yourpwd",
                 "projects": ["Rally Analytics"]
             }
         ]
@@ -16,7 +16,7 @@
         "connectEnv": true,
         "removeEnv": true,
         "appPath": {
-            "mac": "MicroStrategy Workstation ub",
+            "mac": "/Users/qfan/bin/MicroStrategy Workstation.app",
             "windows": "C:\\Program Files\\MicroStrategy\\Workstation\\Workstation.exe"
         },
         "ubConf": {
