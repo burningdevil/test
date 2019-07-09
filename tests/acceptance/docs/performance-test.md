@@ -32,12 +32,10 @@ let getAverage = require("./averageUBCalculator.js");
 let individualUBFolder = "./reports/ubIndividual/";
 getAverage(individualUBFolder);
 ```
-## Details about how we get the raw ub data:
+## Details about how we implemented the UB monitor:
+https://microstrategy.atlassian.net/wiki/spaces/TTWF/pages/741705788/UB+for+application+level+tests
+## Details about how we get the raw ub data and calculate UB reports based on the raw data. 
 https://microstrategy.atlassian.net/wiki/spaces/TTWF/pages/775160964/Workstation+E2E+Automation
-## Details about how we calculate UB reports based on the raw data.
-https://microstrategy.atlassian.net/wiki/spaces/TTWF/pages/775160964/Workstation+E2E+Automation
-
-
 
 
 
