@@ -18,6 +18,11 @@
         "appPath": {
             "mac": "/Users/qfan/bin/MicroStrategy Workstation.app",
             "windows": "C:\\Program Files\\MicroStrategy\\Workstation\\Workstation.exe"
+        },
+        "ubConf": {
+            "ubReportPath": "./reports/raw/report1.json",
+            "ubInterval":500,
+            "enableUB":false
         }
     }
 }

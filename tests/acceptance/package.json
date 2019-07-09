@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "protractor conf.js --disableChecks"
+    "test": "protractor conf.js --disableChecks",
+    "ubTest": "node utils/ubUtils/runUB.js"
   },
   "author": "",
   "license": "ISC",
@@ -23,6 +24,12 @@
     "protractor": "^5.4.2",
     "protractor-cucumber-framework": "^4.0.8",
     "regenerator-runtime": "^0.13.2",
-    "wd": "^1.11.1"
+    "wd": "^1.11.1",
+    "yargs": "^13.2.4"
+  },
+  "dependencies": {
+    "pidusage": "^2.0.17",
+    "ps-list": "^6.3.0"
+
   }
 }

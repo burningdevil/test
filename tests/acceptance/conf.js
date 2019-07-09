@@ -42,7 +42,8 @@ exports.config = {
   cucumberOpts: {
     require: './features/step_definitions/**/*.js',  // require step definition files before executing features
     format: ["pretty", "json:Cucumber.json"],            // <string[]> (type[:path]) specify the output format, optionally supply PATH to redirect formatter output (repeatable)
-    // tags: ['@workstation'],
+    tags: ['@workstation'],
+
     profile: false,
     'no-source': true
   },
@@ -53,6 +54,13 @@ exports.config = {
   // Launch workstation and initialize a CEF webview for Protractor to connect to.
   // params are not available in beforeLaunch() method.
   beforeLaunch: async () => {
+
+    if (customArgObj.args.ubConf.enableUB) {
+      //replace the builder.js in node_modules to the builder.js in utils/ubUtils/
+      let replaceUBBuilder = require("./utils/ubUtils/ubBuilderReplacer.js");
+      replaceUBBuilder();
+    }
+
     // setting global variables
     global.expect = chai.expect;
 
@@ -117,6 +125,31 @@ exports.config = {
         await smartTab.app.sleep(30000);
       }
     }
+
+    //get PID list of workstation and workstation helpers
+    if (customArgObj.args.ubConf.enableUB) {
+      const psList = require('ps-list');
+      let mylist = await psList(); 	//=> [{pid: 3213, name: 'node', cmd: 'node test.js', ppid: 1, uid: 501, cpu: 0.1, memory: 1.5}, …]
+      let workstationPidList = [];
+      let workstationHelperPidList = [];
+      mylist.forEach(function (process) {
+        if (process.name === "MicroStrategy Workstation") {
+          workstationPidList.push(process.pid);
+        }
+        if (process.name === "MicroStrategy Workstation Helper") {
+          workstationHelperPidList.push(process.pid);
+        }
+      });
+      global.workstationPidLists = {
+        workstationPidList,
+        workstationHelperPidList
+      };
+      console.log("global: the pid of workstation is: " + workstationPidList);
+
+      //init ubData 
+      global.ubData = [];
+      
+    }
   },
 
   onComplete: async () => {
@@ -129,12 +162,27 @@ exports.config = {
     }
   },
 
-  afterLaunch: () => {
+  afterLaunch: async () => {
     // quit Workstation
-    if (customArgObj.args.launchWS) {
-      const quitWorkstation = require('./utils/wsUtils/quitWorkstation');
-      return quitWorkstation();
+    const quitWorkstation = require('./utils/wsUtils/quitWorkstation');
+    await quitWorkstation();
+
+    if (customArgObj.args.ubConf.enableUB === true) {
+      //clear data in raw ub report
+      let fs = require('fs');
+
+      try{
+        fs.unlinkSync(`${customArgObj.args.ubConf.ubReportPath}`);
+      } catch(err) {
+        console.info(`Failed to remove the raw ub report ${customArgObj.args.ubConf.ubReportPath}, maybe it's already removed`);
+        console.log(err);
+      }
+
+      //generate the ub report
+      console.info(`generating ${customArgObj.args.ubConf.ubReportPath}`);
+      fs.appendFileSync(`${customArgObj.args.ubConf.ubReportPath}`, JSON.stringify(ubData, null, 2), 'UTF-8');
     }
+    
   }
 
 }
