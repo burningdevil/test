@@ -5,15 +5,15 @@ function generateUBReports(rawUBReportFolder) {
   fs.readdirSync(rawUBReportFolder).forEach(file => {
       if (file.endsWith(".json")) {
           
-        console.log(file);
+        console.info(`parsing ${rawUBReportFolder}${file}`);
         parseRawUBData(`../../reports/raw/${file}`);
       }
   });
 
 }
 
-function parseRawUBData (rawUBDataAddress) {
-  let report = require(rawUBDataAddress);
+function parseRawUBData (rawUBDataPath) {
+  let report = require(rawUBDataPath);
   let workstationDataList = report[0].workstation;
   let workstationHelperList = report[0].workstation_helper;
   
@@ -24,18 +24,17 @@ function parseRawUBData (rawUBDataAddress) {
   let workstationHelpersResult = parseWorkstationHelpersList(workstationHelperList);
   // console.log(workstationHelpersResult);
 
-  let rawReportName = rawUBDataAddress.slice(rawUBDataAddress.lastIndexOf("/") + 1);
-  let upReportAddress = `./reports/ubIndividual/UB${rawReportName}`;
+  let rawReportName = rawUBDataPath.slice(rawUBDataPath.lastIndexOf("/") + 1);
+  let upReportPath = `./reports/ubIndividual/UB${rawReportName}`;
   
-  let fs = require('fs');
   try {
-      fs.unlinkSync(upReportAddress);
+      fs.unlinkSync(upReportPath);
   } catch (err) {
-      console.error(`${upReportAddress} did not exist`);
+      console.error(`${upReportPath} did not exist`);
   }
   
-  console.info(`generating ${upReportAddress}`);
-  fs.appendFileSync(upReportAddress, JSON.stringify({workstation: workstationResult, workstationHelpers: workstationHelpersResult}, null, 2), 'UTF-8');
+  console.info(`generating ${upReportPath}`);
+  fs.appendFileSync(upReportPath, JSON.stringify({workstation: workstationResult, workstationHelpers: workstationHelpersResult}, null, 2), 'UTF-8');
   
 }
 
@@ -181,7 +180,8 @@ function getPIDList(list) {
   let keys = Object.keys(list[0]);
   let result = [];
   for (key in keys) {
-    if (keys[key] !== "feature" && keys[key] !== "scenario" && keys[key] !== "pattern" && keys[key] !== "patternID" && keys[key] !== "source") {
+    //PID is a number, so if it the key matches /^[0-9]*$/, it should be a PID
+    if(/^[0-9]*$/.test(keys[key])){
       result.push(keys[key]);
     }
   }
