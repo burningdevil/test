@@ -74,7 +74,7 @@ export default class Toolbar extends RootApp {
     return this.getNativeElement({
       windows:{ 
         locators: [
-          { method: 'Name', value: 'Search' },
+          { method: 'AccessibilityId', value: 'SearchTermTextBox' },
         ]},
       mac: { xpath: toolbar.searchInputBox}
     });
@@ -84,8 +84,7 @@ export default class Toolbar extends RootApp {
     return this.getNativeElement({
       windows:{ 
         locators: [
-          { method: '', value: '' },
-          { method: '', value: '' } 
+          { method: 'Name', value: 'Clear Searchbox' },
         ]},
       mac: { xpath: toolbar.clearSearchInput}
     });

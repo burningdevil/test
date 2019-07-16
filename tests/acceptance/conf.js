@@ -42,8 +42,8 @@ exports.config = {
   cucumberOpts: {
     require: './features/step_definitions/**/*.js',  // require step definition files before executing features
     format: ["pretty", "json:Cucumber.json"],            // <string[]> (type[:path]) specify the output format, optionally supply PATH to redirect formatter output (repeatable)
-    tags: ['@workstation'],
-
+    // tags: ['@workstation'],
+    tags: ['@ub'],
     profile: false,
     'no-source': true
   },
@@ -133,10 +133,18 @@ exports.config = {
       let workstationPidList = [];
       let workstationHelperPidList = [];
       mylist.forEach(function (process) {
+        //Mac
         if (process.name === "MicroStrategy Workstation") {
           workstationPidList.push(process.pid);
         }
         if (process.name === "MicroStrategy Workstation Helper") {
+          workstationHelperPidList.push(process.pid);
+        }
+        //Windows
+        if (process.name === "Workstation.exe") {
+          workstationPidList.push(process.pid);
+        }
+        if (process.name === "CefSharp.BrowserSubprocess.exe") {
           workstationHelperPidList.push(process.pid);
         }
       });
@@ -163,10 +171,7 @@ exports.config = {
   },
 
   afterLaunch: async () => {
-    // quit Workstation
-    const quitWorkstation = require('./utils/wsUtils/quitWorkstation');
-    await quitWorkstation();
-
+    //generate single run UB report
     if (customArgObj.args.ubConf.enableUB === true) {
       //clear data in raw ub report
       let fs = require('fs');
@@ -182,6 +187,10 @@ exports.config = {
       console.info(`generating ${customArgObj.args.ubConf.ubReportPath}`);
       fs.appendFileSync(`${customArgObj.args.ubConf.ubReportPath}`, JSON.stringify(ubData, null, 2), 'UTF-8');
     }
+
+    // quit Workstation
+    const quitWorkstation = require('./utils/wsUtils/quitWorkstation');
+    await quitWorkstation();
     
   }
 
