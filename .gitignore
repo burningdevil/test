@@ -34,3 +34,13 @@ deploy/runtime-share
 tests/acceptance/.reports
 tests/acceptance/report.json
 tests/acceptance/reports/raw/report1.json
+tests/acceptance/reports/ubIndividual/UBreport5.json
+tests/acceptance/reports/ubIndividual/UBreport3.json
+tests/acceptance/reports/ubIndividual/UBreport1.json
+tests/acceptance/reports/raw/report5.json
+tests/acceptance/reports/raw/report3.json
+tests/acceptance/reports/raw/report2.json
+tests/acceptance/reports/ubIndividual/UBreport4.json
+tests/acceptance/reports/ubIndividual/UBreport2.json
+tests/acceptance/reports/ubAverage.json
+tests/acceptance/reports/raw/report4.json

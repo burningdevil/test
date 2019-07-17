@@ -12,27 +12,29 @@ let wsHelperData = [];
 //in Before, it will become: {featureName: xxx feature, scenarioName: xxx scenario}
 let featureDescriptions = {};
 
-let patternID = 0;
+let patternID = 1;
+let patternAndID;
 
 // Wrap around each step
 setDefinitionFunctionWrapper(function (fn, opts, pattern) {
   return async function() {
 
-    if (pattern) {
-      patternID++;
+    patternAndID = {
+      pattern: pattern,
+      patternID: patternID
     }
+    
   
     let workstationPidList;
     let workstationHelperPidList;
     let pidusage;
-    let counter;
+    let clearUBMonitor;
 
     //if UB monitor is enabled, workstationPidLists will be defined in global
     if (typeof workstationPidLists !== "undefined") {
       workstationPidList = workstationPidLists.workstationPidList;
       workstationHelperPidList = workstationPidLists.workstationHelperPidList;
       pidusage = require('pidusage');
-      counter;
     }
 
     if (protractorArgs.args.ubConf.enableUB === true) {
@@ -63,14 +65,32 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
           wsHelperData.push(stats);
         }
       });
-      counter = await setInterval(function () {
+
+      let setIntervalSynchronous = function (func, delay) {
+        let intervalFunction, timeoutId, clear;
+        // Call to clear the interval.
+        clear = function () {
+          clearTimeout(timeoutId);
+        };
+        intervalFunction = function () {
+          func();
+          timeoutId = setTimeout(intervalFunction, delay);
+        }
+        // Delay start.
+        timeoutId = setTimeout(intervalFunction, delay);
+        // You should capture the returned function for clearing.
+        return clear;
+      };
+
+      clearUBMonitor = setIntervalSynchronous(function () {
+
         pidusage(workstationPidList, function (err, stats) {  
-          if (stats) {
+          if (stats && patternAndID.pattern) {
 
             stats.feature = featureDescriptions.featureName;
             stats.scenario= featureDescriptions.scenarioName;
-            stats.pattern = pattern;
-            stats.patternID = patternID;
+            stats.pattern = patternAndID.pattern;
+            stats.patternID = patternAndID.patternID;
 
             stats.source = "Workstation";
             
@@ -78,12 +98,12 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
           }
         });
         pidusage(workstationHelperPidList, function (err, stats) {  
-          if (stats) {
+          if (stats && patternAndID.pattern) {
 
             stats.feature = featureDescriptions.featureName;
             stats.scenario= featureDescriptions.scenarioName;
-            stats.pattern = pattern;
-            stats.patternID = patternID;
+            stats.pattern = patternAndID.pattern;
+            stats.patternID = patternAndID.patternID;
 
             stats.source = "Workstation Helper";
 
@@ -91,19 +111,26 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
           }
         });
       }, this.ubInterval);
+
     }
     
     try {
       await fn.apply(this, arguments);
+      clearUBMonitor();
     } catch (e) {
       console.info(e);
       //This is the place that we should add screenshots
       throw new Error('error happened in the function wrapper');
     } finally {
-      if (counter) {
-        await clearInterval(counter);
-      }
+      clearUBMonitor();
     }
+
+    if (pattern) {
+      patternID++;
+      patternAndID.pattern = pattern;
+      patternAndID.patternID = patternID;
+    }
+  
   };
 });
 
@@ -116,7 +143,7 @@ function CustomWorld() {
 }
 
 Before(async function (scenarioResult) {
-  patternID = 0;
+  patternID = 1;
 
   // console.log(`Feature is: ${scenarioResult.scenario.feature.name}`);
   featureDescriptions.featureName = scenarioResult.scenario.feature.name;
@@ -128,7 +155,6 @@ Before(async function (scenarioResult) {
 
 After(async function () {
 
-  patternID = 0;
   if (protractorArgs.args.ubConf.enableUB === true) {
     //ubData is defined in global
     ubData.push({

@@ -5,7 +5,7 @@ const { Given, When, Then } = require('cucumber');
     return toolbar.search(searchString);
   });
   
-  Then('I clear search', async function () {
+  When('I clear search', async function () {
     return toolbar.clickClearSearch();
   });
   
