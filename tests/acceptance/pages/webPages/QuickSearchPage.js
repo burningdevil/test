@@ -1,4 +1,5 @@
 import BasePage from './BasePage';
+import DossierEditor from '../nativePages/DossierEditor';
 
 export default class QuickSearchPage extends BasePage {
 
@@ -29,7 +30,27 @@ export default class QuickSearchPage extends BasePage {
 
   async selectItemByName(name) {
     await this.getQuickSearchListItemByName(name).click();
-    return this.sleep(10000); // wait for dossier to be executed
+    let dossierEditor = new DossierEditor();
+
+
+    // await this.sleep(10000); // wait for dossier to be executed
+
+    let dossierEditorXPath = MAC_XPATH['dossierEditor'];
+    let closeButtonXPath = dossierEditorXPath.close.replace(/ReplaceMe/g, "TEC.QA");
+    let containerXPath = dossierEditorXPath.container.replace(/ReplaceMe/g, "TEC.QA");
+
+    // console.log(closeButtonXPath);
+
+    await dossierEditor.waitForElementByXPath1(closeButtonXPath, 10000, 200, ()=>{console.log("a call back")});
+
+    // console.log("dossier editor is ",dossierEditor);
+
+    // dossierEditor.waitForElementByXPath(closeButtonXPath, 20000 );
+
+
+    let dossierEditorCloseButton = await dossierEditor.getDossierEditorCloseButton("TEC.QA");
+    await dossierEditor.moveToAndClick(dossierEditorCloseButton);
+
   }
 
   // assertions

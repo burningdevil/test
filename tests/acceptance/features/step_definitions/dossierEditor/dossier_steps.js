@@ -8,7 +8,7 @@ Then('Dossier {dossierName} should be displayed', async function (dossierName) {
 });
 
 
-Then('I close Dossier {dossierName}', async function (dossierName) {
+When('I close Dossier {dossierName}', async function (dossierName) {
   if (OSType === 'windows') {
     await dossierEditor.closeDossierEditor(dossierName);
     await switchToWindow('Workstation Main Window');
