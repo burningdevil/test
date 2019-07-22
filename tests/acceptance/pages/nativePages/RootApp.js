@@ -10,7 +10,7 @@ export default class RootApp {
 
   constructor() {
     this.app = global.workstationApp;
-    // this.asserters = wd.asserters;
+    this.asserters = wd.asserters;
 
     // this.customIsDisplayed = new Asserter(
     //   function (el){
@@ -25,6 +25,9 @@ export default class RootApp {
     // console.log(this.asserters);
     // console.log(this.customIsDisplayed);
 
+    console.log(this.app.waitForElementByXPath.toString());
+    debugger
+    // await this.app.waitForElementByXPath(xpath, wd.asserters.isDisplayed, 200000);
 
     // try{
     //   await this.app.waitForElementByXPath(xpath,this.customIsDisplayed, 10000, 500, ()=>{console.log("call back")});
@@ -43,10 +46,7 @@ export default class RootApp {
     let checkingResult = false;
 
     let sleep = (ms) => {
-      let start = new Date().getTime()
-      let expire = start + ms;
-      while (new Date().getTime() < expire) { }
-      return;
+      return new Promise((resolve, reject) => setTimeout(resolve, ms));
     }
 
     while (checkingResult === false) {
