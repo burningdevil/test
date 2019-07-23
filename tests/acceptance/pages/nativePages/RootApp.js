@@ -25,23 +25,13 @@ export default class RootApp {
     // console.log(this.asserters);
     // console.log(this.customIsDisplayed);
 
-    console.log(this.app.waitForElementByXPath.toString());
-    debugger
+    // console.log(this.app.waitForElementByXPath.toString());
+    // debugger
     // await this.app.waitForElementByXPath(xpath, wd.asserters.isDisplayed, 200000);
 
-    // try{
-    //   await this.app.waitForElementByXPath(xpath,this.customIsDisplayed, 10000, 500, ()=>{console.log("call back")});
-    // } catch (err) {
-
-    //   console.log(err);
-
-    //   console.log(this.app.toString());
-
-    //   console.log(this.app.waitForElementByXPath.toString());
-
-    // }
-
     console.log("dynamic waiting....", xpath);
+
+    var endTime = Date.now() + timeout;
 
     let checkingResult = false;
 
@@ -49,7 +39,7 @@ export default class RootApp {
       return new Promise((resolve, reject) => setTimeout(resolve, ms));
     }
 
-    while (checkingResult === false) {
+    while (checkingResult === false && Date.now() < endTime) {
       try{
         console.log(await this.app.elementByXPath(xpath).isDisplayed());
         if (await this.app.elementByXPath(xpath).isDisplayed()) {
@@ -58,8 +48,11 @@ export default class RootApp {
       } catch (err) {
         console.log(err);
       }
-      sleep(500);
+      sleep(pollFreq);
     }
+
+    console.log(`could not find the element in ${timeout/1000} seconds`);
+
   }
 
 

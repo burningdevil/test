@@ -41,7 +41,7 @@ export default class QuickSearchPage extends BasePage {
 
     // console.log(closeButtonXPath);
 
-    await dossierEditor.waitForElementByXPath1(closeButtonXPath, 10000, 200, ()=>{console.log("a call back")});
+    await dossierEditor.waitForElementByXPath1(closeButtonXPath, 60000, 500, ()=>{console.log("a call back")});
 
     // console.log("dossier editor is ",dossierEditor);
 
