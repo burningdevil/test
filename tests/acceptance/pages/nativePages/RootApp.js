@@ -1,9 +1,3 @@
-let wd = require("wd");
-var chai = require("chai");
-var chaiAsPromised = require("chai-as-promised");
-chai.use(chaiAsPromised);
-chai.should();
-
 export default class RootApp {
 
   constructor() {
@@ -89,7 +83,6 @@ export default class RootApp {
             throw Error('please properly define the using method use dynamic wait');
           }
       }
-      return elm;
     } else {
         return this.waitForElementByXPath1(obj.mac.xpath, 60000, 200);
     }
