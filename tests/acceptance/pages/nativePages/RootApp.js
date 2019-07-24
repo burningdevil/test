@@ -4,34 +4,29 @@ var chaiAsPromised = require("chai-as-promised");
 chai.use(chaiAsPromised);
 chai.should();
 
-let Asserter = wd.Asserter;
-
 export default class RootApp {
 
   constructor() {
     this.app = global.workstationApp;
-    this.asserters = wd.asserters;
-
-    // this.customIsDisplayed = new Asserter(
-    //   function (el){
-    //     return el.isDisplayed().should.eventually.be.ok.catch(tagChaiAssertionError);
-    //   }
-    // );
   }
 
-  //wait for element by xpath
-  async waitForElementByXPath1(xpath, timeout, pollFreq, cb) {
+  async waitFor1(method, value, timeout, pollFreq) {
+   
+    let findElement;
+    switch(method) {
+      case "XPath" : findElement = this.app.elementByXPath
+        break;
+      case "Name" : findElement = this.app.elementByName
+        break;
+      case "ClassName" : findElement = this.app.elementByClassName
+        break;
+      case "AccessibilityId" : findElement = this.app.AccessibilityId
+        break;
+    }
 
-    // console.log(this.asserters);
-    // console.log(this.customIsDisplayed);
+    console.log(`dynamic waiting ${value} with ${method}`);
 
-    // console.log(this.app.waitForElementByXPath.toString());
-    // debugger
-    // await this.app.waitForElementByXPath(xpath, wd.asserters.isDisplayed, 200000);
-
-    console.log("dynamic waiting....", xpath);
-
-    var endTime = Date.now() + timeout;
+    let endTime = Date.now() + timeout;
 
     let checkingResult = false;
 
@@ -41,50 +36,43 @@ export default class RootApp {
 
     while (checkingResult === false && Date.now() < endTime) {
       try{
-        console.log(await this.app.elementByXPath(xpath).isDisplayed());
-        if (await this.app.elementByXPath(xpath).isDisplayed()) {
+        if (await findElement.apply(this.app, [value]).isDisplayed()) {
           checkingResult = true;
+          console.log(`found ${value} with ${method}`)
+          return Promise.resolve(`element is found: ${value} with ${method}`)
         }
       } catch (err) {
-        console.log(err);
+        console.log(`the expectation of ${value} with ${method} is not fulfilled, continue waiting...`);
       }
       sleep(pollFreq);
     }
 
-    console.log(`could not find the element in ${timeout/1000} seconds`);
+    return Promise.reject(new Error(`App waited for the element for ${timeout/1000} seconds, but could not find the element`));
+  }
+
+  async waitForElementByXPath1(xpath, timeout, pollFreq) {
+
+    await this.waitFor1("XPath", xpath, timeout, pollFreq);
 
   }
 
+  async waitForElementByName1(name, timeout, pollFreq) {
 
+    await this.waitFor1("Name", name, timeout, pollFreq);
 
-  
+  }
 
-  
+  async waitForElementByClassName1(className, timeout, pollFreq) {
 
-  // //wait with assert
-  // async waitFor(assert) {
-  //   return this.app.waitFor(assert , 2000);
-  // }
+    await this.waitFor1("ClassName", className, timeout, pollFreq);
 
-  // //without assert
-  // async waitForElementByCss (cssSelector, timeout) {
-  //   return this.app.waitForElementByCss(cssSelector, timeout);
-  // }
+  }
 
-  // //with assert
-  // async waitForElementByCss (cssSelector, assert, timeout) {
-  //   return this.app.waitForElementByCss(cssSelector,assert, timeout);
-  // }
+  async waitForElementByAccessibilityId1(accessibilityId, timeout, pollFreq) {
 
-  // //wait until css selected element is displayed
-  // async waitForElementIsDisplayedByCss(cssSelector, timeout) {
-  //   return this.app.waitForElementByCss(cssSelector, this.asserters.isDisplayed , timeout);
-  // }
+    await this.waitFor1("AccessibilityId", accessibilityId, timeout, pollFreq);
 
-  // async waitForElementByXPath(xpath, timeout) {
-  //   return this.app.waitForElementByXPath(xpath, timeout);
-  // }
-
+  }
 
   // helper methods
   async getNativeElement(obj) {
