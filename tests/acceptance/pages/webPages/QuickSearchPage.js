@@ -30,27 +30,16 @@ export default class QuickSearchPage extends BasePage {
 
   async selectItemByName(name) {
     await this.getQuickSearchListItemByName(name).click();
+
     let dossierEditor = new DossierEditor();
-
-
-    // await this.sleep(10000); // wait for dossier to be executed
-
-    let dossierEditorXPath = MAC_XPATH['dossierEditor'];
-    let closeButtonXPath = dossierEditorXPath.close.replace(/ReplaceMe/g, "TEC.QA");
-    let containerXPath = dossierEditorXPath.container.replace(/ReplaceMe/g, "TEC.QA");
-
-    // console.log(closeButtonXPath);
-
-    await dossierEditor.waitForElementByXPath1(closeButtonXPath, 60000, 500, ()=>{console.log("a call back")});
-
-    // console.log("dossier editor is ",dossierEditor);
-
-    // dossierEditor.waitForElementByXPath(closeButtonXPath, 20000 );
-
-
-    let dossierEditorCloseButton = await dossierEditor.getDossierEditorCloseButton("TEC.QA");
-    await dossierEditor.moveToAndClick(dossierEditorCloseButton);
-
+    await dossierEditor.waitNativeElement({
+      windows:{ 
+        locators: [
+          { method: '', value: '' },
+          { method: '', value: '' } 
+        ]},
+      mac: { xpath: MAC_XPATH['dossierEditor'].close.replace(/ReplaceMe/g, name)}
+    });
   }
 
   // assertions
