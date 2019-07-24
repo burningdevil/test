@@ -74,6 +74,27 @@ export default class RootApp {
 
   }
 
+  async waitNativeElement(obj) {
+    if (OSType === 'windows') { 
+      for(let index=0; index<obj.windows.locators.length; index++) {
+        let locator = obj.windows.locators[index];
+        switch (locator.method) {
+          case "Name":
+            return this.waitForElementByName1(locator.value, 60000, 200);
+          case "ClassName":
+            return this.waitForElementByClassName1(locator.value, 60000, 200);
+          case "AccessibilityId":
+            return this.waitForElementByAccessibilityId1(locator.value, 60000, 200);
+          default:
+            throw Error('please properly define the using method use dynamic wait');
+          }
+      }
+      return elm;
+    } else {
+        return this.waitForElementByXPath1(obj.mac.xpath, 60000, 200);
+    }
+  }
+
   // helper methods
   async getNativeElement(obj) {
     if (OSType === 'windows') {
