@@ -43,7 +43,7 @@ exports.config = {
     require: './features/step_definitions/**/*.js',  // require step definition files before executing features
     format: ["pretty", "json:Cucumber.json"],            // <string[]> (type[:path]) specify the output format, optionally supply PATH to redirect formatter output (repeatable)
     // tags: ['@workstation'],
-    tags: ['@ub'],
+    tags: ['@mac_example'],
     profile: false,
     'no-source': true
   },
@@ -122,7 +122,16 @@ exports.config = {
       // first-time cache generation for mac (temporary)
       if (OSType === 'mac') {
         await smartTab.selectTab('Dossiers');
-        await smartTab.app.sleep(30000);
+
+        //dynamic wait for the Dossiers tab load completely
+        await smartTab.waitNativeElement({
+          windows:{ 
+            locators: [
+              { method: '', value: '' },
+              { method: '', value: '' } 
+            ]},
+          mac: { xpath: MAC_XPATH['iconView'].separaterTitle}
+        });
       }
     }
 
