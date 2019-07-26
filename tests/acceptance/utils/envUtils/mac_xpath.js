@@ -52,7 +52,7 @@ const mac_xpath = {
     menuOption:`${osMenuBar}/AXMenuBarItem[@AXTitle='ReplaceMenuItemName']/AXMenu[0]/AXMenuItem[@AXTitle='ReplaceOption']`
   },
   iconView: {
-    separaterTitle: `/AXApplication[@AXTitle='MicroStrategy Workstation']/AXWindow[@AXSubrole='AXStandardWindow']/AXSplitGroup[0]/AXGroup[1]/AXScrollArea[0]/AXList[@AXSubrole='AXCollectionList']/AXList[@AXSubrole='AXSectionList']/AXGroup/AXStaticText[@AXValue='AQDT']`
+    separaterTitle: `/AXApplication[@AXTitle='MicroStrategy Workstation']/AXWindow[@AXSubrole='AXStandardWindow']/AXSplitGroup[0]/AXGroup[1]/AXScrollArea[0]/AXList[@AXSubrole='AXCollectionList']/AXList[@AXSubrole='AXSectionList']/AXGroup/AXStaticText[@AXValue='replaceMe']`
   }
   
 }

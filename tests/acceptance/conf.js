@@ -130,7 +130,7 @@ exports.config = {
               { method: '', value: '' },
               { method: '', value: '' } 
             ]},
-          mac: { xpath: MAC_XPATH['iconView'].separaterTitle}
+          mac: { xpath: MAC_XPATH['iconView'].separaterTitle.replace("replaceMe", envName)}
         });
       }
     }
