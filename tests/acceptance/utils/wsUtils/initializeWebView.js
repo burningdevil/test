@@ -17,7 +17,7 @@ async function initializeWebView() {
     await switchToWindow('Workstation Main Window');
   } else {
     // workstation Mac only has Quick Search as CEF webview for now
-    const toolbar = MAC_XPATH['toolbar'];
+    const toolbar = MAC_XPATH_GENERAL.toolbar;
     let searchInputBox = await workstationApp.elementByXPath(toolbar.searchInputBox);
     await moveToAndClick(searchInputBox);
     await searchInputBox.sendKeys('Initializing web view');

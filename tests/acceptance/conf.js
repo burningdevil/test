@@ -70,11 +70,13 @@ exports.config = {
       global.windowsMap = new Map();
 
       // setting globale variables
-      const constants = require('./utils/envUtils/constants');
+      const variables = require('./utils/envUtils/variables');
       ({
         MAC_XPATH: global.MAC_XPATH,
+        MAC_XPATH_VIEWMODE: global.MAC_XPATH_VIEWMODE,
+        MAC_XPATH_GENERAL: global.MAC_XPATH_GENERAL,
         OSType: global.OSType,
-      } = constants);
+      } = variables);
 
       // Start Workstation. 
       // This workstation driver is stored globally to be used anywhere else.
@@ -104,7 +106,7 @@ exports.config = {
 
     // build windows for Workstation
     const WindowBuilder = require('./pages/nativePages/WindowBuilder'); //change here
-    ({ envConnection, mainWindow, dossierEditor, toolbar, smartTab, menuBar, hyperCard } = WindowBuilder());
+    ({ envConnection, mainWindow, editor, toolbar, smartTab, menuBar, hyperCard } = WindowBuilder());
 
     if(customArgObj.args.connectEnv) {
       // TODO: remove exiting environment

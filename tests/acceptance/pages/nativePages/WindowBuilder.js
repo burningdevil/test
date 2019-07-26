@@ -1,5 +1,5 @@
 import EnvConnection from './EnvConnection';
-import DossierEditor from './DossierEditor.js';
+import Editor from './Editor.js';
 import MainWindow from './MainWindow';
 import Toolbar from './Toolbar';
 import SmartTab from './SmartTab';
@@ -9,7 +9,7 @@ import HyperCard from './HyperCard';
 
 function WindowBuilder() {
   const envConnection = new EnvConnection();
-  const dossierEditor = new DossierEditor();
+  const editor = new Editor();
   const mainWindow = new MainWindow();
   const toolbar = new Toolbar();
   const smartTab = new SmartTab();
@@ -19,16 +19,17 @@ function WindowBuilder() {
   mainWindow.toolbar = toolbar;
   mainWindow.smartTab = smartTab;
   mainWindow.menuBar = menuBar;
-  dossierEditor.menuBar = menuBar;
+  editor.menuBar = menuBar;
   hyperCard.menuBar = menuBar;
 
   return {
     envConnection,
-    dossierEditor,
+    editor,
     mainWindow,
     toolbar,
     smartTab,
     menuBar,
+    searchPage,
     hyperCard
   }
 }
