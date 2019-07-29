@@ -1,0 +1,15 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env", 
+      {
+        "targets":{
+            "esmodules": true
+        },
+        "modules": "commonjs",
+        "loose": true,
+        "useBuiltIns": false
+      }
+  ]],
+  "plugins": ["./node_modules/@babel/plugin-syntax-dynamic-import"]
+}

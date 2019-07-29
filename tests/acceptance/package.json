@@ -1,0 +1,35 @@
+{
+  "name": "trymac",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "protractor conf.js --disableChecks",
+    "ubTest": "node utils/ubUtils/runUB.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.4.3",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/register": "^7.4.0",
+    "babel-plugin-dynamic-import-node": "^2.2.0",
+    "babel-preset-env": "^1.7.0",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "core-js": "^3.1.3",
+    "cucumber": "2.3.1",
+    "lodash": "^4.17.11",
+    "protractor": "^5.4.2",
+    "protractor-cucumber-framework": "^4.0.8",
+    "regenerator-runtime": "^0.13.2",
+    "wd": "^1.11.1",
+    "yargs": "^13.2.4"
+  },
+  "dependencies": {
+    "pidusage": "^2.0.17",
+    "ps-list": "^6.3.0"
+
+  }
+}
