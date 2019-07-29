@@ -179,9 +179,10 @@ exports.config = {
     }
   },
 
-  afterLaunch: async () => {
-    //generate single run UB report
-    if (customArgObj.args.ubConf.enableUB === true) {
+  afterLaunch: async (exitCode) => {
+
+    //generate single run UB report. However, if cucumber encountered error, don't generate report
+    if (customArgObj.args.ubConf.enableUB === true && exitCode === 0) {
       //clear data in raw ub report
       let fs = require('fs');
 

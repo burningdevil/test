@@ -148,7 +148,7 @@ function parseWorkstationHelpersList(dataList) {
         }
 
         if (maxMemory < value.memory) {
-          maxMemory = value.cpu;
+          maxMemory = value.memory;
         }
 
       }
@@ -188,6 +188,19 @@ function getPIDList(list) {
   return result;
 }
 
+function countSuccessfulReports() {
+  let count = 0;
+
+  fs.readdirSync("./reports/raw/").forEach(file => {
+      if (file.endsWith(".json")) {
+          count++;
+      }
+  });
+
+  return count;
+}
+
 module.exports = {
   generateUBReports: generateUBReports,
+  countSuccessfulReports: countSuccessfulReports
 }

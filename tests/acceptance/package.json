@@ -28,8 +28,8 @@
     "yargs": "^13.2.4"
   },
   "dependencies": {
+    "json2csv": "^4.5.2",
     "pidusage": "^2.0.17",
     "ps-list": "^6.3.0"
-
   }
 }
