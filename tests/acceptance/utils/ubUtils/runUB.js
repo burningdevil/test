@@ -1,5 +1,7 @@
 let {generateUBReports, countSuccessfulReports} = require("./ubDataParser.js");
-let getAverage = require("./averageUBCalculator.js");
+let {getAverage, clearExistingReports} = require("./averageUBCalculator.js");
+
+clearExistingReports();
 
 //run "protractor conf.js --enableUB=true --ubReportAddress=xxx" in the cmd for 5 times;
 const execSync = require('child_process').execSync;
