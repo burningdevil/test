@@ -99,12 +99,15 @@ function parseWorkstationList(dataList) {
 }
 
 function parseWorkstationHelpersList(dataList) {
+
   let result = [];
 
   let patternMap = new Map();
-  let pidList = getPIDList(dataList);
 
   for (element of dataList) {
+
+    //update the pidList because it may change
+    let pidList = getPIDList(element);
 
     //I am constructing a string here because javascript map has a weired behavior: using object as the key will always treat the object to be not identical. 
     let patternKey = `{"feature": "${element.feature}", "scenario": "${element.scenario}", "pattern": "${element.pattern}", "patternID": "${element.patternID}", "source":"${element.source}"}`;
@@ -126,7 +129,10 @@ function parseWorkstationHelpersList(dataList) {
     let keyObj = JSON.parse(key);
 
     let pidValueList = patternMap.get(key);
-    
+
+    //recalculate pidList because it may change
+    let pidList = getPIDList(pidValueList);
+
     //duration
     let valueListLength = pidValueList[pidList[0]].length;
     let duration = pidValueList[pidList[0]][valueListLength - 1].timestamp - pidValueList[pidList[0]][0].timestamp;
@@ -176,8 +182,8 @@ function getPID(list) {
   return keys[0];
 }
 
-function getPIDList(list) {
-  let keys = Object.keys(list[0]);
+function getPIDList(element) {
+  let keys = Object.keys(element);
   let result = [];
   for (key in keys) {
     //PID is a number, so if it the key matches /^[0-9]*$/, it should be a PID
