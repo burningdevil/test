@@ -54,12 +54,18 @@ const getObjectFromRow = function (row, columnPostfix, dbPostfix) {
 }
 
 const exportToResourceFile = async function (outputFileFolder) {
+  const messageIDs = require('../../public/descriptorIDs.json')
+
+  if (!messageIDs || !messageIDs.length) {
+    console.log(`No resource to be exported`)
+    return
+  }
+
   // TODO ryu: Check if file exists before this?
   // const file = await fs.readFile(path.join(__dirname, '/../files/pwd.txt'))
   const password = DB_PASSWD
 
-  const sqlWeb = `SELECT * FROM Strings WHERE Ownership LIKE 'Card' ORDER BY ID`
-  console.log(sqlWeb)
+  const sqlWeb = `select * from Strings where ID in (${messageIDs.join(',')})`
   let webRows = await fetchStrings(HASH_DSN_DB['LOCALIZATION_WEB'], password, sqlWeb)
   // There are inconsistencies between gui and web DB. We use | to separate them here.
   const acceptLanguageDict = {
@@ -103,17 +109,12 @@ const exportToResourceFile = async function (outputFileFolder) {
       'descriptors': descriptors
     }
     wholeDescriptors[language] = overallObj
-    // destinationFilePath = destination % language
   }
 
   const resourceFilesFolder = path.join(outputFileFolder, 'descriptors')
-  console.log(resourceFilesFolder)
 
   await fs.ensureDir(resourceFilesFolder)
   await Promise.all(Object.keys(acceptLanguageDict).map((locale) => {
-    // return fs.writeJson(path.join(resourceFilesFolder, `${locale}.js`),
-    //   wholeDescriptors[locale], 'utf8')
-
     return fs.writeFile(path.join(resourceFilesFolder, `${locale}.js`),
       'window.mstrDescriptors = ' + JSON.stringify(wholeDescriptors[locale]), 'utf8')
   }))
