@@ -1,5 +1,5 @@
 import * as _ from 'lodash'
-import desc from '../utils/desc'
+import { desc } from '../utils/desc'
 import * as compareVersions from 'compare-versions'
 
 declare var workstation: any

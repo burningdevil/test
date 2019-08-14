@@ -1,4 +1,4 @@
-import desc from './desc'
+import { desc } from './desc'
 
 declare var window: any
 

@@ -39,6 +39,7 @@ node_modules
 dist
 coverage
 public/descriptors
+public/descriptorIDs.json
 server/.librc.json
 .stats.json
 .idea/

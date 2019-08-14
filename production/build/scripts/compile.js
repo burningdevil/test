@@ -31,10 +31,10 @@ const runWebpackCompiler = (webpackConfig) =>
 
 const compile = () => Promise.resolve()
   .then(() => logger.info('Starting compiler...'))
-  .then(() => logger.info('compiling descriptors'))
-  .then(() => compileDescriptors.exportToResourceFile(project.outDir))
   .then(() => logger.info('Target application environment: ' + chalk.bold(project.env)))
   .then(() => runWebpackCompiler(webpackConfig))
+  .then(() => logger.info('compiling descriptors'))
+  .then(() => compileDescriptors.exportToResourceFile(project.outDir))
   .then((stats) => {
     logger.info(`Copying static assets from ./public to ./${project.outDir}.`)
     fs.copySync(

@@ -16,7 +16,6 @@ const __IS_WS__ = project.container === 'WS'
 
 const config = {
   entry: {
-    normalize: [inProjectSrc('normalize')],
     main: [inProjectSrc(project.main)]
   },
   devtool: project.sourcemaps ? 'source-map' : false,
@@ -52,7 +51,7 @@ const config = {
 // JavaScript
 // ------------------------------------
 config.module.rules.push({
-  test: /\.(js|jsx)$/,
+  test: /\.(js|jsx|ts|tsx)$/,
   exclude: /node_modules/,
   use: [
     {
@@ -60,22 +59,21 @@ config.module.rules.push({
       query: {
         cacheDirectory: true,
         plugins: [
-          'babel-plugin-transform-class-properties',
-          'babel-plugin-syntax-dynamic-import',
           [
-            'babel-plugin-transform-runtime',
+            '@mstr/babel-plugin-extract-descriptors',
             {
-              helpers: true,
-              polyfill: false, // we polyfill needed features in src/normalize.js
-              regenerator: true
+              'outputDir': './public',
+              'outputFilename': 'descriptorIDs.json',
+              'quiet': true,
+              'token': {
+                'functionNames': 'desc'
+              }
             }
           ],
-          [
-            'babel-plugin-transform-object-rest-spread',
-            {
-              useBuiltIns: true // we polyfill Object.assign in src/normalize.js
-            }
-          ],
+          '@babel/plugin-proposal-class-properties',
+          '@babel/plugin-syntax-dynamic-import',
+          '@babel/plugin-transform-runtime',
+          '@babel/plugin-proposal-object-rest-spread',
           [
             'import',
             {
@@ -85,33 +83,15 @@ config.module.rules.push({
           ]
         ],
         presets: [
-          'babel-preset-react',
-          [
-            'babel-preset-env',
-            {
-              modules: false,
-              targets: {
-                ie9: true
-              },
-              uglify: true
-            }
-          ],
-          'babel-preset-stage-0'
+          '@babel/preset-react',
+          '@babel/preset-env',
+          '@babel/preset-typescript'
         ]
       }
     }
   ]
 })
 
-// TypeScript
-config.module.rules.push({
-  // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'. 
-  test: /\.tsx?$/,
-  loaders: [
-    "react-hot-loader/webpack",
-    "awesome-typescript-loader"
-  ]
-})
 // Styles
 // ------------------------------------
 config.plugins.push(
