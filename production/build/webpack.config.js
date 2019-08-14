@@ -66,8 +66,7 @@ config.module.rules.push({
               'outputFilename': 'descriptorIDs.json',
               'quiet': true,
               'token': {
-                'functionNames': 'desc',
-                'objectName': 'IntlUtils'
+                'functionNames': 'desc'
               }
             }
           ],
