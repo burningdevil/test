@@ -1,4 +1,4 @@
-import { APP_CAPABILITIES, APPIUM_SERVER_URL } from '../envUtils/constants';
+import { APP_CAPABILITIES, APPIUM_SERVER_URL } from '../envUtils/variables';
 const wd = require('wd');
 
 async function startWorkstation() {
