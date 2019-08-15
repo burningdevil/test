@@ -1,78 +1,84 @@
 import RootApp from './RootApp';
-const toolbar = MAC_XPATH['toolbar'];
+const toolbar = MAC_XPATH_GENERAL['toolbar'];
 
 export default class Toolbar extends RootApp {
 
   //Locators
   async getRefresh() {
     return this.getNativeElement({
-      windows:{ 
+      windows: {
         locators: [
           { method: '', value: '' },
-          { method: '', value: '' } 
-        ]},
-      mac: { xpath: toolbar.refresh}
+          { method: '', value: '' }
+        ]
+      },
+      mac: { xpath: toolbar.refresh }
     });
   }
 
   async getIconView() {
     return this.getNativeElement({
-      windows:{ 
+      windows: {
         locators: [
           { method: '', value: '' },
-          { method: '', value: '' } 
-        ]},
-      mac: { xpath: toolbar.iconView}
+          { method: '', value: '' }
+        ]
+      },
+      mac: { xpath: toolbar.iconViewButton }
     });
   }
 
   async getListView() {
     return this.getNativeElement({
-      windows:{ 
+      windows: {
         locators: [
           { method: '', value: '' },
-          { method: '', value: '' } 
-        ]},
-      mac: { xpath: toolbar.listView}
+          { method: '', value: '' }
+        ]
+      },
+      mac: { xpath: toolbar.listViewButton }
     });
   }
 
   async getArrangeBy() {
     return this.getNativeElement({
-      windows:{ 
+      windows: {
         locators: [
           { method: '', value: '' },
-          { method: '', value: '' } 
-        ]},
-      mac: { xpath: toolbar.arrangeBy}
+          { method: '', value: '' }
+        ]
+      },
+      mac: { xpath: toolbar.arrangeBy }
     });
   }
 
   async getSortBy() {
     return this.getNativeElement({
-      windows:{ 
+      windows: {
         locators: [
           { method: '', value: '' },
-          { method: '', value: '' } 
-        ]},
-      mac: { xpath: toolbar.sortBy}
+          { method: '', value: '' }
+        ]
+      },
+      mac: { xpath: toolbar.sortBy }
     });
   }
 
   async getSelectApplication() {
     return this.getNativeElement({
-      windows:{ 
+      windows: {
         locators: [
           { method: '', value: '' },
-          { method: '', value: '' } 
-        ]},
-      mac: { xpath: toolbar.selectApplication}
+          { method: '', value: '' }
+        ]
+      },
+      mac: { xpath: toolbar.selectApplication }
     });
   }
 
   async getSearchInputBox() {
     return this.getNativeElement({
-      windows:{ 
+      windows: {
         locators: [
           { method: 'AccessibilityId', value: 'SearchTermTextBox' },
         ]},
@@ -82,7 +88,7 @@ export default class Toolbar extends RootApp {
 
   async getClearSearch() {
     return this.getNativeElement({
-      windows:{ 
+      windows: {
         locators: [
           { method: 'Name', value: 'Clear Searchbox' },
         ]},
@@ -92,33 +98,30 @@ export default class Toolbar extends RootApp {
 
   //Actions
   async refresh() {
-      await this.moveToAndClick(await this.getRefresh());
-      return this.app.sleep(2000);
-  }
-
-  async clickIconView() {
-      return this.moveToAndClick(await this.getIconView());
-  }
-
-  async clickListView() {
-      return this.moveToAndClick(await this.getListView());
+    await this.moveToAndClick(await this.getRefresh());
+    return this.app.sleep(2000);
   }
 
   async clickArrangeBy() {
-      return this.moveToAndClick(await this.getArrangeBy());
+    return this.moveToAndClick(await this.getArrangeBy());
   }
 
   async clickSortBy() {
-      return this.moveToAndClick(await this.getSortBy());
+    return this.moveToAndClick(await this.getSortBy());
   }
 
   async clickSelectApplicationIcon() {
-      return this.moveToAndClick(await this.getSelectApplication());
+    return this.moveToAndClick(await this.getSelectApplication());
   }
 
   async clickClearSearch() {
-      await this.moveToAndClick(await this.getClearSearch());
-      return this.app.sleep(500);
+    await this.moveToAndClick(await this.getClearSearch());
+    return this.app.sleep(500);
+  }
+
+  async clickSearchBox() {
+    let searchBox = await this.getSearchInputBox();
+    return this.moveToAndClick(searchBox);
   }
 
   async search(searchString) {
@@ -126,4 +129,12 @@ export default class Toolbar extends RootApp {
     await this.moveToAndClick(searchBox);
     return searchBox.sendKeys(searchString);
   }
+
+  async hitEnter() {
+    let searchBox = await this.getSearchInputBox();
+    await this.moveToAndClick(searchBox);
+    await searchBox.sendKeys(protractor.Key.ENTER);
+    return this.app.sleep(1000);
+  }
+
 } 

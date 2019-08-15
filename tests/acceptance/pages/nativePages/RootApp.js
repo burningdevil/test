@@ -91,8 +91,8 @@ export default class RootApp {
   // helper methods
   async getNativeElement(obj) {
     if (OSType === 'windows') {
-      let elm = await this.app; 
-      for(let index=0; index<obj.windows.locators.length; index++) {
+      let elm = await this.app;
+      for (let index = 0; index < obj.windows.locators.length; index++) {
         let locator = obj.windows.locators[index];
         switch (locator.method) {
           case "Name":
@@ -106,11 +106,11 @@ export default class RootApp {
             break;
           default:
             throw Error('please properly define the using method to locate the element');
-          }
+        }
       }
       return elm;
     } else {
-        return this.app.elementByXPath(obj.mac.xpath);
+      return this.app.elementByXPath(obj.mac.xpath);
     }
   }
 
@@ -122,6 +122,20 @@ export default class RootApp {
     await this.app.buttonDown();
     await this.app.sleep(100);
     return this.app.buttonUp();
+  }
+
+  async moveToAndClickAtPosition(referenceObject) {
+    await referenceObject.moveTo(5, 5);
+    await this.app.sleep(100);
+    await this.app.buttonDown();
+    await this.app.sleep(100);
+    return this.app.buttonUp();
+  }
+
+  async moveToAndDoubleClick(referenceObject) {
+    await referenceObject.moveTo();
+    await this.app.sleep(100);
+    return referenceObject.doubleClick();
   }
 
   async moveToAndSendKey(referenceObject, keysToSend) {
@@ -140,13 +154,12 @@ export default class RootApp {
 
   async contextClick() {
     await this.app.sleep(100);
-    // to press mouse right button
     await this.app.buttonDown(2);
     await this.app.sleep(100);
     return this.app.buttonUp();
   }
 
-  async rightClick(){
+  async rightClick() {
     await this.app.sleep(100);
     await this.app.click(2);
     return this.app.sleep(100);
@@ -155,13 +168,27 @@ export default class RootApp {
   async switchToWindow(windowHandle) {
     return this.app.window(windowHandle);
   }
-  
+
+  async switchViewTo(viewName) {
+    if (viewName.toLowerCase() === 'iconview') {
+      // console.log('Im in ICONVIEW');
+      await this.moveToAndClick(await this.getIconView());
+      //change xpath to icon view
+      MAC_XPATH_VIEWMODE = MAC_XPATH['iconView'];
+    } else if (viewName.toLowerCase() === 'listview') {
+      // console.log('Im in LISTVIEW');
+      await this.moveToAndClick(await this.getListView());
+      //change xpath to list view
+      MAC_XPATH_VIEWMODE = MAC_XPATH['listView'];
+      // console.log(MAC_XPATH_VIEWMODE);
+    }
+    return MAC_XPATH_VIEWMODE;
+  }
+
 
   // assertion
   async isElementDisplayedByXPath(xpath) {
     return this.app.elementByXPath(xpath).isDisplayed();
   }
 
-  
-  
 }
