@@ -1,5 +1,5 @@
 import BasePage from './BasePage';
-import DossierEditor from '../nativePages/DossierEditor';
+import Editor from '../nativePages/Editor';
 
 export default class QuickSearchPage extends BasePage {
 
@@ -31,14 +31,14 @@ export default class QuickSearchPage extends BasePage {
   async selectItemByName(name) {
     await this.getQuickSearchListItemByName(name).click();
 
-    let dossierEditor = new DossierEditor();
-    await dossierEditor.waitNativeElement({
+    let editor = new Editor();
+    await editor.waitNativeElement({
       windows:{ 
         locators: [
           { method: '', value: '' },
           { method: '', value: '' } 
         ]},
-      mac: { xpath: MAC_XPATH['dossierEditor'].close.replace(/ReplaceMe/g, name)}
+      mac: { xpath: MAC_XPATH.general['editor'].close.replace(/ReplaceMe/g, name)}
     });
   }
 

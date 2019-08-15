@@ -4,17 +4,17 @@ const {switchToWindow, unregisterWindow} = require('../../../Utils/wsUtils/windo
 // ** Dossier Related ** //
 
 Then('Dossier {dossierName} should be displayed', async function (dossierName) {
-  return expect(dossierEditor.isDossierEditorDisplayed(dossierName)).become(true);
+  return expect(editor.isEditorDisplayed(dossierName)).become(true);
 });
 
 
 When('I close Dossier {dossierName}', async function (dossierName) {
   if (OSType === 'windows') {
-    await dossierEditor.closeDossierEditor(dossierName);
+    await editor.closeEditor(dossierName);
     await switchToWindow('Workstation Main Window');
     return unregisterWindow('Dossier Editor');
   } else {
-    return dossierEditor.closeDossierEditor(dossierName);
+    return editor.closeEditor(dossierName);
   }
 });
 
