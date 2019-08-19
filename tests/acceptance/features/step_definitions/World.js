@@ -116,13 +116,17 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
     
     try {
       await fn.apply(this, arguments);
-      clearUBMonitor();
+      if (protractorArgs.args.ubConf.enableUB === true) {
+        clearUBMonitor();
+      }
     } catch (e) {
       console.info(e);
       //This is the place that we should add screenshots
       throw new Error('error happened in the function wrapper');
     } finally {
-      clearUBMonitor();
+      if (protractorArgs.args.ubConf.enableUB === true) {
+        clearUBMonitor();
+      }
     }
 
     if (pattern) {
