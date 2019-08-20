@@ -34,7 +34,8 @@
         {
           "key": "openModule3Menu",
           "icon": "one.png",
-          "command": "openModule3"
+          "command": "openModule3",
+          "isVisible": "isVisibleModule3Menu"
         },
         {
           "key": "apiDocs",
