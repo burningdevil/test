@@ -1003,7 +1003,7 @@
 "@mstr/web-components@^0.0.6":
   version "0.0.6"
   resolved "http://nexus.internal.microstrategy.com:8081/repository/npm-group/@mstr/web-components/-/web-components-0.0.6.tgz#9c6d5825bec88121c0e5052efdb9b690c5e37cdd"
-  integrity sha512-wPHDWGy5YNkuWwcppZc9R50c8Dc2wSqrVauPhXGkLfuQWRnixZZWIc26q84f4UYWScjE/PTiwdn5GCba8Rrp1A==
+  integrity sha512-pLkPf+elOXISxfxcDJyU6faIoH4Y4kGFIrx8BK6OJg0Iib5JPM9Z7OGpEJnNXDiDc4Mgg2cnqN5q/Hco/frXdw==
   dependencies:
     classnames "^2.2.6"
     prop-types "^15.7.2"

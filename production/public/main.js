@@ -1,3 +1,5 @@
+const util = require('./util')
+
 module.exports = {
   openModule1: function(info) {
     return {
@@ -13,5 +15,8 @@ module.exports = {
     return {
       url: `/index.html#/m3?id=${info.objId}`
     }
+  },
+  isVisibleModule3Menu: function(info) {
+    return info && info.environment && util.compareVersion(info.environment.serverVersion, '11.2.0.34535') >= 0
   }
 }
