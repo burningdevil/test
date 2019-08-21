@@ -2,9 +2,6 @@ let { setWorldConstructor } = require('cucumber');
 let {After, Before} = require('cucumber');
 let { setDefinitionFunctionWrapper } = require('cucumber');
 
-const parseArguments = require('../../utils/envUtils/parseArguments');
-const customArgObj = parseArguments();
-
 const UB_INTERVAL = customArgObj.args.ubConf.ubInterval;
 
 let wsUBData = [];
@@ -39,7 +36,8 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
       pidusage = require('pidusage');
     }
 
-    if (customArgObj.args.ubConf.enableUB === true) {
+    //This one time capturing makes sure that for each of the cucumber step, there is at least one UB data element.
+    if (customArgObj.args.ubConf.enableUB) {
       pidusage(workstationPidList, function (err, stats) {  
         if (stats && pattern) {
 
@@ -118,7 +116,7 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
     
     try {
       await fn.apply(this, arguments);
-      if (customArgObj.args.ubConf.enableUB === true) {
+      if (customArgObj.args.ubConf.enableUB) {
         clearUBMonitor();
       }
     } catch (e) {
@@ -126,7 +124,7 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
       //This is the place that we should add screenshots
       throw new Error('error happened in the function wrapper');
     } finally {
-      if (customArgObj.args.ubConf.enableUB === true) {
+      if (customArgObj.args.ubConf.enableUB) {
         clearUBMonitor();
       }
     }
@@ -161,7 +159,7 @@ Before(async function (scenarioResult) {
 
 After(async function () {
 
-  if (customArgObj.args.ubConf.enableUB === true) {
+  if (customArgObj.args.ubConf.enableUB) {
     //ubData is defined in global
     ubData.push({
       workstation : wsUBData,

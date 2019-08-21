@@ -1,6 +1,7 @@
 const fs = require('fs');
 
-module.exports = function replaceUBBuilder() {
+//replace the builder.js in node_modules to the builder.js in utils/ubUtils/ . After the replacement, the step information in cucumber will become available to the UB monitor.
+function replaceUBBuilder() {
     let cucumberBuilderPath = "./node_modules/cucumber/lib/support_code_library/builder.js";
    
     try {
@@ -16,3 +17,5 @@ module.exports = function replaceUBBuilder() {
     console.info(`re-generating ${cucumberBuilderPath}`);
     fs.appendFileSync(cucumberBuilderPath, newUBBuilderContent, 'UTF-8');
 }
+
+replaceUBBuilder();

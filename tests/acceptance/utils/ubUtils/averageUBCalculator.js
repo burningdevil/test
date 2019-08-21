@@ -31,8 +31,7 @@ function generateAverageReport(reports) {
     try {
         fs.unlinkSync(ubReportAddress);
     } catch (err) {
-        console.info(`Couldn't remove ${ubReportAddress}, maybe it did not exist`);
-        console.log(err);
+
     }
     console.info(`generating ${ubReportAddress}`);
     fs.appendFileSync(ubReportAddress, JSON.stringify(averageReport, null, 2), 'UTF-8');

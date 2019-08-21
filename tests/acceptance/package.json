@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "postinstall": "node ./utils/ubUtils/ubBuilderReplacer.js",
     "test": "protractor conf.js --disableChecks",
     "ubTest": "node utils/ubUtils/runUB.js"
   },
@@ -31,6 +32,7 @@
     "json2csv": "^4.5.2",
     "mysql": "^2.17.1",
     "pidusage": "^2.0.17",
+    "postinstall": "^0.5.0",
     "ps-list": "^6.3.0"
   }
 }

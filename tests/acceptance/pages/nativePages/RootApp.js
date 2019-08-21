@@ -4,7 +4,11 @@ export default class RootApp {
     this.app = global.workstationApp;
   }
 
-  async waitFor1(method, value, timeout, pollFreq) {
+  async sleep(ms) {
+    return new Promise((resolve, reject) => setTimeout(resolve, ms));
+  }
+
+  async nativeWaitFor(method, value, timeout, pollFreq) {
    
     let findElement;
     switch(method) {
@@ -14,7 +18,7 @@ export default class RootApp {
         break;
       case "ClassName" : findElement = this.app.elementByClassName
         break;
-      case "AccessibilityId" : findElement = this.app.AccessibilityId
+      case "AccessibilityId" : findElement = this.app.elementByAccessibilityId
         break;
     }
 
@@ -23,10 +27,6 @@ export default class RootApp {
     let endTime = Date.now() + timeout;
 
     let checkingResult = false;
-
-    let sleep = (ms) => {
-      return new Promise((resolve, reject) => setTimeout(resolve, ms));
-    }
 
     while (checkingResult === false && Date.now() < endTime) {
       try{
@@ -38,53 +38,60 @@ export default class RootApp {
       } catch (err) {
         console.log(`the expectation of ${value} with ${method} is not fulfilled, continue waiting...`);
       }
-      sleep(pollFreq);
+      this.sleep(pollFreq);
     }
 
     return Promise.reject(new Error(`App waited for the element for ${timeout/1000} seconds, but could not find the element`));
   }
 
-  async waitForElementByXPath1(xpath, timeout, pollFreq) {
+  async nativeWaitForElementByXPath(xpath, timeout, pollFreq) {
 
-    await this.waitFor1("XPath", xpath, timeout, pollFreq);
-
-  }
-
-  async waitForElementByName1(name, timeout, pollFreq) {
-
-    await this.waitFor1("Name", name, timeout, pollFreq);
+    await this.nativeWaitFor("XPath", xpath, timeout, pollFreq);
 
   }
 
-  async waitForElementByClassName1(className, timeout, pollFreq) {
+  async nativeWaitForElementByName(name, timeout, pollFreq) {
 
-    await this.waitFor1("ClassName", className, timeout, pollFreq);
-
-  }
-
-  async waitForElementByAccessibilityId1(accessibilityId, timeout, pollFreq) {
-
-    await this.waitFor1("AccessibilityId", accessibilityId, timeout, pollFreq);
+    await this.nativeWaitFor("Name", name, timeout, pollFreq);
 
   }
 
-  async waitNativeElement(obj) {
+  async nativeWaitForElementByClassName(className, timeout, pollFreq) {
+
+    await this.nativeWaitFor("ClassName", className, timeout, pollFreq);
+
+  }
+
+  async nativeWaitForElementByAccessibilityId(accessibilityId, timeout, pollFreq) {
+
+    await this.nativeWaitFor("AccessibilityId", accessibilityId, timeout, pollFreq);
+
+  }
+
+  async waitNativeElement(obj,timeout) {
+    if (!timeout) {
+      timeout = 60000
+    }
     if (OSType === 'windows') { 
       for(let index=0; index<obj.windows.locators.length; index++) {
         let locator = obj.windows.locators[index];
         switch (locator.method) {
           case "Name":
-            return this.waitForElementByName1(locator.value, 60000, 200);
+            await this.nativeWaitForElementByName(locator.value, timeout, 200)
+            break;
           case "ClassName":
-            return this.waitForElementByClassName1(locator.value, 60000, 200);
+            await this.nativeWaitForElementByClassName(locator.value, timeout, 200);
+            break
           case "AccessibilityId":
-            return this.waitForElementByAccessibilityId1(locator.value, 60000, 200);
+            await this.nativeWaitForElementByAccessibilityId(locator.value, timeout, 200);
+            break
           default:
             throw Error('please properly define the using method use dynamic wait');
           }
       }
+
     } else {
-        return this.waitForElementByXPath1(obj.mac.xpath, 60000, 200);
+        return this.nativeWaitForElementByXPath(obj.mac.xpath, timeout, 200);
     }
   }
 

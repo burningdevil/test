@@ -5,7 +5,6 @@ import Toolbar from './Toolbar';
 import SmartTab from './SmartTab';
 import MenuBar from './MenuBar';
 import HyperCard from './HyperCard';
-import searchPage from './SearchPage'
 import SearchPage from './SearchPage';
 
 

@@ -200,7 +200,7 @@ export default class EnvConnection extends RootApp {
     return this.getNativeElement({
       windows: {
         locators: [
-          { method: 'Name', value: '' }
+          { method: 'Name', value: 'Remember Me' }
         ]
       },
       mac: { xpath: env.rememberMe }
@@ -211,7 +211,7 @@ export default class EnvConnection extends RootApp {
     return this.getNativeElement({
       windows: {
         locators: [
-          { method: 'Name', value: '' }
+          { method: 'Name', value: 'Remember Selected Applications' }
         ]
       },
       mac: { xpath: env.rememberSelectedApplications }
@@ -273,7 +273,7 @@ export default class EnvConnection extends RootApp {
     await this.moveToAndClick(existingEnv);
     await this.rightClick();
     await this.moveToAndClick(await this.getRemoveEnvOption());
-    return this.app.sleep(8000);
+    return this.app.sleep(2000);
   }
 
   async disconnectEnv(name) {

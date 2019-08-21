@@ -30,7 +30,7 @@ function parseRawUBData (rawUBDataPath) {
   try {
       fs.unlinkSync(upReportPath);
   } catch (err) {
-      console.error(`${upReportPath} did not exist`);
+      
   }
   
   console.info(`generating ${upReportPath}`);

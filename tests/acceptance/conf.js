@@ -55,11 +55,8 @@ exports.config = {
   // params are not available in beforeLaunch() method.
   beforeLaunch: async () => {
 
-    if (customArgObj.args.ubConf.enableUB) {
-      //replace the builder.js in node_modules to the builder.js in utils/ubUtils/
-      let replaceUBBuilder = require("./utils/ubUtils/ubBuilderReplacer.js");
-      replaceUBBuilder();
-    }
+    //customArgObj will also be used in World.js for UB tests
+    global.customArgObj = customArgObj
 
     // setting global variables
     global.expect = chai.expect;
@@ -127,12 +124,17 @@ exports.config = {
 
         //dynamic wait for the Dossiers tab load completely
         await smartTab.waitNativeElement({
+          mac: { xpath: MAC_XPATH['iconView'].separaterTitle.replace("replaceMe", envName)}
+        });
+      } else {
+        await smartTab.selectTab('Dossiers');
+        
+        await smartTab.waitNativeElement({
           windows:{ 
             locators: [
-              { method: '', value: '' },
-              { method: '', value: '' } 
+              { method: 'Name', value: 'AQDT' },
+              { method: 'ClassName', value: 'ListBoxItem' } 
             ]},
-          mac: { xpath: MAC_XPATH['iconView'].separaterTitle.replace("replaceMe", envName)}
         });
       }
     }
@@ -184,7 +186,7 @@ exports.config = {
   afterLaunch: async (exitCode) => {
 
     //generate single run UB report. However, if cucumber encountered error, don't generate report
-    if (customArgObj.args.ubConf.enableUB === true && exitCode === 0) {
+    if (customArgObj.args.ubConf.enableUB && exitCode === 0) {
       //clear data in raw ub report
       let fs = require('fs');
 
@@ -192,7 +194,6 @@ exports.config = {
         fs.unlinkSync(`${customArgObj.args.ubConf.ubReportPath}`);
       } catch(err) {
         console.info(`Failed to remove the raw ub report ${customArgObj.args.ubConf.ubReportPath}, maybe it's already removed`);
-        console.log(err);
       }
 
       //generate the ub report
