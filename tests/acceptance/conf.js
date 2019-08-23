@@ -42,8 +42,8 @@ exports.config = {
   cucumberOpts: {
     require: './features/step_definitions/**/*.js',  // require step definition files before executing features
     format: ["pretty", "json:Cucumber.json"],            // <string[]> (type[:path]) specify the output format, optionally supply PATH to redirect formatter output (repeatable)
-    tags: ['@workstation'],
-
+    // tags: ['@workstation'],
+    tags: ['@mac_example'],
     profile: false,
     'no-source': true
   },
@@ -55,11 +55,8 @@ exports.config = {
   // params are not available in beforeLaunch() method.
   beforeLaunch: async () => {
 
-    if (customArgObj.args.ubConf.enableUB) {
-      //replace the builder.js in node_modules to the builder.js in utils/ubUtils/
-      let replaceUBBuilder = require("./utils/ubUtils/ubBuilderReplacer.js");
-      replaceUBBuilder();
-    }
+    //customArgObj will also be used in World.js for UB tests
+    global.customArgObj = customArgObj
 
     // setting global variables
     global.expect = chai.expect;
@@ -124,7 +121,21 @@ exports.config = {
       // first-time cache generation for mac (temporary)
       if (OSType === 'mac') {
         await smartTab.selectTab('Dossiers');
-        await smartTab.app.sleep(30000);
+
+        //dynamic wait for the Dossiers tab load completely
+        await smartTab.waitNativeElement({
+          mac: { xpath: MAC_XPATH['iconView'].separaterTitle.replace("replaceMe", envName)}
+        });
+      } else {
+        await smartTab.selectTab('Dossiers');
+        
+        await smartTab.waitNativeElement({
+          windows:{ 
+            locators: [
+              { method: 'Name', value: 'AQDT' },
+              { method: 'ClassName', value: 'ListBoxItem' } 
+            ]},
+        });
       }
     }
 
@@ -135,10 +146,18 @@ exports.config = {
       let workstationPidList = [];
       let workstationHelperPidList = [];
       mylist.forEach(function (process) {
+        //Mac
         if (process.name === "MicroStrategy Workstation") {
           workstationPidList.push(process.pid);
         }
         if (process.name === "MicroStrategy Workstation Helper") {
+          workstationHelperPidList.push(process.pid);
+        }
+        //Windows
+        if (process.name === "Workstation.exe") {
+          workstationPidList.push(process.pid);
+        }
+        if (process.name === "CefSharp.BrowserSubprocess.exe") {
           workstationHelperPidList.push(process.pid);
         }
       });
@@ -164,12 +183,10 @@ exports.config = {
     }
   },
 
-  afterLaunch: async () => {
-    // quit Workstation
-    const quitWorkstation = require('./utils/wsUtils/quitWorkstation');
-    await quitWorkstation();
+  afterLaunch: async (exitCode) => {
 
-    if (customArgObj.args.ubConf.enableUB === true) {
+    //generate single run UB report. However, if cucumber encountered error, don't generate report
+    if (customArgObj.args.ubConf.enableUB && exitCode === 0) {
       //clear data in raw ub report
       let fs = require('fs');
 
@@ -177,13 +194,16 @@ exports.config = {
         fs.unlinkSync(`${customArgObj.args.ubConf.ubReportPath}`);
       } catch(err) {
         console.info(`Failed to remove the raw ub report ${customArgObj.args.ubConf.ubReportPath}, maybe it's already removed`);
-        console.log(err);
       }
 
       //generate the ub report
       console.info(`generating ${customArgObj.args.ubConf.ubReportPath}`);
       fs.appendFileSync(`${customArgObj.args.ubConf.ubReportPath}`, JSON.stringify(ubData, null, 2), 'UTF-8');
     }
+
+    // quit Workstation
+    const quitWorkstation = require('./utils/wsUtils/quitWorkstation');
+    await quitWorkstation();
     
   }
 

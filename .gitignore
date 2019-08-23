@@ -32,3 +32,8 @@ deploy/chef/cookbook/TKN-.-snake_case_project_name-.-TKN/files/default/dist-file
 scratch
 deploy/runtime-share
 tests/acceptance/.reports
+tests/acceptance/report.json
+tests/acceptance/reports/raw/*.json
+tests/acceptance/reports/ubIndividual/*.json
+tests/acceptance/reports/*.json
+

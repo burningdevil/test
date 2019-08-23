@@ -18,7 +18,7 @@ const MAC_CAPABILITIES = {
     // for debug purpose
     {'name':'command_delay', 'value': 0 },
     // try to locate element every 'loop_delay' within 'implicit_timeout'
-    {'name':'implicit_timeout', 'value': 12 },
+    {'name':'implicit_timeout', 'value': 0 },
     {'name':'loop_delay', 'value': 1 },
     // mouse speed
     {'name':'mouse_speed', 'value':400},

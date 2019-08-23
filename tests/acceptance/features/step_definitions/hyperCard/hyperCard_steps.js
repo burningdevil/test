@@ -19,6 +19,7 @@ const {registerNewWindow,switchToWindow, unregisterWindow} = require('../../../U
       await hyperPage.switchToDefaultWebView();
       await hyperCard.closeCard(cardName);
       await hyperCard.app.sleep(1000);
+      await hyperCard.selectNotSave();
       if (OSType === 'windows') {
         await switchToWindow('Workstation Main Window');
         console.log('switched window')

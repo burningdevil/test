@@ -200,7 +200,7 @@ export default class EnvConnection extends RootApp {
     return this.getNativeElement({
       windows: {
         locators: [
-          { method: 'Name', value: '' }
+          { method: 'Name', value: 'Remember Me' }
         ]
       },
       mac: { xpath: env.rememberMe }
@@ -211,7 +211,7 @@ export default class EnvConnection extends RootApp {
     return this.getNativeElement({
       windows: {
         locators: [
-          { method: 'Name', value: '' }
+          { method: 'Name', value: 'Remember Selected Applications' }
         ]
       },
       mac: { xpath: env.rememberSelectedApplications }
@@ -237,10 +237,15 @@ export default class EnvConnection extends RootApp {
     } else {
       await envUrlElem.moveTo();
       await this.app.sleep(100);
-      let envUrlSplited = envUrl.split(':');
-      await envUrlElem.type(envUrlSplited[0]);
-      await envUrlElem.type(wd.SPECIAL_KEYS["Shift"] + wd.SPECIAL_KEYS["Semicolon"] + wd.SPECIAL_KEYS["Shift"]);
-      await envUrlElem.sendKeys(envUrlSplited[1]);
+      let envUrlSplitedList = envUrl.split(':');
+      for (let i = 0; i < envUrlSplitedList.length; i++) {
+        if (i < envUrlSplitedList.length - 1) {
+          await envUrlElem.type(envUrlSplitedList[i]);
+          await envUrlElem.type(wd.SPECIAL_KEYS["Shift"] + wd.SPECIAL_KEYS["Semicolon"] + wd.SPECIAL_KEYS["Shift"]);
+        } else {
+          await envUrlElem.type(envUrlSplitedList[i]);
+        }
+      }
       return this.app.sleep(1000);
     }
     // await this.app.waitFor(isEnabled(await this.getContinueToConnect()),1000).should.eventually.be.ok;
@@ -273,7 +278,6 @@ export default class EnvConnection extends RootApp {
     await this.moveToAndClick(existingEnv);
     await this.rightClick();
     await this.moveToAndClick(await this.getRemoveEnvOption());
-    return this.app.sleep(8000);
   }
 
   async disconnectEnv(name) {

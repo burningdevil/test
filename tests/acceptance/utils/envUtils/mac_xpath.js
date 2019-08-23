@@ -18,6 +18,7 @@ const mac_xpath = {
       contextMenuOption: `${mainWindow}/AXSplitGroup[0]/AXGroup[1]/AXScrollArea[0]/AXList[@AXSubrole='AXCollectionList']/AXMenu[0]/AXMenuItem[@AXTitle='ReplaceMe']`
       // smallResultItem: `${displaySection}/AXGroup[@AXIdentifier='itemPrototype[false]']/AXGroup[0]/AXStaticText[@AXValue='ReplaceMe']`,
     },
+    separaterTitle: `/AXApplication[@AXTitle='MicroStrategy Workstation']/AXWindow[@AXSubrole='AXStandardWindow']/AXSplitGroup[0]/AXGroup[1]/AXScrollArea[0]/AXList[@AXSubrole='AXCollectionList']/AXList[@AXSubrole='AXSectionList']/AXGroup/AXStaticText[@AXValue='replaceMe']`
   },
   listView: {
     env: {
@@ -83,7 +84,7 @@ const mac_xpath = {
       pathtext: `${mainWindow}/AXSplitGroup[0]/AXList[0]/AXStaticText[@AXValue='ReplaceMe']`
     }
   },
-
+  
 }
 
 module.exports = mac_xpath;
