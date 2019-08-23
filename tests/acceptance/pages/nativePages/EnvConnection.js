@@ -278,7 +278,6 @@ export default class EnvConnection extends RootApp {
     await this.moveToAndClick(existingEnv);
     await this.rightClick();
     await this.moveToAndClick(await this.getRemoveEnvOption());
-    return this.app.sleep(2000);
   }
 
   async disconnectEnv(name) {

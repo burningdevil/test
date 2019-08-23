@@ -34,6 +34,9 @@ con.query(sql1,function (err, result, fields) {
     if (err) throw err;
 });
 
+//Todo: collect environment configuration information.
+
+//upload UB data to database
 let ubAverageReport = require("../../reports/ubAverage.json")
 
 let workstationDataList = ubAverageReport.workstation;

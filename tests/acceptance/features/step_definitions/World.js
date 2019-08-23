@@ -3,6 +3,7 @@ let {After, Before} = require('cucumber');
 let { setDefinitionFunctionWrapper } = require('cucumber');
 
 const UB_INTERVAL = customArgObj.args.ubConf.ubInterval;
+const {enableUB} = customArgObj.args.ubConf;
 
 let wsUBData = [];
 let wsHelperData = [];
@@ -37,7 +38,7 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
     }
 
     //This one time capturing makes sure that for each of the cucumber step, there is at least one UB data element.
-    if (customArgObj.args.ubConf.enableUB) {
+    if (enableUB) {
       pidusage(workstationPidList, function (err, stats) {  
         if (stats && pattern) {
 
@@ -116,7 +117,7 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
     
     try {
       await fn.apply(this, arguments);
-      if (customArgObj.args.ubConf.enableUB) {
+      if (enableUB) {
         clearUBMonitor();
       }
     } catch (e) {
@@ -124,7 +125,7 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
       //This is the place that we should add screenshots
       throw new Error('error happened in the function wrapper');
     } finally {
-      if (customArgObj.args.ubConf.enableUB) {
+      if (enableUB) {
         clearUBMonitor();
       }
     }
@@ -159,14 +160,13 @@ Before(async function (scenarioResult) {
 
 After(async function () {
 
-  if (customArgObj.args.ubConf.enableUB) {
+  if (enableUB) {
     //ubData is defined in global
     ubData.push({
       workstation : wsUBData,
       workstation_helper: wsHelperData
     });
   }
-  
   
 });
 

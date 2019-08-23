@@ -9,6 +9,8 @@ const execSync = require('child_process').execSync;
 let output;
 let count = countSuccessfulReports();
 let error = 0;
+//1. count: UB tests will be run for {count} times. You can adjust this to a big number and use it in the stability test, or just for making the result more acurate to reflect the average.
+//2. error: in the end, error will be used to calculate the error ratio during the UB test. However, error should not increase without a limit. Here, the UB test will fail if error is encountered more than 5 times.
 while (count <= 2 && error <= 5) {
     try {
         output = execSync(`yarn test --args.ubConf.enableUB true --args.ubConf.ubReportPath ./reports/raw/report${count + 1}.json`, { encoding: 'utf-8' }); 
