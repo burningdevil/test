@@ -8,17 +8,20 @@ export default class RootApp {
     return new Promise((resolve, reject) => setTimeout(resolve, ms));
   }
 
-  async nativeWaitFor(method, value, timeout, pollFreq) {
+  async nativeWaitFor(driver, method, value, timeout, pollFreq) {
+
+    console.log(value);
    
     let findElement;
+
     switch(method) {
-      case "XPath" : findElement = this.app.elementByXPath
+      case "XPath" : findElement = driver.elementByXPath
         break;
-      case "Name" : findElement = this.app.elementByName
+      case "Name" : findElement = driver.elementByName
         break;
-      case "ClassName" : findElement = this.app.elementByClassName
+      case "ClassName" : findElement = driver.elementByClassName
         break;
-      case "AccessibilityId" : findElement = this.app.elementByAccessibilityId
+      case "AccessibilityId" : findElement = driver.elementByAccessibilityId
         break;
     }
 
@@ -30,7 +33,7 @@ export default class RootApp {
 
     while (checkingResult === false && Date.now() < endTime) {
       try{
-        if (await findElement.apply(this.app, [value]).isDisplayed()) {
+        if (await findElement.apply(driver, [value]).isDisplayed()) {
           checkingResult = true;
           console.log(`found ${value} with ${method}`)
           return Promise.resolve(`element is found: ${value} with ${method}`)
@@ -44,27 +47,27 @@ export default class RootApp {
     return Promise.reject(new Error(`App waited for the element for ${timeout/1000} seconds, but could not find the element`));
   }
 
-  async nativeWaitForElementByXPath(xpath, timeout, pollFreq) {
+  async nativeWaitForElementByXPath(driver, xpath, timeout, pollFreq) {
 
-    await this.nativeWaitFor("XPath", xpath, timeout, pollFreq);
-
-  }
-
-  async nativeWaitForElementByName(name, timeout, pollFreq) {
-
-    await this.nativeWaitFor("Name", name, timeout, pollFreq);
+    await this.nativeWaitFor(driver, "XPath", xpath, timeout, pollFreq);
 
   }
 
-  async nativeWaitForElementByClassName(className, timeout, pollFreq) {
+  async nativeWaitForElementByName(driver, name, timeout, pollFreq) {
 
-    await this.nativeWaitFor("ClassName", className, timeout, pollFreq);
+    await this.nativeWaitFor(driver, "Name", name, timeout, pollFreq);
 
   }
 
-  async nativeWaitForElementByAccessibilityId(accessibilityId, timeout, pollFreq) {
+  async nativeWaitForElementByClassName(driver, className, timeout, pollFreq) {
 
-    await this.nativeWaitFor("AccessibilityId", accessibilityId, timeout, pollFreq);
+    await this.nativeWaitFor(driver, "ClassName", className, timeout, pollFreq);
+
+  }
+
+  async nativeWaitForElementByAccessibilityId(driver, accessibilityId, timeout, pollFreq) {
+
+    await this.nativeWaitFor(driver, "AccessibilityId", accessibilityId, timeout, pollFreq);
 
   }
 
@@ -73,17 +76,21 @@ export default class RootApp {
       timeout = 60000
     }
     if (OSType === 'windows') { 
+      let elm = await this.app;
       for(let index=0; index<obj.windows.locators.length; index++) {
         let locator = obj.windows.locators[index];
         switch (locator.method) {
           case "Name":
-            await this.nativeWaitForElementByName(locator.value, timeout, 200)
+            await this.nativeWaitForElementByName(elm, locator.value, timeout, 200)
+            elm = await elm.elementByName(locator.value);
             break;
           case "ClassName":
-            await this.nativeWaitForElementByClassName(locator.value, timeout, 200);
+            await this.nativeWaitForElementByClassName(elm, locator.value, timeout, 200)
+            elm = await elm.elementByClassName(locator.value)
             break
           case "AccessibilityId":
-            await this.nativeWaitForElementByAccessibilityId(locator.value, timeout, 200);
+            await this.nativeWaitForElementByAccessibilityId(elm, locator.value, timeout, 200)
+            elm = await elm.elementByAccessibilityId(locator.value);
             break
           default:
             throw Error('please properly define the using method use dynamic wait');
@@ -91,7 +98,7 @@ export default class RootApp {
       }
 
     } else {
-        return this.nativeWaitForElementByXPath(obj.mac.xpath, timeout, 200);
+        return this.nativeWaitForElementByXPath(this.app, obj.mac.xpath, timeout, 200);
     }
   }
 

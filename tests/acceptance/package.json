@@ -6,7 +6,8 @@
   "scripts": {
     "postinstall": "node ./utils/ubUtils/ubBuilderReplacer.js",
     "test": "protractor conf.js --disableChecks",
-    "ubTest": "node utils/ubUtils/runUB.js"
+    "ubTest": "node utils/ubUtils/runUB.js",
+    "ubSingleRun": " yarn test --args.ubConf.enableUB true --args.ubConf.ubReportPath ./reports/raw/report1.json"
   },
   "author": "",
   "license": "ISC",

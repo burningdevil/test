@@ -12,6 +12,17 @@ export default class HyperCard extends RootApp {
       });
     }
 
+    async getNotSaveButton(){
+      return this.getNativeElement({
+        windows:{ 
+          locators: [
+            { method: 'Name', value: `No` },
+            { method: 'ClassName', value: 'Button'}
+          ]},
+        mac: { }
+      });
+    }
+
     async getCloseCard(cardName){
         return this.getNativeElement({
           windows:{ 
@@ -34,8 +45,12 @@ export default class HyperCard extends RootApp {
     let closeBtn = await this.getCloseCard(cardName);
     await closeBtn.click();
     return this.app.sleep(1000);
-}
+  }
 
-
+  async selectNotSave() {
+    let notSaveButton = await this.getNotSaveButton();
+    await notSaveButton.click();
+    return this.app.sleep(1000);
+  }
 
 }
