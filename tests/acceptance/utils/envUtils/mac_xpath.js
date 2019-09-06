@@ -5,6 +5,7 @@ const displaySection = `${mainWindow}/AXSplitGroup[0]/AXGroup[1]/AXScrollArea[0]
 const envDialoguePath = `${application}/AXWindow[@AXSubrole='AXDialog']`;
 const toolbar = `${mainWindow}/AXToolbar[0]`;
 const smartTabGroup = `${mainWindow}/AXSplitGroup[0]/AXGroup[0]/AXScrollArea[0]/AXOutline[0]/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]`;
+const ldapDirectoryOption = `${mainWindow}/AXSplitGroup[0]/AXGroup[1]/AXScrollArea[0]/AXList[@AXSubrole='AXCollectionList']/AXMenu[0]/AXMenuItem[@AXTitle='Directory Service]`
 
 const mac_xpath = {
   iconView: {
@@ -12,6 +13,7 @@ const mac_xpath = {
       addNewEnv: `${displaySection}/AXGroup[@AXIdentifier='connectEnvItemPrototype']/AXGroup[@AXIdentifier='Add New Environment Connection']/AXImage[0]`,
       existingEnv: `${displaySection}/AXGroup[@AXIdentifier='environmentItemPrototype']/AXGroup[0]/AXStaticText[@AXValue='ReplaceMe']`,
       envContextOption: `${mainWindow}/AXSplitGroup[0]/AXGroup[1]/AXScrollArea[0]/AXList[@AXSubrole='AXCollectionList']/AXMenu[0]/AXMenuItem[@AXTitle='ReplaceMe']`,
+      secondaryEnvContextOption: `${ldapDirectoryOption}/AXMenu[0]/AXMenuItem[@AXTitle='ReplaceMe']`
     },
     searchPage: {
       resultItem: `${displaySection}/AXGroup[@AXIdentifier='WSCollectionViewCardItemPrototype']/AXGroup[0]/AXStaticText[@AXValue='ReplaceMe\n']`,
@@ -82,9 +84,11 @@ const mac_xpath = {
     },
     footer: {
       pathtext: `${mainWindow}/AXSplitGroup[0]/AXList[0]/AXStaticText[@AXValue='ReplaceMe']`
+    },
+    popupWindow:{
+      closeButton: "/AXApplication[@AXTitle='MicroStrategy Workstation']/AXWindow[@AXTitle='ReplaceMe' and @AXSubrole='AXStandardWindow']/AXSheet[@AXIdentifier='_NS:90']/AXButton[@AXTitle='Close']"
     }
-  },
-  
+  }
 }
 
 module.exports = mac_xpath;
