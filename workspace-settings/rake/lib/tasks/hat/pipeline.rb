@@ -9,7 +9,7 @@ end
 
 task :update_dep_db_from_file do
   client = DependenciesDB.new
-  client.update_dependencies_from_file('json')
+  client.update_dependencies_from_file('yarn_lock')
   client.update_dependencies_table
 end
 

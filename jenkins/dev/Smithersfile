@@ -22,7 +22,7 @@ export PATH=/usr/local/sbin:/usr/local/bin:$PATH
 export WORKSPACE_SETTING=dev
 source .ecosystem
 
-rake upload
+rake upload update_dep_db_from_file
 '
     end
   end
