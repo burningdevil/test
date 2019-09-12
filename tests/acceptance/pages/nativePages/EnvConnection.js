@@ -319,6 +319,11 @@ export default class EnvConnection extends RootApp {
     return this.app.sleep(8000);
   }
 
+  async connectExistingEnv(name){
+    let existingEnv = await this.getExistingEnv(name);
+    return this.moveToAndDoubleClick(existingEnv);
+  }
+
   async cacheAllTabs() {
     // first-time cache generation for mac (if needed)
     if (OSType === 'mac') {

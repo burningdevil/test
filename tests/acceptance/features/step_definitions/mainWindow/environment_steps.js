@@ -25,3 +25,11 @@ const { Given, When, Then } = require('cucumber');
   When('I configure LDAP service on env {envName}', async function(envName){
     return envConnection.configureLdapService(envName);
   })
+
+  Then('I disconnect environment', async function(){
+    return envConnection.disconnectEnv(browser.params.envInfo[0].envName);
+  })
+
+  Then('I connect existing environment {name}', async function(name){
+    return envConnection.connectExistingEnv(name);
+  })
