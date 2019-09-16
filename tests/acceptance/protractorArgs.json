@@ -2,12 +2,12 @@
     "params": {
         "envInfo": [
             {
-                "envName": "LDAP Patch",
-                "envUrl": "https://env-160820.customer.cloud.microstrategy.com/MicroStrategyLibrary/",
-                "loginMode": "Standard",
-                "userName": "mstr",
-                "userPwd": "DxUn8DzHGpVu",
-                "projects": ["MicroStrategy Tutorial"]
+                "envName": "AQDT",
+                "envUrl": "https://aqueduct-tech.customer.cloud.microstrategy.com/MicroStrategyLibrary",
+                "loginMode": "LDAP",
+                "userName": "yourname",
+                "userPwd": "yourpwd",
+                "projects": ["Rally Analytics"]
             }
         ]
     },
