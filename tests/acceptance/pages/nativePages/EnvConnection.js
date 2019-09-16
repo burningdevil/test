@@ -362,6 +362,15 @@ export default class EnvConnection extends RootApp {
     }
   }
 
+  async importLdapUsers(name){
+    let existingEnv = await this.getExistingEnv(name);
+    await this.moveToAndClick(existingEnv);
+    await this.rightClick();
+    await this.moveToAndClick(await this.getEnvOption('Directory Service'));
+    await this.moveToAndClick(await this.getSecondaryEnvOption('Import User'));
+    return this.app.sleep(8000);
+  }
+
   //Commenting below code because there is no way to tell which environment connect info it is grabbing,
   //as while writting xpath we can not pass in the both env name and connection status at the same time becuase they both are children of a single parent.
   //to be able to grab connect status of a specific environment, connection status should be child of env name.

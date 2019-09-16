@@ -25,6 +25,17 @@ export default class ComponentWindow extends BasePage {
     return this.$('.ant-btn.button-group-container--cancel-button.admin-simple-button');
   }
 
+  getImportUserWindow(){
+    return this.$('.mstr-web-ldap-embedded-modal-content');
+  }
+
+  getImportUserOkButton(){
+    return this.getImportUserWindow().$('.ant-btn.admin-simple-button.admin-simple-button-primary.ant-btn-primary');
+  }
+
+  getConfigureButton(){
+    return this.$('.ant-btn.admin-simple-button.admin-simple-button-primary.ant-btn-primary')
+  }
 
   // action helpers
   async selectSideTab(tabName){
@@ -33,6 +44,14 @@ export default class ComponentWindow extends BasePage {
 
   async clickCancel(){
     return this.getCancelButton().click();
+  }
+
+  async clickImportOkButton(){
+    return this.getImportUserOkButton().click();
+  }
+
+  async clickConfiureButton(){
+    return this.getConfigureButton().click();
   }
 
 

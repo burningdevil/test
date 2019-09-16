@@ -1,12 +1,13 @@
 
 const { Given, When, Then } = require('cucumber');
 
-// ** Environment Related ** //
   When('I add a new environment named {envName} with url {envUrl}', async function (envName, envUrl) {
     return envConnection.connectEnv(envName, envUrl);
   });
 
   When('I login with {loginMode} mode using name {userName} and password {userPwd}', async function (loginMode, userName, userPwd) {
+    if(userPwd==='blank')
+      userPwd = ""; 
     return envConnection.loginToEnv(loginMode, userName, userPwd);
   });
 
@@ -14,12 +15,16 @@ const { Given, When, Then } = require('cucumber');
     return envConnection.chooseProject(projectName);
   });
 
-  Then('I click OK to connect after selecting project(s)', async function () {
+  When('I click OK to connect after selecting project', async function () {
     return envConnection.clickOkToConnect();
   });
 
   Then('I remove environment {envName}', async function (envName) {
-    return envConnection.removeEnv(envName);
+    if (envConnection.isEnvAdded(envName)) {
+      return envConnection.removeEnv(envName);
+    } else {
+      console.error(`WARNING: No environment present with name ${envName}`);
+    }
   });
 
   When('I configure LDAP service on env {envName}', async function(envName){
@@ -32,4 +37,8 @@ const { Given, When, Then } = require('cucumber');
 
   Then('I connect existing environment {name}', async function(name){
     return envConnection.connectExistingEnv(name);
+  })
+
+  When('I import LDAP users on env {envName}', async function(envName){
+    return envConnection.importLdapUsers(envName);
   })
