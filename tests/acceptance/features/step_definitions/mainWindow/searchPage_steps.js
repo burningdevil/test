@@ -10,7 +10,7 @@ When('I double click to open {itemName} of type {itemType}', async function (ite
 
 When('I select context menu option {optiontype} for {itemName} of type {itemType}', async function (optiontype, itemName, itemType) {
     await searchPage.selectContextMenu({ optiontype: optiontype, itemName: itemName, itemType: itemType });
-    await searchPage.app.sleep(500);
+    await searchPage.app.sleep(4000);
 });
 
 When('I select search folder {folderName}', async function (folderName) {
