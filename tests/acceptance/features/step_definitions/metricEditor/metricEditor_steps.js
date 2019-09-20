@@ -2,21 +2,21 @@ const { Given, When, Then } = require('cucumber');
 
   Then('Metric editor window should be displayed', async function () {
     await metricEditor.switchToNewWebView();
-    return expect(metricEditor.isMetricEditorDisplayed()).become(true);
+    return expect(metricEditor.isMetricEditorPresent()).become(true);
   });
 
   Then('Metric editor window should NOT be displayed', async function () {
     await metricEditor.switchToNewWebView();
-    return expect(metricEditor.isMetricEditorDisplayed()).become(false);
+    return expect(metricEditor.isMetricEditorPresent()).become(false);
   });
 
   When ('I click button {button} in {mode}', async function(button, mode){
     await metricEditor.switchToNewWebView();
-    if(mode==='SimpleMode'){
-      await metricEditor.clickSimpleModeButton(button);
+    if(mode==='FunctionEditor'){
+      await metricEditor.clickFunctionEditorButton(button);
     }
     else{
-      await metricEditor.clickEditorModeButton(button);
+      await metricEditor.clickFormulaEditorButton(button);
     }
     return metricEditor.switchToDefaultWebView();
   });
@@ -32,7 +32,7 @@ const { Given, When, Then } = require('cucumber');
   });
 
   When ('I switch to formula editor', async function(){
-    return metricEditor.clickFormulaEditorButton();
+    return metricEditor.switchToFormulaEditor();
   });
 
   When ('I choose function editor option {option}', async function(option){

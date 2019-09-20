@@ -26,8 +26,8 @@ Feature: Example For Workstation Automation for Metric Plugin on CEF
     When I select view listView
     When I select context menu option Edit Metric for Cost of type Metrics
     Then Metric editor window should be displayed
-    When I click button <button> in SimpleMode
-    When I click popup button <popUpButton>
+    When I click button Cancel in FunctionEditor
+    When I click popup button No
     Then Metric editor window should NOT be displayed
 
 
@@ -42,7 +42,7 @@ Feature: Example For Workstation Automation for Metric Plugin on CEF
     When I click validate button
     Then Formula should be valid
     When I name metric as <metricName>
-    When I click button Save in EditorMode
+    When I click button Save in FormulaEditor
     Then Dialog titled New Metric should be displayed
     When I click save for dialog titled New Metric
     When I refresh workstation cache
@@ -60,5 +60,5 @@ Feature: Example For Workstation Automation for Metric Plugin on CEF
 
 
     Examples:
-      | tabName      | itemName               | itemType    | selectedTabName | selectedTabName1       | selectedTabName2 | selectedTabName3 | selectedTabName4 | button | popUpButton | functionName | text     | metricName       |
-      | Applications | MicroStrategy Tutorial | Plugin Test | Plugin Test     | MicroStrategy Tutorial | Public Objects   | Metrics          | Sales Metrics    | Cancel | No          | Count        | Customer | Automated Metric |
+      | tabName      | itemName               | itemType    | selectedTabName | selectedTabName1       | selectedTabName2 | selectedTabName3 | selectedTabName4  | functionName | text     | metricName       |
+      | Applications | MicroStrategy Tutorial | Plugin Test | Plugin Test     | MicroStrategy Tutorial | Public Objects   | Metrics          | Sales Metrics     | Count        | Customer | Automated Metric |

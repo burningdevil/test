@@ -18,30 +18,30 @@ export default class MetricEditor extends BasePage {
         return this.getContentContainer().$('.mstrmojo-Editor.mstrmojo-MetricEditor.mstrmojo-MetricIDE-editor.inline');
     }
 
-    getSimpleFormulaContainer(){
+    getFunctionContainer(){
         return this.getContentContainer().$('.mstrmojo-Editor.mstrmojo-Editor-me.mstrmojo-SimpleMetricEditor.mstrmojo-MetricIDE-editor.inline');
     }
 
     getMetricNameInputBox(){
         return this.getFormulaContainer().$('.mstrmojo-TextBox.mstrmojo-ME-nameInput');
     }
-    getButtonContainer(){
+    getFormulaButtonContainer(){
         return this.getFormulaContainer().$('.mstrmojo-Editor-buttons').$('.mstrmojo-HBox.mstrmojo-ME-buttonBox');
     }
 
-    getSimpleButtonContainer(){
-        return this.getSimpleFormulaContainer().$('.mstrmojo-Editor-buttons').$('.mstrmojo-HBox.mstrmojo-ME-buttonBox');
+    getFunctionButtonContainer(){
+        return this.getFunctionContainer().$('.mstrmojo-Editor-buttons').$('.mstrmojo-HBox.mstrmojo-ME-buttonBox');
     }
 
-    getEditorButtons(buttonName){
-        return this.getButtonContainer().$$('.mstrmojo-HBox-cell.subBox').filter(async (elem) => {
+    getFormulaEditorButtons(buttonName){
+        return this.getFormulaButtonContainer().$$('.mstrmojo-HBox-cell.subBox').filter(async (elem) => {
             let button = await elem.$('.mstrmojo-Button-text').getText();
             return button === buttonName;
         }).first();
     }
 
-    getSimpleEditorButtons(buttonName){
-        return this.getSimpleButtonContainer().$$('.mstrmojo-HBox-cell.subBox').filter(async (elem) => {
+    getFunctionEditorButtons(buttonName){
+        return this.getFunctionButtonContainer().$$('.mstrmojo-HBox-cell.subBox').filter(async (elem) => {
             let button = await elem.$('.mstrmojo-Button-text').getText();
             return button === buttonName;
         }).first();
@@ -93,16 +93,16 @@ export default class MetricEditor extends BasePage {
     }
 
     getFormulaStatus(){
-        return this.getContentContainer().$('.mstrmojo-MEBox-vStatus');
+        return this.getContentContainer().$('.mstrmojo-MEBox-vStatus.valid');
     }
 
     // action helpers
-    async clickSimpleModeButton(buttonName){
-        return this.getSimpleEditorButtons(buttonName).click();
+    async clickFunctionEditorButton(buttonName){
+        return this.getFunctionEditorButtons(buttonName).click();
     }
 
-    async clickEditorModeButton(buttonName){
-        return this.getEditorButtons(buttonName).click();
+    async clickFormulaEditorButton(buttonName){
+        return this.getFormulaEditorButtons(buttonName).click();
     }
 
     async clickPopUpButton(buttonName){
@@ -113,7 +113,7 @@ export default class MetricEditor extends BasePage {
         return this.getEditorFunction(functionName).click();
     }
 
-    async clickFormulaEditorButton(){
+    async switchToFormulaEditor(){
         return this.getFormulaEditorSwitchButton().click();
     }
 
@@ -127,7 +127,8 @@ export default class MetricEditor extends BasePage {
 
     async clickValidate(){
         await this.getValidateButton().click();
-        return this.sleep(1000);
+        // return this.sleep(1000);
+        return this.brwsr.wait(this.EC.presenceOf(this.getFormulaStatus()), 5000, 'Formula is not valid');
     }
 
     async provideMetricName(metricName){
@@ -137,7 +138,7 @@ export default class MetricEditor extends BasePage {
     }
 
     //assertion helpers
-    async isMetricEditorDisplayed(){
+    async isMetricEditorPresent(){
         return this.getMetricEditorWindow().isPresent();
     }
 
