@@ -1,5 +1,5 @@
 import BasePage from './BasePage'
-export default class ComponentWindow extends BasePage {
+export default class LdapConfigPage extends BasePage {
 
   // element locators
   getLdapContainer(){

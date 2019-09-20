@@ -12,11 +12,11 @@ Feature: Example For Workstation Automation for LDAP feature
     When I select tab <tabName>
     When I configure LDAP service on env <envName>
     Then LDAP window should be displayed
-    Then I select sideTab <sideTab>
-    Then I click cancel button
-    And LDAP window should NOT be displayed
+    When I select sideTab <sideTab>
+    When I click cancel button
+    Then LDAP window should NOT be displayed
     When I import LDAP users on env <envName>
-    Then I click OK after user import
+    When I click OK after user import
 
     When I add a new environment named <newEnvName> with url <envUrl>
     When I login with <loginMode> mode using name <userName> and password <userPwd>
@@ -26,10 +26,10 @@ Feature: Example For Workstation Automation for LDAP feature
     Then LDAP window should NOT be displayed
     When I click LDAP configure button
     Then LDAP window should be displayed
-    Then I select sideTab <sideTab>
-    Then I click cancel button
-    And LDAP window should NOT be displayed
-    When I remove environment <newEnvName>
+    When I select sideTab <sideTab>
+    When I click cancel button
+    Then LDAP window should NOT be displayed
+    Then I remove environment <newEnvName>
 
   Examples:
     | tabName      | envName     | sideTab | window                      | newEnvName    | envUrl                                                               | loginMode | userName      | userPwd | projectName            |

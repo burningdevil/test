@@ -349,6 +349,7 @@ export default class EnvConnection extends RootApp {
     await this.rightClick();
     await this.moveToAndClick(await this.getEnvOption('Directory Service'));
     await this.moveToAndClick(await this.getSecondaryEnvOption('Configure Directory Service'));
+    //Waiting LDAP config window to open
     return this.app.sleep(4000);
   }
 
