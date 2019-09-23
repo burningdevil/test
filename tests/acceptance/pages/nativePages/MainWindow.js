@@ -43,9 +43,31 @@ export default class MainWindow extends RootApp {
     });
   }
 
+  async getNavigationMode(index) {
+    return this.getNativeElement({
+      windows: {
+        locators: [
+          { method: '', value: '' },
+          { method: '', value: '' }
+        ]
+      },
+      mac: { xpath: wsMainWindow.navigationMode.replace(/ReplaceMe/g, index)  }
+    });
+  }
+
   // actions
   async clickOnItem(itemName) {
     let elem = await this.getItemInCurrentView(itemName);
+    return this.moveToAndClick(elem)
+  }
+
+  async selectFolderMode() {
+    let elem = await this.getNavigationMode(1);
+    return this.moveToAndClick(elem)
+  }
+
+  async selectSmartMode() {
+    let elem = await this.getNavigationMode(0);
     return this.moveToAndClick(elem)
   }
 

@@ -99,11 +99,11 @@ exports.config = {
 
     // build web view page objects
     const PageBuilder = require('./pages/webPages/PageBuilder');
-    ({ quickSearchPage, hyperPage, ldap} = PageBuilder());
+    ({hyperPage, ldap, metricEditor, quickSearchPage } = PageBuilder());
 
     // build windows for Workstation
     const WindowBuilder = require('./pages/nativePages/WindowBuilder'); //change here
-    ({ envConnection, mainWindow, editor, toolbar, smartTab, menuBar, hyperCard } = WindowBuilder());
+    ({ envConnection, mainWindow, editor, folderTab, toolbar, searchPage ,smartTab, menuBar, hyperCard } = WindowBuilder());
 
     if(customArgObj.args.connectEnv) {
       // TODO: remove exiting environment
