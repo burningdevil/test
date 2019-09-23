@@ -1,13 +1,16 @@
-import QuickSearchPage from './QuickSearchPage';
 import HyperPage from './HyperPage';
+import MetricEditor from './MetricEditor';
+import QuickSearchPage from './QuickSearchPage';
 
 function PageBuilder() {
-  const quickSearchPage = new QuickSearchPage();
   const hyperPage = new HyperPage();
+  const metricEditor = new MetricEditor();
+  const quickSearchPage = new QuickSearchPage();
 
   return {
-    quickSearchPage,
-    hyperPage
+    hyperPage,
+    metricEditor,
+    quickSearchPage
   };
 }
 

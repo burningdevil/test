@@ -6,6 +6,7 @@ import SmartTab from './SmartTab';
 import MenuBar from './MenuBar';
 import HyperCard from './HyperCard';
 import SearchPage from './SearchPage';
+import FolderTab from './FolderTab';
 
 
 function WindowBuilder() {
@@ -17,10 +18,12 @@ function WindowBuilder() {
   const menuBar = new MenuBar();
   const hyperCard = new HyperCard();
   const searchPage = new SearchPage();
+    const folderTab = new FolderTab;
 
   mainWindow.toolbar = toolbar;
   mainWindow.smartTab = smartTab;
   mainWindow.menuBar = menuBar;
+  mainWindow.folderTab = folderTab;
   editor.menuBar = menuBar;
   hyperCard.menuBar = menuBar;
   searchPage.menuBar = menuBar;
@@ -28,6 +31,7 @@ function WindowBuilder() {
   return {
     envConnection,
     editor,
+    folderTab,
     mainWindow,
     toolbar,
     smartTab,

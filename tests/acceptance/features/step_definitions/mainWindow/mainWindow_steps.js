@@ -63,4 +63,30 @@ Then('{envName} is connected', async function (envName) {
   return expect(envConnection.isEnvAdded(envName)).become(true);
 });
 
+When('I select folderMode on navigation bar', async function(){
+  await mainWindow.selectFolderMode();
+  return mainWindow.app.sleep(2000);
+})
 
+When('I select smartMode on navigation bar', async function(){
+  await mainWindow.selectSmartMode();
+  return mainWindow.app.sleep(2000);
+})
+
+When('I select environment folder {folderName}', async function(folderName){
+  await folderTab.selectFolder(folderName);
+  return mainWindow.app.sleep(500);
+})
+
+When('I select local disk folder', async function(){
+  await folderTab.selectLocalDiskFolder();
+  return mainWindow.app.sleep(500);
+})
+
+When('I double click to expand or collapse {folderName}', async function(folderName){
+  return folderTab.expandFolder(folderName);
+})
+
+When('I refresh workstation cache', async function(){
+  return toolbar.refresh();
+})

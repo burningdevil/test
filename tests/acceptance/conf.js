@@ -75,7 +75,7 @@ exports.config = {
         OSType: global.OSType,
       } = variables);
 
-      // Start Workstation. 
+      // Start Workstation.
       // This workstation driver is stored globally to be used anywhere else.
       // For windows, the Main Workstation Window handle is registered globally
       const startWorkstation = require('./utils/wsUtils/startWorkstation');
@@ -95,15 +95,15 @@ exports.config = {
 
     // set Cucumber Step Timeout
     let { setDefaultTimeout } = require('cucumber');
-    setDefaultTimeout(60 * 1000);// 60 seconds 
-    
+    setDefaultTimeout(60 * 1000);// 60 seconds
+
     // build web view page objects
     const PageBuilder = require('./pages/webPages/PageBuilder');
-    ({ quickSearchPage, hyperPage } = PageBuilder());
+    ({hyperPage, metricEditor, quickSearchPage } = PageBuilder());
 
     // build windows for Workstation
     const WindowBuilder = require('./pages/nativePages/WindowBuilder'); //change here
-    ({ envConnection, mainWindow, editor, toolbar, smartTab, menuBar, hyperCard } = WindowBuilder());
+    ({ envConnection, mainWindow, editor, folderTab, toolbar, searchPage ,smartTab, menuBar, hyperCard } = WindowBuilder());
 
     if(customArgObj.args.connectEnv) {
       // TODO: remove exiting environment
@@ -128,12 +128,12 @@ exports.config = {
         });
       } else {
         await smartTab.selectTab('Dossiers');
-        
+
         await smartTab.waitNativeElement({
-          windows:{ 
+          windows:{
             locators: [
               { method: 'Name', value: 'AQDT' },
-              { method: 'ClassName', value: 'ListBoxItem' } 
+              { method: 'ClassName', value: 'ListBoxItem' }
             ]},
         });
       }
@@ -167,9 +167,9 @@ exports.config = {
       };
       console.log("global: the pid of workstation is: " + workstationPidList);
 
-      //init ubData 
+      //init ubData
       global.ubData = [];
-      
+
     }
   },
 
@@ -204,7 +204,7 @@ exports.config = {
     // quit Workstation
     const quitWorkstation = require('./utils/wsUtils/quitWorkstation');
     await quitWorkstation();
-    
+
   }
 
 }

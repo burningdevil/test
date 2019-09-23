@@ -7,7 +7,8 @@
     "postinstall": "node ./utils/ubUtils/ubBuilderReplacer.js",
     "test": "protractor conf.js --disableChecks",
     "ubTest": "node utils/ubUtils/runUB.js",
-    "ubSingleRun": "yarn test --args.ubConf.enableUB true --args.ubConf.ubReportPath ./reports/raw/report1.json"
+    "ubSingleRun": "yarn test --args.ubConf.enableUB true --args.ubConf.ubReportPath ./reports/raw/report1.json",
+    "update-webdriver": "node node_modules/protractor/bin/webdriver-manager update --gecko=false && node ./config/seleniumPatch.js"
   },
   "author": "",
   "license": "ISC",

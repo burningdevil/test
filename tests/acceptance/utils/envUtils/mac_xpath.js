@@ -61,6 +61,10 @@ const mac_xpath = {
       tab: `${smartTabGroup}/AXStaticText[@AXValue='ReplaceMe']`,
       createNewItem: `${smartTabGroup}/AXButton[@AXHelp='ReplaceMe']`,
     },
+    folderTab: {
+      envFolder: `${smartTabGroup}/AXStaticText[@AXValue='ReplaceMe']`,
+      myMac: `${smartTabGroup}/AXStaticText[@AXValue='Files on My Mac']`
+    },
     quickSearch: {
       dropdown: `${mainWindow}/AXToolbar[0]/AXGroup[4]/AXTextField[0]/AXPopover[0]`,
     },
@@ -68,9 +72,14 @@ const mac_xpath = {
       container: `${application}/AXWindow[@AXTitle='ReplaceMe']`,
       close: `${application}/AXWindow[@AXTitle='ReplaceMe']/AXButton[@AXSubrole='AXCloseButton']`
     },
+    dialog: {
+      container: `${application}/AXWindow[@AXTitle='ReplaceMe' and @AXSubrole='AXStandardWindow']`,
+      save: `${application}/AXWindow[@AXTitle='ReplaceMe' and @AXSubrole='AXStandardWindow']/AXSheet[0]/AXButton[@AXTitle='Save']`
+    },
     workstationMainWindow: {
       closeWorkstation: `${mainWindow}/AXButton[@AXSubrole='AXCloseButton']`,
-      itemInCurrentView: `${displaySection}/AXGroup[@AXIdentifier='itemPrototype[false]']/AXGroup[0]/AXStaticText[@AXValue='ReplaceMe']`
+      itemInCurrentView: `${displaySection}/AXGroup[@AXIdentifier='itemPrototype[false]']/AXGroup[0]/AXStaticText[@AXValue='ReplaceMe']`,
+      navigationMode: `${mainWindow}/AXSplitGroup[0]/AXRadioGroup[0]/AXRadioButton[ReplaceMe]`
     },
     searchPage: {
       searchingText: `${mainWindow}/AXSplitGroup[0]/AXStaticText[@AXValue='Searching']`,
@@ -84,7 +93,7 @@ const mac_xpath = {
       pathtext: `${mainWindow}/AXSplitGroup[0]/AXList[0]/AXStaticText[@AXValue='ReplaceMe']`
     }
   },
-  
+
 }
 
 module.exports = mac_xpath;
