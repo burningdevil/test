@@ -218,6 +218,28 @@ export default class EnvConnection extends RootApp {
     });
   }
 
+  async getEnvOption(option) {
+    return this.getNativeElement({
+      windows: {
+        locators: [
+          { method: 'Name', value: option }
+        ]
+      },
+      mac: { xpath: MAC_XPATH_VIEWMODE['env'].envContextOption.replace(/ReplaceMe/g, option) }
+    });
+  }
+
+  async getSecondaryEnvOption(secondaryOption) {
+    return this.getNativeElement({
+      windows: {
+        locators: [
+          { method: 'Name', value: secondaryOption }
+        ]
+      },
+      mac: { xpath: MAC_XPATH_VIEWMODE['env'].secondaryEnvContextOption.replace(/ReplaceMe/g, secondaryOption) }
+    });
+  }
+
   // ** Actions ** //
   // connect to environment with the name and url provided
   async connectEnv(envName, envUrl) {
@@ -230,7 +252,7 @@ export default class EnvConnection extends RootApp {
     // input environment Url
     let envUrlElem = await this.getInputEnvUrl();
 
-    // mac version will automatically dismiss the colon, 
+    // mac version will automatically dismiss the colon,
     // that's why you see the wired implementation here to use Shift + Semicolon to type colon
     if (OSType === 'windows') {
       await this.moveToAndSendKey(envUrlElem, envUrl);
@@ -297,6 +319,11 @@ export default class EnvConnection extends RootApp {
     return this.app.sleep(8000);
   }
 
+  async connectExistingEnv(name){
+    let existingEnv = await this.getExistingEnv(name);
+    return this.moveToAndDoubleClick(existingEnv);
+  }
+
   async cacheAllTabs() {
     // first-time cache generation for mac (if needed)
     if (OSType === 'mac') {
@@ -316,6 +343,16 @@ export default class EnvConnection extends RootApp {
 
   }
 
+  async configureLdapService(name){
+    let existingEnv = await this.getExistingEnv(name);
+    await this.moveToAndClick(existingEnv);
+    await this.rightClick();
+    await this.moveToAndClick(await this.getEnvOption('Directory Service'));
+    await this.moveToAndClick(await this.getSecondaryEnvOption('Configure Directory Service'));
+    //Waiting LDAP config window to open
+    return this.app.sleep(4000);
+  }
+
   async isEnvAdded(envName) {
     try {
       let env = await this.getExistingEnv(envName);
@@ -326,7 +363,16 @@ export default class EnvConnection extends RootApp {
     }
   }
 
-  //Commenting below code because there is no way to tell which environment connect info it is grabbing, 
+  async importLdapUsers(name){
+    let existingEnv = await this.getExistingEnv(name);
+    await this.moveToAndClick(existingEnv);
+    await this.rightClick();
+    await this.moveToAndClick(await this.getEnvOption('Directory Service'));
+    await this.moveToAndClick(await this.getSecondaryEnvOption('Import User'));
+    return this.app.sleep(8000);
+  }
+
+  //Commenting below code because there is no way to tell which environment connect info it is grabbing,
   //as while writting xpath we can not pass in the both env name and connection status at the same time becuase they both are children of a single parent.
   //to be able to grab connect status of a specific environment, connection status should be child of env name.
 

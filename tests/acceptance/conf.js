@@ -99,7 +99,7 @@ exports.config = {
 
     // build web view page objects
     const PageBuilder = require('./pages/webPages/PageBuilder');
-    ({hyperPage, metricEditor, quickSearchPage } = PageBuilder());
+    ({hyperPage, ldap, metricEditor, quickSearchPage } = PageBuilder());
 
     // build windows for Workstation
     const WindowBuilder = require('./pages/nativePages/WindowBuilder'); //change here

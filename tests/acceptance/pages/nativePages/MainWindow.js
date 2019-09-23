@@ -2,6 +2,7 @@ import RootApp from './RootApp';
 const quickSearch = MAC_XPATH_GENERAL['quickSearch'];
 const wsMainWindow = MAC_XPATH_GENERAL['workstationMainWindow'];
 const footer = MAC_XPATH_GENERAL['footer'];
+const popupWindow = MAC_XPATH_GENERAL['popupWindow'];
 
 
 export default class MainWindow extends RootApp {
@@ -101,4 +102,21 @@ export default class MainWindow extends RootApp {
       return false;
     }
   }
+
+  async getCloseButton(window) {
+    return this.getNativeElement({
+      windows: {
+        locators: [
+          { method: '', value: '' },
+          { method: '', value: '' }
+        ]
+      },
+      mac: { xpath: popupWindow.closeButton.replace(/ReplaceMe/g, window) }
+    });
+  }
+
+  async clickClose(window){
+    return this.moveToAndClick(await this.getCloseButton(window));
+  }
+
 }
