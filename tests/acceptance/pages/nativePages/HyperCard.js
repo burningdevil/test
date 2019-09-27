@@ -1,10 +1,11 @@
-import RootApp from './RootApp';
+import RootApp from '../basePages/RootApp';
 
+// hyper is not Plugin app in Mac (thus not using CEF) so this is only for Windows
 export default class HyperCard extends RootApp {
   //Locators
     async getExistingCard(cardName){
       return this.getNativeElement({
-        windows:{ 
+        windows:{
           locators: [
             { method: 'Name', value: `${cardName}\nHyperCard` }
           ]},
@@ -14,7 +15,7 @@ export default class HyperCard extends RootApp {
 
     async getNotSaveButton(){
       return this.getNativeElement({
-        windows:{ 
+        windows:{
           locators: [
             { method: 'Name', value: `No` },
             { method: 'ClassName', value: 'Button'}
@@ -25,7 +26,7 @@ export default class HyperCard extends RootApp {
 
     async getCloseCard(cardName){
         return this.getNativeElement({
-          windows:{ 
+          windows:{
             locators: [
                 { method: 'Name', value: cardName },
                 { method: 'AccessibilityId', value: 'WindowCloseButton' }

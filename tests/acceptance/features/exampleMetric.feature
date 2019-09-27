@@ -6,7 +6,7 @@ Feature: Example For Workstation Automation for Metric Plugin on CEF
 
 #####
 # Example Test Scenario for Quick Search in Workstation Mac with CEF
-# Author: qfan  09/17/2019
+# Author: Saad  09/17/2019
 #####
   @metricEditor
   Scenario Outline: [TC53695] Metric Editor plugin in Workstation Mac with CEF
@@ -43,8 +43,8 @@ Feature: Example For Workstation Automation for Metric Plugin on CEF
     Then Formula should be valid
     When I name metric as <metricName>
     When I click button Save in FormulaEditor
-    Then Dialog titled New Metric should be displayed
-    When I click save for dialog titled New Metric
+    Then Popup should be displayed in editor New Metric
+    When I click save for popup in editor New Metric
     When I refresh workstation cache
     When I select context menu option Delete for <metricName> of type Metrics
 

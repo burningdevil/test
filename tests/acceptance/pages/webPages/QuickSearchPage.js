@@ -1,4 +1,4 @@
-import BasePage from './BasePage';
+import BasePage from '../basePages/BasePage';
 import Editor from '../nativePages/Editor';
 
 export default class QuickSearchPage extends BasePage {
@@ -32,12 +32,12 @@ export default class QuickSearchPage extends BasePage {
     await this.getQuickSearchListItemByName(name).click();
 
     await editor.waitNativeElement({
-      windows:{ 
+      windows:{
         locators: [
           { method: '', value: '' },
-          { method: '', value: '' } 
+          { method: '', value: '' }
         ]},
-      mac: { xpath: MAC_XPATH.general['editor'].close.replace(/ReplaceMe/g, name)}
+      mac: { xpath: MAC_XPATH.general['editor'].container.replace(/ReplaceEditorTitle/g, name)}
     });
   }
 

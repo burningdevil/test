@@ -15,6 +15,7 @@
         "launchWS": true ,
         "connectEnv": true,
         "removeEnv": true,
+        "quitWS": true ,
         "appPath": {
             "mac": "MicroStrategy Workstation.app",
             "windows": "C:\\Program Files\\MicroStrategy\\Workstation\\Workstation.exe"

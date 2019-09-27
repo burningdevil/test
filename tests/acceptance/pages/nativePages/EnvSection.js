@@ -1,8 +1,8 @@
-import RootApp from './RootApp';
-const env = MAC_XPATH_GENERAL['env'];
+import RootApp from '../basePages/RootApp';
+const mainCanvas = MAC_XPATH_GENERAL['mainCanvas'];
 const wd = require('wd');
 
-export default class EnvConnection extends RootApp {
+export default class EnvSection extends RootApp {
 
   // ** Locators ** //
   async getAddNewEnv() {
@@ -13,7 +13,7 @@ export default class EnvConnection extends RootApp {
           { method: 'ClassName', value: 'Button' }
         ]
       },
-      mac: { xpath: MAC_XPATH_VIEWMODE['env'].addNewEnv }
+      mac: { xpath: MAC_XPATH[MAC_VIEWMODE]['mainCanvas'].env.addNewEnv }
     });
   }
 
@@ -24,7 +24,7 @@ export default class EnvConnection extends RootApp {
           { method: 'Name', value: 'Connection' }
         ]
       },
-      mac: { xpath: env.connectDialog }
+      mac: { xpath: mainCanvas.env.connectDialog }
     });
   }
 
@@ -36,7 +36,7 @@ export default class EnvConnection extends RootApp {
           { method: 'Name', value: 'Environment Name Field' }
         ]
       },
-      mac: { xpath: env.inputEnvName }
+      mac: { xpath: mainCanvas.env.inputEnvName }
     });
   }
 
@@ -48,7 +48,7 @@ export default class EnvConnection extends RootApp {
           { method: 'Name', value: 'Dossier Web Url Field' }
         ]
       },
-      mac: { xpath: env.inputEnvUrl }
+      mac: { xpath: mainCanvas.env.inputEnvUrl }
     });
   }
 
@@ -60,7 +60,7 @@ export default class EnvConnection extends RootApp {
           { method: 'Name', value: mode },
         ]
       },
-      mac: { xpath: env.loginMode.replace(/ReplaceMe/g, mode) }
+      mac: { xpath: mainCanvas.env.loginMode.replace(/ReplaceLoginMode/g, mode) }
     });
   }
 
@@ -73,7 +73,7 @@ export default class EnvConnection extends RootApp {
           { method: 'Name', value: 'Continue' }
         ]
       },
-      mac: { xpath: env.continueToConnect }
+      mac: { xpath: mainCanvas.env.continueToConnect }
     });
   }
 
@@ -85,7 +85,7 @@ export default class EnvConnection extends RootApp {
           { method: 'Name', value: 'Username Field' }
         ]
       },
-      mac: { xpath: env.userName }
+      mac: { xpath: mainCanvas.env.userName }
     });
   }
 
@@ -97,7 +97,7 @@ export default class EnvConnection extends RootApp {
           { method: 'ClassName', value: 'PasswordBox' }
         ]
       },
-      mac: { xpath: env.userPwd }
+      mac: { xpath: mainCanvas.env.userPwd }
     });
   }
 
@@ -110,7 +110,7 @@ export default class EnvConnection extends RootApp {
           { method: 'Name', value: 'Connect' }
         ]
       },
-      mac: { xpath: env.connect }
+      mac: { xpath: mainCanvas.env.connect }
     });
   }
 
@@ -122,7 +122,7 @@ export default class EnvConnection extends RootApp {
           { method: 'ClassName', value: 'ListBox' }
         ]
       },
-      mac: { xpath: env.projectList }
+      mac: { xpath: mainCanvas.env.projectList }
     });
   }
 
@@ -134,7 +134,7 @@ export default class EnvConnection extends RootApp {
           { method: 'Name', value: applicationName }
         ]
       },
-      mac: { xpath: env.selectProject.replace(/ReplaceMe/g, applicationName) }
+      mac: { xpath: mainCanvas.env.selectProject.replace(/ReplaceProjectName/g, applicationName) }
     });
   }
 
@@ -147,7 +147,7 @@ export default class EnvConnection extends RootApp {
           { method: 'Name', value: 'OK' }
         ]
       },
-      mac: { xpath: env.OKToConnect }
+      mac: { xpath: mainCanvas.env.OKToConnect }
     });
   }
 
@@ -159,7 +159,7 @@ export default class EnvConnection extends RootApp {
           { method: 'Name', value: `${environmentName}\nRestEnvironment` }
         ]
       },
-      mac: { xpath: MAC_XPATH_VIEWMODE['env'].existingEnv.replace(/ReplaceMe/g, environmentName) }
+      mac: { xpath: MAC_XPATH[MAC_VIEWMODE]['mainCanvas'].env.existingEnv.replace(/ReplaceEnvName/g, environmentName) }
     });
   }
 
@@ -170,7 +170,7 @@ export default class EnvConnection extends RootApp {
           { method: 'Name', value: 'Remove Environment' }
         ]
       },
-      mac: { xpath: MAC_XPATH_VIEWMODE['env'].envContextOption.replace(/ReplaceMe/g, 'Remove') }
+      mac: { xpath: MAC_XPATH[MAC_VIEWMODE]['mainCanvas'].env.envContextOption.replace(/ReplaceMenuOption/g, 'Remove') }
     });
   }
 
@@ -181,7 +181,7 @@ export default class EnvConnection extends RootApp {
           { method: 'Name', value: 'Disconnect Environment' }
         ]
       },
-      mac: { xpath: MAC_XPATH_VIEWMODE['env'].envContextOption.replace(/ReplaceMe/g, 'Disconnect') }
+      mac: { xpath: MAC_XPATH[MAC_VIEWMODE]['mainCanvas'].env.envContextOption.replace(/ReplaceMe/g, 'Disconnect') }
     });
   }
 
@@ -192,7 +192,7 @@ export default class EnvConnection extends RootApp {
           { method: 'Name', value: 'Connect to Environment' }
         ]
       },
-      mac: { xpath: MAC_XPATH_VIEWMODE['env'].envContextOption.replace(/ReplaceMe/g, 'Connect') }
+      mac: { xpath: MAC_XPATH[MAC_VIEWMODE]['mainCanvas'].contextOption.replace(/ReplaceOption/g, 'Connect') }
     });
   }
 
@@ -203,7 +203,7 @@ export default class EnvConnection extends RootApp {
           { method: 'Name', value: 'Remember Me' }
         ]
       },
-      mac: { xpath: env.rememberMe }
+      mac: { xpath: mainCanvas.env.rememberMe }
     });
   }
 
@@ -214,7 +214,7 @@ export default class EnvConnection extends RootApp {
           { method: 'Name', value: 'Remember Selected Applications' }
         ]
       },
-      mac: { xpath: env.rememberSelectedApplications }
+      mac: { xpath: mainCanvas.env.rememberSelectedApplications }
     });
   }
 
@@ -225,18 +225,18 @@ export default class EnvConnection extends RootApp {
           { method: 'Name', value: option }
         ]
       },
-      mac: { xpath: MAC_XPATH_VIEWMODE['env'].envContextOption.replace(/ReplaceMe/g, option) }
+      mac: { xpath: MAC_XPATH[MAC_VIEWMODE]['mainCanvas'].contextOption.replace(/ReplaceOption/g, option) }
     });
   }
 
-  async getSecondaryEnvOption(secondaryOption) {
+  async getSecondaryOption(firstOption, secondaryOption) {
     return this.getNativeElement({
       windows: {
         locators: [
           { method: 'Name', value: secondaryOption }
         ]
       },
-      mac: { xpath: MAC_XPATH_VIEWMODE['env'].secondaryEnvContextOption.replace(/ReplaceMe/g, secondaryOption) }
+      mac: { xpath: MAC_XPATH[MAC_VIEWMODE]['mainCanvas'].secondaryContextOption.replace(/ReplaceOption/g, firstOption).replace(/ReplaceSecondaryOption/g, secondOption) }
     });
   }
 
@@ -324,31 +324,12 @@ export default class EnvConnection extends RootApp {
     return this.moveToAndDoubleClick(existingEnv);
   }
 
-  async cacheAllTabs() {
-    // first-time cache generation for mac (if needed)
-    if (OSType === 'mac') {
-      await smartTab.selectTab('My Library');
-      await smartTab.app.sleep(4000);
-      await smartTab.selectTab('Dossiers');
-      await smartTab.app.sleep(4000);
-      await smartTab.selectTab('Documents');
-      await smartTab.app.sleep(4000);
-      await smartTab.selectTab('Cards');
-      await smartTab.app.sleep(4000);
-      await smartTab.selectTab('Reports');
-      await smartTab.app.sleep(4000);
-      await smartTab.selectTab('Datasets');
-      return smartTab.app.sleep(4000);
-    }
-
-  }
-
   async configureLdapService(name){
     let existingEnv = await this.getExistingEnv(name);
     await this.moveToAndClick(existingEnv);
     await this.rightClick();
     await this.moveToAndClick(await this.getEnvOption('Directory Service'));
-    await this.moveToAndClick(await this.getSecondaryEnvOption('Configure Directory Service'));
+    await this.moveToAndClick(await this.getSecondaryEnvOption('Directory Service','Configure Directory Service'));
     //Waiting LDAP config window to open
     return this.app.sleep(4000);
   }

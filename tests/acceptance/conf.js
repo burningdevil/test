@@ -40,10 +40,11 @@ exports.config = {
 
   // cucumber command line options
   cucumberOpts: {
-    require: './features/step_definitions/**/*.js',  // require step definition files before executing features
+    // require: './features/step_definitions/**/*.js',  // require step definition files before executing features
+    require: './steps/**/*.js',  // require step definition files before executing features
     format: ["pretty", "json:Cucumber.json"],            // <string[]> (type[:path]) specify the output format, optionally supply PATH to redirect formatter output (repeatable)
     // tags: ['@workstation'],
-    tags: ['@mac_example'],
+    tags: ['@debug'],
     profile: false,
     'no-source': true
   },
@@ -70,7 +71,7 @@ exports.config = {
       const variables = require('./utils/envUtils/variables');
       ({
         MAC_XPATH: global.MAC_XPATH,
-        MAC_XPATH_VIEWMODE: global.MAC_XPATH_VIEWMODE,
+        MAC_VIEWMODE: global.MAC_VIEWMODE,
         MAC_XPATH_GENERAL: global.MAC_XPATH_GENERAL,
         OSType: global.OSType,
       } = variables);
@@ -97,39 +98,43 @@ exports.config = {
     let { setDefaultTimeout } = require('cucumber');
     setDefaultTimeout(60 * 1000);// 60 seconds
 
-    // build web view page objects
-    const PageBuilder = require('./pages/webPages/PageBuilder');
-    ({hyperPage, ldap, metricEditor, quickSearchPage } = PageBuilder());
+    // build page objects for native and webviews
+    const PageBuilder = require('./pages/PageBuilder');
+    ({ dialogs,
+      editor,
+      hyperCard,
+      mainWindow,
 
-    // build windows for Workstation
-    const WindowBuilder = require('./pages/nativePages/WindowBuilder'); //change here
-    ({ envConnection, mainWindow, editor, folderTab, toolbar, searchPage ,smartTab, menuBar, hyperCard } = WindowBuilder());
+      hyperPage,
+      ldapPage,
+      metricEditorPage,
+      quickSearchPage } = PageBuilder());
 
     if(customArgObj.args.connectEnv) {
       // TODO: remove exiting environment
       // connect to environment
       for(let envIndex=0; envIndex<browser.params.envInfo.length; envIndex++) {
         ({envName, envUrl, loginMode, userName, userPwd, projects} = browser.params.envInfo[envIndex]);
-        await envConnection.connectEnv(envName, envUrl);
-        await envConnection.loginToEnv(loginMode, userName, userPwd);
+        await mainWindow.mainCanvas.envSection.connectEnv(envName, envUrl);
+        await mainWindow.mainCanvas.envSection.loginToEnv(loginMode, userName, userPwd);
         for(let projectIndex=0;projectIndex<projects.length;projectIndex++){
-          await envConnection.chooseProject(projects[projectIndex]);
+          await mainWindow.mainCanvas.envSection.chooseProject(projects[projectIndex]);
         }
-        await envConnection.clickOkToConnect();
+        await mainWindow.mainCanvas.envSection.clickOkToConnect();
       }
 
       // first-time cache generation for mac (temporary)
       if (OSType === 'mac') {
-        await smartTab.selectTab('Dossiers');
+        await mainWindow.smartTab.selectTab('Dossiers');
 
         //dynamic wait for the Dossiers tab load completely
-        await smartTab.waitNativeElement({
+        await mainWindow.smartTab.waitNativeElement({
           mac: { xpath: MAC_XPATH['iconView'].separaterTitle.replace("replaceMe", envName)}
         });
       } else {
-        await smartTab.selectTab('Dossiers');
+        await mainWindow.smartTab.selectTab('Dossiers');
 
-        await smartTab.waitNativeElement({
+        await mainWindow.smartTab.waitNativeElement({
           windows:{
             locators: [
               { method: 'Name', value: 'AQDT' },
@@ -176,9 +181,9 @@ exports.config = {
   onComplete: async () => {
     if (customArgObj.args.removeEnv) {
       // remove environment
-      await smartTab.selectTab('Environments')
+      await mainWindow.smartTab.selectTab('Environments')
       for(let envIndex=0; envIndex<browser.params.envInfo.length; envIndex++) {
-        await envConnection.removeEnv(browser.params.envInfo[envIndex].envName)
+        await mainWindow.mainCanvas.envSection.removeEnv(browser.params.envInfo[envIndex].envName)
       }
     }
   },
@@ -202,8 +207,10 @@ exports.config = {
     }
 
     // quit Workstation
-    const quitWorkstation = require('./utils/wsUtils/quitWorkstation');
-    await quitWorkstation();
+    if (customArgObj.args.quitWS) {
+      const quitWorkstation = require('./utils/wsUtils/quitWorkstation');
+      await quitWorkstation();
+    }
 
   }
 

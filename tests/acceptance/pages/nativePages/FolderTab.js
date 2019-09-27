@@ -1,7 +1,8 @@
-import RootApp from './RootApp';
+import RootApp from '../basePages/RootApp';
 const folderTab = MAC_XPATH_GENERAL['folderTab'];
 
 export default class FolderTab extends RootApp {
+
   //Locators
   async getFolder(folderName) {
     return this.getNativeElement({

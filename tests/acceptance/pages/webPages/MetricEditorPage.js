@@ -1,5 +1,5 @@
-import BasePage from './BasePage'
-export default class MetricEditor extends BasePage {
+import BasePage from '../basePages/BasePage'
+export default class MetricEditorPage extends BasePage {
 
     // element locators
     getMetricEditorWindow(){

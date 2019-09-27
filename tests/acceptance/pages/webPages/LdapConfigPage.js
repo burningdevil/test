@@ -1,4 +1,4 @@
-import BasePage from './BasePage'
+import BasePage from '../basePages/BasePage'
 export default class LdapConfigPage extends BasePage {
 
   // element locators

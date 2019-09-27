@@ -1,7 +1,12 @@
+/**
+ * Class representing the base of all other native window page objects
+ */
+const window = MAC_XPATH_GENERAL['window'];
+
 export default class RootApp {
 
   constructor() {
-    this.app = global.workstationApp;
+    this.app = workstationApp;
   }
 
   async sleep(ms) {
@@ -11,7 +16,7 @@ export default class RootApp {
   async nativeWaitFor(driver, method, value, timeout, pollFreq) {
 
     console.log(value);
-   
+
     let findElement;
 
     switch(method) {
@@ -75,7 +80,7 @@ export default class RootApp {
     if (!timeout) {
       timeout = 60000
     }
-    if (OSType === 'windows') { 
+    if (OSType === 'windows') {
       let elm = await this.app;
       for(let index=0; index<obj.windows.locators.length; index++) {
         let locator = obj.windows.locators[index];
@@ -188,21 +193,34 @@ export default class RootApp {
       // console.log('Im in ICONVIEW');
       await this.moveToAndClick(await this.getIconView());
       //change xpath to icon view
-      MAC_XPATH_VIEWMODE = MAC_XPATH['iconView'];
+      return MAC_VIEWMODE = 'iconView'
     } else if (viewName.toLowerCase() === 'listview') {
-      // console.log('Im in LISTVIEW');
       await this.moveToAndClick(await this.getListView());
       //change xpath to list view
-      MAC_XPATH_VIEWMODE = MAC_XPATH['listView'];
-      // console.log(MAC_XPATH_VIEWMODE);
+      return MAC_VIEWMODE = 'listView'
     }
-    return MAC_XPATH_VIEWMODE;
   }
 
 
   // assertion
   async isElementDisplayedByXPath(xpath) {
     return this.app.elementByXPath(xpath).isDisplayed();
+  }
+
+  async getCloseButton(window) {
+    return this.getNativeElement({
+      windows: {
+        locators: [
+          { method: '', value: '' },
+          { method: '', value: '' }
+        ]
+      },
+      mac: { xpath: popupWindow.closeButton.replace(/ReplaceMe/g, window) }
+    });
+  }
+
+  async clickClose(window){
+    return this.moveToAndClick(await this.getCloseButton(window));
   }
 
 }

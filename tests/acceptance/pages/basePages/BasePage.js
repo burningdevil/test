@@ -1,5 +1,5 @@
 /**
- * Class representing the base of all other page objects
+ * Class representing the base of all other web page objects
  */
 export default class BasePage {
     constructor(browserInstance) {
