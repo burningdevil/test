@@ -20,7 +20,7 @@
 
     <dependency>
       <groupId>com.microstrategy.next.ProductStrings</groupId>
-      <artifactId>WORKSTATION_ADMIN</artifactId>
+      <artifactId>${env.APP_DATABASE_NAME}</artifactId>
       <version>[11.2.0,11.3.0)</version>
       <type>zip</type>
     </dependency>
