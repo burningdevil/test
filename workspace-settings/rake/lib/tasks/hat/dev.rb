@@ -6,7 +6,18 @@ include ShellHelper::Shell
 desc "build project in #{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}"
 task :build do
   node_modules_folder = "#{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}/node_modules"
+  app_locale_folder = "#{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}/src/locale"
+  menu_locale_folder = "#{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}/src/assets/i18n"
+
   FileUtils.rm_rf(node_modules_folder) if File.exist?(node_modules_folder)
+  FileUtils.mkdir_p(app_locale_folder) unless File.exist?(app_locale_folder)
+  FileUtils.mkdir_p(menu_locale_folder) unless File.exist?(menu_locale_folder)
+
+  menu_database_name = $WORKSPACE_SETTINGS[:project][:name].upcase.gsub('-', '_')
+  shell_command!(
+    "docker run -v #{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}:/mnt/production -e MENU_DATABASE_NAME=#{menu_database_name} --entrypoint '/bin/sh' maven:alpine /mnt/production/i18n.sh",
+    cwd: $WORKSPACE_SETTINGS[:paths][:project][:production][:home]
+  )
   shell_command!(
     "docker run -v #{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}:/mnt/production --entrypoint '/bin/sh' node:10-alpine /mnt/production/build.sh",
     cwd: $WORKSPACE_SETTINGS[:paths][:project][:production][:home]
