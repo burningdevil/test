@@ -3,7 +3,7 @@
 export PROJECT_NAME='TKN-.-project_name-.-TKN'
 export ORGANIZATION_NAME='TKN-.-project_parent_name-.-TKN'
 export COMPANY_NAME='microstrategy'
-export ECOSYSTEM_ROOT_VERSION=${ECOSYSTEM_ROOT_VERSION:='1.0.993.next'}
+export ECOSYSTEM_ROOT_VERSION=${ECOSYSTEM_ROOT_VERSION:='1.0.1000.next'}
 
 #<(((((((((((((((-------------------------------------------------------------------)))))))))))))))>#
 #<(((((((((((((((------------------- PLEASE DON'T EDIT BELOW -----------------------)))))))))))))))>#
