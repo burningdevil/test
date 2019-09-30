@@ -13,16 +13,16 @@ Feature: Example For Workstation Automation for Metric Plugin on CEF
 
     #Editing a metric
     When I select folderMode on navigation bar
-    When I select environment folder <selectedTabName>
-    When I double click to expand or collapse <selectedTabName>
-    When I select environment folder <selectedTabName1>
-    When I double click to expand or collapse <selectedTabName1>
-    When I select environment folder <selectedTabName2>
-    When I double click to expand or collapse <selectedTabName2>
-    When I select environment folder <selectedTabName3>
-    When I double click to expand or collapse <selectedTabName3>
-    When I select environment folder <selectedTabName4>
-    When I double click to expand or collapse <selectedTabName4>
+    When I select environment folder <selectedFolderName>
+    When I double click to expand or collapse <selectedFolderName>
+    When I select environment folder <selectedFolderName1>
+    When I double click to expand or collapse <selectedFolderName1>
+    When I select environment folder <selectedFolderName2>
+    When I double click to expand or collapse <selectedFolderName2>
+    When I select environment folder <selectedFolderName3>
+    When I double click to expand or collapse <selectedFolderName3>
+    When I select environment folder <selectedFolderName4>
+    When I double click to expand or collapse <selectedFolderName4>
     When I select view listView
     When I select context menu option Edit Metric for Cost of type Metrics
     Then Metric editor window should be displayed
@@ -49,16 +49,16 @@ Feature: Example For Workstation Automation for Metric Plugin on CEF
     When I select context menu option Delete for <metricName> of type Metrics
 
     #Restoring View
-    When I double click to expand or collapse <selectedTabName4>
-    When I double click to expand or collapse <selectedTabName3>
-    When I double click to expand or collapse <selectedTabName2>
-    When I double click to expand or collapse <selectedTabName1>
-    When I double click to expand or collapse <selectedTabName>
+    When I double click to expand or collapse <selectedFolderName4>
+    When I double click to expand or collapse <selectedFolderName3>
+    When I double click to expand or collapse <selectedFolderName2>
+    When I double click to expand or collapse <selectedFolderName1>
+    When I double click to expand or collapse <selectedFolderName>
     When I select smartMode on navigation bar
     When I select view iconView
 
 
 
     Examples:
-      | tabName      | itemName               | itemType    | selectedTabName | selectedTabName1       | selectedTabName2 | selectedTabName3 | selectedTabName4  | functionName | text     | metricName       |
+      | tabName      | itemName               | itemType    | selectedFolderName | selectedFolderName1       | selectedFolderName2 | selectedFolderName3 | selectedFolderName4  | functionName | text     | metricName       |
       | Applications | MicroStrategy Tutorial | Plugin Test | Plugin Test     | MicroStrategy Tutorial | Public Objects   | Metrics          | Sales Metrics     | Count        | Customer | Automated Metric |

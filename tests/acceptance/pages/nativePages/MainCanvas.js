@@ -110,17 +110,6 @@ export default class MainCanvas extends RootApp {
 
     // assertions
 
-    async isItemDisplayedInCurrentView(itemName) {
-        try {
-          let elem = await this.getItemInCurrentView(itemName);
-          return elem.isDisplayed();
-        } catch (err) {
-          console.log(err);
-          return false;
-        }
-    }
-
-
     async isSearchResultPageDisplayed() {
         try {
             let elem = await this.getSearchResultPage(mainCanvas.searchResultPage);

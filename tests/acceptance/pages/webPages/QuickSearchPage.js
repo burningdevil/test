@@ -31,7 +31,7 @@ export default class QuickSearchPage extends BasePage {
   async selectItemByName(name) {
     await this.getQuickSearchListItemByName(name).click();
 
-    await editor.waitNativeElement({
+    await editor.nativeWaitFor({
       windows:{
         locators: [
           { method: '', value: '' },

@@ -1,6 +1,7 @@
 import Window from '../basePages/Window';
 import MenuBar from './MenuBar'
 import Popup from './Popup';
+
 const editor = MAC_XPATH_GENERAL['editor'];
 
 export default class Editor extends Window {
@@ -13,30 +14,22 @@ export default class Editor extends Window {
   }
 
   // locator
-  async getEditorContainer(itemName) {
-    return this.getNativeElement({
+
+
+  // actions
+
+
+
+  // assertions
+  async isEditorDisplayed(itemName) {
+    return this.nativeWaitFor({
       windows: {
         locators: [
           { method: 'Name', value: itemName },
         ]
       },
       mac: { xpath: editor.container.replace(/ReplaceEditorTitle/g, itemName) }
-    });
-  }
-
-
-  // actions
-
-
-  // assertions
-  async isEditorDisplayed(itemName) {
-    try {
-      let elem = await this.getEditorContainer(itemName);
-      return elem.isDisplayed();
-    } catch (err) {
-      console.log(err);
-      return false;
-    }
+    })
   }
 
 }

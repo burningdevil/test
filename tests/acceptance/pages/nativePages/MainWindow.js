@@ -5,6 +5,7 @@ import Footer from './Footer';
 import SmartTab from './SmartTab'
 import FolderTab from './FolderTab';
 import MainCanvas from './MainCanvas';
+import Popup from './Popup';
 
 export default class MainWindow extends Window {
 
@@ -17,6 +18,7 @@ export default class MainWindow extends Window {
     this.smartTab = new SmartTab()
     this.folderTab = new FolderTab()
     this.mainCanvas = new MainCanvas()
+    this.popup = new Popup()
   }
 
   // locator

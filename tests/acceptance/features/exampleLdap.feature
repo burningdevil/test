@@ -10,14 +10,16 @@ Feature: Example For Workstation Automation for LDAP feature
   @ldap
   Scenario Outline: [TC53693] LDAP plugin feature in Workstation Mac for configured Env
     When I select tab <tabName>
-    When I configure LDAP service on env <envName>
-    Then LDAP window should be displayed
-    When I select sideTab <sideTab>
-    When I click cancel button
-    Then LDAP window should NOT be displayed
-    When I import LDAP users on env <envName>
-    When I click OK after user import
+    # --- The steps below only works if you are an administrator of the environment and LDAP has already been configured
+    # When I configure LDAP service on env <envName>
+    # Then LDAP window should be displayed
+    # When I select sideTab <sideTab>
+    # When I click cancel button
+    # Then LDAP window should NOT be displayed
+    # When I import LDAP users on env <envName>
+    # When I click OK after user import
 
+    # --- The steps below only works if you are an administrator of the environment and LDAP has NOT been configured
     When I add a new environment named <newEnvName> with url <envUrl>
     When I login with <loginMode> mode using name <userName> and password <userPwd>
     When I select project <projectName>

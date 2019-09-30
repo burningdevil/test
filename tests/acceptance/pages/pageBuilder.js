@@ -24,12 +24,6 @@ function PageBuilder() {
     const metricEditorPage = new MetricEditorPage();
     const quickSearchPage = new QuickSearchPage();
 
-    // mainCanvas.envSection = envSection;
-    // mainWindow.folderTab = folderTab;
-    // mainWindow.footer = footer;
-    // mainWindow.menuBar = menuBar;
-    // mainWindow.smartTab = smartTab;
-    // mainWindow.toolbar = toolbar;
 
     return {
         dialogs,

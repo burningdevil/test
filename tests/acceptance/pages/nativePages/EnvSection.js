@@ -170,7 +170,7 @@ export default class EnvSection extends RootApp {
           { method: 'Name', value: 'Remove Environment' }
         ]
       },
-      mac: { xpath: MAC_XPATH[MAC_VIEWMODE]['mainCanvas'].env.envContextOption.replace(/ReplaceMenuOption/g, 'Remove') }
+      mac: { xpath: MAC_XPATH[MAC_VIEWMODE]['mainCanvas'].contextOption.replace(/ReplaceOption/g, 'Remove') }
     });
   }
 
@@ -218,7 +218,7 @@ export default class EnvSection extends RootApp {
     });
   }
 
-  async getEnvOption(option) {
+  async getOption(option) {
     return this.getNativeElement({
       windows: {
         locators: [
@@ -236,7 +236,7 @@ export default class EnvSection extends RootApp {
           { method: 'Name', value: secondaryOption }
         ]
       },
-      mac: { xpath: MAC_XPATH[MAC_VIEWMODE]['mainCanvas'].secondaryContextOption.replace(/ReplaceOption/g, firstOption).replace(/ReplaceSecondaryOption/g, secondOption) }
+      mac: { xpath: MAC_XPATH[MAC_VIEWMODE]['mainCanvas'].secondaryContextOption.replace(/ReplaceOption/g, firstOption).replace(/ReplaceSecondaryOption/g, secondaryOption) }
     });
   }
 
@@ -328,8 +328,8 @@ export default class EnvSection extends RootApp {
     let existingEnv = await this.getExistingEnv(name);
     await this.moveToAndClick(existingEnv);
     await this.rightClick();
-    await this.moveToAndClick(await this.getEnvOption('Directory Service'));
-    await this.moveToAndClick(await this.getSecondaryEnvOption('Directory Service','Configure Directory Service'));
+    await this.moveToAndClick(await this.getOption('Directory Service'));
+    await this.moveToAndClick(await this.getSecondaryOption('Directory Service','Configure Directory Service'));
     //Waiting LDAP config window to open
     return this.app.sleep(4000);
   }
@@ -348,8 +348,8 @@ export default class EnvSection extends RootApp {
     let existingEnv = await this.getExistingEnv(name);
     await this.moveToAndClick(existingEnv);
     await this.rightClick();
-    await this.moveToAndClick(await this.getEnvOption('Directory Service'));
-    await this.moveToAndClick(await this.getSecondaryEnvOption('Import User'));
+    await this.moveToAndClick(await this.getOption('Directory Service'));
+    await this.moveToAndClick(await this.getSecondaryOption('Directory Service','Import User'));
     return this.app.sleep(8000);
   }
 

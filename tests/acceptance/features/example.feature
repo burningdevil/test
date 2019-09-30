@@ -8,8 +8,9 @@ Feature: Example For Workstation Automation
 # Example Test Scenario for Quick Search in Workstation Mac with CEF
 # Author: qfan  06/11/2019
 #####
-  @mac_example @debug
+  @mac_example @quickSearch
   Scenario Outline: [TC42657] Quick Search Dossier in Workstation Mac with CEF
+    When I first-time select tab Dossiers and wait for cache generation
     When I search for <itemName>
     Then Result Popup should be displayed with <count> items
     When I click on item <itemName>

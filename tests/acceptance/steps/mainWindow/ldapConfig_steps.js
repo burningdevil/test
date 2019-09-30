@@ -18,11 +18,6 @@ Then('I click cancel button', async function(){
     return ldapPage.switchToDefaultWebView();
 });
 
-Then('I close pop up window for {window} window', async function(window){
-    await ldapPage.clickClose(window);
-    return ldapPage.switchToDefaultWebView();
-})
-
 When('I click OK after user import', async function(){
     await ldapPage.switchToNewWebView();
     await ldapPage.clickImportOkButton();

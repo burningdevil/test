@@ -2,7 +2,7 @@ import RootApp from "../basePages/RootApp";
 
 const dialog = MAC_XPATH_GENERAL['dialog'];
 
-export default class Editor extends RootApp {
+export default class Dialogs extends RootApp {
 
   // locator
   async getDialogContainer(itemName) {
@@ -36,14 +36,10 @@ export default class Editor extends RootApp {
 
   // assertions
 
+  // dynamic wait
   async isDialogDisplayed(itemName) {
-    try {
-      let elem = await this.getDialogContainer(itemName);
-      return elem.isDisplayed();
-    } catch (err) {
-      console.log(err);
-      return false;
-    }
+    let elem = await this.getDialogContainer(itemName);
+    return elem.isDisplayed();
   }
 
 }

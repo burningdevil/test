@@ -3,8 +3,7 @@ const { Given, When, Then } = require('cucumber');
 // ** Navigations in Main Window ** //
 // this step waits for caching to be completed (for Mac Quick Search)
 Then('I first-time select tab {tabName} and wait for cache generation', async function (tabName) {
-  await mainWindow.smartTab.selectTab(tabName);
-  return mainWindow.app.sleep(30000);
+  return mainWindow.smartTab.selectTabAndWait(tabName);
 });
 
 Then('I select tab {tabName}', async function (tabName) {

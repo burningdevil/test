@@ -68,7 +68,7 @@ exports.config = {
       global.windowsMap = new Map();
 
       // setting globale variables
-      const variables = require('./utils/envUtils/variables');
+      const variables = require('./utils/envUtils/globals');
       ({
         MAC_XPATH: global.MAC_XPATH,
         MAC_VIEWMODE: global.MAC_VIEWMODE,
@@ -122,27 +122,8 @@ exports.config = {
         }
         await mainWindow.mainCanvas.envSection.clickOkToConnect();
       }
-
-      // first-time cache generation for mac (temporary)
-      if (OSType === 'mac') {
-        await mainWindow.smartTab.selectTab('Dossiers');
-
-        //dynamic wait for the Dossiers tab load completely
-        await mainWindow.smartTab.waitNativeElement({
-          mac: { xpath: MAC_XPATH['iconView'].separaterTitle.replace("replaceMe", envName)}
-        });
-      } else {
-        await mainWindow.smartTab.selectTab('Dossiers');
-
-        await mainWindow.smartTab.waitNativeElement({
-          windows:{
-            locators: [
-              { method: 'Name', value: 'AQDT' },
-              { method: 'ClassName', value: 'ListBoxItem' }
-            ]},
-        });
-      }
     }
+
 
     //get PID list of workstation and workstation helpers
     if (customArgObj.args.ubConf.enableUB) {

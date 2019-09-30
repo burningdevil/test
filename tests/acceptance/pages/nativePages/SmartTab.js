@@ -75,4 +75,18 @@ export default class SmartTab extends RootApp {
 
   }
 
+  // This is to dynamically wait for the items to be displayed
+  // This is a must for Mac as Mac needs to generate cache for now
+  async  selectTabAndWait(tabName) {
+    await this.selectTab(tabName);
+    return this.nativeWaitFor({
+      windows:{
+        locators: [
+          { method: 'Name', value: 'AQDT' },
+          { method: 'ClassName', value: 'ListBoxItem' }
+        ]},
+      mac: { xpath: MAC_XPATH['iconView'].separaterTitle.replace("replaceMe", browser.params.envInfo[0].envName)}
+    });
+  }
 }
+

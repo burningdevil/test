@@ -24,7 +24,7 @@ const mac_xpath = {
       rsdItem:`${mainCanvasIconView}/AXList[@AXSubrole='AXSectionList']/AXGroup[@AXIdentifier='WSCollectionViewCardItemPrototype']/AXGroup[0]/AXStaticText[@AXValue='ReplaceItemName\n']`,
       // itemType2: `${displaySection}/AXGroup[@AXIdentifier='itemPrototype[false]']/AXGroup[0]/AXStaticText[@AXValue='ReplaceMe']`,
       contextOption: `${mainCanvasIconView}/AXMenu[0]/AXMenuItem[@AXTitle='ReplaceOption']`,
-      secondaryContextOption: `${mainCanvasIconView}/AXMenu[0]/AXMenuItem[@AXTitle='ReplaceMenuOption']/AXMenu[0]/AXMenuItem[@AXTitle='ReplaceSecondaryOption']`
+      secondaryContextOption: `${mainCanvasIconView}/AXMenu[0]/AXMenuItem[@AXTitle='ReplaceOption']/AXMenu[0]/AXMenuItem[@AXTitle='ReplaceSecondaryOption']`
     },
     separaterTitle: `/AXApplication[@AXTitle='MicroStrategy Workstation']/AXWindow[@AXSubrole='AXStandardWindow']/AXSplitGroup[0]/AXGroup[1]/AXScrollArea[0]/AXList[@AXSubrole='AXCollectionList']/AXList[@AXSubrole='AXSectionList']/AXGroup/AXStaticText[@AXValue='replaceMe']`
   },
