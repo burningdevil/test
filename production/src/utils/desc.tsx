@@ -10,7 +10,7 @@ function getDescriptors() {
   return DESCRIPTORS || {}
 }
 
-export default function (descID: number, defText: string) {
+export function desc(descID: number, defText: string) {
   let $DESCRIPTORS = getDescriptors()
 
   if (descID !== null && descID !== undefined) {

@@ -1,0 +1,38 @@
+job 'stage-1-dev' do
+  description 'The first stage in the pipeline:
+designed to complete quickly -- < 10 mins --
+and publish a versioned deployment package'
+
+  configure_common_items{}
+
+  assigned_node_string 'amazon_linux'
+
+  triggers do
+    github_push do
+    end
+  end
+
+  builders do
+    bash do
+      script '#!/usr/bin/env bash
+set +xe
+
+export PATH=/usr/local/sbin:/usr/local/bin:$PATH
+
+export WORKSPACE_SETTING=dev
+source .ecosystem
+
+rake upload update_dep_db_from_file
+'
+    end
+  end
+
+  publishers do
+    parameterized_trigger do
+      job_short_names %w{
+        stage-2-regression-test
+      }
+    end
+  end
+
+end

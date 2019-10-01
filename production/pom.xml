@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <repositories>
+    <repository>
+      <id>releases</id>
+      <url>http://nexus.internal.microstrategy.com:8081/content/repositories/releases/</url>
+    </repository>
+  </repositories>
+
+  <groupId>com.microstrategy</groupId>
+  <artifactId>workstation_plugin</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>com.microstrategy.next.ProductStrings</groupId>
+      <artifactId>${env.APP_DATABASE_NAME}</artifactId>
+      <version>[11.2.0,11.3.0)</version>
+      <type>zip</type>
+    </dependency>
+
+    <dependency>
+      <groupId>com.microstrategy.next.ProductStrings</groupId>
+      <artifactId>WORKSTATION_PLUGIN_INTEGRATION</artifactId>
+      <version>[11.2.0,11.3.0)</version>
+      <type>zip</type>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <directory>lib</directory>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <configuration>
+          <outputDirectory>
+            ${project.build.directory}
+          </outputDirectory>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
