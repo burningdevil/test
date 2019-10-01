@@ -43,8 +43,7 @@ exports.config = {
     // require: './features/step_definitions/**/*.js',  // require step definition files before executing features
     require: './steps/**/*.js',  // require step definition files before executing features
     format: ["pretty", "json:Cucumber.json"],            // <string[]> (type[:path]) specify the output format, optionally supply PATH to redirect formatter output (repeatable)
-    // tags: ['@workstation'],
-    tags: ['@debug'],
+    // tags: ['@debug'],
     profile: false,
     'no-source': true
   },
@@ -67,14 +66,14 @@ exports.config = {
       global.workstationPath = (process.platform === 'win32') ? customArgObj.args.appPath['windows'] : customArgObj.args.appPath['mac'];
       global.windowsMap = new Map();
 
-      // setting globale variables
-      const variables = require('./utils/envUtils/globals');
+      // setting global variables
+      const variables = require('./utils/envUtils/constants');
       ({
         MAC_XPATH: global.MAC_XPATH,
-        MAC_VIEWMODE: global.MAC_VIEWMODE,
         MAC_XPATH_GENERAL: global.MAC_XPATH_GENERAL,
         OSType: global.OSType,
       } = variables);
+      global.MAC_VIEWMODE = 'iconView'
 
       // Start Workstation.
       // This workstation driver is stored globally to be used anywhere else.

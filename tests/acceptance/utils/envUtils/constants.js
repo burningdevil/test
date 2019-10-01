@@ -45,7 +45,6 @@ const setValuePerPlatform = (winValue, macValue) => {
 // export
 export const APPIUM_SERVER_URL = 'http://localhost:4723/wd/hub';
 export const MAC_XPATH = mac_xpath;
-export let MAC_VIEWMODE = 'iconView';
 export const MAC_XPATH_GENERAL = mac_xpath['general'];
 export const OSType = setValuePerPlatform('windows', 'mac');
 export const APP_CAPABILITIES = setValuePerPlatform(WIN_CAPABILITIES, MAC_CAPABILITIES);
