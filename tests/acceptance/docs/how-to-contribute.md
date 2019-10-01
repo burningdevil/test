@@ -4,13 +4,13 @@
 No matter if you already have some implmentation or you just want to improve the template, please help to identify any reusable patterns and make them into this template.
 
 ### General
-Any enhancement against the test framework is welcomed. Please note we are already implementing UB support and Rally Test Case update.
+Any enhancement against the test framework is welcomed. Examples as Performance Test support, Stability Test support, etc.
 
 ### Steps
 Generally Test Steps for Workstation natives will be reusable across teams.
 
 ### Page Objects
-Generally Page Objects for Workstation native will be reusable across teams. 
+Generally Page Objects for Workstation native will be reusable across teams.
 
 ## Submitting PR
 Please create a new branch and submit a pull request for whatever you want to improve. Code review will be performed by the designated POC.

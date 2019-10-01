@@ -1,5 +1,4 @@
 import BasePage from '../basePages/BasePage';
-import Editor from '../nativePages/Editor';
 
 export default class QuickSearchPage extends BasePage {
 
