@@ -1,11 +1,11 @@
 
-# Workstation E2E Testing Framework 
+# Workstation E2E Testing Framework
 
-Workstation Framework team automated this E2E Testing Framework for both Workstation Windows and Workstation Mac. The framework is based on [Protractor](https://github.com/angular/protractor), [Cucumber](https://github.com/cucumber/cucumber) and [Appium](http://appium.io/). 
+Workstation Framework team automated this E2E Testing Framework for both Workstation Windows and Workstation Mac. The framework is based on [Protractor](https://github.com/angular/protractor), [Cucumber](https://github.com/cucumber/cucumber) and [Appium](http://appium.io/).
 
 ## Requirements
 General:
-- Install [Node.JS](https://nodejs.org) 
+- Install [Node.JS](https://nodejs.org)
 - (optional but recommmeded) Install [Yarn](https://github.com/yarnpkg/yarn)
 - Install Appium: [Installing Appium](http://appium.io/docs/en/about-appium/getting-started/)
 ### For Windows:
@@ -16,7 +16,7 @@ General:
 ### For Mac:
 - Install the native OS X binary [AppiumForMac](https://github.com/appium/appium-for-mac/releases/tag/v0.3.0)
 - Follow the [installation instruction](https://github.com/appium/appium-for-mac#109-1010-1011-1012) to enable AppiumForMac to use the Accessibility API of Mac OS X
-- Install Workstation Mac with CEF (Currently the CEF version has not been merged yet, please download the dev build from [oneDrive](https://microstrategy-my.sharepoint.com/:u:/p/qfan/EUTa_jGDmLhNrfZ-9C_aSQABBugwObi_W3M2YQkWahnz4A) )
+- Enable Workstation Mac Developer Mode and make sure it's using the CEF Plugin mode following the [instructions] (https://microstrategy.atlassian.net/wiki/spaces/TTWF/pages/798299500/How+to+prepare+Workstation+Mac+for+CEF+Plugin+Test)
 
 ## Install
 Clone this repository. Then go to

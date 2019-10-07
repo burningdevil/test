@@ -4,7 +4,7 @@
     "files.trimTrailingWhitespace": true,
 
     "cucumberautocomplete.steps": [
-        "/acceptance/features/step_definitions/**/*.js",
+        "acceptance/steps/**/*.js",
     ],
     "cucumberautocomplete.syncfeatures": "/acceptance/features/*feature",
     "cucumberautocomplete.strictGherkinCompletion": true,

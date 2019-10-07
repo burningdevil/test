@@ -1,4 +1,4 @@
-import RootApp from './RootApp';
+import RootApp from '../basePages/RootApp';
 const menuBar = MAC_XPATH_GENERAL['menuBar'];
 
 export default class MenuBar extends RootApp {

@@ -1,5 +1,5 @@
 /**
- * Class representing the base of all other page objects
+ * Class representing the base of all other web page objects
  */
 export default class BasePage {
     constructor(browserInstance) {
@@ -26,7 +26,7 @@ export default class BasePage {
     // for WebView management
     async switchToNewWebView() {
         let handles = await browser.getAllWindowHandles();
-        await browser.switchTo().window(handles[handles.length -1]); 
+        await browser.switchTo().window(handles[handles.length -1]);
         console.log('Switch to new WebView: ', await browser.getTitle());
     }
 
@@ -35,7 +35,7 @@ export default class BasePage {
         await browser.switchTo().window(handles[0]);
         console.log('Switch back to the default webview: ', await browser.getTitle());
     }
-    
+
     // Keyboard inputs
     async click({ elem, offset = { x: 0, y: 0 } }) {
         await this.brwsr.actions().mouseMove(elem).perform();
@@ -43,7 +43,13 @@ export default class BasePage {
         return this.brwsr.actions().click().perform();
     }
 
-    // Element locators
+    async doubleClick({ elem, offset = { x: 0, y: 0 } }) {
+        await this.brwsr.actions().mouseMove(elem).perform();
+        await this.brwsr.actions().mouseMove(offset).perform();
+        return this.brwsr.actions().doubleClick().perform();
+    }
 
-
+    async input(keyword) {
+        return this.brwsr.actions().sendKeys(keyword).perform();
+    }
 }

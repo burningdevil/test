@@ -1,4 +1,4 @@
-import BasePage from './BasePage';
+import BasePage from '../basePages/BasePage';
 
 export default class HyperPage extends BasePage {
 
@@ -12,7 +12,7 @@ export default class HyperPage extends BasePage {
   }
 
   getClearCardDisabled() {
-    return this.getToolbar().$('.right.disabled');  
+    return this.getToolbar().$('.right.disabled');
   }
 
   // actions

@@ -1,4 +1,4 @@
-import RootApp from './RootApp';
+import RootApp from '../basePages/RootApp';
 const smartTab = MAC_XPATH_GENERAL['smartTab'];
 
 export default class SmartTab extends RootApp {
@@ -15,7 +15,7 @@ export default class SmartTab extends RootApp {
     });
   }
 
-  getCreateNewItem(itemName) {
+  async getCreateNewItem(itemName) {
     let macBtnHelpStr;
 
     if (OSType === 'mac') {
@@ -56,4 +56,37 @@ export default class SmartTab extends RootApp {
     return this.app.sleep(2000);
   }
 
+  async cacheAllTabs() {
+    // first-time cache generation for mac (if needed)
+    if (OSType === 'mac') {
+      await this.selectTab('My Library');
+      await this.app.sleep(4000);
+      await this.selectTab('Dossiers');
+      await this.app.sleep(4000);
+      await this.selectTab('Documents');
+      await this.app.sleep(4000);
+      await this.selectTab('Cards');
+      await this.app.sleep(4000);
+      await this.selectTab('Reports');
+      await this.app.sleep(4000);
+      await this.selectTab('Datasets');
+      return this.app.sleep(4000);
+    }
+
+  }
+
+  // This is to dynamically wait for the items to be displayed
+  // This is a must for Mac as Mac needs to generate cache for now
+  async  selectTabAndWait(tabName) {
+    await this.selectTab(tabName);
+    return this.nativeWaitFor({
+      windows:{
+        locators: [
+          { method: 'Name', value: 'AQDT' },
+          { method: 'ClassName', value: 'ListBoxItem' }
+        ]},
+      mac: { xpath: MAC_XPATH['iconView'].separaterTitle.replace("replaceMe", browser.params.envInfo[0].envName)}
+    });
+  }
 }
+

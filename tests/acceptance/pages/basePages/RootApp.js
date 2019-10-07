@@ -1,10 +1,16 @@
+/**
+ * Class representing the base of all other native window page objects
+ */
+import {nativeWaitForElementByName, nativeWaitForElementByClassName, nativeWaitForElementByAccessibilityId, nativeWaitForElementByXPath} from '../../utils/wsUtils/nativeFluentWait'
+
 export default class RootApp {
 
   constructor() {
-    this.app = global.workstationApp;
+    this.app = workstationApp;
   }
 
   // helper methods
+  // native element locator
   async getNativeElement(obj) {
     if (OSType === 'windows') {
       let elm = await this.app;
@@ -30,8 +36,44 @@ export default class RootApp {
     }
   }
 
+  // native wait for
+  async nativeWaitFor(obj, timeout, pullFreq) {
+    console.log(obj.mac)
+    if (!timeout) {
+      timeout = 60000
+    }
+    if (!pullFreq) {
+      pullFreq = 200
+    }
+    if (OSType === 'windows') {
+      let elm = await this.app;
+      for(let index=0; index<obj.windows.locators.length; index++) {
+        let locator = obj.windows.locators[index];
+        switch (locator.method) {
+          case "Name":
+            await nativeWaitForElementByName(elm, locator.value, timeout, pullFreq)
+            elm = await elm.elementByName(locator.value);
+            break;
+          case "ClassName":
+            await nativeWaitForElementByClassName(elm, locator.value, timeout, pullFreq)
+            elm = await elm.elementByClassName(locator.value)
+            break
+          case "AccessibilityId":
+            await nativeWaitForElementByAccessibilityId(elm, locator.value, timeout, pullFreq)
+            elm = await elm.elementByAccessibilityId(locator.value);
+            break
+          default:
+            throw Error('please properly define the using method use dynamic wait');
+          }
+      }
+    } else {
+        return nativeWaitForElementByXPath(this.app, obj.mac.xpath, timeout, pullFreq);
+    }
+  }
+
   // actions
   async moveToAndClick(referenceObject) {
+    //console.log(referenceObject);
     await referenceObject.moveTo();
     await this.app.sleep(100);
     await this.app.buttonDown();
@@ -67,13 +109,6 @@ export default class RootApp {
     return this.app.buttonUp();
   }
 
-  async contextClick() {
-    await this.app.sleep(100);
-    await this.app.buttonDown(2);
-    await this.app.sleep(100);
-    return this.app.buttonUp();
-  }
-
   async rightClick() {
     await this.app.sleep(100);
     await this.app.click(2);
@@ -89,15 +124,12 @@ export default class RootApp {
       // console.log('Im in ICONVIEW');
       await this.moveToAndClick(await this.getIconView());
       //change xpath to icon view
-      MAC_XPATH_VIEWMODE = MAC_XPATH['iconView'];
+      return MAC_VIEWMODE = 'iconView'
     } else if (viewName.toLowerCase() === 'listview') {
-      // console.log('Im in LISTVIEW');
       await this.moveToAndClick(await this.getListView());
       //change xpath to list view
-      MAC_XPATH_VIEWMODE = MAC_XPATH['listView'];
-      // console.log(MAC_XPATH_VIEWMODE);
+      return MAC_VIEWMODE = 'listView'
     }
-    return MAC_XPATH_VIEWMODE;
   }
 
 

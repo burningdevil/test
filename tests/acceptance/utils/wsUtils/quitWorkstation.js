@@ -8,8 +8,8 @@ async function quitWorkstation() {
         await switchToWindow(`Workstation Main Window`);
         await  workstationApp.close();
     } else {
-        await menuBar.clickMenuItem('MicroStrategy Workstation');
-        await menuBar.clickMenuItemOption('MicroStrategy Workstation', 'Quit MicroStrategy Workstation');
+        await mainWindow.menuBar.clickMenuItem('MicroStrategy Workstation');
+        await mainWindow.menuBar.clickMenuItemOption('MicroStrategy Workstation', 'Quit MicroStrategy Workstation');
         await workstationApp.sleep(2000);
     }
     workstationApp.quit();

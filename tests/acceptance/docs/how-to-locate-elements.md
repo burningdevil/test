@@ -26,10 +26,10 @@ Xpath for elements in mac is written in a file and placed under `/utils/envUtils
 - Does not use predicate strings containing braces [] or parentheses ().
 
 ### Writing And Using AXPath
-- Creating constants: 
+- Creating constants:
     If an element has more childern, define a constant to get the window and use it for all the children elements. You can check the list of children elements from Accessibility Inspecter -> Advanced -> children Click on the eye icon to the right corner of children to see the list.
 
-- Passing parameters: 
+- Passing parameters:
     To paramerize the AXPath, put a place holder 'ReplaceMe'. This string can be changed by using string.replace() in the pageObject methods.
 
 - Categorize sections:
@@ -55,14 +55,14 @@ To add more locating straties modify the getNativeElement().
 
 2. Inspect Element with inspect.exe
 - install windows-10-sdk
-- launch inspect.exe under the `Windows kits\{version}\bin\{osType}` folder
+- launch inspect.exe under the `{installPath}\Windows kits\{version}\bin\{osType}` folder
 - inspect elements from the inspect.exe window
 
 ### Writing Element Locators
 To locate the elements in windows, use the getNativeElement(). The element locators can be chained. For example, the locators below will find an elmenet with className 'Button' under element with Name 'Tab' under the app root.
 
 ```
-windows:{ 
+windows:{
         locators: [
           { method: 'Name', value: `Tab` },
           { method: 'ClassName', value: 'Button' },

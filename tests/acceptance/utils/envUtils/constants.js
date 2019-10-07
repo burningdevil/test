@@ -18,7 +18,7 @@ const MAC_CAPABILITIES = {
     // for debug purpose
     {'name':'command_delay', 'value': 0 },
     // try to locate element every 'loop_delay' within 'implicit_timeout'
-    {'name':'implicit_timeout', 'value': 12 },
+    {'name':'implicit_timeout', 'value': 0 },
     {'name':'loop_delay', 'value': 1 },
     // mouse speed
     {'name':'mouse_speed', 'value':400},
@@ -45,7 +45,6 @@ const setValuePerPlatform = (winValue, macValue) => {
 // export
 export const APPIUM_SERVER_URL = 'http://localhost:4723/wd/hub';
 export const MAC_XPATH = mac_xpath;
-export let MAC_XPATH_VIEWMODE = MAC_XPATH['iconView'];
 export const MAC_XPATH_GENERAL = mac_xpath['general'];
 export const OSType = setValuePerPlatform('windows', 'mac');
 export const APP_CAPABILITIES = setValuePerPlatform(WIN_CAPABILITIES, MAC_CAPABILITIES);

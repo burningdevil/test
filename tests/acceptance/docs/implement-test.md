@@ -12,14 +12,14 @@ This document will guide you through steps to automate a new test case.
 Think about what will be newly automated, is it a new feature or enhancement to an exiting feature? Create a new feature file or working on an existing feature file for it. Feature files are under `/features` folder and they are composed of Test Scenarios.
 
 ### Cucumber Test Scenario
-Design Cucumber Test Scenarios for what to be tested, using [Gherkin](https://cucumber.io/docs/gherkin/reference/) lanuage. A Test Scenario usually contains a sequence of test steps. Example: 
+Design Cucumber Test Scenarios for what to be tested, using [Gherkin](https://cucumber.io/docs/gherkin/reference/) lanuage. A Test Scenario usually contains a sequence of test steps. Example:
 
 ```
 Feature: example for feature
   As a example description here
   You should put some description for this feature test
 
-Scenario: 
+Scenario:
   Given some conditions
   When I perform some actions
   Then expected behavior
@@ -33,11 +33,11 @@ A Test Step is actually a function, implemented in the programming lanugae. Exam
 ```
 // ** Navigations in Main Window ** //
 When('I select tab {tabName}', async function (tabName) {
-  return smartTab.selectTab(tabName);
+  return mainWindow.smartTab.selectTab(tabName);
 });
 ```
 
-To implement the Test Steps, we need to implement the Page Objects that helps to identify the elements, perform actions and then validate if expected behaviors. 
+To implement the Test Steps, we need to implement the Page Objects that helps to identify the elements, perform actions and then validate if expected behaviors.
 
 ## Implement Page Objects
 We typically add any of the web or native pages under "pages" folder. All the page objects are categorized in 2 folder
@@ -104,7 +104,7 @@ Example for using getNativeElement(obj):
 ```
 getExampleElement(parameter) {
     return this.getNativeElement({
-      windows:{ 
+      windows:{
         locators: [
           { method: 'Name', value: `${parameter}` },
           { method: 'ClassName', value: 'Button' },
@@ -119,7 +119,7 @@ Regarding how to figure out the locator values for specific elements, please ref
 ## Test & Debug
 
 ### Run Your Test Only
-One simple way to only run your test scenario is to put a special tag for it: `@debug`. Then you can pass in the tag when running the test command:  
+One simple way to only run your test scenario is to put a special tag for it: `@debug`. Then you can pass in the tag when running the test command:
 
 ```
 yarn test --cucumberOpts.tags '@debug'
@@ -136,7 +136,7 @@ yarn install -g ndb
 
 2.  Write `debugger;` in the line where you want to place the breakpoint.
 
-Example: 
+Example:
 ```javascript
 ...
 
@@ -166,4 +166,4 @@ ndb npm run test -- --cucumberOpts.tags '@debug'
 ```
 
 ## Add Descriptions and POC
-After one Test Scenario has been successfully implemented, add description and POC information for it. 
+After one Test Scenario has been successfully implemented, add description and POC information for it.

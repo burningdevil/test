@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-module.exports = function getAverage(individualUBFolder) {
+function getAverage(individualUBFolder) {
     let reports = collectIndividualUBReports(individualUBFolder);
     generateAverageReport(reports);
 }
@@ -31,8 +31,7 @@ function generateAverageReport(reports) {
     try {
         fs.unlinkSync(ubReportAddress);
     } catch (err) {
-        console.info(`Couldn't remove ${ubReportAddress}, maybe it did not exist`);
-        console.log(err);
+
     }
     console.info(`generating ${ubReportAddress}`);
     fs.appendFileSync(ubReportAddress, JSON.stringify(averageReport, null, 2), 'UTF-8');
@@ -168,6 +167,38 @@ function getWorkstationHelpersAverageReport(reports) {
 
     return workstationHelpersAverageReport;
 
+}
+
+function clearExistingReports() {
+    console.log("clearing existing reports");
+
+    fs.readdirSync("./reports/ubIndividual/").forEach(file => {
+        if (file.endsWith(".json")) {
+            try {
+                fs.unlinkSync(`./reports/ubIndividual/${file}`);
+            } catch (err) {
+                console.info(`Couldn't remove ${file}, maybe it did not exist`);
+                console.log(err);
+            }
+        }
+    });
+
+    fs.readdirSync("./reports/raw/").forEach(file => {
+        if (file.endsWith(".json")) {
+            try {
+                fs.unlinkSync(`./reports/raw/${file}`);
+            } catch (err) {
+                console.info(`Couldn't remove ${file}, maybe it did not exist`);
+                console.log(err);
+            }
+        }
+    });
+
+}
+
+module.exports = {
+    getAverage,
+    clearExistingReports
 }
 
 

@@ -2,12 +2,12 @@
     "params": {
         "envInfo": [
             {
-                "envName": "AQDT",
-                "envUrl": "https://aqueduct-tech.customer.cloud.microstrategy.com/MicroStrategyLibrary",
-                "loginMode": "LDAP",
-                "userName": "yourname",
-                "userPwd": "yourpwd",
-                "projects": ["Rally Analytics"]
+                "envName": "Plugin Test",
+                "envUrl": "http://tec-w-005136.labs.microstrategy.com:8080/MicroStrategyLibrary",
+                "loginMode": "Standard",
+                "userName": "administrator",
+                "userPwd": "",
+                "projects": ["MicroStrategy Tutorial"]
             }
         ]
     },
@@ -15,8 +15,9 @@
         "launchWS": true ,
         "connectEnv": true,
         "removeEnv": true,
+        "quitWS": true ,
         "appPath": {
-            "mac": "/Users/qfan/bin/MicroStrategy Workstation.app",
+            "mac": "MicroStrategy Workstation.app",
             "windows": "C:\\Program Files\\MicroStrategy\\Workstation\\Workstation.exe"
         },
         "ubConf": {

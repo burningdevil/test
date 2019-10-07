@@ -4,8 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "postinstall": "node ./utils/ubUtils/ubBuilderReplacer.js",
     "test": "protractor conf.js --disableChecks",
-    "ubTest": "node utils/ubUtils/runUB.js"
+    "ubTest": "node utils/ubUtils/runUB.js",
+    "ubSingleRun": "yarn test --args.ubConf.enableUB true --args.ubConf.ubReportPath ./reports/raw/report1.json",
+    "update-webdriver": "node node_modules/protractor/bin/webdriver-manager update --gecko=false && node ./config/seleniumPatch.js"
   },
   "author": "",
   "license": "ISC",
@@ -28,8 +31,9 @@
     "yargs": "^13.2.4"
   },
   "dependencies": {
+    "json2csv": "^4.5.2",
+    "mysql": "^2.17.1",
     "pidusage": "^2.0.17",
     "ps-list": "^6.3.0"
-
   }
 }

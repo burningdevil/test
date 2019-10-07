@@ -1,51 +1,53 @@
 const application = "/AXApplication[@AXTitle='MicroStrategy Workstation']";
-const osMenuBar = `${application}/AXMenuBar[0]`;
-const mainWindow = `${application}/AXWindow[@AXSubrole='AXStandardWindow']`;
-const displaySection = `${mainWindow}/AXSplitGroup[0]/AXGroup[1]/AXScrollArea[0]/AXList[@AXSubrole='AXCollectionList']/AXList[@AXSubrole='AXSectionList']`;
-const envDialoguePath = `${application}/AXWindow[@AXSubrole='AXDialog']`;
-const toolbar = `${mainWindow}/AXToolbar[0]`;
-const smartTabGroup = `${mainWindow}/AXSplitGroup[0]/AXGroup[0]/AXScrollArea[0]/AXOutline[0]/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]`;
+const stdWindow = `${application}/AXWindow[@AXSubrole='AXStandardWindow']`;
+const menuBar = `${application}/AXMenuBar[0]`;
+const toolbar = `${stdWindow}/AXToolbar[0]`;
+const mainCanvas = `${stdWindow}/AXSplitGroup[0]/AXGroup[1]/AXScrollArea[0]`;
+const mainCanvasIconView = `${mainCanvas}/AXList[@AXSubrole='AXCollectionList']`;
+const mainCanvasListView = `${mainCanvas}/AXOutline[0]`;
+
+const envSection = `${mainCanvas}/AXList[@AXSubrole='AXCollectionList']/AXList[@AXSubrole='AXSectionList']`;
+const dialog = `${application}/AXWindow[@AXSubrole='AXDialog']`;
+const popup = `${application}/AXWindow[@AXSubrole='AXStandardWindow']/AXSheet[0]`;
+const popupInEditor = `${application}/AXWindow[@AXTitle='ReplaceEditorTitle']/AXSheet[0]`;
+const smartTabGroup = `${stdWindow}/AXSplitGroup[0]/AXGroup[0]/AXScrollArea[0]/AXOutline[0]/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]`;
 
 const mac_xpath = {
   iconView: {
-    env: {
-      addNewEnv: `${displaySection}/AXGroup[@AXIdentifier='connectEnvItemPrototype']/AXGroup[@AXIdentifier='Add New Environment Connection']/AXImage[0]`,
-      existingEnv: `${displaySection}/AXGroup[@AXIdentifier='environmentItemPrototype']/AXGroup[0]/AXStaticText[@AXValue='ReplaceMe']`,
-      envContextOption: `${mainWindow}/AXSplitGroup[0]/AXGroup[1]/AXScrollArea[0]/AXList[@AXSubrole='AXCollectionList']/AXMenu[0]/AXMenuItem[@AXTitle='ReplaceMe']`,
+    mainCanvas: {
+      env: {
+        addNewEnv: `${envSection}/AXGroup[@AXIdentifier='connectEnvItemPrototype']/AXGroup[@AXIdentifier='Add New Environment Connection']/AXImage[0]`,
+        existingEnv: `${envSection}/AXGroup[@AXIdentifier='environmentItemPrototype']/AXGroup[0]/AXStaticText[@AXValue='ReplaceEnvName']`,
+      },
+      // item Type 1: dossiers, environment, rsd
+      dossierItem: `${mainCanvasIconView}/AXList[@AXSubrole='AXSectionList']/AXGroup[@AXIdentifier='WSCollectionViewCardItemPrototype']/AXGroup[0]/AXStaticText[@AXValue='ReplaceItemName\n']`,
+      rsdItem:`${mainCanvasIconView}/AXList[@AXSubrole='AXSectionList']/AXGroup[@AXIdentifier='WSCollectionViewCardItemPrototype']/AXGroup[0]/AXStaticText[@AXValue='ReplaceItemName\n']`,
+      // itemType2: `${displaySection}/AXGroup[@AXIdentifier='itemPrototype[false]']/AXGroup[0]/AXStaticText[@AXValue='ReplaceMe']`,
+      contextOption: `${mainCanvasIconView}/AXMenu[0]/AXMenuItem[@AXTitle='ReplaceOption']`,
+      secondaryContextOption: `${mainCanvasIconView}/AXMenu[0]/AXMenuItem[@AXTitle='ReplaceOption']/AXMenu[0]/AXMenuItem[@AXTitle='ReplaceSecondaryOption']`
     },
-    searchPage: {
-      resultItem: `${displaySection}/AXGroup[@AXIdentifier='WSCollectionViewCardItemPrototype']/AXGroup[0]/AXStaticText[@AXValue='ReplaceMe\n']`,
-      contextMenuOption: `${mainWindow}/AXSplitGroup[0]/AXGroup[1]/AXScrollArea[0]/AXList[@AXSubrole='AXCollectionList']/AXMenu[0]/AXMenuItem[@AXTitle='ReplaceMe']`
-      // smallResultItem: `${displaySection}/AXGroup[@AXIdentifier='itemPrototype[false]']/AXGroup[0]/AXStaticText[@AXValue='ReplaceMe']`,
-    },
+    separaterTitle: `/AXApplication[@AXTitle='MicroStrategy Workstation']/AXWindow[@AXSubrole='AXStandardWindow']/AXSplitGroup[0]/AXGroup[1]/AXScrollArea[0]/AXList[@AXSubrole='AXCollectionList']/AXList[@AXSubrole='AXSectionList']/AXGroup/AXStaticText[@AXValue='replaceMe']`
   },
   listView: {
-    env: {
-      addNewEnv: `${mainWindow}/AXSplitGroup[0]/AXGroup[1]/AXScrollArea[0]/AXOutline[0]/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXStaticText[@AXValue='Add New Environment Connection']`,
-      existingEnv: `${mainWindow}/AXSplitGroup[0]/AXGroup[1]/AXScrollArea[0]/AXOutline[0]/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXStaticText[@AXValue='ReplaceMe']`,
-      envContextOption: `${mainWindow}/AXSplitGroup[0]/AXGroup[1]/AXScrollArea[0]/AXOutline[0]/AXMenu[0]/AXMenuItem[@AXTitle='ReplaceMe']`,
-    },
-    searchPage: {
-      resultItem: `${mainWindow}/AXSplitGroup[0]/AXGroup[1]/AXScrollArea[0]/AXOutline[0]/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXTextField[@AXValue='ReplaceMe']`,
-      contextMenuOption: `${mainWindow}/AXSplitGroup[0]/AXGroup[1]/AXScrollArea[0]/AXOutline[0]/AXMenu[0]/AXMenuItem[@AXTitle='ReplaceMe']`,
+    mainCanvas: {
+      env: {
+        addNewEnv: `${mainCanvasListView}/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXStaticText[@AXValue='Add New Environment Connection']`,
+        existingEnv: `${mainCanvasListView}/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXStaticText[@AXValue='ReplaceEnvName']`,
+      },
+      // item Type 1: Document, Card, Report, Dataset, Metric, Folder
+      documentItem: `${mainCanvasListView}/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXTextField[@AXValue='ReplaceItemName']`,
+      cardItem: `${mainCanvasListView}/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXTextField[@AXValue='ReplaceItemName']`,
+      reportItem: `${mainCanvasListView}/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXTextField[@AXValue='ReplaceItemName']`,
+      datasetItem: `${mainCanvasListView}/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXTextField[@AXValue='ReplaceItemName']`,
+      metricItem: `${mainCanvasListView}/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXTextField[@AXValue='ReplaceItemName']`,
+      folderItem: `${mainCanvasListView}/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXTextField[@AXValue='ReplaceItemName']`,
+      // item Type 2: Env, Application, Dossier
+      applicationItem: `${mainCanvasListView}/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXStaticText[@AXValue='ReplaceItemName']`,
+      dossierItem: `${mainCanvasListView}/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXStaticText[@AXValue='ReplaceItemName']`,
+      contextOption: `${mainCanvasListView}/AXMenu[0]/AXMenuItem[@AXTitle='ReplaceOption']`,
     }
   },
   general: {
-    env: {
-      connectDialog: envDialoguePath,
-      inputEnvName: `${envDialoguePath}/AXTextField[0]`,
-      inputEnvUrl: `${envDialoguePath}/AXTextField[1]`,
-      loginMode: `${envDialoguePath}/AXRadioButton[@AXTitle='ReplaceMe']`,
-      userName: `${envDialoguePath}/AXTextField[0]`,
-      userPwd: `${envDialoguePath}/AXTextField[1]`,
-      rememberMe: `${envDialoguePath}/AXCheckBox[@AXTitle='Remember Me']`,
-      connect: `${envDialoguePath}/AXButton[@AXTitle='Connect']`,
-      continueToConnect: `${envDialoguePath}/AXButton[@AXTitle='Continue']`,
-      projectList: `${envDialoguePath}`,
-      selectProject: `${envDialoguePath}/AXScrollArea[0]/AXTable[0]/AXRow[@AXSubrole='AXTableRow']/AXCell[0]/AXCheckBox[@AXTitle='ReplaceMe']`,
-      rememberSelectedApplications: `${envDialoguePath}/AXCheckBox[@AXTitle='Remember Selected Applications']`,
-      OKToConnect: `${envDialoguePath}/AXButton[@AXTitle='OK']`,
-    },
     toolbar: {
       refresh: `${toolbar}/AXButton[0]`,
       iconViewButton: `${toolbar}/AXGroup[1]/AXRadioGroup[0]/AXRadioButton[0]`,
@@ -54,36 +56,67 @@ const mac_xpath = {
       sortBy: `${toolbar}/AXGroup[3]/AXMenuButton[@AXTitle='Sort By: Name']`,
       selectApplication: `${toolbar}/AXButton[1]`,
       searchInputBox: `${toolbar}/AXGroup[4]/AXTextField[@AXSubrole='AXSearchField']`,
+      quickSearchDropdown: `${stdWindow}/AXToolbar[0]/AXGroup[4]/AXTextField[0]/AXPopover[0]`,
       clearSearchInput: `${toolbar}/AXGroup[4]/AXTextField[@AXSubrole='AXSearchField']/AXButton[1]`
     },
     smartTab: {
       tab: `${smartTabGroup}/AXStaticText[@AXValue='ReplaceMe']`,
       createNewItem: `${smartTabGroup}/AXButton[@AXHelp='ReplaceMe']`,
     },
-    quickSearch: {
-      dropdown: `${mainWindow}/AXToolbar[0]/AXGroup[4]/AXTextField[0]/AXPopover[0]`,
+    folderTab: {
+      envFolder: `${smartTabGroup}/AXStaticText[@AXValue='ReplaceMe']`,
+      myMac: `${smartTabGroup}/AXStaticText[@AXValue='Files on My Mac']`
+    },
+    window: {
+      close: `${stdWindow}/AXButton[@AXSubrole='AXCloseButton']`,
+      minimize: `${stdWindow}/AXButton[@AXSubrole='AXMinimizeButton']`,
+      fullscreen: `${stdWindow}/AXButton[@AXSubrole='AXFullScreenButton']`,
+      restore: `${stdWindow}/AXButton[@AXSubrole='AXZoomButton']`
     },
     editor: {
-      container: `${application}/AXWindow[@AXTitle='ReplaceMe']`,
-      close: `${application}/AXWindow[@AXTitle='ReplaceMe']/AXButton[@AXSubrole='AXCloseButton']`
+      container: `${application}/AXWindow[@AXTitle='ReplaceEditorTitle']`
     },
-    workstationMainWindow: {
-      closeWorkstation: `${mainWindow}/AXButton[@AXSubrole='AXCloseButton']`,
-      itemInCurrentView: `${displaySection}/AXGroup[@AXIdentifier='itemPrototype[false]']/AXGroup[0]/AXStaticText[@AXValue='ReplaceMe']`
+    dialog: {
+      button: `${dialog}/AXButton[@AXTitle='ReplaceBtnName']`,
+      checkBox: `${dialog}/AXCheckBox[@AXTitle='ReplaceCheckboxTitle']`,
+      radioButton: `${dialog}/AXRadioButton[@AXTitle='ReplaceRadioBtnTitle']`,
     },
-    searchPage: {
-      searchingText: `${mainWindow}/AXSplitGroup[0]/AXStaticText[@AXValue='Searching']`,
-      searchingFolder: `${mainWindow}/AXSplitGroup[0]/AXCheckBox[@AXTitle='ReplaceMe']`,
+    popup: {
+      popupInMain: popup,
+      popupInEditor: popupInEditor,
+      text: `${popup}/AXStaticText[@AXValue='ReplaceText']`,
+      details: `${popup}/AXDisclosureTriangle[0]`,
+      button: `${popup}/AXButton[AXTitle='ReplaceBtnName']`,
+      certify: `${popup}/AXStaticText[AXValue='Certified ReplaceObjType']`
+    },
+    mainCanvas: {
+      env: {
+        connectDialog: dialog,
+        inputEnvName: `${dialog}/AXTextField[0]`,
+        inputEnvUrl: `${dialog}/AXTextField[1]`,
+        loginMode: `${dialog}/AXRadioButton[@AXTitle='ReplaceLoginMode']`,
+        userName: `${dialog}/AXTextField[0]`,
+        userPwd: `${dialog}/AXTextField[1]`,
+        rememberMe: `${dialog}/AXCheckBox[@AXTitle='Remember Me']`,
+        connect: `${dialog}/AXButton[@AXTitle='Connect']`,
+        continueToConnect: `${dialog}/AXButton[@AXTitle='Continue']`,
+        projectList: `${dialog}`,
+        selectProject: `${dialog}/AXScrollArea[0]/AXTable[0]/AXRow[@AXSubrole='AXTableRow']/AXCell[0]/AXCheckBox[@AXTitle='ReplaceProjectName']`,
+        rememberSelectedApplications: `${dialog}/AXCheckBox[@AXTitle='Remember Selected Applications']`,
+        OKToConnect: `${dialog}/AXButton[@AXTitle='OK']`,
+      },
+      searchResultPage: `${stdWindow}/AXSplitGroup[0]/AXStaticText[@AXValue='Searching']`,
+      searchingFolder: `${stdWindow}/AXSplitGroup[0]/AXCheckBox[@AXTitle='ReplaceMe']`,
     },
     menuBar: {
-      menuItem: `${osMenuBar}/AXMenuBarItem[@AXTitle='ReplaceMenuItemName']`,
-      menuOption: `${osMenuBar}/AXMenuBarItem[@AXTitle='ReplaceMenuItemName']/AXMenu[0]/AXMenuItem[@AXTitle='ReplaceOption']`
+      menuItem: `${menuBar}/AXMenuBarItem[@AXTitle='ReplaceMenuItemName']`,
+      menuOption: `${menuBar}/AXMenuBarItem[@AXTitle='ReplaceMenuItemName']/AXMenu[0]/AXMenuItem[@AXTitle='ReplaceOption']`
     },
     footer: {
-      pathtext: `${mainWindow}/AXSplitGroup[0]/AXList[0]/AXStaticText[@AXValue='ReplaceMe']`
+      pathtext: `${stdWindow}/AXSplitGroup[0]/AXList[0]/AXStaticText[@AXValue='ReplaceMe']`,
+      navigationMode: `${stdWindow}/AXSplitGroup[0]/AXRadioGroup[0]/AXRadioButton[ReplaceMe]`
     }
-  },
-
+  }
 }
 
 module.exports = mac_xpath;

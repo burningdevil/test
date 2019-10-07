@@ -1,9 +1,11 @@
-import RootApp from './RootApp';
+import RootApp from '../basePages/RootApp';
 const toolbar = MAC_XPATH_GENERAL['toolbar'];
+const mainCanvas = MAC_XPATH_GENERAL['mainCanvas'];
 
 export default class Toolbar extends RootApp {
 
   //Locators
+  /** redo/undo/refresh section */
   async getRefresh() {
     return this.getNativeElement({
       windows: {
@@ -16,6 +18,7 @@ export default class Toolbar extends RootApp {
     });
   }
 
+  /** view control */
   async getIconView() {
     return this.getNativeElement({
       windows: {
@@ -64,6 +67,7 @@ export default class Toolbar extends RootApp {
     });
   }
 
+
   async getSelectApplication() {
     return this.getNativeElement({
       windows: {
@@ -76,18 +80,18 @@ export default class Toolbar extends RootApp {
     });
   }
 
+  /** search */
   async getSearchInputBox() {
     return this.getNativeElement({
       windows: {
         locators: [
-          { method: 'Name', value: 'Search' },
-        ]
-      },
-      mac: { xpath: toolbar.searchInputBox }
+          { method: 'AccessibilityId', value: 'SearchTermTextBox' },
+        ]},
+      mac: { xpath: toolbar.searchInputBox}
     });
   }
 
-  async getClearSearch() {
+  async getQuickSearchDropdown() {
     return this.getNativeElement({
       windows: {
         locators: [
@@ -95,7 +99,17 @@ export default class Toolbar extends RootApp {
           { method: '', value: '' }
         ]
       },
-      mac: { xpath: toolbar.clearSearchInput }
+      mac: { xpath: toolbar.quickSearchDropdown }
+    });
+  }
+
+  async getClearSearch() {
+    return this.getNativeElement({
+      windows: {
+        locators: [
+          { method: 'Name', value: 'Clear Searchbox' },
+        ]},
+      mac: { xpath: toolbar.clearSearchInput}
     });
   }
 
@@ -133,11 +147,23 @@ export default class Toolbar extends RootApp {
     return searchBox.sendKeys(searchString);
   }
 
-  async hitEnter() {
+  async hitEnterInSearchBox() {
     let searchBox = await this.getSearchInputBox();
     await this.moveToAndClick(searchBox);
     await searchBox.sendKeys(protractor.Key.ENTER);
     return this.app.sleep(1000);
   }
 
-} 
+  // assertions
+  async isQuickSearchDropdownDisplayed() {
+    try {
+      let elem = await this.getQuickSearchDropdown();
+      return elem.isDisplayed();
+    } catch (err) {
+      console.log(err);
+      return false;
+    }
+  }
+
+
+}
