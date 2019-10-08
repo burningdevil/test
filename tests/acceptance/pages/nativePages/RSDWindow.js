@@ -1,29 +1,18 @@
 import Window from '../basePages/Window';
-const rsd = MAC_XPATH_GENERAL['rsd'];
+import Popup from './Popup'
+const window = MAC_XPATH_GENERAL['window'];
+const popup = MAC_XPATH_GENERAL['popup'];
 
 export default class RSDWindow extends Window {
-  //Locators
-  async getCloseRSDWindowButton(windowName){
-    return this.getNativeElement({
-      windows:{ 
-        locators: [
-            { method: '', value: '' },
-            { method: '', value: '' }
-          ]},
-      mac: { xpath: rsd.closeRSDWindowButton}
-    });
+
+   // constructor
+   constructor() {
+    super();
+    this.popup = new Popup()
   }
 
-  async getComfirmCloseRSDButton(){
-    return this.getNativeElement({
-      windows:{ 
-        locators: [
-            { method: '', value: '' },
-            { method: '', value: '' }
-          ]},
-      mac: { xpath: rsd.confirmCloseRSDButton}
-    });
-  }
+  //Locators
+  
 
   // ** Actions ** //
   async waitRSDWindow(){
@@ -33,21 +22,8 @@ export default class RSDWindow extends Window {
             { method: '', value: '' },
             { method: '', value: '' }
           ]},
-      mac: { xpath: rsd.closeRSDWindowButton}
+      mac: { xpath: window.close}
     });
-  }
-  async closeRSDWindow(){
-    await this.nativeWaitFor({
-      windows:{ 
-        locators: [
-            { method: '', value: '' },
-            { method: '', value: '' }
-          ]},
-      mac: { xpath: rsd.closeRSDWindowButton}
-    });
-    let closeWindowBtn = await this.getCloseRSDWindowButton();
-    this.moveToAndClick(closeWindowBtn);
-    await this.sleep(4000)
   }
 
   async confirmCloseRSDWindow() {
@@ -57,10 +33,11 @@ export default class RSDWindow extends Window {
             { method: '', value: '' },
             { method: '', value: '' }
           ]},
-      mac: { xpath: rsd.confirmCloseRSDButton}
+      mac: { xpath: popup.button.replace(/ReplaceBtnName/g, 'Yes')}
     });
-    let confirmBtn = await this.getComfirmCloseRSDButton();
+    let confirmBtn = await this.popup.getButton("Yes")
     this.moveToAndClick(confirmBtn);
+
     await this.sleep(1000)
   }
 

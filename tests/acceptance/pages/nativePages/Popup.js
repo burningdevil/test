@@ -40,6 +40,18 @@ export default class Popup extends RootApp {
     });
   }
 
+  async getButton(buttonName) {
+    return this.getNativeElement({
+      windows: {
+        locators: [
+          { method: '', value: '' },
+          { method: '', value: '' }
+        ]
+      },
+      mac: { xpath: popup.button.replace(/ReplaceBtnName/g, buttonName) }
+    });
+  }
+
   // actions
   async clickSave() {
     let saveButton = await this.getPopupSaveButton();

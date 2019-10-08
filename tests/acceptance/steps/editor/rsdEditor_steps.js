@@ -27,7 +27,7 @@ Then('The new RSD window should be present', async function () {
   });
   
   When('I close the RSD Window', async function () {
-    await rsdWindow.closeRSDWindow();
+    await rsdWindow.closeWindow();
     await rsdPage.switchToDefaultWebView();
   });
   

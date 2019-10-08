@@ -9,6 +9,7 @@ const mainCanvasListView = `${mainCanvas}/AXOutline[0]`;
 const envSection = `${mainCanvas}/AXList[@AXSubrole='AXCollectionList']/AXList[@AXSubrole='AXSectionList']`;
 const dialog = `${application}/AXWindow[@AXSubrole='AXDialog']`;
 const popup = `${application}/AXWindow[@AXSubrole='AXStandardWindow']/AXSheet[0]`;
+
 const popupInEditor = `${application}/AXWindow[@AXTitle='ReplaceEditorTitle']/AXSheet[0]`;
 const smartTabGroup = `${stdWindow}/AXSplitGroup[0]/AXGroup[0]/AXScrollArea[0]/AXOutline[0]/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]`;
 
@@ -94,7 +95,7 @@ const mac_xpath = {
       text: `${popup}/AXStaticText[@AXValue='ReplaceText']`,
       details: `${popup}/AXDisclosureTriangle[0]`,
       button: `${popup}/AXButton[AXTitle='ReplaceBtnName']`,
-      certify: `${popup}/AXStaticText[AXValue='Certified ReplaceObjType']`
+      certify: `${popup}/AXStaticText[AXValue='Certified ReplaceObjType']`,
     },
     mainCanvas: {
       env: {
@@ -126,10 +127,6 @@ const mac_xpath = {
     selectApplication: {
       application:`${stdWindow}/AXScrollArea[0]/AXTable[0]/AXRow[@AXSubrole='AXTableRow']/AXCell[0]/AXStaticText[@AXValue='ReplaceMe']`,
       selectButton:`${stdWindow}/AXButton[@AXTitle='ReplaceMe']`,
-    },
-    rsd: {
-      closeRSDWindowButton: `${application}/AXWindow[@AXSubrole='AXStandardWindow']/AXButton[@AXSubrole='AXCloseButton']`,
-      confirmCloseRSDButton: `${application}/AXWindow[@AXSubrole='AXStandardWindow']/AXSheet/AXButton[@AXTitle='Yes']`,
     },
     settings: {
       button: `${stdWindow}/AXButton[@AXTitle='ReplaceMe']`,
