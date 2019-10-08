@@ -29,6 +29,12 @@ export default class SmartTab extends RootApp {
         case "Dataset":
           macBtnHelpStr = 'Create a new dataset';
           break;
+        case "Document":
+          return this.getNativeElement({
+            windows: {locators: []},
+            mac: {xpath: smartTab.newDocument}
+          })
+          break;
         default:
           throw Error("Error! Please check the MAC AXPath");
       }

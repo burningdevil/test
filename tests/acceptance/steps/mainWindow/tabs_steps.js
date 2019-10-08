@@ -11,7 +11,7 @@ Then('I select tab {tabName}', async function (tabName) {
   return mainWindow.app.sleep(500);
 });
 
-When('I create a new item {string}', async function (itemName) {
+When('I create a new item {itemName}', async function (itemName) {
   if (OSType === 'windows') {
     await mainWindow.smartTab.createNewItem(itemName);
     await registerNewWindow(`${itemName} Editor`);

@@ -1,6 +1,7 @@
 import RootApp from '../basePages/RootApp';
 import EnvSection from './EnvSection'
 const mainCanvas = MAC_XPATH_GENERAL['mainCanvas'];
+const selectApplication = MAC_XPATH_GENERAL['selectApplication'];
 
 export default class MainCanvas extends RootApp {
 
@@ -24,7 +25,10 @@ export default class MainCanvas extends RootApp {
                     macItemPath = canvas_viewmode.dossierItem
                     break;
                 case "Documents":
-                    macItemPath = canvas_viewmode.rsdItem
+                    macItemPath = canvas_viewmode.documentItem
+                    break;
+                case "Environments":
+                    macItemPath = canvas_viewmode.envItem
                     break;
                 default:
                     throw Error("Error! Please check the item type");
@@ -42,14 +46,14 @@ export default class MainCanvas extends RootApp {
     }
 
 
-    async getItemContextMenuOption(optiontype) {
+    async getItemContextMenuOption(optionType) {
         return this.getNativeElement({
             windows: {
                 locators: [
                     { method: '', value: '' },
                 ]
             },
-            mac: { xpath: MAC_XPATH[MAC_VIEWMODE]['mainCanvas'].contextOption.replace(/ReplaceOption/g, optiontype) }
+            mac: { xpath: MAC_XPATH[MAC_VIEWMODE]['mainCanvas'].contextOption.replace(/ReplaceOption/g, optionType) }
         });
     }
 
@@ -75,12 +79,41 @@ export default class MainCanvas extends RootApp {
         });
     }
 
+    async getApplicationName(applicationName) {
+      return this.getNativeElement({
+        windows: {
+          locators: [
+            {method: '', value: ''}
+          ]
+        },
+        mac:{xpath: selectApplication.application.replace(/ReplaceMe/g, applicationName)}
+      })
+    }
+    
+    async getSelectApplicationButton(buttonName) {
+      return this.getNativeElement({
+        windows: {
+          locators: [
+            {method: '', value: ''}
+          ]
+        },
+        mac:{xpath: selectApplication.selectButton.replace(/ReplaceMe/g, buttonName)}
+      })
+    }
+
 
     // actions
     async clickOnItem({itemName, itemType}) {
-        let elem = await this.getItem({ itemName, itemType });
-        return this.moveToAndClick(elem)
-      }
+      let elem = await this.getItem({ itemName, itemType });
+      return this.moveToAndClick(elem)
+    }
+    
+    async selectApplication(applicationName) {
+      let applicationElm = await this.getApplicationName(applicationName);
+      await this.moveToAndClick(applicationElm);
+      let selectButton = await this.getSelectApplicationButton("Select");
+      return this.moveToAndClick(selectButton);
+    }
 
     async doubleClickOnItem({ itemName, itemType }) {
 
@@ -93,11 +126,12 @@ export default class MainCanvas extends RootApp {
         return this.app.sleep(2000);
     }
 
-    async selectContextMenu({ optiontype, itemName, itemType }) {
+    async selectContextMenu({ optionType, itemName, itemType }) {
+        console.log(`option type is ${optionType}`)
         let item = await this.getItem({ itemName, itemType });
         await this.moveToAndClick(item);
         await this.rightClick();
-        await this.moveToAndClick(await this.getItemContextMenuOption(optiontype));
+        await this.moveToAndClick(await this.getItemContextMenuOption(optionType));
         return this.app.sleep(500);
     }
 
