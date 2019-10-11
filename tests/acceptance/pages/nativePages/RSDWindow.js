@@ -1,9 +1,9 @@
-import Window from '../basePages/Window';
+import Editor from '../basePages/Window';
 import Popup from './Popup'
 const window = MAC_XPATH_GENERAL['window'];
 const popup = MAC_XPATH_GENERAL['popup'];
 
-export default class RSDWindow extends Window {
+export default class RSDWindow extends Editor {
 
    // constructor
    constructor() {
@@ -15,12 +15,12 @@ export default class RSDWindow extends Window {
   
 
   // ** Actions ** //
-  async waitRSDWindow(){
+  async waitRSDWindow(windowName){
     await this.nativeWaitFor({
       windows:{ 
         locators: [
-            { method: '', value: '' },
-            { method: '', value: '' }
+            { method: 'Name', value: windowName },
+            
           ]},
       mac: { xpath: window.close}
     });
@@ -30,8 +30,8 @@ export default class RSDWindow extends Window {
     await this.nativeWaitFor({
       windows:{ 
         locators: [
-            { method: '', value: '' },
-            { method: '', value: '' }
+            { method: 'Name', value: 'MicroStrategy Workstation' },
+            { method: 'Name', value: 'Yes' }
           ]},
       mac: { xpath: popup.button.replace(/ReplaceBtnName/g, 'Yes')}
     });

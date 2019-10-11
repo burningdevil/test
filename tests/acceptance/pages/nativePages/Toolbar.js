@@ -23,8 +23,7 @@ export default class Toolbar extends RootApp {
     return this.getNativeElement({
       windows: {
         locators: [
-          { method: '', value: '' },
-          { method: '', value: '' }
+          { method: 'Name', value: 'Icon View' },
         ]
       },
       mac: { xpath: toolbar.iconViewButton }
@@ -35,8 +34,7 @@ export default class Toolbar extends RootApp {
     return this.getNativeElement({
       windows: {
         locators: [
-          { method: '', value: '' },
-          { method: '', value: '' }
+          { method: 'Name', value: 'List View' },
         ]
       },
       mac: { xpath: toolbar.listViewButton }

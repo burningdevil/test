@@ -44,8 +44,8 @@ export default class Popup extends RootApp {
     return this.getNativeElement({
       windows: {
         locators: [
-          { method: '', value: '' },
-          { method: '', value: '' }
+          { method: 'Name', value: 'MicroStrategy Workstation' },
+          { method: 'Name', value: buttonName }
         ]
       },
       mac: { xpath: popup.button.replace(/ReplaceBtnName/g, buttonName) }

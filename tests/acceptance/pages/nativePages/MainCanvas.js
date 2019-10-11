@@ -15,7 +15,7 @@ export default class MainCanvas extends RootApp {
     async getItem({ itemName, itemType } ) {
         const canvas_viewmode = MAC_XPATH[MAC_VIEWMODE]['mainCanvas']
         // process mac locator
-        let macItemPath;
+        let macItemPath = "";
         if (OSType === 'mac') {
             switch (itemType) {
                 case "Metrics":
@@ -38,7 +38,8 @@ export default class MainCanvas extends RootApp {
         return this.getNativeElement({
             windows: {
                 locators: [
-                    { method: '', value: '' },
+                    { method: 'ClassName', value: 'ListView' },
+                    { method: 'Name', value: itemName },
                 ]
             },
             mac: { xpath: macItemPath.replace(/ReplaceItemName/g, itemName) }
@@ -50,7 +51,7 @@ export default class MainCanvas extends RootApp {
         return this.getNativeElement({
             windows: {
                 locators: [
-                    { method: '', value: '' },
+                    { method: 'Name', value: optionType },
                 ]
             },
             mac: { xpath: MAC_XPATH[MAC_VIEWMODE]['mainCanvas'].contextOption.replace(/ReplaceOption/g, optionType) }
@@ -83,7 +84,7 @@ export default class MainCanvas extends RootApp {
       return this.getNativeElement({
         windows: {
           locators: [
-            {method: '', value: ''}
+            {method: 'Name', value: applicationName}
           ]
         },
         mac:{xpath: selectApplication.application.replace(/ReplaceMe/g, applicationName)}
@@ -94,7 +95,7 @@ export default class MainCanvas extends RootApp {
       return this.getNativeElement({
         windows: {
           locators: [
-            {method: '', value: ''}
+            {method: 'Name', value: buttonName}
           ]
         },
         mac:{xpath: selectApplication.selectButton.replace(/ReplaceMe/g, buttonName)}
