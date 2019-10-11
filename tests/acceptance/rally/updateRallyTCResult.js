@@ -20,7 +20,7 @@ module.exports = function updateRallyTCResult({ testCaseId, tcUrl, verdict, dura
                 'Duration': duration,
                 'c_ProductionRelease': release,
                 'Tester': rallyConfig.testInfo.tester,
-                // 'c_ClientOS': rallyConfig.testInfo.clientOS,
+                'c_ClientOS': rallyConfig.testInfo.clientOS,
                 // 'c_BrowserType': rallyConfig.testInfo.browserType,
                 'c_Language': rallyConfig.testInfo.language
             }

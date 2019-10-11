@@ -8,6 +8,11 @@ const cmd = process.argv[2];
 let build;
 let release;
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
 const helpMsg = 'Cannot accept the parameters. Usage: \n\n' +
     'node pages/rally/updateE2EResultsToRally.js -c <production_release> <build#> \n' +
     'e.g. node pages/rally/updateE2EResultsToRally.js -c 11.2_EA_[2019-Jun-21] 11.2.0000.0073';
@@ -22,29 +27,39 @@ if (cmd === '-c' && process.argv[3] && process.argv[4]) {
     process.exit();
 }
 
+async function updateRally() {
+    try{
+        for await (let [testCaseId, value] of resultMap) {
+            let {verdict, duration, description, details} = value;
+
+            console.info(`Test Case ID: ${testCaseId}, result: ${JSON.stringify(verdict)}, duration: ${JSON.stringify(duration)}, description: ${JSON.stringify(description)}`);
+
+            const tcUrl = await getRallyTCUrl(testCaseId);
+
+            if (verdict === 'Fail') {
+                await createDefect({ tcUrl, description, details, release, build });
+            }
+            await updateRallyTCResult({ testCaseId, tcUrl, verdict, duration, release, build });
+            await sleep(2000);
+        }
+    }
+    catch(err){
+        console.error('Error: '+err);
+    };
+}
+
 const resultMap = new Map();
-const resultReport = './Cucumber.json';
+const resultReport = '../reports/rallyReport/execReport.json';
+
 if (fs.existsSync(resultReport)) {
     let filePath = path.resolve(resultReport);
     console.info(`Start analyzing file: ${filePath}`);
     file = JSON.parse(fs.readFileSync(filePath));
     e2eResultsParser({ file, resultMap });
     console.info(`Complete analyzing file: ${filePath}`);
+
+    updateRally();
 }
-
-resultMap.forEach((value, testCaseId) => {
-    console.info(`Test Case ID: ${testCaseId}, value: ${JSON.stringify(value)}`);
-    let verdict = value.verdict;
-    let duration = value.duration;
-    let description = value.description;
-    let details = value.details;
-
-    getRallyTCUrl(testCaseId).then((tcUrl) => {
-        if (verdict === 'Fail') {
-            createDefect({ tcUrl, description, details, release, build });
-        }
-        updateRallyTCResult({ testCaseId, tcUrl, verdict, duration, release, build });
-    }).catch((err) => {
-        console.error(`Rally Test Case ID is invalid: ${testCaseId}.`);
-    });
-});
+else{
+    console.log('No output report file exists in specified path: '+filePath);
+}
