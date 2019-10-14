@@ -10,16 +10,16 @@ module.exports = {
         // warehouse: 'MySQL',
         // appServer: 'Tomcat9',
         // jdkjvm: 'Oracle JDK 8',
-        clientOS: 'Mac',
-        browserType: 'Chrome',
+        clientOS: 'Mac OS 10.14 Mojave',
+        // browserType: 'Chrome',
         language: 'English',
         // The reference URL to the user as a tester in Rally
         // Reference Rally API documentation:       https://rally1.rallydev.com/slm/doc/webservice/
-        tester: 'https://rally1.rallydev.com/slm/webservice/v2.x/user/56559769502'
+        tester: 'https://rally1.rallydev.com/slm/webservice/v2.x/user/{testerID}' //Repalce the testerID with your own or team member's ID
     },
     //Create Defect Info
     defectInfo: {
-        Project: 'https://rally1.rallydev.com/slm/webservice/v2.x/project/27953347816',//27953347816 for framework 31695518283 for tl-workstation
+        Project: 'https://rally1.rallydev.com/slm/webservice/v2.x/project/27953347816',//Replace the Proejct ID with the one of your team. 27953347816 for framework,31695518283 for tl-workstation
         State: 'Open',
         ScheduleState: 'Needs Define',
         Priority: 'High Attention',
