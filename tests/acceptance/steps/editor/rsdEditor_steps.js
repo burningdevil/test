@@ -8,7 +8,7 @@ Then('The {windowName} RSD window should be present', async function (windowName
     }
     await rsdWindow.waitRSDWindow(windowName);
     //This wait cannot be avoided because even the window is displayed, the inner webview may still not available. 
-    await rsdWindow.sleep(1500);
+    await rsdWindow.sleep(1000);
     await rsdPage.switchToNewWebView();
   });
   
