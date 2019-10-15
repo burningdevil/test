@@ -18,7 +18,7 @@ export default class RSDPage extends BasePage {
   }
 
   getToolBar() {
-    return this.element(".mstrListBlockToolbar");
+    return this.$(".mstrListBlockToolbar");
   }
 
   getDocumentHomeMenuButton() {
@@ -37,6 +37,14 @@ export default class RSDPage extends BasePage {
 
   async selectHomeMenu() {
     return this.getDocumentHomeMenuButton().click();
+  }
+
+  async clickRSDTemplateIcon(rsdTemplate) {
+    return this.getRSDTemplateIcon(rsdTemplate).click();
+  }
+
+  async selectDropdownSelection(percentage) {
+    return this.getDropdownSelection(percentage).click();
   }
 
   // assertions

@@ -17,7 +17,7 @@ When('I double click to open {itemName} of type {itemType}', async function (ite
 });
 
 When('I select context menu option {optiontype} for {itemName} of type {itemType}', async function (optiontype, itemName, itemType) {
-    await mainWindow.mainCanvas.selectContextMenu({ optiontype: optiontype, itemName: itemName, itemType: itemType });
+    await mainWindow.mainCanvas.selectContextMenu({ optiontype, itemName, itemType});
     await mainWindow.mainCanvas.app.sleep(4000);
 });
 

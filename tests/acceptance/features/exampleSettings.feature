@@ -1,11 +1,11 @@
 Feature: CEF support for settings
-  Workstation should use CEF as the webview to support the plugins. This feature covers the support for RSD plugin. 
+  Workstation should use CEF as the webview to support the plugins. This feature covers the support for the Settings plugin. 
   Settings has two tabs that we need to test: 
   1. Governing Settings: right click on the environment and select "get info", then select governing settings.
   2. All Settings: right click on the environment and select "get info", then select all settings.
 
 #####
-# Example Test Scenario for Quick Search in Workstation Mac with CEF
+# Example Test Scenario for the Settings plugin in Workstation Mac with CEF
 # Author: Lun  10/07/2019
 #####
   @settings

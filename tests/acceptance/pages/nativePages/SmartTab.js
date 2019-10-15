@@ -34,7 +34,6 @@ export default class SmartTab extends RootApp {
             windows: {locators: []},
             mac: {xpath: smartTab.newDocument}
           })
-          break;
         default:
           throw Error("Error! Please check the MAC AXPath");
       }

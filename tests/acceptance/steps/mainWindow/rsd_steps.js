@@ -1,12 +1,12 @@
 const { Given, When, Then } = require('cucumber');
-const {registerNewWindow, switchToWindow} = require('../../utils/wsUtils/windowHelper')
 
 //native
 When('I select {applicationName} and click select', async function (applicationName) {
   if (OSType === 'windows') {
     await mainWindow.mainCanvas.selectApplication(applicationName);
-    //wait for the application window to appear
-    await mainWindow.sleep(1000);
+    await rsdWindow.waitRSDWindow();
+    //wait for the webview inside of the application window to appear
+    // await mainWindow.sleep(1000);
   } else {
     await mainWindow.mainCanvas.selectApplication(applicationName);
     await rsdWindow.waitRSDWindow();

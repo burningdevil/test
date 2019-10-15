@@ -6,7 +6,7 @@ Then('The environment information window should be displayed', async function ()
 
 When('I select plugin tab {tabName}', async function (tabName) {
   await settingsPluginWindow.selectTab(tabName);
-  await settingsPluginWindow.sleep(1000);
+  await settingsPluginWindow.sleep(2000);
   return governingSettingsPage.switchToNewWebView();
 });
 

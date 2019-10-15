@@ -4,7 +4,7 @@ Feature: CEF support for the RSD plugin
   1. Click on the plus button besides Documents. 
   2. Right mouse click on a document, then select "Edit Document"
 #####
-# Example Test Scenario for Quick Search in Workstation Mac with CEF
+# Example Test Scenario for RSD plugin in Workstation Mac with CEF
 # Author: Lun  10/07/2019
 #####
   @rsd
