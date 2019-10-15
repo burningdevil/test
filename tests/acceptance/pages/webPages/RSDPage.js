@@ -4,11 +4,17 @@ export default class RSDPage extends BasePage {
 
   // element locator
   getRSDTemplateIcon(rsdTemplate) {
-    return this.element(by.xpath(`//div[contains(text(),'${rsdTemplate}')]`));
+    return this.$$(".mstrVtListTxt").filter(async (elem) => {
+      const text = await elem.getText();
+      return text === rsdTemplate;
+    }).first()
   }
 
   getDropdownSelection(percentage) {
-    return this.element(by.xpath(`//div[contains(text(), '${percentage}')]`));
+    return this.$$(".mstrListBlockItemName").filter(async (elem) => {
+      const text = await elem.getText();
+      return text === percentage;
+    }).first()
   }
 
   getToolBar() {
@@ -16,21 +22,17 @@ export default class RSDPage extends BasePage {
   }
 
   getDocumentHomeMenuButton() {
-    return this.element(by.xpath(`//div[contains(text(),"Document Home")]`));
+    this.wait(this.$("td.mstrListBlockToolbarItemName div").isDisplayed())
+    return this.$$("td.mstrListBlockToolbarItemName div").filter(async (elem) => {
+      const text = await elem.getText();
+      return text === "DOCUMENT HOME";
+    }).first()
   }
   
   // actions
   async selectItemByName(name) {
     await this.getQuickSearchListItemByName(name).click();
-
-    await editor.waitNativeElement({
-      windows:{ 
-        locators: [
-          { method: '', value: '' },
-          { method: '', value: '' } 
-        ]},
-      mac: { xpath: MAC_XPATH.general['editor'].close.replace(/ReplaceMe/g, name)}
-    });
+    return editor.isEditorDisplayed(name);
   }
 
   async selectHomeMenu() {

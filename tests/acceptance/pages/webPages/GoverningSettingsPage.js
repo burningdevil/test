@@ -6,7 +6,10 @@ export default class GoverningSettingsPage extends BasePage {
   getAdvancedLink() {
     //wait for the CEF webview to initiat
     this.sleep(2000);
-    return this.element(by.xpath(`//a[contains(text(),'Advanced')]`));
+    return this.$$(".mstr-basetab-advance-title a").filter(async (elem) => {
+      const text = await elem.getText();
+      return text === "Advanced";
+    }).first()
   }
 
   // actions

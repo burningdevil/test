@@ -11,7 +11,7 @@ Feature: CEF support for the RSD plugin
   Scenario: [TC53696] Click on the plus button besides Documents to create new document
     When I select tab Documents
     And I create a new item Document
-    And I select Rally Analytics and click select
+    And I select MicroStrategy Tutorial and click select
     Then The New Document RSD window should be present
 
     When I select the 01 Blank Dashboard in create new document window
@@ -25,7 +25,7 @@ Feature: CEF support for the RSD plugin
   Scenario: [TC53696] Select edit document in the documents context menu
     When I select tab Documents
     And I select view listView
-    And I select context menu option Edit Document for _RSD_NR_Source in Documents
-    Then The _RSD_NR_Source RSD window should be present
+    And I select context menu option Edit Document for 01 Blank Dashboard in Documents
+    Then The 01 Blank Dashboard RSD window should be present
 
-    When I directly close the _RSD_NR_Source RSD Window
+    When I directly close the 01 Blank Dashboard RSD Window

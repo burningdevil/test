@@ -9,12 +9,10 @@ When('I select {applicationName} and click select', async function (applicationN
     await mainWindow.sleep(1000);
   } else {
     await mainWindow.mainCanvas.selectApplication(applicationName);
+    await rsdWindow.waitRSDWindow();
   }
-  console.log("before wait")
-  // await rsdWindow.waitRSDWindow();
-  console.log("after wait")
   //This wait cannot be avoided because even the window is displayed, the inner webview may still not available. 
-  await mainWindow.sleep(1000);
+  await mainWindow.sleep(2000);
   return rsdPage.switchToNewWebView();
 });
 

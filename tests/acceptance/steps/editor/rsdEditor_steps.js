@@ -10,7 +10,7 @@ Then('The {windowName} RSD window should be present', async function (windowName
     //This wait cannot be avoided because even the window is displayed, the inner webview may still not available. 
     await rsdWindow.sleep(1000);
     await rsdPage.switchToNewWebView();
-    await rsdPage.getToolBar();
+    return rsdPage.getToolBar();
   });
   
   When('I select the {rsdTemplate} in create new document window', async function (rsdTemplate) {
@@ -20,9 +20,10 @@ Then('The {windowName} RSD window should be present', async function (windowName
   });
   
   Then('The RSD scale setting with {percentage} should be displayed', async function (percentage) {
+    await rsdPage.sleep(500);
     await rsdPage.selectHomeMenu();
     await rsdPage.sleep(500);//wait RSD page reload, otherwise the dropdown selection will not be found
-    await rsdPage.getDropdownSelection(percentage);
+    return rsdPage.getDropdownSelection(percentage);
   });
   
   
@@ -33,7 +34,7 @@ Then('The {windowName} RSD window should be present', async function (windowName
   
   When('I close the {windowName} RSD Window', async function (windowName) {
     await rsdWindow.closeWindow(windowName);
-    await rsdPage.switchToDefaultWebView();
+    return rsdPage.switchToDefaultWebView();
   });
 
   When('I directly close the {windowName} RSD Window', async function (windowName) {
@@ -43,7 +44,7 @@ Then('The {windowName} RSD window should be present', async function (windowName
       console.log('switched window')
       return unregisterWindow('Document Editor');
     }
-    await rsdPage.switchToDefaultWebView();
+    return rsdPage.switchToDefaultWebView();
   });
   
   When('I select Yes to close the RSD Window', async function () {
@@ -53,5 +54,5 @@ Then('The {windowName} RSD window should be present', async function (windowName
       console.log('switched window')
       return unregisterWindow('Document Editor');
     }
-    await rsdPage.switchToDefaultWebView();
+    return rsdPage.switchToDefaultWebView();
   });

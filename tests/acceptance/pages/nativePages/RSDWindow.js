@@ -16,7 +16,7 @@ export default class RSDWindow extends Editor {
 
   // ** Actions ** //
   async waitRSDWindow(windowName){
-    await this.nativeWaitFor({
+    return this.nativeWaitFor({
       windows:{ 
         locators: [
             { method: 'Name', value: windowName },
@@ -38,7 +38,7 @@ export default class RSDWindow extends Editor {
     let confirmBtn = await this.popup.getButton("Yes")
     this.moveToAndClick(confirmBtn);
 
-    await this.sleep(1000)
+    return this.sleep(1000)
   }
 
 }
