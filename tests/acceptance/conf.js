@@ -43,7 +43,7 @@ exports.config = {
     // require: './features/step_definitions/**/*.js',  // require step definition files before executing features
     require: './steps/**/*.js',  // require step definition files before executing features
     format: ["pretty", "json:Cucumber.json"],            // <string[]> (type[:path]) specify the output format, optionally supply PATH to redirect formatter output (repeatable)
-    tags: ['@rsd'],
+    // tags: ['@settings'],
     profile: false,
     'no-source': true
   },

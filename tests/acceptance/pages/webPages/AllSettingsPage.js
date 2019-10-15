@@ -18,7 +18,7 @@ export default class GoverningSettingsPage extends BasePage {
   // actions
   async inputMessageLifetime(inputValue) {
     await this.getMessageLifetimeInput().clear();
-    await this.getMessageLifetimeInput().sendKeys(inputValue);
+    return this.getMessageLifetimeInput().sendKeys(inputValue);
   }
 
   // assertions

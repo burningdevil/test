@@ -25,7 +25,7 @@ Feature: CEF support for the RSD plugin
   Scenario: [TC53696] Select edit document in the documents context menu
     When I select tab Documents
     And I select view listView
-    And I select context menu option Edit Document for 01 Blank Dashboard in Documents
+    And I select context menu option Edit Document for Tutorial Home in Documents
     Then The 01 Blank Dashboard RSD window should be present
 
     When I directly close the 01 Blank Dashboard RSD Window

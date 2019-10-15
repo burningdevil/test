@@ -24,7 +24,7 @@ When('I input {inputValue} for Message lifetime', async function (inputValue) {
 });
 
 When('I click on the advanced link', async function () {
-  await governingSettingsPage.getAdvancedLink().click();
+  return governingSettingsPage.getAdvancedLink().click();
 });
 
 When('I click the {buttonName} button to close the plugin window', async function (buttonName) {
