@@ -4,6 +4,8 @@ Feature: CEF support for settings
   1. Governing Settings: right click on the environment and select "get info", then select governing settings.
   2. All Settings: right click on the environment and select "get info", then select all settings.
 
+  This feature only works for Mac as an example.
+
 #####
 # Example Test Scenario for the Settings plugin in Workstation Mac with CEF
 # Author: Lun  10/07/2019
