@@ -1,7 +1,7 @@
-import Window from '../basePages/Window';
+import Editor from './Editor';
 const pluginTab = MAC_XPATH_GENERAL['pluginTab'];
 
-export default class SettingsPluginWindow extends Window {
+export default class SettingsPluginWindow extends Editor {
 
     // locator
     async getTab(tabName) {

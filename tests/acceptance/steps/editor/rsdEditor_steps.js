@@ -27,7 +27,7 @@ Then('The {windowName} RSD window should be present', async function (windowName
   
   When('I change the scale from {fromPercentage} to {toPercentage}', async function (fromPercentage, toPercentage) {
     await rsdPage.selectDropdownSelection(fromPercentage);
-    await rsdPage.selectDropdownSelection(toPercentage);
+    return rsdPage.selectDropdownSelection(toPercentage);
   });
   
   When('I close the {windowName} RSD Window', async function (windowName) {

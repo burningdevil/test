@@ -1,7 +1,7 @@
 const { Given, When, Then } = require('cucumber');
 
 Then('The environment information window should be displayed', async function () {
-  return settingsPluginWindow.sleep(2000);
+  return settingsPluginWindow.isEditorDisplayed("Plugin Test")
 });
 
 When('I select plugin tab {tabName}', async function (tabName) {
