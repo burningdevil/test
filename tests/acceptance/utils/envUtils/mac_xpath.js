@@ -36,14 +36,14 @@ const mac_xpath = {
         addNewEnv: `${mainCanvasListView}/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXStaticText[@AXValue='Add New Environment Connection']`,
         existingEnv: `${mainCanvasListView}/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXStaticText[@AXValue='ReplaceEnvName']`,
       },
-      // item Type 1: Document, Card, Report, Dataset, Metric, Folder
-      documentItem: `${mainCanvasListView}/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXTextField[@AXValue='ReplaceItemName']`,
+      // item Type 1: Card, Report, Dataset, Metric, Folder
       cardItem: `${mainCanvasListView}/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXTextField[@AXValue='ReplaceItemName']`,
       reportItem: `${mainCanvasListView}/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXTextField[@AXValue='ReplaceItemName']`,
       datasetItem: `${mainCanvasListView}/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXTextField[@AXValue='ReplaceItemName']`,
       metricItem: `${mainCanvasListView}/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXTextField[@AXValue='ReplaceItemName']`,
       folderItem: `${mainCanvasListView}/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXTextField[@AXValue='ReplaceItemName']`,
-      // item Type 2: Env, Application, Dossier
+      // item Type 2: Document, Env, Application, Dossier
+      documentItem: `${mainCanvasListView}/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXStaticText[@AXValue='ReplaceItemName']`,
       envItem: `${mainCanvasListView}/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXStaticText[@AXValue='ReplaceItemName']`,
       applicationItem: `${mainCanvasListView}/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXStaticText[@AXValue='ReplaceItemName']`,
       dossierItem: `${mainCanvasListView}/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXStaticText[@AXValue='ReplaceItemName']`,
