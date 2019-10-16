@@ -11,7 +11,7 @@ Feature: CEF support for settings
 # Author: Lun  10/07/2019
 #####
   @settings
-  Scenario: [TC53694] Open the Governing Settings plugin
+  Scenario: [TC53694] 1. Open the Governing Settings plugin. 2. Open the All Settings plugin
     When I select tab Environments
     And I select view listView
     And I select context menu option Get Info for Plugin Test in Environments
@@ -23,8 +23,6 @@ Feature: CEF support for settings
     When I click on the advanced link
     And I click the OK button to close the plugin window
 
-  @settings
-  Scenario: [TC53694] Open the All Settings plugin
     When I select tab Environments
     And I select view listView
     And I select context menu option Get Info for Plugin Test in Environments

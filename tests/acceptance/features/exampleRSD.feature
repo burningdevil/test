@@ -8,10 +8,10 @@ Feature: CEF support for the RSD plugin
 # Author: Lun  10/07/2019
 #####
   @rsd
-  Scenario: [TC53696] Click on the plus button besides Documents to create new document
+  Scenario: [TC53696] 1. Click on the plus button besides Documents to create new document. 2. Select edit document in the documents context menu
     When I select tab Documents
     And I create a new item Document
-    And I select MicroStrategy Tutorial and click select
+    And I select Web Viewer Test and click select
     Then The New Document RSD window should be present
 
     When I select the 01 Blank Dashboard in create new document window
@@ -21,11 +21,9 @@ Feature: CEF support for the RSD plugin
     And I close the 01 Blank Dashboard RSD Window
     And I select Yes to close the RSD Window
 
-  @rsd
-  Scenario: [TC53696] Select edit document in the documents context menu
     When I select tab Documents
     And I select view listView
-    And I select context menu option Edit Document for Tutorial Home in Documents
-    Then The Tutorial Home RSD window should be present
+    And I select context menu option Edit Document for Balanced Scorecard in Documents
+    Then The Balanced Scorecard RSD window should be present
 
-    When I directly close the Tutorial Home RSD Window
+    When I directly close the Balanced Scorecard RSD Window
