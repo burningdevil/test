@@ -13,6 +13,9 @@ export default class GoverningSettingsPage extends BasePage {
 
   // actions
 
+  async clickAdvancedLink() {
+    return this.getAdvancedLink().click();
+  }
 
   // assertions
 

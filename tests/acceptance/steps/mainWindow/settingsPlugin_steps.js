@@ -11,7 +11,7 @@ When('I select plugin tab {tabName}', async function (tabName) {
 });
 
 Then('The Governing Settings plugin page should be displayed', async function () {
-  return governingSettingsPage.getAdvancedLink().isDisplayed();
+  return expect(governingSettingsPage.getAdvancedLink().isDisplayed()).become(true);
 });
 
 Then('The All Settings plugin page should be displayed', async function () {
@@ -24,7 +24,7 @@ When('I input {inputValue} for Message lifetime', async function (inputValue) {
 });
 
 When('I click on the advanced link', async function () {
-  return governingSettingsPage.getAdvancedLink().click();
+  return governingSettingsPage.clickAdvancedLink();
 });
 
 When('I click the {buttonName} button to close the plugin window', async function (buttonName) {
