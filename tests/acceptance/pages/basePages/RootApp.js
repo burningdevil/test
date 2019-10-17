@@ -71,6 +71,10 @@ export default class RootApp {
     }
   }
 
+  async sleep(ms) {
+    return new Promise((resolve, reject) => setTimeout(resolve, ms));
+  }
+
   // actions
   async moveToAndClick(referenceObject) {
     //console.log(referenceObject);

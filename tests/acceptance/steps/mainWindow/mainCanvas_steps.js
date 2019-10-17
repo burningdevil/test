@@ -21,10 +21,15 @@ When('I single click on {itemName} of type {itemType}', async function (itemName
 });
 
 When('I select context menu option {optiontype} for {itemName} of type {itemType}', async function (optiontype, itemName, itemType) {
-    await mainWindow.mainCanvas.selectContextMenu({ optiontype: optiontype, itemName: itemName, itemType: itemType });
+    await mainWindow.mainCanvas.selectContextMenu({ optiontype, itemName, itemType});
     await mainWindow.mainCanvas.app.sleep(4000);
 });
 
+When('I select context menu option {optionType} for {itemName} in {itemType}', async function (optionType, itemName, itemType) {
+  await mainWindow.mainCanvas.selectContextMenu({ optionType, itemName, itemType});
+  await mainWindow.mainCanvas.app.sleep(500);
+  return rsdPage.switchToNewWebView();
+});
 
 
 

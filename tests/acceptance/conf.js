@@ -103,11 +103,16 @@ exports.config = {
       editor,
       hyperCard,
       mainWindow,
+      rsdWindow,
+      settingsPluginWindow,
 
       hyperPage,
       ldapPage,
       metricEditorPage,
-      quickSearchPage } = PageBuilder());
+      quickSearchPage,
+      rsdPage,
+      allSettingsPage,
+      governingSettingsPage } = PageBuilder());
 
     if(customArgObj.args.connectEnv) {
       // TODO: remove exiting environment
