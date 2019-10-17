@@ -16,10 +16,15 @@ When('I double click to open {itemName} of type {itemType}', async function (ite
    return mainWindow.mainCanvas.doubleClickOnItem({ itemName: itemName, itemType: itemType });
 });
 
+When('I single click on {itemName} of type {itemType}', async function (itemName, itemType) {
+   return mainWindow.mainCanvas.clickOnItem({ itemName: itemName, itemType: itemType });
+});
+
 When('I select context menu option {optiontype} for {itemName} of type {itemType}', async function (optiontype, itemName, itemType) {
     await mainWindow.mainCanvas.selectContextMenu({ optiontype: optiontype, itemName: itemName, itemType: itemType });
     await mainWindow.mainCanvas.app.sleep(4000);
 });
+
 
 
 

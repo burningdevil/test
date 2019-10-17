@@ -12,50 +12,49 @@ Feature: Example For Workstation Automation for Metric Plugin on CEF
   Scenario Outline: [TC53695] Metric Editor plugin in Workstation Mac with CEF
 
     #Editing a metric
-    When I select folderMode on navigation bar
-    When I select environment folder <selectedFolderName>
-    When I double click to expand or collapse <selectedFolderName>
-    When I select environment folder <selectedFolderName1>
-    When I double click to expand or collapse <selectedFolderName1>
-    When I select environment folder <selectedFolderName2>
-    When I double click to expand or collapse <selectedFolderName2>
-    When I select environment folder <selectedFolderName3>
-    When I double click to expand or collapse <selectedFolderName3>
-    When I select environment folder <selectedFolderName4>
-    When I double click to expand or collapse <selectedFolderName4>
+    # When I select folderMode on navigation bar
+    # When I select environment folder <selectedFolderName>
+    # When I double click to expand or collapse <selectedFolderName>
+    # When I select environment folder <selectedFolderName1>
+    # When I double click to expand or collapse <selectedFolderName1>
+    # When I select environment folder <selectedFolderName2>
+    # When I double click to expand or collapse <selectedFolderName2>
+    # When I select environment folder <selectedFolderName3>
+    # When I double click to expand or collapse <selectedFolderName3>
+    # When I select environment folder <selectedFolderName4>
+    # When I double click to expand or collapse <selectedFolderName4>
     When I select view listView
-    When I select context menu option Edit Metric for Cost of type Metrics
-    Then Metric editor window should be displayed
-    When I click button Cancel in FunctionEditor
-    When I click popup button No
-    Then Metric editor window should NOT be displayed
+    # When I select context menu option Edit Metric for Cost of type Metrics
+    # Then Metric editor window should be displayed
+    # When I close editor Edit Metric
 
 
-    # Creating a new metric
-    When I select context menu option New Metric for Cost of type Metrics
+    # # Creating a new metric
+    When I single click on Cost of type Metrics
+    When I select New Metric from File on menubar
     Then Metric editor window should be displayed
     Then I choose metric editor function <functionName>
     Then I switch to formula editor
-    And I choose function editor option Clear
-    When I double click on <functionName>
-    When I provide input <text>
-    When I click validate button
-    Then Formula should be valid
-    When I name metric as <metricName>
-    When I click button Save in FormulaEditor
-    Then Popup should be displayed in editor New Metric
-    When I click save for popup in editor New Metric
-    When I refresh workstation cache
-    When I select context menu option Delete for <metricName> of type Metrics
+    # And I choose function editor option Clear
+    # When I double click on <functionName>
+    # When I provide input <text>
+    # When I click validate button
+    # Then Formula should be valid
+    # When I name metric as <metricName>
+    # When I click button Save
+    # Then Popup should be displayed in editor New Metric
+    # When I click save for popup in editor New Metric
+    # When I refresh workstation cache
+    # When I select context menu option Delete for <metricName> of type Metrics
 
-    #Restoring View
-    When I double click to expand or collapse <selectedFolderName4>
-    When I double click to expand or collapse <selectedFolderName3>
-    When I double click to expand or collapse <selectedFolderName2>
-    When I double click to expand or collapse <selectedFolderName1>
-    When I double click to expand or collapse <selectedFolderName>
-    When I select smartMode on navigation bar
-    When I select view iconView
+    # #Restoring View
+    # When I double click to expand or collapse <selectedFolderName4>
+    # When I double click to expand or collapse <selectedFolderName3>
+    # When I double click to expand or collapse <selectedFolderName2>
+    # When I double click to expand or collapse <selectedFolderName1>
+    # When I double click to expand or collapse <selectedFolderName>
+    # When I select smartMode on navigation bar
+    # When I select view iconView
 
 
 

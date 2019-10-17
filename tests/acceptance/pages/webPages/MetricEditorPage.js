@@ -33,19 +33,34 @@ export default class MetricEditorPage extends BasePage {
         return this.getFunctionContainer().$('.mstrmojo-Editor-buttons').$('.mstrmojo-HBox.mstrmojo-ME-buttonBox');
     }
 
-    getFormulaEditorButtons(buttonName){
-        return this.getFormulaButtonContainer().$$('.mstrmojo-HBox-cell.subBox').filter(async (elem) => {
-            let button = await elem.$('.mstrmojo-Button-text').getText();
+    getToolbarHeader(){
+        return this.$('.toolbar-header');
+    }
+
+    getButtons(buttonName){
+        return this.getToolbarHeader().$$('.toolbar-button').filter(async (elem) => {
+            let button = await elem.$('.control-label.center-display').getText();
             return button === buttonName;
         }).first();
     }
 
-    getFunctionEditorButtons(buttonName){
-        return this.getFunctionButtonContainer().$$('.mstrmojo-HBox-cell.subBox').filter(async (elem) => {
-            let button = await elem.$('.mstrmojo-Button-text').getText();
-            return button === buttonName;
-        }).first();
+    getFormulaModeButton(){
+        return this.getToolbarHeader().$('.right-section').$('.toggle-button');
     }
+
+    // getFormulaEditorButtons(buttonName){
+    //     return this.getFormulaButtonContainer().$$('.mstrmojo-HBox-cell.subBox').filter(async (elem) => {
+    //         let button = await elem.$('.mstrmojo-Button-text').getText();
+    //         return button === buttonName;
+    //     }).first();
+    // }
+
+    // getFunctionEditorButtons(buttonName){
+    //     return this.getFunctionButtonContainer().$$('.mstrmojo-HBox-cell.subBox').filter(async (elem) => {
+    //         let button = await elem.$('.mstrmojo-Button-text').getText();
+    //         return button === buttonName;
+    //     }).first();
+    // }
 
     getConfirmationPopWindow(){
         return this.$$('.mstrmojo-Editor.modal').last()
@@ -69,9 +84,9 @@ export default class MetricEditorPage extends BasePage {
         }).first();
     }
 
-    getFormulaEditorSwitchButton(){
-        return this.getContentContainer().$('.mstrmojo-Editor-buttons').$('.mstrmojo-Button.mstrmojo-ME-switch.mstrmojo-Editor-button.mstrmojo-WebButton');
-    }
+    // getFormulaEditorSwitchButton(){
+    //     return this.getContentContainer().$('.mstrmojo-Editor-buttons').$('.mstrmojo-Button.mstrmojo-ME-switch.mstrmojo-Editor-button.mstrmojo-WebButton');
+    // }
 
     getFormulaExpressionToolbar(){
         return this.getContentContainer().$('.mstrmojo-ListBase2.mstrmojo-ExpressionToolbar')
@@ -97,13 +112,17 @@ export default class MetricEditorPage extends BasePage {
     }
 
     // action helpers
-    async clickFunctionEditorButton(buttonName){
-        return this.getFunctionEditorButtons(buttonName).click();
-    }
 
-    async clickFormulaEditorButton(buttonName){
-        return this.getFormulaEditorButtons(buttonName).click();
+    async clickButton(buttonName){
+        return this.getButtons(buttonName).click();
     }
+    // async clickFunctionEditorButton(buttonName){
+    //     return this.getFunctionEditorButtons(buttonName).click();
+    // }
+
+    // async clickFormulaEditorButton(buttonName){
+    //     return this.getFormulaEditorButtons(buttonName).click();
+    // }
 
     async clickPopUpButton(buttonName){
         return this.getPopUpButtons(buttonName).click();
@@ -114,7 +133,7 @@ export default class MetricEditorPage extends BasePage {
     }
 
     async switchToFormulaEditor(){
-        return this.getFormulaEditorSwitchButton().click();
+        return this.getFormulaModeButton().click();
     }
 
     async clearFormulaEditor(option){
