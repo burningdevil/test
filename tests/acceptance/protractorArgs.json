@@ -3,7 +3,7 @@
         "envInfo": [
             {
                 "envName": "Plugin Test",
-                "envUrl": "https://env-165090.customer.cloud.microstrategy.com/MicroStrategyLibrary/",
+                "envUrl": "http://tec-w-005136.labs.microstrategy.com:8080/MicroStrategyLibrary/",
                 "loginMode": "Standard",
                 "userName": "administrator",
                 "userPwd": "",

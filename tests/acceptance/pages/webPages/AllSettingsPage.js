@@ -4,7 +4,7 @@ export default class GoverningSettingsPage extends BasePage {
 
   // element locator
   getSettingsTableTitle() {
-    return this.$$(".ant-table-column-title").filter(async (elem) => {
+    return this.$$(".ant-table-thead div").filter(async (elem) => {
         const text = await elem.getText();
         return text === "Settings";
     }).first()
