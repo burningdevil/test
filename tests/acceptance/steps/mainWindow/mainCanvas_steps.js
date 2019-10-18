@@ -20,9 +20,15 @@ When('I single click on {itemName} of type {itemType}', async function (itemName
    return mainWindow.mainCanvas.clickOnItem({ itemName: itemName, itemType: itemType });
 });
 
-When('I select context menu option {optiontype} for {itemName} of type {itemType}', async function (optiontype, itemName, itemType) {
-    await mainWindow.mainCanvas.selectContextMenu({ optiontype, itemName, itemType});
-    await mainWindow.mainCanvas.app.sleep(4000);
+When('I select context menu option {optiontype} for {itemName} of type {itemType}', async function (optionType, itemName, itemType) {
+  if (OSType === 'windows' && optionType === 'Delete') { 
+    await mainWindow.mainCanvas.selectContextMenu({optionType, itemName, itemType});
+    return dialogs.clickOK();
+  }
+  else{
+    await mainWindow.mainCanvas.selectContextMenu({optionType, itemName, itemType});
+  }
+    return mainWindow.mainCanvas.app.sleep(3000);
 });
 
 When('I select context menu option {optionType} for {itemName} in {itemType}', async function (optionType, itemName, itemType) {

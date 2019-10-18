@@ -6,6 +6,9 @@ Then('{tabName} smart tab is selected', async function (tabName) {
   });
 
 When('I select folderMode on navigation bar', async function(){
+    if (OSType === 'windows') {
+      await mainWindow.maximizeWindow('MicroStrategy Workstation - Env...(Developer Mode)');
+    }
     await mainWindow.footer.selectFolderMode();
     return mainWindow.app.sleep(2000);
   })

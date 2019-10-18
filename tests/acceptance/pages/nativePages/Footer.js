@@ -15,11 +15,18 @@ export default class Footer extends RootApp {
   }
 
   async getNavigationMode(index) {
+    let mode;
+    if(index===0){
+      mode = 'Smart Mode';
+    }
+    else{
+      mode = 'Folder Mode';
+    }
     return this.getNativeElement({
       windows: {
         locators: [
-          { method: '', value: '' },
-          { method: '', value: '' }
+          { method: 'Name', value: mode },
+          { method: 'ClassName', value: 'TabItem' }
         ]
       },
       mac: { xpath: footer.navigationMode.replace(/ReplaceMe/g, index)  }

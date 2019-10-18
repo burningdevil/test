@@ -1,0 +1,232 @@
+[
+  {
+    "description": "  Workstation uses CEF as the webview to support the plugins. This feature covers the support for RSD plugin. \n  RSD has two entry points: \n  1. Click on the plus button besides Documents. \n  2. Right mouse click on a document, then select \"Edit Document\"",
+    "keyword": "Feature",
+    "line": 1,
+    "name": "CEF support for the RSD plugin",
+    "tags": [],
+    "uri": "C:\\microstrategy\\playGround\\appTemplate\\tests\\acceptance\\features\\exampleRSD.feature",
+    "elements": [
+      {
+        "keyword": "Scenario",
+        "line": 11,
+        "name": "[TC53696] 1. Click on the plus button besides Documents to create new document. 2. Select edit document in the documents context menu",
+        "tags": [
+          {
+            "line": 10,
+            "name": "@rsd"
+          }
+        ],
+        "id": "cef-support-for-the-rsd-plugin;[tc53696]-1.-click-on-the-plus-button-besides-documents-to-create-new-document.-2.-select-edit-document-in-the-documents-context-menu",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Before",
+            "result": {
+              "status": "passed",
+              "duration": 1
+            },
+            "hidden": true,
+            "match": {
+              "location": "C:\\microstrategy\\playGround\\appTemplate\\tests\\acceptance\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "name": "I select tab Documents",
+            "result": {
+              "status": "passed",
+              "duration": 1864
+            },
+            "line": 12,
+            "match": {
+              "location": "C:\\microstrategy\\playGround\\appTemplate\\tests\\acceptance\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "name": "I create a new item Document",
+            "result": {
+              "status": "passed",
+              "duration": 4930
+            },
+            "line": 13,
+            "match": {
+              "location": "C:\\microstrategy\\playGround\\appTemplate\\tests\\acceptance\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "name": "I select MicroStrategy Tutorial and click select",
+            "result": {
+              "status": "passed",
+              "duration": 5075
+            },
+            "line": 14,
+            "match": {
+              "location": "C:\\microstrategy\\playGround\\appTemplate\\tests\\acceptance\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "name": "The New Document RSD window should be present",
+            "result": {
+              "status": "passed",
+              "duration": 2785
+            },
+            "line": 15,
+            "match": {
+              "location": "C:\\microstrategy\\playGround\\appTemplate\\tests\\acceptance\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "name": "I select the 01 Blank Dashboard in create new document window",
+            "result": {
+              "status": "passed",
+              "duration": 1251
+            },
+            "line": 17,
+            "match": {
+              "location": "C:\\microstrategy\\playGround\\appTemplate\\tests\\acceptance\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "name": "The RSD scale setting with 100% should be displayed",
+            "result": {
+              "status": "passed",
+              "duration": 2681
+            },
+            "line": 18,
+            "match": {
+              "location": "C:\\microstrategy\\playGround\\appTemplate\\tests\\acceptance\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "name": "I change the scale from 100% to 125%",
+            "result": {
+              "status": "passed",
+              "duration": 791
+            },
+            "line": 20,
+            "match": {
+              "location": "C:\\microstrategy\\playGround\\appTemplate\\tests\\acceptance\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "name": "I close the 01 Blank Dashboard RSD Window",
+            "result": {
+              "status": "passed",
+              "duration": 374
+            },
+            "line": 21,
+            "match": {
+              "location": "C:\\microstrategy\\playGround\\appTemplate\\tests\\acceptance\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "name": "I select Yes to close the RSD Window",
+            "result": {
+              "status": "passed",
+              "duration": 2340
+            },
+            "line": 22,
+            "match": {
+              "location": "C:\\microstrategy\\playGround\\appTemplate\\tests\\acceptance\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "name": "I select tab Documents",
+            "result": {
+              "status": "passed",
+              "duration": 1565
+            },
+            "line": 24,
+            "match": {
+              "location": "C:\\microstrategy\\playGround\\appTemplate\\tests\\acceptance\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "name": "I select view listView",
+            "result": {
+              "status": "passed",
+              "duration": 2519
+            },
+            "line": 25,
+            "match": {
+              "location": "C:\\microstrategy\\playGround\\appTemplate\\tests\\acceptance\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "name": "I select context menu option Edit Document for Balanced Scorecard in Documents",
+            "result": {
+              "status": "failed",
+              "duration": 47046,
+              "error_message": "Error: error happened in the function wrapper\n    at CustomWorld.<anonymous> (C:\\microstrategy\\playGround\\appTemplate\\tests\\acceptance\\steps\\World.js:125:15)\n    at Generator.throw (<anonymous>)\n    at asyncGeneratorStep (C:\\microstrategy\\playGround\\appTemplate\\tests\\acceptance\\steps\\World.js:3:103)\n    at _throw (C:\\microstrategy\\playGround\\appTemplate\\tests\\acceptance\\steps\\World.js:5:291)\n    at process._tickCallback (internal/process/next_tick.js:68:7)"
+            },
+            "line": 26,
+            "match": {
+              "location": "C:\\microstrategy\\playGround\\appTemplate\\tests\\acceptance\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "name": "The Balanced Scorecard RSD window should be present",
+            "result": {
+              "status": "skipped"
+            },
+            "line": 27,
+            "match": {
+              "location": "C:\\microstrategy\\playGround\\appTemplate\\tests\\acceptance\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "name": "I directly close the Balanced Scorecard RSD Window",
+            "result": {
+              "status": "skipped"
+            },
+            "line": 29,
+            "match": {
+              "location": "C:\\microstrategy\\playGround\\appTemplate\\tests\\acceptance\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "After",
+            "result": {
+              "status": "passed",
+              "duration": 1
+            },
+            "hidden": true,
+            "match": {
+              "location": "C:\\microstrategy\\playGround\\appTemplate\\tests\\acceptance\\node_modules\\cucumber\\lib\\index.js:176"
+            }
+          }
+        ]
+      }
+    ],
+    "id": "cef-support-for-the-rsd-plugin"
+  }
+]

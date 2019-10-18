@@ -8,7 +8,7 @@ export default class FolderTab extends RootApp {
     return this.getNativeElement({
       windows: {
         locators: [
-          { method: 'Name', value: 'Smart Mode' },
+          { method: 'Name', value: 'Folder Mode' },
           { method: 'Name', value: folderName },
         ]
       },

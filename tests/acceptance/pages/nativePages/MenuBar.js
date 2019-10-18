@@ -8,7 +8,7 @@ export default class MenuBar extends RootApp {
         return this.getNativeElement({
             windows: {
                 locators: [
-                    { method: '', value: menu },
+                    { method: 'Name', value: menu },
                 ]
             },
             mac: { xpath: menuBar.menuItem.replace(/ReplaceMenuItemName/g, menu) }
@@ -19,8 +19,8 @@ export default class MenuBar extends RootApp {
         return this.getNativeElement({
             windows: {
                 locators: [
-                    { method: '', value: menu },
-                    { method: '', value: option }
+                    { method: 'Name', value: menu },
+                    { method: 'Name', value: option }
                 ]
             },
             mac: { xpath: menuBar.menuOption.replace(/ReplaceMenuItemName/g, menu).replace(/ReplaceOption/g, option) }

@@ -28,10 +28,26 @@ export default class Dialogs extends RootApp {
     });
   }
 
+  async getDialogOKButton() {
+    return this.getNativeElement({
+      windows: {
+        locators: [
+          { method: 'Name', value: 'OK' }
+        ]
+      },
+      mac: { xpath: dialog.button.replace(/ReplaceButtonName/g, 'OK') }
+    });
+  }
+
   // actions
   async clickSave(itemName) {
     let saveButton = await this.getDialogSaveButton(itemName);
     return saveButton.click();
+  }
+
+  async clickOK(){
+    let okButton = await this.getDialogOKButton();
+    return okButton.click();
   }
 
   // assertions

@@ -11,7 +11,7 @@ Feature: CEF support for the RSD plugin
   Scenario: [TC53696] 1. Click on the plus button besides Documents to create new document. 2. Select edit document in the documents context menu
     When I select tab Documents
     And I create a new item Document
-    And I select Web Viewer Test and click select
+    And I select MicroStrategy Tutorial and click select
     Then The New Document RSD window should be present
 
     When I select the 01 Blank Dashboard in create new document window

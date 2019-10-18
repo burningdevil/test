@@ -38,8 +38,7 @@ export default class MainCanvas extends RootApp {
         return this.getNativeElement({
             windows: {
                 locators: [
-                    { method: 'ClassName', value: 'ListView' },
-                    { method: 'Name', value: itemName },
+                    { method: 'Name', value: itemName }
                 ]
             },
             mac: { xpath: macItemPath.replace(/ReplaceItemName/g, itemName) }
@@ -128,7 +127,6 @@ export default class MainCanvas extends RootApp {
     }
 
     async selectContextMenu({ optionType, itemName, itemType }) {
-        console.log(`option type is ${optionType}`)
         let item = await this.getItem({ itemName, itemType });
         await this.moveToAndClick(item);
         await this.rightClick();
