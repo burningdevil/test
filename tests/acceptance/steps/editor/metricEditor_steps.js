@@ -11,14 +11,6 @@ const { Given, When, Then } = require('cucumber');
   });
 
   When ('I click button {button}', async function(button){
-    // await metricEditorPage.switchToNewWebView();
-    // if(mode==='FunctionEditor'){
-    //   await metricEditorPage.clickFunctionEditorButton(button);
-    // }
-    // else{
-    //   await metricEditorPage.clickFormulaEditorButton(button);
-    // }
-    // return metricEditorPage.switchToDefaultWebView();
     await metricEditorPage.switchToNewWebView();
     await metricEditorPage.clickButton(button);
     return metricEditorPage.switchToDefaultWebView();

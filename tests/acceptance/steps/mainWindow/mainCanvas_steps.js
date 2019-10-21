@@ -21,11 +21,10 @@ When('I single click on {itemName} of type {itemType}', async function (itemName
 });
 
 When('I select context menu option {optiontype} for {itemName} of type {itemType}', async function (optionType, itemName, itemType) {
-  if (OSType === 'windows' && optionType === 'Delete') { 
+  if (OSType === 'windows' && optionType === 'Delete') {
     await mainWindow.mainCanvas.selectContextMenu({optionType, itemName, itemType});
     return dialogs.clickOK();
-  }
-  else{
+  }else{
     await mainWindow.mainCanvas.selectContextMenu({optionType, itemName, itemType});
   }
     return mainWindow.mainCanvas.app.sleep(3000);

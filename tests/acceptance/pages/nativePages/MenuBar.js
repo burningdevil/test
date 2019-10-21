@@ -15,7 +15,7 @@ export default class MenuBar extends RootApp {
         });
     }
 
-    async getOSMenuOption(option, menu) {
+    async getOSMenuOption(menu, option) {
         return this.getNativeElement({
             windows: {
                 locators: [
@@ -33,8 +33,8 @@ export default class MenuBar extends RootApp {
         return elem.click();
     }
 
-    async clickMenuItemOption(option, menu) {
-        let elem = await this.getOSMenuOption(option, menu);
+    async clickMenuItemOption(menu, option) {
+        let elem = await this.getOSMenuOption(menu, option);
         return elem.click();
     }
 

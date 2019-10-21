@@ -48,20 +48,6 @@ export default class MetricEditorPage extends BasePage {
         return this.getToolbarHeader().$('.right-section').$('.toggle-button');
     }
 
-    // getFormulaEditorButtons(buttonName){
-    //     return this.getFormulaButtonContainer().$$('.mstrmojo-HBox-cell.subBox').filter(async (elem) => {
-    //         let button = await elem.$('.mstrmojo-Button-text').getText();
-    //         return button === buttonName;
-    //     }).first();
-    // }
-
-    // getFunctionEditorButtons(buttonName){
-    //     return this.getFunctionButtonContainer().$$('.mstrmojo-HBox-cell.subBox').filter(async (elem) => {
-    //         let button = await elem.$('.mstrmojo-Button-text').getText();
-    //         return button === buttonName;
-    //     }).first();
-    // }
-
     getConfirmationPopWindow(){
         return this.$$('.mstrmojo-Editor.modal').last()
     }
@@ -83,10 +69,6 @@ export default class MetricEditorPage extends BasePage {
             return func === functionName;
         }).first();
     }
-
-    // getFormulaEditorSwitchButton(){
-    //     return this.getContentContainer().$('.mstrmojo-Editor-buttons').$('.mstrmojo-Button.mstrmojo-ME-switch.mstrmojo-Editor-button.mstrmojo-WebButton');
-    // }
 
     getFormulaExpressionToolbar(){
         return this.getContentContainer().$('.mstrmojo-ListBase2.mstrmojo-ExpressionToolbar')
@@ -116,13 +98,6 @@ export default class MetricEditorPage extends BasePage {
     async clickButton(buttonName){
         return this.getButtons(buttonName).click();
     }
-    // async clickFunctionEditorButton(buttonName){
-    //     return this.getFunctionEditorButtons(buttonName).click();
-    // }
-
-    // async clickFormulaEditorButton(buttonName){
-    //     return this.getFormulaEditorButtons(buttonName).click();
-    // }
 
     async clickPopUpButton(buttonName){
         return this.getPopUpButtons(buttonName).click();
@@ -146,7 +121,6 @@ export default class MetricEditorPage extends BasePage {
 
     async clickValidate(){
         await this.getValidateButton().click();
-        // return this.sleep(1000);
         return this.brwsr.wait(this.EC.presenceOf(this.getFormulaStatus()), 5000, 'Formula is not valid');
     }
 
