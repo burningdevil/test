@@ -19,6 +19,8 @@ Feature: CEF support for the RSD plugin
 
     When I change the scale from 100% to 125%
     And I close the 01 Blank Dashboard RSD Window
+
+    # This step may not work because of DE151498. Sometimes the popup window is displayed, sometimes it's not.
     And I select Yes to close the RSD Window
 
     When I select tab Documents
