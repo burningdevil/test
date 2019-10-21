@@ -2,10 +2,6 @@ const { Given, When, Then } = require('cucumber');
 const {registerNewWindow, switchToWindow, unregisterWindow} = require('../../utils/wsUtils/windowHelper')
 
 Then('The {windowName} RSD window should be present', async function (windowName) {
-    if (OSType === 'windows') {
-      await registerNewWindow(`Document Editor`);
-      await switchToWindow(`Document Editor`);
-    }
     await rsdWindow.waitRSDWindow(windowName);
     //This wait cannot be avoided because even the window is displayed, the inner webview may still not available. 
     await rsdWindow.sleep(1000);

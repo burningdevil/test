@@ -25,7 +25,7 @@ Feature: CEF support for the RSD plugin
 
     When I select tab Documents
     And I select view listView
-    And I select context menu option Edit Document for Sales Review in Documents
+    And I select context menu option Edit Document for Sales Review of type Documents
     Then The Sales Review RSD window should be present
 
     When I directly close the Sales Review RSD Window
