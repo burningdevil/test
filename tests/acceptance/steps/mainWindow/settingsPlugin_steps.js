@@ -15,7 +15,7 @@ Then('The Governing Settings plugin page should be displayed', async function ()
 });
 
 Then('The All Settings plugin page should be displayed', async function () {
-  return allSettingsPage.getSettingsTableTitle().isDisplayed();
+  return expect(allSettingsPage.getSettingsTableTitle().isDisplayed()).become(true);
 });
 
 

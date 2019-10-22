@@ -19,11 +19,13 @@ Feature: CEF support for the RSD plugin
 
     When I change the scale from 100% to 125%
     And I close the 01 Blank Dashboard RSD Window
+
+    # This step may not work because of DE151498. Sometimes the popup window is displayed, sometimes it's not.
     And I select Yes to close the RSD Window
 
     When I select tab Documents
     And I select view listView
-    And I select context menu option Edit Document for Balanced Scorecard in Documents
-    Then The Balanced Scorecard RSD window should be present
+    And I select context menu option Edit Document for Sales Review of type Documents
+    Then The Sales Review RSD window should be present
 
-    When I directly close the Balanced Scorecard RSD Window
+    When I directly close the Sales Review RSD Window
