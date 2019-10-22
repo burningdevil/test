@@ -11,7 +11,7 @@ Feature: CEF support for the RSD plugin
   Scenario: [TC53696] 1. Click on the plus button besides Documents to create new document. 2. Select edit document in the documents context menu
     When I select tab Documents
     And I create a new item Document
-    And I select Web Viewer Test and click select
+    And I select MicroStrategy Tutorial and click select
     Then The New Document RSD window should be present
 
     When I select the 01 Blank Dashboard in create new document window
@@ -19,11 +19,13 @@ Feature: CEF support for the RSD plugin
 
     When I change the scale from 100% to 125%
     And I close the 01 Blank Dashboard RSD Window
+
+    # This step may not work because of DE151498. Sometimes the popup window is displayed, sometimes it's not.
     And I select Yes to close the RSD Window
 
     When I select tab Documents
     And I select view listView
-    And I select context menu option Edit Document for Balanced Scorecard in Documents
-    Then The Balanced Scorecard RSD window should be present
+    And I select context menu option Edit Document for Sales Review of type Documents
+    Then The Sales Review RSD window should be present
 
-    When I directly close the Balanced Scorecard RSD Window
+    When I directly close the Sales Review RSD Window

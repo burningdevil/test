@@ -22,7 +22,11 @@ export default class RSDPage extends BasePage {
   }
 
   getDocumentHomeMenuButton() {
-    this.wait(this.$("td.mstrListBlockToolbarItemName div").isDisplayed())
+    this.wait(this.$$("td.mstrListBlockToolbarItemName div").filter(async (elem) => {
+      const text = await elem.getText();
+      return text === "DOCUMENT HOME";
+    }).first().isDisplayed());
+
     return this.$$("td.mstrListBlockToolbarItemName div").filter(async (elem) => {
       const text = await elem.getText();
       return text === "DOCUMENT HOME";
