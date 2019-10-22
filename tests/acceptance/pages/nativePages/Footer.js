@@ -29,7 +29,7 @@ export default class Footer extends RootApp {
           { method: 'ClassName', value: 'TabItem' }
         ]
       },
-      mac: { xpath: footer.navigationMode.replace(/ReplaceMe/g, index)  }
+      mac: { xpath: footer.navigationMode.replace(/ReplaceModeIndex/g, index)  }
     });
   }
 
