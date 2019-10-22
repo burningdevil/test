@@ -20,10 +20,15 @@ When('I select context menu option {optionType} for {itemName} of type {itemType
     await mainWindow.mainCanvas.selectContextMenu({ optionType, itemName, itemType});
     await mainWindow.mainCanvas.app.sleep(4000);
     if (OSType === 'windows') {
-      if (optionType === 'Edit Document')
-      await registerNewWindow(`Document Editor`);
-      await switchToWindow(`Document Editor`);
-      return rsdPage.switchToNewWebView();
+      if (optionType === 'Edit Document') {
+        await registerNewWindow(`Document Editor`);
+        await switchToWindow(`Document Editor`);
+        return rsdPage.switchToNewWebView();
+      }
+    } else {
+      if (optionType === 'Edit Document') {
+        return rsdPage.switchToNewWebView();
+      }
     }
 });
 
