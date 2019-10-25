@@ -30,7 +30,7 @@ const { Given, When, Then } = require('cucumber');
 
   When ('I double click on {functionName}', async function(functionName){
     await metricEditorPage.doubleClickFunction(functionName);
-    return mainWindow.app.sleep(1000);
+    return browser.sleep(500);
   });
 
   When('I provide input {text}', async function(text){

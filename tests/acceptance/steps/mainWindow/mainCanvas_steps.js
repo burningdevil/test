@@ -14,11 +14,11 @@ Then('Check text', async function(){
 });
 
 When('I double click to open {itemName} of type {itemType}', async function (itemName, itemType) {
-   return mainWindow.mainCanvas.doubleClickOnItem({ itemName: itemName, itemType: itemType });
+   return mainWindow.mainCanvas.doubleClickOnItem({ itemName, itemType });
 });
 
 When('I single click on {itemName} of type {itemType}', async function (itemName, itemType) {
-  return mainWindow.mainCanvas.clickOnItem({ itemName: itemName, itemType: itemType });
+  return mainWindow.mainCanvas.clickOnItem({ itemName, itemType });
 });
 
 When('I select context menu option {optionType} for {itemName} of type {itemType}', async function (optionType, itemName, itemType) {
