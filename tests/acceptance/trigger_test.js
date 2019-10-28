@@ -1,3 +1,16 @@
+/*
+# This Script is used to start local installed Appium, trigger test and then stop Appium
+# It has to be run in bash
+#- Example to trigger test
+#-- Windows: node trigger_test.js 'C:\\Program Files\\MicroStrategy\\Workstation\\Workstation.exe' '<Library_URL>'
+#-- Mac: node trigger_test.js 'MicroStrategy Workstation.app' <Library_URL>  
+#- Exit Code
+#-- If test run successfully, it returns EC 0
+#-- If Appium cannot be started and test fails, it returns EC 1
+#-- If Appium started successfully but the test fails, it returns EC 2
+# Author: Qingqing Fan  10/28/2019
+*/
+
 const {exec, execSync} = require('child_process');
 
 // receive arguments from CI Pipeline
@@ -24,7 +37,7 @@ const startupAppium = async () => {
                 reject(startupError);
             }
             resolve();
-        },10000)
+        },5000)
     })
 }
 
