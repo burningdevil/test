@@ -33,7 +33,7 @@ export default class Window extends RootApp {
       windows: {
         locators: [
           { method: 'Name', value: itemName },
-          { method: 'AccessibilityId', value: 'WindowCloseButton' }
+          { method: 'AccessibilityId', value: 'WindowRestoreButton' }
         ]
       },
       mac: { xpath: window.fullscreen }
@@ -45,7 +45,7 @@ export default class Window extends RootApp {
       windows: {
         locators: [
           { method: 'Name', value: itemName },
-          { method: 'AccessibilityId', value: 'WindowCloseButton' }
+          { method: 'AccessibilityId', value: 'Restore Down' }
         ]
       },
       mac: { xpath: window.restore }

@@ -16,9 +16,6 @@ export default class Editor extends Window {
   // locator
 
 
-  // actions
-
-
 
   // assertions
   async isEditorDisplayed(itemName) {

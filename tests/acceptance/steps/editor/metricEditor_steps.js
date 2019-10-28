@@ -1,30 +1,19 @@
 const { Given, When, Then } = require('cucumber');
 
   Then('Metric editor window should be displayed', async function () {
-    await metricEditorPage.switchToNewWebView();
     return expect(metricEditorPage.isMetricEditorPresent()).become(true);
   });
 
   Then('Metric editor window should NOT be displayed', async function () {
-    await metricEditorPage.switchToNewWebView();
     return expect(metricEditorPage.isMetricEditorPresent()).become(false);
   });
 
-  When ('I click button {button} in {mode}', async function(button, mode){
-    await metricEditorPage.switchToNewWebView();
-    if(mode==='FunctionEditor'){
-      await metricEditorPage.clickFunctionEditorButton(button);
-    }
-    else{
-      await metricEditorPage.clickFormulaEditorButton(button);
-    }
-    return metricEditorPage.switchToDefaultWebView();
+  When ('I click button {button}', async function(button){
+    return metricEditorPage.clickButton(button);
   });
 
   When ('I click popup button {button}', async function(button){
-    await metricEditorPage.switchToNewWebView();
-    await metricEditorPage.clickPopUpButton(button);
-    return metricEditorPage.switchToDefaultWebView();
+    return metricEditorPage.clickPopUpButton(button);
   });
 
   When ('I choose metric editor function {functionName}', async function(functionName){
@@ -40,7 +29,8 @@ const { Given, When, Then } = require('cucumber');
   });
 
   When ('I double click on {functionName}', async function(functionName){
-    return metricEditorPage.doubleClickFunction(functionName);
+    await metricEditorPage.doubleClickFunction(functionName);
+    return browser.sleep(500);
   });
 
   When('I provide input {text}', async function(text){

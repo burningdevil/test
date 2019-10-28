@@ -9,6 +9,7 @@ const mainCanvasListView = `${mainCanvas}/AXOutline[0]`;
 const envSection = `${mainCanvas}/AXList[@AXSubrole='AXCollectionList']/AXList[@AXSubrole='AXSectionList']`;
 const dialog = `${application}/AXWindow[@AXSubrole='AXDialog']`;
 const popup = `${application}/AXWindow[@AXSubrole='AXStandardWindow']/AXSheet[0]`;
+
 const popupInEditor = `${application}/AXWindow[@AXTitle='ReplaceEditorTitle']/AXSheet[0]`;
 const smartTabGroup = `${stdWindow}/AXSplitGroup[0]/AXGroup[0]/AXScrollArea[0]/AXOutline[0]/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]`;
 
@@ -24,6 +25,7 @@ const mac_xpath = {
       rsdItem:`${mainCanvasIconView}/AXList[@AXSubrole='AXSectionList']/AXGroup[@AXIdentifier='WSCollectionViewCardItemPrototype']/AXGroup[0]/AXStaticText[@AXValue='ReplaceItemName\n']`,
       // itemType2: `${displaySection}/AXGroup[@AXIdentifier='itemPrototype[false]']/AXGroup[0]/AXStaticText[@AXValue='ReplaceMe']`,
       contextOption: `${mainCanvasIconView}/AXMenu[0]/AXMenuItem[@AXTitle='ReplaceOption']`,
+      environmentResultItem:`${mainCanvas}/AXSplitGroup[0]/AXGroup[1]/AXScrollArea[0]/AXOutline[0]/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXStaticText[@AXValue='ReplaceMe']`,
       secondaryContextOption: `${mainCanvasIconView}/AXMenu[0]/AXMenuItem[@AXTitle='ReplaceOption']/AXMenu[0]/AXMenuItem[@AXTitle='ReplaceSecondaryOption']`
     },
     separaterTitle: `/AXApplication[@AXTitle='MicroStrategy Workstation']/AXWindow[@AXSubrole='AXStandardWindow']/AXSplitGroup[0]/AXGroup[1]/AXScrollArea[0]/AXList[@AXSubrole='AXCollectionList']/AXList[@AXSubrole='AXSectionList']/AXGroup/AXStaticText[@AXValue='replaceMe']`
@@ -42,6 +44,7 @@ const mac_xpath = {
       metricItem: `${mainCanvasListView}/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXTextField[@AXValue='ReplaceItemName']`,
       folderItem: `${mainCanvasListView}/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXTextField[@AXValue='ReplaceItemName']`,
       // item Type 2: Env, Application, Dossier
+      envItem: `${mainCanvasListView}/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXStaticText[@AXValue='ReplaceItemName']`,
       applicationItem: `${mainCanvasListView}/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXStaticText[@AXValue='ReplaceItemName']`,
       dossierItem: `${mainCanvasListView}/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXStaticText[@AXValue='ReplaceItemName']`,
       contextOption: `${mainCanvasListView}/AXMenu[0]/AXMenuItem[@AXTitle='ReplaceOption']`,
@@ -62,7 +65,12 @@ const mac_xpath = {
     smartTab: {
       tab: `${smartTabGroup}/AXStaticText[@AXValue='ReplaceMe']`,
       createNewItem: `${smartTabGroup}/AXButton[@AXHelp='ReplaceMe']`,
+      //The "+" button for creating a new Document. Currently the only way to locate this button is to use the index. Developer from Mac Workstation team says adding other locator helpers needs some code structure refact and may happen in the future.
+      newDocument: `${stdWindow}/AXSplitGroup[0]/AXGroup[0]/AXScrollArea[0]/AXOutline[0]/AXRow[4]/AXCell[0]/AXButton[0]`,
     },
+    pluginTab: {
+      tab: `/AXApplication[@AXTitle='MicroStrategy Workstation']/AXWindow[@AXSubrole='AXStandardWindow']/AXScrollArea[0]/AXTable[0]/AXRow[@AXSubrole='AXTableRow']/AXCell[0]/AXStaticText[@AXValue='ReplaceMe']`,
+    },	   
     folderTab: {
       envFolder: `${smartTabGroup}/AXStaticText[@AXValue='ReplaceMe']`,
       myMac: `${smartTabGroup}/AXStaticText[@AXValue='Files on My Mac']`
@@ -87,7 +95,7 @@ const mac_xpath = {
       text: `${popup}/AXStaticText[@AXValue='ReplaceText']`,
       details: `${popup}/AXDisclosureTriangle[0]`,
       button: `${popup}/AXButton[AXTitle='ReplaceBtnName']`,
-      certify: `${popup}/AXStaticText[AXValue='Certified ReplaceObjType']`
+      certify: `${popup}/AXStaticText[AXValue='Certified ReplaceObjType']`,
     },
     mainCanvas: {
       env: {
@@ -114,8 +122,16 @@ const mac_xpath = {
     },
     footer: {
       pathtext: `${stdWindow}/AXSplitGroup[0]/AXList[0]/AXStaticText[@AXValue='ReplaceMe']`,
-      navigationMode: `${stdWindow}/AXSplitGroup[0]/AXRadioGroup[0]/AXRadioButton[ReplaceMe]`
-    }
+      navigationMode: `${stdWindow}/AXSplitGroup[0]/AXRadioGroup[0]/AXRadioButton[ReplaceModeIndex]`
+    },
+    selectApplication: {
+      application:`${stdWindow}/AXScrollArea[0]/AXTable[0]/AXRow[@AXSubrole='AXTableRow']/AXCell[0]/AXStaticText[@AXValue='ReplaceMe']`,
+      selectButton:`${stdWindow}/AXButton[@AXTitle='ReplaceMe']`,
+    },
+    settings: {
+      button: `${stdWindow}/AXButton[@AXTitle='ReplaceMe']`,
+      confirmErrorMessageButton: `${application}/AXWindow[@AXSubrole='AXStandardWindow']/AXSheet/AXButton[@AXTitle='OK']`
+    }	    
   }
 }
 
