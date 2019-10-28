@@ -14,7 +14,12 @@ function parseArguments() {
         // remove '--'
         arg = arg.slice(2);
         let nextArg = cliArgv[++i];
+        // process true or false
         let value = nextArg === 'true' ? true: (nextArg === 'false' ? false : nextArg);
+        // process object
+        if(value.startsWith('{')) {
+          value = JSON.parse(value)
+        }
         _.set(customArg, arg, value);
     }
   }
