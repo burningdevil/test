@@ -8,7 +8,7 @@ const ENV_URL = argumentsFromCI[1]
 let cp, globalExitCode = 0
 // start appium method
 const startupAppium = async () => {
-    cp = exec('npx appium',{ cwd: '.'})
+    cp = exec('node node_modules/appium/.',{ cwd: '.'})
     let startupError, exitHandler
     cp.on('exit', exitHandler = exitCode => {
         if(exitCode) {
@@ -38,7 +38,13 @@ const startupAppium = async () => {
     }
     try {
         console.info('Running test...')
-        execSync(`yarn test --args.appPath '${APP_PATH}' --params.envInfo.envUrl '${ENV_URL}'`, { stdio: 'inherit', encoding: 'utf-8' })
+        let OS_APP_PATH =''
+        if(process.platform === 'win32') {
+            OS_APP_PATH = `--args.appPath.windows '${APP_PATH}'`
+        } else {
+            OS_APP_PATH = `--args.appPath.mac '${APP_PATH}'`
+        }
+        execSync(`yarn test ${OS_APP_PATH} --params.envInfo.envUrl '${ENV_URL}'`, { stdio: 'inherit', encoding: 'utf-8' })
     } catch (err) {
         console.error(err)
         globalExitCode = 2
