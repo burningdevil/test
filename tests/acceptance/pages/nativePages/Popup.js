@@ -21,19 +21,18 @@ export default class Popup extends RootApp {
     return this.getNativeElement({
       windows: {
         locators: [
-          { method: 'Name', value: itemName },
+          { method: 'ClassName', value: 'Window' },
         ]
       },
       mac: { xpath: popup.popupInEditor.replace(/ReplaceEditorTitle/g, itemName) }
     });
   }
 
-  async getPopupSaveButton(itemName) {
+  async getPopupSaveButton() {
     return this.getNativeElement({
       windows: {
         locators: [
-          { method: 'Name', value: itemName },
-          { method: 'AccessibilityId', value: 'WindowSaveButton' }
+          { method: 'Name', value: 'Save' }
         ]
       },
       mac: { xpath: popup.button.replace(/ReplaceBtnName/g, 'Save') }

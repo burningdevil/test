@@ -5,33 +5,23 @@ const dialog = MAC_XPATH_GENERAL['dialog'];
 export default class Dialogs extends RootApp {
 
   // locator
-  async getDialogContainer(itemName) {
-    return this.getNativeElement({
-      windows: {
-        locators: [
-          { method: 'Name', value: itemName },
-        ]
-      },
-      mac: { xpath: dialog.container.replace(/ReplaceDialogTitle/g, itemName) }
-    });
-  }
 
-  async getDialogSaveButton(itemName) {
+  async getDialogButton(buttonName) {
     return this.getNativeElement({
       windows: {
         locators: [
-          { method: 'Name', value: itemName },
-          { method: 'AccessibilityId', value: 'WindowSaveButton' }
+          { method: 'Name', value: buttonName }
         ]
       },
-      mac: { xpath: dialog.button.replace(/ReplaceMe/g, itemName).replace(/ReplaceButtonName/g, 'Save') }
+      mac: { xpath: dialog.button.replace(/ReplaceButtonName/g, buttonName) }
     });
   }
 
   // actions
-  async clickSave(itemName) {
-    let saveButton = await this.getDialogSaveButton(itemName);
-    return saveButton.click();
+
+  async clickDialogButton(buttonName){
+    let button = await this.getDialogButton(buttonName);
+    return button.click();
   }
 
   // assertions

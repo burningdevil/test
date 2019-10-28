@@ -12,10 +12,11 @@ Then('I close editor {itemName}', async function (itemName) {
   if (OSType === 'windows') {
     await editor.closeWindow(itemName);
     await switchToWindow('Workstation Main Window');
-    return unregisterWindow('Editor');
+    await unregisterWindow(itemName);
   } else {
-    return editor.closeWindow(itemName);
+    await editor.closeWindow(itemName);
   }
+  return metricEditorPage.switchToDefaultWebView();
 });
 
 // ** Metric Editor Related ** //
@@ -25,11 +26,11 @@ Then('Popup should be displayed in editor {itemName}', async function (itemName)
 
 When('I click save for popup in editor {itemName}', async function (itemName) {
   if (OSType === 'windows') {
-    await editor.closeWindow(itemName);
+    await editor.popup.clickSave();
     await switchToWindow('Workstation Main Window');
-    return unregisterWindow('Editor');
+    await unregisterWindow(itemName);
   } else {
-    return editor.popup.clickSave();
+    await editor.popup.clickSave();
   }
-
+  return metricEditorPage.switchToDefaultWebView();
 });

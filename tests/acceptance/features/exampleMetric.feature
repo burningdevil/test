@@ -26,29 +26,27 @@ Feature: Example For Workstation Automation for Metric Plugin on CEF
     When I select view listView
     When I select context menu option Edit Metric for Cost of type Metrics
     Then Metric editor window should be displayed
-    When I click button Cancel in FunctionEditor
-    When I click popup button No
-    Then Metric editor window should NOT be displayed
+    When I close editor Edit Metric
 
 
     # Creating a new metric
-    When I select context menu option New Metric for Cost of type Metrics
+    When I single click on Cost of type Metrics
+    When I select New Metric from File on menubar
     Then Metric editor window should be displayed
-    Then I choose metric editor function <functionName>
     Then I switch to formula editor
+    Then I choose metric editor function <functionName>
     And I choose function editor option Clear
     When I double click on <functionName>
     When I provide input <text>
     When I click validate button
     Then Formula should be valid
     When I name metric as <metricName>
-    When I click button Save in FormulaEditor
+    When I click button Save
     Then Popup should be displayed in editor New Metric
     When I click save for popup in editor New Metric
-    When I refresh workstation cache
     When I select context menu option Delete for <metricName> of type Metrics
 
-    #Restoring View
+    # Restoring View
     When I double click to expand or collapse <selectedFolderName4>
     When I double click to expand or collapse <selectedFolderName3>
     When I double click to expand or collapse <selectedFolderName2>

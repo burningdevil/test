@@ -6,6 +6,11 @@ Then('{tabName} smart tab is selected', async function (tabName) {
   });
 
 When('I select folderMode on navigation bar', async function(){
+  //Maximizing the windows workstation window since the object required is not within the display.
+  //TO-DO: Implement the scrollig logic to find the object if not within the displayed window.
+    if (OSType === 'windows') {
+      await mainWindow.maximizeWindow('MicroStrategy Workstation - Env...(Developer Mode)');
+    }
     await mainWindow.footer.selectFolderMode();
     return mainWindow.app.sleep(2000);
   })

@@ -33,18 +33,19 @@ export default class MetricEditorPage extends BasePage {
         return this.getFunctionContainer().$('.mstrmojo-Editor-buttons').$('.mstrmojo-HBox.mstrmojo-ME-buttonBox');
     }
 
-    getFormulaEditorButtons(buttonName){
-        return this.getFormulaButtonContainer().$$('.mstrmojo-HBox-cell.subBox').filter(async (elem) => {
-            let button = await elem.$('.mstrmojo-Button-text').getText();
+    getToolbarHeader(){
+        return this.$('.toolbar-header');
+    }
+
+    getButtons(buttonName){
+        return this.getToolbarHeader().$$('.toolbar-button').filter(async (elem) => {
+            let button = await elem.$('.control-label.center-display').getText();
             return button === buttonName;
         }).first();
     }
 
-    getFunctionEditorButtons(buttonName){
-        return this.getFunctionButtonContainer().$$('.mstrmojo-HBox-cell.subBox').filter(async (elem) => {
-            let button = await elem.$('.mstrmojo-Button-text').getText();
-            return button === buttonName;
-        }).first();
+    getFormulaModeButton(){
+        return this.getToolbarHeader().$('.right-section').$('.toggle-button');
     }
 
     getConfirmationPopWindow(){
@@ -67,10 +68,6 @@ export default class MetricEditorPage extends BasePage {
             let func = await elem.$('.mstrmojo-suggest-text.fn').getText();
             return func === functionName;
         }).first();
-    }
-
-    getFormulaEditorSwitchButton(){
-        return this.getContentContainer().$('.mstrmojo-Editor-buttons').$('.mstrmojo-Button.mstrmojo-ME-switch.mstrmojo-Editor-button.mstrmojo-WebButton');
     }
 
     getFormulaExpressionToolbar(){
@@ -97,12 +94,9 @@ export default class MetricEditorPage extends BasePage {
     }
 
     // action helpers
-    async clickFunctionEditorButton(buttonName){
-        return this.getFunctionEditorButtons(buttonName).click();
-    }
 
-    async clickFormulaEditorButton(buttonName){
-        return this.getFormulaEditorButtons(buttonName).click();
+    async clickButton(buttonName){
+        return this.getButtons(buttonName).click();
     }
 
     async clickPopUpButton(buttonName){
@@ -114,7 +108,7 @@ export default class MetricEditorPage extends BasePage {
     }
 
     async switchToFormulaEditor(){
-        return this.getFormulaEditorSwitchButton().click();
+        return this.getFormulaModeButton().click();
     }
 
     async clearFormulaEditor(option){
@@ -127,7 +121,6 @@ export default class MetricEditorPage extends BasePage {
 
     async clickValidate(){
         await this.getValidateButton().click();
-        // return this.sleep(1000);
         return this.brwsr.wait(this.EC.presenceOf(this.getFormulaStatus()), 5000, 'Formula is not valid');
     }
 

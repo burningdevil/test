@@ -122,7 +122,7 @@ const mac_xpath = {
     },
     footer: {
       pathtext: `${stdWindow}/AXSplitGroup[0]/AXList[0]/AXStaticText[@AXValue='ReplaceMe']`,
-      navigationMode: `${stdWindow}/AXSplitGroup[0]/AXRadioGroup[0]/AXRadioButton[ReplaceMe]`
+      navigationMode: `${stdWindow}/AXSplitGroup[0]/AXRadioGroup[0]/AXRadioButton[ReplaceModeIndex]`
     },
     selectApplication: {
       application:`${stdWindow}/AXScrollArea[0]/AXTable[0]/AXRow[@AXSubrole='AXTableRow']/AXCell[0]/AXStaticText[@AXValue='ReplaceMe']`,
