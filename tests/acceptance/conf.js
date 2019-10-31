@@ -42,7 +42,7 @@ exports.config = {
   cucumberOpts: {
     // require: './features/step_definitions/**/*.js',  // require step definition files before executing features
     require: './steps/**/*.js',  // require step definition files before executing features
-    format: ["pretty", "json:reports/rallyReport/execReport.json"],            // <string[]> (type[:path]) specify the output format, optionally supply PATH to redirect formatter output (repeatable)
+    format: ["pretty", "json:reports/rallyReport/execReport.json", "rerun:@rerun.txt"],            // <string[]> (type[:path]) specify the output format, optionally supply PATH to redirect formatter output (repeatable)
     // tags: ['@debug'],
     profile: false,
     'no-source': true
@@ -83,10 +83,11 @@ exports.config = {
       if (OSType === 'windows') {
         const {registerWindow} = require('./utils/wsUtils/windowHelper');
         await registerWindow('Workstation Main Window');
+        // Initialize a CEF webview for Windows
+        // For Mac, as long as the Main Window is launched, there will be Quick Search WebView
+        const initializeWebView = require('./utils/wsUtils/initializeWebView');
+        await initializeWebView();
       }
-      // Initialize a CEF webview
-      const initializeWebView = require('./utils/wsUtils/initializeWebView');
-      await initializeWebView();
     }
   },
 

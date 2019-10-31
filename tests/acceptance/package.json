@@ -4,11 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "postinstall": "node ./utils/ubUtils/ubBuilderReplacer.js",
+    "postinstall": "node utils/ubUtils/ubBuilderReplacer.js && node config/seleniumPatch.js",
     "test": "protractor conf.js --disableChecks",
     "ubTest": "node utils/ubUtils/runUB.js",
-    "ubSingleRun": "yarn test --args.ubConf.enableUB true --args.ubConf.ubReportPath ./reports/raw/report1.json",
-    "update-webdriver": "node node_modules/protractor/bin/webdriver-manager update --gecko=false && node ./config/seleniumPatch.js"
+    "ubSingleRun": "yarn test --args.ubConf.enableUB true --args.ubConf.ubReportPath ./reports/raw/report1.json"
   },
   "author": "",
   "license": "ISC",

@@ -1,3 +1,16 @@
+/*
+# This Script is used to start local installed Appium, trigger test and then stop Appium
+# It has to be run in bash
+#- Example to trigger test
+#-- Windows: node trigger_test.js 'C:\\Program Files\\MicroStrategy\\Workstation\\Workstation.exe' '<Library_URL>'
+#-- Mac: node trigger_test.js 'MicroStrategy Workstation.app' <Library_URL>  
+#- Exit Code
+#-- If test run successfully, it returns EC 0
+#-- If Appium cannot be started and test fails, it returns EC 1
+#-- If Appium started successfully but the test fails, it returns EC 2
+# Author: Qingqing Fan  10/28/2019
+*/
+
 const {exec, execSync} = require('child_process');
 
 // receive arguments from CI Pipeline
@@ -8,7 +21,7 @@ const ENV_URL = argumentsFromCI[1]
 let cp, globalExitCode = 0
 // start appium method
 const startupAppium = async () => {
-    cp = exec('npx appium',{ cwd: '.'})
+    cp = exec('node node_modules/appium/.',{ cwd: '.'})
     let startupError, exitHandler
     cp.on('exit', exitHandler = exitCode => {
         if(exitCode) {
@@ -24,7 +37,7 @@ const startupAppium = async () => {
                 reject(startupError);
             }
             resolve();
-        },10000)
+        },5000)
     })
 }
 
@@ -38,7 +51,13 @@ const startupAppium = async () => {
     }
     try {
         console.info('Running test...')
-        execSync(`yarn test --args.appPath '${APP_PATH}' --params.envInfo.envUrl '${ENV_URL}'`, { stdio: 'inherit', encoding: 'utf-8' })
+        let OS_APP_PATH =''
+        if(process.platform === 'win32') {
+            OS_APP_PATH = `--args.appPath.windows '${APP_PATH}'`
+        } else {
+            OS_APP_PATH = `--args.appPath.mac '${APP_PATH}'`
+        }
+        execSync(`yarn test ${OS_APP_PATH} --params.envInfo[0].envUrl '${ENV_URL}'`, { stdio: 'inherit', encoding: 'utf-8' })
     } catch (err) {
         console.error(err)
         globalExitCode = 2
