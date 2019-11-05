@@ -23,8 +23,8 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
       pattern: pattern,
       patternID: patternID
     }
-    
-  
+
+
     let workstationPidList;
     let workstationHelperPidList;
     let pidusage;
@@ -39,7 +39,7 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
 
     //This one time capturing makes sure that for each of the cucumber step, there is at least one UB data element.
     if (enableUB) {
-      pidusage(workstationPidList, function (err, stats) {  
+      pidusage(workstationPidList, function (err, stats) {
         if (stats && pattern) {
 
           stats.feature = featureDescriptions.featureName;
@@ -48,12 +48,12 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
           stats.patternID = patternID;
 
           stats.source = "Workstation";
-          
+
           wsUBData.push(stats);
         }
       });
 
-      pidusage(workstationHelperPidList, function (err, stats) {  
+      pidusage(workstationHelperPidList, function (err, stats) {
         if (stats && pattern) {
 
           stats.feature = featureDescriptions.featureName;
@@ -85,7 +85,7 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
 
       clearUBMonitor = setIntervalSynchronous(function () {
 
-        pidusage(workstationPidList, function (err, stats) {  
+        pidusage(workstationPidList, function (err, stats) {
           if (stats && patternAndID.pattern) {
 
             stats.feature = featureDescriptions.featureName;
@@ -94,11 +94,11 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
             stats.patternID = patternAndID.patternID;
 
             stats.source = "Workstation";
-            
+
             wsUBData.push(stats);
           }
         });
-        pidusage(workstationHelperPidList, function (err, stats) {  
+        pidusage(workstationHelperPidList, function (err, stats) {
           if (stats && patternAndID.pattern) {
 
             stats.feature = featureDescriptions.featureName;
@@ -114,7 +114,7 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
       }, this.ubInterval);
 
     }
-    
+
     try {
       await fn.apply(this, arguments);
       if (enableUB) {
@@ -135,7 +135,7 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
       patternAndID.pattern = pattern;
       patternAndID.patternID = patternID;
     }
-  
+
   };
 });
 
@@ -149,13 +149,13 @@ function CustomWorld() {
 
 Before(async function (scenarioResult) {
   patternID = 1;
+  console.log(scenarioResult)
+  featureDescriptions.featureName = scenarioResult.sourceLocation.uri.split('/')[1]
+  // console.log(`Feature is: ${featureDescriptions.featureName}`);
 
-  // console.log(`Feature is: ${scenarioResult.scenario.feature.name}`);
-  featureDescriptions.featureName = scenarioResult.scenario.feature.name;
-
-  // console.log(`Scenario is ${scenarioResult.scenario.name}`);
-  featureDescriptions.scenarioName = scenarioResult.scenario.name;
-  
+  featureDescriptions.scenarioName = scenarioResult.pickle.name;
+  // console.log(`Scenario is ${featureDescriptions.scenarioName}`);
+  console.log(`Steps are ${scenarioResult.pickle.steps}`);
 });
 
 After(async function () {
@@ -167,7 +167,7 @@ After(async function () {
       workstation_helper: wsHelperData
     });
   }
-  
+
 });
 
 setWorldConstructor(CustomWorld);

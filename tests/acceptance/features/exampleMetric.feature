@@ -23,28 +23,28 @@ Feature: Example For Workstation Automation for Metric Plugin on CEF
     When I double click to expand or collapse <selectedFolderName3>
     When I select environment folder <selectedFolderName4>
     When I double click to expand or collapse <selectedFolderName4>
-    When I select view listView
-    When I select context menu option Edit Metric for Cost of type Metrics
+    When I select view "listView"
+    When I select context menu option "Edit Metric" for "Cost" of type "Metrics"
     Then Metric editor window should be displayed
-    When I close editor Edit Metric
+    When I close editor "Edit Metric"
 
 
     # Creating a new metric
-    When I single click on Cost of type Metrics
-    When I select New Metric from File on menubar
+    When I single click on "Cost" of type "Metrics"
+    When I select "New Metric" from "File" on menubar
     Then Metric editor window should be displayed
     Then I switch to formula editor
     Then I choose metric editor function <functionName>
-    And I choose function editor option Clear
+    And I choose function editor option "Clear"
     When I double click on <functionName>
     When I provide input <text>
     When I click validate button
     Then Formula should be valid
     When I name metric as <metricName>
-    When I click button Save
-    Then Popup should be displayed in editor New Metric
-    When I click save for popup in editor New Metric
-    When I select context menu option Delete for <metricName> of type Metrics
+    When I click button "Save"
+    Then Popup should be displayed in editor "New Metric"
+    When I click save for popup in editor "New Metric"
+    When I select context menu option "Delete" for <metricName> of type "Metrics"
 
     # Restoring View
     When I double click to expand or collapse <selectedFolderName4>
@@ -53,7 +53,7 @@ Feature: Example For Workstation Automation for Metric Plugin on CEF
     When I double click to expand or collapse <selectedFolderName1>
     When I double click to expand or collapse <selectedFolderName>
     When I select smartMode on navigation bar
-    When I select view iconView
+    When I select view "iconView"
 
 
 

@@ -9,7 +9,7 @@ When('LDAP window should NOT be displayed', async function(){
     return expect(ldapPage.isLdapWindowDisplayed()).become(false);
 });
 
-When('I select sideTab {sideTab}', async function (sideTab) {
+When(/^I select sideTab "([^"]*)"$/, async function (sideTab) {
   return ldapPage.selectSideTab(sideTab);
 });
 

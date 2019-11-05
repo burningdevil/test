@@ -1,17 +1,17 @@
 
 const { Given, When, Then } = require('cucumber');
 
-  When('I add a new environment named {envName} with url {envUrl}', async function (envName, envUrl) {
+  When(/^I add a new environment named "([^"]*)" with url "([^"]*)"$/, async function (envName, envUrl) {
     return mainWindow.mainCanvas.envSection.connectEnv(envName, envUrl);
   });
 
-  When('I login with {loginMode} mode using name {userName} and password {userPwd}', async function (loginMode, userName, userPwd) {
+  When(/^I login with "([^"]*)" mode using name "([^"]*)" and password "([^"]*)"$/, async function (loginMode, userName, userPwd) {
     if(userPwd==='blank')
       userPwd = "";
     return mainWindow.mainCanvas.envSection.loginToEnv(loginMode, userName, userPwd);
   });
 
-  Then('I select project {projectName}', async function (projectName) {
+  Then(/^I select project "([^"]*)"$/, async function (projectName) {
     return mainWindow.mainCanvas.envSection.chooseProject(projectName);
   });
 
@@ -19,7 +19,7 @@ const { Given, When, Then } = require('cucumber');
     return mainWindow.mainCanvas.envSection.clickOkToConnect();
   });
 
-  Then('I remove environment {envName}', async function (envName) {
+  Then(/^I remove environment "([^"]*)"$/, async function (envName) {
     if (mainWindow.mainCanvas.envSection.isEnvAdded(envName)) {
       return mainWindow.mainCanvas.envSection.removeEnv(envName);
     } else {
@@ -27,7 +27,7 @@ const { Given, When, Then } = require('cucumber');
     }
   });
 
-  When('I configure LDAP service on env {envName}', async function(envName){
+  When(/^I configure LDAP service on env "([^"]*)"$/, async function(envName){
     return mainWindow.mainCanvas.envSection.configureLdapService(envName);
   })
 
@@ -35,14 +35,14 @@ const { Given, When, Then } = require('cucumber');
     return mainWindow.mainCanvas.envSection.disconnectEnv(browser.params.envInfo[0].envName);
   })
 
-  Then('I connect existing environment {name}', async function(name){
+  Then(/^I connect existing environment "([^"]*)"$/, async function(name){
     return mainWindow.mainCanvas.envSection.connectExistingEnv(name);
   })
 
-  When('I import LDAP users on env {envName}', async function(envName){
+  When(/^I import LDAP users on env "([^"]*)"$/, async function(envName){
     return mainWindow.mainCanvas.envSection.importLdapUsers(envName);
   })
 
-  Then('{envName} is connected', async function (envName) {
+  Then(/^"([^"]*)" is connected$/, async function (envName) {
     return expect(mainWindow.mainCanvas.envSection.isEnvAdded(envName)).become(true);
   });

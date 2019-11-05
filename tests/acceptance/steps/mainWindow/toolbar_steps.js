@@ -1,7 +1,7 @@
 const { Given, When, Then } = require('cucumber');
 
 
-When('I select view {viewName}', async function (viewName) {
+When(/^I select view "([^"]*)"$/, async function (viewName) {
     return mainWindow.toolbar.switchViewTo(viewName);
 });
 
@@ -9,7 +9,7 @@ When('I refresh workstation cache', async function(){
     return mainWindow.toolbar.refresh();
   })
 
-When('I search for {searchString}', async function (searchString) {
+When(/^I search for "([^"]*)"$/, async function (searchString) {
     return mainWindow.toolbar.search(searchString);
 });
 
@@ -23,6 +23,6 @@ Then('Result Popup should be displayed with {int} items', async function (countO
     return expect(await quickSearchPage.resultCount()).to.equal(countOf);
   });
 
-  When('I click on item {itemName}', async function (itemName) {
-    return quickSearchPage.selectItemByName(itemName);
-  });
+When(/^I click on item "([^"]*)"$/, async function (itemName) {
+  return quickSearchPage.selectItemByName(itemName);
+});

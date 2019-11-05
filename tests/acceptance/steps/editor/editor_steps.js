@@ -3,12 +3,12 @@ const {switchToWindow, unregisterWindow} = require('../../Utils/wsUtils/windowHe
 
 // ** Dossier Related ** //
 
-Then('{itemName} editor should be displayed', async function (itemName) {
+Then(/^"([^"]*)" editor should be displayed$/, async function (itemName) {
   return expect(editor.isEditorDisplayed(itemName)).become(true);
 });
 
 
-Then('I close editor {itemName}', async function (itemName) {
+Then(/^I close editor "([^"]*)"$/, async function (itemName) {
   if (OSType === 'windows') {
     await editor.closeWindow(itemName);
     await switchToWindow('Workstation Main Window');
@@ -20,11 +20,11 @@ Then('I close editor {itemName}', async function (itemName) {
 });
 
 // ** Metric Editor Related ** //
-Then('Popup should be displayed in editor {itemName}', async function (itemName) {
+Then(/^Popup should be displayed in editor "([^"]*)"$/, async function (itemName) {
   return expect(editor.popup.isPopupDisplayedInEditor(itemName)).become(true);
 });
 
-When('I click save for popup in editor {itemName}', async function (itemName) {
+When(/^I click save for popup in editor "([^"]*)"$/, async function (itemName) {
   if (OSType === 'windows') {
     await editor.popup.clickSave();
     await switchToWindow('Workstation Main Window');

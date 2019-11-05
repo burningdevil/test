@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "node utils/ubUtils/ubBuilderReplacer.js && node config/seleniumPatch.js",
-    "test": "protractor conf.js --disableChecks",
+    "startAppium": "node node_modules/appium/.",
+    "test": "protractor conf.js --disableChecks --cucumberOpts.tags @settings",
     "ubTest": "node utils/ubUtils/runUB.js",
     "ubSingleRun": "yarn test --args.ubConf.enableUB true --args.ubConf.ubReportPath ./reports/raw/report1.json"
   },
@@ -21,16 +22,17 @@
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "core-js": "^3.1.3",
-    "cucumber": "2.3.1",
+    "cucumber": "^5.0.2",
     "lodash": "^4.17.11",
     "protractor": "^5.4.2",
-    "protractor-cucumber-framework": "^4.0.8",
+    "protractor-cucumber-framework": "^6.1.3",
     "regenerator-runtime": "^0.13.2",
     "wd": "^1.11.1",
     "yargs": "^13.2.4"
   },
   "dependencies": {
-    "appium": "^1.15.1",
+    "appium": "1.15.1",
+
     "json2csv": "^4.5.2",
     "mysql": "^2.17.1",
     "pidusage": "^2.0.17",

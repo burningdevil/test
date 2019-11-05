@@ -41,8 +41,8 @@ exports.config = {
   // cucumber command line options
   cucumberOpts: {
     // require: './features/step_definitions/**/*.js',  // require step definition files before executing features
-    require: './steps/**/*.js',  // require step definition files before executing features
-    format: ["pretty", "json:reports/rallyReport/execReport.json", "rerun:@rerun.txt"],            // <string[]> (type[:path]) specify the output format, optionally supply PATH to redirect formatter output (repeatable)
+    require: ['./steps/env.js','./steps/**/*.js'],  // require step definition files before executing features
+    format: ["json:reports/rallyReport/execReport.json", "rerun:@rerun.txt"],            // <string[]> (type[:path]) specify the output format, optionally supply PATH to redirect formatter output (repeatable)
     // tags: ['@debug'],
     profile: false,
     'no-source': true
@@ -93,10 +93,6 @@ exports.config = {
 
   onPrepare: async () => {
     browser.waitForAngularEnabled(false);
-
-    // set Cucumber Step Timeout
-    let { setDefaultTimeout } = require('cucumber');
-    setDefaultTimeout(60 * 1000);// 60 seconds
 
     // build page objects for native and webviews
     const PageBuilder = require('./pages/PageBuilder');
