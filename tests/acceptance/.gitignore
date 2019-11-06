@@ -8,3 +8,5 @@ Cucumber.json
 ./reports/ubIndividual/*.json
 
 ./reports/*.json
+
+@rerun.txt
