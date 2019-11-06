@@ -16,14 +16,14 @@ let output;
 
 const helpMsg =
   "Cannot accept the parameters. Usage: \n\n" +
-  "node utils/wsUtils/stabilityTest.js durationInSecs \n" +
+  "node utils/wsUtils/stabilityTest.js durationInHrs \n" +
   "e.g. node utils/wsUtils/stabilityTest.js 50";
 
 if (!process.argv[2]) {
   console.log(helpMsg);
 }
 
-for (n = 0; executionTime < process.argv[2]; n++) {
+for (n = 0; executionTime / 3600 < process.argv[2]; n++) {
   try {
     output = execSync(
       `yarn test --cucumberOpts.tags "${randomTag1} or ${randomTag2}"`,
