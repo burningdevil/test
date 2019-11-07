@@ -152,7 +152,6 @@ Before(async function (scenarioResult) {
 
   featureDescriptions.scenarioName = scenarioResult.pickle.name;
   // console.log(`Scenario is ${featureDescriptions.scenarioName}`);
-  console.log(`Steps are ${scenarioResult.pickle.steps}`);
 });
 
 After(async function () {
