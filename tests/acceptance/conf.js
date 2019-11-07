@@ -120,12 +120,15 @@ exports.config = {
       // connect to environment
       for(let envIndex=0; envIndex<browser.params.envInfo.length; envIndex++) {
         ({envName, envUrl, loginMode, userName, userPwd, projects} = browser.params.envInfo[envIndex]);
-        await mainWindow.mainCanvas.envSection.connectEnv(envName, envUrl);
-        await mainWindow.mainCanvas.envSection.loginToEnv(loginMode, userName, userPwd);
-        for(let projectIndex=0;projectIndex<projects.length;projectIndex++){
-          await mainWindow.mainCanvas.envSection.chooseProject(projects[projectIndex]);
-        }
-        await mainWindow.mainCanvas.envSection.clickOkToConnect();
+        if (!mainWindow.mainCanvas.envSection.isEnvAdded(envName)) {
+          await mainWindow.mainCanvas.envSection.connectEnv(envName, envUrl);
+          await mainWindow.mainCanvas.envSection.loginToEnv(loginMode, userName, userPwd);
+          for(let projectIndex=0;projectIndex<projects.length;projectIndex++){
+            await mainWindow.mainCanvas.envSection.chooseProject(projects[projectIndex]);
+          }
+          await mainWindow.mainCanvas.envSection.clickOkToConnect();
+        }else {
+          console.error(`WARNING: Environment already present with name ${envName} \n Skipping this step as ${envName} is already added.`);
       }
     }
 
