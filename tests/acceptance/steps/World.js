@@ -8,7 +8,6 @@ const {enableUB} = customArgObj.args.ubConf;
 let wsUBData = [];
 let wsHelperData = [];
 
-
 //in Before, it will become: {featureName: xxx feature, scenarioName: xxx scenario}
 let featureDescriptions = {};
 
@@ -18,7 +17,6 @@ let patternAndID;
 // Wrap around each step
 setDefinitionFunctionWrapper(function (fn, opts, pattern) {
   return async function() {
-
     patternAndID = {
       pattern: pattern,
       patternID: patternID
@@ -40,8 +38,8 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
     //This one time capturing makes sure that for each of the cucumber step, there is at least one UB data element.
     if (enableUB) {
       pidusage(workstationPidList, function (err, stats) {
-        if (stats && pattern) {
 
+        if (stats && pattern) {
           stats.feature = featureDescriptions.featureName;
           stats.scenario= featureDescriptions.scenarioName;
           stats.pattern = pattern;
@@ -149,7 +147,6 @@ function CustomWorld() {
 
 Before(async function (scenarioResult) {
   patternID = 1;
-  console.log(scenarioResult)
   featureDescriptions.featureName = scenarioResult.sourceLocation.uri.split('/')[1]
   // console.log(`Feature is: ${featureDescriptions.featureName}`);
 

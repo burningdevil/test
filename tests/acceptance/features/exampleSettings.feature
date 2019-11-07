@@ -17,14 +17,12 @@ Feature: CEF support for settings
     And I select context menu option "Get Info" for "Plugin Test" of type "Environments"
     Then The environment information window should be displayed
 
-    When I select plugin tab "Governing settings"
+    When I select plugin tab "Governing Settings"
     Then The Governing Settings plugin page should be displayed
 
     When I click on the advanced link
     And I click the "OK" button to close the plugin window
 
-    When I select tab "Environments"
-    And I select view "listView"
     And I select context menu option "Get Info" for "Plugin Test" of type "Environments"
     Then The environment information window should be displayed
 
@@ -36,4 +34,6 @@ Feature: CEF support for settings
     And I confirm the error massage
 
     When I click the "Cancel" button to close the plugin window
+    And I select view "iconView"
+
 

@@ -11,11 +11,11 @@ export default class LdapConfigPage extends BasePage {
   }
 
   getSideBar(){
-    return this.getLdapContainer().$('.ant-layout-sider-children');
+    return this.getLdapContainer().$('.sidebar-container__sidebar');
   }
 
   getSidebarTab(tabName) {
-    return this.getSideBar().$$('.side-bar-item-container--side-bar-item').filter(async (elem) => {
+    return this.getSideBar().$$('.sidebar__sidebar-item').filter(async (elem) => {
         const barName = await elem.getText();
         return barName === tabName;
     }).first();
@@ -34,7 +34,7 @@ export default class LdapConfigPage extends BasePage {
   }
 
   getConfigureButton(){
-    return this.$('.ant-btn.admin-simple-button.admin-simple-button-primary.ant-btn-primary')
+    return this.$('.ant-btn.mstr-button.mstr-button__primary-type.mstr-button__regular-size.ant-btn-primary')
   }
 
   // action helpers

@@ -1,7 +1,7 @@
 const { Given, When, Then } = require('cucumber');
 const {registerNewWindow, switchToWindow, unregisterWindow} = require('../../utils/wsUtils/windowHelper')
 //native
-When(/^I select "([^"]*)" and click select$/, async function (applicationName) {
+When('I select {string} and click select', async function (applicationName) {
   if (OSType === 'windows') {
     await mainWindow.mainCanvas.selectApplication(applicationName);
     await registerNewWindow(`Document Editor`);

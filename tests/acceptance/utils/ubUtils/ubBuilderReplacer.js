@@ -2,8 +2,8 @@ const fs = require('fs');
 
 //replace the builder.js in node_modules to the builder.js in utils/ubUtils/ . After the replacement, the step information in cucumber will become available to the UB monitor.
 function replaceUBBuilder() {
-    let cucumberBuilderPath = "./node_modules/cucumber/lib/support_code_library/builder.js";
-   
+    let cucumberBuilderPath = "./node_modules/cucumber/lib/support_code_library_builder/finalize_helper.js";
+
     try {
       fs.unlinkSync(cucumberBuilderPath);
     } catch (err) {
