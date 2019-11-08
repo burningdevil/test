@@ -6,10 +6,10 @@ function randomTagGenerator() {
   return randomElement;
 }
 
-let randomTag1 = randomTagGenerator();
-let randomTag2 = randomTagGenerator();
 const execSync = require("child_process").execSync;
 
+let randomTag1;
+let randomTag2;
 let error = 0;
 let executionTime = 0;
 let output;
@@ -23,8 +23,10 @@ if (!process.argv[2]) {
   console.log(helpMsg);
 }
 
-for (n = 0; executionTime / 3600 < process.argv[2]; n++) {
+for (let n = 0; executionTime / 3600 < process.argv[2]; n++) {
   try {
+    randomTag1 = randomTagGenerator();
+    randomTag2 = randomTagGenerator();
     output = execSync(
       `yarn test --cucumberOpts.tags "${randomTag1} or ${randomTag2}"`,
       {
@@ -35,7 +37,19 @@ for (n = 0; executionTime / 3600 < process.argv[2]; n++) {
     executionTime += parseInt(output.split("Done in ")[1].split("s")[0]);
     console.log(`Total execution time: ${executionTime}`);
   } catch (err) {
-    console.log("error rate is increased! Continue running...");
+    execSync(
+      `defaults delete ~/Library/Preferences/com.microstrategy.Workstation 4c158b61ebc73998d366d08f49c1bed507a0264f`,
+      {
+        encoding: "utf-8"
+      }
+    );
+    execSync(
+      `defaults read ~/Library/Preferences/com.microstrategy.Workstation`,
+      {
+        encoding: "utf-8"
+      }
+    );
+    console.log("ERROR! Resetting environment connections.");
     console.log(err);
     error++;
   }
