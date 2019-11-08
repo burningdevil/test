@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const project = require('../project.config')
+const serverConfig = require('./server.config')
 
 const inProject = path.resolve.bind(path, project.basePath)
 const inProjectSrc = file => inProject(project.srcDir, file)
@@ -95,16 +96,20 @@ config.module.rules.push({
 
 // Styles
 // ------------------------------------
-config.plugins.push(
-  new MiniCssExtractPlugin({
-    filename: `[name].[chunkhash].css`
-  })
-)
+if (__PROD__) {
+  config.plugins.push(
+    new MiniCssExtractPlugin({
+      filename: `[name].[chunkhash].css`
+    })
+  )
+}
 
 config.module.rules.push({
   test: /\.(css|sass|scss)/,
   use: [
-    MiniCssExtractPlugin.loader,
+    __PROD__ ? MiniCssExtractPlugin.loader : {
+      loader: 'style-loader'
+    },
     {
       loader: 'css-loader'
     },
@@ -182,28 +187,35 @@ config.plugins.push(
 )
 
 // Generate Workstation plugin app template
-config.plugins.push(new CopyPlugin([{ from: 'static' }]))
+if (!__DEV__) {
+  config.plugins.push(new CopyPlugin([{ from: 'static' }]))
+}
 
 // Development Tools
 // ------------------------------------
 if (__DEV__) {
-  config.entry.main.push(
-    `webpack-hot-middleware/client.js?path=${
-      config.output.publicPath
-    }__webpack_hmr`
-  )
-  config.plugins.push(
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin()
-  )
+  // Webpack dev server configuration:
+  // https://webpack.js.org/configuration/dev-server/
+  config.devServer = {
+    port: 3000,
+    hot: true,
+    overlay: true,
+    historyApiFallback: true,
+    contentBase: path.resolve(project.basePath, 'public'),
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    },
+    proxy: {
+      context: '/api',
+      target: serverConfig.host + serverConfig.path,
+      changeOrigin: true,
+      cookiePathRewrite: '/'
+    }
+  }
 }
 
 // Bundle Splitting
 // ------------------------------------
-config.optimization = {
-  minimize: true,
-  ...config.optimization
-}
 if (!__TEST__) {
   const bundles = ['normalize', 'manifest']
 
@@ -211,37 +223,40 @@ if (!__TEST__) {
     bundles.unshift('vendor')
     config.entry.vendor = project.vendors
   }
-  config.optimization.splitChunks = {
-    minSize: 30000,
-    minChunks: 1,
-    maxAsyncRequests: 5,
-    maxInitialRequests: 3,
-    name: true,
-    cacheGroups: {
-      default: false,
-      app: {
-        name: 'app',
-        chunks: 'initial',
-        minChunks: 2,
-        reuseExistingChunk: true
-      },
-      vendor: {
-        name: 'vendor',
-        test: /[\\/]node_modules[\\/]/,
-        chunks: 'initial'
-      }
-      // styles: {
-      //   name: 'style',
-      //   test: /\.(scss|css)$/,
-      //   chunks: 'all',
-      // }
-    }
-  }
 }
 
 // Production Optimizations
 // ------------------------------------
 if (__PROD__) {
+  config.optimization = {
+    minimize: true,
+    splitChunks: {
+      minSize: 30000,
+      minChunks: 1,
+      maxAsyncRequests: 5,
+      maxInitialRequests: 3,
+      name: true,
+      cacheGroups: {
+        default: false,
+        app: {
+          name: 'app',
+          chunks: 'initial',
+          minChunks: 2,
+          reuseExistingChunk: true
+        },
+        vendor: {
+          name: 'vendor',
+          test: /[\\/]node_modules[\\/]/,
+          chunks: 'initial'
+        }
+        // styles: {
+        //   name: 'style',
+        //   test: /\.(scss|css)$/,
+        //   chunks: 'all',
+        // }
+      }
+    }
+  }
   config.plugins.push(
     new webpack.LoaderOptionsPlugin({
       minimize: true,
