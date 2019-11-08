@@ -9,7 +9,7 @@ const baseUrl = '/api'
 let authToken: string = null
 let isLogin = false
 
-function createHeaders(projectId: string) {
+function createHeaders() {
   const headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ let baseRequest = (method: string, path: string, body: any, headers = {}, parseF
     cache: 'no-cache',
     method: method.toUpperCase(),
     headers: {
-      ...createHeaders(null),
+      ...createHeaders(),
       ...headers
     },
     mode: 'cors',
