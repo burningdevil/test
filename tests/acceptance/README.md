@@ -68,11 +68,7 @@ npm run test -- --args.appPath.mac '<Workstation_Path>' --cucumberOpts.tags '<Ta
 ### One-step Run: For CI purpose mainly
 This is mainly for CI test purpose. It does start Appium, run test, and stop Appium in one script. The Appium Server logs cannot be seen in this case.
 ```
-yarn test --args.appPath.mac '/myPath/MicroStrategy Workstation.app' --cucumberOpts.tags '@ldap'
-```
-or
-```
-npm run test -- --args.appPath.mac '/myPath/MicroStrategy Workstation.app' --cucumberOpts.tags '@ldap'
+node trigger_test --args.appPath.mac '/myPath/MicroStrategy Workstation.app' --cucumberOpts.tags '@ldap'
 ```
 
 Note:

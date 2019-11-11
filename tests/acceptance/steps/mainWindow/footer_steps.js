@@ -1,7 +1,7 @@
 const { Given, When, Then } = require('cucumber');
 
 // ** Footer path Related** //
-Then('{tabName} smart tab is selected', async function (tabName) {
+Then('{string} smart tab is selected', async function (tabName) {
     return expect(mainWindow.footer.isTextInPathDisplayed(tabName)).become(true);
   });
 

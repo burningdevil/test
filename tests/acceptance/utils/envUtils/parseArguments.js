@@ -17,8 +17,8 @@ function parseArguments() {
         // process true or false
         let value = nextArg === 'true' ? true: (nextArg === 'false' ? false : nextArg);
         // process object
-        if(value.startsWith('{')) {
-          value = JSON.parse(value)
+        if(nextArg.startsWith('{')) {
+          value = JSON.parse(nextArg)
         }
         _.set(customArg, arg, value);
     }
