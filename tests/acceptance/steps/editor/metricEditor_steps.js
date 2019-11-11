@@ -8,15 +8,15 @@ const { Given, When, Then } = require('cucumber');
     return expect(metricEditorPage.isMetricEditorPresent()).become(false);
   });
 
-  When ('I click button {button}', async function(button){
+  When ('I click button {string}', async function(button){
     return metricEditorPage.clickButton(button);
   });
 
-  When ('I click popup button {button}', async function(button){
+  When ('I click popup button {string}', async function(button){
     return metricEditorPage.clickPopUpButton(button);
   });
 
-  When ('I choose metric editor function {functionName}', async function(functionName){
+  When ('I choose metric editor function {string}', async function(functionName){
     return metricEditorPage.chooseFunction(functionName);
   });
 
@@ -24,16 +24,16 @@ const { Given, When, Then } = require('cucumber');
     return metricEditorPage.switchToFormulaEditor();
   });
 
-  When ('I choose function editor option {option}', async function(option){
+  When ('I choose function editor option {string}', async function(option){
     return metricEditorPage.clearFormulaEditor(option);
   });
 
-  When ('I double click on {functionName}', async function(functionName){
+  When ('I double click on {string}', async function(functionName){
     await metricEditorPage.doubleClickFunction(functionName);
     return browser.sleep(500);
   });
 
-  When('I provide input {text}', async function(text){
+  When('I provide input {string}', async function(text){
     return metricEditorPage.input(text);
   });
 
@@ -45,6 +45,6 @@ const { Given, When, Then } = require('cucumber');
     return expect(metricEditorPage.formulaStatus()).become('Valid metric formula.');
   });
 
-  When('I name metric as {metricName}', async function(provideMetricName){
+  When('I name metric as {string}', async function(provideMetricName){
     return metricEditorPage.provideMetricName(provideMetricName);
   });

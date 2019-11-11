@@ -1,7 +1,7 @@
 const { Given, When, Then } = require('cucumber');
 const {registerNewWindow, switchToWindow, unregisterWindow} = require('../../utils/wsUtils/windowHelper')
 //native
-When('I select {applicationName} and click select', async function (applicationName) {
+When('I select {string} and click select', async function (applicationName) {
   if (OSType === 'windows') {
     await mainWindow.mainCanvas.selectApplication(applicationName);
     await registerNewWindow(`Document Editor`);
@@ -11,7 +11,7 @@ When('I select {applicationName} and click select', async function (applicationN
     await mainWindow.mainCanvas.selectApplication(applicationName);
     await rsdWindow.waitRSDWindow();
   }
-  //This wait cannot be avoided because even the window is displayed, the inner webview may still not available. 
+  //This wait cannot be avoided because even the window is displayed, the inner webview may still not available.
   await mainWindow.sleep(1000);
   return rsdPage.switchToNewWebView();
 });

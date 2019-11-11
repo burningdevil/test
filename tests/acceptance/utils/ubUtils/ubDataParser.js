@@ -4,7 +4,7 @@ function generateUBReports(rawUBReportFolder) {
 
   fs.readdirSync(rawUBReportFolder).forEach(file => {
       if (file.endsWith(".json")) {
-          
+
         console.info(`parsing ${rawUBReportFolder}${file}`);
         parseRawUBData(`../../reports/raw/${file}`);
       }
@@ -16,30 +16,29 @@ function parseRawUBData (rawUBDataPath) {
   let report = require(rawUBDataPath);
   let workstationDataList = report[0].workstation;
   let workstationHelperList = report[0].workstation_helper;
-  
-  
+
   let workstationResult = parseWorkstationList(workstationDataList);
   // console.log(workstationResult);
-  
+
   let workstationHelpersResult = parseWorkstationHelpersList(workstationHelperList);
   // console.log(workstationHelpersResult);
 
   let rawReportName = rawUBDataPath.slice(rawUBDataPath.lastIndexOf("/") + 1);
   let upReportPath = `./reports/ubIndividual/UB${rawReportName}`;
-  
+
   try {
       fs.unlinkSync(upReportPath);
   } catch (err) {
-      
+
   }
-  
+
   console.info(`generating ${upReportPath}`);
   fs.appendFileSync(upReportPath, JSON.stringify({workstation: workstationResult, workstationHelpers: workstationHelpersResult}, null, 2), 'UTF-8');
-  
+
 }
 
 function parseWorkstationList(dataList) {
-  
+
   let result = [];
 
   let patternMap = new Map();
@@ -47,16 +46,14 @@ function parseWorkstationList(dataList) {
 
   for (element of dataList) {
 
-    //I am constructing a string here because javascript map has a weired behavior: using object as the key will always treat the object to be not identical. 
+    //I am constructing a string here because javascript map has a weired behavior: using object as the key will always treat the object to be not identical.
     let patternKey = `{"feature": "${element.feature}", "scenario": "${element.scenario}", "pattern": "${element.pattern}", "patternID": "${element.patternID}", "source":"${element.source}"}`;
-
     if (!patternMap.has(patternKey)) {
       patternMap.set(patternKey, []);
     }
 
     patternMap.get(patternKey).push(element[pid]);
   }
-
   for (let key of patternMap.keys()) {
 
     let keyObj = JSON.parse(key);
@@ -77,7 +74,7 @@ function parseWorkstationList(dataList) {
         maxMemory = value.memory;
       }
       sumCPU += value.cpu;
-      sumMemory += value.memory;      
+      sumMemory += value.memory;
     }
 
     let ubElement = {
@@ -94,7 +91,7 @@ function parseWorkstationList(dataList) {
     }
 
     result.push(ubElement);
-  } 
+  }
   return result;
 }
 
@@ -109,7 +106,7 @@ function parseWorkstationHelpersList(dataList) {
     //update the pidList because it may change
     let pidList = getPIDList(element);
 
-    //I am constructing a string here because javascript map has a weired behavior: using object as the key will always treat the object to be not identical. 
+    //I am constructing a string here because javascript map has a weired behavior: using object as the key will always treat the object to be not identical.
     let patternKey = `{"feature": "${element.feature}", "scenario": "${element.scenario}", "pattern": "${element.pattern}", "patternID": "${element.patternID}", "source":"${element.source}"}`;
 
     if (!patternMap.has(patternKey)) {
@@ -173,7 +170,7 @@ function parseWorkstationHelpersList(dataList) {
       duration: duration,
     }
     result.push(ubElement);
-  } 
+  }
   return result;
 }
 

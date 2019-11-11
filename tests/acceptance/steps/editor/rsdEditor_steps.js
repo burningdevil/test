@@ -1,16 +1,16 @@
 const { Given, When, Then } = require('cucumber');
 const {registerNewWindow, switchToWindow, unregisterWindow} = require('../../utils/wsUtils/windowHelper')
 
-Then('The {windowName} RSD window should be present', async function (windowName) {
+Then('The {string} RSD window should be present', async function (windowName) {
     await rsdWindow.waitRSDWindow(windowName);
 });
-  
-When('I select the {rsdTemplate} in create new document window', async function (rsdTemplate) {
+
+When('I select the {string} in create new document window', async function (rsdTemplate) {
   await rsdPage.clickRSDTemplateIcon(rsdTemplate);
   return rsdPage.switchToNewWebView();
 });
 
-Then('The RSD scale setting with {percentage} should be displayed', async function (percentage) {
+Then('The RSD scale setting with {string} should be displayed', async function (percentage) {
   await rsdPage.sleep(1000);//wait RSD page reload, otherwise the dropdown selection will not be found
   await rsdPage.selectHomeMenu();
   await rsdPage.sleep(500);//wait RSD page reload, otherwise the dropdown selection will not be found
@@ -18,17 +18,17 @@ Then('The RSD scale setting with {percentage} should be displayed', async functi
 });
 
 
-When('I change the scale from {fromPercentage} to {toPercentage}', async function (fromPercentage, toPercentage) {
+When('I change the scale from {string} to {string}', async function (fromPercentage, toPercentage) {
   await rsdPage.selectDropdownSelection(fromPercentage);
   return rsdPage.selectDropdownSelection(toPercentage);
 });
 
-When('I close the {windowName} RSD Window', async function (windowName) {
+When('I close the {string} RSD Window', async function (windowName) {
   await rsdWindow.closeWindow(windowName);
   return rsdPage.switchToDefaultWebView();
 });
 
-When('I directly close the {windowName} RSD Window', async function (windowName) {
+When('I directly close the {string} RSD Window', async function (windowName) {
   await rsdWindow.closeWindow(windowName);
   if (OSType === 'windows') {
     await switchToWindow('Workstation Main Window');
