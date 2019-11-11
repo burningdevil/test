@@ -4,9 +4,6 @@ sessionID.txt
 Cucumber.json
 
 ./reports/raw/*.json
-
 ./reports/ubIndividual/*.json
-
 ./reports/*.json
 
-@rerun.txt
