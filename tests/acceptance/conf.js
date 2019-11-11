@@ -42,9 +42,10 @@ exports.config = {
   cucumberOpts: {
     // require: './features/step_definitions/**/*.js',  // require step definition files before executing features
     require: ['./steps/env.js','./steps/**/*.js'],  // require step definition files before executing features
-    format: ["json:reports/rallyReport/execReport.json", "rerun:@rerun.txt"],            // <string[]> (type[:path]) specify the output format, optionally supply PATH to redirect formatter output (repeatable)
+    format: ["json:reports/rallyReport/execReport.json", "rerun:./reports/reruns/@rerun.txt"],            // <string[]> (type[:path]) specify the output format, optionally supply PATH to redirect formatter output (repeatable)
     // tags: ['@debug'],
     profile: false,
+    'fail-fast': true,
     'no-source': true
   },
 
