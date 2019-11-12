@@ -15,7 +15,7 @@ function sleep(ms) {
 
 const helpMsg = 'Cannot accept the parameters. Usage: \n\n' +
     'node pages/rally/updateE2EResultsToRally.js -c <production_release> <build#> \n' +
-    'e.g. node pages/rally/updateE2EResultsToRally.js -c 11.2_EA_[2019-Jun-21] 11.2.0000.0073';
+    'e.g. node rally/updateE2EResultsToRally.js -c 11.2_EA_[2019-Jun-21] 11.2.0000.0073';
 
 if (cmd === '-c' && process.argv[3] && process.argv[4]) {
     release = process.argv[3].replace(/_/g, ' ');
@@ -49,17 +49,27 @@ async function updateRally() {
 }
 
 const resultMap = new Map();
-const resultReport = '../reports/rallyReport/execReport.json';
+const resultReportFolder = 'reports/rallyReport';
 
-if (fs.existsSync(resultReport)) {
+fs.readdirSync(resultReportFolder).forEach(reportName => {
+  console.info(`updating Rally result for ${reportName}`);
+
+  let resultReport = `reports/rallyReport/${reportName}`;
+  if (fs.existsSync(resultReport)) {
     let filePath = path.resolve(resultReport);
     console.info(`Start analyzing file: ${filePath}`);
-    file = JSON.parse(fs.readFileSync(filePath));
+    let file = JSON.parse(fs.readFileSync(filePath));
     e2eResultsParser({ file, resultMap });
     console.info(`Complete analyzing file: ${filePath}`);
 
     updateRally();
-}
-else{
-    console.log('No output report file exists in specified path: '+filePath);
-}
+    resultMap.clear()
+  }
+  else{
+      console.log('No output report file exists in specified path: '+filePath);
+  }
+
+});
+
+
+

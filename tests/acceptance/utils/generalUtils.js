@@ -1,5 +1,6 @@
 const fs = require('fs')
-module.exports = function clearFiles(folder, suffix = '.json') {
+
+module.exports.clearFiles = function (folder, suffix = '.json') {
     fs.readdirSync(folder).forEach(file => {
         if (file.endsWith(suffix)) {
             try {
@@ -12,4 +13,6 @@ module.exports = function clearFiles(folder, suffix = '.json') {
     });
 }
 
-
+module.exports.sleep = async function (ms) {
+    return new Promise((resolve, reject) => setTimeout(resolve, ms));
+}

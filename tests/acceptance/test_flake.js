@@ -1,26 +1,49 @@
+
 const fs = require('fs')
 const {execSync} = require('child_process');
-const clearFiles  = require('./utils/generalUtils.js')
+const {clearFiles,sleep}  = require('./utils/generalUtils.js')
 
 const rerunsFOLDER = './reports/reruns'
 const rerunFile = `${rerunsFOLDER}/@rerun.txt`
 
+const reportsFOLDER = './reports/rallyReport'
+const reportFile = `${reportsFOLDER}/execReport.json`
 
-function testWithRerun() {
+async function testWithRerun() {
     clearFiles(rerunsFOLDER, '.txt')
+    clearFiles(reportsFOLDER, '.json')
     let count = 0
     // first execution
     try {
-        execSync('yarn test', { stdio: 'inherit', encoding: 'utf-8' });
+        execSync(`yarn test`, { stdio: 'inherit', encoding: 'utf-8' });
     } catch (e) {
         console.info('Test finished with failed scenarios.')
+        await sleep(3000);           
         // following execution with rerun txt
         while (fs.existsSync(rerunFile)) {
-            console.info('running failed scenarios...')
+            console.info(`running failed scenarios...count ${count}`)
             // rename the file to add suffix of the running round
             let currentFile = `${rerunsFOLDER}/@rerun_${count}.txt`
+            let currentReport = `${reportsFOLDER}/execReport_${count}.json`
+
             fs.renameSync(rerunFile, currentFile)
+            fs.renameSync(reportFile, currentReport)
+
             let data = fs.readFileSync(currentFile, 'utf8')
+            let reportData = require(currentReport)
+
+            //Currently only used for logging.
+            reportData.forEach((feature) => {
+                let scenarios = feature.elements;
+                scenarios.forEach((scenario)=> {
+                    console.info({
+                        ...scenario,
+                        stepsLength: scenario.steps.length,
+                        steps: undefined
+                    })
+                })
+            })
+
             let lines = data.split('\n')
             console.log('check lines: ', lines, lines.length)
             let lineInfo = lines[0].split(':')
@@ -47,6 +70,7 @@ function testWithRerun() {
             fs.writeFileSync(rerunFile, data, 'utf8')
             try {
                 execSync(`yarn testRerun`, { stdio: 'inherit', encoding: 'utf-8' });
+                await sleep(3000);           
             } catch (e) {
                 console.log('test failed')
             }
@@ -58,4 +82,6 @@ function testWithRerun() {
 
 }
 
-testWithRerun()
+(async () => {
+    await testWithRerun()
+})()

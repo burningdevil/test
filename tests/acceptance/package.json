@@ -7,7 +7,7 @@
     "postinstall": "node utils/ubUtils/ubBuilderReplacer.js && node config/seleniumPatch.js",
     "startAppium": "node node_modules/appium/.",
     "test": "protractor conf.js --disableChecks",
-    "testRerun": "yarn test --cucumberOpts.rerun ./@rerun.txt",
+    "testRerun": "yarn test --cucumberOpts.rerun ./reports/reruns/@rerun.txt",
     "ubTest": "node utils/ubUtils/runUB.js",
     "ubSingleRun": "yarn test --args.ubConf.enableUB true --args.ubConf.ubReportPath ./reports/raw/report1.json"
   },

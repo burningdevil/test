@@ -195,6 +195,32 @@ exports.config = {
       await quitWorkstation();
     }
 
+    //force quite the Workstation process
+    if (customArgObj.args.quitWS) {
+      const psList = require('ps-list')
+      let myList = await psList();
+      let quitWorkstationPidList = [];
+      myList.forEach(function (process) {
+        //Mac
+        if (process.name === "MicroStrategy Workstation") {
+          quitWorkstationPidList.push(process.pid);
+        }
+        //Windows
+        if (process.name === "Workstation.exe") {
+          quitWorkstationPidList.push(process.pid);
+        }
+      });
+      
+      if(quitWorkstationPidList.length !== 0) {
+        console.log(`after launch, workstation pid is: ${quitWorkstationPidList}`)
+        console.log("force quiting workstation")
+        //kill workstation
+        const execSync = require('child_process').execSync;
+        let output = execSync(`kill -9 ${quitWorkstationPidList}`, { encoding: 'utf-8' });
+        console.log(output);
+      }
+      
+    }
   }
 
 }
