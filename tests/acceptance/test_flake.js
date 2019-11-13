@@ -8,6 +8,7 @@ const rerunFile = `${rerunsFOLDER}/@rerun.txt`
 
 const reportsFOLDER = './reports/rallyReport'
 const reportFile = `${reportsFOLDER}/execReport.json`
+const _ = require('lodash')
 
 async function testWithRerun() {
     clearFiles(rerunsFOLDER, '.txt')
@@ -30,19 +31,6 @@ async function testWithRerun() {
             fs.renameSync(reportFile, currentReport)
 
             let data = fs.readFileSync(currentFile, 'utf8')
-            let reportData = require(currentReport)
-
-            //Currently only used for logging.
-            reportData.forEach((feature) => {
-                let scenarios = feature.elements;
-                scenarios.forEach((scenario)=> {
-                    console.info({
-                        ...scenario,
-                        stepsLength: scenario.steps.length,
-                        steps: undefined
-                    })
-                })
-            })
 
             let lines = data.split('\n')
             console.log('check lines: ', lines, lines.length)
@@ -78,10 +66,64 @@ async function testWithRerun() {
             count++
         }
     }
+}
+function mergeRallyReports () {
+    const resultReportFolder = 'reports/rallyReport';
+    let mergedReports = [];
 
+    fs.readdirSync(resultReportFolder).forEach(async reportName => {
+        if (reportName === "execReport.json") {
+            return
+        }
+        console.info(`Merging report ${reportName}`);
+        let resultReport = `./${resultReportFolder}/${reportName}`;
+        let reportData = require(resultReport)
+        reportData.forEach((feature) => {
+
+            let originalScenarios = [...feature.elements];
+            let updatedScenarios = [];
+
+            //return: passed, failed, skipped
+            let getScenarioStatus = function (steps) {
+                if (steps.length === 0) {
+                    return "failed"
+                }
+                let result = steps[0].result.status;
+                if (result === "failed" || result === "skipped") {
+                    return result
+                }
+                steps.forEach((step) => {
+                    if (step.result.status === "failed") {
+                        result = "failed"
+                    }
+                })
+                return result;
+            }
+
+            originalScenarios.forEach((scenario)=> {
+                if (getScenarioStatus(scenario.steps) !== 'skipped') {
+                    updatedScenarios.push(scenario)
+                    console.log(`pushed scenario ${scenario.name}, the scenario result is ${getScenarioStatus(scenario.steps)}`)
+                    feature.elements = updatedScenarios;
+                    mergedReports.push(feature)
+                }
+            })
+
+            feature.elements = updatedScenarios;
+            // mergedReports = _.unionBy([feature],mergedReports,(feature)=> {return feature.elements})
+            
+        })
+    });
+
+    try {
+        fs.unlinkSync(`${resultReportFolder}/execReport.json`);
+    } catch (err) {
+  
+    }
+    fs.appendFileSync(`${resultReportFolder}/execReport.json`, JSON.stringify(mergedReports, null, 2), 'UTF-8');
 
 }
-
 (async () => {
-    await testWithRerun()
+    // await testWithRerun()
+    mergeRallyReports();
 })()
