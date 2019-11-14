@@ -69,8 +69,7 @@ async function testWithRerun() {
 }
 function mergeRallyReports () {
     const resultReportFolder = 'reports/rallyReport';
-    let mergedReports = [];
-
+    let updatedFeatures = [];
     fs.readdirSync(resultReportFolder).forEach(async reportName => {
         if (reportName === "execReport.json") {
             return
@@ -78,10 +77,8 @@ function mergeRallyReports () {
         console.info(`Merging report ${reportName}`);
         let resultReport = `./${resultReportFolder}/${reportName}`;
         let reportData = require(resultReport)
+        
         reportData.forEach((feature) => {
-
-            let originalScenarios = [...feature.elements];
-            let updatedScenarios = [];
 
             //return: passed, failed, skipped
             let getScenarioStatus = function (steps) {
@@ -100,21 +97,34 @@ function mergeRallyReports () {
                 return result;
             }
 
-            originalScenarios.forEach((scenario)=> {
+            feature.elements.forEach((scenario) => {
                 if (getScenarioStatus(scenario.steps) !== 'skipped') {
-                    updatedScenarios.push(scenario)
-                    console.log(`pushed scenario ${scenario.name}, the scenario result is ${getScenarioStatus(scenario.steps)}`)
-                    feature.elements = updatedScenarios;
-                    mergedReports.push(feature)
+                    updatedFeatures.push({...feature,elements:[scenario]})
                 }
             })
-
-            feature.elements = updatedScenarios;
-            // mergedReports = _.unionBy([feature],mergedReports,(feature)=> {return feature.elements})
-            
         })
     });
 
+    let mergeScenarios = function(features) {
+        let result = []
+        let map = new Map();
+        features.forEach((feature) => {
+            let id = feature.id
+            if (!map.has(id)) {
+                map.set(id, feature)
+            } else {
+                //here, each feature contains a single scenario
+                map.get(id).elements.push(feature.elements[0])
+            }
+        })
+
+        for (let feature of map.values()) {
+            result.push(feature)
+        }
+        return result
+    }
+
+    let mergedReports = mergeScenarios(updatedFeatures)
     try {
         fs.unlinkSync(`${resultReportFolder}/execReport.json`);
     } catch (err) {
@@ -124,6 +134,6 @@ function mergeRallyReports () {
 
 }
 (async () => {
-    // await testWithRerun()
+    await testWithRerun()
     mergeRallyReports();
 })()

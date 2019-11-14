@@ -51,7 +51,7 @@ async function updateRally() {
 const resultMap = new Map();
 const resultReportFolder = 'reports/rallyReport';
 
-fs.readdirSync(resultReportFolder).forEach(reportName => {
+fs.readdirSync(resultReportFolder).forEach(async reportName => {
   console.info(`updating Rally result for ${reportName}`);
 
   let resultReport = `reports/rallyReport/${reportName}`;
@@ -62,7 +62,7 @@ fs.readdirSync(resultReportFolder).forEach(reportName => {
     e2eResultsParser({ file, resultMap });
     console.info(`Complete analyzing file: ${filePath}`);
 
-    updateRally();
+    await updateRally();
     resultMap.clear()
   }
   else{
