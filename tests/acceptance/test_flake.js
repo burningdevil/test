@@ -2,13 +2,13 @@
 const fs = require('fs')
 const {execSync} = require('child_process');
 const {clearFiles,sleep}  = require('./utils/generalUtils.js')
+const _ = require('lodash')
 
 const rerunsFOLDER = './reports/reruns'
 const rerunFile = `${rerunsFOLDER}/@rerun.txt`
 
 const reportsFOLDER = './reports/rallyReport'
 const reportFile = `${reportsFOLDER}/execReport.json`
-const _ = require('lodash')
 
 async function testWithRerun() {
     clearFiles(rerunsFOLDER, '.txt')
@@ -43,7 +43,7 @@ async function testWithRerun() {
                     console.info('No more scenarios to run')
                     return
                 } else {
-                    // if more lines, remove the line to generate the @rerun file to rerun the text
+                    // if more lines, remove the line to generate the @rerun file to run the next round of test
                     data = lines.slice(1).join('\n')
                 }
             } else {
@@ -58,8 +58,8 @@ async function testWithRerun() {
             fs.writeFileSync(rerunFile, data, 'utf8')
             try {
                 execSync(`yarn testRerun`, { stdio: 'inherit', encoding: 'utf-8' });
-                await sleep(3000);           
             } catch (e) {
+                await sleep(3000);
                 console.log('test failed')
             }
             // increasing count
@@ -67,10 +67,28 @@ async function testWithRerun() {
         }
     }
 }
+
+//return: passed, failed, skipped
+let getScenarioStatus = function (steps) {
+    if (steps.length === 0) {
+        return "failed"
+    }
+    let result = steps[0].result.status;
+    if (result === "failed" || result === "skipped") {
+        return result
+    }
+    steps.forEach((step) => {
+        if (step.result.status === "failed") {
+            result = "failed"
+        }
+    })
+    return result;
+}
+
 function mergeRallyReports () {
     const resultReportFolder = 'reports/rallyReport';
     let updatedFeatures = [];
-    fs.readdirSync(resultReportFolder).forEach(async reportName => {
+    fs.readdirSync(resultReportFolder).forEach(reportName => {
         if (reportName === "execReport.json") {
             return
         }
@@ -79,24 +97,6 @@ function mergeRallyReports () {
         let reportData = require(resultReport)
         
         reportData.forEach((feature) => {
-
-            //return: passed, failed, skipped
-            let getScenarioStatus = function (steps) {
-                if (steps.length === 0) {
-                    return "failed"
-                }
-                let result = steps[0].result.status;
-                if (result === "failed" || result === "skipped") {
-                    return result
-                }
-                steps.forEach((step) => {
-                    if (step.result.status === "failed") {
-                        result = "failed"
-                    }
-                })
-                return result;
-            }
-
             feature.elements.forEach((scenario) => {
                 if (getScenarioStatus(scenario.steps) !== 'skipped') {
                     updatedFeatures.push({...feature,elements:[scenario]})
