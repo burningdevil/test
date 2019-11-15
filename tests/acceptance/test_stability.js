@@ -23,9 +23,7 @@ function noOfTags() {
 }
 
 const helpMsg =
-  "Cannot accept the parameters. Usage: \n\n" +
-  "node utils/wsUtils/stabilityTest.js durationInHrs maxErrorRatio\n" +
-  "e.g. node utils/wsUtils/stabilityTest.js 50 0.5";
+  "Cannot accept the parameters. Usage: \n\n" + "node stabilityTest.js durationInHrs maxErrorRatio\n" + "e.g. node stabilityTest.js 50 0.5";
 
 if (!process.argv[3] || process.argv[3] < 0) {
   console.log(`Invalid Error ratio input. Default Error ratio: 0.5 is being used.`);
@@ -64,7 +62,7 @@ for (let n = 0; executionTime / 3600 < durationInHrs && errorRatio <= maxErrorRa
     console.log(`Output : ${output}`);
     executionTime += parseInt(output.split("Done in ")[1].split("s")[0]);
     console.log(`Total execution time: ${executionTime}`);
-    if (n >= 2) {
+    if (n >= 5) {
       errorRatio = error / (n + 1);
       if (errorRatio == maxErrorRatio) console.log(`Execution is going to stop now as max error ratio is reached.`);
     }
