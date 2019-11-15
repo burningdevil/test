@@ -1,4 +1,6 @@
-let tagsArray = ["@ldap", "@metricEditor", "@rsd", "@settings"]; //edit this to include more tags
+const execSync = require("child_process").execSync;
+const tagsArray = ["@ldap", "@metricEditor", "@rsd", "@settings"]; //edit this to include more tags
+const durationInHrs = process.argv[2];
 
 let randomTag;
 let tag = [];
@@ -9,8 +11,6 @@ let isError = 0;
 let errorRatio = 0;
 let numberOfTags;
 let maxErrorRatio = 0;
-const durationInHrs = process.argv[2];
-const execSync = require("child_process").execSync;
 
 function randomTagGenerator() {
   let randomIndex = Math.floor(Math.random() * tagsArray.length);
@@ -27,8 +27,8 @@ const helpMsg =
   "node utils/wsUtils/stabilityTest.js durationInHrs maxErrorRatio\n" +
   "e.g. node utils/wsUtils/stabilityTest.js 50 0.5";
 
-if (!process.argv[3]) {
-  console.log(`Default Error ratio: 0.5 is being used.`);
+if (!process.argv[3] || process.argv[3] < 0) {
+  console.log(`Invalid Error ratio input. Default Error ratio: 0.5 is being used.`);
   maxErrorRatio = 0.5;
 } else {
   maxErrorRatio = process.argv[3];
@@ -38,7 +38,6 @@ if (durationInHrs <= 0) {
   console.log(helpMsg);
   console.log(`Total test duration should be gretaer than 0hrs \n`);
 }
-if (maxErrorRatio < 0) console.log(`Please input a valid value for max error ratio allowed. Error Ratio = Error count /Total number of runs`);
 
 for (let n = 0; executionTime / 3600 < durationInHrs && errorRatio <= maxErrorRatio; n++) {
   if (isError) {
