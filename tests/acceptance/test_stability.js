@@ -23,7 +23,7 @@ function noOfTags() {
 }
 
 const helpMsg =
-  "Cannot accept the parameters. Usage: \n\n" + "node stabilityTest.js durationInHrs maxErrorRatio\n" + "e.g. node stabilityTest.js 50 0.5";
+  "Cannot accept the parameters. Usage: \n\n" + "node test_stability.js durationInHrs maxErrorRatio\n" + "e.g. node test_stability.js 50 0.5";
 
 if (!process.argv[3] || process.argv[3] < 0) {
   console.log(`Invalid Error ratio input. Default Error ratio: 0.5 is being used.`);
