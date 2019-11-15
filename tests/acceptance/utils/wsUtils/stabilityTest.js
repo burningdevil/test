@@ -6,7 +6,6 @@ let error = 0;
 let executionTime = 0;
 let output;
 let isError = 0;
-let count = 0;
 let errorRatio = 0;
 let numberOfTags;
 let maxErrorRatio = 0;
@@ -20,7 +19,7 @@ function randomTagGenerator() {
 }
 
 function noOfTags() {
-  return Math.floor(Math.random() * tagsArray.length);
+  return Math.ceil(Math.random() * tagsArray.length);
 }
 
 const helpMsg =
@@ -63,13 +62,14 @@ for (let n = 0; executionTime / 3600 < durationInHrs && errorRatio <= maxErrorRa
     output = execSync(`yarn test --cucumberOpts.tags "${randomTag}"`, {
       encoding: "utf-8"
     });
-    count++;
     console.log(`Output : ${output}`);
     executionTime += parseInt(output.split("Done in ")[1].split("s")[0]);
     console.log(`Total execution time: ${executionTime}`);
-    errorRatio = error / count;
-    console.info(`error ratio is: ${errorRatio}`);
-    if (errorRatio == maxErrorRatio) console.log(`Execution is going to stop now as max error ratio is reached.`);
+    if (n >= 2) {
+      errorRatio = error / (n + 1);
+      if (errorRatio == maxErrorRatio) console.log(`Execution is going to stop now as max error ratio is reached.`);
+    }
+    console.info(`Error ratio is: ${errorRatio}`);
   } catch (err) {
     isError = 1;
     console.log("ERROR! Resetting environment connections.");
