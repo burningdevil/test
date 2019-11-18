@@ -15,9 +15,7 @@ const __PROD__ = project.env === 'production'
 const __IS_WS__ = project.container === 'WS'
 
 const config = {
-  entry: {
-    main: [inProjectSrc(project.main)]
-  },
+  entry: { main: [inProjectSrc(project.main)] },
   devtool: project.sourcemaps ? 'source-map' : false,
   output: {
     path: inProject(project.outDir),
@@ -29,21 +27,17 @@ const config = {
     extensions: ['*', '.js', '.jsx', '.json', '.tsx']
   },
   externals: project.externals,
-  module: {
-    rules: []
-  },
+  module: { rules: [] },
   plugins: [
     new webpack.DefinePlugin(
-      Object.assign(
-        {
-          'process.env': { NODE_ENV: JSON.stringify(project.env) },
-          __DEV__,
-          __TEST__,
-          __PROD__,
-          __IS_WS__
-        },
-        project.globals
-      )
+      {
+        'process.env': { NODE_ENV: JSON.stringify(project.env) },
+        __DEV__,
+        __TEST__,
+        __PROD__,
+        __IS_WS__,
+        ...project.globals
+      }
     )
   ]
 }
@@ -62,12 +56,10 @@ config.module.rules.push({
           [
             '@mstr/babel-plugin-extract-descriptors',
             {
-              'outputDir': './public',
-              'outputFilename': 'descriptorIDs.json',
-              'quiet': true,
-              'token': {
-                'functionNames': 'desc'
-              }
+              outputDir: './public',
+              outputFilename: 'descriptorIDs.json',
+              quiet: true,
+              token: { functionNames: 'desc' }
             }
           ],
           '@babel/plugin-proposal-class-properties',
@@ -95,26 +87,20 @@ config.module.rules.push({
 // Styles
 // ------------------------------------
 config.plugins.push(
-  new MiniCssExtractPlugin({
-    filename: `[name].[chunkhash].css`
-  })
+  new MiniCssExtractPlugin({ filename: `[name].[chunkhash].css` })
 )
 
 config.module.rules.push({
   test: /\.(css|sass|scss)/,
   use: [
     MiniCssExtractPlugin.loader,
-    {
-      loader: 'css-loader'
-    },
+    { loader: 'css-loader' },
     {
       loader: 'postcss-loader',
       options: {
         plugins: [
           cssnano({
-            discardComments: {
-              removeAll: true
-            },
+            discardComments: { removeAll: true },
             discardUnused: false,
             mergeIdents: false,
             reduceIdents: false,
@@ -139,9 +125,7 @@ config.module.rules.push({
 config.module.rules.push({
   test: /\.(png|jpg|gif|svg)$/,
   loader: 'url-loader',
-  options: {
-    limit: 8192
-  }
+  options: { limit: 8192 }
 });
 
 // Fonts
@@ -174,9 +158,7 @@ config.plugins.push(
   new HtmlWebpackPlugin({
     template: inProjectSrc('index.html'),
     inject: true,
-    minify: {
-      collapseWhitespace: true
-    }
+    minify: { collapseWhitespace: true }
   })
 )
 

@@ -8,30 +8,29 @@ const project = require('../../project.config')
 
 const compileDescriptors = require('./CompileDescriptors')
 
-const runWebpackCompiler = (webpackConfig) =>
-  new Promise((resolve, reject) => {
-    webpack(webpackConfig).run((err, stats) => {
-      if (err) {
-        logger.error('Webpack compiler encountered a fatal error.', err)
-        return reject(err)
-      }
+const runWebpackCompiler = (webpackConfig) => new Promise((resolve, reject) => {
+  webpack(webpackConfig).run((err, stats) => {
+    if (err) {
+      logger.error('Webpack compiler encountered a fatal error.', err)
+      return reject(err)
+    }
 
-      const jsonStats = stats.toJson()
-      if (jsonStats.errors.length > 0) {
-        logger.error('Webpack compiler encountered errors.')
-        logger.log(jsonStats.errors.join('\n'))
-        return reject(new Error('Webpack compiler encountered errors'))
-      } else if (jsonStats.warnings.length > 0) {
-        logger.warn('Webpack compiler encountered warnings.')
-        logger.log(jsonStats.warnings.join('\n'))
-      }
-      resolve(stats)
-    })
+    const jsonStats = stats.toJson()
+    if (jsonStats.errors.length > 0) {
+      logger.error('Webpack compiler encountered errors.')
+      logger.log(jsonStats.errors.join('\n'))
+      return reject(new Error('Webpack compiler encountered errors'))
+    } if (jsonStats.warnings.length > 0) {
+      logger.warn('Webpack compiler encountered warnings.')
+      logger.log(jsonStats.warnings.join('\n'))
+    }
+    resolve(stats)
   })
+})
 
 const compile = () => Promise.resolve()
   .then(() => logger.info('Starting compiler...'))
-  .then(() => logger.info('Target application environment: ' + chalk.bold(project.env)))
+  .then(() => logger.info(`Target application environment: ${chalk.bold(project.env)}`))
   .then(() => runWebpackCompiler(webpackConfig))
   .then(() => logger.info('compiling descriptors'))
   .then(() => compileDescriptors.exportToResourceFile(project.outDir))
