@@ -10,7 +10,6 @@ const _ = require('lodash')
 const logger = require('../build/lib/logger')
 const webpackConfig = require('../build/webpack.config')
 const project = require('../project.config')
-const descriptorCompiler = require('../build/scripts/CompileDescriptors')
 
 const app = express()
 
@@ -71,8 +70,6 @@ app.use(compress())
 // ------------------------------------
 if (project.env === 'development') {
   const compiler = webpack(webpackConfig)
-
-  descriptorCompiler.exportToResourceFile(path.resolve(project.basePath, 'public'))
 
   logger.info('Enabling webpack development and HMR middleware')
   app.use(require('webpack-dev-middleware')(compiler, {
