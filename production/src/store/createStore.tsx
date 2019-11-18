@@ -4,8 +4,6 @@ import createSagaMiddleware from 'redux-saga'
 
 import { rootReducer } from './reducers'
 
-import rootSaga from './sagas'
-
 declare var __DEV__: any
 declare var window: any
 

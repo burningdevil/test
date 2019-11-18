@@ -9,10 +9,12 @@ const project = require('../project.config')
 const inProject = path.resolve.bind(path, project.basePath)
 const inProjectSrc = file => inProject(project.srcDir, file)
 
+/* eslint-disable no-underscore-dangle */
 const __DEV__ = project.env === 'development'
 const __TEST__ = project.env === 'test'
 const __PROD__ = project.env === 'production'
 const __IS_WS__ = project.container === 'WS'
+/* eslint-enable */
 
 const config = {
   entry: { main: [inProjectSrc(project.main)] },
