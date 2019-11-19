@@ -1,21 +1,15 @@
-import { applyMiddleware, compose, createStore as createReduxStore } from 'redux'
-
-import createSagaMiddleware from 'redux-saga'
+import { applyMiddleware, Middleware, compose, createStore as createReduxStore } from 'redux'
 
 import { rootReducer } from './reducers'
 
-import rootSaga from './sagas'
-
 declare var __DEV__: any
 declare var window: any
-
-const sagaMiddleware = createSagaMiddleware()
 
 const createStore = (initialState = {}) => {
   // ======================================================
   // Middleware Configuration
   // ======================================================
-  const middleware = [sagaMiddleware]
+  const middleware: Middleware[] = []
 
   // ======================================================
   // Store Enhancers
@@ -40,7 +34,6 @@ const createStore = (initialState = {}) => {
       ...enhancers
     )
   )
-  sagaMiddleware.run(rootSaga)
 
     // if (module.hot) {
   //   module.hot.accept('./reducers', () => {

@@ -5,19 +5,20 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const project = require('../project.config')
+const serverConfig = require('./server.config')
 
 const inProject = path.resolve.bind(path, project.basePath)
 const inProjectSrc = file => inProject(project.srcDir, file)
 
+/* eslint-disable no-underscore-dangle */
 const __DEV__ = project.env === 'development'
 const __TEST__ = project.env === 'test'
 const __PROD__ = project.env === 'production'
 const __IS_WS__ = project.container === 'WS'
+/* eslint-enable */
 
 const config = {
-  entry: {
-    main: [inProjectSrc(project.main)]
-  },
+  entry: { main: [inProjectSrc(project.main)] },
   devtool: project.sourcemaps ? 'source-map' : false,
   output: {
     path: inProject(project.outDir),
@@ -29,21 +30,17 @@ const config = {
     extensions: ['*', '.js', '.jsx', '.json', '.tsx']
   },
   externals: project.externals,
-  module: {
-    rules: []
-  },
+  module: { rules: [] },
   plugins: [
     new webpack.DefinePlugin(
-      Object.assign(
-        {
-          'process.env': { NODE_ENV: JSON.stringify(project.env) },
-          __DEV__,
-          __TEST__,
-          __PROD__,
-          __IS_WS__
-        },
-        project.globals
-      )
+      {
+        'process.env': { NODE_ENV: JSON.stringify(project.env) },
+        __DEV__,
+        __TEST__,
+        __PROD__,
+        __IS_WS__,
+        ...project.globals
+      }
     )
   ]
 }
@@ -62,12 +59,10 @@ config.module.rules.push({
           [
             '@mstr/babel-plugin-extract-descriptors',
             {
-              'outputDir': './public',
-              'outputFilename': 'descriptorIDs.json',
-              'quiet': true,
-              'token': {
-                'functionNames': 'desc'
-              }
+              outputDir: './public',
+              outputFilename: 'descriptorIDs.json',
+              quiet: true,
+              token: { functionNames: 'desc' }
             }
           ],
           '@babel/plugin-proposal-class-properties',
@@ -94,16 +89,20 @@ config.module.rules.push({
 
 // Styles
 // ------------------------------------
-config.plugins.push(
-  new MiniCssExtractPlugin({
-    filename: `[name].[chunkhash].css`
-  })
-)
+if (__PROD__) {
+  config.plugins.push(
+    new MiniCssExtractPlugin({
+      filename: `[name].[chunkhash].css`
+    })
+  )
+}
 
 config.module.rules.push({
   test: /\.(css|sass|scss)/,
   use: [
-    MiniCssExtractPlugin.loader,
+    __PROD__ ? MiniCssExtractPlugin.loader : {
+      loader: 'style-loader'
+    },
     {
       loader: 'css-loader'
     },
@@ -112,9 +111,7 @@ config.module.rules.push({
       options: {
         plugins: [
           cssnano({
-            discardComments: {
-              removeAll: true
-            },
+            discardComments: { removeAll: true },
             discardUnused: false,
             mergeIdents: false,
             reduceIdents: false,
@@ -139,9 +136,7 @@ config.module.rules.push({
 config.module.rules.push({
   test: /\.(png|jpg|gif|svg)$/,
   loader: 'url-loader',
-  options: {
-    limit: 8192
-  }
+  options: { limit: 8192 }
 });
 
 // Fonts
@@ -174,35 +169,40 @@ config.plugins.push(
   new HtmlWebpackPlugin({
     template: inProjectSrc('index.html'),
     inject: true,
-    minify: {
-      collapseWhitespace: true
-    }
+    minify: { collapseWhitespace: true }
   })
 )
 
 // Generate Workstation plugin app template
-config.plugins.push(new CopyPlugin([{ from: 'static' }]))
+if (!__DEV__) {
+  config.plugins.push(new CopyPlugin([{ from: 'static' }]))
+}
 
 // Development Tools
 // ------------------------------------
 if (__DEV__) {
-  config.entry.main.push(
-    `webpack-hot-middleware/client.js?path=${
-      config.output.publicPath
-    }__webpack_hmr`
-  )
-  config.plugins.push(
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin()
-  )
+  // Webpack dev server configuration:
+  // https://webpack.js.org/configuration/dev-server/
+  config.devServer = {
+    port: 3000,
+    hot: true,
+    overlay: true,
+    historyApiFallback: true,
+    contentBase: path.resolve(project.basePath, 'public'),
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    },
+    proxy: {
+      context: '/api',
+      target: serverConfig.host + serverConfig.path,
+      changeOrigin: true,
+      cookiePathRewrite: '/'
+    }
+  }
 }
 
 // Bundle Splitting
 // ------------------------------------
-config.optimization = {
-  minimize: true,
-  ...config.optimization
-}
 if (!__TEST__) {
   const bundles = ['normalize', 'manifest']
 
@@ -210,37 +210,40 @@ if (!__TEST__) {
     bundles.unshift('vendor')
     config.entry.vendor = project.vendors
   }
-  config.optimization.splitChunks = {
-    minSize: 30000,
-    minChunks: 1,
-    maxAsyncRequests: 5,
-    maxInitialRequests: 3,
-    name: true,
-    cacheGroups: {
-      default: false,
-      app: {
-        name: 'app',
-        chunks: 'initial',
-        minChunks: 2,
-        reuseExistingChunk: true
-      },
-      vendor: {
-        name: 'vendor',
-        test: /[\\/]node_modules[\\/]/,
-        chunks: 'initial'
-      }
-      // styles: {
-      //   name: 'style',
-      //   test: /\.(scss|css)$/,
-      //   chunks: 'all',
-      // }
-    }
-  }
 }
 
 // Production Optimizations
 // ------------------------------------
 if (__PROD__) {
+  config.optimization = {
+    minimize: true,
+    splitChunks: {
+      minSize: 30000,
+      minChunks: 1,
+      maxAsyncRequests: 5,
+      maxInitialRequests: 3,
+      name: true,
+      cacheGroups: {
+        default: false,
+        app: {
+          name: 'app',
+          chunks: 'initial',
+          minChunks: 2,
+          reuseExistingChunk: true
+        },
+        vendor: {
+          name: 'vendor',
+          test: /[\\/]node_modules[\\/]/,
+          chunks: 'initial'
+        }
+        // styles: {
+        //   name: 'style',
+        //   test: /\.(scss|css)$/,
+        //   chunks: 'all',
+        // }
+      }
+    }
+  }
   config.plugins.push(
     new webpack.LoaderOptionsPlugin({
       minimize: true,
