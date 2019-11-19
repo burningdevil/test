@@ -1,4 +1,4 @@
-import { applyMiddleware, compose, createStore as createReduxStore } from 'redux'
+import { applyMiddleware, Middleware, compose, createStore as createReduxStore } from 'redux'
 
 import { rootReducer } from './reducers'
 
@@ -9,7 +9,7 @@ const createStore = (initialState = {}) => {
   // ======================================================
   // Middleware Configuration
   // ======================================================
-  const middleware: any = []
+  const middleware: Middleware[] = []
 
   // ======================================================
   // Store Enhancers

@@ -18,7 +18,8 @@ const runWebpackCompiler = (webpackConfiguration) => new Promise((resolve, rejec
       logger.error('Webpack compiler encountered errors.')
       logger.log(jsonStats.errors.join('\n'))
       return reject(new Error('Webpack compiler encountered errors'))
-    } if (jsonStats.warnings.length > 0) {
+    }
+    if (jsonStats.warnings.length > 0) {
       logger.warn('Webpack compiler encountered warnings.')
       logger.log(jsonStats.warnings.join('\n'))
     }
