@@ -1,3 +1,4 @@
+import serverConfig from '../../build/server.config'
 import { connectionBackend } from '../services/ConnectionBackend'
 import base64 from '../utils/base64'
 import { RestApiError } from '../server/RestApiError'
@@ -8,11 +9,12 @@ const baseUrl = '/api'
 let authToken: string = null
 let isLogin = false
 
-function createHeaders(projectId: string) {
+function createHeaders() {
   const headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
-    'X-MSTR-AuthToken': ''
+    'X-MSTR-AuthToken': '',
+    'X-MSTR-ProjectID': serverConfig.projectId
   }
 
   if (authToken) {
@@ -82,7 +84,7 @@ let baseRequest = (method: string, path: string, body: any, headers = {}, parseF
     cache: 'no-cache',
     method: method.toUpperCase(),
     headers: {
-      ...createHeaders(null),
+      ...createHeaders(),
       ...headers
     },
     mode: 'cors',
@@ -102,7 +104,10 @@ let baseRequest = (method: string, path: string, body: any, headers = {}, parseF
 
 let login = () => {
   console.log('check point 1.1 LOGIN start =============----------TOKEN====================================')
-  return baseRequest('post', '/auth/login', {}, {}, null) // no parse json
+  return baseRequest('post', '/auth/login', {
+      username: serverConfig.username,
+      password: serverConfig.password
+    }, {}, null) // no parse json
     .then(res => {
       authToken = res.headers.get('x-mstr-authtoken')
       isLogin = false
