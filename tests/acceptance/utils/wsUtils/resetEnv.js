@@ -9,4 +9,4 @@ function resetEnv() {
   execSync(`defaults read ~/Library/Preferences/com.microstrategy.Workstation`);
 }
 
-module.exports = resetEnv();
+module.exports = resetEnv;

@@ -71,8 +71,8 @@ exports.config = {
       global.MAC_VIEWMODE = "iconView";
 
       //Reset Environment
+      const resetEnv = require("./utils/wsUtils/resetEnv");
       if (customArgObj.args.removeEnv) {
-        const resetEnv = require("./utils/wsUtils/resetEnv");
         resetEnv();
       }
       // Start Workstation.
