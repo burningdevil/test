@@ -10,15 +10,15 @@ const serverConfig = require('./server.config')
 const inProject = path.resolve.bind(path, project.basePath)
 const inProjectSrc = file => inProject(project.srcDir, file)
 
+/* eslint-disable no-underscore-dangle */
 const __DEV__ = project.env === 'development'
 const __TEST__ = project.env === 'test'
 const __PROD__ = project.env === 'production'
 const __IS_WS__ = project.container === 'WS'
+/* eslint-enable */
 
 const config = {
-  entry: {
-    main: [inProjectSrc(project.main)]
-  },
+  entry: { main: [inProjectSrc(project.main)] },
   devtool: project.sourcemaps ? 'source-map' : false,
   output: {
     path: inProject(project.outDir),
@@ -30,21 +30,17 @@ const config = {
     extensions: ['*', '.js', '.jsx', '.json', '.tsx']
   },
   externals: project.externals,
-  module: {
-    rules: []
-  },
+  module: { rules: [] },
   plugins: [
     new webpack.DefinePlugin(
-      Object.assign(
-        {
-          'process.env': { NODE_ENV: JSON.stringify(project.env) },
-          __DEV__,
-          __TEST__,
-          __PROD__,
-          __IS_WS__
-        },
-        project.globals
-      )
+      {
+        'process.env': { NODE_ENV: JSON.stringify(project.env) },
+        __DEV__,
+        __TEST__,
+        __PROD__,
+        __IS_WS__,
+        ...project.globals
+      }
     )
   ]
 }
@@ -63,12 +59,10 @@ config.module.rules.push({
           [
             '@mstr/babel-plugin-extract-descriptors',
             {
-              'outputDir': './public',
-              'outputFilename': 'descriptorIDs.json',
-              'quiet': true,
-              'token': {
-                'functionNames': 'desc'
-              }
+              outputDir: './public',
+              outputFilename: 'descriptorIDs.json',
+              quiet: true,
+              token: { functionNames: 'desc' }
             }
           ],
           '@babel/plugin-proposal-class-properties',
@@ -117,9 +111,7 @@ config.module.rules.push({
       options: {
         plugins: [
           cssnano({
-            discardComments: {
-              removeAll: true
-            },
+            discardComments: { removeAll: true },
             discardUnused: false,
             mergeIdents: false,
             reduceIdents: false,
@@ -144,9 +136,7 @@ config.module.rules.push({
 config.module.rules.push({
   test: /\.(png|jpg|gif|svg)$/,
   loader: 'url-loader',
-  options: {
-    limit: 8192
-  }
+  options: { limit: 8192 }
 });
 
 // Fonts
@@ -179,9 +169,7 @@ config.plugins.push(
   new HtmlWebpackPlugin({
     template: inProjectSrc('index.html'),
     inject: true,
-    minify: {
-      collapseWhitespace: true
-    }
+    minify: { collapseWhitespace: true }
   })
 )
 

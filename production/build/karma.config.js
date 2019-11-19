@@ -1,4 +1,4 @@
-const argv = require('yargs').argv
+const { argv } = require('yargs')
 const webpackConfig = require('./webpack.config')
 
 const TEST_BUNDLER = './tests/test-bundler.js'
@@ -20,9 +20,7 @@ const karmaConfig = {
   }],
   frameworks: ['mocha'],
   reporters: ['mocha'],
-  preprocessors: {
-    [TEST_BUNDLER]: ['webpack'],
-  },
+  preprocessors: { [TEST_BUNDLER]: ['webpack'], },
   logLevel: 'WARN',
   browserConsoleLogOptions: {
     terminal: true,
