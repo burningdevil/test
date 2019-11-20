@@ -161,18 +161,22 @@ exports.config = {
   },
 
   onComplete: async () => {
-    if (customArgObj.args.removeEnv) {
-      // remove environment
-      await mainWindow.smartTab.selectTab("Environments");
-      for (let envIndex = 0; envIndex < browser.params.envInfo.length; envIndex++) {
-        await mainWindow.mainCanvas.envSection.removeEnv(browser.params.envInfo[envIndex].envName);
+    try{
+      if (customArgObj.args.removeEnv) {
+        // remove environment
+        await mainWindow.smartTab.selectTab("Environments");
+        for (let envIndex = 0; envIndex < browser.params.envInfo.length; envIndex++) {
+          await mainWindow.mainCanvas.envSection.removeEnv(browser.params.envInfo[envIndex].envName);
+        }
       }
-    }
-
-    // quit Workstation
-    if (customArgObj.args.quitWS) {
-      const quitWorkstation = require("./utils/wsUtils/quitWorkstation");
-      await quitWorkstation();
+  
+      // quit Workstation
+      if (customArgObj.args.quitWS) {
+        const quitWorkstation = require("./utils/wsUtils/quitWorkstation");
+        await quitWorkstation();
+      }
+    } catch (e) {
+      console.info("Failed to manually remove environment and quit Workstation, moving to afterLaunch")
     }
   },
 
@@ -195,6 +199,7 @@ exports.config = {
 
     //force quite the Workstation process
     if (customArgObj.args.quitWS) {
+      console.log("after launch, force quiting workstation")
       const psList = require("ps-list");
       let myList = await psList();
       let quitWorkstationPidList = [];
