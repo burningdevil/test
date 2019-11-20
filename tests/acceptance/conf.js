@@ -129,32 +129,14 @@ exports.config = {
 
     //get PID list of workstation and workstation helpers
     if (customArgObj.args.ubConf.enableUB) {
-      const psList = require("ps-list");
-      let mylist = await psList(); //=> [{pid: 3213, name: 'node', cmd: 'node test.js', ppid: 1, uid: 501, cpu: 0.1, memory: 1.5}, …]
-      let workstationPidList = [];
-      let workstationHelperPidList = [];
-      mylist.forEach(function(process) {
-        //Mac
-        if (process.name === "MicroStrategy Workstation") {
-          workstationPidList.push(process.pid);
-        }
-        if (process.name === "MicroStrategy Workstation Helper") {
-          workstationHelperPidList.push(process.pid);
-        }
-        //Windows
-        if (process.name === "Workstation.exe") {
-          workstationPidList.push(process.pid);
-        }
-        if (process.name === "CefSharp.BrowserSubprocess.exe") {
-          workstationHelperPidList.push(process.pid);
-        }
-      });
+      const {getWorkstationPID, getWorkstationHelpersPID} = require("./utils/wsUtils/getPIDs")
+      let workstationPidList = await getWorkstationPID();
+      let workstationHelperPidList = await getWorkstationHelpersPID();
       global.workstationPidLists = {
         workstationPidList,
         workstationHelperPidList
       };
       console.log("global: the pid of workstation is: " + workstationPidList);
-
       //init ubData
       global.ubData = [];
     }
@@ -200,20 +182,8 @@ exports.config = {
     //force quite the Workstation process
     if (customArgObj.args.quitWS) {
       console.log("after launch, force quiting workstation")
-      const psList = require("ps-list");
-      let myList = await psList();
-      let quitWorkstationPidList = [];
-      myList.forEach(function(process) {
-        //Mac
-        if (process.name === "MicroStrategy Workstation") {
-          quitWorkstationPidList.push(process.pid);
-        }
-        //Windows
-        if (process.name === "Workstation.exe") {
-          quitWorkstationPidList.push(process.pid);
-        }
-      });
-
+      const {getWorkstationPID} = require("./utils/wsUtils/getPIDs")
+      let quitWorkstationPidList = await getWorkstationPID();
       if (quitWorkstationPidList.length !== 0) {
         console.log(`after launch, workstation pid is: ${quitWorkstationPidList}`);
         console.log("force quiting workstation");
