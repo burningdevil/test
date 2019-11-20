@@ -1,7 +1,8 @@
 const execSync = require("child_process").execSync;
+const fs = require('fs')
 let removeEnv;
 
-function resetEnv() {
+function resetMacEnv() {
   try {
     removeEnv = execSync(`defaults delete ~/Library/Preferences/com.microstrategy.Workstation 4c158b61ebc73998d366d08f49c1bed507a0264f`);
     console.log(`Resetting Environments: ${removeEnv}`);
@@ -14,4 +15,13 @@ function resetEnv() {
   }
 }
 
-module.exports = resetEnv;
+function resetWinEnv() {
+  try {
+    fs.unlinkSync(`C:\\Users\\luntan\\AppData\\Local\\Microstrategy_Inc\\Workstation.db`);
+  } catch (error) {
+    console.log(error)
+  } 
+}
+
+module.exports.resetMacEnv = resetMacEnv;
+module.exports.resetWinEnv = resetWinEnv;

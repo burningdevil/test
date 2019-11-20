@@ -71,9 +71,16 @@ exports.config = {
       global.MAC_VIEWMODE = "iconView";
 
       //Reset Environment
-      const resetEnv = require("./utils/wsUtils/resetEnv");
-      if (customArgObj.args.removeEnv) {
-        resetEnv();
+      if (OSType === "windows") {
+        const {resetWinEnv} = require("./utils/wsUtils/resetEnv");
+        if (customArgObj.args.removeEnv) {
+          resetWinEnv();
+        }
+      } else {
+        const {resetMacEnv} = require("./utils/wsUtils/resetEnv");
+        if (customArgObj.args.removeEnv) {
+          resetMacEnv();
+        }
       }
       // Start Workstation.
       // This workstation driver is stored globally to be used anywhere else.
@@ -189,8 +196,14 @@ exports.config = {
         console.log("force quiting workstation");
         //kill workstation
         const execSync = require("child_process").execSync;
-        let output = execSync(`kill -9 ${quitWorkstationPidList}`, { encoding: "utf-8" });
-        console.log(output);
+        let killProcessOutPut
+        if (OSType === "windows") {
+          killProcessOutPut = execSync(`taskkill /F /PID ${quitWorkstationPidList}`, { encoding: "utf-8" });
+        } else {
+          killProcessOutPut = execSync(`kill -9 ${quitWorkstationPidList}`, { encoding: "utf-8" });
+        }
+        
+        console.log(killProcessOutPut);
       }
     }
   }
