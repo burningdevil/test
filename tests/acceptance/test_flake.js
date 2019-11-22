@@ -10,6 +10,9 @@ const rerunFile = `${rerunsFOLDER}/@rerun.txt`
 const reportsFOLDER = './reports/rallyReport'
 const reportFile = `${reportsFOLDER}/execReport.json`
 
+//1. Since we are using "fail-fast" in the cucumberOpts, if one scenario fails, all following scenario will be skipped and marked as fail
+//2. We have a rerun.txt file that track all failed scenarios
+//3. This function makes sure all skipped scenario are rerun again and get a real status of fail or pass.
 async function testWithRerun() {
     clearFiles(rerunsFOLDER, '.txt')
     clearFiles(reportsFOLDER, '.json')
@@ -85,6 +88,26 @@ let getScenarioStatus = function (steps) {
     return result;
 }
 
+//For the features list, if the ID of the feature is the same, merge the scenarios(elements) of the feature into one
+let mergeScenarios = function(features) {
+    let result = []
+    let map = new Map();
+    features.forEach((feature) => {
+        let id = feature.id
+        if (!map.has(id)) {
+            map.set(id, feature)
+        } else {
+            //here, each feature contains a single scenario
+            map.get(id).elements.push(feature.elements[0])
+        }
+    })
+
+    for (let feature of map.values()) {
+        result.push(feature)
+    }
+    return result
+}
+
 function mergeRallyReports () {
     let updatedFeatures = [];
     fs.readdirSync(reportsFOLDER).forEach(reportName => {
@@ -97,31 +120,13 @@ function mergeRallyReports () {
         
         reportData.forEach((feature) => {
             feature.elements.forEach((scenario) => {
+                //push scenario that is 'passed' and 'failed'
                 if (getScenarioStatus(scenario.steps) !== 'skipped') {
                     updatedFeatures.push({...feature,elements:[scenario]})
                 }
             })
         })
     });
-
-    let mergeScenarios = function(features) {
-        let result = []
-        let map = new Map();
-        features.forEach((feature) => {
-            let id = feature.id
-            if (!map.has(id)) {
-                map.set(id, feature)
-            } else {
-                //here, each feature contains a single scenario
-                map.get(id).elements.push(feature.elements[0])
-            }
-        })
-
-        for (let feature of map.values()) {
-            result.push(feature)
-        }
-        return result
-    }
 
     let mergedReports = mergeScenarios(updatedFeatures)
     try {
