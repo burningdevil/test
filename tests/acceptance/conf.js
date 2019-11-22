@@ -150,22 +150,26 @@ exports.config = {
   },
 
   onComplete: async () => {
-    try{
-      if (customArgObj.args.removeEnv) {
+    if (customArgObj.args.removeEnv) {
+      try {
         // remove environment
         await mainWindow.smartTab.selectTab("Environments");
         for (let envIndex = 0; envIndex < browser.params.envInfo.length; envIndex++) {
           await mainWindow.mainCanvas.envSection.removeEnv(browser.params.envInfo[envIndex].envName);
-        }
+        } 
+      } catch (e) {
+        console.info("Failed to manually remove environment, moving to afterLaunch")
       }
-  
-      // quit Workstation
-      if (customArgObj.args.quitWS) {
+    }
+
+    // quit Workstation
+    if (customArgObj.args.quitWS) {
+      try {
         const quitWorkstation = require("./utils/wsUtils/quitWorkstation");
         await quitWorkstation();
+      } catch (e) {
+        console.info("Failed to manually quit Workstation, moving to afterLaunch")
       }
-    } catch (e) {
-      console.info("Failed to manually remove environment and quit Workstation, moving to afterLaunch")
     }
   },
 

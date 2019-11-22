@@ -86,14 +86,13 @@ let getScenarioStatus = function (steps) {
 }
 
 function mergeRallyReports () {
-    const resultReportFolder = 'reports/rallyReport';
     let updatedFeatures = [];
-    fs.readdirSync(resultReportFolder).forEach(reportName => {
+    fs.readdirSync(reportsFOLDER).forEach(reportName => {
         if (reportName === "execReport.json") {
             return
         }
         console.info(`Merging report ${reportName}`);
-        let resultReport = `./${resultReportFolder}/${reportName}`;
+        let resultReport = `./${reportsFOLDER}/${reportName}`;
         let reportData = require(resultReport)
         
         reportData.forEach((feature) => {
@@ -126,11 +125,11 @@ function mergeRallyReports () {
 
     let mergedReports = mergeScenarios(updatedFeatures)
     try {
-        fs.unlinkSync(`${resultReportFolder}/execReport.json`);
+        fs.unlinkSync(`${reportsFOLDER}/execReport.json`);
     } catch (err) {
   
     }
-    fs.appendFileSync(`${resultReportFolder}/execReport.json`, JSON.stringify(mergedReports, null, 2), 'UTF-8');
+    fs.appendFileSync(`${reportsFOLDER}/execReport.json`, JSON.stringify(mergedReports, null, 2), 'UTF-8');
 
 }
 (async () => {
