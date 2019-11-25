@@ -67,21 +67,15 @@ exports.config = {
 
       // setting global variables
       const variables = require("./utils/envUtils/constants");
-      ({ MAC_XPATH: global.MAC_XPATH, MAC_XPATH_GENERAL: global.MAC_XPATH_GENERAL, OSType: global.OSType } = variables);
+      ({ MAC_XPATH: global.MAC_XPATH, MAC_XPATH_GENERAL: global.MAC_XPATH_GENERAL, OSType: global.OSType, RESET_ENV } = variables);
+
       global.MAC_VIEWMODE = "iconView";
 
-      //Reset Environment
-      if (OSType === "windows") {
-        const {resetWinEnv} = require("./utils/wsUtils/resetEnv");
-        if (customArgObj.args.removeEnv) {
-          resetWinEnv();
-        }
-      } else {
-        const {resetMacEnv} = require("./utils/wsUtils/resetEnv");
-        if (customArgObj.args.removeEnv) {
-          resetMacEnv();
-        }
+      // //Reset Environment
+      if (customArgObj.args.removeEnv) {
+        RESET_ENV();
       }
+ 
       // Start Workstation.
       // This workstation driver is stored globally to be used anywhere else.
       // For windows, the Main Workstation Window handle is registered globally
