@@ -186,22 +186,18 @@ exports.config = {
 
     //force quite the Workstation process
     if (customArgObj.args.quitWS) {
-      console.log("after launch, force quiting workstation")
       const {getWorkstationPID} = require("./utils/wsUtils/getPIDs")
       let quitWorkstationPidList = await getWorkstationPID();
       if (quitWorkstationPidList.length !== 0) {
-        console.log(`after launch, workstation pid is: ${quitWorkstationPidList}`);
+        console.log(`after launch, force quiting workstation, the workstation pid is: ${quitWorkstationPidList}`);
         console.log("force quiting workstation");
         //kill workstation
         const execSync = require("child_process").execSync;
-        let killProcessOutPut
         if (OSType === "windows") {
-          killProcessOutPut = execSync(`taskkill /F /PID ${quitWorkstationPidList}`, { encoding: "utf-8" });
+          execSync(`taskkill /F /PID ${quitWorkstationPidList}`, { encoding: "utf-8" });
         } else {
-          killProcessOutPut = execSync(`kill -9 ${quitWorkstationPidList}`, { encoding: "utf-8" });
+          execSync(`kill -9 ${quitWorkstationPidList}`, { encoding: "utf-8" });
         }
-        
-        console.log(killProcessOutPut);
       }
     }
   }
