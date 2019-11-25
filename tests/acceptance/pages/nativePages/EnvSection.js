@@ -357,7 +357,7 @@ export default class EnvSection extends RootApp {
   //as while writting xpath we can not pass in the both env name and connection status at the same time becuase they both are children of a single parent.
   //to be able to grab connect status of a specific environment, connection status should be child of env name.
 
-  async isEnvRemoved(environmentName, timeout){
+  async isEnvRemoved(environmentName, timeout = 4000){
     let status
     try{
        status = await this.nativeWaitForDisappear({
