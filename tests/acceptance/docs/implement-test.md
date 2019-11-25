@@ -6,7 +6,7 @@ This document will guide you through steps to automate a new test case.
 - You know what to be automated and it is ready/stable to be automated.
 - You have the repository in your local and have setup and run examples/any test scenario successfully.
 
-## Design Test Cases
+## Design Features and Scenarios
 
 ### Cucumber Feature
 Think about what will be newly automated, is it a new feature or enhancement to an exiting feature? Create a new feature file or working on an existing feature file for it. Feature files are under `/features` folder and they are composed of Test Scenarios.
@@ -25,7 +25,7 @@ Scenario:
   Then expected behavior
 ```
 
-### Cucumber Test Steps
+## Implement Cucumber Steps
 With the Test Scenario you have designed, implment the test steps. You can check if there is any Test Steps already implmeented by others and reusable, by [generating the step disctionry html file and search](./step-dictionary.md). Test Steps are organized by features and put under `/features/step_definitions` folder.
 
 A Test Step is actually a function, implemented in the programming lanugae. Example
@@ -91,7 +91,7 @@ Protractor has wrapped the WebDriverJS APIs and also its extra APIs. We use thes
 
 WD library is used as the Client for the Native drivers. Please check WD APIs [here](https://github.com/admc/wd/blob/master/doc/api.md).
 
-### Locate Elements
+## Locate Elements
 
 WD support multiple locator strategies to find the elements. We want to avoid using xpath as much as we can, since xpath locators are unreadable, hard to debug and very easily subject to change. However, the Appium Mac Driver can only support AXPath, while the WAD can support more WD methods such as locate elements by name, classname, AccessibilityId and xpath.
 
@@ -114,6 +114,7 @@ getExampleElement(parameter) {
   }
 ```
 
+### Tools to Locate Elements
 Regarding how to figure out the locator values for specific elements, please refer to [How To Locate Element](./how-to-locate-elements.md)
 
 ## Test & Debug

@@ -17,6 +17,7 @@ const {spawn, execSync} = require('child_process');
 const argumentsFromCI = process.argv.slice(2)
 const APP_PATH = argumentsFromCI[0]
 const ENV_URL = argumentsFromCI[1]
+const TAG = argumentsFromCI[2]
 
 let cp, globalExitCode = 0
 // start appium method
@@ -57,7 +58,7 @@ const startupAppium = async () => {
         } else {
             OS_APP_PATH = `--args.appPath.mac '${APP_PATH}'`
         }
-        execSync(`yarn test ${OS_APP_PATH} --params.envInfo[0].envUrl '${ENV_URL}'`, { stdio: 'inherit', encoding: 'utf-8' })
+        execSync(`yarn test ${OS_APP_PATH} --params.envInfo[0].envUrl '${ENV_URL}' --cucumberOpts.tags '${TAG}'`, { stdio: 'inherit', encoding: 'utf-8' })
     } catch (err) {
         console.error(err)
         globalExitCode = 2

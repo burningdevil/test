@@ -357,6 +357,27 @@ export default class EnvSection extends RootApp {
   //as while writting xpath we can not pass in the both env name and connection status at the same time becuase they both are children of a single parent.
   //to be able to grab connect status of a specific environment, connection status should be child of env name.
 
+  async isEnvRemoved(environmentName, timeout = 4000){
+    let status
+    try{
+       status = await this.nativeWaitForDisappear({
+          windows: {
+            locators: [
+              { method: 'Name', value: 'Available Environments' },
+              { method: 'Name', value: `${environmentName}\nRestEnvironment` }
+            ]
+          },
+          mac: { xpath: MAC_XPATH[MAC_VIEWMODE]['mainCanvas'].env.existingEnv.replace(/ReplaceEnvName/g, environmentName) }
+      }, timeout)
+      if (status) {
+        return true
+      }
+  } catch(err) {
+    console.log(`\nEnvironment exists after ${timeout/1000}-second check.`)
+    return false
+  }
+  }
+
   // async isEnvDisconnected(envName) {
   //   try {
   //     let env = await this.getExistingEnv(envName);

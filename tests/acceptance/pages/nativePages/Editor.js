@@ -29,4 +29,15 @@ export default class Editor extends Window {
     })
   }
 
+  async isEditorDisappeared(itemName) {
+    return this.nativeWaitForDisappear({
+      windows: {
+        locators: [
+          { method: 'Name', value: itemName },
+        ]
+      },
+      mac: { xpath: editor.container.replace(/ReplaceEditorTitle/g, itemName) }
+    }, 2000, 'Editor still displayed after 2 seconds')
+  }
+
 }

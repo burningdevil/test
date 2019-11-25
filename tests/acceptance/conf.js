@@ -117,8 +117,15 @@ exports.config = {
     if (customArgObj.args.connectEnv) {
       // TODO: remove exiting environment
       // connect to environment
-      for (let envIndex = 0; envIndex < browser.params.envInfo.length; envIndex++) {
-        ({ envName, envUrl, loginMode, userName, userPwd, projects } = browser.params.envInfo[envIndex]);
+      for(let envIndex=0; envIndex<browser.params.envInfo.length; envIndex++) {
+        ({envName, envUrl, loginMode, userName, userPwd, projects} = browser.params.envInfo[envIndex]);
+        // this check should timeout quick
+        let envNotExist = await mainWindow.mainCanvas.envSection.isEnvRemoved(envName,1000)
+        if(!envNotExist) {
+          await mainWindow.mainCanvas.envSection.removeEnv(envName)
+          // this one should have bigger timeout as the actual remove may take some time
+          await mainWindow.mainCanvas.envSection.isEnvRemoved(envName,4000)
+        }
         await mainWindow.mainCanvas.envSection.connectEnv(envName, envUrl);
         await mainWindow.mainCanvas.envSection.loginToEnv(loginMode, userName, userPwd);
         for (let projectIndex = 0; projectIndex < projects.length; projectIndex++) {
@@ -150,6 +157,7 @@ exports.config = {
         await mainWindow.smartTab.selectTab("Environments");
         for (let envIndex = 0; envIndex < browser.params.envInfo.length; envIndex++) {
           await mainWindow.mainCanvas.envSection.removeEnv(browser.params.envInfo[envIndex].envName);
+          await mainWindow.mainCanvas.envSection.isEnvRemoved(browser.params.envInfo[envIndex].envName,4000)
         } 
       } catch (e) {
         console.info("Failed to manually remove environment, moving to afterLaunch")
