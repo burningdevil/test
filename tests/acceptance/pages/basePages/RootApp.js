@@ -36,43 +36,42 @@ export default class RootApp {
 
   async nativeWaitFor(obj, timeout = 6000, errMsg = 'Dynamic waiting for element failed', pollFreq = 500 ) {
 
-    console.log(`dynamic waiting for element...`);
-    let endTime = Date.now() + timeout;
+    // remove Implicit Wait Timeout
+    await this.app.setImplicitWaitTimeout(0);
 
+    let endTime = Date.now() + timeout;
     while (Date.now() < endTime) {
       try{
         let elmT = await this.getNativeElement(obj)
-        if (await elmT.isDisplayed()) {
-          console.log('Element Found!')
-          return elmT
-        }
+        // set Implicit Wait Timeout back
+        await this.app.setImplicitWaitTimeout(10000);
+        return elmT
       } catch (err) {
-        console.log(`Element not displayed, continue waiting...`);
+        // swallow error
       }
-      this.sleep(pollFreq);
+      await this.sleep(pollFreq);
     }
 
+    await this.app.setImplicitWaitTimeout(10000);
     throw Error(errMsg);
   }
 
   async nativeWaitForDisappear(obj, timeout = 6000, errMsg = 'Dynamic waiting for element disappear failed', pollFreq = 500 ) {
 
-    console.log(`dynamic waiting for element to be disappear...`);
+    await this.app.setImplicitWaitTimeout(0);
     let endTime = Date.now() + timeout;
-
+    // remove Implicit Wait Timeout
     while (Date.now() < endTime) {
       try{
-        let elmT = await this.getNativeElement(obj)
-        if (await elmT.isDisplayed()) {
-          console.log(`Element still displayed`)
-        }
+        await this.getNativeElement(obj)
       } catch (err) {
-        console.log(`Element no longer displayed`);
+        await this.app.setImplicitWaitTimeout(10000);
         return true
       }
-      this.sleep(pollFreq);
+      await this.sleep(pollFreq);
     }
-
+    // set Implicit Wait Timeout back
+    await this.app.setImplicitWaitTimeout(10000);
     throw Error(errMsg)
   }
 

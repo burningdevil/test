@@ -27,6 +27,10 @@ const { Given, When, Then } = require('cucumber');
     }
   });
 
+  Then('Environment should be removed', async function(envName) {
+    return expect(mainWindow.mainCanvas.envSection.isEnvRemoved(envName)).become(true);
+  })
+
   When('I configure LDAP service on env {string}', async function(envName){
     return mainWindow.mainCanvas.envSection.configureLdapService(envName);
   })
