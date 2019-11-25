@@ -61,7 +61,7 @@ const resetMacEnv = function resetMacEnv() {
 
 const resetWinEnv = function resetWinEnv() {
   try {
-    fs.unlinkSync(`%LocalAppData%\\Microstrategy_Inc\\Workstation.db`);
+    fs.unlinkSync(`${process.env.HOME}\\AppData\\Local\\Microstrategy_Inc\\Workstation.db`);
   } catch (error) {
     console.log(error)
   } 
