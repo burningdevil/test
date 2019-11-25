@@ -1,8 +1,6 @@
 /**
  * Class representing the base of all other native window page objects
  */
-import {nativeWaitForElementByName, nativeWaitForElementByClassName, nativeWaitForElementByAccessibilityId, nativeWaitForElementByXPath} from '../../utils/wsUtils/nativeFluentWait'
-
 export default class RootApp {
 
   constructor() {
@@ -36,40 +34,47 @@ export default class RootApp {
     }
   }
 
-  // native wait for
-  async nativeWaitFor(obj, timeout, pullFreq) {
-    console.log(obj.mac)
-    if (!timeout) {
-      timeout = 60000
-    }
-    if (!pullFreq) {
-      pullFreq = 200
-    }
-    if (OSType === 'windows') {
-      let elm = await this.app;
-      for(let index=0; index<obj.windows.locators.length; index++) {
-        let locator = obj.windows.locators[index];
-        switch (locator.method) {
-          case "Name":
-            await nativeWaitForElementByName(elm, locator.value, timeout, pullFreq)
-            elm = await elm.elementByName(locator.value);
-            break;
-          case "ClassName":
-            await nativeWaitForElementByClassName(elm, locator.value, timeout, pullFreq)
-            elm = await elm.elementByClassName(locator.value)
-            break
-          case "AccessibilityId":
-            await nativeWaitForElementByAccessibilityId(elm, locator.value, timeout, pullFreq)
-            elm = await elm.elementByAccessibilityId(locator.value);
-            break
-          default:
-            throw Error('please properly define the using method use dynamic wait');
-          }
+  async nativeWaitFor(obj, timeout = 6000, errMsg = 'Dynamic waiting for element failed', pollFreq = 500 ) {
+
+    // remove Implicit Wait Timeout
+    await this.app.setImplicitWaitTimeout(0);
+
+    let endTime = Date.now() + timeout;
+    while (Date.now() < endTime) {
+      try{
+        let elmT = await this.getNativeElement(obj)
+        // set Implicit Wait Timeout back
+        await this.app.setImplicitWaitTimeout(10000);
+        return elmT
+      } catch (err) {
+        // swallow error
       }
-    } else {
-        return nativeWaitForElementByXPath(this.app, obj.mac.xpath, timeout, pullFreq);
+      await this.sleep(pollFreq);
     }
+
+    await this.app.setImplicitWaitTimeout(10000);
+    throw Error(errMsg);
   }
+
+  async nativeWaitForDisappear(obj, timeout = 6000, errMsg = 'Dynamic waiting for element disappear failed', pollFreq = 500 ) {
+
+    await this.app.setImplicitWaitTimeout(0);
+    let endTime = Date.now() + timeout;
+    // remove Implicit Wait Timeout
+    while (Date.now() < endTime) {
+      try{
+        await this.getNativeElement(obj)
+      } catch (err) {
+        await this.app.setImplicitWaitTimeout(10000);
+        return true
+      }
+      await this.sleep(pollFreq);
+    }
+    // set Implicit Wait Timeout back
+    await this.app.setImplicitWaitTimeout(10000);
+    throw Error(errMsg)
+  }
+
 
   async sleep(ms) {
     return new Promise((resolve, reject) => setTimeout(resolve, ms));
@@ -134,12 +139,6 @@ export default class RootApp {
       //change xpath to list view
       return MAC_VIEWMODE = 'listView'
     }
-  }
-
-
-  // assertion
-  async isElementDisplayedByXPath(xpath) {
-    return this.app.elementByXPath(xpath).isDisplayed();
   }
 
 }

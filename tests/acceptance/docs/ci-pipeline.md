@@ -22,9 +22,9 @@ Note: If your Metadata involves cubes, please contact DevOps team as this need s
 
 ## Cucumber Tags & CI Pipeline Stages
 In CI Pipeline it assumes that each team is using the same tags for scenarios to be run in different stages.
-- Premerge Stage: use tag '@PREMERGE'
-- Dev Stage: use tag '@ACCEPTANCE'
-- Postmerge Stage: use tag '@REGRESSION'
+- Premerge Stage: All scenarios tagged with '@ACCEPTANCE' will be run
+- Dev Stage: All scenarios tagged with '@ACCEPTANCE' will be run
+- Postmerge Stage: All scenarios will be run excpet those tagged with 'wip' or 'slow'
 
 If there is no required tags found in your test script, then no scenario will be run and it will always pass the test.
 
