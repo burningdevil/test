@@ -1,4 +1,6 @@
 import mac_xpath from './mac_xpath'
+const execSync = require("child_process").execSync;
+const fs = require('fs')
 
 // Windows Specific
 const WIN_CAPABILITIES = {
@@ -43,9 +45,32 @@ const setValuePerPlatform = (winValue, macValue) => {
   }
 };
 
+const resetMacEnv = function resetMacEnv() {
+  let removeEnv = ""
+  try {
+    removeEnv = execSync(`defaults delete ~/Library/Preferences/com.microstrategy.Workstation 4c158b61ebc73998d366d08f49c1bed507a0264f`);
+    console.log(`Resetting Environments: ${removeEnv}`);
+    removeEnv = execSync(`defaults delete ~/Library/Preferences/com.microstrategy.Workstation acca64b83535b9a1dff37a13cd176f393be7c195`);
+    console.log(`Resetting Environments: ${removeEnv}`);
+    execSync(`defaults read ~/Library/Preferences/com.microstrategy.Workstation`);
+  } catch (error) {
+    console.log("No environments present to remove");
+    console.log(`${error}\n`);
+  }
+}
+
+const resetWinEnv = function resetWinEnv() {
+  try {
+    fs.unlinkSync(`${process.env.HOME}\\AppData\\Local\\Microstrategy_Inc\\Workstation.db`);
+  } catch (error) {
+    console.log(error)
+  } 
+}
+
 // export
 export const APPIUM_SERVER_URL = 'http://localhost:4723/wd/hub';
 export const MAC_XPATH = mac_xpath;
 export const MAC_XPATH_GENERAL = mac_xpath['general'];
 export const OSType = setValuePerPlatform('windows', 'mac');
 export const APP_CAPABILITIES = setValuePerPlatform(WIN_CAPABILITIES, MAC_CAPABILITIES);
+export const RESET_ENV = setValuePerPlatform(resetWinEnv, resetMacEnv);
