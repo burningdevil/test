@@ -67,20 +67,10 @@ const resetWinEnv = function resetWinEnv() {
   } 
 }
 
-const resetEnv = function() {
-  if (setValuePerPlatform("windows","mac") === "windows") {
-    resetWinEnv()
-  } else if (setValuePerPlatform("windows","mac") === "mac"){
-    resetMacEnv()
-  } else {
-    throw Error('Test is running in an unexpected environment!');
-  }
-}
-
 // export
 export const APPIUM_SERVER_URL = 'http://localhost:4723/wd/hub';
 export const MAC_XPATH = mac_xpath;
 export const MAC_XPATH_GENERAL = mac_xpath['general'];
 export const OSType = setValuePerPlatform('windows', 'mac');
 export const APP_CAPABILITIES = setValuePerPlatform(WIN_CAPABILITIES, MAC_CAPABILITIES);
-export const RESET_ENV = resetEnv;
+export const RESET_ENV = setValuePerPlatform(resetWinEnv, resetMacEnv);
