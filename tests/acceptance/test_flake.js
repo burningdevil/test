@@ -10,64 +10,74 @@ const rerunFile = `${rerunsFOLDER}/@rerun.txt`
 const reportsFOLDER = './reports/rallyReport'
 const reportFile = `${reportsFOLDER}/execReport.json`
 
+function clearExistingReports () {
+    clearFiles(rerunsFOLDER, '.txt')
+    clearFiles(reportsFOLDER, '.json')
+}
+
+async function rerunFailedScenarios() {
+    let count = 0
+    while (fs.existsSync(rerunFile)) {
+        console.info(`running failed scenarios...count ${count}`)
+        // rename the file to add suffix of the running round
+        let currentFile = `${rerunsFOLDER}/@rerun_${count}.txt`
+        let currentReport = `${reportsFOLDER}/execReport_${count}.json`
+
+        fs.renameSync(rerunFile, currentFile)
+        fs.renameSync(reportFile, currentReport)
+
+        let data = fs.readFileSync(currentFile, 'utf8')
+
+        let lines = data.split('\n')
+        console.log('check lines: ', lines, lines.length)
+        let lineInfo = lines[0].split(':')
+        // if only one failed scenario left in the first line
+        if (lineInfo.length <= 2) {
+            // check if this is the only line
+            if (lines.length <= 1) {
+                // if yes, no @rerun file will be generated
+                console.info('No more scenarios to run')
+                return false
+            } else {
+                // if more lines, remove the line to generate the @rerun file to run the next round of test
+                data = lines.slice(1).join('\n')
+            }
+        } else {
+            // remove the first scenario
+            let featureName = lineInfo[0]
+            let scenarios = lineInfo.slice(2).join(':')
+            // update the first line
+            lines[0] = `${featureName}:${scenarios}`
+            data = lines.join('\n')
+        }
+        // write the @rerun text file for the next run
+        fs.writeFileSync(rerunFile, data, 'utf8')
+        try {
+            execSync(`yarn testRerun`, { stdio: 'inherit', encoding: 'utf-8' });
+        } catch (e) {
+            await sleep(3000);
+            console.log('test failed')
+        }
+
+        //increasing count
+        count++        
+    }
+
+    return true
+}
+
 //1. Since we are using "fail-fast" in the cucumberOpts, if one scenario fails, all following scenario will be skipped and marked as fail
 //2. We have a rerun.txt file that track all failed scenarios
 //3. This function makes sure all skipped scenario are rerun again and get a real status of fail or pass.
 async function testWithRerun() {
-    clearFiles(rerunsFOLDER, '.txt')
-    clearFiles(reportsFOLDER, '.json')
-    let count = 0
     // first execution
     try {
         execSync(`yarn test`, { stdio: 'inherit', encoding: 'utf-8' });
     } catch (e) {
         console.info('Test finished with failed scenarios.')
-        await sleep(3000);           
+        await sleep(3000);  
         // following execution with rerun txt
-        while (fs.existsSync(rerunFile)) {
-            console.info(`running failed scenarios...count ${count}`)
-            // rename the file to add suffix of the running round
-            let currentFile = `${rerunsFOLDER}/@rerun_${count}.txt`
-            let currentReport = `${reportsFOLDER}/execReport_${count}.json`
-
-            fs.renameSync(rerunFile, currentFile)
-            fs.renameSync(reportFile, currentReport)
-
-            let data = fs.readFileSync(currentFile, 'utf8')
-
-            let lines = data.split('\n')
-            console.log('check lines: ', lines, lines.length)
-            let lineInfo = lines[0].split(':')
-            // if only one failed scenario left in the first line
-            if (lineInfo.length <= 2) {
-                // check if this is the only line
-                if (lines.length <= 1) {
-                    // if yes, no @rerun file will be generated
-                    console.info('No more scenarios to run')
-                    return
-                } else {
-                    // if more lines, remove the line to generate the @rerun file to run the next round of test
-                    data = lines.slice(1).join('\n')
-                }
-            } else {
-                // remove the first scenario
-                let featureName = lineInfo[0]
-                let scenarios = lineInfo.slice(2).join(':')
-                // update the first line
-                lines[0] = `${featureName}:${scenarios}`
-                data = lines.join('\n')
-            }
-            // write the @rerun text file for the next run
-            fs.writeFileSync(rerunFile, data, 'utf8')
-            try {
-                execSync(`yarn testRerun`, { stdio: 'inherit', encoding: 'utf-8' });
-            } catch (e) {
-                await sleep(3000);
-                console.log('test failed')
-            }
-            // increasing count
-            count++
-        }
+        await rerunFailedScenarios();
     }
 }
 
@@ -137,7 +147,48 @@ function mergeRallyReports () {
     fs.appendFileSync(`${reportsFOLDER}/execReport.json`, JSON.stringify(mergedReports, null, 2), 'UTF-8');
 
 }
+function generateRerunFileForFailedTests(){
+
+    let featureList = [];
+
+    fs.readdirSync(reportsFOLDER).forEach(reportName => {
+        if (reportName === "execReport.json") {
+            let resultReport = `./${reportsFOLDER}/${reportName}`;
+            let reportData = require(resultReport)
+            reportData.forEach((feature) => {
+                let featureURI = feature.uri
+                let failedScenarioLines = []
+                feature.elements.forEach((scenario) => {
+                    //push scenario that is 'failed'
+                    if (getScenarioStatus(scenario.steps) == 'failed') {
+                        failedScenarioLines.push(scenario.line)
+                    }
+                })
+                let lines = _.join(failedScenarioLines, ':')
+                featureList.push(`${featureURI}:${lines}`)
+            })
+        }
+    });
+    // clearExistingReports();
+    console.log(featureList)
+    // write the @rerun text file for the next run
+    if (featureList.length !== 0) {
+        fs.writeFileSync(rerunFile, _.join(featureList, '\n'), 'utf8')
+    }
+}
 (async () => {
+    clearExistingReports();
     await testWithRerun()
     mergeRallyReports();
+    generateRerunFileForFailedTests()
+    
+    let remainingAttempts = 2
+    while (fs.existsSync(rerunFile) && remainingAttempts > 0) {
+        console.log(`retrying for rount ${3 - remainingAttempts}`)
+        await rerunFailedScenarios()
+        mergeRallyReports();
+        generateRerunFileForFailedTests()
+        remainingAttempts--
+    }
+    
 })()
