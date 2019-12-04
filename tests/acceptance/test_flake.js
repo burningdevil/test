@@ -169,7 +169,6 @@ function generateRerunFileForFailedTests(){
             })
         }
     });
-    // clearExistingReports();
     console.log(featureList)
     // write the @rerun text file for the next run
     if (featureList.length !== 0) {
