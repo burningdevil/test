@@ -1,0 +1,14 @@
+---
+dependencies:
+- name: mysql
+  version: 0.1.8
+  repository: s3://mstr-charts/charts
+  alias: mysql-md
+- name: mysql
+  version: 0.1.8
+  repository: s3://mstr-charts/charts
+  alias: mysql-wh
+- name: iserver
+  repository: file://./charts/iserver
+- name: library
+  repository: file://./charts/library

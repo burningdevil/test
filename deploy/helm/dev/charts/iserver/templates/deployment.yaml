@@ -1,0 +1,124 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}-{{ .Release.Name }}
+{{- include "namespace" . | indent 2 }}
+  labels:
+{{- include "product.labels" . | indent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+{{- include "product.labels" . | indent 8 }}
+    spec:
+      hostname: {{.Chart.Name}}-{{ .Release.Name }}
+{{- if .Values.imagePullSecrets.enabled }}
+      imagePullSecrets:
+      - name: {{ .Values.imagePullSecrets.name }}
+{{- end }}
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.version }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+        command:
+        - /opt/mstr/wait_for_it.sh
+{{- if .Values.dbserver.override }}
+        - {{ tpl .Values.dbserver.md_server . }}:3306
+{{- else }}
+        - mysql-{{ .Release.Name }}:3306
+{{- end }}
+        - --timeout=300
+        - --
+        - /opt/mstr/startup.sh
+        env:
+        - name: IS_CONFIG_FILE
+          value: {{ .Values.config.is_config_file }}
+        - name: IS_CONFIG_OPT
+          value: ini
+{{- if .Values.dbserver.override }}
+        - name: DB_MD_SERVER
+          value: {{ tpl .Values.dbserver.md_server . }}
+        - name: DB_WH_SERVER
+          value: {{ tpl .Values.dbserver.wh_server . }}
+{{- else }}
+        - name: DB_MD_SERVER
+          value: mysql-{{ .Release.Name }}
+        - name: DB_WH_SERVER
+          value: mysql-{{ .Release.Name }}
+{{- end }}
+        - name: DB_WH_PORT
+          value: "3306"
+        - name: DB_MD_PORT
+          value: "3306"
+        - name: DB_MD_NAME
+          value: {{ .Values.odbc.db_md_name }}
+        - name: DB_WH_NAME
+          value: {{ .Values.odbc.db_wh_name }}
+        - name: DSN_MD
+          value: {{ .Values.odbc.dsn_md }}
+        - name: DSN_WH
+          value: {{ .Values.odbc.dsn_wh }}
+        - name: NEE_HOST
+          value: nee-{{ .Release.Name }}
+        ports:
+        - containerPort: 34952
+        - containerPort: 34962
+        readinessProbe:
+          exec:
+            command:
+            - /bin/bash
+            - -c
+            - "/usr/bin/ps -ef | /usr/bin/grep -i mstrsvr"
+          initialDelaySeconds: 60
+          periodSeconds: 60
+        volumeMounts:
+        - name: log-dir
+          mountPath: /opt/mstr/MicroStrategy/log
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+{{- if .Values.volumes.cube.enabled }}
+        - name: cube
+          mountPath: {{ .Values.volumes.cube.mount_to }}/Server_{{ .Chart.Name }}-{{ .Release.Name }}_P{{ .Values.volumes.cube.project_id }}
+{{- end }}
+{{- if .Values.streamer.enabled }}
+        - name: streamer
+          image: busybox
+          args: [/bin/sh, -c, 'tail -n+1 -f /var/log/log-dir/DSSErrors.log']
+          volumeMounts:
+          - name: log-dir
+            mountPath: /var/log/log-dir
+{{- end }}
+{{- if .Values.config.from_config_map }}
+        - name: odbc-config-volume
+          mountPath: /opt/mstr/MicroStrategy/odbc.ini
+          subPath: odbc.ini
+        - name: iserver-config-volume
+          mountPath: /opt/mstr/MicroStrategy/config.ini
+          subPath: config.ini
+{{- end }}
+      volumes:
+      - name: log-dir
+        emptyDir: {}
+{{- if .Values.config.from_config_map }}
+      - name: odbc-config-volume
+        configMap:
+          name: {{ tpl .Values.config.config_map_name . }}
+          items:
+          - key: odbc.ini
+            path: odbc.ini
+      - name: iserver-config-volume
+        configMap:
+          name: {{ tpl .Values.config.config_map_name . }}
+          items:
+          - key: config.ini
+            path: config.ini
+{{- end }}
+{{- if .Values.volumes.cube.enabled }}
+      - name: cube
+        nfs:
+          server: {{ .Values.volumes.cube.nfs_server }}
+          path: {{ .Values.volumes.cube.mount_path }}
+{{- end }}
+      restartPolicy: Always
+status: {}
