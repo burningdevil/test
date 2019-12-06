@@ -183,7 +183,7 @@ function generateRerunFileForFailedTests(){
     
     let remainingAttempts = 2
     while (fs.existsSync(rerunFile) && remainingAttempts > 0) {
-        console.log(`retrying for rount ${3 - remainingAttempts}`)
+        console.log(`retrying for round ${3 - remainingAttempts}`)
         await rerunFailedScenarios()
         mergeRallyReports();
         generateRerunFileForFailedTests()
