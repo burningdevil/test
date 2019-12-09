@@ -1,0 +1,6 @@
+---
+apiVersion: v1
+appVersion: '11.1'
+description: A Helm chart for MicroStratey I-Server
+name: iserver
+version: 0.1.66
