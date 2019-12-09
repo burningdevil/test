@@ -15,7 +15,7 @@ function clearExistingReports () {
     clearFiles(reportsFOLDER, '.json')
 }
 
-async function rerunFailedScenarios() {
+async function rerunRestScenarios() {
     let count = 0
     while (fs.existsSync(rerunFile)) {
         console.info(`running failed scenarios...count ${count}`)
@@ -66,6 +66,19 @@ async function rerunFailedScenarios() {
     return true
 }
 
+async function rerunFailedScenarios() {
+    if (!await rerunRestScenarios()) {
+        try {
+            //execute the only one failed scenario left
+            console.log("Almost there, only one failed scenario is left, still trying...")
+            execSync(`yarn testRerun`, { stdio: 'inherit', encoding: 'utf-8' });
+        } catch (e) {
+            await sleep(3000);
+            console.log('test failed')
+        }
+    }
+}
+
 //1. Since we are using "fail-fast" in the cucumberOpts, if one scenario fails, all following scenario will be skipped and marked as fail
 //2. We have a rerun.txt file that track all failed scenarios
 //3. This function makes sure all skipped scenario are rerun again and get a real status of fail or pass.
@@ -77,7 +90,7 @@ async function testWithRerun() {
         console.info('Test finished with failed scenarios.')
         await sleep(3000);  
         // following execution with rerun txt
-        await rerunFailedScenarios();
+        await rerunRestScenarios();
     }
 }
 
@@ -139,13 +152,15 @@ function mergeRallyReports () {
     });
 
     let mergedReports = mergeScenarios(updatedFeatures)
-    try {
-        fs.unlinkSync(`${reportsFOLDER}/execReport.json`);
-    } catch (err) {
-  
+    if (mergedReports.length !== 0) {
+        try {
+            fs.unlinkSync(`${reportsFOLDER}/execReport.json`);
+        } catch (err) {
+      
+        }
+        fs.appendFileSync(`${reportsFOLDER}/execReport.json`, JSON.stringify(mergedReports, null, 2), 'UTF-8');
     }
-    fs.appendFileSync(`${reportsFOLDER}/execReport.json`, JSON.stringify(mergedReports, null, 2), 'UTF-8');
-
+   
 }
 function generateRerunFileForFailedTests(){
 
