@@ -49,13 +49,9 @@ async function updateRally() {
 }
 
 const resultMap = new Map();
-const resultReportFolder = 'reports/rallyReport';
 
-fs.readdirSync(resultReportFolder).forEach(async reportName => {
-  console.info(`updating Rally result for ${reportName}`);
-
-  let resultReport = `reports/rallyReport/${reportName}`;
-  if (fs.existsSync(resultReport)) {
+let resultReport = 'reports/rallyReport/execReport.json'
+if (fs.existsSync(resultReport)) {
     let filePath = path.resolve(resultReport);
     console.info(`Start analyzing file: ${filePath}`);
     let file = JSON.parse(fs.readFileSync(filePath));
@@ -64,12 +60,9 @@ fs.readdirSync(resultReportFolder).forEach(async reportName => {
 
     await updateRally();
     resultMap.clear()
-  }
-  else{
-      console.log('No output report file exists in specified path: '+filePath);
-  }
-
-});
-
+}
+else{
+    console.log('No output report file exists in specified path: '+filePath);
+}
 
 

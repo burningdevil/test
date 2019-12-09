@@ -126,6 +126,13 @@ One simple way to only run your test scenario is to put a special tag for it: `@
 yarn test --cucumberOpts.tags '@debug'
 ```
 
+To increase the stability when executing your tests, you can use the following command. It has two helpful features to help you avoid false alerts: 1. It makes sure all scenarios are executed for at least once so that the "skipped" scenarios will have another chance to get "passed". 2. It retries all "failed" scenarios for three times. 
+
+```
+yarn flakeTest
+```
+
+
 ### Node Debugger
 [ndb](https://github.com/GoogleChromeLabs/ndb) is highly recommended for debugging your test script.
 
