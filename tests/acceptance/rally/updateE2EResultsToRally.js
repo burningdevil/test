@@ -49,8 +49,7 @@ async function updateRally() {
 }
 
 const resultMap = new Map();
-
-let resultReport = 'reports/rallyReport/execReport.json'
+const resultReport = '../reports/rallyReport/execReport.json'
 if (fs.existsSync(resultReport)) {
     let filePath = path.resolve(resultReport);
     console.info(`Start analyzing file: ${filePath}`);
@@ -59,7 +58,6 @@ if (fs.existsSync(resultReport)) {
     console.info(`Complete analyzing file: ${filePath}`);
 
     await updateRally();
-    resultMap.clear()
 }
 else{
     console.log('No output report file exists in specified path: '+filePath);
