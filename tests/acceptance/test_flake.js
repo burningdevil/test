@@ -1,6 +1,5 @@
 
 const fs = require('fs')
-const path = require('path')
 const {execSync} = require('child_process');
 const {clearFiles,sleep}  = require('./utils/generalUtils.js')
 const _ = require('lodash')
@@ -57,6 +56,7 @@ async function rerunRestScenarios() {
         fs.writeFileSync(rerunFile, data, 'utf8')
         try {
             execSync(`yarn testRerun`, { stdio: 'inherit', encoding: 'utf-8' });
+            //waiting for cucumber to generate the execReport.json file
             await sleep(3000);
         } catch (e) {
             await sleep(3000);
@@ -210,23 +210,14 @@ function generateRerunFileForFailedTests(){
 //Entry point of "yarn flakeTest"
 (async () => {
     clearExistingReports();
-    await testWithRerun()
+    await testWithRerun();
     mergeRallyReports();
-    if (!generateRerunFileForFailedTests()) {
-        //All scenario passed, directly return
-        return
-    }
+    let remainingAttempts = 2;
+    do{
+      console.log(`retrying for round ${3 - remainingAttempts}`)
+      await rerunFailedScenarios()
+      mergeRallyReports();
+      remainingAttempts--
+    }while(remainingAttempts >= 0 && fs.existsSync(rerunFile) && remainingAttempts > 0 && generateRerunFileForFailedTests())
     
-    let remainingAttempts = 2
-    while (fs.existsSync(rerunFile) && remainingAttempts > 0) {
-        console.log(`retrying for round ${3 - remainingAttempts}`)
-        await rerunFailedScenarios()
-        mergeRallyReports();
-        if (!generateRerunFileForFailedTests()) {
-            //All scenario passed, directly return
-            return
-        }
-        remainingAttempts--
-    }
-    
-})()
+})();
