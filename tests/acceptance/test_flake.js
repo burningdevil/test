@@ -151,7 +151,7 @@ function mergeRallyReports () {
                     if (getScenarioStatus(scenario.steps) !== 'skipped') {
                         //make sure there is no duplicate scenarios in the updatedFeature list
                         updatedFeatures = updatedFeatures.filter((updatedFeature) => {
-                            return updatedFeature.elements[0].id !== scenario.id
+                            return updatedFeature.elements[0].id !== scenario.id || updatedFeature.elements[0].line !== scenario.line
                         })
                         // console.log(`pushing a ${getScenarioStatus(scenario.steps)} scenario into the updated features file`)
                         updatedFeatures.push({...feature,elements:[scenario]})
@@ -160,11 +160,10 @@ function mergeRallyReports () {
             })
         }
     });
-
-    clearFiles(reportsFOLDER, '.json')
     
     let mergedReports = mergeScenarios(updatedFeatures)
     if (mergedReports.length !== 0) {
+        clearFiles(reportsFOLDER, '.json')
         fs.appendFileSync(`${reportsFOLDER}/execReport.json`, JSON.stringify(mergedReports, null, 2), 'UTF-8');
     } else {
         console.log("mergedReports is []")
@@ -212,12 +211,13 @@ function generateRerunFileForFailedTests(){
     clearExistingReports();
     await testWithRerun();
     mergeRallyReports();
-    let remainingAttempts = 2;
-    do{
-      console.log(`retrying for round ${3 - remainingAttempts}`)
-      await rerunFailedScenarios()
-      mergeRallyReports();
-      remainingAttempts--
-    }while(remainingAttempts >= 0 && fs.existsSync(rerunFile) && remainingAttempts > 0 && generateRerunFileForFailedTests())
-    
+    if (generateRerunFileForFailedTests()) {
+      let remainingAttempts = 2;
+      do{
+        console.log(`retrying for round ${3 - remainingAttempts}`)
+        await rerunFailedScenarios()
+        mergeRallyReports();
+        remainingAttempts--
+      }while(remainingAttempts >= 0 && fs.existsSync(rerunFile) && generateRerunFileForFailedTests())
+    }
 })();
