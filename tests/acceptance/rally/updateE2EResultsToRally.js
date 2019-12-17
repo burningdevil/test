@@ -14,7 +14,7 @@ function sleep(ms) {
 
 
 const helpMsg = 'Cannot accept the parameters. Usage: \n\n' +
-    'node pages/rally/updateE2EResultsToRally.js -c <production_release> <build#> \n' +
+    'node rally/updateE2EResultsToRally.js -c <production_release> <build#> \n' +
     'e.g. node rally/updateE2EResultsToRally.js -c 11.2_EA_[2019-Jun-21] 11.2.0000.0073';
 
 if (cmd === '-c' && process.argv[3] && process.argv[4]) {
