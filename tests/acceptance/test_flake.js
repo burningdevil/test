@@ -151,7 +151,7 @@ function mergeRallyReports () {
                     if (getScenarioStatus(scenario.steps) !== 'skipped') {
                         //make sure there is no duplicate scenarios in the updatedFeature list
                         updatedFeatures = updatedFeatures.filter((updatedFeature) => {
-                            return updatedFeature.elements[0].id !== scenario.id
+                            return updatedFeature.elements[0].id !== scenario.id || updatedFeature.elements[0].line !== scenario.line
                         })
                         // console.log(`pushing a ${getScenarioStatus(scenario.steps)} scenario into the updated features file`)
                         updatedFeatures.push({...feature,elements:[scenario]})
