@@ -41,6 +41,7 @@ async function updateRally() {
             }
             await updateRallyTCResult({ testCaseId, tcUrl, verdict, duration, release, build });
             await sleep(2000);
+            
         }
     }
     catch(err){
@@ -49,15 +50,14 @@ async function updateRally() {
 }
 
 const resultMap = new Map();
-const resultReport = '../reports/rallyReport/execReport.json'
+const resultReport = './reports/rallyReport/execReport.json'
 if (fs.existsSync(resultReport)) {
     let filePath = path.resolve(resultReport);
     console.info(`Start analyzing file: ${filePath}`);
     let file = JSON.parse(fs.readFileSync(filePath));
     e2eResultsParser({ file, resultMap });
     console.info(`Complete analyzing file: ${filePath}`);
-
-    await updateRally();
+    updateRally();
 }
 else{
     console.log('No output report file exists in specified path: '+filePath);
