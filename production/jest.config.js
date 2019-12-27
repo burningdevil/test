@@ -7,5 +7,12 @@ module.exports = {
     '^.+\\.tsx?$': 'ts-jest',
     '^.+\\.js$': '<rootDir>/node_modules/ts-jest/preprocessor.js'
   },
-  testRegex: '(__snapshot__/.*|\\.(test))\\.tsx?$'
+  testRegex: '(__snapshot__/.*|\\.(test))\\.tsx?$',
+  testResultsProcessor: './build/scripts/jest-results-processor.js',
+  coverageReporters: ['lcov', 'text', 'json-summary'],
+  collectCoverageFrom: [
+    '**/src/**/*.{js}',
+    '!**/node_modules/**',
+    '!**/vendor/**',
+  ]
 }

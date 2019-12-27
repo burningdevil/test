@@ -55,7 +55,7 @@ If you look at App.tsx file, you will find the routes that are linked to each of
     </div>
 
 Then if you look at public/main.js file, you will something like below.
-    
+
     /index.html#/m1
 
 This is hash based router we are using. In this way, you can define multiple targets in your plugin configuration. The use case can be you have different pages that could be opened by different entry points in Workstation.
@@ -88,3 +88,9 @@ npm run buildWS
 ## Deployment on Workstation
 
 TBD for plugin infrastructure
+
+## CI Metrics Generation
+
+```sh
+npm run metrics
+```
