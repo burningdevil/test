@@ -15,6 +15,7 @@ const __DEV__ = project.env === 'development'
 const __TEST__ = project.env === 'test'
 const __PROD__ = project.env === 'production'
 const __IS_WS__ = project.container === 'WS'
+const __MOCK__ = project.mode === 'mock'
 /* eslint-enable */
 
 const config = {
@@ -39,6 +40,7 @@ const config = {
         __TEST__,
         __PROD__,
         __IS_WS__,
+        __MOCK__,
         ...project.globals
       }
     )
