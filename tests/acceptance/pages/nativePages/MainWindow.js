@@ -1,18 +1,17 @@
-import Window from '../basePages/Window';
-import MenuBar from './MenuBar';
-import Toolbar from './Toolbar';
-import Footer from './Footer';
+import Window from '../basePages/Window'
+import MenuBar from './MenuBar'
+import Toolbar from './Toolbar'
+import Footer from './Footer'
 import SmartTab from './SmartTab'
-import FolderTab from './FolderTab';
-import MainCanvas from './MainCanvas';
-import Popup from './Popup';
+import FolderTab from './FolderTab'
+import MainCanvas from './MainCanvas'
+import Popup from './Popup'
 import Dialogs from './Dialogs'
 
 export default class MainWindow extends Window {
-
   // constructor
   constructor() {
-    super();
+    super()
     this.footer = new Footer()
     this.menuBar = new MenuBar()
     this.toolbar = new Toolbar()
@@ -25,13 +24,7 @@ export default class MainWindow extends Window {
 
   // locator
 
-
-
   // actions
 
-
   // assertions
-
-
-
 }

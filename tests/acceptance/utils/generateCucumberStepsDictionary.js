@@ -2,87 +2,100 @@
  * Based on https://github.com/midniteio/step-dictionary
  * Execute with command
  * node utils/generateCucumberStepsDictionary.js
-*/
-var path = require('path');
-var _ = require('lodash');
-var fs = require('fs');
-var glob = require('glob');
-var { strictEqual } = require('assert');
+ */
+var path = require('path')
+var _ = require('lodash')
+var fs = require('fs')
 
 function outputReport(outputPath, report) {
-  fs.writeFileSync(outputPath, report);
+  fs.writeFileSync(outputPath, report)
 }
 
 function getAllPaths(testFolder) {
-  let allPaths = [];
-  let dir = path.dirname(testFolder);
+  const allPaths = []
   fs.readdirSync(testFolder).forEach(file => {
-    if (fs.lstatSync(testFolder+'/'+file).isDirectory()){
-      let araux = getAllPaths(testFolder+'/'+file);
-      allPaths.push(...araux);
+    if (fs.lstatSync(testFolder + '/' + file).isDirectory()) {
+      const araux = getAllPaths(testFolder + '/' + file)
+      allPaths.push(...araux)
     }
-    if (path.parse(file).ext == '.js') {
-      allPaths.push(testFolder + '/' + file);
+    if (path.parse(file).ext === '.js') {
+      allPaths.push(testFolder + '/' + file)
     }
   })
-  return allPaths;
+  return allPaths
 }
 
 function getStepDefinitions(paths) {
-
-  let stepDefinitions = [];
-  paths.forEach((filePath) => {
-    let fileData;
+  const stepDefinitions = []
+  paths.forEach(filePath => {
+    let fileData
     try {
-      fileData = fs.readFileSync(filePath, { encoding: 'utf8' });
+      fileData = fs.readFileSync(filePath, { encoding: 'utf8' })
     } catch (e) {
-      console.log(path + ' could not be read, will skip and continue', e);
+      console.log(path + ' could not be read, will skip and continue', e)
     }
 
     if (fileData) {
-      let stepDefinitionMatches = fileData.match(/(Then|When|Given)\s?\(.*/g);
+      const stepDefinitionMatches = fileData.match(/(Then|When|Given)\s?\(.*/g)
       if (stepDefinitionMatches) {
-        stepDefinitionMatches.forEach((stepDefinition) => {
-          let stepRegex = stepDefinition.substring(stepDefinition.indexOf('('), stepDefinition.indexOf(','));
-          let lineNumber = fileData.substring(0, fileData.indexOf(stepRegex)).split('\n').length;
-          let keyword = stepDefinition.substring(0, stepDefinition.indexOf('('));
-          let regex = stepRegex.substring(2, stepRegex.length - 1);
-          let paramAux = stepDefinition.match(/function\s?\(.*\)/);
+        stepDefinitionMatches.forEach(stepDefinition => {
+          const stepRegex = stepDefinition.substring(
+            stepDefinition.indexOf('('),
+            stepDefinition.indexOf(',')
+          )
+          const lineNumber = fileData
+            .substring(0, fileData.indexOf(stepRegex))
+            .split('\n').length
+          const keyword = stepDefinition.substring(0, stepDefinition.indexOf('('))
+          const regex = stepRegex.substring(2, stepRegex.length - 1)
+          const paramAux = stepDefinition.match(/function\s?\(.*\)/)
           stepDefinitions.push({
             regex: regex,
             keyword: keyword,
-            params: ((paramAux != null) ? paramAux[0].match(/\(.*\)/)[0] : ''),
+            params: paramAux != null ? paramAux[0].match(/\(.*\)/)[0] : '',
             file: filePath,
             line: lineNumber
-          });
-        });
+          })
+        })
       }
     }
-  });
+  })
 
-  return stepDefinitions;
+  return stepDefinitions
 }
 
 function generateDic(stepDefinitions, githubBaseURL, githubDefaultBranch) {
-  let groupedStepDefintionsAux = _.groupBy(stepDefinitions, 'file');
-  let groupedStepDefintions = {};
-  for (let file in groupedStepDefintionsAux){
-    groupedStepDefintions[file]=_.sortBy(groupedStepDefintionsAux[file], 'regex' );
+  const groupedStepDefintionsAux = _.groupBy(stepDefinitions, 'file')
+  const groupedStepDefintions = {}
+  for (const file in groupedStepDefintionsAux) {
+    groupedStepDefintions[file] = _.sortBy(
+      groupedStepDefintionsAux[file],
+      'regex'
+    )
   }
-  let cssFiles = ['https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'];
-  let jsImports = ['https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js'];
-  let title = 'Dictionary for cucumber steps';
-  let pageDescription = 'Search for available Cucumber steps to include in your scenario.';
+  const cssFiles = [
+    'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'
+  ]
+  const jsImports = [
+    'https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js'
+  ]
+  const title = 'Dictionary for cucumber steps'
+  const pageDescription =
+    'Search for available Cucumber steps to include in your scenario.'
 
-  let cssBlock = cssFiles.map((location) => {
-    return `<link rel="stylesheet" type="text/css" href="${location}">`;
-  }).join('\n');
+  const cssBlock = cssFiles
+    .map(location => {
+      return `<link rel="stylesheet" type="text/css" href="${location}">`
+    })
+    .join('\n')
 
-  let jsBlock = jsImports.map((location) => {
-    return `<script src="${location}"></script>`;
-  }).join('\n');
+  const jsBlock = jsImports
+    .map(location => {
+      return `<script src="${location}"></script>`
+    })
+    .join('\n')
 
-  let inlineCSS = `
+  const inlineCSS = `
       #filter {
         width: 100%;
         font-size: 18pt;
@@ -119,22 +132,22 @@ function generateDic(stepDefinitions, githubBaseURL, githubDefaultBranch) {
       .footer {
         font-size: 10pt;
       }
-    `;
+    `
 
-  let header = `
+  const header = `
       <h1>${title}</h1>
       <h3>${pageDescription}</h3>
       <div class="form-group">
         <label for="filter">Search by phrase</label>
         <input type="text" id="filter" placeholder="">
       </div>
-    `;
+    `
 
-  let filesBlock = '';
+  let filesBlock = ''
   _.forIn(groupedStepDefintions, (steps, file) => {
-
-    let stepsBlock = steps.map((step) => {
-      /**
+    const stepsBlock = steps
+      .map(step => {
+        /**
       `<dl class="dl-horizontal step-definition" regex="${encodeURIComponent(step.regex)}">
           <dt>Keyword</dt>
           <dd>${step.keyword}</dd>
@@ -152,14 +165,19 @@ function generateDic(stepDefinitions, githubBaseURL, githubDefaultBranch) {
       `
 */
 
-      return `<dl class="dl-horizontal step-definition" regex="${encodeURIComponent(step.regex)}">
+        return `<dl class="dl-horizontal step-definition" regex="${encodeURIComponent(
+          step.regex
+        )}">
           <dt style='color:#196F3D;font-size:130%;'>${step.keyword}</dt>
           <dd style='color:#1F618D;font-size:130%;'><b>${step.regex}</b></dd>
           <dt style='color:#196F3D;'>Link</dt>
-          <dd style='color:#1F618D;'><a href='${githubBaseURL}/${file}#L${step.line}'>Line ${step.line} (branch ${githubDefaultBranch})</a></dd>
+          <dd style='color:#1F618D;'><a href='${githubBaseURL}/${file}#L${
+  step.line
+}'>Line ${step.line} (branch ${githubDefaultBranch})</a></dd>
           </dl>
-      `;
-    }).join(' ');
+      `
+      })
+      .join(' ')
     filesBlock += `
         <div class="file-block">
           <input type="button" class="fileToggleButton" onClick="toggleDefinitions(this)" value="Toggle">
@@ -170,16 +188,16 @@ function generateDic(stepDefinitions, githubBaseURL, githubDefaultBranch) {
             ${stepsBlock}
           </div>
         </div>
-      `;
-  });
+      `
+  })
 
-  let filterScript = `
+  const filterScript = `
       <script>
         $('#filter').bind('propertychange change click keyup input paste', function(e) {
           var newValue = e.currentTarget.value;
           $('.step-definition').each(function(elem) {
             var regexString = decodeURIComponent(this.getAttribute('regex'));
-            var searchFilter = newValue.replace(/ +/g, \'.*\').replace(/\".*\"/, '\".*\"');
+            var searchFilter = newValue.replace(/ +/g, '.*').replace(/"."/, '".*"');
             var matchDefinition = new RegExp(searchFilter.toLowerCase());
             if (!matchDefinition.test(regexString.toLowerCase())) {
               this.style.display = 'none';
@@ -191,7 +209,7 @@ function generateDic(stepDefinitions, githubBaseURL, githubDefaultBranch) {
             var noneFound = true;
             $(this).find('.step-definition').each(function() {
               var regexString = decodeURIComponent(this.getAttribute('regex'));
-              var searchFilter = newValue.replace(/ +/g, \'.*\').replace(/\".*\"/, '\".*\"');
+              var searchFilter = newValue.replace(/ +/g, '.*').replace(/".*"/, '".*"');
               var matchDefinition = new RegExp(searchFilter.toLowerCase());
               if (!matchDefinition.test(regexString.toLowerCase())) {
                 this.style.display = 'none';
@@ -209,9 +227,9 @@ function generateDic(stepDefinitions, githubBaseURL, githubDefaultBranch) {
           });
         });
       </script>
-    `;
+    `
 
-  let toggleScripts = `
+  const toggleScripts = `
       <script>
         function toggleDefinitions(elem) {
           var definitions = $(elem).siblings()[1];
@@ -229,9 +247,9 @@ function generateDic(stepDefinitions, githubBaseURL, githubDefaultBranch) {
           }
         }
       </script>
-    `;
+    `
 
-  let mainBody = `
+  const mainBody = `
       <div class="controls">
         Available step definitions (${stepDefinitions.length}):
         <a href="javascript:toggleAll('collapse')" id="toggleAll"> Collapse All </a>
@@ -239,15 +257,15 @@ function generateDic(stepDefinitions, githubBaseURL, githubDefaultBranch) {
       ${filesBlock}
       ${filterScript}
       ${toggleScripts}
-    `;
+    `
 
-  let footer = `
+  const footer = `
       <div class="footer">
         Regenerate this dictionary by executing from the main project folder directory<br>
         <b>node utils/generateCucumberStepsDictionary.js --branch myBranch</b><br>
         Replace <i>myBranch</i> with your current branch (eg <b>next</b>)<br>
       </div>
-    `;
+    `
 
   return `
       <html>
@@ -270,35 +288,34 @@ function generateDic(stepDefinitions, githubBaseURL, githubDefaultBranch) {
           </div>
         </body>
       </html>
-    `;
+    `
 }
 
-let stepsDirectory = './features/step_definitions';
-let dictionaryFile = './utils/e2edictionary.html';
-let githubBaseURL = 'https://github.microstrategy.com/skasulanati/ws-app-automation';
-let githubDefaultBranch = 'master';
-let githubCurrendDirectory = 'tests/acceptance';
-
+const stepsDirectory = './steps'
+const dictionaryFile = './utils/e2edictionary.html'
+const githubBaseURL =
+  'https://github.microstrategy.com/skasulanati/ws-app-automation'
+let githubDefaultBranch = 'master'
 
 // Second argument may be the branch name
-let argv = require('minimist')(process.argv.slice(2));
-if (argv['help']){
+const argv = require('minimist')(process.argv.slice(2))
+if (argv.help) {
   console.log(`Generates a new HTML file as dicitionary of available E2E steps.
   Usage:
   node utils/generateE2EDictionary.js  [options]
   Supported parameters:
   --help               => displays this help
   --branch branchName  => branch to use in link to GitHub file. Default branch is ${githubDefaultBranch}
-  `);
-  return ;
+  `)
+  return
 }
-if (argv['branch']){
-  githubDefaultBranch = argv['branch'];
+if (argv.branch) {
+  githubDefaultBranch = argv.branch
 }
 
-let githubStepDirectory = `${githubBaseURL}/blob/${githubDefaultBranch}`;
-let defintions = getStepDefinitions(getAllPaths(stepsDirectory));
-let report = generateDic(defintions, githubStepDirectory, githubDefaultBranch);
-outputReport(dictionaryFile, report);
+const githubStepDirectory = `${githubBaseURL}/blob/${githubDefaultBranch}`
+const defintions = getStepDefinitions(getAllPaths(stepsDirectory))
+const report = generateDic(defintions, githubStepDirectory, githubDefaultBranch)
+outputReport(dictionaryFile, report)
 
-console.log(`Dictionary generated at ${dictionaryFile}`);
+console.log(`Dictionary generated at ${dictionaryFile}`)
