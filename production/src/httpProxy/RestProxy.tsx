@@ -1,8 +1,8 @@
 import serverConfig from '../../build/server.config'
-import { connectionBackend } from '../services/ConnectionBackend'
 import base64 from '../utils/base64'
 import { RestApiError } from '../server/RestApiError'
 import { PARSE_METHOD } from '../utils/ParseMethods'
+import axios from '../server/axios'
 
 const parseJsonFunc = PARSE_METHOD.JSON
 const baseUrl = '/api'
@@ -25,7 +25,7 @@ function createHeaders() {
 }
 
 export function getHeader(res: any, header: any) {
-  return res.headers.get(header.toLowerCase())
+  return res.headers[header.toLowerCase()]
 }
 
 function checkResponseStatus(response: any) {
@@ -48,10 +48,13 @@ function checkResponseStatus(response: any) {
       throw error
     }
 
+    // Get error reponse object
+    const errResponse = response.response
+
     // Is it a Web Task error code?
-    const taskErrorCode = getHeader(response, 'X-MSTR-TaskErrorCode')
+    const taskErrorCode = getHeader(errResponse, 'X-MSTR-TaskErrorCode')
     if (taskErrorCode < 0) {
-      const error = new RestApiError(status, null, base64.decodeHttpHeader(getHeader(response, 'X-MSTR-TaskFailureMsg')), taskErrorCode, statusText)
+      const error = new RestApiError(status, null, base64.decodeHttpHeader(getHeader(errResponse, 'X-MSTR-TaskFailureMsg')), taskErrorCode, statusText)
 
       // Always log error to console
       window.console.error('fetchUtils::checkStatus(): ', error)
@@ -59,47 +62,37 @@ function checkResponseStatus(response: any) {
       throw error
     }
 
-    return response.json().catch(() => {
-      // DE99259, in some cases the response text could not be parsed as JSON.
-      return {}
-    }).then((json: any) => {
-      // Create error object and throw
-      const errorCode = json.code || ''
-      const iServerErrorCode = json.iServerCode || ''
-      const errorMsg = json.message || ''
-      const ticketId = json.ticketId
-      const error = new RestApiError(status, errorCode, errorMsg, iServerErrorCode, statusText, ticketId)
+    // Create error object and throw
+    const errorCode = errResponse.code || ''
+    const iServerErrorCode = errResponse.iServerCode || ''
+    const errorMsg = errResponse.message || ''
+    const ticketId = errResponse.ticketId
+    const error = new RestApiError(status, errorCode, errorMsg, iServerErrorCode, statusText, ticketId)
 
-      // Always log error to console
-      window.console.error('fetchUtils::checkStatus(): ', error)
+    // Always log error to console
+    window.console.error('fetchUtils::checkStatus(): ', error)
 
-      throw error
-    })
+    throw error
   }
 }
 
 let baseRequest = (method: string, path: string, body: any, headers = {}, parseFunc = parseJsonFunc) => {
-  let params = {
-    credentials: 'include',
-    cache: 'no-cache',
-    method: method.toUpperCase(),
+  console.log('check point 1 ===========RestProxy', 'path', path)
+  return axios({
+    method: method,
+    baseURL: baseUrl,
+    url: path,
     headers: {
       ...createHeaders(),
       ...headers
     },
-    mode: 'cors',
-    body
-  }
-  if (body) {
-    params.body = JSON.stringify(body)
-  }
-  console.log('check point 1 ===========RestProxy', 'path', path)
-  return connectionBackend
-    .fetch(baseUrl + path, params)
-    .then(checkResponseStatus, checkResponseStatus)
-    .then(res => {
-      return res[parseFunc] ? res[parseFunc]() : res
-    })
+    data: JSON.stringify(body)
+  })
+  .then(checkResponseStatus, checkResponseStatus)
+  .then((res: any) => {
+    return res[parseFunc] ? res[parseFunc]() : res
+  })
+  .catch(((err: any) => console.error(err)))
 }
 
 let login = () => {
@@ -108,8 +101,8 @@ let login = () => {
       username: serverConfig.username,
       password: serverConfig.password
     }, {}, null) // no parse json
-    .then(res => {
-      authToken = res.headers.get('x-mstr-authtoken')
+    .then((res: any) => {
+      authToken = res.headers['x-mstr-authtoken']
       isLogin = false
       console.log('check point 1.2 LOGIN sucessed =============----------TOKEN====================================', authToken)
     })
