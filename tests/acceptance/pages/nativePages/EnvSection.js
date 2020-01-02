@@ -1,9 +1,8 @@
-import RootApp from '../basePages/RootApp';
-const mainCanvas = MAC_XPATH_GENERAL['mainCanvas'];
-const wd = require('wd');
+import RootApp from '../basePages/RootApp'
+const mainCanvas = MAC_XPATH_GENERAL.mainCanvas
+const wd = require('wd')
 
 export default class EnvSection extends RootApp {
-
   // ** Locators ** //
   async getAddNewEnv() {
     return this.getNativeElement({
@@ -13,8 +12,8 @@ export default class EnvSection extends RootApp {
           { method: 'ClassName', value: 'Button' }
         ]
       },
-      mac: { xpath: MAC_XPATH[MAC_VIEWMODE]['mainCanvas'].env.addNewEnv }
-    });
+      mac: { xpath: MAC_XPATH[MAC_VIEWMODE].mainCanvas.env.addNewEnv }
+    })
   }
 
   async getConnectDialog() {
@@ -25,7 +24,7 @@ export default class EnvSection extends RootApp {
         ]
       },
       mac: { xpath: mainCanvas.env.connectDialog }
-    });
+    })
   }
 
   async getInputEnvName() {
@@ -37,7 +36,7 @@ export default class EnvSection extends RootApp {
         ]
       },
       mac: { xpath: mainCanvas.env.inputEnvName }
-    });
+    })
   }
 
   async getInputEnvUrl() {
@@ -49,7 +48,7 @@ export default class EnvSection extends RootApp {
         ]
       },
       mac: { xpath: mainCanvas.env.inputEnvUrl }
-    });
+    })
   }
 
   async getLoginMode(mode) {
@@ -61,7 +60,7 @@ export default class EnvSection extends RootApp {
         ]
       },
       mac: { xpath: mainCanvas.env.loginMode.replace(/ReplaceLoginMode/g, mode) }
-    });
+    })
   }
 
   // continue to connect after providing environment information and selecting login mode
@@ -74,7 +73,7 @@ export default class EnvSection extends RootApp {
         ]
       },
       mac: { xpath: mainCanvas.env.continueToConnect }
-    });
+    })
   }
 
   async getInputUserName() {
@@ -86,7 +85,7 @@ export default class EnvSection extends RootApp {
         ]
       },
       mac: { xpath: mainCanvas.env.userName }
-    });
+    })
   }
 
   async getInputUserPwd() {
@@ -98,7 +97,7 @@ export default class EnvSection extends RootApp {
         ]
       },
       mac: { xpath: mainCanvas.env.userPwd }
-    });
+    })
   }
 
   // connect after providing login information
@@ -111,7 +110,7 @@ export default class EnvSection extends RootApp {
         ]
       },
       mac: { xpath: mainCanvas.env.connect }
-    });
+    })
   }
 
   async getProjectList() {
@@ -123,7 +122,7 @@ export default class EnvSection extends RootApp {
         ]
       },
       mac: { xpath: mainCanvas.env.projectList }
-    });
+    })
   }
 
   async getProjectByName(applicationName) {
@@ -135,7 +134,7 @@ export default class EnvSection extends RootApp {
         ]
       },
       mac: { xpath: mainCanvas.env.selectProject.replace(/ReplaceProjectName/g, applicationName) }
-    });
+    })
   }
 
   // connect after selecting Project(s)
@@ -148,7 +147,7 @@ export default class EnvSection extends RootApp {
         ]
       },
       mac: { xpath: mainCanvas.env.OKToConnect }
-    });
+    })
   }
 
   async getExistingEnv(environmentName) {
@@ -159,8 +158,8 @@ export default class EnvSection extends RootApp {
           { method: 'Name', value: `${environmentName}\nRestEnvironment` }
         ]
       },
-      mac: { xpath: MAC_XPATH[MAC_VIEWMODE]['mainCanvas'].env.existingEnv.replace(/ReplaceEnvName/g, environmentName) }
-    });
+      mac: { xpath: MAC_XPATH[MAC_VIEWMODE].mainCanvas.env.existingEnv.replace(/ReplaceEnvName/g, environmentName) }
+    })
   }
 
   async getRemoveEnvOption() {
@@ -170,8 +169,8 @@ export default class EnvSection extends RootApp {
           { method: 'Name', value: 'Remove Environment' }
         ]
       },
-      mac: { xpath: MAC_XPATH[MAC_VIEWMODE]['mainCanvas'].contextOption.replace(/ReplaceOption/g, 'Remove') }
-    });
+      mac: { xpath: MAC_XPATH[MAC_VIEWMODE].mainCanvas.contextOption.replace(/ReplaceOption/g, 'Remove') }
+    })
   }
 
   async getDisconnectEnvOption() {
@@ -181,8 +180,8 @@ export default class EnvSection extends RootApp {
           { method: 'Name', value: 'Disconnect Environment' }
         ]
       },
-      mac: { xpath: MAC_XPATH[MAC_VIEWMODE]['mainCanvas'].env.envContextOption.replace(/ReplaceMe/g, 'Disconnect') }
-    });
+      mac: { xpath: MAC_XPATH[MAC_VIEWMODE].mainCanvas.env.envContextOption.replace(/ReplaceMe/g, 'Disconnect') }
+    })
   }
 
   async getConnectEnvOption() {
@@ -192,8 +191,8 @@ export default class EnvSection extends RootApp {
           { method: 'Name', value: 'Connect to Environment' }
         ]
       },
-      mac: { xpath: MAC_XPATH[MAC_VIEWMODE]['mainCanvas'].contextOption.replace(/ReplaceOption/g, 'Connect') }
-    });
+      mac: { xpath: MAC_XPATH[MAC_VIEWMODE].mainCanvas.contextOption.replace(/ReplaceOption/g, 'Connect') }
+    })
   }
 
   async getRememberMe() {
@@ -204,7 +203,7 @@ export default class EnvSection extends RootApp {
         ]
       },
       mac: { xpath: mainCanvas.env.rememberMe }
-    });
+    })
   }
 
   async getRememberProjectSelections() {
@@ -215,7 +214,7 @@ export default class EnvSection extends RootApp {
         ]
       },
       mac: { xpath: mainCanvas.env.rememberSelectedApplications }
-    });
+    })
   }
 
   async getOption(option) {
@@ -225,8 +224,8 @@ export default class EnvSection extends RootApp {
           { method: 'Name', value: option }
         ]
       },
-      mac: { xpath: MAC_XPATH[MAC_VIEWMODE]['mainCanvas'].contextOption.replace(/ReplaceOption/g, option) }
-    });
+      mac: { xpath: MAC_XPATH[MAC_VIEWMODE].mainCanvas.contextOption.replace(/ReplaceOption/g, option) }
+    })
   }
 
   async getSecondaryOption(firstOption, secondaryOption) {
@@ -236,126 +235,147 @@ export default class EnvSection extends RootApp {
           { method: 'Name', value: secondaryOption }
         ]
       },
-      mac: { xpath: MAC_XPATH[MAC_VIEWMODE]['mainCanvas'].secondaryContextOption.replace(/ReplaceOption/g, firstOption).replace(/ReplaceSecondaryOption/g, secondaryOption) }
-    });
+      mac: { xpath: MAC_XPATH[MAC_VIEWMODE].mainCanvas.secondaryContextOption.replace(/ReplaceOption/g, firstOption).replace(/ReplaceSecondaryOption/g, secondaryOption) }
+    })
   }
 
   // ** Actions ** //
   // connect to environment with the name and url provided
   async connectEnv(envName, envUrl) {
     // bring up 'add new environment' dialog
-    await this.moveToAndClick(await this.getAddNewEnv());
+    await this.moveToAndClick(await this.getAddNewEnv())
 
     // input environment name
-    await this.moveToAndSendKey(await this.getInputEnvName(), envName);
+    await this.moveToAndSendKey(await this.getInputEnvName(), envName)
 
     // input environment Url
-    let envUrlElem = await this.getInputEnvUrl();
+    const envUrlElem = await this.getInputEnvUrl()
 
     // mac version will automatically dismiss the colon,
     // that's why you see the wired implementation here to use Shift + Semicolon to type colon
     if (OSType === 'windows') {
-      await this.moveToAndSendKey(envUrlElem, envUrl);
+      await this.moveToAndSendKey(envUrlElem, envUrl)
     } else {
-      await envUrlElem.moveTo();
-      await this.app.sleep(100);
-      let envUrlSplitedList = envUrl.split(':');
+      await envUrlElem.moveTo()
+      await this.app.sleep(100)
+      const envUrlSplitedList = envUrl.split(':')
       for (let i = 0; i < envUrlSplitedList.length; i++) {
         if (i < envUrlSplitedList.length - 1) {
-          await envUrlElem.type(envUrlSplitedList[i]);
-          await envUrlElem.type(wd.SPECIAL_KEYS["Shift"] + wd.SPECIAL_KEYS["Semicolon"] + wd.SPECIAL_KEYS["Shift"]);
+          await envUrlElem.type(envUrlSplitedList[i])
+          await envUrlElem.type(wd.SPECIAL_KEYS.Shift + wd.SPECIAL_KEYS.Semicolon + wd.SPECIAL_KEYS.Shift)
         } else {
-          await envUrlElem.type(envUrlSplitedList[i]);
+          await envUrlElem.type(envUrlSplitedList[i])
         }
       }
-      return this.app.sleep(1000);
+      return this.app.sleep(1000)
     }
     // await this.app.waitFor(isEnabled(await this.getContinueToConnect()),1000).should.eventually.be.ok;
   }
 
   async loginToEnv(loginMode, userName, userPwd) {
-    await this.moveToAndClick(await this.getLoginMode(loginMode));
-    await this.moveToAndClick(await this.getContinueToConnect());
-    await this.moveToAndSendKey(await this.getInputUserName(), userName);
-    await this.moveToAndSendKey(await this.getInputUserPwd(), userPwd);
-    await this.moveToAndClickAtPosition(await this.getRememberMe());
-    return this.moveToAndClick(await this.getLoginToConnect());
+    await this.moveToAndClick(await this.getLoginMode(loginMode))
+    await this.moveToAndClick(await this.getContinueToConnect())
+    await this.moveToAndSendKey(await this.getInputUserName(), userName)
+    await this.moveToAndSendKey(await this.getInputUserPwd(), userPwd)
+    await this.moveToAndClickAtPosition(await this.getRememberMe())
+    return this.moveToAndClick(await this.getLoginToConnect())
   }
 
   async chooseProject(projectName) {
     // select application
-    await this.moveToAndClick(await this.getProjectByName(projectName));
-    await this.moveToAndClickAtPosition(await this.getRememberProjectSelections());
-    return this.app.sleep(100);
+    await this.moveToAndClick(await this.getProjectByName(projectName))
+    await this.moveToAndClickAtPosition(await this.getRememberProjectSelections())
+    return this.app.sleep(100)
   }
 
   async clickOkToConnect() {
     // Ok to connect after choosing projects
-    await this.moveToAndClick(await this.getOKToConnect());
-    return this.app.sleep(1000);
+    await this.moveToAndClick(await this.getOKToConnect())
+    return this.app.sleep(1000)
   }
 
   async removeEnv(name) {
-    let existingEnv = await this.getExistingEnv(name);
-    await this.moveToAndClick(existingEnv);
-    await this.rightClick();
-    await this.moveToAndClick(await this.getRemoveEnvOption());
+    const existingEnv = await this.getExistingEnv(name)
+    await this.moveToAndClick(existingEnv)
+    await this.rightClick()
+    await this.moveToAndClick(await this.getRemoveEnvOption())
   }
 
   async disconnectEnv(name) {
-    let existingEnv = await this.getExistingEnv(name);
-    await this.moveToAndClick(existingEnv);
-    await this.rightClick();
-    await this.moveToAndClick(await this.getDisconnectEnvOption());
-    return this.app.sleep(8000);
+    const existingEnv = await this.getExistingEnv(name)
+    await this.moveToAndClick(existingEnv)
+    await this.rightClick()
+    await this.moveToAndClick(await this.getDisconnectEnvOption())
+    return this.app.sleep(8000)
   }
 
   async connectEnvFromContextMenu(name) {
-    let existingEnv = await this.getExistingEnv(name);
-    await this.moveToAndClick(existingEnv);
-    await this.rightClick();
-    await this.moveToAndClick(await this.getConnectEnvOption());
-    await this.moveToAndClick(await this.getLoginToConnect());
-    return this.app.sleep(8000);
+    const existingEnv = await this.getExistingEnv(name)
+    await this.moveToAndClick(existingEnv)
+    await this.rightClick()
+    await this.moveToAndClick(await this.getConnectEnvOption())
+    await this.moveToAndClick(await this.getLoginToConnect())
+    return this.app.sleep(8000)
   }
 
-  async connectExistingEnv(name){
-    let existingEnv = await this.getExistingEnv(name);
-    return this.moveToAndDoubleClick(existingEnv);
+  async connectExistingEnv(name) {
+    const existingEnv = await this.getExistingEnv(name)
+    return this.moveToAndDoubleClick(existingEnv)
   }
 
-  async configureLdapService(name){
-    let existingEnv = await this.getExistingEnv(name);
-    await this.moveToAndClick(existingEnv);
-    await this.rightClick();
-    await this.moveToAndClick(await this.getOption('Directory Service'));
-    await this.moveToAndClick(await this.getSecondaryOption('Directory Service','Configure Directory Service'));
-    //Waiting LDAP config window to open
-    return this.app.sleep(4000);
+  async configureLdapService(name) {
+    const existingEnv = await this.getExistingEnv(name)
+    await this.moveToAndClick(existingEnv)
+    await this.rightClick()
+    await this.moveToAndClick(await this.getOption('Directory Service'))
+    await this.moveToAndClick(await this.getSecondaryOption('Directory Service', 'Configure Directory Service'))
+    // Waiting LDAP config window to open
+    return this.app.sleep(4000)
   }
 
   async isEnvAdded(envName) {
     try {
-      let env = await this.getExistingEnv(envName);
-      return env.isDisplayed();
+      const env = await this.getExistingEnv(envName)
+      return env.isDisplayed()
     } catch (err) {
-      console.log(err);
-      return false;
+      console.log(err)
+      return false
     }
   }
 
-  async importLdapUsers(name){
-    let existingEnv = await this.getExistingEnv(name);
-    await this.moveToAndClick(existingEnv);
-    await this.rightClick();
-    await this.moveToAndClick(await this.getOption('Directory Service'));
-    await this.moveToAndClick(await this.getSecondaryOption('Directory Service','Import User'));
-    return this.app.sleep(8000);
+  async importLdapUsers(name) {
+    const existingEnv = await this.getExistingEnv(name)
+    await this.moveToAndClick(existingEnv)
+    await this.rightClick()
+    await this.moveToAndClick(await this.getOption('Directory Service'))
+    await this.moveToAndClick(await this.getSecondaryOption('Directory Service', 'Import User'))
+    return this.app.sleep(8000)
   }
 
-  //Commenting below code because there is no way to tell which environment connect info it is grabbing,
-  //as while writting xpath we can not pass in the both env name and connection status at the same time becuase they both are children of a single parent.
-  //to be able to grab connect status of a specific environment, connection status should be child of env name.
+  // Commenting below code because there is no way to tell which environment connect info it is grabbing,
+  // as while writting xpath we can not pass in the both env name and connection status at the same time becuase they both are children of a single parent.
+  // to be able to grab connect status of a specific environment, connection status should be child of env name.
+
+  async isEnvRemoved(environmentName, timeout = 4000) {
+    let status
+    try {
+      status = await this.nativeWaitForDisappear({
+        windows: {
+          locators: [
+            { method: 'Name', value: 'Available Environments' },
+            { method: 'Name', value: `${environmentName}\nRestEnvironment` }
+          ]
+        },
+        mac: { xpath: MAC_XPATH[MAC_VIEWMODE].mainCanvas.env.existingEnv.replace(/ReplaceEnvName/g, environmentName) }
+      }, timeout)
+      if (status) {
+        return true
+      }
+    } catch (err) {
+      console.log(`\nEnvironment exists after ${timeout / 1000}-second check.`)
+      return false
+    }
+  }
 
   // async isEnvDisconnected(envName) {
   //   try {
@@ -387,5 +407,3 @@ export default class EnvSection extends RootApp {
   //   }
   // }
 }
-
-

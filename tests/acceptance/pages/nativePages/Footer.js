@@ -1,5 +1,5 @@
-import RootApp from '../basePages/RootApp';
-const footer = MAC_XPATH_GENERAL['footer'];
+import RootApp from '../basePages/RootApp'
+const footer = MAC_XPATH_GENERAL.footer
 
 export default class Footer extends RootApp {
   // locator
@@ -11,16 +11,15 @@ export default class Footer extends RootApp {
         ]
       },
       mac: { xpath: footer.pathtext.replace(/ReplaceMe/g, name) }
-    });
+    })
   }
 
   async getNavigationMode(index) {
-    let mode;
-    if(index===0){
-      mode = 'Smart Mode';
-    }
-    else{
-      mode = 'Folder Mode';
+    let mode
+    if (index === 0) {
+      mode = 'Smart Mode'
+    } else {
+      mode = 'Folder Mode'
     }
     return this.getNativeElement({
       windows: {
@@ -29,20 +28,19 @@ export default class Footer extends RootApp {
           { method: 'ClassName', value: 'TabItem' }
         ]
       },
-      mac: { xpath: footer.navigationMode.replace(/ReplaceModeIndex/g, index)  }
-    });
+      mac: { xpath: footer.navigationMode.replace(/ReplaceModeIndex/g, index) }
+    })
   }
 
   // actions
 
-
   async selectFolderMode() {
-    let elem = await this.getNavigationMode(1);
+    const elem = await this.getNavigationMode(1)
     return this.moveToAndClick(elem)
   }
 
   async selectSmartMode() {
-    let elem = await this.getNavigationMode(0);
+    const elem = await this.getNavigationMode(0)
     return this.moveToAndClick(elem)
   }
 
@@ -50,12 +48,11 @@ export default class Footer extends RootApp {
 
   async isTextInPathDisplayed(name) {
     try {
-      let elem = await this.getPathText(name);
-      return elem.isDisplayed();
+      const elem = await this.getPathText(name)
+      return elem.isDisplayed()
     } catch (err) {
-      console.log(err);
-      return false;
+      console.log(err)
+      return false
     }
   }
-
 }

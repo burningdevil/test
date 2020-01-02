@@ -1,19 +1,19 @@
-const application = "/AXApplication[@AXTitle='MicroStrategy Workstation']";
-const stdWindow = `${application}/AXWindow[@AXSubrole='AXStandardWindow']`;
-const menuBar = `${application}/AXMenuBar[0]`;
-const toolbar = `${stdWindow}/AXToolbar[0]`;
-const mainCanvas = `${stdWindow}/AXSplitGroup[0]/AXGroup[1]/AXScrollArea[0]`;
-const mainCanvasIconView = `${mainCanvas}/AXList[@AXSubrole='AXCollectionList']`;
-const mainCanvasListView = `${mainCanvas}/AXOutline[0]`;
+const application = '/AXApplication[@AXTitle=\'MicroStrategy Workstation\']'
+const stdWindow = `${application}/AXWindow[@AXSubrole='AXStandardWindow']`
+const menuBar = `${application}/AXMenuBar[0]`
+const toolbar = `${stdWindow}/AXToolbar[0]`
+const mainCanvas = `${stdWindow}/AXSplitGroup[0]/AXGroup[1]/AXScrollArea[0]`
+const mainCanvasIconView = `${mainCanvas}/AXList[@AXSubrole='AXCollectionList']`
+const mainCanvasListView = `${mainCanvas}/AXOutline[0]`
 
-const envSection = `${mainCanvas}/AXList[@AXSubrole='AXCollectionList']/AXList[@AXSubrole='AXSectionList']`;
-const dialog = `${application}/AXWindow[@AXSubrole='AXDialog']`;
-const popup = `${application}/AXWindow[@AXSubrole='AXStandardWindow']/AXSheet[0]`;
+const envSection = `${mainCanvas}/AXList[@AXSubrole='AXCollectionList']/AXList[@AXSubrole='AXSectionList']`
+const dialog = `${application}/AXWindow[@AXSubrole='AXDialog']`
+const popup = `${application}/AXWindow[@AXSubrole='AXStandardWindow']/AXSheet[0]`
 
-const popupInEditor = `${application}/AXWindow[@AXTitle='ReplaceEditorTitle']/AXSheet[0]`;
-const smartTabGroup = `${stdWindow}/AXSplitGroup[0]/AXGroup[0]/AXScrollArea[0]/AXOutline[0]/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]`;
+const popupInEditor = `${application}/AXWindow[@AXTitle='ReplaceEditorTitle']/AXSheet[0]`
+const smartTabGroup = `${stdWindow}/AXSplitGroup[0]/AXGroup[0]/AXScrollArea[0]/AXOutline[0]/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]`
 
-const mac_xpath = {
+const macXPath = {
   iconView: {
     mainCanvas: {
       env: {
@@ -65,12 +65,12 @@ const mac_xpath = {
     smartTab: {
       tab: `${smartTabGroup}/AXStaticText[@AXValue='ReplaceMe']`,
       createNewItem: `${smartTabGroup}/AXButton[@AXHelp='ReplaceMe']`,
-      //The "+" button for creating a new Document. Currently the only way to locate this button is to use the index. Developer from Mac Workstation team says adding other locator helpers needs some code structure refact and may happen in the future.
+      // The "+" button for creating a new Document. Currently the only way to locate this button is to use the index. Developer from Mac Workstation team says adding other locator helpers needs some code structure refact and may happen in the future.
       newDocument: `${stdWindow}/AXSplitGroup[0]/AXGroup[0]/AXScrollArea[0]/AXOutline[0]/AXRow[4]/AXCell[0]/AXButton[0]`,
     },
     pluginTab: {
       tab: `/AXApplication[@AXTitle='MicroStrategy Workstation']/AXWindow[@AXSubrole='AXStandardWindow']/AXScrollArea[0]/AXTable[0]/AXRow[@AXSubrole='AXTableRow']/AXCell[0]/AXStaticText[@AXValue='ReplaceMe']`,
-    },	   
+    },
     folderTab: {
       envFolder: `${smartTabGroup}/AXStaticText[@AXValue='ReplaceMe']`,
       myMac: `${smartTabGroup}/AXStaticText[@AXValue='Files on My Mac']`
@@ -131,8 +131,8 @@ const mac_xpath = {
     settings: {
       button: `${stdWindow}/AXButton[@AXTitle='ReplaceMe']`,
       confirmErrorMessageButton: `${application}/AXWindow[@AXSubrole='AXStandardWindow']/AXSheet/AXButton[@AXTitle='OK']`
-    }	    
+    }
   }
 }
 
-module.exports = mac_xpath;
+module.exports = macXPath

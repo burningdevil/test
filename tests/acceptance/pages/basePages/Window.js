@@ -1,8 +1,7 @@
-import RootApp from './RootApp';
-const window = MAC_XPATH_GENERAL['window'];
+import RootApp from './RootApp'
+const window = MAC_XPATH_GENERAL.window
 
 export default class Window extends RootApp {
-
   // locator
   async getCloseButton(itemName) {
     return this.getNativeElement({
@@ -13,7 +12,7 @@ export default class Window extends RootApp {
         ]
       },
       mac: { xpath: window.close }
-    });
+    })
   }
 
   async getMinimizeButton(itemName) {
@@ -25,7 +24,7 @@ export default class Window extends RootApp {
         ]
       },
       mac: { xpath: window.minimize }
-    });
+    })
   }
 
   async getFullScreenButton(itemName) {
@@ -37,7 +36,7 @@ export default class Window extends RootApp {
         ]
       },
       mac: { xpath: window.fullscreen }
-    });
+    })
   }
 
   async getRestoreButton(itemName) {
@@ -49,32 +48,29 @@ export default class Window extends RootApp {
         ]
       },
       mac: { xpath: window.restore }
-    });
+    })
   }
 
   // actions
   async closeWindow(itemName) {
-    let closeButton = await this.getCloseButton(itemName);
-    return closeButton.click();
+    const closeButton = await this.getCloseButton(itemName)
+    return closeButton.click()
   }
 
   async minimizeWindow(itemName) {
-    let minimizeButton = await this.getMinimizeButton(itemName);
-    return minimizeButton.click();
+    const minimizeButton = await this.getMinimizeButton(itemName)
+    return minimizeButton.click()
   }
 
   async maximizeWindow(itemName) {
-    let fullscreenButton = await this.getFullScreenButton(itemName);
-    return fullscreenButton.click();
+    const fullscreenButton = await this.getFullScreenButton(itemName)
+    return fullscreenButton.click()
   }
 
   async restoreWindow(itemName) {
-    let restoreButton = await this.getRestoreButton(itemName);
-    return restoreButton.click();
+    const restoreButton = await this.getRestoreButton(itemName)
+    return restoreButton.click()
   }
 
   // assertions
-
-
-
 }

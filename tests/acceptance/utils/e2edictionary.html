@@ -60,27 +60,39 @@
     
             
       <div class="controls">
-        Available step definitions (17):
+        Available step definitions (71):
         <a href="javascript:toggleAll('collapse')" id="toggleAll"> Collapse All </a>
       </div>
       
         <div class="file-block">
           <input type="button" class="fileToggleButton" onClick="toggleDefinitions(this)" value="Toggle">
           <p class="filename-header" style='color:#1F618D;font-size:130%;'>
-          <b>features/step_definitions/dossierEditor/dossier_steps.js</b>
+          <b>steps/editor/editor_steps.js</b>
           </p>
           <div class="definitions">
-            <dl class="dl-horizontal step-definition" regex="Dossier%20%7BdossierName%7D%20should%20be%20displayed">
-          <dt style='color:#196F3D;font-size:130%;'>Then</dt>
-          <dd style='color:#1F618D;font-size:130%;'><b>Dossier {dossierName} should be displayed</b></dd>
+            <dl class="dl-horizontal step-definition" regex="I%20click%20save%20for%20popup%20in%20editor%20%7Bstring%7D">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I click save for popup in editor {string}</b></dd>
           <dt style='color:#196F3D;'>Link</dt>
-          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./features/step_definitions/dossierEditor/dossier_steps.js#L6'>Line 6 (branch master)</a></dd>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/editor/editor_steps.js#L26'>Line 26 (branch master)</a></dd>
           </dl>
-       <dl class="dl-horizontal step-definition" regex="I%20close%20Dossier%20%7BdossierName%7D">
+       <dl class="dl-horizontal step-definition" regex="I%20close%20editor%20%7Bstring%7D">
           <dt style='color:#196F3D;font-size:130%;'>Then</dt>
-          <dd style='color:#1F618D;font-size:130%;'><b>I close Dossier {dossierName}</b></dd>
+          <dd style='color:#1F618D;font-size:130%;'><b>I close editor {string}</b></dd>
           <dt style='color:#196F3D;'>Link</dt>
-          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./features/step_definitions/dossierEditor/dossier_steps.js#L11'>Line 11 (branch master)</a></dd>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/editor/editor_steps.js#L10'>Line 10 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="Popup%20should%20be%20displayed%20in%20editor%20%7Bstring%7D">
+          <dt style='color:#196F3D;font-size:130%;'>Then</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>Popup should be displayed in editor {string}</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/editor/editor_steps.js#L22'>Line 22 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="%7Bstring%7D%20editor%20should%20be%20displayed">
+          <dt style='color:#196F3D;font-size:130%;'>Then</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>{string} editor should be displayed</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/editor/editor_steps.js#L6'>Line 6 (branch master)</a></dd>
           </dl>
       
           </div>
@@ -89,26 +101,80 @@
         <div class="file-block">
           <input type="button" class="fileToggleButton" onClick="toggleDefinitions(this)" value="Toggle">
           <p class="filename-header" style='color:#1F618D;font-size:130%;'>
-          <b>features/step_definitions/hyperCard/hyperCard_steps.js</b>
+          <b>steps/editor/metricEditor_steps.js</b>
           </p>
           <div class="definitions">
-            <dl class="dl-horizontal step-definition" regex="I%20clear%20card">
+            <dl class="dl-horizontal step-definition" regex="Formula%20should%20be%20valid">
           <dt style='color:#196F3D;font-size:130%;'>When</dt>
-          <dd style='color:#1F618D;font-size:130%;'><b>I clear card</b></dd>
+          <dd style='color:#1F618D;font-size:130%;'><b>Formula should be valid</b></dd>
           <dt style='color:#196F3D;'>Link</dt>
-          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./features/step_definitions/hyperCard/hyperCard_steps.js#L14'>Line 14 (branch master)</a></dd>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/editor/metricEditor_steps.js#L44'>Line 44 (branch master)</a></dd>
           </dl>
-       <dl class="dl-horizontal step-definition" regex="I%20close%20card%20%7BcardName%7D">
+       <dl class="dl-horizontal step-definition" regex="I%20choose%20function%20editor%20option%20%7Bstring%7D">
           <dt style='color:#196F3D;font-size:130%;'>When</dt>
-          <dd style='color:#1F618D;font-size:130%;'><b>I close card {cardName}</b></dd>
+          <dd style='color:#1F618D;font-size:130%;'><b>I choose function editor option {string}</b></dd>
           <dt style='color:#196F3D;'>Link</dt>
-          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./features/step_definitions/hyperCard/hyperCard_steps.js#L18'>Line 18 (branch master)</a></dd>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/editor/metricEditor_steps.js#L27'>Line 27 (branch master)</a></dd>
           </dl>
-       <dl class="dl-horizontal step-definition" regex="I%20open%20card%20%7BcardName%7D">
+       <dl class="dl-horizontal step-definition" regex="I%20choose%20metric%20editor%20function%20%7Bstring%7D">
           <dt style='color:#196F3D;font-size:130%;'>When</dt>
-          <dd style='color:#1F618D;font-size:130%;'><b>I open card {cardName}</b></dd>
+          <dd style='color:#1F618D;font-size:130%;'><b>I choose metric editor function {string}</b></dd>
           <dt style='color:#196F3D;'>Link</dt>
-          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./features/step_definitions/hyperCard/hyperCard_steps.js#L4'>Line 4 (branch master)</a></dd>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/editor/metricEditor_steps.js#L19'>Line 19 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20click%20button%20%7Bstring%7D">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I click button {string}</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/editor/metricEditor_steps.js#L11'>Line 11 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20click%20popup%20button%20%7Bstring%7D">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I click popup button {string}</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/editor/metricEditor_steps.js#L15'>Line 15 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20click%20validate%20button">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I click validate button</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/editor/metricEditor_steps.js#L40'>Line 40 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20double%20click%20on%20%7Bstring%7D">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I double click on {string}</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/editor/metricEditor_steps.js#L31'>Line 31 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20name%20metric%20as%20%7Bstring%7D">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I name metric as {string}</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/editor/metricEditor_steps.js#L48'>Line 48 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20provide%20input%20%7Bstring%7D">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I provide input {string}</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/editor/metricEditor_steps.js#L36'>Line 36 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20switch%20to%20formula%20editor">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I switch to formula editor</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/editor/metricEditor_steps.js#L23'>Line 23 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="Metric%20editor%20window%20should%20NOT%20be%20displayed">
+          <dt style='color:#196F3D;font-size:130%;'>Then</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>Metric editor window should NOT be displayed</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/editor/metricEditor_steps.js#L7'>Line 7 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="Metric%20editor%20window%20should%20be%20displayed">
+          <dt style='color:#196F3D;font-size:130%;'>Then</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>Metric editor window should be displayed</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/editor/metricEditor_steps.js#L3'>Line 3 (branch master)</a></dd>
           </dl>
       
           </div>
@@ -117,38 +183,50 @@
         <div class="file-block">
           <input type="button" class="fileToggleButton" onClick="toggleDefinitions(this)" value="Toggle">
           <p class="filename-header" style='color:#1F618D;font-size:130%;'>
-          <b>features/step_definitions/mainWindow/environment_steps.js</b>
+          <b>steps/editor/rsdEditor_steps.js</b>
           </p>
           <div class="definitions">
-            <dl class="dl-horizontal step-definition" regex="I%20add%20a%20new%20environment%20named%20%7BenvName%7D%20with%20url%20%7BenvUrl%7D">
+            <dl class="dl-horizontal step-definition" regex="I%20change%20the%20scale%20from%20%7Bstring%7D%20to%20%7Bstring%7D">
           <dt style='color:#196F3D;font-size:130%;'>When</dt>
-          <dd style='color:#1F618D;font-size:130%;'><b>I add a new environment named {envName} with url {envUrl}</b></dd>
+          <dd style='color:#1F618D;font-size:130%;'><b>I change the scale from {string} to {string}</b></dd>
           <dt style='color:#196F3D;'>Link</dt>
-          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./features/step_definitions/mainWindow/environment_steps.js#L5'>Line 5 (branch master)</a></dd>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/editor/rsdEditor_steps.js#L20'>Line 20 (branch master)</a></dd>
           </dl>
-       <dl class="dl-horizontal step-definition" regex="I%20click%20OK%20to%20connect%20after%20selecting%20project(s)">
-          <dt style='color:#196F3D;font-size:130%;'>Then</dt>
-          <dd style='color:#1F618D;font-size:130%;'><b>I click OK to connect after selecting project(s)</b></dd>
-          <dt style='color:#196F3D;'>Link</dt>
-          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./features/step_definitions/mainWindow/environment_steps.js#L17'>Line 17 (branch master)</a></dd>
-          </dl>
-       <dl class="dl-horizontal step-definition" regex="I%20login%20with%20%7BloginMode%7D%20mode%20using%20name%20%7BuserName%7D%20and%20password%20%7BuserPwd%7D">
+       <dl class="dl-horizontal step-definition" regex="I%20close%20the%20%7Bstring%7D%20RSD%20Window">
           <dt style='color:#196F3D;font-size:130%;'>When</dt>
-          <dd style='color:#1F618D;font-size:130%;'><b>I login with {loginMode} mode using name {userName} and password {userPwd}</b></dd>
+          <dd style='color:#1F618D;font-size:130%;'><b>I close the {string} RSD Window</b></dd>
           <dt style='color:#196F3D;'>Link</dt>
-          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./features/step_definitions/mainWindow/environment_steps.js#L9'>Line 9 (branch master)</a></dd>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/editor/rsdEditor_steps.js#L25'>Line 25 (branch master)</a></dd>
           </dl>
-       <dl class="dl-horizontal step-definition" regex="I%20remove%20environment%20%7BenvName%7D">
-          <dt style='color:#196F3D;font-size:130%;'>Then</dt>
-          <dd style='color:#1F618D;font-size:130%;'><b>I remove environment {envName}</b></dd>
+       <dl class="dl-horizontal step-definition" regex="I%20directly%20close%20the%20%7Bstring%7D%20RSD%20Window">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I directly close the {string} RSD Window</b></dd>
           <dt style='color:#196F3D;'>Link</dt>
-          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./features/step_definitions/mainWindow/environment_steps.js#L21'>Line 21 (branch master)</a></dd>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/editor/rsdEditor_steps.js#L30'>Line 30 (branch master)</a></dd>
           </dl>
-       <dl class="dl-horizontal step-definition" regex="I%20select%20project%20%7BprojectName%7D">
-          <dt style='color:#196F3D;font-size:130%;'>Then</dt>
-          <dd style='color:#1F618D;font-size:130%;'><b>I select project {projectName}</b></dd>
+       <dl class="dl-horizontal step-definition" regex="I%20select%20Yes%20to%20close%20the%20RSD%20Window">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I select Yes to close the RSD Window</b></dd>
           <dt style='color:#196F3D;'>Link</dt>
-          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./features/step_definitions/mainWindow/environment_steps.js#L13'>Line 13 (branch master)</a></dd>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/editor/rsdEditor_steps.js#L40'>Line 40 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20select%20the%20%7Bstring%7D%20in%20create%20new%20document%20window">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I select the {string} in create new document window</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/editor/rsdEditor_steps.js#L8'>Line 8 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="The%20RSD%20scale%20setting%20with%20%7Bstring%7D%20should%20be%20displayed">
+          <dt style='color:#196F3D;font-size:130%;'>Then</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>The RSD scale setting with {string} should be displayed</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/editor/rsdEditor_steps.js#L13'>Line 13 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="The%20%7Bstring%7D%20RSD%20window%20should%20be%20present">
+          <dt style='color:#196F3D;font-size:130%;'>Then</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>The {string} RSD window should be present</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/editor/rsdEditor_steps.js#L4'>Line 4 (branch master)</a></dd>
           </dl>
       
           </div>
@@ -157,26 +235,330 @@
         <div class="file-block">
           <input type="button" class="fileToggleButton" onClick="toggleDefinitions(this)" value="Toggle">
           <p class="filename-header" style='color:#1F618D;font-size:130%;'>
-          <b>features/step_definitions/mainWindow/mainWindow_steps.js</b>
+          <b>steps/mainWindow/environment_steps.js</b>
+          </p>
+          <div class="definitions">
+            <dl class="dl-horizontal step-definition" regex="Environment%20should%20be%20removed">
+          <dt style='color:#196F3D;font-size:130%;'>Then</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>Environment should be removed</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/environment_steps.js#L29'>Line 29 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20add%20a%20new%20environment%20named%20%7Bstring%7D%20with%20url%20%7Bstring%7D">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I add a new environment named {string} with url {string}</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/environment_steps.js#L4'>Line 4 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20click%20OK%20to%20connect%20after%20selecting%20project">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I click OK to connect after selecting project</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/environment_steps.js#L17'>Line 17 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20configure%20LDAP%20service%20on%20env%20%7Bstring%7D">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I configure LDAP service on env {string}</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/environment_steps.js#L33'>Line 33 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20connect%20existing%20environment%20%7Bstring%7D">
+          <dt style='color:#196F3D;font-size:130%;'>Then</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I connect existing environment {string}</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/environment_steps.js#L41'>Line 41 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20disconnect%20environment">
+          <dt style='color:#196F3D;font-size:130%;'>Then</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I disconnect environment</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/environment_steps.js#L37'>Line 37 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20import%20LDAP%20users%20on%20env%20%7Bstring%7D">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I import LDAP users on env {string}</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/environment_steps.js#L45'>Line 45 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20login%20with%20%7Bstring%7D%20mode%20using%20name%20%7Bstring%7D%20and%20password%20%7Bstring%7D">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I login with {string} mode using name {string} and password {string}</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/environment_steps.js#L8'>Line 8 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20remove%20environment%20%7Bstring%7D">
+          <dt style='color:#196F3D;font-size:130%;'>Then</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I remove environment {string}</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/environment_steps.js#L21'>Line 21 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20select%20project%20%7Bstring%7D">
+          <dt style='color:#196F3D;font-size:130%;'>Then</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I select project {string}</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/environment_steps.js#L13'>Line 13 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="%7Bstring%7D%20is%20connected">
+          <dt style='color:#196F3D;font-size:130%;'>Then</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>{string} is connected</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/environment_steps.js#L49'>Line 49 (branch master)</a></dd>
+          </dl>
+      
+          </div>
+        </div>
+      
+        <div class="file-block">
+          <input type="button" class="fileToggleButton" onClick="toggleDefinitions(this)" value="Toggle">
+          <p class="filename-header" style='color:#1F618D;font-size:130%;'>
+          <b>steps/mainWindow/footer_steps.js</b>
+          </p>
+          <div class="definitions">
+            <dl class="dl-horizontal step-definition" regex="I%20select%20folderMode%20on%20navigation%20bar">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I select folderMode on navigation bar</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/footer_steps.js#L8'>Line 8 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20select%20smartMode%20on%20navigation%20bar">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I select smartMode on navigation bar</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/footer_steps.js#L18'>Line 18 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="%7Bstring%7D%20smart%20tab%20is%20selected">
+          <dt style='color:#196F3D;font-size:130%;'>Then</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>{string} smart tab is selected</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/footer_steps.js#L4'>Line 4 (branch master)</a></dd>
+          </dl>
+      
+          </div>
+        </div>
+      
+        <div class="file-block">
+          <input type="button" class="fileToggleButton" onClick="toggleDefinitions(this)" value="Toggle">
+          <p class="filename-header" style='color:#1F618D;font-size:130%;'>
+          <b>steps/mainWindow/ldapConfig_steps.js</b>
+          </p>
+          <div class="definitions">
+            <dl class="dl-horizontal step-definition" regex="I%20click%20LDAP%20configure%20button">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I click LDAP configure button</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/ldapConfig_steps.js#L27'>Line 27 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20click%20OK%20after%20user%20import">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I click OK after user import</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/ldapConfig_steps.js#L21'>Line 21 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20click%20cancel%20button">
+          <dt style='color:#196F3D;font-size:130%;'>Then</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I click cancel button</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/ldapConfig_steps.js#L16'>Line 16 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20select%20sideTab%20%7Bstring%7D">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I select sideTab {string}</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/ldapConfig_steps.js#L12'>Line 12 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="LDAP%20window%20should%20NOT%20be%20displayed">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>LDAP window should NOT be displayed</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/ldapConfig_steps.js#L8'>Line 8 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="LDAP%20window%20should%20be%20displayed">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>LDAP window should be displayed</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/ldapConfig_steps.js#L3'>Line 3 (branch master)</a></dd>
+          </dl>
+      
+          </div>
+        </div>
+      
+        <div class="file-block">
+          <input type="button" class="fileToggleButton" onClick="toggleDefinitions(this)" value="Toggle">
+          <p class="filename-header" style='color:#1F618D;font-size:130%;'>
+          <b>steps/mainWindow/mainCanvas_steps.js</b>
+          </p>
+          <div class="definitions">
+            <dl class="dl-horizontal step-definition" regex="Check%20text">
+          <dt style='color:#196F3D;font-size:130%;'>Then</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>Check text</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/mainCanvas_steps.js#L12'>Line 12 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20double%20click%20to%20open%20%7Bstring%7D%20of%20type%20%7Bstring%7D">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I double click to open {string} of type {string}</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/mainCanvas_steps.js#L16'>Line 16 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20select%20context%20menu%20option%20%7Bstring%7D%20for%20%7Bstring%7D%20of%20type%20%7Bstring%7D">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I select context menu option {string} for {string} of type {string}</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/mainCanvas_steps.js#L24'>Line 24 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20select%20search%20folder%20%7Bstring%7D">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I select search folder {string}</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/mainCanvas_steps.js#L8'>Line 8 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20single%20click%20on%20%7Bstring%7D%20of%20type%20%7Bstring%7D">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I single click on {string} of type {string}</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/mainCanvas_steps.js#L20'>Line 20 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="Search%20page%20is%20shown">
+          <dt style='color:#196F3D;font-size:130%;'>Then</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>Search page is shown</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/mainCanvas_steps.js#L4'>Line 4 (branch master)</a></dd>
+          </dl>
+      
+          </div>
+        </div>
+      
+        <div class="file-block">
+          <input type="button" class="fileToggleButton" onClick="toggleDefinitions(this)" value="Toggle">
+          <p class="filename-header" style='color:#1F618D;font-size:130%;'>
+          <b>steps/mainWindow/menuBar_steps.js</b>
+          </p>
+          <div class="definitions">
+            <dl class="dl-horizontal step-definition" regex="I%20select%20%7Bstring%7D%20from%20%7Bstring%7D%20on%20menubar">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I select {string} from {string} on menubar</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/menuBar_steps.js#L4'>Line 4 (branch master)</a></dd>
+          </dl>
+      
+          </div>
+        </div>
+      
+        <div class="file-block">
+          <input type="button" class="fileToggleButton" onClick="toggleDefinitions(this)" value="Toggle">
+          <p class="filename-header" style='color:#1F618D;font-size:130%;'>
+          <b>steps/mainWindow/rsd_steps.js</b>
+          </p>
+          <div class="definitions">
+            <dl class="dl-horizontal step-definition" regex="I%20select%20%7Bstring%7D%20and%20click%20select">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I select {string} and click select</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/rsd_steps.js#L4'>Line 4 (branch master)</a></dd>
+          </dl>
+      
+          </div>
+        </div>
+      
+        <div class="file-block">
+          <input type="button" class="fileToggleButton" onClick="toggleDefinitions(this)" value="Toggle">
+          <p class="filename-header" style='color:#1F618D;font-size:130%;'>
+          <b>steps/mainWindow/settingsPlugin_steps.js</b>
+          </p>
+          <div class="definitions">
+            <dl class="dl-horizontal step-definition" regex="I%20click%20on%20the%20advanced%20link">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I click on the advanced link</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/settingsPlugin_steps.js#L25'>Line 25 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20click%20the%20%7Bstring%7D%20button%20to%20close%20the%20plugin%20window">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I click the {string} button to close the plugin window</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/settingsPlugin_steps.js#L29'>Line 29 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20confirm%20the%20error%20massage">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I confirm the error massage</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/settingsPlugin_steps.js#L34'>Line 34 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20input%20%7Bstring%7D%20for%20Message%20lifetime">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I input {string} for Message lifetime</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/settingsPlugin_steps.js#L21'>Line 21 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20select%20plugin%20tab%20%7Bstring%7D">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I select plugin tab {string}</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/settingsPlugin_steps.js#L7'>Line 7 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="The%20All%20Settings%20plugin%20page%20should%20be%20displayed">
+          <dt style='color:#196F3D;font-size:130%;'>Then</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>The All Settings plugin page should be displayed</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/settingsPlugin_steps.js#L17'>Line 17 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="The%20Governing%20Settings%20plugin%20page%20should%20be%20displayed">
+          <dt style='color:#196F3D;font-size:130%;'>Then</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>The Governing Settings plugin page should be displayed</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/settingsPlugin_steps.js#L13'>Line 13 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="The%20environment%20information%20window%20should%20be%20displayed">
+          <dt style='color:#196F3D;font-size:130%;'>Then</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>The environment information window should be displayed</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/settingsPlugin_steps.js#L3'>Line 3 (branch master)</a></dd>
+          </dl>
+      
+          </div>
+        </div>
+      
+        <div class="file-block">
+          <input type="button" class="fileToggleButton" onClick="toggleDefinitions(this)" value="Toggle">
+          <p class="filename-header" style='color:#1F618D;font-size:130%;'>
+          <b>steps/mainWindow/tabs_steps.js</b>
           </p>
           <div class="definitions">
             <dl class="dl-horizontal step-definition" regex="I%20create%20a%20new%20item%20%7Bstring%7D">
           <dt style='color:#196F3D;font-size:130%;'>When</dt>
           <dd style='color:#1F618D;font-size:130%;'><b>I create a new item {string}</b></dd>
           <dt style='color:#196F3D;'>Link</dt>
-          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./features/step_definitions/mainWindow/mainWindow_steps.js#L15'>Line 15 (branch master)</a></dd>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/tabs_steps.js#L15'>Line 15 (branch master)</a></dd>
           </dl>
-       <dl class="dl-horizontal step-definition" regex="I%20first-time%20select%20tab%20%7BtabName%7D%20and%20wait%20for%20cache%20generation">
-          <dt style='color:#196F3D;font-size:130%;'>Then</dt>
-          <dd style='color:#1F618D;font-size:130%;'><b>I first-time select tab {tabName} and wait for cache generation</b></dd>
+       <dl class="dl-horizontal step-definition" regex="I%20double%20click%20to%20expand%20or%20collapse%20%7Bstring%7D">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I double click to expand or collapse {string}</b></dd>
           <dt style='color:#196F3D;'>Link</dt>
-          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./features/step_definitions/mainWindow/mainWindow_steps.js#L5'>Line 5 (branch master)</a></dd>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/tabs_steps.js#L35'>Line 35 (branch master)</a></dd>
           </dl>
-       <dl class="dl-horizontal step-definition" regex="I%20select%20tab%20%7BtabName%7D">
+       <dl class="dl-horizontal step-definition" regex="I%20first-time%20select%20tab%20%7Bstring%7D%20and%20wait%20for%20cache%20generation">
           <dt style='color:#196F3D;font-size:130%;'>Then</dt>
-          <dd style='color:#1F618D;font-size:130%;'><b>I select tab {tabName}</b></dd>
+          <dd style='color:#1F618D;font-size:130%;'><b>I first-time select tab {string} and wait for cache generation</b></dd>
           <dt style='color:#196F3D;'>Link</dt>
-          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./features/step_definitions/mainWindow/mainWindow_steps.js#L10'>Line 10 (branch master)</a></dd>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/tabs_steps.js#L6'>Line 6 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20select%20environment%20folder%20%7Bstring%7D">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I select environment folder {string}</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/tabs_steps.js#L25'>Line 25 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20select%20local%20disk%20folder">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I select local disk folder</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/tabs_steps.js#L30'>Line 30 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20select%20tab%20%7Bstring%7D">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I select tab {string}</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/tabs_steps.js#L10'>Line 10 (branch master)</a></dd>
           </dl>
       
           </div>
@@ -185,32 +567,44 @@
         <div class="file-block">
           <input type="button" class="fileToggleButton" onClick="toggleDefinitions(this)" value="Toggle">
           <p class="filename-header" style='color:#1F618D;font-size:130%;'>
-          <b>features/step_definitions/mainWindow/search_steps.js</b>
+          <b>steps/mainWindow/toolbar_steps.js</b>
           </p>
           <div class="definitions">
             <dl class="dl-horizontal step-definition" regex="I%20clear%20search">
-          <dt style='color:#196F3D;font-size:130%;'>Then</dt>
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
           <dd style='color:#1F618D;font-size:130%;'><b>I clear search</b></dd>
           <dt style='color:#196F3D;'>Link</dt>
-          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./features/step_definitions/mainWindow/search_steps.js#L8'>Line 8 (branch master)</a></dd>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/toolbar_steps.js#L15'>Line 15 (branch master)</a></dd>
           </dl>
-       <dl class="dl-horizontal step-definition" regex="I%20click%20on%20item%20%7BitemName%7D">
+       <dl class="dl-horizontal step-definition" regex="I%20click%20on%20item%20%7Bstring%7D">
           <dt style='color:#196F3D;font-size:130%;'>When</dt>
-          <dd style='color:#1F618D;font-size:130%;'><b>I click on item {itemName}</b></dd>
+          <dd style='color:#1F618D;font-size:130%;'><b>I click on item {string}</b></dd>
           <dt style='color:#196F3D;'>Link</dt>
-          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./features/step_definitions/mainWindow/search_steps.js#L18'>Line 18 (branch master)</a></dd>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/toolbar_steps.js#L25'>Line 25 (branch master)</a></dd>
           </dl>
-       <dl class="dl-horizontal step-definition" regex="I%20search%20for%20%7BsearchString%7D">
+       <dl class="dl-horizontal step-definition" regex="I%20refresh%20workstation%20cache">
           <dt style='color:#196F3D;font-size:130%;'>When</dt>
-          <dd style='color:#1F618D;font-size:130%;'><b>I search for {searchString}</b></dd>
+          <dd style='color:#1F618D;font-size:130%;'><b>I refresh workstation cache</b></dd>
           <dt style='color:#196F3D;'>Link</dt>
-          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./features/step_definitions/mainWindow/search_steps.js#L4'>Line 4 (branch master)</a></dd>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/toolbar_steps.js#L7'>Line 7 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20search%20for%20%7Bstring%7D">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I search for {string}</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/toolbar_steps.js#L11'>Line 11 (branch master)</a></dd>
+          </dl>
+       <dl class="dl-horizontal step-definition" regex="I%20select%20view%20%7Bstring%7D">
+          <dt style='color:#196F3D;font-size:130%;'>When</dt>
+          <dd style='color:#1F618D;font-size:130%;'><b>I select view {string}</b></dd>
+          <dt style='color:#196F3D;'>Link</dt>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/toolbar_steps.js#L3'>Line 3 (branch master)</a></dd>
           </dl>
        <dl class="dl-horizontal step-definition" regex="Result%20Popup%20should%20be%20displayed%20with%20%7Bint%7D%20items">
           <dt style='color:#196F3D;font-size:130%;'>Then</dt>
           <dd style='color:#1F618D;font-size:130%;'><b>Result Popup should be displayed with {int} items</b></dd>
           <dt style='color:#196F3D;'>Link</dt>
-          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./features/step_definitions/mainWindow/search_steps.js#L12'>Line 12 (branch master)</a></dd>
+          <dd style='color:#1F618D;'><a href='https://github.microstrategy.com/skasulanati/ws-app-automation/blob/master/./steps/mainWindow/toolbar_steps.js#L19'>Line 19 (branch master)</a></dd>
           </dl>
       
           </div>
@@ -222,7 +616,7 @@
           var newValue = e.currentTarget.value;
           $('.step-definition').each(function(elem) {
             var regexString = decodeURIComponent(this.getAttribute('regex'));
-            var searchFilter = newValue.replace(/ +/g, '.*').replace(/".*"/, '".*"');
+            var searchFilter = newValue.replace(/ +/g, '.*').replace(/"."/, '".*"');
             var matchDefinition = new RegExp(searchFilter.toLowerCase());
             if (!matchDefinition.test(regexString.toLowerCase())) {
               this.style.display = 'none';
