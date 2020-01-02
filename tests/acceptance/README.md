@@ -90,6 +90,7 @@ Here are some topics that may help you better understand how to use this templat
     * [Navigation Between Native and WebView](docs/navigate-between-native-and-webview.md)
     * [Debug Your Implementation](docs/debug.md)
 * [Performance Test](docs/performance-test.md)
+* [Stability Test](docs/stability-test.md)
 * [Analyze Test Results](docs/test_results.md)
 * [CI Pipeline](docs/ci-pipeline.md)
 * [Common Errors](docs/common-errors.md)
