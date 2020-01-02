@@ -11,7 +11,7 @@ Appium not started / failed to start
 
 ## Windows
 ### Error: Windows - 'Could not verify WinAppDriver install; re-run install'
-- One possible cause is a version mismatch. Check if you already have 'Windows Application Driver' installed, uninstall it from Windows Control Panel. Then try to uninstall and install appium node module again.
+- One possible cause is a WAD version mismatch. Check if you already have 'Windows Application Driver' installed, uninstall it from Windows Control Panel. Then try to uninstall and install appium node module again.
 - Another cause may be the installation failed due to permission problem. Launch the tool you are running the script with 'Run as Administrator'. Try to uninstall and install appium node module again.
 
 ## Mac

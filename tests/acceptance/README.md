@@ -2,11 +2,9 @@
 # Workstation E2E Testing Framework
 
 Workstation Framework team automated this E2E Testing Framework for both Workstation Windows and Workstation Mac. The framework is based on [Protractor](https://github.com/angular/protractor), [Cucumber](https://github.com/cucumber/cucumber) and [Appium](http://appium.io/).
-
 ## Requirements
 General:
-- Install [Node.JS](https://nodejs.org)
-- (optional but recommmeded) Install [Yarn](https://github.com/yarnpkg/yarn)
+- Install [Node.JS](https://nodejs.org) and [Yarn](https://github.com/yarnpkg/yarn)
 - Install a Code Editor tool, [Visual Studio Code](https://code.visualstudio.com/) recommended.
 - Use bash shell.
 ### For Windows:
@@ -31,38 +29,46 @@ Install all necessary node modules specified in the file [package.json](./packag
 ```
 yarn install
 ```
-or
-```
-npm install
-```
 
-## Quick Start
-This test framework includes example E2E test workflows for both Workstation Windows and Workstation Mac. There are two ways to run these tests.
+## Configuration Before Start
+You can modify the test configuration by either change the file where hosts all the configurable settings or by directly pass in the parameter value(S) in the command line. The value(s) provided in command line will overwrite the values in the configuration file.
+
+### Modify Configuration File
+You can modify the configuration file ./protractorArgs.json to provide default parameter values.
+
+### CLI Parameters
+You can also specify the parameter value(s) in the command line to run the test. The value(s) provided in command line will overwrite the values in the configuration file.
+
+#### Protractor CLI
+You can always use Protractor CLI options, please check the options [here](https://github.com/angular/protractor/blob/master/lib/cli.ts).
+
+#### Cucumber CLI
+
+Protractor-Cucumber-Framework supports [Cucumber CLI](https://github.com/cucumber/cucumber-js/blob/master/docs/cli.md), just add the paramters as the key of the object cucumberOpts. For example, instead of `--tags <tagName>`, use `--cucumberOpts.tags <tagName>`.
+
+## Run First Test
+You can run the tests from the command line with the pre-defined npm scripts. Make sure you provided correct parameter values such as Workstation path, environment to connect, etc. Please note the test may probably fail if the features are changed. As long as you see the Workstation Application is launched and the environment can be connected successfully, you are good to go.
 ### Two-steps Run: Start Appium and Run Test
 As Appium has been installed locally as a node module, we need to start it before running the test.
-#### Start Appium
+#### Step I: Start Appium
 In one bash shell, start Appium server. You will see Appium by default starts on 127.0.0.1:4723.
 ```
 yarn startAppium
 ```
-or
-```
-npm run startAppium
-```
-#### Run Test
+#### Step II: Trigger Test
 Open another bash shell to run the test.
-Before you run the example test, please provide the correct information about test environment and Workstation application path. You can do this by either
-- Modify the infomations in file ./protractorArgs.json
-- Directly pass in the parameter values in command line.
-
-You can run the tests from command line with the pre-defined npm scripts. Please modify the '--args.appPath.mac' to '--args.appPath.windows' for Windows test.
 
 ```
 yarn test --args.appPath.mac '<Workstation_Path>' --cucumberOpts.tags '<Tag_Name>'
 ```
-or
+or to run performance test
 ```
-npm run test -- --args.appPath.mac '<Workstation_Path>' --cucumberOpts.tags '<Tag_Name>'
+yarn ubTest
+```
+or to enable the Retry logic
+
+```
+yarn flakeTest
 ```
 
 ### One-step Run: For CI purpose mainly
@@ -70,10 +76,6 @@ This is mainly for CI test purpose. It does start Appium, run test, and stop App
 ```
 node trigger_test --args.appPath.mac '/myPath/MicroStrategy Workstation.app' --cucumberOpts.tags '@ldap'
 ```
-
-Note:
-- The test may fail if as the features are changing. We may maintain some of the feature specs but as long as you see the Workstation Application is launched and the environment can be connected successfully, you environment setup is good.
-
 
 ## User Guide
 This template includes Protractor-Cucumber-Framework setup, configurations, examples of test scenarios and Page Object classes for you to quickly learn and start E2E test automation for Workstation Windows and Mac. You can always find the reusable scripts for each team in this [Reusable Pattern List](docs/reusable-pattern-list.md). You are also welcomed to contribute to this template with any reusable patterns you have, please check the [How To Contribute](docs/how-to-contribute.md) for details.
