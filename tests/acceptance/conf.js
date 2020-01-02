@@ -97,6 +97,8 @@ exports.config = {
 
     // build page objects for native and webviews
     const PageBuilder = require('./pages/PageBuilder')
+    workstationApp.pageObj = PageBuilder()
+    const { mainWindow } = workstationApp.pageObj
     /* eslint-disable no-unused-vars */
     const {
       dialogs,
