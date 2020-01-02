@@ -81,11 +81,12 @@ This template includes Protractor-Cucumber-Framework setup, configurations, exam
 Here are some topics that may help you better understand how to use this template.
 * [Framework Architecture](docs/framework-architecture.md)
 * [Setup the Environment](docs/setup-and-run.md)
-* [Implement Test](docs/implement-test.md)
-    * [Design Features and Scenarios](docs/implement-test.md#design-features-and-scenarios)
-    * [Implement Steps](docs/implement-test.md#implement-cucumber-steps)
-    * [Implement Page Objects](docs/implement-test.md#implement-page-objects)
-    * [Locate Elements](docs/implement-test.md#locate-elements)
+* Implement Test
+    * [Create Features and Scenarios](docs/create-cucumber-features-scenarios.md)
+    * [Implement Page Objects](docs/page-objects.md)
+    * [Locate Elements](docs/how-to-locate-elements.md)
+    * [Navigation Between Native and WebView](docs/navigate-between-native-and-webview.md)
+    * [Debug Your Implementation](docs/debug.md)
 * [Performance Test](docs/performance-test.md)
 * [Analyze Test Results](docs/test_results.md)
 * [CI Pipeline](docs/ci-pipeline.md)
