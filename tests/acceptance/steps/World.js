@@ -36,7 +36,11 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
 
     // This one time capturing makes sure that for each of the cucumber step, there is at least one UB data element.
     if (enableUB) {
-      pidusage(workstationPidList, function (stats) {
+      pidusage(workstationPidList, function (err, stats) {
+        if (err) {
+          console.log(err)
+          return
+        }
         if (stats && pattern) {
           stats.feature = featureDescriptions.featureName
           stats.scenario = featureDescriptions.scenarioName
@@ -49,7 +53,11 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
         }
       })
 
-      pidusage(workstationHelperPidList, function (stats) {
+      pidusage(workstationHelperPidList, function (err, stats) {
+        if (err) {
+          console.log(err)
+          return
+        }
         if (stats && pattern) {
           stats.feature = featureDescriptions.featureName
           stats.scenario = featureDescriptions.scenarioName
@@ -79,7 +87,11 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
       }
 
       clearUBMonitor = setIntervalSynchronous(function () {
-        pidusage(workstationPidList, function (stats) {
+        pidusage(workstationPidList, function (err, stats) {
+          if (err) {
+            console.log(err)
+            return
+          }
           if (stats && patternAndID.pattern) {
             stats.feature = featureDescriptions.featureName
             stats.scenario = featureDescriptions.scenarioName
@@ -91,7 +103,11 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
             wsUBData.push(stats)
           }
         })
-        pidusage(workstationHelperPidList, function (stats) {
+        pidusage(workstationHelperPidList, function (err, stats) {
+          if (err) {
+            console.log(err)
+            return
+          }
           if (stats && patternAndID.pattern) {
             stats.feature = featureDescriptions.featureName
             stats.scenario = featureDescriptions.scenarioName

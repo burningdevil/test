@@ -3,7 +3,7 @@ const fs = require('fs')
 const fileName = 'finalizeHelpers.js'
 // replace the builder.js in node_modules to the builder.js in utils/ubUtils/ . After the replacement, the step information in cucumber will become available to the UB monitor.
 function replaceUBBuilder() {
-  const cucumberBuilderPath = `./node_modules/cucumber/lib/support_code_library_builder/${fileName}`
+  const cucumberBuilderPath = `./node_modules/cucumber/lib/support_code_library_builder/finalize_helpers.js`
 
   try {
     fs.unlinkSync(cucumberBuilderPath)
