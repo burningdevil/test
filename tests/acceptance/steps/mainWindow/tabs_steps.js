@@ -1,5 +1,6 @@
 const { When, Then } = require('cucumber')
 const { registerNewWindow, switchToWindow } = require('../../utils/wsUtils/windowHelper')
+const { mainWindow } = workstationApp.pageObj
 
 // ** Navigations in Main Window ** //
 // this step waits for caching to be completed (for Mac Quick Search)

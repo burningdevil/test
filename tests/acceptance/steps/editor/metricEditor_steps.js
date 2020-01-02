@@ -1,4 +1,5 @@
 const { When, Then } = require('cucumber')
+const { metricEditorPage } = workstationApp.pageObj
 
 Then('Metric editor window should be displayed', async function () {
   return expect(metricEditorPage.isMetricEditorPresent()).become(true)

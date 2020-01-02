@@ -1,4 +1,5 @@
 const { When, Then } = require('cucumber')
+const { mainWindow, quickSearchPage } = workstationApp.pageObj
 
 When('I select view {string}', async function (viewName) {
   return mainWindow.toolbar.switchViewTo(viewName)

@@ -1,4 +1,5 @@
 const { When, Then } = require('cucumber')
+const { mainWindow } = workstationApp.pageObj
 
 // ** Footer path Related** //
 Then('{string} smart tab is selected', async function (tabName) {

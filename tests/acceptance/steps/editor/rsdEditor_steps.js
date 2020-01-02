@@ -1,5 +1,6 @@
 const { When, Then } = require('cucumber')
 const { switchToWindow, unregisterWindow } = require('../../utils/wsUtils/windowHelper')
+const { rsdWindow, rsdPage } = workstationApp.pageObj
 
 Then('The {string} RSD window should be present', async function (windowName) {
   await rsdWindow.waitRSDWindow(windowName)

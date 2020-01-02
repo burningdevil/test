@@ -1,5 +1,6 @@
 const { When, Then } = require('cucumber')
 const { registerNewWindow, switchToWindow } = require('../../Utils/wsUtils/windowHelper')
+const { mainWindow, rsdPage, metricEditorPage, dialogs } = workstationApp.pageObj
 
 Then('Search page is shown', async function () {
   return expect(mainWindow.mainCanvas.isSearchResultPageDisplayed()).become(true)

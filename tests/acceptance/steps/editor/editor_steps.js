@@ -1,5 +1,6 @@
 const { When, Then } = require('cucumber')
 const { switchToWindow, unregisterWindow } = require('../../Utils/wsUtils/windowHelper')
+const { editor, metricEditorPage } = workstationApp.pageObj
 
 // ** Dossier Related ** //
 

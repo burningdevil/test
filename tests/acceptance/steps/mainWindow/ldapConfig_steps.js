@@ -1,4 +1,5 @@
 const { When, Then } = require('cucumber')
+const { ldapPage } = workstationApp.pageObj
 
 When('LDAP window should be displayed', async function() {
   await ldapPage.switchToNewWebView()

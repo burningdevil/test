@@ -1,4 +1,5 @@
 const { When, Then } = require('cucumber')
+const { mainWindow } = workstationApp.pageObj
 
 When('I add a new environment named {string} with url {string}', async function (envName, envUrl) {
   return mainWindow.mainCanvas.envSection.connectEnv(envName, envUrl)

@@ -1,4 +1,5 @@
 const { When, Then } = require('cucumber')
+const { settingsPluginWindow, governingSettingsPage, allSettingsPage } = workstationApp.pageObj
 
 Then('The environment information window should be displayed', async function () {
   return settingsPluginWindow.isEditorDisplayed('Plugin Test')

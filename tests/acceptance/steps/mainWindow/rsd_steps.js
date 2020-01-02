@@ -1,5 +1,7 @@
 const { When } = require('cucumber')
 const { registerNewWindow, switchToWindow } = require('../../utils/wsUtils/windowHelper')
+const { mainWindow, rsdPage, rsdWindow } = workstationApp.pageObj
+
 // native
 When('I select {string} and click select', async function (applicationName) {
   await mainWindow.mainCanvas.selectApplication(applicationName)
