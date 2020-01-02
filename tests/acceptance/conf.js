@@ -99,24 +99,6 @@ exports.config = {
     const PageBuilder = require('./pages/PageBuilder')
     workstationApp.pageObj = PageBuilder()
     const { mainWindow } = workstationApp.pageObj
-    /* eslint-disable no-unused-vars */
-    const {
-      dialogs,
-      editor,
-      hyperCard,
-      mainWindow,
-      rsdWindow,
-      settingsPluginWindow,
-
-      hyperPage,
-      ldapPage,
-      metricEditorPage,
-      quickSearchPage,
-      rsdPage,
-      allSettingsPage,
-      governingSettingsPage
-    } = PageBuilder()
-    /*  eslint-disable no-unused-vars */
 
     if (customArgObj.args.connectEnv) {
       // TODO: remove exiting environment
