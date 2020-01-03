@@ -17,6 +17,7 @@
     "MAC_XPATH_GENERAL": false,
     "MAC_XPATH": false,
 
+    "pageObj":false,
     "workstationApp": false,
     "windowsMap": true,
     "mainWindow": false,

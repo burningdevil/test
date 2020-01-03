@@ -97,8 +97,8 @@ exports.config = {
 
     // build global page objects for native and webviews
     const PageBuilder = require('./pages/PageBuilder')
-    workstationApp.pageObj = PageBuilder()
-    const { mainWindow } = workstationApp.pageObj
+    global.pageObj = PageBuilder()
+    const { mainWindow } = global.pageObj
 
     if (customArgObj.args.connectEnv) {
       // TODO: remove exiting environment

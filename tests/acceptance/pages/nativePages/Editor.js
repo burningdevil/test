@@ -16,14 +16,20 @@ export default class Editor extends Window {
 
   // assertions
   async isEditorDisplayed(itemName) {
-    return this.nativeWaitFor({
-      windows: {
-        locators: [
-          { method: 'Name', value: itemName },
-        ]
-      },
-      mac: { xpath: editor.container.replace(/ReplaceEditorTitle/g, itemName) }
-    })
+    console.log(itemName)
+    try {
+      await this.nativeWaitFor({
+        windows: {
+          locators: [
+            { method: 'Name', value: itemName },
+          ]
+        },
+        mac: { xpath: editor.container.replace(/ReplaceEditorTitle/g, itemName) }
+      }, 4000, 'Failed to wait for editor to be displayed')
+      return true
+    } catch (err) {
+      return false
+    }
   }
 
   async isEditorDisappeared(itemName) {
