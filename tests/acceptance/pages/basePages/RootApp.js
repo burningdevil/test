@@ -35,14 +35,25 @@ export default class RootApp {
     await this.app.setImplicitWaitTimeout(0)
 
     const endTime = Date.now() + timeout
+    let elm
     while (Date.now() < endTime) {
       try {
-        const elmT = await this.getNativeElement(obj)
+        if (OSType === 'windows') {
+          // For Windows workstation, sometimes elements will be ramaining after close
+          elm = await this.getNativeElement(obj)
+          if (!await elm.isDisplayed()) { continue }
+        } else {
+          // for mac
+          elm = await this.getNativeElement(obj)
+        }
         // set Implicit Wait Timeout back
         await this.app.setImplicitWaitTimeout(10000)
-        return elmT
+        return elm
       } catch (err) {
-        // swallow error
+        if (!err.message.includes('NoSuchElement')) {
+          errMsg = err
+          break
+        }
       }
       await this.sleep(pollFreq)
     }
@@ -57,10 +68,26 @@ export default class RootApp {
     // remove Implicit Wait Timeout
     while (Date.now() < endTime) {
       try {
-        await this.getNativeElement(obj)
+        if (OSType === 'windows') {
+          // For Windows workstation, sometimes elements will be ramaining after close
+          const elm = await this.getNativeElement(obj)
+          if (!await elm.isDisplayed()) {
+            await this.app.setImplicitWaitTimeout(10000)
+            return true
+          }
+        } else {
+          // for mac
+          await this.getNativeElement(obj)
+        }
       } catch (err) {
-        await this.app.setImplicitWaitTimeout(10000)
-        return true
+        // check whether the error message is expected
+        if (err.message.includes('NoSuchElement')) {
+          await this.app.setImplicitWaitTimeout(10000)
+          return true
+        } else {
+          errMsg = err
+          break
+        }
       }
       await this.sleep(pollFreq)
     }
