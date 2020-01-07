@@ -1,6 +1,6 @@
 const { When } = require('cucumber')
 const { registerNewWindow, switchToWindow } = require('../../Utils/wsUtils/windowHelper')
-const { mainWindow, metricEditorPage } = workstationApp.pageObj
+const { mainWindow, metricEditorPage } = pageObj
 
 When('I select {string} from {string} on menubar', async function(option, menu) {
   await mainWindow.menuBar.clickMenuItem(menu)

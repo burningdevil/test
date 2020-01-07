@@ -17,6 +17,7 @@
     "MAC_XPATH_GENERAL": false,
     "MAC_XPATH": false,
 
+    "pageObj":false,
     "workstationApp": false,
     "windowsMap": true,
     "mainWindow": false,
@@ -39,7 +40,12 @@
   "rules": {
     "key-spacing": 0,
     "jsx-quotes": [2, "prefer-single"],
-    "max-len": [2, 280, 2],
+    "max-len": [1, 120, 2, {
+      "ignoreUrls": true,
+      "ignoreComments": true,
+      "ignoreStrings": true,
+      "ignoreTemplateLiterals": true
+    }],
     "object-curly-spacing": [2, "always"],
     "indent": [2, 2, { "SwitchCase": 2 }],
     "comma-dangle": 0,
@@ -48,6 +54,6 @@
     "quotes": [1, "single", { "allowTemplateLiterals": true }],
     "semi": 2,
     "space-before-function-paren": 0,
-    "camelcase": [1, { "properties": "always" }]
+    "camelcase": [2, { "properties": "always" }]
   }
 }
