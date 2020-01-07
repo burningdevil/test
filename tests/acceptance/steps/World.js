@@ -125,9 +125,6 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
 
     try {
       await fn.apply(this, arguments)
-      if (enableUB) {
-        clearUBMonitor()
-      }
     } catch (e) {
       const currentStep = this
       await screenshot({ format:'png' }).then((imgBuffer) => {
