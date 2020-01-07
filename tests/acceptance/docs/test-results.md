@@ -7,7 +7,7 @@ For a TC to be marked as pass, all the scenarios under a particular scenario out
 
 Incase of a failure at any step within a scenario, a defect will be automatically created for the failed and skipped steps in the scenario and would be linked to the scenario which is further linked to a unique test case.
 
-You can also use command "yarn htmlReport" to generate an interactive HTML report. For all failed steps, an error message as well as the screenshot will be attached, which will be helpful for debugging.
+You can also use command "node utils/generateCucumberHTMLReports.js" or "yarn htmlReport" to generate an interactive HTML report. For all failed steps, an error message as well as the screenshot will be attached, which will be helpful for debugging.
 
 ## Updating Test Results to Rally
 
