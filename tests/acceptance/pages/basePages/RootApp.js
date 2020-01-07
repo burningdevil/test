@@ -31,68 +31,69 @@ export default class RootApp {
   }
 
   async nativeWaitFor(obj, timeout = 6000, errMsg = 'Dynamic waiting for element failed', pollFreq = 500) {
-    // remove Implicit Wait Timeout
-    await this.app.setImplicitWaitTimeout(0)
+    try {
+      // remove Implicit Wait Timeout
+      await this.app.setImplicitWaitTimeout(0)
 
-    const endTime = Date.now() + timeout
-    let elm
-    while (Date.now() < endTime) {
-      try {
-        if (OSType === 'windows') {
-          // For Windows workstation, sometimes elements will be ramaining after close
-          elm = await this.getNativeElement(obj)
-          if (!await elm.isDisplayed()) { continue }
-        } else {
-          // for mac
-          elm = await this.getNativeElement(obj)
+      const endTime = Date.now() + timeout
+      let elm
+      while (Date.now() < endTime) {
+        try {
+          if (OSType === 'windows') {
+            // For Windows workstation, sometimes elements will be ramaining after close
+            elm = await this.getNativeElement(obj)
+            if (!await elm.isDisplayed()) { continue }
+          } else {
+            // for mac
+            elm = await this.getNativeElement(obj)
+          }
+          // set Implicit Wait Timeout back
+          return elm
+        } catch (err) {
+          if (!err.message.includes('NoSuchElement')) {
+            errMsg = err
+            break
+          }
         }
-        // set Implicit Wait Timeout back
-        await this.app.setImplicitWaitTimeout(10000)
-        return elm
-      } catch (err) {
-        if (!err.message.includes('NoSuchElement')) {
-          errMsg = err
-          break
-        }
+        await this.sleep(pollFreq)
       }
-      await this.sleep(pollFreq)
+    } finally {
+      await this.app.setImplicitWaitTimeout(10000)
     }
-
-    await this.app.setImplicitWaitTimeout(10000)
     throw Error(errMsg)
   }
 
   async nativeWaitForDisappear(obj, timeout = 6000, errMsg = 'Dynamic waiting for element disappear failed', pollFreq = 500) {
-    await this.app.setImplicitWaitTimeout(0)
-    const endTime = Date.now() + timeout
-    // remove Implicit Wait Timeout
-    while (Date.now() < endTime) {
-      try {
-        if (OSType === 'windows') {
-          // For Windows workstation, sometimes elements will be ramaining after close
-          const elm = await this.getNativeElement(obj)
-          if (!await elm.isDisplayed()) {
-            await this.app.setImplicitWaitTimeout(10000)
+    try {
+      await this.app.setImplicitWaitTimeout(0)
+      const endTime = Date.now() + timeout
+
+      while(Date.now() < endTime) {
+        try {
+          if (OSType === 'windows') {
+            // For Windows workstation, sometimes elements will be ramaining after close
+            const elm = await this.getNativeElement(obj)
+            if (!await elm.isDisplayed()) {
             return true
-          }
-        } else {
+            }
+          } else {
           // for mac
-          await this.getNativeElement(obj)
-        }
-      } catch (err) {
-        // check whether the error message is expected
-        if (err.message.includes('NoSuchElement')) {
-          await this.app.setImplicitWaitTimeout(10000)
-          return true
-        } else {
-          errMsg = err
-          break
-        }
+            await this.getNativeElement(obj)
+          }
+        } catch(err) {
+          // check whether the error message is expected
+          if (err.message.includes('NoSuchElement')) {
+            return true
+          } else {
+            errMsg = err
+            break
+          }
       }
-      await this.sleep(pollFreq)
+        await this.sleep(pollFreq)
+      }
+    } finally {
+      await this.app.setImplicitWaitTimeout(10000)
     }
-    // set Implicit Wait Timeout back
-    await this.app.setImplicitWaitTimeout(10000)
     throw Error(errMsg)
   }
 
