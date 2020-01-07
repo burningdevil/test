@@ -1,6 +1,7 @@
 const { setWorldConstructor } = require('cucumber')
 const { After, Before } = require('cucumber')
 const { setDefinitionFunctionWrapper } = require('cucumber')
+const screenshot = require('screenshot-desktop')
 
 const UB_INTERVAL = customArgObj.args.ubConf.ubInterval
 const { enableUB } = customArgObj.args.ubConf
@@ -124,13 +125,10 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
 
     try {
       await fn.apply(this, arguments)
-      if (enableUB) {
-        clearUBMonitor()
-      }
     } catch (e) {
-      console.info(e)
-      // This is the place that we should add screenshots
-      throw new Error('error happened in the function wrapper')
+      const imgBuffer = await screenshot({ format:'png' })
+      this.attach(imgBuffer, 'image/png')
+      throw new Error(`Error happened in the function wrapper: ${e}`)
     } finally {
       if (enableUB) {
         clearUBMonitor()
@@ -145,8 +143,10 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
   }
 })
 
-function CustomWorld() {
+function CustomWorld({ attach, parameters }) {
   this.ubInterval = UB_INTERVAL
+  this.attach = attach
+  this.parameters = parameters
 }
 
 Before(async function (scenarioResult) {

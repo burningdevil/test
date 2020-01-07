@@ -3,5 +3,5 @@ protractorArgs.json
 
 reports/**/*.json
 reports/**/*.txt
-
+reports/**/*.html
 
