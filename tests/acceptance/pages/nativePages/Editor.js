@@ -16,7 +16,6 @@ export default class Editor extends Window {
 
   // assertions
   async isEditorDisplayed(itemName) {
-    console.log(itemName)
     try {
       await this.nativeWaitFor({
         windows: {
