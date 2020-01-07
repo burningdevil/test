@@ -126,12 +126,8 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
     try {
       await fn.apply(this, arguments)
     } catch (e) {
-      const currentStep = this
-      await screenshot({ format:'png' }).then((imgBuffer) => {
-        return currentStep.attach(imgBuffer, 'image/png')
-      }).catch((err) => {
-        console.warn(err)
-      })
+      const imgBuffer = await screenshot({ format:'png' })
+      this.attach(imgBuffer, 'image/png')
       throw new Error(`Error happened in the function wrapper: ${e}`)
     } finally {
       if (enableUB) {
