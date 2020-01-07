@@ -44,7 +44,7 @@ export default class Editor extends Window {
         mac: { xpath: editor.container.replace(/ReplaceEditorTitle/g, itemName) }
       }, 2000, 'Editor still displayed after 2 seconds')
       return true
-    } catch(err) {
+    } catch (err) {
       console.error(err)
       return false
     }

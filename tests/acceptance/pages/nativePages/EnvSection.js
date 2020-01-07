@@ -235,7 +235,11 @@ export default class EnvSection extends RootApp {
           { method: 'Name', value: secondaryOption }
         ]
       },
-      mac: { xpath: MAC_XPATH[MAC_VIEWMODE].mainCanvas.secondaryContextOption.replace(/ReplaceOption/g, firstOption).replace(/ReplaceSecondaryOption/g, secondaryOption) }
+      mac: {
+        xpath: MAC_XPATH[MAC_VIEWMODE].mainCanvas.secondaryContextOption
+          .replace(/ReplaceOption/g, firstOption)
+          .replace(/ReplaceSecondaryOption/g, secondaryOption)
+      }
     })
   }
 

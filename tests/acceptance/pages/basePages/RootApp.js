@@ -68,19 +68,19 @@ export default class RootApp {
       await this.app.setImplicitWaitTimeout(0)
       const endTime = Date.now() + timeout
 
-      while(Date.now() < endTime) {
+      while (Date.now() < endTime) {
         try {
           if (OSType === 'windows') {
             // For Windows workstation, sometimes elements will be ramaining after close
             const elm = await this.getNativeElement(obj)
             if (!await elm.isDisplayed()) {
-            return true
+              return true
             }
           } else {
           // for mac
             await this.getNativeElement(obj)
           }
-        } catch(err) {
+        } catch (err) {
           // check whether the error message is expected
           if (err.message.includes('NoSuchElement')) {
             return true
@@ -88,7 +88,7 @@ export default class RootApp {
             errMsg = err
             break
           }
-      }
+        }
         await this.sleep(pollFreq)
       }
     } finally {

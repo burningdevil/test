@@ -67,7 +67,13 @@ exports.config = {
       // setting global variables
       const variables = require('./utils/envUtils/constants')
       let RESET_ENV
-      ({ MAC_XPATH: global.MAC_XPATH, MAC_XPATH_GENERAL: global.MAC_XPATH_GENERAL, OSType: global.OSType, RESET_ENV } = variables)
+      (
+        {
+          MAC_XPATH: global.MAC_XPATH,
+          MAC_XPATH_GENERAL: global.MAC_XPATH_GENERAL,
+          OSType: global.OSType,
+          RESET_ENV
+        } = variables)
 
       global.MAC_VIEWMODE = 'iconView'
 

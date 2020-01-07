@@ -97,7 +97,7 @@ Here are some topics that may help you better understand how to use this templat
 
 ## Others
 
-### develop bilerplate
+### Develop boilerplate
 New enhancements will be in 'app-test' branch first. 'app-test' branch will be merged to this boilerplate constantly.
 
 ### Update from boilerplate
