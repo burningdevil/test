@@ -94,3 +94,18 @@ Here are some topics that may help you better understand how to use this templat
 * [Analyze Test Results](docs/test_results.md)
 * [CI Pipeline](docs/ci-pipeline.md)
 * [Common Errors](docs/common-errors.md)
+
+## Others
+
+### develop bilerplate
+New enhancements will be in 'app-test' branch first. 'app-test' branch will be merged to this boilerplate constantly.
+
+### Update from boilerplate
+From while to while, there might be new common changes added to this boilerplate. If your component repository is derived from this boilerplate, you can use the following Git commands to inherit those latest changes from this boilerplate.
+
+```
+git remote add react-mud https://github.microstrategy.com/ecosystem/react.mud.git
+git fetch --all
+git checkout <your_branch>
+git merge react-mud/app
+```
