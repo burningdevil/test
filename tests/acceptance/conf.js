@@ -143,6 +143,7 @@ exports.config = {
   },
 
   onComplete: async () => {
+    const { mainWindow } = global.pageObj
     if (customArgObj.args.removeEnv) {
       try {
         // remove environment
