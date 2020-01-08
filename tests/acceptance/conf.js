@@ -104,7 +104,7 @@ exports.config = {
     // build global page objects for native and webviews
     const PageBuilder = require('./pages/PageBuilder')
     global.pageObj = PageBuilder()
-    const { mainWindow } = global.pageObj
+    const { mainWindow } = pageObj
 
     if (customArgObj.args.connectEnv) {
       // TODO: remove exiting environment
@@ -143,7 +143,7 @@ exports.config = {
   },
 
   onComplete: async () => {
-    const { mainWindow } = global.pageObj
+    const { mainWindow } = pageObj
     if (customArgObj.args.removeEnv) {
       try {
         // remove environment
