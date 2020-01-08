@@ -1,4 +1,5 @@
 const { switchToWindow } = require('./windowHelper')
+const { mainWindow } = pageObj
 
 async function quitWorkstation() {
   console.log(`Quitting Workstation...`)

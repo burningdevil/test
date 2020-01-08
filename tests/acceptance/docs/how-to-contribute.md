@@ -4,7 +4,7 @@
 No matter if you already have some implmentation or you just want to improve the template, please help to identify any reusable patterns and make them into this template.
 
 ### General
-Any enhancement against the test framework is welcomed. Examples as Performance Test support, Stability Test support, etc.
+Any enhancement against the test framework is welcomed. Documentation improvements are also quite welcomed!
 
 ### Steps
 Generally Test Steps for Workstation natives will be reusable across teams.
@@ -13,10 +13,12 @@ Generally Test Steps for Workstation natives will be reusable across teams.
 Generally Page Objects for Workstation native will be reusable across teams.
 
 ## Submitting PR
-Please create a new branch and submit a pull request for whatever you want to improve. Code review will be performed by the designated POC.
+Please create a new branch against `app-test` branch and submit a pull request. Code review will be performed by the designated POC.
 - TL-Workstation-Framework - Qingqing Fan
 - TL-Workstation-Architect - Chenqian Wu
-In the PR, please also modify the [Reusable Pattern List](./reusable-pattern-list) so others can easily check.
+
+If the PR is against the test infrastructure, please come with some documentation.
+For reusable patterns, please modify the [Reusable Pattern List](./reusable-pattern-list) so others can easily check.
 
 ## Style Guide
 ### JavaScript
