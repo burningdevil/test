@@ -5,7 +5,7 @@ const PACKAGE_PROP = 'jest-result-processor'
 
 module.exports = testResults => {
   const packagedData = readPkg.sync(process.cwd())
-  const config = packagedData[PACKAGE_PROP] || { outputFile: 'jest-result-json/results.json' }
+  const config = packagedData[PACKAGE_PROP] || { outputFile: 'jest-results.json' }
 
   fs.outputJSON(config.outputFile, {
     ...testResults,

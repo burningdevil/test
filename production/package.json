@@ -16,10 +16,10 @@
     "test:watch": "npm test -- --watch",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
-    "metrics": "jest --coverage && node build/scripts/generateMetrics.js"
+    "metrics": "node build/scripts/generateMetrics.js"
   },
   "jest-result-processor": {
-    "outputFile": "./jest-test-results/results.json"
+    "outputFile": "./jest-results.json"
   },
   "license": "MIT",
   "dependencies": {
