@@ -1,4 +1,27 @@
 {
   "parser": "babel-eslint",
-  "extends": ["@mstr/eslint-config-mstr"]
+  "globals": {
+    "__DEV__": "readonly",
+    "__MOCK__": "readonly"
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
+  "rules": {
+    "import/extensions": [
+       "error",
+       "ignorePackages",
+       {
+         "js": "never",
+         "jsx": "never",
+         "ts": "never",
+         "tsx": "never"
+       }
+    ]
+ },
+ "extends": ["@mstr/eslint-config-mstr"]
 }

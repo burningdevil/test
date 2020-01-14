@@ -8,7 +8,6 @@ instance.defaults.withCredentials = true
 instance.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
 
 // Use mock data if MODE === 'mock'
-// eslint-disable-next-line no-undef
 if (__MOCK__) {
   const mock = new MockAdapter(instance)
   mock

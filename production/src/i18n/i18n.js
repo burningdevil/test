@@ -1,7 +1,7 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import locales from './locales'
-import getLang from '../utils/getLang.tsx'
+import getLang from '../utils/getLang'
 
 i18n
   .use(initReactI18next)
@@ -13,7 +13,6 @@ i18n
     defaultNS: 'common',
     fallbackNS: 'common',
     interpolation: { escapeValue: false },
-    // eslint-disable-next-line no-undef
     debug: __DEV__
   })
 
