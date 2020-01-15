@@ -15,7 +15,11 @@
     "test": "cross-env NODE_ENV=test karma start build/karma.config",
     "test:watch": "npm test -- --watch",
     "lint": "eslint .",
-    "lint:fix": "npm run lint -- --fix"
+    "lint:fix": "npm run lint -- --fix",
+    "metrics": "node build/scripts/generateMetrics.js"
+  },
+  "jest-result-processor": {
+    "outputFile": "./jest-results.json"
   },
   "license": "MIT",
   "dependencies": {
@@ -67,7 +71,7 @@
     "@babel/preset-typescript": "^7.3.3",
     "@babel/runtime": "^7.5.5",
     "@mstr/babel-plugin-extract-descriptors": "^0.0.3",
-    "@mstr/eslint-config-mstr": "^0.1.4",
+    "@mstr/eslint-config-mstr": "^0.1.8",
     "@types/enzyme": "^3.9.3",
     "@types/enzyme-adapter-react-16": "^1.0.5",
     "@types/jest": "^24.0.13",
@@ -90,7 +94,7 @@
     "dirty-chai": "^1.2.2",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.11.2",
-    "eslint": "^3.19.0",
+    "eslint": "^6.8.0",
     "eslint-config-airbnb-typescript": "^6.3.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-config-standard-react": "^5.0.0",
@@ -133,6 +137,7 @@
     "react-test-renderer": "^16.8.4",
     "rimraf": "^2.6.1",
     "sass-loader": "^6.0.7",
+    "shelljs": "^0.8.3",
     "sinon": "^2.2.0",
     "sinon-chai": "^2.10.0",
     "style-loader": "^0.17.0",

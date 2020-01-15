@@ -12,9 +12,7 @@ i18n
     load: 'all',
     defaultNS: 'common',
     fallbackNS: 'common',
-    interpolation: {
-      escapeValue: false
-    },
+    interpolation: { escapeValue: false },
     debug: __DEV__
   })
 
