@@ -145,7 +145,7 @@ def upload_test_result_to_nexus(result, platform)
     }
 
     Nexus.upload_artifact(
-      group_id:       "#{$WORKSPACE_SETTINGS[:nexus][:base_coordinates][:group_id]}.#{Common::Version.application_branch}"
+      group_id:       "#{$WORKSPACE_SETTINGS[:nexus][:base_coordinates][:group_id]}.#{Common::Version.application_branch}",
       artifact_id:    @artifact_info[:artifact_base_file_name],
       artifact_ext:   'json',
       version:        @artifact_info[:artifact_version],
