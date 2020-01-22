@@ -9,7 +9,7 @@ export default class Module3 extends React.Component<any, any> {
   }
   
   componentWillMount() {
-    environments.getCurrentEnvironment().then((env:any) => {
+    environments.getCurrentEnvironment().then((env: Environment) => {
       this.setState({currentEnv: env})
     })
     // console.dir(environments)
