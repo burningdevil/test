@@ -1,10 +1,7 @@
 node_modules
+protractorArgs.json
 
-sessionID.txt
-Cucumber.json
+reports/**/*.json
+reports/**/*.txt
+reports/**/*.html
 
-./reports/raw/*.json
-
-./reports/ubIndividual/*.json
-
-./reports/*.json

@@ -1,22 +1,22 @@
-let mysql = require('mysql');
+const mysql = require('mysql')
 
 var con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "13647245012att",
-    database: "mydb"
-});
-  
+  host: 'localhost',
+  user: 'root',
+  password: '13647245012att',
+  database: 'mydb'
+})
+
 con.connect(function(err) {
-    if (err) throw err
-    console.log("Connected!")
-});
+  if (err) throw err
+  console.log('Connected!')
+})
 
-con.query("DROP TABLE workstationUBData;",function (err, result, fields) {
-    if (err) throw err;
-});
+con.query('DROP TABLE workstationUBData;', function (err, result, fields) {
+  if (err) throw err
+})
 
-let sql1 = `CREATE TABLE IF NOT EXISTS workstationUBData 
+const sql1 = `CREATE TABLE IF NOT EXISTS workstationUBData 
 (
     feature varchar(255),
     scenario varchar(255),
@@ -28,43 +28,42 @@ let sql1 = `CREATE TABLE IF NOT EXISTS workstationUBData
     maxMemory DOUBLE(255,10),
     avgMemory DOUBLE(255,10),
     duration DOUBLE(255,10)
-) `;
+) `
 
-con.query(sql1,function (err, result, fields) {
-    if (err) throw err;
-});
+con.query(sql1, function (err, result, fields) {
+  if (err) throw err
+})
 
-//Todo: collect environment configuration information.
+// Todo: collect environment configuration information.
 
-//upload UB data to database
-let ubAverageReport = require("../../reports/ubAverage.json")
+// upload UB data to database
+const ubAverageReport = require('../../reports/ubAverage.json')
 
-let workstationDataList = ubAverageReport.workstation;
+const workstationDataList = ubAverageReport.workstation
 
 for (workstationData of workstationDataList) {
+  const insertSQL = `INSERT INTO workstationUBData VALUES(?,?,?,?,?,?,?,?,?,?);`
 
-    let insertSQL = `INSERT INTO workstationUBData VALUES(?,?,?,?,?,?,?,?,?,?);`
-
-    let formatList = [
-        workstationData.feature,
-        workstationData.scenario,
-        workstationData.pattern,
-        parseInt(workstationData.patternID),
-        workstationData.source,
-        workstationData.maxCPU,
-        workstationData.avgCPU,
-        workstationData.maxMemory,
-        workstationData.avgMemory,
-        workstationData.duration
-    ]
-    con.query(insertSQL,formatList,function (err, result, fields) {
-        if (err) throw err;
-    });
+  const formatList = [
+    workstationData.feature,
+    workstationData.scenario,
+    workstationData.pattern,
+    parseInt(workstationData.patternID),
+    workstationData.source,
+    workstationData.maxCPU,
+    workstationData.avgCPU,
+    workstationData.maxMemory,
+    workstationData.avgMemory,
+    workstationData.duration
+  ]
+  con.query(insertSQL, formatList, function (err, result, fields) {
+    if (err) throw err
+  })
 }
 
 con.end(function(err) {
-    if (err) {
-        console.log(err);
-    }
-    console.log("Disconnected!")
-});
+  if (err) {
+    console.log(err)
+  }
+  console.log('Disconnected!')
+})

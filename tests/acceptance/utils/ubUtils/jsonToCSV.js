@@ -1,15 +1,15 @@
-const { Parser } = require('json2csv');
- 
-const fields = ['workstation', 'workstationHelpers', 'build'];
-const opts = { fields };
+const { Parser } = require('json2csv')
 
-let myData = require("../../reports/ubAverage.json");
-myData.build = "11.1.3"
- 
+const fields = ['workstation', 'workstationHelpers', 'build']
+const opts = { fields }
+
+const myData = require('../../reports/ubAverage.json')
+myData.build = '11.1.3'
+
 try {
-  const parser = new Parser(opts);
-  const csv = parser.parse(myData);
-  console.log(csv);
+  const parser = new Parser(opts)
+  const csv = parser.parse(myData)
+  console.log(csv)
 } catch (err) {
-  console.error(err);
+  console.error(err)
 }

@@ -1,0 +1,57 @@
+---
+global:
+  namespace: ci
+  branch_name: m2020
+mysql-md:
+  image:
+    repository: nexus.internal.microstrategy.com:49080/mysql-tutorial
+    version: MySQL5.7
+  database_url: http://nexus.internal.microstrategy.com/repositories/DBBackup/com/microstrategy/dbbackup/mysql80/workstation-plugin/metadata/11.2.0001/metadata-11.2.0001.sql
+  database_name: poc_metadata
+  mysql_root_password: mstr1234
+mysql-wh:
+  image:
+    repository: nexus.internal.microstrategy.com:49080/mysql-tutorial
+    version: MySQL5.7
+  database_url: http://nexus.internal.microstrategy.com/repositories/DBBackup/com/microstrategy/dbbackup/mysql80/workstation-plugin/warehouse/11.2.0001/warehouse-11.2.0001.sql
+  database_name: tutorial-wh
+  mysql_root_password: mstr1234
+iserver:
+  replicaCount: 1
+  image:
+    repository: nexus.internal.microstrategy.com:49080/iserver
+    version: m2020-.-latest
+    pullPolicy: IfNotPresent
+  odbc:
+    db_md_name: poc_metadata
+    dsn_md: poc_metadata
+    db_wh_name: tutorial-wh
+    dsn_wh: tutorial-wh
+  dbserver:
+    override: true
+    md_server: mysql-md-{{ .Release.Name }}
+    wh_server: mysql-wh-{{ .Release.Name }}
+  config:
+    from_config_map: true
+    config_map_name: configmap-{{ .Release.Name }}
+  service:
+    type: ClusterIP
+    port: 34952
+  ingress:
+    enabled: false
+    host: iserver-m2020-dev.internal.microstrategy.com
+
+library:
+  replicaCount: 1
+  image:
+    repository: nexus.internal.microstrategy.com:49080/web-dossier
+    version: m2020-.-latest
+    pullPolicy: Always
+  service:
+    type: ClusterIP
+  config:
+    from_config_map: true
+    config_map_name: configmap-{{ .Release.Name }}
+  ingress:
+    enabled: true
+    host: library-web-dossier-m2020-dev.internal.microstrategy.com

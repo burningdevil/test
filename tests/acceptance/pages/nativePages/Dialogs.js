@@ -1,9 +1,8 @@
-import RootApp from "../basePages/RootApp";
+import RootApp from '../basePages/RootApp'
 
-const dialog = MAC_XPATH_GENERAL['dialog'];
+const dialog = MAC_XPATH_GENERAL.dialog
 
 export default class Dialogs extends RootApp {
-
   // locator
 
   async getDialogButton(buttonName) {
@@ -14,22 +13,21 @@ export default class Dialogs extends RootApp {
         ]
       },
       mac: { xpath: dialog.button.replace(/ReplaceButtonName/g, buttonName) }
-    });
+    })
   }
 
   // actions
 
-  async clickDialogButton(buttonName){
-    let button = await this.getDialogButton(buttonName);
-    return button.click();
+  async clickDialogButton(buttonName) {
+    const button = await this.getDialogButton(buttonName)
+    return button.click()
   }
 
   // assertions
 
   // dynamic wait
   async isDialogDisplayed(itemName) {
-    let elem = await this.getDialogContainer(itemName);
-    return elem.isDisplayed();
+    const elem = await this.getDialogContainer(itemName)
+    return elem.isDisplayed()
   }
-
 }

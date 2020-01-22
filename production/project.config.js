@@ -1,5 +1,6 @@
 const NODE_ENV = process.env.NODE_ENV || 'development'
 const CONTAINER = process.env.CONTAINER || 'BROWSER'
+const MODE = process.env.MODE || 'api'
 
 module.exports = {
   /** The environment to use when building the project */
@@ -8,6 +9,8 @@ module.exports = {
    * The target container of the app. It could be browser or workstation
    */
   container: CONTAINER,
+  /** The type of data to use; could be api, mock, local, etc. */
+  mode: MODE,
   /** The full path to the project's root directory */
   basePath: __dirname,
   /** The name of the directory containing the application source code */

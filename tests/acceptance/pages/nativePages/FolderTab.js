@@ -1,9 +1,8 @@
-import RootApp from '../basePages/RootApp';
-const folderTab = MAC_XPATH_GENERAL['folderTab'];
+import RootApp from '../basePages/RootApp'
+const folderTab = MAC_XPATH_GENERAL.folderTab
 
 export default class FolderTab extends RootApp {
-
-  //Locators
+  // Locators
   async getFolder(folderName) {
     return this.getNativeElement({
       windows: {
@@ -13,7 +12,7 @@ export default class FolderTab extends RootApp {
         ]
       },
       mac: { xpath: folderTab.envFolder.replace(/ReplaceMe/g, folderName) }
-    });
+    })
   }
 
   async getLocalFolder(folderName) {
@@ -25,33 +24,31 @@ export default class FolderTab extends RootApp {
         ]
       },
       mac: { xpath: folderTab.myMac }
-    });
+    })
   }
 
-  async getFolderExpansionIcon(){
+  async getFolderExpansionIcon() {
     return this.getNativeElement({
-        windows: {
-          locators: [
-            { method: 'Name', value: 'Smart Mode' },
-            { method: 'Name', value: '' },
-          ]
-        },
-        mac: { xpath: folderTab.expansionIcon }
-      });
+      windows: {
+        locators: [
+          { method: 'Name', value: 'Smart Mode' },
+          { method: 'Name', value: '' },
+        ]
+      },
+      mac: { xpath: folderTab.expansionIcon }
+    })
   }
 
-
-  //Action
+  // Action
   async selectFolder(folderName) {
-    return this.moveToAndClick(await this.getFolder(folderName));
+    return this.moveToAndClick(await this.getFolder(folderName))
   }
 
-  async selectLocalDiskFolder(){
-    return this.moveToAndClick(await this.getLocalFolder());
+  async selectLocalDiskFolder() {
+    return this.moveToAndClick(await this.getLocalFolder())
   }
 
-  async expandFolder(folderName){
-      return this.moveToAndDoubleClick(await this.getFolder(folderName));
+  async expandFolder(folderName) {
+    return this.moveToAndDoubleClick(await this.getFolder(folderName))
   }
-
 }

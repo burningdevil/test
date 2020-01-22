@@ -1,9 +1,8 @@
-import RootApp from "../basePages/RootApp";
+import RootApp from '../basePages/RootApp'
 
-const popup = MAC_XPATH_GENERAL['popup'];
+const popup = MAC_XPATH_GENERAL.popup
 
 export default class Popup extends RootApp {
-
   // locator
 
   async getPopupInMain(itemName) {
@@ -14,7 +13,7 @@ export default class Popup extends RootApp {
         ]
       },
       mac: { xpath: popup.popupInMain }
-    });
+    })
   }
 
   async getPopupInEditor(itemName) {
@@ -25,7 +24,7 @@ export default class Popup extends RootApp {
         ]
       },
       mac: { xpath: popup.popupInEditor.replace(/ReplaceEditorTitle/g, itemName) }
-    });
+    })
   }
 
   async getPopupSaveButton() {
@@ -36,7 +35,7 @@ export default class Popup extends RootApp {
         ]
       },
       mac: { xpath: popup.button.replace(/ReplaceBtnName/g, 'Save') }
-    });
+    })
   }
 
   async getButton(buttonName) {
@@ -48,35 +47,34 @@ export default class Popup extends RootApp {
         ]
       },
       mac: { xpath: popup.button.replace(/ReplaceBtnName/g, buttonName) }
-    });
+    })
   }
 
   // actions
   async clickSave() {
-    let saveButton = await this.getPopupSaveButton();
-    return saveButton.click();
+    const saveButton = await this.getPopupSaveButton()
+    return saveButton.click()
   }
 
   // assertions
 
   async isPopupDisplayedInMain() {
     try {
-      let elem = await this.getPopupInMain();
-      return elem.isDisplayed();
+      const elem = await this.getPopupInMain()
+      return elem.isDisplayed()
     } catch (err) {
-      console.log(err);
-      return false;
+      console.log(err)
+      return false
     }
   }
 
   async isPopupDisplayedInEditor(itemName) {
     try {
-      let elem = await this.getPopupInEditor(itemName);
-      return elem.isDisplayed();
+      const elem = await this.getPopupInEditor(itemName)
+      return elem.isDisplayed()
     } catch (err) {
-      console.log(err);
-      return false;
+      console.log(err)
+      return false
     }
   }
-
 }

@@ -1,0 +1,59 @@
+{
+  "parser": "babel-eslint",
+  "extends": ["standard"],
+  "plugins": ["babel", "promise", "protractor"],
+  "env": {
+    "browser": true
+  },
+  "globals": {
+    "protractor": false,
+    "by": false,
+    "expect": false,
+    "browser": false,
+    "OSType": false,
+    "customArgObj": false,
+    "workstationPath":false,
+    "MAC_VIEWMODE": true,
+    "MAC_XPATH_GENERAL": false,
+    "MAC_XPATH": false,
+
+    "pageObj":false,
+    "workstationApp": false,
+    "windowsMap": true,
+    "mainWindow": false,
+    "editor": false,
+    "dialogs": false,
+    "rsdWindow": false,
+
+    "quickSearchPage":false,
+    "metricEditorPage": false,
+    "rsdPage": false,
+    "ldapPage": false,
+    "allSettingsPage": false,
+    "settingsPluginWindow": false,
+    "governingSettingsPage": false,
+
+    "ubData": false,
+    "workstationPidLists":false,
+    "workstationData": true
+  },
+  "rules": {
+    "key-spacing": 0,
+    "jsx-quotes": [2, "prefer-single"],
+    "max-len": [1, 120, 2, {
+      "ignoreUrls": true,
+      "ignoreComments": true,
+      "ignoreStrings": true,
+      "ignoreTemplateLiterals": true
+    }],
+    "object-curly-spacing": [2, "always"],
+    "indent": [2, 2, { "SwitchCase": 2 }],
+    "comma-dangle": 0,
+
+    // Coding style
+    "quotes": [1, "single", { "allowTemplateLiterals": true }],
+    "semi": 2,
+    "space-before-function-paren": 0,
+    "camelcase": [2, { "properties": "always" }]
+  }
+}

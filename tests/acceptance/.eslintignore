@@ -1,0 +1,6 @@
+node_modules/**
+reports/**
+3rdParty/**
+rally/createDefect.js
+rally/updateRallyTCResult.js
+
