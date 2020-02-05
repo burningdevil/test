@@ -16,7 +16,8 @@
     "test:watch": "npm test -- --watch",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
-    "metrics": "node build/scripts/generateMetrics.js"
+    "metrics": "node build/scripts/generateMetrics.js",
+    "updateVersion": "node build/scripts/updateVersion"
   },
   "jest-result-processor": {
     "outputFile": "./jest-results.json"
