@@ -1,0 +1,37 @@
+job 'stage-0-premerge-win' do
+
+  description 'the first stage in the pipeline
+designed to complete quickly, < 10 mins
+produces and publishes a versioned deployment package'
+
+  configure_common_items{}
+
+  assigned_node_string 'worstation_settings_e2e'
+
+  concurrent_build true
+
+  triggers do
+    pull_request_builder do
+      trigger_phrase "workstation-facteditor-premerge-#{Environment.branch_name}.*"
+      commit_status_context "workstation-facteditor-premerge-#{Environment.branch_name}-build"
+    end
+  end
+
+  builders do
+    bash do
+      script '#!/usr/bin/env bash
+set +xe
+export TERM_PROGRAM=jenkins
+export PATH=/usr/local/sbin:/usr/local/bin:$PATH
+export WORKSPACE_SETTING=dev
+export JENKINS_STAGE=premerge
+source .ecosystem
+
+rake build
+rake replace_workstation_plugin_win
+rake eks_deploy acceptance_test_win_premerge
+
+'
+    end
+  end
+end
