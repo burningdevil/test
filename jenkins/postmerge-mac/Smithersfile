@@ -1,0 +1,54 @@
+job 'stage-2-postmerge-test-mac' do
+  description 'The second stage in the pipeline:
+designed to execute all acceptance tests'
+
+  configure_common_items{}
+
+  properties do
+    parameters do
+      upstream_parameter do
+        upstream_job_name 'stage-1-dev'
+        name 'APPLICATION_VERSION'
+        description 'the version of the application to deploy and test'
+      end
+
+      upstream_parameter do
+        upstream_job_name 'stage-1-dev'
+        name 'APPLICATION_COMMIT_HASH'
+        description 'the git commit hash paired with the application version (tip: choose the same list item index as the application version)'
+      end
+    end
+  end
+
+  scm do
+    git do
+      commit_hash '${APPLICATION_COMMIT_HASH}'
+    end
+  end
+
+  assigned_node_string 'mac_hq_devops_3'
+
+  builders do
+    bash do
+      script '#!/usr/bin/env bash
+set +xe
+export TERM_PROGRAM=jenkins
+export PATH=/usr/local/sbin:/usr/local/bin:$PATH
+
+export WORKSPACE_SETTING=dev
+source .ecosystem
+
+rake replace_workstation_plugin_mac
+rake eks_deploy acceptance_test_mac
+'
+    end
+  end
+
+  publishers do
+    cucumber do
+      json_report_directory 'tests/acceptance/reports/rallyReport'
+      file_include_pattern 'execReport.json'
+    end
+  end
+
+end
