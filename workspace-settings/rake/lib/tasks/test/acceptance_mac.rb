@@ -13,13 +13,22 @@ def library_service_fqdn
   "library-#{workstation_setting_release_name}.internal.microstrategy.com"
 end
 
+def architect_service_fqdn
+  "architect-service-#{workstation_setting_release_name}.internal.microstrategy.com"
+end
+
 desc "Deploy the environment to kubernetes"
 task :eks_deploy do
+
   library_ingress_host = library_service_fqdn
-  override_values = "library.ingress.host=#{library_ingress_host}"
+  architect_service_ingress_host = architect_service_fqdn
+
+  override_values = "library.ingress.host=#{library_ingress_host},"+
+                    "architect-service.ingress.host=#{architect_service_ingress_host}"
+
   eks_deploy(namespace: 'ci', release_name:workstation_setting_release_name, value_overrides: override_values, update_helm: false)
   helm_install_ready?(apps: "iserver mysql-md library", release: workstation_setting_release_name)
-  info "Please access the swagger page of architect-service from url: http://#{library_service_fqdn}/MicroStrategyLibrary/"
+  info "Please access the swagger page of web-dossier from url: http://#{library_service_fqdn}/MicroStrategyLibrary/"
 end
 
 @workstation_folder = "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/.workstation"
