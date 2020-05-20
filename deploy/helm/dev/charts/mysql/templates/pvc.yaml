@@ -1,0 +1,19 @@
+{{- if .Values.volumes.enabled }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-{{ .Chart.Name }}-{{ .Release.Name }}
+spec:
+  accessModes:
+    - ReadWriteMany
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: {{ .Values.volumes.capacity }}
+  storageClassName: {{ .Values.volumes.storage_class }}
+  selector:
+    matchLabels:
+      project: {{ .Values.volumes.project }}
+      db_type: mysql
+      db_usage: {{ .Values.volumes.db_usage }}
+{{- end }}

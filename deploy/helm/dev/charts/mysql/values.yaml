@@ -1,0 +1,59 @@
+# Default values for mysql.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+global:
+  namespace: default
+
+replicaCount: 1
+
+imagePullSecrets:
+  enabled: false
+  name: ecrsecret
+
+image:
+  repository: 899557540756.dkr.ecr.us-east-1.amazonaws.com/mysql-tutorial
+  version: latest
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+
+replicaCount: 1
+
+database_url: https://nexus.internal.microstrategy.com:8443/repositories/DBBackup/com/microstrategy/dbbackup/mysql56/admin-rest/11.1.003/admin-rest-11.1.003.zip
+database_name: Tutorial
+mysql_root_password: mstr123
+mysql_user: mstr
+mysql_password: mstr123
+
+volumes:
+  enabled: false
+  project: project name of the reposotory
+  capacity: the space that needs to be required
+  nfs_server: provide your nfs server ip
+  mount_path: mount source folder path on nfs server
+  db_usage: the usage of this pv
+  storage_class: storage class name
+
+config:
+  from_config_map: false
+  config_map_name: default-configmap-{{ .Release.Name }}
+  
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

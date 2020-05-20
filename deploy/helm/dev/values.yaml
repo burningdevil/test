@@ -55,3 +55,15 @@ library:
   ingress:
     enabled: true
     host: library-web-dossier-m2020-dev.internal.microstrategy.com
+
+architect-service:
+  image:
+    repository: nexus.internal.microstrategy.com:49080/architect-service
+    version: m2020-.-latest
+    pullPolicy: Always
+  config:
+    from_config_map: true
+    config_map_name: configmap-{{ .Release.Name }}
+  ingress:
+    enabled: true
+    host: architect-service-m2020-dev.internal.microstrategy.com
