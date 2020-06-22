@@ -28,7 +28,7 @@ const config = {
   },
   resolve: {
     modules: [inProject(project.srcDir), 'node_modules'],
-    extensions: ['*', '.js', '.jsx', '.json', '.tsx']
+    extensions: ['*', '.ts', '.js', '.jsx', '.json', '.tsx']
   },
   externals: project.externals,
   module: { rules: [] },
