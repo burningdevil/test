@@ -27,6 +27,16 @@ const runWebpackCompiler = (webpackConfiguration) => new Promise((resolve, rejec
   })
 })
 
+const generateBuildStats = (stats) => {
+  const buildStats = {
+    ...stats && { BUILD_DURATION: (stats.endTime - stats.startTime) / 1000 }, // calculate build time in secs
+    BUILD_TOOL: 'webpack',
+    BUILD_RESULT: stats ? 'PASS' : 'FAIL'
+  }
+  logger.log('\r\n') // new line
+  logger.log(`METRICS_BUILD=${JSON.stringify(buildStats)}`)
+}
+
 const compile = () => Promise.resolve()
   .then(() => logger.info('Starting compiler...'))
   .then(() => logger.info(`Target application environment: ${chalk.bold(project.env)}`))
@@ -47,6 +57,11 @@ const compile = () => Promise.resolve()
       }))
     }
     logger.success(`Compiler finished successfully! See ./${project.outDir}.`)
+    generateBuildStats(stats)
   })
-  .catch((err) => logger.error('Compiler encountered errors.', err))
+  .catch((err) => {
+    logger.error('Compiler encountered errors.', err)
+    generateBuildStats()
+  })
+
 compile()
