@@ -8,8 +8,6 @@ import App from './App'
 import './styles/main.scss'
 import WorkStationProxy from './httpProxy/WorkStationProxy'
 import { WorkstationEnv } from './env/Workstation'
-import insertScript from './utils/insertScript'
-import getLang from './utils/getLang'
 import './i18n/i18n'
 
 declare var __IS_WS__: any
@@ -17,6 +15,7 @@ declare var __DEV__: any
 declare var __TEST__: any
 declare var window: any
 declare var module: any
+declare var globalThis: any
 
 export const HttpProxy = (() => {
   return __IS_WS__ ? WorkStationProxy : RestProxy
@@ -63,11 +62,14 @@ if (__DEV__) {
     )
   }
 }
+
 // Let's Go!
 // ------------------------------------
 if (!__TEST__) {
-  insertScript(`descriptors/${getLang()}.js`)
-    .then(render)
-    .catch(render)
+  if (__IS_WS__ && typeof globalThis.workstation === 'undefined') {
+    globalThis.addEventListener('WorkstationLoad', (e: any) => render())
+  } else {
+    render()
+  }
 }
 env.onAppStart && env.onAppStart(store)
