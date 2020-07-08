@@ -15,7 +15,6 @@ declare var __DEV__: any
 declare var __TEST__: any
 declare var window: any
 declare var module: any
-declare var globalThis: any
 
 export const HttpProxy = (() => {
   return __IS_WS__ ? WorkStationProxy : RestProxy
@@ -66,8 +65,8 @@ if (__DEV__) {
 // Let's Go!
 // ------------------------------------
 if (!__TEST__) {
-  if (__IS_WS__ && typeof globalThis.workstation === 'undefined') {
-    globalThis.addEventListener('WorkstationLoad', (e: any) => render())
+  if (__IS_WS__ && typeof window.workstation === 'undefined') {
+    window.addEventListener('WorkstationLoad', (e: any) => render())
   } else {
     render()
   }
