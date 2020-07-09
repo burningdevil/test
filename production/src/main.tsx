@@ -8,8 +8,6 @@ import App from './App'
 import './styles/main.scss'
 import WorkStationProxy from './httpProxy/WorkStationProxy'
 import { WorkstationEnv } from './env/Workstation'
-import insertScript from './utils/insertScript'
-import getLang from './utils/getLang'
 import './i18n/i18n'
 
 declare var __IS_WS__: any
@@ -63,11 +61,14 @@ if (__DEV__) {
     )
   }
 }
+
 // Let's Go!
 // ------------------------------------
 if (!__TEST__) {
-  insertScript(`descriptors/${getLang()}.js`)
-    .then(render)
-    .catch(render)
+  if (__IS_WS__ && typeof window.workstation === 'undefined') {
+    window.addEventListener('WorkstationLoad', (e: any) => render())
+  } else {
+    render()
+  }
 }
 env.onAppStart && env.onAppStart(store)
