@@ -20,7 +20,6 @@ declare var module: any
 export const HttpProxy = (() => {
   return __IS_WS__ ? WorkStationProxy : RestProxy
 })()
-// export const env: any = __IS_WS__ ? WorkstationEnv : BrowserDebug
 export const env: any = __IS_WS__ ? workstationEnv : browserEnv
 environment.init()
 // Store Initialization
