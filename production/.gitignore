@@ -44,3 +44,5 @@ server/.librc.json
 .stats.json
 .idea/
 .vscode/
+jest-results.json
+lint-output.json
