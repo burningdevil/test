@@ -6,10 +6,10 @@ import RestProxy from './httpProxy/RestProxy'
 import App from './App'
 import './styles/main.scss'
 import WorkStationProxy from './httpProxy/WorkStationProxy'
-import browserEnv from './env/Browser'
-import workstationEnv from './env/Workstation'
+import browser from './env/Browser'
+import workstation from './env/Workstation'
 import './i18n/i18n'
-import environment from './env/WSEnvironment'
+import wsEvents from './env/WSEvents'
 
 declare var __IS_WS__: any
 declare var __DEV__: any
@@ -17,11 +17,9 @@ declare var __TEST__: any
 declare var window: any
 declare var module: any
 
-export const HttpProxy = (() => {
-  return __IS_WS__ ? WorkStationProxy : RestProxy
-})()
-export const env: any = __IS_WS__ ? workstationEnv : browserEnv
-environment.init()
+export const HttpProxy = (() => (__IS_WS__ ? WorkStationProxy : RestProxy))()
+export const client = __IS_WS__ ? workstation : browser
+wsEvents.init(client)
 // Store Initialization
 // ------------------------------------
 const store = createStore(window.__INITIAL_STATE__)
@@ -73,4 +71,3 @@ if (!__TEST__) {
     render()
   }
 }
-env.onAppStart && env.onAppStart(store)

@@ -1,0 +1,22 @@
+import { WindowModule, WindowEvent, CommandCallBack, CommandCallBackAsync } from '@mstr/workstation-types'
+
+declare var workstation: any
+
+class Window implements WindowModule {
+  addHandler = (event: WindowEvent,
+    callback: CommandCallBack | CommandCallBackAsync) =>  workstation.window.addHandler(event, callback)
+
+  removeHandler = (event: WindowEvent,
+    callback: CommandCallBack | CommandCallBackAsync) => workstation.window.removeHandler(event, callback)
+
+  close = () => workstation.window.close()
+
+  setTitle = (title: string) => workstation.window.setTitle(title)
+
+  getTitle = () => workstation.window.getTitle()
+
+  postMessage = (message: object) => workstation.window.postMessage(message)
+}
+
+const window = new Window()
+export default window

@@ -1,5 +1,4 @@
-import { EnvironmentStatus, EnvironmentChangeArg, Environment } from '@mstr/workstation-types'
-import { env } from '../main'
+import { EnvironmentStatus, EnvironmentChangeArg, Environment, WorkstationModule } from '@mstr/workstation-types'
 
 export const EVENTS = {
   ON_DISCONNECTED: 'onDisconnected',
@@ -13,16 +12,16 @@ export type EnvironmentObserver = {
   [key: string]: (info: EnvironmentChangeArg) => void
 }
 
-class WSEnvironment {
+class WSEvents {
   observers: EnvironmentObserver[] = []
 
   currentEnv: Environment = null
 
-  init = () => this.registerListeners()
+  init = (client: WorkstationModule) => this.registerListeners(client)
 
-  registerListeners = async () => {
-    this.currentEnv = await env.getCurrentEnvironment()
-    env.onEnvironmentChange(this.envChangeCallBack)
+  registerListeners = async (client: WorkstationModule) => {
+    this.currentEnv = await client.environments.getCurrentEnvironment()
+    client.environments.onEnvironmentChange(this.envChangeCallBack)
   }
 
   subscribe = (observer: EnvironmentObserver) => {
@@ -63,5 +62,5 @@ class WSEnvironment {
   }
 }
 
-const wSEnvironment = new WSEnvironment()
-export default wSEnvironment
+const wsEvents = new WSEvents()
+export default wsEvents

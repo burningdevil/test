@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { EnvironmentChangeArg } from '@mstr/workstation-types'
 import './Module1.scss'
-import environment, { EVENTS } from '../env/WSEnvironment'
+import environment, { EVENTS } from '../env/WSEvents'
 
 export default class Module1 extends React.Component<any, any> {
   componentDidMount() {
