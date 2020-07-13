@@ -3,7 +3,7 @@ import { DataModule, RequestHeaders } from '@mstr/workstation-types'
 declare var workstation: any
 
 class Data implements DataModule {
-  fetch = (url: RequestInfo, options?: RequestInit) => workstation.data.fetch(url, options)
+  fetch = (url: any, options?: any) => workstation.data.fetch(url, options)
 
   addDefaultRequestHeader =
     (header: RequestHeaders, value: string) => workstation.data.addDefaultRequestHeader(header, value)

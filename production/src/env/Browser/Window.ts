@@ -13,7 +13,7 @@ class Window implements WindowModule {
 
   getTitle = async () => 'New Filter'
 
-  postMessage = async (message: object) => {}
+  postMessage = async (message: any) => {}
 }
 
 const window = new Window()

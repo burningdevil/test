@@ -7,7 +7,7 @@ import utils from './Util'
 import window from './Window'
 import selectedObject from './SelectedObject'
 
-class WorkstationEnv implements WorkstationModule {
+class BrowserEnv implements WorkstationModule {
   dialogs = dialogs;
 
   data = data
@@ -23,6 +23,6 @@ class WorkstationEnv implements WorkstationModule {
   selectedObject = selectedObject
 }
 
-const workstationEnv = new WorkstationEnv()
+const browserEnv = new BrowserEnv()
 
-export default workstationEnv
+export default browserEnv

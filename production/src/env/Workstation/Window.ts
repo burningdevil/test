@@ -4,7 +4,7 @@ declare var workstation: any
 
 class Window implements WindowModule {
   addHandler = (event: WindowEvent,
-    callback: CommandCallBack | CommandCallBackAsync) =>  workstation.window.addHandler(event, callback)
+    callback: CommandCallBack | CommandCallBackAsync) => workstation.window.addHandler(event, callback)
 
   removeHandler = (event: WindowEvent,
     callback: CommandCallBack | CommandCallBackAsync) => workstation.window.removeHandler(event, callback)
@@ -15,7 +15,7 @@ class Window implements WindowModule {
 
   getTitle = () => workstation.window.getTitle()
 
-  postMessage = (message: object) => workstation.window.postMessage(message)
+  postMessage = (message: any) => workstation.window.postMessage(message)
 }
 
 const window = new Window()

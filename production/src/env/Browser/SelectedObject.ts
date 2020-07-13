@@ -39,7 +39,7 @@ class SelectedObject implements SelectedObjectModule {
   getIsReadOnly = async () => false
 
   // Custom methods
-  getSelectedObject = () => this.getCurrent
+  getSelectedObject = () => this.getCurrent()
 }
 
 const selectedObject = new SelectedObject()

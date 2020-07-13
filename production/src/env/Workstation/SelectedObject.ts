@@ -18,7 +18,7 @@ class SelectedObject implements SelectedObjectModule {
   getIsReadOnly = () => workstation.selectedObject.getIsReadOnly()
 
   // Custom methods
-  getSelectedObject = () => this.getCurrent
+  getSelectedObject = () => this.getCurrent()
 }
 
 const selectedObject = new SelectedObject()
