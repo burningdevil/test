@@ -1,22 +1,13 @@
 import { DialogsModule, ConfirmationSettings, ErrorSettings, SaveDialogSettings, DialogValues } from '@mstr/workstation-types'
 import { confirmationOptions } from '../common'
-
-const res = {
-  canOverwrite: true,
-  folder: {
-    id: '8D67908E11D3E4981000E787EC6DE8A4',
-    name: 'My Personal Objects'
-  },
-  name: 'Untitled Filter',
-  shouldCertify: false
-}
+import { dialogRes } from './constants'
 
 class Dialogs implements DialogsModule {
   confirmation = async (settings: ConfirmationSettings) => DialogValues.YES
 
   error = async (settings: ErrorSettings) => DialogValues.OK
 
-  saveAs = async (settings: SaveDialogSettings) => res
+  saveAs = async (settings: SaveDialogSettings) => dialogRes
 
   // Helper methods for quick access
   showConfirmation = async (options: confirmationOptions) => {

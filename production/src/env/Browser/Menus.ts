@@ -1,9 +1,5 @@
 import { MenuCallBack, MenusModule } from '@mstr/workstation-types'
-
-const res = {
-  Url: 'http://tec-w-009714.labs.microstrategy.com:8100/MicroStrategyLibrary/',
-  ResponseValue: true
-}
+import { menuRes } from './constants'
 
 class Menus implements MenusModule {
   addHandler = (menuCommand: string,
@@ -12,7 +8,7 @@ class Menus implements MenusModule {
   removeHandler = (menuCommand: string,
     callback: MenuCallBack) => true
 
-  trigger = async (menu: string) => res
+  trigger = async (menu: string) => menuRes
 }
 
 const menus = new Menus()

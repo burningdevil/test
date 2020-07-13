@@ -1,11 +1,8 @@
 import { DataModule, RequestHeaders } from '@mstr/workstation-types'
-
-const myBlob = new Blob()
-const init = { status : 200, statusText : 'success' }
-const res = new Response(myBlob, init)
+import { apiResp } from './constants'
 
 class Data implements DataModule {
-  fetch = async (url: any, options?: any) => res
+  fetch = async (url: any, options?: any) => apiResp
 
   addDefaultRequestHeader =
   async (header: RequestHeaders, value: string) => true
