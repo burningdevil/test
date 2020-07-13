@@ -70,7 +70,8 @@
           "item": "openModule1Menu",
           "objectTypes": [
             "Folder",
-            "Dossier"
+            "Dossier",
+            "Filter"
           ],
           "location": {
             "section": "General",
