@@ -1,3 +1,4 @@
+import axiosStatic, { CancelToken } from 'axios'
 import serverConfig from '../../build/server.config'
 import base64 from '../utils/base64'
 import { RestApiError } from '../server/RestApiError'
@@ -76,7 +77,7 @@ function checkResponseStatus(response: any) {
   }
 }
 
-let baseRequest = (method: string, path: string, body: any, headers = {}, parseFunc = parseJsonFunc) => {
+let baseRequest = (method: string, path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: CancelToken) => {
   console.log('check point 1 ===========RestProxy', 'path', path)
   return axios({
     method: method,
@@ -86,7 +87,8 @@ let baseRequest = (method: string, path: string, body: any, headers = {}, parseF
       ...createHeaders(),
       ...headers
     },
-    data: JSON.stringify(body)
+    data: JSON.stringify(body),
+    cancelToken: signal
   })
   .then(checkResponseStatus, checkResponseStatus)
   .then((res: any) => {
@@ -114,7 +116,7 @@ function timeout(ms: any) {
   })
 }
 
-async function request (method: string, path: string, body: any, headers: any, parseFunc: any){
+async function request (method: string, path: string, body: any, headers: any, parseFunc: any, signal?: CancelToken){
   // in login state and no authToken back yet, wait 1000 ms
   while (isLogin && !authToken) {
     await timeout(1000)
@@ -122,36 +124,40 @@ async function request (method: string, path: string, body: any, headers: any, p
   if (!authToken) {
     isLogin = true
     return login()
-      .then(() => baseRequest(method, path, body, headers, parseFunc))
+      .then(() => baseRequest(method, path, body, headers, parseFunc, signal))
   }
 
-  return baseRequest(method, path, body, headers, parseFunc)
+  return baseRequest(method, path, body, headers, parseFunc, signal)
 }
 
 export default {
 
-  get: function (path: string, parseFunc = parseJsonFunc) {
-    return request.call(this, 'get', path, null, {}, parseFunc)
+  get: function (path: string, headers = {}, parseFunc = parseJsonFunc, signal?: CancelToken) {
+    return request.call(this, 'get', path, null, headers, parseFunc, signal)
   },
 
-  post: function (path: string, body: any, parseFunc = parseJsonFunc) {
-    return request.call(this, 'post', path, body, {}, parseFunc)
+  post: function (path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: CancelToken) {
+    return request.call(this, 'post', path, body, headers, parseFunc, signal)
   },
 
-  del: function (path: string, body: any, parseFunc = parseJsonFunc) {
-    return request.call(this, 'del', path, body, {}, parseFunc)
+  del: function (path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: CancelToken) {
+    return request.call(this, 'del', path, body, headers, parseFunc, signal)
   },
 
-  put: function put(path: string, body: any, parseFunc = parseJsonFunc) {
-    return request.call(this, 'put', path, body, {}, parseFunc)
+  put: function put(path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: CancelToken) {
+    return request.call(this, 'put', path, body, headers, parseFunc, signal)
   },
 
-  patch: function patch(path: string, body: any, parseFunc = parseJsonFunc) {
-    return request.call(this, 'patch', path, body, {}, parseFunc)
+  patch: function patch(path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: CancelToken) {
+    return request.call(this, 'patch', path, body, headers, parseFunc, signal)
   },
 
-  project: function (method: string, path: string, body: any, headers = {}, parseFunc = parseJsonFunc) {
-    return request.call(this, method, path, body, headers, parseFunc)
+  project: function (method: string, path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: CancelToken) {
+    return request.call(this, method, path, body, headers, parseFunc, signal)
+  },
+
+  getCancelController: function () {
+    const { token: signal, cancel } = axiosStatic.CancelToken.source()
+    return { signal, cancel, isCancel: axiosStatic.isCancel }
   }
-
 }
