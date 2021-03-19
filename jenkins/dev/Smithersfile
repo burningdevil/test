@@ -16,22 +16,50 @@ and publish a versioned deployment package'
     bash do
       script '#!/usr/bin/env bash
 set +xe
-
 export PATH=/usr/local/sbin:/usr/local/bin:$PATH
-
 export WORKSPACE_SETTING=dev
 source .ecosystem
+rake pre_pipeline
+rake package upload_snapshot
 
-rake upload update_dep_db_from_file
 '
     end
+
+    parameterized_builder do
+      job_names [
+        "#{ENV['PROJECT_NAME']}-.-#{Environment.branch_name}-.-stage-2-postmerge-test-mac"
+      ]
+      block_and_sync_status true
+      use_properties_file true
+    end
+
+    parameterized_builder do
+      job_names [
+        "#{ENV['PROJECT_NAME']}-.-#{Environment.branch_name}-.-stage-2-init-postmerge-test-win"
+      ]
+      block_and_sync_status true
+      use_properties_file true
+    end
+
+
+    bash do
+      script '#!/usr/bin/env bash
+set +xe
+export PATH=/usr/local/sbin:/usr/local/bin:$PATH
+export WORKSPACE_SETTING=dev
+source .ecosystem
+rake upload
+rake update_dep_db_from_file
+rake post_pipeline
+'
+    end
+
   end
 
   publishers do
-    parameterized_trigger do
-      job_short_names %w{
-        stage-2-regression-test
-      }
+     cobertura do
+      result_glob_path 'production/coverage/cobertura-coverage.xml'
+      html_report_dir_path 'production/coverage/lcov-report'
     end
   end
 

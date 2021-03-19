@@ -12,6 +12,12 @@ def download_artifact(art_name, art_version)
   Nexus.download_large_artifact(artifact_id: art_name,group_id: "com.microstrategy.#{@wkstn_branch}", file_path: "#{@artifact_info[:output_dir]}/#{art_name}.zip" , version: art_version)
 end
 
+def download_snapshot_artifact(art_name, art_version)
+  FileUtils.remove_entry_secure(@artifact_info[:output_dir], force: true )
+  FileUtils.mkdir_p(@artifact_info[:output_dir])
+  Nexus.download_large_artifact(artifact_id: art_name,group_id: "com.microstrategy.#{@wkstn_branch}", repository: 'Beta', file_path: "#{@artifact_info[:output_dir]}/#{art_name}.zip" , version: art_version)
+end
+
 def map_I
   shell_command!("cmd /c subst I: /D") if Dir.exist?('I:')
   shell_command!("cmd /c \"subst I: #{$WORKSPACE_SETTINGS[:paths][:project][:home]}\"")
@@ -32,7 +38,7 @@ task :install_workstation_windows do |t,args|
   shell_command! "git clean -dxf",cwd: $WORKSPACE_SETTINGS[:paths][:project][:home]
   close_apps
 
-  download_artifact('workstation-windows', product['version'])
+  download_artifact(product['artifact_name'], product['version'])
 
   shell_command! "7z.exe x workstation-windows.zip -aoa", cwd: @artifact_info[:output_dir]
 
@@ -69,7 +75,7 @@ end
 task :replace_plugin_windows, [:plugin_version] do |t,args|
   # replace plugin
   plugin = { 'name' => plugin_name_mapping || @artifact_info[:artifact_base_file_name] }
-  plugin['version'] =  args[:plugin_version] || Nexus.latest_artifact_version
+  plugin['version'] =  args[:plugin_version] || ENV['APPLICATION_VERSION']
   plugin_path = "C:/Program Files/MicroStrategy/Workstation/Plugins/#{plugin['name']}"
   FileUtils.mkdir_p(plugin_path) unless File.exists?(plugin_path)
 
@@ -78,7 +84,7 @@ task :replace_plugin_windows, [:plugin_version] do |t,args|
     FileUtils.rm_rf(plugin_path, secure: true)
     FileUtils.mv("#{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}/dist", plugin_path)
   else
-    download_artifact(@artifact_info[:artifact_base_file_name], plugin['version'])
+    download_snapshot_artifact(@artifact_info[:artifact_base_file_name], plugin['version'])
     FileUtils.rm_rf(plugin_path, secure: true)
     shell_command! "7z x #{@artifact_info[:artifact_base_file_name]}.zip -aoa",cwd: @artifact_info[:output_dir]
     FileUtils.mv("#{@artifact_info[:output_dir]}/dist", plugin_path)
@@ -96,10 +102,6 @@ task :acceptance_test_win do |t,args|
 
   begin
     shell_command! "node trigger_test.js  \"#{workstation_path}\"  \"http://#{library_service_fqdn}/MicroStrategyLibrary/\" \"@PREMERGE\"", cwd: "I:/tests/acceptance"
-    upload_test_result_to_nexus('pass','win')
-  rescue
-    upload_test_result_to_nexus('fail', 'win')
-    raise "UI tests failed, please refer the log for more details"
   ensure
     close_apps
     Helm.delete_release(workstation_setting_release_name)

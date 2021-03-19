@@ -6,27 +6,29 @@ designed to execute all acceptance tests'
 
   properties do
     parameters do
-      upstream_parameter do
-        upstream_job_name 'stage-1-dev'
-        name 'APPLICATION_VERSION'
-        description 'the version of the application to deploy and test'
-      end
-
-      upstream_parameter do
-        upstream_job_name 'stage-1-dev'
+      string_parameter do
         name 'APPLICATION_COMMIT_HASH'
         description 'the git commit hash paired with the application version (tip: choose the same list item index as the application version)'
+        default_value 'None'
+      end
+
+      string_parameter do
+        name 'APPLICATION_VERSION'
+        description 'the version of the application to deploy and test'
+        default_value 'None'
       end
     end
-  end
 
-  scm do
-    git do
-      commit_hash '${APPLICATION_COMMIT_HASH}'
+    inject do
+      properties_content <<-EOH
+MSYS=winsymlinks:nativestrict
+PATH=/usr/local/.rbenv/shims:/usr/local/ruby-install/bin:/usr/local/rbenv/libexec:/tools/msys/20160205-3/cmd:/tools/Sysinternals:/Users/vagrant/bin:/Users/vagrant/.rbenv/versions/2.2.4/bin:/cmd:/usr/local/bin:/mingw64/bin:/usr/bin:/Windows/system32:/Windows:/Windows/System32/Wbem:/Windows/System32/WindowsPowerShell/v1.0:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/c/Program\ Files/Amazon/AWSCLI
+SHELLOPTS=igncr
+EOH
     end
   end
 
-  assigned_node_string 'worstation_settings_e2e'
+  assigned_node_string 'workstatioin_plugin_ui_test'
 
   builders do
     bash do
@@ -34,9 +36,12 @@ designed to execute all acceptance tests'
 set +xe
 
 export PATH=/usr/local/sbin:/usr/local/bin:$PATH
-
 export WORKSPACE_SETTING=dev
 source .ecosystem
+
+powershell -command \'Get-DisplayResolution\'
+powershell -command \'Set-DisplayResolution -Width 1920 -Height 1080 -Force\'
+powershell -command \'Get-DisplayResolution\'
 
 rake eks_deploy
 rake install_workstation_windows

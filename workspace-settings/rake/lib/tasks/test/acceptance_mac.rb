@@ -128,7 +128,7 @@ def replace_workstation_plugin_mac
   else
     workstation_plugin_version = ENV['APPLICATION_VERSION'] || Nexus.latest_artifact_version
     plugin_path = "#{@artifact_info[:output_dir]}/#{@artifact_info[:artifact_base_file_name]}.zip"
-    download_artifact(@artifact_info[:artifact_base_file_name], workstation_plugin_version)
+    download_snapshot_artifact(@artifact_info[:artifact_base_file_name], workstation_plugin_version)
   end
 
   plugin_name = plugin_name_mapping || "#{$WORKSPACE_SETTINGS[:project][:name]}"
@@ -143,40 +143,8 @@ def replace_workstation_plugin_mac
   FileUtils.rm("#{plugin_home_foler}/#{plugin_path.split('/').last}")
 end
 
-def upload_test_result_to_nexus(result, platform)
-  result_file_name = "test_result_#{platform}.json"
-  begin
-    tmp_dir = "#{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}/.uitest"
-    FileUtils.rm_rf(tmp_dir, secure: true)
-    FileUtils.mkdir_p(tmp_dir)
-    result_file = "#{tmp_dir}/#{result_file_name}"
-    File.new(result_file,"w+")
-
-    test_result = {
-      "result" => "#{result}"
-    }.to_json
-
-    File.open(result_file, 'w') {|file|
-      file.write(test_result)
-    }
-
-    Nexus.upload_artifact(
-      group_id:       "#{$WORKSPACE_SETTINGS[:nexus][:base_coordinates][:group_id]}.#{Common::Version.application_branch}",
-      artifact_id:    @artifact_info[:artifact_base_file_name],
-      artifact_ext:   'json',
-      version:        @artifact_info[:artifact_version],
-      repository:     $WORKSPACE_SETTINGS[:nexus][:repos][:release],
-      artifact_path:  result_file,
-      artifact_classifier: "test_result_#{platform}"
-    )
-  rescue => e
-      warn e
-  ensure
-    FileUtils.rm_rf(tmp_dir, secure: true)
-  end
-end
-
 task :replace_workstation_plugin_mac do
+
   download_latest_workstation_mac_os_x
   replace_workstation_plugin_mac
 end
@@ -200,13 +168,7 @@ task :acceptance_test_mac do
     shell_command! "npm install", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
     shell_command! "node #{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance/trigger_test.js #{app_path} \'http://#{library_service_fqdn}/MicroStrategyLibrary/\' \'@PREMERGE\'", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
   ensure
-    exit_code=$?
     stop_workstation_app_mac
-    if exit_code == 0
-      upload_test_result_to_nexus('pass', 'mac')
-    else
-      upload_test_result_to_nexus('fail', 'mac')
-    end
     Helm.delete_release(workstation_setting_release_name)
   end
 end
