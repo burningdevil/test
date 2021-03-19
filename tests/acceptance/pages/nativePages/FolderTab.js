@@ -8,7 +8,9 @@ export default class FolderTab extends RootApp {
       windows: {
         locators: [
           { method: 'Name', value: 'Folder Mode' },
+          { method: 'AccessibilityId', value : 'ObjectTree'},
           { method: 'Name', value: folderName },
+          { method: 'ClassName', value: 'TextBlock'},
         ]
       },
       mac: { xpath: folderTab.envFolder.replace(/ReplaceMe/g, folderName) }

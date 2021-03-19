@@ -8,8 +8,7 @@ export default class Toolbar extends RootApp {
     return this.getNativeElement({
       windows: {
         locators: [
-          { method: '', value: '' },
-          { method: '', value: '' }
+          { method: 'AccessibilityId', value: 'RefreshButton' }
         ]
       },
       mac: { xpath: toolbar.refresh }
@@ -113,7 +112,7 @@ export default class Toolbar extends RootApp {
   // Actions
   async refresh() {
     await this.moveToAndClick(await this.getRefresh())
-    return this.app.sleep(2000)
+    return this.app.sleep(3000)
   }
 
   async clickArrangeBy() {

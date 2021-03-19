@@ -128,7 +128,7 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
     } catch (e) {
       const imgBuffer = await screenshot({ format:'png' })
       this.attach(imgBuffer, 'image/png')
-      throw new Error(`Error happened in the function wrapper: ${e}`)
+      throw new Error(`Error happened in the function wrapper: ${e.stack}`)
     } finally {
       if (enableUB) {
         clearUBMonitor()

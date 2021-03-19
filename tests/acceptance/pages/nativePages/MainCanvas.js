@@ -16,20 +16,23 @@ export default class MainCanvas extends RootApp {
     let macItemPath = ''
     if (OSType === 'mac') {
       switch (itemType) {
-          case 'Metrics':
-            macItemPath = canvasViewmode.metricItem
-            break
-          case 'Dossiers':
-            macItemPath = canvasViewmode.dossierItem
-            break
-          case 'Documents':
-            macItemPath = canvasViewmode.documentItem
-            break
-          case 'Environments':
-            macItemPath = canvasViewmode.envItem
-            break
-          default:
-            throw Error('Error! Please check the item type')
+        case 'Metrics':
+          macItemPath = canvasViewmode.metricItem
+          break
+        case 'Dossiers':
+          macItemPath = canvasViewmode.dossierItem
+          break
+        case 'Documents':
+          macItemPath = canvasViewmode.documentItem
+          break
+        case 'Environments':
+          macItemPath = canvasViewmode.envItem
+          break
+        case 'Filters':
+          macItemPath = canvasViewmode.filterItem
+          break
+        default:
+          throw Error('Error! Please check the item type')
       }
     }
 
@@ -83,7 +86,7 @@ export default class MainCanvas extends RootApp {
           { method: 'Name', value: applicationName }
         ]
       },
-      mac:{ xpath: selectApplication.application.replace(/ReplaceMe/g, applicationName) }
+      mac: { xpath: selectApplication.application.replace(/ReplaceMe/g, applicationName) }
     })
   }
 
@@ -94,7 +97,7 @@ export default class MainCanvas extends RootApp {
           { method: 'Name', value: buttonName }
         ]
       },
-      mac:{ xpath: selectApplication.selectButton.replace(/ReplaceMe/g, buttonName) }
+      mac: { xpath: selectApplication.selectButton.replace(/ReplaceMe/g, buttonName) }
     })
   }
 

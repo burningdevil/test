@@ -31,7 +31,6 @@ export default class Window extends RootApp {
     return this.getNativeElement({
       windows: {
         locators: [
-          { method: 'Name', value: itemName },
           { method: 'AccessibilityId', value: 'WindowRestoreButton' }
         ]
       },
@@ -48,6 +47,19 @@ export default class Window extends RootApp {
         ]
       },
       mac: { xpath: window.restore }
+    })
+  }
+
+  async getConfirmCloseButton() {
+    return this.getNativeElement({
+      windows: {
+        locators: [
+          { method: 'Name', value: 'MicroStrategy Workstation' },
+          { method: 'ClassName', value: 'ListBox' },
+          { method: 'Name', value: 'Yes' }
+        ]
+      },
+      mac: { xpath: window.confirmCloseButton }
     })
   }
 
@@ -70,6 +82,11 @@ export default class Window extends RootApp {
   async restoreWindow(itemName) {
     const restoreButton = await this.getRestoreButton(itemName)
     return restoreButton.click()
+  }
+
+  async confirmCloseWindow() {
+    const confirmCloseButton = await this.getConfirmCloseButton()
+    return confirmCloseButton.click()
   }
 
   // assertions

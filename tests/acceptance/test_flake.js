@@ -4,6 +4,19 @@ const { execSync } = require('child_process')
 const { clearFiles, sleep } = require('./utils/generalUtils.js')
 const _ = require('lodash')
 
+// receive arguments
+// const argumentsFromCI = process.argv.slice(2)
+// const APP_PATH = argumentsFromCI[0]
+// const ENV_URL = argumentsFromCI[1]
+// const TAG = argumentsFromCI[2] || '~@wip'
+
+let OS_APP_PATH = ''
+if (process.platform === 'win32') {
+ OS_APP_PATH = `--args.appPath.windows '${APP_PATH}'`
+} else {
+ OS_APP_PATH = `--args.appPath.mac '${APP_PATH}'`
+}
+
 const rerunsFOLDER = './reports/reruns'
 const rerunFile = `${rerunsFOLDER}/@rerun.txt`
 
@@ -56,6 +69,7 @@ async function rerunRestScenarios() {
     fs.writeFileSync(rerunFile, data, 'utf8')
     try {
       execSync(`yarn testRerun`, { stdio: 'inherit', encoding: 'utf-8' })
+      // execSync(`yarn testRerun ${OS_APP_PATH} --params.envInfo[0].envUrl '${ENV_URL}' --cucumberOpts.tags '${TAG}'`, { stdio: 'inherit', encoding: 'utf-8' })
       // waiting for cucumber to generate the execReport.json file
       await sleep(3000)
     } catch (e) {
@@ -90,7 +104,8 @@ async function rerunFailedScenarios() {
 async function testWithRerun() {
   // first execution
   try {
-    execSync(`yarn test`, { stdio: 'inherit', encoding: 'utf-8' })
+    execSync(`yarn test`, { stdio: 'inherit', encoding: 'utf-8' })	
+    // execSync(`yarn test ${OS_APP_PATH} --params.envInfo[0].envUrl '${ENV_URL}' --cucumberOpts.tags '${TAG}'`, { stdio: 'inherit', encoding: 'utf-8' })
   } catch (e) {
     console.info('Test finished with failed scenarios.')
     await sleep(3000)
@@ -207,15 +222,20 @@ function generateRerunFileForFailedTests() {
 // Entry point of "yarn flakeTest"
 (async () => {
   clearExistingReports()
-  await testWithRerun()
-  mergeRallyReports()
-  if (generateRerunFileForFailedTests()) {
-    let remainingAttempts = 2
-    do {
-      console.log(`retrying for round ${3 - remainingAttempts}`)
-      await rerunFailedScenarios()
-      mergeRallyReports()
-      remainingAttempts--
-    } while (remainingAttempts >= 0 && fs.existsSync(rerunFile) && generateRerunFileForFailedTests())
+  try {
+    await testWithRerun()
+    mergeRallyReports()
+    if (generateRerunFileForFailedTests()) {
+      let remainingAttempts = 2
+      do {
+        console.log(`retrying for round ${3 - remainingAttempts}`)
+        await rerunFailedScenarios()
+        mergeRallyReports()
+        remainingAttempts--
+      } while (remainingAttempts >= 0 && fs.existsSync(rerunFile) && generateRerunFileForFailedTests())
+    }
+  } catch (e) {
+    console.error(e)
+    process.exit(1)
   }
 })()
