@@ -1,4 +1,6 @@
 async function registerWindow(windowName) {
+  console.log(await workstationApp.windowHandles())
+
   const currentWindowHandle = await workstationApp.windowHandle()
   return windowsMap.set(windowName, currentWindowHandle)
 }
