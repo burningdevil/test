@@ -39,7 +39,8 @@ export WORKSPACE_SETTING=dev
 source .ecosystem
 
 rake replace_workstation_plugin_mac
-rake eks_deploy acceptance_test_mac
+rake eks_deploy
+rake acceptance_test_mac
 '
     end
   end

@@ -3,6 +3,7 @@ import MenuBar from './MenuBar'
 import Popup from './Popup'
 
 const editor = MAC_XPATH_GENERAL.editor
+// const cefDialog = MAC_XPATH_GENERAL.cefDialog
 
 export default class Editor extends Window {
   // constructor

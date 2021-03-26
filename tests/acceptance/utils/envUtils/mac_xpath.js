@@ -22,10 +22,10 @@ const macXPath = {
       },
       // item Type 1: dossiers, environment, rsd
       dossierItem: `${mainCanvasIconView}/AXList[@AXSubrole='AXSectionList']/AXGroup[@AXIdentifier='WSCollectionViewCardItemPrototype']/AXGroup[0]/AXStaticText[@AXValue='ReplaceItemName\n']`,
-      rsdItem:`${mainCanvasIconView}/AXList[@AXSubrole='AXSectionList']/AXGroup[@AXIdentifier='WSCollectionViewCardItemPrototype']/AXGroup[0]/AXStaticText[@AXValue='ReplaceItemName\n']`,
+      rsdItem: `${mainCanvasIconView}/AXList[@AXSubrole='AXSectionList']/AXGroup[@AXIdentifier='WSCollectionViewCardItemPrototype']/AXGroup[0]/AXStaticText[@AXValue='ReplaceItemName\n']`,
       // itemType2: `${displaySection}/AXGroup[@AXIdentifier='itemPrototype[false]']/AXGroup[0]/AXStaticText[@AXValue='ReplaceMe']`,
       contextOption: `${mainCanvasIconView}/AXMenu[0]/AXMenuItem[@AXTitle='ReplaceOption']`,
-      environmentResultItem:`${mainCanvas}/AXSplitGroup[0]/AXGroup[1]/AXScrollArea[0]/AXOutline[0]/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXStaticText[@AXValue='ReplaceMe']`,
+      environmentResultItem: `${mainCanvas}/AXSplitGroup[0]/AXGroup[1]/AXScrollArea[0]/AXOutline[0]/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXStaticText[@AXValue='ReplaceMe']`,
       secondaryContextOption: `${mainCanvasIconView}/AXMenu[0]/AXMenuItem[@AXTitle='ReplaceOption']/AXMenu[0]/AXMenuItem[@AXTitle='ReplaceSecondaryOption']`
     },
     separaterTitle: `/AXApplication[@AXTitle='MicroStrategy Workstation']/AXWindow[@AXSubrole='AXStandardWindow']/AXSplitGroup[0]/AXGroup[1]/AXScrollArea[0]/AXList[@AXSubrole='AXCollectionList']/AXList[@AXSubrole='AXSectionList']/AXGroup/AXStaticText[@AXValue='replaceMe']`
@@ -43,6 +43,7 @@ const macXPath = {
       datasetItem: `${mainCanvasListView}/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXTextField[@AXValue='ReplaceItemName']`,
       metricItem: `${mainCanvasListView}/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXTextField[@AXValue='ReplaceItemName']`,
       folderItem: `${mainCanvasListView}/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXTextField[@AXValue='ReplaceItemName']`,
+      filterItem: `${mainCanvasListView}/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXTextField[@AXValue='ReplaceItemName']`,
       // item Type 2: Env, Application, Dossier
       envItem: `${mainCanvasListView}/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXStaticText[@AXValue='ReplaceItemName']`,
       applicationItem: `${mainCanvasListView}/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXStaticText[@AXValue='ReplaceItemName']`,
@@ -79,7 +80,8 @@ const macXPath = {
       close: `${stdWindow}/AXButton[@AXSubrole='AXCloseButton']`,
       minimize: `${stdWindow}/AXButton[@AXSubrole='AXMinimizeButton']`,
       fullscreen: `${stdWindow}/AXButton[@AXSubrole='AXFullScreenButton']`,
-      restore: `${stdWindow}/AXButton[@AXSubrole='AXZoomButton']`
+      restore: `${stdWindow}/AXButton[@AXSubrole='AXZoomButton']`,
+      confirmCloseButton: `${stdWindow}/AXSheet/AXButton[@AXTitle='Yes']`
     },
     editor: {
       container: `${application}/AXWindow[@AXTitle='ReplaceEditorTitle']`
@@ -96,6 +98,8 @@ const macXPath = {
       details: `${popup}/AXDisclosureTriangle[0]`,
       button: `${popup}/AXButton[AXTitle='ReplaceBtnName']`,
       certify: `${popup}/AXStaticText[AXValue='Certified ReplaceObjType']`,
+      textField: `${popup}/AXTextField[@AXValue='ReplaceText']`,
+      envFolder: `${popup}/AXSplitGroup[0]/AXScrollArea[0]/AXOutline[0]/AXRow[@AXSubrole='AXOutlineRow']/AXCell[0]/AXStaticText[@AXValue='ReplaceText']`
     },
     mainCanvas: {
       env: {
@@ -112,6 +116,7 @@ const macXPath = {
         selectProject: `${dialog}/AXScrollArea[0]/AXTable[0]/AXRow[@AXSubrole='AXTableRow']/AXCell[0]/AXCheckBox[@AXTitle='ReplaceProjectName']`,
         rememberSelectedApplications: `${dialog}/AXCheckBox[@AXTitle='Remember Selected Applications']`,
         OKToConnect: `${dialog}/AXButton[@AXTitle='OK']`,
+        cancelConnectionButton: `${dialog}/AXButton[@AXTitle='Cancel']`
       },
       searchResultPage: `${stdWindow}/AXSplitGroup[0]/AXStaticText[@AXValue='Searching']`,
       searchingFolder: `${stdWindow}/AXSplitGroup[0]/AXCheckBox[@AXTitle='ReplaceMe']`,
@@ -125,8 +130,8 @@ const macXPath = {
       navigationMode: `${stdWindow}/AXSplitGroup[0]/AXRadioGroup[0]/AXRadioButton[ReplaceModeIndex]`
     },
     selectApplication: {
-      application:`${stdWindow}/AXScrollArea[0]/AXTable[0]/AXRow[@AXSubrole='AXTableRow']/AXCell[0]/AXStaticText[@AXValue='ReplaceMe']`,
-      selectButton:`${stdWindow}/AXButton[@AXTitle='ReplaceMe']`,
+      application: `${stdWindow}/AXScrollArea[0]/AXTable[0]/AXRow[@AXSubrole='AXTableRow']/AXCell[0]/AXStaticText[@AXValue='ReplaceMe']`,
+      selectButton: `${stdWindow}/AXButton[@AXTitle='ReplaceMe']`,
     },
     settings: {
       button: `${stdWindow}/AXButton[@AXTitle='ReplaceMe']`,

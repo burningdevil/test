@@ -49,4 +49,16 @@ export default class BasePage {
   async input(keyword) {
     return this.brwsr.actions().sendKeys(keyword).perform()
   }
+
+  async dragAndDrop({ fromElement, toElement }) {
+    await this.brwsr.actions().mouseMove(fromElement).perform()
+    await this.brwsr.actions().mouseDown(fromElement).perform()
+    await this.brwsr.actions().mouseMove(toElement).perform()
+    return this.brwsr.actions().mouseUp().perform()
+  }
+
+  async hover({ elem, offset = { x: 0, y: 0 } }) {
+    await this.brwsr.actions().mouseMove(elem).perform()
+    return this.brwsr.actions().mouseMove(offset).perform()
+  }
 }

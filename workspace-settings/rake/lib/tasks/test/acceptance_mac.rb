@@ -19,7 +19,7 @@ end
 
 desc "Deploy the environment to kubernetes"
 task :eks_deploy do
-
+  info "=== Deploy test servers ==="
   library_ingress_host = library_service_fqdn
   architect_service_ingress_host = architect_service_fqdn
 
@@ -36,6 +36,7 @@ end
 @workstation_artifact_name = 'workstation-mac'
 @workstation_installation_folder = '/Applications/MicroStrategy Workstation.app'
 @artifact_info = Compiler::Maven.artifact_info
+@cef_remote_debug_port = 54213
 
 def plugin_name_mapping(plugin_repo: $WORKSPACE_SETTINGS[:project][:name])
   plugin_minifest = OctokitGithub.client.contents("Kiai/workstation-mac", {:path => "production/macOS/manifest", :ref => @wkstn_branch })
@@ -51,6 +52,7 @@ def plugin_name_mapping(plugin_repo: $WORKSPACE_SETTINGS[:project][:name])
 end
 
 def download_latest_workstation_mac_os_x
+  info "====== Dowloading workstation mac ======"
   FileUtils.rm(@workstation_dmg_path) if File.exist?(@workstation_dmg_path)
   Nexus.download_latest_artifact(file_path: @workstation_dmg_path, artifact_id: "#{@workstation_artifact_name}", group_id: "com.microstrategy.#{@wkstn_branch}", extra_coordinates: {e: 'dmg'})
 end
@@ -58,14 +60,14 @@ end
 def stop_workstation_app_mac
   # Make sure MicroStrategy Workstation is not running
   if !shell_true? "ps -ef | grep -i workstation |  grep -v grep"
-    puts "It looks good, MicroStrategy Workstation is not running."
+    info "====== It looks good, MicroStrategy Workstation is not running. ======"
   else
-    puts "Stopping MicroStrategy Workstation..."
+    info "====== Stopping MicroStrategy Workstation... ======"
     app_name = "MicroStrategy Workstation.app"
     begin
       shell_command! "osascript -e 'quit app \"#{app_name}\"'"
     rescue
-      warn "Failed to terminate MicroStrategy Workstation with osascript. Going to kill the process!"
+      warn "====== Failed to terminate MicroStrategy Workstation with osascript. Going to kill the process! ======"
     end
     if shell_true? "ps -ef | grep -i workstation |  grep -v grep"
       begin
@@ -88,6 +90,7 @@ def stop_workstation_app_mac
 end
 
 def start_workstation_app_mac
+  info "====== Starting workstation mac... ======"
   shell_command! "sudo xattr -r -d com.apple.quarantine '/Applications/MicroStrategy Workstation.app/'" if shell_true? "xattr '/Applications/MicroStrategy Workstation.app/' | grep 'com.apple.quarantine'"
   shell_command! "open '/Applications/MicroStrategy Workstation.app'"
 end
@@ -112,10 +115,10 @@ def replace_workstation_plugin_mac
   stop_workstation_app_mac
   # Make sure no workstation installed
   if Dir.exist?("#{@workstation_installation_folder}")
-    puts "MicroStrategy Workstation has been installed, going to uninstall it..."
+    info "====== MicroStrategy Workstation has been installed, going to uninstall it... ======"
     FileUtils.rm_rf("#{@workstation_installation_folder}")
   end
-  puts "Install MicroStrategy Workstation..."
+  info "====== Install MicroStrategy Workstation... ======"
   shell_command! "hdiutil unmount '/Volumes/MicroStrategy - Workstation'" if Dir.exist?('/Volumes/MicroStrategy - Workstation')
   shell_command! "hdiutil mount #{@workstation_dmg_path}"
   shell_command! "cp -R '/Volumes/MicroStrategy - Workstation/MicroStrategy Workstation.app' '#{@workstation_installation_folder}'"
@@ -123,18 +126,19 @@ def replace_workstation_plugin_mac
   FileUtils.rm(@workstation_dmg_path) if File.exist?(@workstation_dmg_path)
 
   if ENV['JENKINS_STAGE'] == 'premerge'
-    puts "PREMERGE Job, no need to download plugin..."
+    info "====== PREMERGE Job, no need to download plugin... ======"
     plugin_path="#{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}/.build/#{$WORKSPACE_SETTINGS[:project][:name]}-#{Common::Version.application_version}.zip"
   else
     workstation_plugin_version = ENV['APPLICATION_VERSION'] || Nexus.latest_artifact_version
     plugin_path = "#{@artifact_info[:output_dir]}/#{@artifact_info[:artifact_base_file_name]}.zip"
-    download_artifact(@artifact_info[:artifact_base_file_name], workstation_plugin_version)
+    info "====== Downloading plugin #{@artifact_info[:artifact_base_file_name]} with version #{workstation_plugin_version} ======"
+    download_snapshot_artifact(@artifact_info[:artifact_base_file_name], workstation_plugin_version)
   end
 
   plugin_name = plugin_name_mapping || "#{$WORKSPACE_SETTINGS[:project][:name]}"
   plugin_home_foler = "/Applications/MicroStrategy Workstation.app/Contents/Resources/Plugins"
   ws_plugin_folder = "#{plugin_home_foler}/#{plugin_name}"
-  puts "Replacing the plugin of MicroStrategy Worstation..."
+  info "====== Replacing the plugin of MicroStrategy Worstation... ======"
   FileUtils.mkdir_p(ws_plugin_folder) unless File.exists?(ws_plugin_folder)
   FileUtils.rm_rf("#{ws_plugin_folder}/")
   FileUtils.cp(plugin_path, plugin_home_foler)
@@ -143,92 +147,51 @@ def replace_workstation_plugin_mac
   FileUtils.rm("#{plugin_home_foler}/#{plugin_path.split('/').last}")
 end
 
-def upload_test_result_to_nexus(result, platform)
-  result_file_name = "test_result_#{platform}.json"
-  begin
-    tmp_dir = "#{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}/.uitest"
-    FileUtils.rm_rf(tmp_dir, secure: true)
-    FileUtils.mkdir_p(tmp_dir)
-    result_file = "#{tmp_dir}/#{result_file_name}"
-    File.new(result_file,"w+")
-
-    test_result = {
-      "result" => "#{result}"
-    }.to_json
-
-    File.open(result_file, 'w') {|file|
-      file.write(test_result)
-    }
-
-    Nexus.upload_artifact(
-      group_id:       "#{$WORKSPACE_SETTINGS[:nexus][:base_coordinates][:group_id]}.#{Common::Version.application_branch}",
-      artifact_id:    @artifact_info[:artifact_base_file_name],
-      artifact_ext:   'json',
-      version:        @artifact_info[:artifact_version],
-      repository:     $WORKSPACE_SETTINGS[:nexus][:repos][:release],
-      artifact_path:  result_file,
-      artifact_classifier: "test_result_#{platform}"
-    )
-  rescue => e
-      warn e
-  ensure
-    FileUtils.rm_rf(tmp_dir, secure: true)
-  end
-end
-
 task :replace_workstation_plugin_mac do
   download_latest_workstation_mac_os_x
   replace_workstation_plugin_mac
 end
 
-desc "run acceptance test oncucumber"
-task :acceptance_test_mac do
-  stop_workstation_app_mac
-  #make sure plist exists, if not, launch the MicroStrategy Workstation and quit
-  workstation_plist = '~/Library/Preferences/com.microstrategy.Workstation.plist'
-  if !shell_true? "ls #{workstation_plist}"
-    start_workstation_app_mac
-    stop_workstation_app_mac
-    sleep(5)
-  end
-  shell_command! "defaults write com.microstrategy.Workstation IsDeveloperMode -boolean YES"
-  shell_command! "defaults write com.microstrategy.Workstation IsCEFPluginMode -boolean YES"
-  shell_command! "defaults write com.microstrategy.Workstation CefRemoteDebuggingPort -integer 54213"
-  shell_command! "defaults read com.microstrategy.Workstation"
-  begin
-    app_path = "\'MicroStrategy Workstation\'"
-    shell_command! "npm install", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
-    shell_command! "node #{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance/trigger_test.js #{app_path} \'http://#{library_service_fqdn}/MicroStrategyLibrary/\' \'@PREMERGE\'", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
-  ensure
-    exit_code=$?
-    stop_workstation_app_mac
-    if exit_code == 0
-      upload_test_result_to_nexus('pass', 'mac')
-    else
-      upload_test_result_to_nexus('fail', 'mac')
-    end
-    Helm.delete_release(workstation_setting_release_name)
-  end
+def is_port_avaliable?(port)
+  cmd = shell_command "netstat -vanp tcp | grep #{port}"
+  cmd.stdout == ''
 end
 
-desc "run acceptance test oncucumber"
-task :acceptance_test_mac_premerge do
-  stop_workstation_app_mac
-  #make sure plist exists, if not, launch the MicroStrategy Workstation and quit
-  workstation_plist = '~/Library/Preferences/com.microstrategy.Workstation.plist'
-  if !shell_true? "ls #{workstation_plist}"
-    start_workstation_app_mac
-    stop_workstation_app_mac
-    sleep(5)
+def find_avaliable_cef_port
+  while(!is_port_avaliable?(@cef_remote_debug_port)) do
+    @cef_remote_debug_port += 1
   end
+  info "====== PORT #{@cef_remote_debug_port} is avaliable for test ======"
+end
+
+desc "run acceptance test on cucumber"
+task :acceptance_test_mac do
+  stop_workstation_app_mac
+  #make sure plist is clean
+  workstation_plist = '~/Library/Preferences/com.microstrategy.Workstation.plist'
+  if shell_true? "ls #{workstation_plist}"
+    shell_command! "rm #{workstation_plist}"
+    # clean cache
+    shell_command! "killall cfprefsd"
+    sleep(10)
+  end
+  start_workstation_app_mac
+  stop_workstation_app_mac
+  sleep(5)
+
+  find_avaliable_cef_port
+
+  info "====== Enabling develop mode for workstation ======"
   shell_command! "defaults write com.microstrategy.Workstation IsDeveloperMode -boolean YES"
   shell_command! "defaults write com.microstrategy.Workstation IsCEFPluginMode -boolean YES"
-  shell_command! "defaults write com.microstrategy.Workstation CefRemoteDebuggingPort -integer 54213"
+  shell_command! "defaults write com.microstrategy.Workstation CefRemoteDebuggingPort -integer #{@cef_remote_debug_port}"
   shell_command! "defaults read com.microstrategy.Workstation"
+  
   begin
+    info "====== Executing tests ======"
     app_path = "\'MicroStrategy Workstation\'"
-    shell_command! "npm install", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
-    shell_command! "node #{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance/trigger_test.js #{app_path} \'http://#{library_service_fqdn}/MicroStrategyLibrary/\' \'@PREMERGE\'", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
+    shell_command! "yarn install --frozen-lockfile", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
+    shell_command! "node #{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance/trigger_test.js #{app_path} \'http://#{library_service_fqdn}/MicroStrategyLibrary/\' \'@PREMERGE\' #{@cef_remote_debug_port}", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
   ensure
     stop_workstation_app_mac
     Helm.delete_release(workstation_setting_release_name)

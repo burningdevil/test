@@ -17,6 +17,11 @@ When('I select folderMode on navigation bar', async function() {
 })
 
 When('I select smartMode on navigation bar', async function() {
+  // restore the windows workstation window so that the next time the window is maximized when enter the folder mode.
+  // TO-DO: Implement the scrollig logic to find the object if not within the displayed window.
+  if (OSType === 'windows') {
+    await mainWindow.maximizeWindow('MicroStrategy Workstation (Developer Mode)')
+  }
   await mainWindow.footer.selectSmartMode()
   return mainWindow.app.sleep(2000)
 })

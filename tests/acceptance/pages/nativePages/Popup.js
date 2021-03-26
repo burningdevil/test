@@ -50,10 +50,62 @@ export default class Popup extends RootApp {
     })
   }
 
+  async getTextField(feildText) {
+    return this.getNativeElement({
+      windows: {
+        locators: [
+          { method: 'ClassName', value: 'TextBox' }
+        ]
+      },
+      mac: { xpath: popup.textField.replace(/ReplaceText/g, feildText) }
+    })
+  }
+
+  async getPopupFolder(folderName) {
+    return this.getNativeElement({
+      windows: {
+        locators: [
+          { method: 'Name', value: folderName },
+          { method: 'ClassName', value: 'TextBlock' },
+        ]
+      },
+      mac: { xpath: popup.envFolder.replace(/ReplaceText/g, folderName) }
+    })
+  }
+
   // actions
   async clickSave() {
     const saveButton = await this.getPopupSaveButton()
-    return saveButton.click()
+    await saveButton.click()
+    return this.sleep(2000)
+  }
+
+  async selectPopupButton(buttonName) {
+    await this.nativeWaitFor({
+      windows: {
+        locators: [
+          { method: 'Name', value: 'MicroStrategy Workstation' },
+          { method: 'Name', value: 'Yes' }
+        ]
+      },
+      mac: { xpath: popup.button.replace(/ReplaceBtnName/g, 'Yes') }
+    });
+    await this.moveToAndClick(await this.getButton(buttonName));
+    return this.sleep(1000)
+  }
+
+  async saveObjectAs(title) {
+    const elem = await this.getTextField('Untitled Filter')
+    await elem.clear()
+    return elem.sendKeys(title)
+  }
+
+  async expandPopupFolder(folderName) {
+    return this.moveToAndDoubleClick(await this.getPopupFolder(folderName))
+  }
+
+  async selectPopupFolder(folderName) {
+    return this.moveToAndClick(await this.getPopupFolder(folderName))
   }
 
   // assertions

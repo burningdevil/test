@@ -7,6 +7,7 @@ const chaiAsPromised = require('chai-as-promised')
 chai.use(chaiAsPromised)
 
 const parseArguments = require('./utils/envUtils/parseArguments')
+const { sleep } = require('./utils/generalUtils')
 const customArgObj = parseArguments()
 
 exports.config = {
@@ -17,7 +18,7 @@ exports.config = {
     browserName: 'chrome',
     chromeOptions: {
       // the hardcoded remote debug devtool
-      debuggerAddress: '127.0.0.1:54213'
+      debuggerAddress: `127.0.0.1:${customArgObj.args.cefPort}`
     }
   },
 
@@ -41,7 +42,7 @@ exports.config = {
     // require: './features/step_definitions/**/*.js',  // require step definition files before executing features
     require: ['./steps/env.js', './steps/**/*.js'], // require step definition files before executing features
     format: ['json:reports/rallyReport/execReport.json', 'rerun:./reports/reruns/@rerun.txt'], // <string[]> (type[:path]) specify the output format, optionally supply PATH to redirect formatter output (repeatable)
-    // tags: ['@debug'],
+    // tags: ['@sanity'],
     profile: false,
     'fail-fast': true,
     'no-source': true
@@ -114,16 +115,27 @@ exports.config = {
         // this check should timeout quick
         const envNotExist = await mainWindow.mainCanvas.envSection.isEnvRemoved(envName, 1000)
         if (!envNotExist) {
+          console.log(`remove exsiting env ${envName}`)
           await mainWindow.mainCanvas.envSection.removeEnv(envName)
           // this one should have bigger timeout as the actual remove may take some time
           await mainWindow.mainCanvas.envSection.isEnvRemoved(envName, 4000)
         }
+        console.log(`connect to env ${envName} with url ${envUrl}`)
         await mainWindow.mainCanvas.envSection.connectEnv(envName, envUrl)
+        await sleep(10000) // wait for login mode
+        console.log('set login, password and login mode')
         await mainWindow.mainCanvas.envSection.loginToEnv(loginMode, userName, userPwd)
+        await sleep(30000) // wait for project list
+        console.log('choose projects')
         for (let projectIndex = 0; projectIndex < projects.length; projectIndex++) {
           await mainWindow.mainCanvas.envSection.chooseProject(projects[projectIndex])
         }
+        console.log('confirm connection')
         await mainWindow.mainCanvas.envSection.clickOkToConnect()
+
+        if (OSType === 'mac') {
+          mainWindow.mainCanvas.envSection.closeExtraEnvWindow()
+        }
       }
     }
 

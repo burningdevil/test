@@ -2,28 +2,31 @@
     "params": {
         "envInfo": [
             {
-                "envName": "Plugin Test",
+                "envName": "shared",
                 "envUrl": "http://tec-w-005136.labs.microstrategy.com:8080/MicroStrategyLibrary/",
                 "loginMode": "Standard",
                 "userName": "administrator",
                 "userPwd": "",
-                "projects": ["MicroStrategy Tutorial"]
+                "projects": [
+                    "MicroStrategy Tutorial"
+                ]
             }
         ]
     },
     "args": {
-        "launchWS": true ,
+        "launchWS": true,
         "connectEnv": true,
         "removeEnv": true,
-        "quitWS": true ,
+        "quitWS": true,
         "appPath": {
-            "mac": "MicroStrategy Workstation",
+            "mac": "MicroStrategy Workstation.app",
             "windows": "C:\\Program Files\\MicroStrategy\\Workstation\\Workstation.exe"
         },
         "ubConf": {
             "ubReportPath": "./reports/raw/report1.json",
-            "ubInterval":500,
-            "enableUB":false
-        }
+            "ubInterval": 500,
+            "enableUB": false
+        },
+        "cefPort": 54213
     }
 }

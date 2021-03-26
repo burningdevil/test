@@ -11,7 +11,8 @@ General:
 - OS requirement: Only Windows 10 PCs are supported
 - Enable Developer Mode on Windows
 - Install Workstation Windows
-- [Enable application Developer Mode for Workstation Windows](https://microstrategy.atlassian.net/wiki/spaces/TECTOOLSWORKSTATION/pages/447709932/How+to+configure+the+developer+mode)
+- [Enable application Developer Mode for Workstation Windows](https://microstrategy.atlassian.net/wiki/spaces/TECTOOLSWORKSTATION/pages/447709932/How+to+configure+the+developer+mode
+- Install Appium
 ### For Mac:
 - OS requirement: Mac OS X 10.7 or later.
 - Install the native OS X binary [AppiumForMac](https://github.com/appium/appium-for-mac/releases/tag/v0.3.0)

@@ -16,8 +16,9 @@ const { spawn, execSync } = require('child_process')
 // receive arguments from CI Pipeline
 const argumentsFromCI = process.argv.slice(2)
 const APP_PATH = argumentsFromCI[0]
-const ENV_URL = argumentsFromCI[1]
+const ENV_URL = argumentsFromCI[1] 
 const TAG = argumentsFromCI[2]
+const CEF_PORT = argumentsFromCI[3]
 
 let cp; let globalExitCode = 0
 // start appium method
@@ -58,7 +59,8 @@ const startupAppium = async () => {
     } else {
       OS_APP_PATH = `--args.appPath.mac '${APP_PATH}'`
     }
-    execSync(`yarn test ${OS_APP_PATH} --params.envInfo[0].envUrl '${ENV_URL}' --cucumberOpts.tags '${TAG}'`, { stdio: 'inherit', encoding: 'utf-8' })
+    execSync(`yarn test ${OS_APP_PATH} --args.cefPort '${CEF_PORT}' --params.envInfo[0].envUrl '${ENV_URL}' --cucumberOpts.tags '${TAG}'`, { stdio: 'inherit', encoding: 'utf-8' })
+    // execSync(`yarn flakeTest '${APP_PATH}' '${ENV_URL}' '~@wip'`, { stdio: 'inherit', encoding: 'utf-8' })
   } catch (err) {
     console.error(err)
     globalExitCode = 2

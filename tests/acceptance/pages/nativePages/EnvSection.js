@@ -1,3 +1,4 @@
+import { sleep } from '../../utils/generalUtils'
 import RootApp from '../basePages/RootApp'
 const mainCanvas = MAC_XPATH_GENERAL.mainCanvas
 const wd = require('wd')
@@ -241,6 +242,31 @@ export default class EnvSection extends RootApp {
           .replace(/ReplaceSecondaryOption/g, secondaryOption)
       }
     })
+  }
+
+  async getCancelConnectionButton() {
+    return this.getNativeElement({
+      windows: {
+        locators: [
+          { method: 'Name', value: 'Connection' },
+          { method: 'Name', value: 'Cancel' }
+        ]
+      },
+      mac: { xpath: mainCanvas.env.cancelConnectionButton}
+    })
+  }
+
+  async closeExtraEnvWindow() {
+    let isExtraEnvPresent = true
+    while(isExtraEnvPresent) {
+      sleep(10000)
+      const cancelButton = await this.getCancelConnectionButton()
+      if( cancelButton.isDisplayed() ) {
+        cancelButton.click()
+      } else {
+        isExtraEnvPresent = false
+      }
+    }
   }
 
   // ** Actions ** //
