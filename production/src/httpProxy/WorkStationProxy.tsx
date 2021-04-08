@@ -72,7 +72,7 @@ export default {
     return requestToNative(path, null, headers, 'GET', parseFunc, signal)
   },
 
-  del: function del(path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal) {
+  delete: function del(path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal) {
     return requestToNative(path, body, headers, 'DELETE', parseFunc, signal)
   },
 
