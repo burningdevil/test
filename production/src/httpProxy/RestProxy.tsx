@@ -140,7 +140,7 @@ export default {
     return request.call(this, 'post', path, body, headers, parseFunc, signal)
   },
 
-  del: function (path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: CancelToken) {
+  delete: function (path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: CancelToken) {
     return request.call(this, 'del', path, body, headers, parseFunc, signal)
   },
 
