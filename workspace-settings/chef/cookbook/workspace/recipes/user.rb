@@ -5,8 +5,8 @@
 
 include_recipe 'workspace::project'
 
-node.override[:extras][:project][:name] = "TKN-.-project_name-.-TKN"
-node.override[:extras][:project][:home] = "#{EXTRAS_WS_HOME}/Projects/microstrategy/TKN-.-project_parent_name-.-TKN/#{node[:extras][:project][:name]}"
+node.override[:extras][:project][:name] = "workstation-homescreen-admin"
+node.override[:extras][:project][:home] = "#{EXTRAS_WS_HOME}/Projects/microstrategy/Kiai/#{node[:extras][:project][:name]}"
 
 case node['platform']
 when 'windows'

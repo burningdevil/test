@@ -4,7 +4,7 @@ export APPLICATION_SHORT_VERSION_PREFIX="11.2."
 export APPLICATION_LONG_VERSION_PREFIX="${APPLICATION_SHORT_VERSION_PREFIX}0000."
 
 export GROUP_ID_BASE='com.microstrategy'
-export ARTIFACT_ID_BASE='TKN-.-project_name-.-TKN'
+export ARTIFACT_ID_BASE='workstation-homescreen-admin'
 
 export VAGRANT_BOXES_CENTOS_NAME='centos-7-2-x86_64'
 export VAGRANT_BOXES_CENTOS_VERSION='1.0.2.next'
