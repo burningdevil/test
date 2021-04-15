@@ -1,17 +1,26 @@
 import * as React from 'react'
-import { HashRouter, Route, Link } from 'react-router-dom';
-import Module1 from './modules/Module1'
-import Module2 from './modules/Module2'
-import Module3 from './modules/Module3'
+import { HashRouter, Route } from 'react-router-dom';
+import HomeScreenConfigMainView from './modules/components/views/HomeScreenConfigMainView';
+import HomeScreenConfigEditor from './modules/components/views/HomeScreenConfigEditor';
+import HomeScreenDossierPicker from './modules/components/views/HomeScreenDossierPicker';
 
 export default class App extends React.Component<any, any> {  
   // Pages Setup
   routes = (
-    <div>
-      <Route path="/m1" component={Module1} />
-      <Route path="/m2" component={Module2} />
-      <Route path="/m3" component={Module3} />
-    </div>
+    <>
+      <Route
+        path="/homescreenConfigMain"
+        component={HomeScreenConfigMainView}
+      />
+      <Route
+        path="/homescreenConfigEditor"
+        component={HomeScreenConfigEditor}
+      />
+      <Route
+        path="/homeScreenDossierPicker"
+        component={HomeScreenDossierPicker}
+      />
+    </>
   )
   render() {
     return (

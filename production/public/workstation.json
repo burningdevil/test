@@ -1,106 +1,56 @@
 {
   "version": "1.0.0",
-  "name": "WS Plugin One",
+  "name": "HomeScreen Admin",
   "isEnabled": true,
   "contributions": {
     "smartFolders": {
       "items": [
         {
-          "key": "apiSampleCalls",
-          "displayName": "API Documentation",
-          "command": "openApi",
-          "ribbonColor": "#238AD0",
-          "icon": "three.png",
-          "selectedIcon": "three.png",
+          "key": "homescreenAdminFolder",
+          "displayName": "Applications",
+          "command": "openConfigMain",
+          "ribbonColor": "#1C8DD4",
           "location": {
-            "section": "Resources",
-            "index": 1
-          }
-        },
-        {
-          "key": "sfModule3",
-          "displayName": "Environment History",
-          "command": "openEnvHistory",
-          "ribbonColor": "#238AD0",
-          "icon": "three.png",
-          "selectedIcon": "three.png",
-          "location": {
-            "section": "Manage",
-            "index": 0
-          }
+            "section": "Administration",
+            "index": 4
+          },
+          "icon": "Applications.png",
+          "selectedIcon": "Applications.png",
+          "showEnvironmentSelector": true
         }
       ]
     },
     "menus": {
       "items": [
         {
-          "key": "openModule1Menu",
-          "icon": "one.png",
-          "command": "openModule1"
-        },
-        {
-          "key": "openModule2Menu",
-          "icon": "one.png",
-          "command": "openModule2"
-        },
-        {
-          "key": "openModule3Menu",
-          "icon": "one.png",
-          "command": "openModule3",
-          "isVisible": "isVisibleModule3Menu"
-        },
-        {
-          "key": "apiDocs",
-          "displayName": "API Documentation",
-          "command": "openApi"
-        }
-      ],
-      "mainMenuItems": [
-        {
-          "item": "apiDocs",
-          "mainMenuType": "Help",
-          "location": {
-            "section": "Plugin",
-            "index": 0
-          }
-        }
-      ],
-      "contextMenuItems": [
-        {
-          "item": "openModule1Menu",
-          "objectTypes": [
-            "Folder",
-            "Dossier",
-            "Filter"
-          ],
-          "location": {
-            "section": "General",
-            "index": 0
-          }
-        },
-        {
-          "item": "openModule2Menu",
-          "objectTypes": [
-            "Folder",
-            "Dossier"
-          ],
-          "location": {
-            "section": "General",
-            "index": 1
-          }
-        },
-        {
-          "item": "openModule3Menu",
-          "objectTypes": [
-            "Folder",
-            "Dossier"
-          ],
-          "location": {
-            "section": "General",
-            "index": 2
+          "key": "homescreenConfigEditor",
+          "displayName": "HomeScreenConfigEditor",
+          "command": "openConfigEditor",
+          "icon": "Applications.png",
+          "windowKey": "homescreenConfigEditorWindow",
+          "isVisible": "isHomeScreenConfigEnabled",
+          "canExecute": "isHomeScreenConfigEnabled",
+          "selector": {
+            "type": "Application",
+            "environmentCanExecute": "isHomeScreenConfigEnabled",
+            "objectCanExecute": "isHomeScreenConfigEnabled",
+            "descriptionKey": "HomeScreen Configuration Editor",
+            "tooltipKey": "createNewHomeScreenConfigTooltip"
           }
         }
       ]
-    }
+    },
+    "windows": [
+      {
+        "key": "homescreenConfigEditorWindow",
+        "showMenus": false,
+        "size": {
+          "minimumHeight": 700,
+          "minimumWidth": 1045,
+          "initialHeight": 700,
+          "initialWidth": 1045
+        }
+      }
+    ],
   }
 }

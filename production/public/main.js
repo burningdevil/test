@@ -38,27 +38,22 @@ const compareVersion = (v1, v2) => {
 }
 
 module.exports = {
-  openModule1: function(info) {
+  openConfigMain: function(info) {
+    console.log("openConfigMain: " + info);
     return {
-      url: `/index.html#/m1`
+      url: `/index.html#/homescreenConfigMain`
     }
   },
-  openModule2: function(info) {
+  openConfigEditor: function(info) {
+    console.log("openConfigEditor: " + info);
     return {
-      url: `/index.html#/m2`
+      url: `/index.html#/homescreenConfigEditor`
     }
   },
-  openModule3: function(info) {
+  openDossierPicker: function(info) {
+    console.log("openDossierPicker: " + info);
     return {
-      url: `/index.html#/m3`
+      url: `/index.html#/homeScreenDossierPicker`
     }
-  },
-  openEnvHistory: function() {
-    return {
-      url: `/index.html#/m3`
-    }
-  },
-  isVisibleModule3Menu: function(info) {
-    return info && info.environment && compareVersion(info.environment.serverVersion, '11.2.0.34535') >= 0
   }
 }
