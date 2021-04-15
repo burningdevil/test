@@ -58,7 +58,6 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
             destroyOnClose={true}
             width={popoverGeneral.width}
             maskClosable = {false}
-            bodyStyle={{height: popoverGeneral.height}}
             visible={visible}
             footer={null}
             onCancel={() => {
@@ -70,7 +69,7 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
                     <Layout.Header>
                         <span>{isEditConfig ? popoverEditTitle : popoverCreateTitle}</span>
                     </Layout.Header>
-                    <Layout.Content style={{height: bodyHeight}}>
+                    <Layout.Content>
                         <Layout className="mstr-Admin-cfg-popover-layout-content">
                             <div>
                                 <Tabs
