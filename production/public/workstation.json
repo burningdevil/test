@@ -23,26 +23,40 @@
     "menus": {
       "items": [
         {
-          "key": "homescreenConfigEditor",
-          "displayName": "HomeScreenConfigEditor",
-          "command": "openConfigEditor",
+          "key": "newHomeScreenConfig",
+          "displayName": "New Application",
+          "command": "openNewConfig",
           "icon": "Applications.png",
-          "windowKey": "homescreenConfigEditorWindow",
+          "windowKey": "homescreenConfigEditor",
           "isVisible": "isHomeScreenConfigEnabled",
-          "canExecute": "isHomeScreenConfigEnabled",
-          "selector": {
-            "type": "Application",
-            "environmentCanExecute": "isHomeScreenConfigEnabled",
-            "objectCanExecute": "isHomeScreenConfigEnabled",
-            "descriptionKey": "HomeScreen Configuration Editor",
-            "tooltipKey": "createNewHomeScreenConfigTooltip"
-          }
+          "canExecute": "isHomeScreenConfigEnabled"
+        },
+        {
+          "key": "editHomeScreenConfig",
+          "displayName": "Edit Application",
+          "command": "openEditConfig",
+          "icon": "Applications.png",
+          "windowKey": "homescreenConfigEditor",
+          "isVisible": "isHomeScreenConfigEnabled",
+          "canExecute": "isHomeScreenConfigEnabled"
         }
       ]
     },
+    "objectEditors": [
+      {
+        "objectType": "HomeScreenConfig",
+        "item": "editHomeScreenConfig",
+        "editorTypes": ["Edit"]
+      },
+      {
+        "objectType": "HomeScreenConfig",
+        "item": "newHomeScreenConfig",
+        "editorTypes": ["Create"]
+      }
+    ],
     "windows": [
       {
-        "key": "homescreenConfigEditorWindow",
+        "key": "homescreenConfigEditor",
         "showMenus": false,
         "size": {
           "minimumHeight": 700,
@@ -51,6 +65,6 @@
           "initialWidth": 1045
         }
       }
-    ],
+    ]
   }
 }

@@ -1,8 +1,10 @@
 // set up your REST Server here
 module.exports = {
-  host: 'http://dexters.labs.microstrategy.com:8080',
-  path: '/consume-e2e',
-  username: 'tester_hazhou',
+  host: 'http://localhost:8080',
+  path: '/MicroStrategyLibrary',
+  username: 'enli',
   password: '',
-  projectId: ''
+  projectId: '235853DC4B79DABCE8C6FFB26B7D8DC3',  // VI106-2
+  adminUser: 'tomcat',
+  adminPassword: 'tomcat'
 }

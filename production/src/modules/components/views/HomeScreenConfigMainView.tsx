@@ -1,8 +1,18 @@
 import * as React from 'react';
 import '../scss/HomeScreenConfigMainView.scss';
 import { ReactWindowGrid, MSTRWSIcon } from '@mstr/rc';
+import { WorkstationModule, ObjectEditorSettings } from '@mstr/workstation-types';
 import HomeScreenConfigEditor from './HomeScreenConfigEditor';
+import { HttpProxy } from '../../../main';
 
+
+//TODO: remove when rest api to migrate to library user.
+import serverConfig from '../../../../build/server.config';
+const headers = {
+  Authorization: "Basic " + btoa(serverConfig.adminUser + ":" + serverConfig.adminPassword)
+}
+
+declare var workstation: WorkstationModule;
 
 export default class HomeScreenConfigMainView extends React.Component<any, any> {
   constructor(props: any) {
@@ -14,21 +24,39 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.loadData();
+    const currentEnv = await workstation.environments.getCurrentEnvironment();
+    console.log("Env: " + currentEnv);
+    this.setState({
+      currentEnv: currentEnv
+    });
   }
 
   loadData = async () => {
-    // TODO: Get Config List from rest server.
+    const response = await HttpProxy.get('/admin/mstrClients/library/configs', headers);
+    let data = response;
+    if (response.data) {
+      data = response.data;
+    }
+    const configList = data.map(config => {
+      return {
+        ...config,
+        platform: 'Web',
+        home: 'Dossier',
+        components: 'xxx,yyy,zzz',
+        contentBundles: 'aa,bb,bb'
+      }
+    });
     this.setState({
-      configList: []
+      configList: configList
     });
   }
 
   handleDismiss = (visible: boolean) => {
-    this.setState({
-      configEditorVisible: visible
-    })
+    // this.setState({
+    //   configEditorVisible: visible
+    // })
   }
 
   render() {
@@ -39,14 +67,25 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
             className="add-application-icon"
             type="msdl-add"
             onClick={() => {
-              this.setState({
-                configEditorVisible: true,
-                isEditConfig: false
-              });
+              console.log("Env: " + this.state.environmentURL);
+              const options: ObjectEditorSettings = {
+                objectType: 'HomeScreenConfig',
+                environment: this.state.currentEnv
+              }
+              workstation.dialogs.openObjectEditor(options).catch(e =>
+                workstation.dialogs.error({
+                    message: 'Open object editor failed with error',
+                    additionalInformation: JSON.stringify(e)
+                })
+              )
+              // this.setState({
+              //   configEditorVisible: true,
+              //   isEditConfig: false
+              // });
             }}
           />
           <span className="story-icon-text">
-            Add Application
+            New Application
           </span>
         </div>
         <ReactWindowGrid
@@ -82,13 +121,14 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
               width: '30%'
             },
             {
-              field: 'lastUpdated',
+              field: 'lastUpdate',
               headerName: 'Date Modified',
               sortable: true,
               width: '10%'
             }
           ]}
           rowData={this.state.configList}
+          // getContextMenuItems={function noRefCheck(){}}
           isColumnConfigurable={true}
         />
         <HomeScreenConfigEditor
