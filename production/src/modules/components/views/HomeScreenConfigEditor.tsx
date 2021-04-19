@@ -1,9 +1,10 @@
 import * as React from 'react'
 import '../scss/HomeScreenConfigEditor.scss'
-import { Modal, Tabs, Layout, Button} from 'antd';
+import { Tabs, Layout, Button} from 'antd';
+import { WorkstationModule } from '@mstr/workstation-types';
 
-const popoverEditTitle = 'Edit Application Configuration';
-const popoverCreateTitle = 'Create Application Configuration';
+declare var workstation: WorkstationModule;
+
 const navBar = {
   GENERAL: 'General',
   HOME_SCREEN: 'Home Screen',
@@ -13,10 +14,9 @@ const navBar = {
 };
 const popoverGeneral = {
   width: 1045,
-  height: 600,
-  headerHeight: 31,
+  height: 700,
+  headerHeight: 0,
 };
-
 export default class HomeScreenConfigEditor extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
@@ -37,12 +37,19 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
   buttonGroup = () => {
     return (
         <div className="mstr-Admin-cfg-popover-btn">
-            <Button key="back">
+            <Button key="back"
+                onClick={()=>{
+                    workstation.window.close()
+                }}
+            >
                 {'Cancel'}
             </Button>
             <Button key="Generate"
                 type="primary"
-                style={{marginLeft: 10}}>
+                style={{marginLeft: 10}}
+                onClick={()=>{
+                    workstation.window.close()
+                }}>
                 {'Save'}
             </Button>
         </div>
@@ -50,55 +57,38 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
   };
 
   render() {
-    const { visible, isEditConfig } = this.props;
+    const { isEditConfig } = this.props;
     const bodyHeight = popoverGeneral.height - popoverGeneral.headerHeight;
     return (
-        <Modal
-            className='mstr-Admin-cfg-popover'
-            destroyOnClose={true}
-            width={popoverGeneral.width}
-            maskClosable = {false}
-            visible={visible}
-            footer={null}
-            onCancel={() => {
-              this.props.handleDismiss(false)
-            }}
-        >
-            {visible ? (
-                <Layout className='mstr-Admin-cfg-popover-layout'>
-                    <Layout.Header>
-                        <span>{isEditConfig ? popoverEditTitle : popoverCreateTitle}</span>
-                    </Layout.Header>
-                    <Layout.Content>
-                        <Layout className="mstr-Admin-cfg-popover-layout-content">
-                            <div>
-                                <Tabs
-                                    activeKey = {this.state.activeKey}
-                                    onChange={this.tabBarChanged}
-                                    tabPosition="left"
-                                    style={{height: bodyHeight}}>
-                                    <Tabs.TabPane tab={navBar.GENERAL} key="1">
-                                        {this.buttonGroup()}
-                                    </Tabs.TabPane>
-                                    <Tabs.TabPane tab={navBar.HOME_SCREEN} key="2">
-                                        {this.buttonGroup()}
-                                    </Tabs.TabPane>
-                                    <Tabs.TabPane tab={navBar.COMPONENTS} key="3">
-                                        {this.buttonGroup()}
-                                    </Tabs.TabPane>
-                                    <Tabs.TabPane tab={navBar.CONTENT_BUNDLES} key="4">
-                                        {this.buttonGroup()}
-                                    </Tabs.TabPane>
-                                    <Tabs.TabPane tab={navBar.MORE_SETTINGS} key="5">
-                                        {this.buttonGroup()}
-                                    </Tabs.TabPane>
-                                </Tabs>
-                            </div>
-                        </Layout>
-                    </Layout.Content>
+        <Layout className='mstr-Admin-cfg-popover-layout'>
+            <Layout.Content>
+                <Layout className="mstr-Admin-cfg-popover-layout-content">
+                    <div>
+                        <Tabs
+                            activeKey = {this.state.activeKey}
+                            onChange={this.tabBarChanged}
+                            tabPosition="left"
+                            style={{height: bodyHeight}}>
+                            <Tabs.TabPane tab={navBar.GENERAL} key="1">
+                                {this.buttonGroup()}
+                            </Tabs.TabPane>
+                            <Tabs.TabPane tab={navBar.HOME_SCREEN} key="2">
+                                {this.buttonGroup()}
+                            </Tabs.TabPane>
+                            <Tabs.TabPane tab={navBar.COMPONENTS} key="3">
+                                {this.buttonGroup()}
+                            </Tabs.TabPane>
+                            <Tabs.TabPane tab={navBar.CONTENT_BUNDLES} key="4">
+                                {this.buttonGroup()}
+                            </Tabs.TabPane>
+                            <Tabs.TabPane tab={navBar.MORE_SETTINGS} key="5">
+                                {this.buttonGroup()}
+                            </Tabs.TabPane>
+                        </Tabs>
+                    </div>
                 </Layout>
-            ) : null}
-        </Modal>
+            </Layout.Content>
+        </Layout>
     );
   }
 }

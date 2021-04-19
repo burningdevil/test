@@ -1106,10 +1106,10 @@
     resize-observer-polyfill "^1.5.1"
     use-resize-observer "^6.1.0"
 
-"@mstr/workstation-types@^1.0.2":
-  version "1.0.2"
-  resolved "http://nexus.internal.microstrategy.com:8081/repository/npm-group/@mstr/workstation-types/-/workstation-types-1.0.2.tgz#0c0dffe0f2f848c0b0dcf2223444bc6fede022a1"
-  integrity sha512-PwW1hCnK3Sgkpp0RNMBdbJObYoj3D4dIqrAyqoedqfbNwezf0yKBULfR5sBfU0UaWt155uR/h8YMaO1MzTC3aw==
+"@mstr/workstation-types@^1.0.7":
+  version "1.0.7"
+  resolved "http://nexus.internal.microstrategy.com:8081/repository/npm-group/@mstr/workstation-types/-/workstation-types-1.0.7.tgz#6810c7f3e5581c4744d80bf99234015e68b40966"
+  integrity sha512-ge4fIoATOCecgGnduSfLny8bGZcrGAVf0/OyRH/XUE9tLFpcEDJZuVWKkBWr2sIGjSFEMutAs2f2irHyWAPqwg==
 
 "@types/babel__core@^7.1.0":
   version "7.1.2"
