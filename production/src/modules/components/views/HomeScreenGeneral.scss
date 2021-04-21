@@ -1,0 +1,42 @@
+.home-screen-general {
+    text-align: right;
+    font-family: Helvetica, serif;
+    color: #444649;
+    font-size: 13px;
+    line-height: 350%;
+}
+.home-screen-general-environment {
+    display: flex;
+    &-title {
+        width: 30%;
+        padding-right: 20px;
+    }
+}
+
+.home-screen-general-name {
+    display: flex;
+    &-title {
+        width: 30%;
+        padding-right: 20px;
+    }
+
+    &-name {
+        padding-right: 50px;
+    }
+}
+
+.home-screen-general-description {
+    display: flex;
+    &-title {
+        width: 30%;
+        padding-right: 20px;
+    }
+}
+
+.home-screen-general-platform {
+    display: flex;
+    &-title {
+        width: 30%;
+        padding-right: 20px;
+    }
+}
