@@ -37,23 +37,31 @@ const compareVersion = (v1, v2) => {
   return 0
 }
 
+const getResponseValue = function(booleanResult) {
+  return {
+    responseValue: booleanResult
+  }
+}
+
 module.exports = {
   openConfigMain: function(info) {
-    console.log("openConfigMain: " + info);
     return {
       url: `/index.html#/homescreenConfigMain`
     }
   },
-  openConfigEditor: function(info) {
+  openNewConfig: function(info) {
     console.log("openConfigEditor: " + info);
     return {
       url: `/index.html#/homescreenConfigEditor`
     }
   },
-  openDossierPicker: function(info) {
-    console.log("openDossierPicker: " + info);
+  openEditConfig: function(info) {
+    console.log("openConfigEditor: " + info);
     return {
-      url: `/index.html#/homeScreenDossierPicker`
+      url: `/index.html#/homescreenConfigEditor?id=${info.objId}`
     }
-  }
+  },
+  isHomeScreenConfigEnabled: function(info) {
+    return getResponseValue(true)
+  },
 }
