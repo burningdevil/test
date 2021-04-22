@@ -1,10 +1,10 @@
 // set up your REST Server here
 module.exports = {
-  host: 'http://localhost:8080',
-  path: '/MicroStrategyLibrary',
-  username: 'enli',
+  host: 'http://10.197.104.180:8282',
+  path: '/consume-dev',
+  username: 'administrator',
   password: '',
   projectId: '235853DC4B79DABCE8C6FFB26B7D8DC3',  // VI106-2
-  adminUser: 'tomcat',
-  adminPassword: 'tomcat'
+  adminUser: 'admin',
+  adminPassword: 'admin'
 }

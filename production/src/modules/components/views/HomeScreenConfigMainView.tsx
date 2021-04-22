@@ -19,8 +19,6 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
     super(props)
     this.state = {
       configList: [],
-      configEditorVisible: false,
-      isEditConfig: false
     }
   }
 
@@ -78,10 +76,6 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
                     additionalInformation: JSON.stringify(e)
                 })
               )
-              // this.setState({
-              //   configEditorVisible: true,
-              //   isEditConfig: false
-              // });
             }}
           />
           <span className="story-icon-text">

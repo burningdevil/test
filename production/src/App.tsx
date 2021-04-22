@@ -17,6 +17,10 @@ export default class App extends React.Component<any, any> {
         component={HomeScreenConfigEditor}
       />
       <Route
+        path="/homescreenConfigEditor?id="
+        component={HomeScreenConfigEditor}
+      />
+      <Route
         path="/homeScreenDossierPicker"
         component={HomeScreenDossierPicker}
       />

@@ -3,16 +3,16 @@ import './HomeScreenGeneral.scss'
 import { Input, Checkbox } from '@mstr/rc';
 import { env } from '../../../main'
 
+const platformType = {
+    mobile: 'Mobile',
+    web: 'Web',
+    desktop: 'Desktop',
+  };
+
 export default class HomeScreenGeneral extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
-    this.state = {
-        noteShown: true,
-        name: '',
-        color: 0,
-        opacity: 100,
-        emailEnabled: false
-    }
+    this.state = {};
   }
 
   loadData = async () => {
@@ -24,13 +24,26 @@ export default class HomeScreenGeneral extends React.Component<any, any> {
 
   componentWillMount() {
     this.loadData();
-    // environments.getCurrentEnvironment().then((env: Environment) => {
-    //     this.setState({currentEnv: env})
-    // });
   }
 
+  handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      console.log(event.target.value);
+      this.props.handleChange({name: event.target.value});
+  }
+
+  handleDescChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(event.target.value);
+    this.props.handleChange({description: event.target.value});
+  }
+
+  handlePlatformChange = (event: Event) => {
+    console.log(event);
+    //event.target.checked = true;
+    this.props.handleChange();
+  }
 
   render() {
+    const { name, description, platform } = this.props;
     return (
         <div className = "home-screen-general">
             <div className="home-screen-general-environment">
@@ -46,7 +59,7 @@ export default class HomeScreenGeneral extends React.Component<any, any> {
                         Name
                     </div>
                     <div className="home-screen-general-name-name">
-                        <Input placeholder="Enter Text..." />
+                        <Input placeholder="Enter Text..." defaultValue = {name} onChange={this.handleNameChange}/>
                     </div>
             </div>
             <div className="home-screen-general-description">
@@ -54,7 +67,7 @@ export default class HomeScreenGeneral extends React.Component<any, any> {
                     Description
                 </div>
                 <div className="home-screen-general-description-name">
-                    <Input placeholder="Enter Text..." />
+                    <Input placeholder="Enter Text..."  defaultValue = {description} onChange={this.handleDescChange}/>
                 </div>
             </div>
             <div className="home-screen-general-platform">
@@ -66,19 +79,22 @@ export default class HomeScreenGeneral extends React.Component<any, any> {
                         className=""
                         disabled={false}
                         label="Mobile"
-                        onChange={function noRefCheck(){}}
+                        checked={platform.includes(platformType.mobile)}
+                        onChange={this.handlePlatformChange}
                     />
                     <Checkbox
                         className=""
                         disabled={false}
                         label="Web"
-                        onChange={function noRefCheck(){}}
+                        checked={platform.includes(platformType.web)}
+                        onChange={this.handlePlatformChange}
                     />
                     <Checkbox
                         className=""
                         disabled={false}
                         label="Desktop"
-                        onChange={function noRefCheck(){}}
+                        checked={platform.includes(platformType.desktop)}
+                        onChange={this.handlePlatformChange}
                     />
                 </div>
             </div>

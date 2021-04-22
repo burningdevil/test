@@ -2,6 +2,9 @@ import * as React from 'react'
 import '../scss/HomeScreenConfigEditor.scss'
 import { Tabs, Layout, Button} from 'antd';
 import { WorkstationModule } from '@mstr/workstation-types';
+import HomeScreenGeneral from './HomeScreenGeneral';
+import * as _ from "lodash";
+import { HttpProxy } from '../../../main';
 
 declare var workstation: WorkstationModule;
 
@@ -17,16 +20,59 @@ const popoverGeneral = {
   height: 700,
   headerHeight: 0,
 };
+
 export default class HomeScreenConfigEditor extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
     this.state = {
-      activeKey: '1'
+      activeKey: '1',
+      configId: undefined,
+      configInfo: {
+          name: '',
+          description: '',
+          platform: ['Mobile']
+      }
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+      const configId = this.parseConfigId(_.get(this.props, 'location.search', undefined));
+      this.setState({
+          configId: configId
+      });
+      if (configId) {
+        this.loadData(configId);
+      }
   }
+
+  loadData = async (configId: string) => {
+    const response = await HttpProxy.get('/mstrClients/libraryApplications/configs/' + configId);
+    let data = response;
+    if (response.data) {
+      data = response.data;
+    }
+
+    if (!_.has(data, 'platform')) {
+        _.assign(data, {platform: ['Mobile']});
+    }
+    
+    this.setState({
+      configInfo: data
+    });
+  }
+
+    parseConfigId = (querystr: string) => {
+        if (querystr) {
+            const querys = (/^[?#]/.test(querystr) ? querystr.slice(1) : querystr).split('&');
+            let queryFound = querys.find((query) => {
+                let [key,] = query.split('=');
+                return key === "id";
+            });
+
+            return queryFound && queryFound.split('=')[1];
+        }
+        
+    };
 
   tabBarChanged = (key: string) => {
     this.setState({
@@ -38,26 +84,44 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
     return (
         <div className="mstr-Admin-cfg-popover-btn">
             <Button key="back"
-                onClick={()=>{
-                    workstation.window.close()
-                }}
+                onClick={this.handleCancel}
             >
                 {'Cancel'}
             </Button>
             <Button key="Generate"
                 type="primary"
                 style={{marginLeft: 10}}
-                onClick={()=>{
-                    workstation.window.close()
-                }}>
+                onClick={this.handleSaveConfig}>
                 {'Save'}
             </Button>
         </div>
     );
   };
 
+  handleConfigPropertiesChange = (properties: object) => {
+    const currentConfig = _.merge(this.state.configInfo, properties);
+    this.setState({
+        configInfo: currentConfig
+    });
+  }
+
+  handleSaveConfig = async () => {
+      const configId = this.state.configId;
+      const response = configId ? await HttpProxy.put('/mstrClients/libraryApplications/configs/' + this.state.configId, this.state.configInfo) : await HttpProxy.post('/mstrClients/libraryApplications/configs/' + this.state.configId, this.state.configInfo);
+      let data = response;
+      if (data.status === 204) { //success
+        //trigger load config list and close window
+        workstation.window.close();
+      } else { //error
+        //show error dialog
+      }
+  }
+
+  handleCancel = () => {
+    workstation.window.close();
+  }
+
   render() {
-    const { isEditConfig } = this.props;
     const bodyHeight = popoverGeneral.height - popoverGeneral.headerHeight;
     return (
         <Layout className='mstr-Admin-cfg-popover-layout'>
@@ -70,6 +134,7 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
                             tabPosition="left"
                             style={{height: bodyHeight}}>
                             <Tabs.TabPane tab={navBar.GENERAL} key="1">
+                                <HomeScreenGeneral name={this.state.configInfo.name} description={this.state.configInfo.description} platform={this.state.configInfo.platform} handleChange = {this.handleConfigPropertiesChange}/>
                                 {this.buttonGroup()}
                             </Tabs.TabPane>
                             <Tabs.TabPane tab={navBar.HOME_SCREEN} key="2">
