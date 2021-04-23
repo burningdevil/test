@@ -56,7 +56,7 @@ module.exports = {
     }
   },
   openEditConfig: function(info) {
-    console.log("openConfigEditor: " + info);
+    console.log("openConfigEditor: " + info.objId);
     return {
       url: `/index.html#/homescreenConfigEditor?id=${info.objId}`
     }

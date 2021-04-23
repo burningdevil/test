@@ -1,6 +1,8 @@
 import * as React from 'react';
 import '../scss/HomeScreenConfigMainView.scss';
 import { ReactWindowGrid, MSTRWSIcon } from '@mstr/rc';
+import { SelectionStructure, Record } from '@mstr/rc/types';
+import { ContextMenuItem } from '@mstr/rc/types/react-window-grid/type';
 import { WorkstationModule, ObjectEditorSettings } from '@mstr/workstation-types';
 import HomeScreenConfigEditor from './HomeScreenConfigEditor';
 import { HttpProxy } from '../../../main';
@@ -57,26 +59,54 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
     // })
   }
 
+  openConfigEditor = (isEdit: boolean = false) => {
+    console.log("Env: " + this.state.environmentURL);
+    const objType = 'HomeScreenConfig';
+    const options: ObjectEditorSettings = {
+      objectType: objType,
+      environment: this.state.currentEnv
+    }
+    workstation.dialogs.openObjectEditor(options).catch(e =>
+      workstation.dialogs.error({
+          message: 'Open object editor failed with error',
+          additionalInformation: JSON.stringify(e)
+      })
+    )
+  }
+
   render() {
+    const getContextMenuItems = (selection: SelectionStructure, contextMenuTarget: Record): ContextMenuItem[] => {
+      const handleClickEdit = () => {
+        this.openConfigEditor(true);
+      };
+      const handleClickCopyLink = () => {
+        const a = 1;
+      };
+      const handleClickDownload = () => {
+        const a = 1;
+      };
+      return [
+        {
+          "name": "Edit",
+          "action": handleClickEdit
+        },
+        {
+          "name": "Copy Link",
+          "action": handleClickCopyLink
+        },
+        {
+          "name": "Download Json File",
+          "action": handleClickDownload
+        }
+      ];
+    };
     return (
       <div>
         <div className="add-application-container">
           <MSTRWSIcon
             className="add-application-icon"
             type="msdl-add"
-            onClick={() => {
-              console.log("Env: " + this.state.environmentURL);
-              const options: ObjectEditorSettings = {
-                objectType: 'HomeScreenConfig',
-                environment: this.state.currentEnv
-              }
-              workstation.dialogs.openObjectEditor(options).catch(e =>
-                workstation.dialogs.error({
-                    message: 'Open object editor failed with error',
-                    additionalInformation: JSON.stringify(e)
-                })
-              )
-            }}
+            onClick={this.openConfigEditor}
           />
           <span className="story-icon-text">
             New Application
@@ -122,7 +152,7 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
             }
           ]}
           rowData={this.state.configList}
-          // getContextMenuItems={function noRefCheck(){}}
+          getContextMenuItems={getContextMenuItems}
           isColumnConfigurable={true}
         />
         <HomeScreenConfigEditor

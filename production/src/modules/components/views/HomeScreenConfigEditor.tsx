@@ -4,6 +4,7 @@ import { Tabs, Layout, Button} from 'antd';
 import { WorkstationModule } from '@mstr/workstation-types';
 import HomeScreenGeneral from './HomeScreenGeneral';
 import HomeScreenComponents from './HomeScreenComponents';
+import HomeScreenHomeSetting from './HomeScreenHomeSetting';
 import * as _ from "lodash";
 import { HttpProxy } from '../../../main';
 
@@ -32,7 +33,7 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
           name: '',
           description: '',
           platform: ['Mobile'],
-          mode: 1
+          homeScreen: {mode: 0, homeDocument: {}}
       }
     }
   }
@@ -140,10 +141,11 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
                                 {this.buttonGroup()}
                             </Tabs.TabPane>
                             <Tabs.TabPane tab={navBar.HOME_SCREEN} key="2">
+                                <HomeScreenHomeSetting homeScreen={this.state.configInfo.homeScreen} handleChange = {this.handleConfigPropertiesChange}/>
                                 {this.buttonGroup()}
                             </Tabs.TabPane>
                             <Tabs.TabPane tab={navBar.COMPONENTS} key="3">
-                                <HomeScreenComponents platform={this.state.configInfo.platform} mode={this.state.configInfo.mode}/>
+                                <HomeScreenComponents platform={this.state.configInfo.platform} mode={this.state.configInfo.homeScreen.mode}/>
                                 {this.buttonGroup()}
                             </Tabs.TabPane>
                             <Tabs.TabPane tab={navBar.CONTENT_BUNDLES} key="4">

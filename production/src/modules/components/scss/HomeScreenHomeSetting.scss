@@ -1,0 +1,61 @@
+.home-screen-home-settings{
+    font-family: Helvetica, serif;
+    color: #444649;
+    padding-left: 50px;
+    
+
+    &-title {
+        font-size: 15px;
+        line-height: 300%;
+    }
+
+    &-library {
+        font-size: 13px;
+    }
+
+    &-dossier {
+        font-size: 13px;
+    }
+
+    &-hint {
+        font-size: 13px;
+        padding-top: 10px;
+        color: #75777a;
+        padding-left: 22px;
+        line-height: 160%;
+    }
+
+    &-pick {
+        margin-left: 10px;
+        color: #2eacfe;
+        border-style: none;
+        box-shadow: none;
+    }
+
+    &-dossier-info {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-top: 10px;
+        margin-right: 10px;
+        margin-left: 22px;
+        background-color: #dfe1e2;
+        border-radius: 3px;
+    }
+
+    &-dossier-image {
+        height: 60px;
+    }
+
+    &-dossier-name {
+        flex-grow: 1;
+    }
+
+    &-dossier-change {
+        color: #2eacfe;
+        border-style: none;
+        box-shadow: none;
+        background-color:  #dfe1e2;
+        flex-grow: 0;
+    }
+}

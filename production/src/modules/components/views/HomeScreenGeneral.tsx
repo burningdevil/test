@@ -2,6 +2,8 @@ import * as React from 'react'
 import '../scss/HomeScreenGeneral.scss'
 import { Input, Checkbox } from '@mstr/rc';
 import { env } from '../../../main'
+import { CheckboxChangeEvent } from 'antd/lib/checkbox';
+import * as _ from "lodash";
 
 export const platformType = {
     mobile: 'Mobile',
@@ -36,10 +38,31 @@ export default class HomeScreenGeneral extends React.Component<any, any> {
     this.props.handleChange({description: event.target.value});
   }
 
-  handlePlatformChange = (event: Event) => {
+  handlePlatformMobileChange = (event: CheckboxChangeEvent) => {
     console.log(event);
-    //event.target.checked = true;
-    this.props.handleChange();
+    this.handlePlatformChange(event, 'Mobile');
+  }
+
+  handlePlatformWebChange = (event: CheckboxChangeEvent) => {
+    console.log(event);
+    this.handlePlatformChange(event, 'Web');
+  }
+
+  handlePlatformDesktopChange = (event: CheckboxChangeEvent) => {
+    console.log(event);
+    this.handlePlatformChange(event, 'Desktop');
+  }
+
+  handlePlatformChange = (event: CheckboxChangeEvent, platType: string) => {
+    console.log(event);
+    const { platform } = this.props;
+    let resultedPlatform;
+    if (event.target.checked) {
+        resultedPlatform = _.concat(platform, platType);
+    } else {
+        resultedPlatform = _.pull(platform, platType);
+    }
+    this.props.handleChange({platform: resultedPlatform});
   }
 
   render() {
@@ -80,21 +103,21 @@ export default class HomeScreenGeneral extends React.Component<any, any> {
                         disabled={false}
                         label="Mobile"
                         checked={platform.includes(platformType.mobile)}
-                        onChange={this.handlePlatformChange}
+                        onChange={this.handlePlatformMobileChange}
                     />
                     <Checkbox
                         className=""
                         disabled={false}
                         label="Web"
                         checked={platform.includes(platformType.web)}
-                        onChange={this.handlePlatformChange}
+                        onChange={this.handlePlatformWebChange}
                     />
                     <Checkbox
                         className=""
                         disabled={false}
                         label="Desktop"
                         checked={platform.includes(platformType.desktop)}
-                        onChange={this.handlePlatformChange}
+                        onChange={this.handlePlatformDesktopChange}
                     />
                 </div>
             </div>
