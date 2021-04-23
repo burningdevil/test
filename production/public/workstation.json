@@ -44,7 +44,7 @@
     },
     "objectEditors": [
       {
-        "objectType": "HomeScreenConfig",
+        "objectType": "HomeScreenConfigEdit",
         "item": "editHomeScreenConfig",
         "editorTypes": ["Edit"]
       },

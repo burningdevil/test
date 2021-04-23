@@ -3,6 +3,7 @@ import '../scss/HomeScreenConfigEditor.scss'
 import { Tabs, Layout, Button} from 'antd';
 import { WorkstationModule } from '@mstr/workstation-types';
 import HomeScreenGeneral from './HomeScreenGeneral';
+import HomeScreenHomeSetting from './HomeScreenHomeSetting';
 import * as _ from "lodash";
 import { HttpProxy } from '../../../main';
 
@@ -30,7 +31,8 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
       configInfo: {
           name: '',
           description: '',
-          platform: ['Mobile']
+          platform: ['Mobile'],
+          homeScreen: {mode: 0, homeDocument: {}}
       }
     }
   }
@@ -138,6 +140,7 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
                                 {this.buttonGroup()}
                             </Tabs.TabPane>
                             <Tabs.TabPane tab={navBar.HOME_SCREEN} key="2">
+                                <HomeScreenHomeSetting homeScreen={this.state.configInfo.homeScreen} handleChange = {this.handleConfigPropertiesChange}/>
                                 {this.buttonGroup()}
                             </Tabs.TabPane>
                             <Tabs.TabPane tab={navBar.COMPONENTS} key="3">
