@@ -1,9 +1,9 @@
 import * as React from 'react'
-import './HomeScreenGeneral.scss'
+import '../scss/HomeScreenGeneral.scss'
 import { Input, Checkbox } from '@mstr/rc';
 import { env } from '../../../main'
 
-const platformType = {
+export const platformType = {
     mobile: 'Mobile',
     web: 'Web',
     desktop: 'Desktop',
