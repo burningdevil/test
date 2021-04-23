@@ -6,10 +6,12 @@ import { ContextMenuItem } from '@mstr/rc/types/react-window-grid/type';
 import { WorkstationModule, ObjectEditorSettings } from '@mstr/workstation-types';
 import HomeScreenConfigEditor from './HomeScreenConfigEditor';
 import { HttpProxy } from '../../../main';
+import * as _ from "lodash";
 
 
 //TODO: remove when rest api to migrate to library user.
 import serverConfig from '../../../../build/server.config';
+import MenuItem from 'antd/lib/menu/MenuItem';
 const headers = {
   Authorization: "Basic " + btoa(serverConfig.adminUser + ":" + serverConfig.adminPassword)
 }
@@ -34,7 +36,7 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
   }
 
   loadData = async () => {
-    const response = await HttpProxy.get('/admin/mstrClients/library/configs', headers);
+    const response = await HttpProxy.get('/mstrClients/libraryApplications/configs');
     let data = response;
     if (response.data) {
       data = response.data;
@@ -59,12 +61,15 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
     // })
   }
 
-  openConfigEditor = (isEdit: boolean = false) => {
+  openConfigEditor = (objId : string = '') => {
     console.log("Env: " + this.state.environmentURL);
     const objType = 'HomeScreenConfig';
-    const options: ObjectEditorSettings = {
+    let options: ObjectEditorSettings = {
       objectType: objType,
       environment: this.state.currentEnv
+    }
+    if(objId) {
+      options = _.merge(options, {objectId: objId});
     }
     workstation.dialogs.openObjectEditor(options).catch(e =>
       workstation.dialogs.error({
@@ -77,22 +82,30 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
   render() {
     const getContextMenuItems = (selection: SelectionStructure, contextMenuTarget: Record): ContextMenuItem[] => {
       const handleClickEdit = () => {
-        this.openConfigEditor(true);
+        console.log(selection);
+        console.log(contextMenuTarget);
+        this.openConfigEditor(contextMenuTarget.id);
       };
-      const handleClickCopyLink = () => {
+      const handleClickMobileLink = () => {
         const a = 1;
       };
+
+      const handleClickWebLink = () => {
+        const a = 1;
+      };
+      
       const handleClickDownload = () => {
         const a = 1;
       };
       return [
         {
           "name": "Edit",
-          "action": handleClickEdit
+          "action": handleClickEdit,
         },
         {
           "name": "Copy Link",
-          "action": handleClickCopyLink
+          "subMenuItems":[{'title': 'Link for Mobile', "itemIndex": '0', 'action': handleClickMobileLink},
+                          {'title': 'Link for Web and Desktop', "itemIndex": '1', 'action': handleClickWebLink}]
         },
         {
           "name": "Download Json File",

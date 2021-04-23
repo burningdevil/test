@@ -43,6 +43,7 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
       this.setState({
           configId: configId
       });
+      console.log(configId);
       if (configId) {
         this.loadData(configId);
       }
@@ -62,6 +63,8 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
     this.setState({
       configInfo: data
     });
+
+    console.log(data);
   }
 
     parseConfigId = (querystr: string) => {

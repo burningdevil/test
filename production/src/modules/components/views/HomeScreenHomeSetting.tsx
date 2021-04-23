@@ -114,8 +114,7 @@ export default class HomeScreenHomeSetting extends React.Component<any, any> {
                 </Radio.Group>
             </div>
             <div className="home-screen-home-settings-hint">
-                The default page of the dossier or document be set as the home screen.
-                This will grant all users in this configuration the View permission for the selected dossier.
+                The default page of the dossier or document be set as the home screen. <br/> This will grant all users in this configuration the View permission for the selected dossier.
             </div>
             {this.renderPickDossier()}
          </div>
