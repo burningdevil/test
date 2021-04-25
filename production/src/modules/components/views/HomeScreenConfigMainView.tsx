@@ -3,18 +3,17 @@ import '../scss/HomeScreenConfigMainView.scss';
 import { ReactWindowGrid, MSTRWSIcon } from '@mstr/rc';
 import { SelectionStructure, Record } from '@mstr/rc/types';
 import { ContextMenuItem } from '@mstr/rc/types/react-window-grid/type';
-import { WorkstationModule, ObjectEditorSettings } from '@mstr/workstation-types';
+import { WorkstationModule, ObjectEditorSettings, EnvironmentChangeArg, WindowEvent} from '@mstr/workstation-types';
 import HomeScreenConfigEditor from './HomeScreenConfigEditor';
 import { HttpProxy } from '../../../main';
 import * as _ from "lodash";
 
 
 //TODO: remove when rest api to migrate to library user.
-import serverConfig from '../../../../build/server.config';
-import MenuItem from 'antd/lib/menu/MenuItem';
-const headers = {
-  Authorization: "Basic " + btoa(serverConfig.adminUser + ":" + serverConfig.adminPassword)
-}
+// import serverConfig from '../../../../build/server.config';
+// const headers = {
+//   Authorization: "Basic " + btoa(serverConfig.adminUser + ":" + serverConfig.adminPassword)
+// }
 
 declare var workstation: WorkstationModule;
 
@@ -33,22 +32,53 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
     this.setState({
       currentEnv: currentEnv
     });
+    workstation.environments.onEnvironmentChange((change: EnvironmentChangeArg) => {
+      console.log('enviornment change');
+      this.setState({
+        currentEnv: change.changedEnvironment
+      });
+      this.loadData();
+    })
+
+    workstation.window.addHandler(WindowEvent.POSTMESSAGE, (message: any) => {
+      console.log(message);
+      if(_.get(message, 'Message.homeConfigSaveSuccess', '')){
+        this.loadData();
+      }
+      return {
+          ResponseValue: true
+      };
+  });
   }
 
   loadData = async () => {
-    const response = await HttpProxy.get('/mstrClients/libraryApplications/configs');
+    const response = await HttpProxy.get('/mstrClients/libraryApplications/configs').catch(e => (this.setState({
+      configList: []
+    })));
     let data = response;
+    console.log(response);
     if (response.data) {
+      console.log('success1');
       data = response.data;
     }
     const configList = data.map(config => {
-      return {
-        ...config,
-        platform: 'Web',
-        home: 'Dossier',
-        components: 'xxx,yyy,zzz',
-        contentBundles: 'aa,bb,bb'
+      let resultConfig = config;
+      if (!_.has(resultConfig, 'platform')) {
+        _.assign(resultConfig, {platform: ['Mobile']});
       }
+      if (!_.has(resultConfig, 'contentBundleIds')) {
+        _.assign(resultConfig, {contentBundleIds: []});
+      }
+      _.assign(resultConfig, {mode: resultConfig.mode == 0 ? 'Library' : 'Dossier'});
+
+      return resultConfig;
+      // return {
+      //   ...config,
+      //   platform: 'Web',
+      //   home: 'Dossier',
+      //   components: 'xxx,yyy,zzz',
+      //   contentBundles: 'aa,bb,bb'
+      // }
     });
     this.setState({
       configList: configList
@@ -140,19 +170,19 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
               width: '10%'
             },
             {
-              field: 'home',
+              field: 'mode',
               headerName: 'Home',
               width: '10%',
               sortable: true
             },
             {
-              field: 'components',
+              field: 'icons',
               headerName: 'Components',
               sortable: false,
               width: '30%'
             },
             {
-              field: 'contentBundles',
+              field: 'contentBundleIds',
               headerName: 'Content Bundles',
               sortable: true,
               width: '30%'

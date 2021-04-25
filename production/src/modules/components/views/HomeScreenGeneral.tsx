@@ -1,9 +1,11 @@
 import * as React from 'react'
 import '../scss/HomeScreenGeneral.scss'
-import { Input, Checkbox } from '@mstr/rc';
+import { Checkbox } from '@mstr/rc';
 import { env } from '../../../main'
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import * as _ from "lodash";
+import { Input } from 'antd';
+const { TextArea } = Input;
 
 export const platformType = {
     mobile: 'Mobile',
@@ -33,7 +35,7 @@ export default class HomeScreenGeneral extends React.Component<any, any> {
       this.props.handleChange({name: event.target.value});
   }
 
-  handleDescChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  handleDescChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     console.log(event.target.value);
     this.props.handleChange({description: event.target.value});
   }
@@ -82,7 +84,7 @@ export default class HomeScreenGeneral extends React.Component<any, any> {
                         Name
                     </div>
                     <div className="home-screen-general-name-name">
-                        <Input placeholder="Enter Text..." defaultValue = {name} onChange={this.handleNameChange}/>
+                        <Input placeholder="Enter Text..." value = {name} onChange={this.handleNameChange}/>
                     </div>
             </div>
             <div className="home-screen-general-description">
@@ -90,7 +92,7 @@ export default class HomeScreenGeneral extends React.Component<any, any> {
                     Description
                 </div>
                 <div className="home-screen-general-description-name">
-                    <Input placeholder="Enter Text..."  defaultValue = {description} onChange={this.handleDescChange}/>
+                    <TextArea className="home-screen-general-description-name-input" placeholder="Enter Text..." rows = {3} value = {description} onChange={this.handleDescChange}/>
                 </div>
             </div>
             <div className="home-screen-general-platform">

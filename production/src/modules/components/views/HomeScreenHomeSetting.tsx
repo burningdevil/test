@@ -82,18 +82,28 @@ export default class HomeScreenHomeSetting extends React.Component<any, any> {
                 <div className = "home-screen-home-settings-dossier-name">
                     {this.state.dossierName}
                 </div>
-                <Button className = "home-screen-home-settings-dossier-change" disabled = {homeScreen.mode == homeScreenType.library} onClick={this.openDossierPicker}>
+                <Button type='link' className = "home-screen-home-settings-dossier-change" disabled = {homeScreen.mode == homeScreenType.library} onClick={this.openDossierPicker}>
                     Change
                 </Button>
             </div>
         );
     } else {
         return (
-            <Button className = "home-screen-home-settings-pick" disabled = {homeScreen.mode == homeScreenType.library} onClick={this.openDossierPicker}>
+            <Button type='link' className = "home-screen-home-settings-pick" disabled = {homeScreen.mode == homeScreenType.library} onClick={this.openDossierPicker}>
                 Pick Dossier
             </Button>
         );
     }
+  }
+
+  handleDossierChange = (dossierName: string, dossierUrl: string) => {
+    //change dossier name
+    this.setState({
+        dossierName: dossierName
+    })
+      //update dossier url
+      //write back
+      this.props.handleChange( {homeScreen:{homeDocument: {url: dossierUrl}}} );
   }
 
   render() {

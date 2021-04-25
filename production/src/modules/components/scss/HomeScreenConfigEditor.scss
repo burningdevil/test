@@ -40,6 +40,7 @@
 
         //popover content style
         &-content {
+            background: #ffffff;
             //bar style
             .ant-tabs-bar {
                 width: 200px;
@@ -67,9 +68,6 @@
             .ant-tabs-content {
                 padding-left: 0;
                 background-color: #fff;
-                .ant-tabs-tabpane {
-                    height: 700px;
-                }
                 .mstr-Admin-cfg-popover-btn {
                     position: absolute;
                     bottom: 20px;

@@ -1,12 +1,15 @@
 import * as React from 'react'
 import '../scss/HomeScreenConfigEditor.scss'
 import { Tabs, Layout, Button} from 'antd';
-import { WorkstationModule } from '@mstr/workstation-types';
+import { WorkstationModule, WindowEvent } from '@mstr/workstation-types';
+import { Alert } from '@mstr/rc';
 import HomeScreenGeneral from './HomeScreenGeneral';
 import HomeScreenComponents from './HomeScreenComponents';
 import HomeScreenHomeSetting from './HomeScreenHomeSetting';
+import HomeScreenContentBundles from './HomeScreenContentBundles';
 import * as _ from "lodash";
 import { HttpProxy } from '../../../main';
+import { PARSE_METHOD } from '../../../utils/ParseMethods';
 
 declare var workstation: WorkstationModule;
 
@@ -47,6 +50,13 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
       if (configId) {
         this.loadData(configId);
       }
+    //   workstation.window.addHandler(WindowEvent.CLOSE, () => {
+    //       console.log('close editor');
+    //       workstation.window.setCloseInfo('test');
+    //       return {
+    //         ResponseValue: true
+    //       };
+    //   });
   }
 
   loadData = async (configId: string) => {
@@ -113,14 +123,20 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
 
   handleSaveConfig = async () => {
       const configId = this.state.configId;
-      const response = configId ? await HttpProxy.put('/mstrClients/libraryApplications/configs/' + this.state.configId, this.state.configInfo) : await HttpProxy.post('/mstrClients/libraryApplications/configs/' + this.state.configId, this.state.configInfo);
-      let data = response;
-      if (data.status === 204) { //success
-        //trigger load config list and close window
-        workstation.window.close();
-      } else { //error
-        //show error dialog
+      if (configId) {
+        await HttpProxy.put('/mstrClients/libraryApplications/configs/' + configId, this.state.configInfo, {}, PARSE_METHOD.BLOB).catch(e=>(<Alert details="Fix the warning"
+        message="Warning..."
+        theme="as"
+        title="Warning"/>));
+      } else {
+        await HttpProxy.post('/mstrClients/libraryApplications/configs', this.state.configInfo, {}, PARSE_METHOD.BLOB).catch(e=>(<Alert details="Fix the warning"
+        message="Warning..."
+        theme="as"
+        title="Warning"/>));
       }
+      //trigger load config list and close window
+      await workstation.window.postMessage({homeConfigSaveSuccess: true});
+      workstation.window.close();
   }
 
   handleCancel = () => {
@@ -152,6 +168,7 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
                                 {this.buttonGroup()}
                             </Tabs.TabPane>
                             <Tabs.TabPane tab={navBar.CONTENT_BUNDLES} key="4">
+                                <HomeScreenContentBundles contentIds = {this.state.configInfo.homeScreen} handleChange = {this.handleConfigPropertiesChange}/>
                                 {this.buttonGroup()}
                             </Tabs.TabPane>
                             <Tabs.TabPane tab={navBar.MORE_SETTINGS} key="5">
