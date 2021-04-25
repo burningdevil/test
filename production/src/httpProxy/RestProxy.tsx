@@ -141,7 +141,7 @@ export default {
   },
 
   delete: function (path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: CancelToken) {
-    return request.call(this, 'del', path, body, headers, parseFunc, signal)
+    return request.call(this, 'delete', path, body, headers, parseFunc, signal)
   },
 
   put: function put(path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: CancelToken) {

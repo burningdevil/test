@@ -36,7 +36,8 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
           name: '',
           description: '',
           platform: ['Mobile'],
-          homeScreen: {mode: 0, homeDocument: {}}
+          homeScreen: {mode: 0, homeDocument: {}, icons:[]},
+          homeLibrary: {icons:[], contentBundleIds:[]}
       }
     }
   }
