@@ -85,12 +85,6 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
     });
   }
 
-  handleDismiss = (visible: boolean) => {
-    // this.setState({
-    //   configEditorVisible: visible
-    // })
-  }
-
   openConfigEditor = (objId : string = '') => {
     console.log("Env: " + this.state.environmentURL);
     const objType = 'HomeScreenConfig';
@@ -109,12 +103,32 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
     )
   }
 
+  deleteConfig = async (objId : string = '') => {
+    if (objId) {
+      await HttpProxy.delete('/mstrClients/libraryApplications/configs/' + objId, {}).catch(e => (console.log(e)));
+    }
+    this.loadData();
+  }
+
+  duplicateConfig = async (objId : string = '') => {
+    if (objId) {
+      await HttpProxy.post('/mstrClients/libraryApplications/configs?sourceId=' + objId, {}).catch(e => (console.log(e)));
+    }
+    this.loadData();
+  }
+
   render() {
     const getContextMenuItems = (selection: SelectionStructure, contextMenuTarget: Record): ContextMenuItem[] => {
       const handleClickEdit = () => {
         console.log(selection);
         console.log(contextMenuTarget);
         this.openConfigEditor(contextMenuTarget.id);
+      };
+      const handleClickDelete = () => {
+        this.deleteConfig(contextMenuTarget.id);
+      };
+      const handleClickDuplicate = () => {
+        this.duplicateConfig(contextMenuTarget.id);
       };
       const handleClickMobileLink = () => {
         const a = 1;
@@ -131,6 +145,14 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
         {
           "name": "Edit",
           "action": handleClickEdit,
+        },
+        {
+          "name": "Delete",
+          "action": handleClickDelete,
+        },
+        {
+          "name": "Duplicate",
+          "action": handleClickDuplicate,
         },
         {
           "name": "Copy Link",

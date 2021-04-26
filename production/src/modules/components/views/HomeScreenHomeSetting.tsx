@@ -5,7 +5,7 @@ import { env } from '../../../main'
 import { RadioChangeEvent } from 'antd/lib/radio';
 import * as _ from "lodash";
 import { HttpProxy } from '../../../main';
-import { WorkstationModule, ObjectSelectorSettings } from '@mstr/workstation-types';
+import { WorkstationModule, ObjectSelectorSettings, ObjectSelectorResponse } from '@mstr/workstation-types';
 
 declare var workstation: WorkstationModule;
 
@@ -25,7 +25,7 @@ export default class HomeScreenHomeSetting extends React.Component<any, any> {
   loadData = async () => {
     const curEnv = await env.environments.getCurrentEnvironment()
     this.setState({
-        currentEnv: curEnv.name
+        currentEnv: curEnv
     })
     const { homeScreen } = this.props;
     const dossierUrl = _.get(homeScreen, 'homeDocument.url', '');
@@ -33,17 +33,17 @@ export default class HomeScreenHomeSetting extends React.Component<any, any> {
         const ids = _.split(dossierUrl, '/');
         const projectId = ids[ids.length - 2];
         const dossierId = ids[ids.length - 1];
-        const response = await HttpProxy.get('/objects/' + dossierId + '?type=55', {'X-MSTR-ProjectID': projectId});
-        if (response.status == 200) {
-            let data = response.data;
-            this.setState({
-                dossierName: data.name
-            })
-        } else {
-            this.setState({
-                dossierName: 'Invalid Dossier'
-            })
+        const response = await HttpProxy.get('/objects/' + dossierId + '?type=55', {'X-MSTR-ProjectID': projectId}).catch(e => (this.setState({
+          dossierName: 'Invalid Dossier'
+        })));
+        
+        let data = response;
+        if (response.data) {
+          data = response.data;
         }
+        this.setState({
+            dossierName: data.name
+        });
     }
   }
 
@@ -51,19 +51,29 @@ export default class HomeScreenHomeSetting extends React.Component<any, any> {
     this.loadData();
   }
 
-  openDossierPicker = () => {
-    console.log("Env: " + this.state.environmentURL);
+  openDossierPicker = async () => {
+    console.log("open dossier picker" + this.state.environmentURL);
     const options: ObjectSelectorSettings = {
       types: ['Dossier', 'Document'],
       footerMessage: 'test',
       excludedIds: []
     }
-    workstation.dialogs.objectSelector(options).catch(e =>
+    const response = await workstation.dialogs.objectSelector(options).catch(e =>
       workstation.dialogs.error({
-          message: 'Open object editor failed with error',
+          message: 'Select a dossier to be used as a home screen.',
           additionalInformation: JSON.stringify(e)
       })
     )
+    if (response) {
+      const selectedDossiers = _.get(response, 'selectedObjects', []);
+      if (selectedDossiers.length) {
+        const selectedDossier = selectedDossiers[0];
+        const name = selectedDossier.name;
+        const id = this.state.currentEnv.url + selectedDossier.projectId + '/' + selectedDossier.id;
+        this.handleDossierChange(name, id);
+      }
+
+    }
   }
 
   handleHomeSettingChange = (event: RadioChangeEvent) => {
@@ -97,6 +107,9 @@ export default class HomeScreenHomeSetting extends React.Component<any, any> {
   }
 
   handleDossierChange = (dossierName: string, dossierUrl: string) => {
+    console.log(dossierName);
+    console.log(dossierUrl);
+
     //change dossier name
     this.setState({
         dossierName: dossierName
