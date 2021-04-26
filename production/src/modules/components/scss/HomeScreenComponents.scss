@@ -8,27 +8,27 @@
     float: right;
     width: 30%;
     margin-right: 0;
-    background-color: aqua;
+    background-color: white;
 }
 
 .home-screen-components-enable-feature{
-    text-align: right;
+    text-align: left;
     font-family: Helvetica, serif;
     color: #444649;
     font-size: 26px;
-    line-height: 350%;
+    line-height: 150%;
 }
 
 .home-screen-components-enable-feature-description{
-    text-align: right;
+    text-align: left;
     font-family: Helvetica, serif;
     color: #444649;
     font-size: 13px;
-    line-height: 350%;
+    line-height: 150%;
 }
 
 .home-screen-components-toolbar{
-    text-align: right;
+    text-align: left;
     font-family: Helvetica, serif;
     color: #444649;
     font-size: 13px;
@@ -36,19 +36,19 @@
 }
 
 .home-screen-components-icons{
-    text-align: right;
+    text-align: left;
     font-family: Helvetica, serif;
     color: #444649;
     font-size: 13px;
-    line-height: 350%;
+    line-height: 150%;
 }
 
 .home-screen-components-table{
-    text-align: right;
+    text-align: left;
     font-family: Helvetica, serif;
     color: #444649;
     font-size: 13px;
-    line-height: 350%;
+    line-height: 150%;
     height: intrinsic;           /* Safari/WebKit 使用了非标准的名称 */
     height: -moz-max-content;    /* Firefox/Gecko */
     height: -webkit-max-content; /* Chrome */

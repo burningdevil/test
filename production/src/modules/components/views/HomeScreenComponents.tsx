@@ -1,6 +1,7 @@
 import { Checkbox, Switch, Table, Layout } from 'antd'
 import * as React from 'react'
 import '../../../../src/assets/fonts/webfonts/css/dossier.css'
+import '../scss/HomeScreenComponents.scss'
 import { platformType } from './HomeScreenGeneral'
 
 // constatns 
