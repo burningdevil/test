@@ -1,0 +1,55 @@
+.home-screen-components-left{
+    float: left;
+    width: 70%;
+    margin-left: 0;
+}
+
+.home-screen-components-right{
+    float: right;
+    width: 30%;
+    margin-right: 0;
+    background-color: aqua;
+}
+
+.home-screen-components-enable-feature{
+    text-align: right;
+    font-family: Helvetica, serif;
+    color: #444649;
+    font-size: 26px;
+    line-height: 350%;
+}
+
+.home-screen-components-enable-feature-description{
+    text-align: right;
+    font-family: Helvetica, serif;
+    color: #444649;
+    font-size: 13px;
+    line-height: 350%;
+}
+
+.home-screen-components-toolbar{
+    text-align: right;
+    font-family: Helvetica, serif;
+    color: #444649;
+    font-size: 13px;
+    line-height: 350%;
+}
+
+.home-screen-components-icons{
+    text-align: right;
+    font-family: Helvetica, serif;
+    color: #444649;
+    font-size: 13px;
+    line-height: 350%;
+}
+
+.home-screen-components-table{
+    text-align: right;
+    font-family: Helvetica, serif;
+    color: #444649;
+    font-size: 13px;
+    line-height: 350%;
+    height: intrinsic;           /* Safari/WebKit 使用了非标准的名称 */
+    height: -moz-max-content;    /* Firefox/Gecko */
+    height: -webkit-max-content; /* Chrome */
+}
