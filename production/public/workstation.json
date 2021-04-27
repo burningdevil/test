@@ -39,6 +39,15 @@
           "windowKey": "homescreenConfigEditor",
           "isVisible": "isHomeScreenConfigEnabled",
           "canExecute": "isHomeScreenConfigEnabled"
+        },
+        {
+          "key": "selectHomeScreenObject",
+          "displayName": "Select Object",
+          "command": "openObjectPicker",
+          "icon": "Applications.png",
+          "windowKey": "homescreenObjectPicker",
+          "isVisible": "isHomeScreenConfigEnabled",
+          "canExecute": "isHomeScreenConfigEnabled"
         }
       ]
     },
@@ -52,11 +61,26 @@
         "objectType": "HomeScreenConfig",
         "item": "newHomeScreenConfig",
         "editorTypes": ["Create"]
+      },
+      {
+        "objectType": "HomeScreenObject",
+        "item": "selectHomeScreenObject",
+        "editorTypes": ["Create"]
       }
     ],
     "windows": [
       {
         "key": "homescreenConfigEditor",
+        "showMenus": false,
+        "size": {
+          "minimumHeight": 700,
+          "minimumWidth": 1045,
+          "initialHeight": 700,
+          "initialWidth": 1045
+        }
+      },
+      {
+        "key": "homescreenObjectPicker",
         "showMenus": false,
         "size": {
           "minimumHeight": 700,

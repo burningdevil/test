@@ -61,6 +61,12 @@ module.exports = {
       url: `/index.html#/homescreenConfigEditor?id=${info.objId}`
     }
   },
+  openObjectPicker: function(info) {
+    console.log("openObjectPicker");
+    return {
+      url: `/index.html#/homescreenObjectPicker`
+    }
+  },
   isHomeScreenConfigEnabled: function(info) {
     return getResponseValue(true)
   },

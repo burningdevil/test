@@ -4,7 +4,6 @@ import { ReactWindowGrid, MSTRWSIcon } from '@mstr/rc';
 import { SelectionStructure, Record } from '@mstr/rc/types';
 import { ContextMenuItem } from '@mstr/rc/types/react-window-grid/type';
 import { WorkstationModule, ObjectEditorSettings, EnvironmentChangeArg, WindowEvent} from '@mstr/workstation-types';
-import HomeScreenConfigEditor from './HomeScreenConfigEditor';
 import { HttpProxy } from '../../../main';
 import * as _ from "lodash";
 
@@ -166,7 +165,7 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
       ];
     };
     return (
-      <div>
+      <div className="home-screen-main-container">
         <div className="add-application-container">
           <MSTRWSIcon
             className="add-application-icon"
@@ -220,13 +219,7 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
           getContextMenuItems={getContextMenuItems}
           isColumnConfigurable={true}
         />
-        <HomeScreenConfigEditor
-          visible={this.state.configEditorVisible}
-          isEditConfig={this.state.isEditConfig}
-          handleDismiss={this.handleDismiss}
-        >
-        </HomeScreenConfigEditor>
-      </div>
+       </div>
     )
   }
 }
