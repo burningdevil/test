@@ -37,8 +37,7 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
           name: '',
           description: '',
           platform: ['Mobile'],
-          homeScreen: {mode: 0, homeDocument: {}, icons:[]},
-          homeLibrary: {icons:[], contentBundleIds:[]},
+          homeScreen: {mode: 0, homeDocument: {url:"", icons:[]}, homeLibrary: {icons:[], contentBundleIds:["37BE16A411D3E48C1000E787EC6DE8A4", "37BE16A411D3E48C1000E787EC6DE8A5"]}},
           general: { networkTimeout: 180, cacheClearMode: 1, clearCacheOnLogout: false, maxLogSize: 500, logLevel: 12, updateInterval: 1440}
       }
     }
@@ -53,13 +52,6 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
       if (configId) {
         this.loadData(configId);
       }
-    //   workstation.window.addHandler(WindowEvent.CLOSE, () => {
-    //       console.log('close editor');
-    //       workstation.window.setCloseInfo('test');
-    //       return {
-    //         ResponseValue: true
-    //       };
-    //   });
   }
 
   loadData = async (configId: string) => {
@@ -71,6 +63,10 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
 
     if (!_.has(data, 'platform')) {
         _.assign(data, {platform: ['Mobile']});
+    }
+
+    if (!_.has(data, 'homeScreen.homeLibrary')) {
+      data.homeScreen.homeLibrary = {icons:[], sidebars:[], contentBundleIds:["37BE16A411D3E48C1000E787EC6DE8A4", "37BE16A411D3E48C1000E787EC6DE8A5"]}
     }
     
     this.setState({
@@ -124,6 +120,16 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
     });
   }
 
+  handleContentBundleChange = (bundles: []) => {
+    const currentConfig = this.state.configInfo;
+    _.set(currentConfig, 'homeScreen.homeLibrary.contentBundleIds', bundles);
+    console.log('handle bundle change');
+    console.log(currentConfig);
+    this.setState({
+        configInfo: currentConfig
+    });
+  }
+
   handleSaveConfig = async () => {
       const configId = this.state.configId;
       if (configId) {
@@ -170,8 +176,8 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
                                 <HomeScreenComponents platform={this.state.configInfo.platform} mode={this.state.configInfo.homeScreen.mode}/>
                                 {this.buttonGroup()}
                             </Tabs.TabPane>
-                            <Tabs.TabPane tab={navBar.CONTENT_BUNDLES} key="4">
-                                <HomeScreenContentBundles contentIds = {this.state.configInfo.homeScreen} handleChange = {this.handleConfigPropertiesChange}/>
+                            <Tabs.TabPane tab={navBar.CONTENT_BUNDLES} key="4" disabled={this.state.configInfo.homeScreen.mode===1}>
+                                <HomeScreenContentBundles contentBundleIds = {this.state.configInfo.homeScreen.homeLibrary.contentBundleIds} handleChange = {this.handleContentBundleChange}/>
                                 {this.buttonGroup()}
                             </Tabs.TabPane>
                             <Tabs.TabPane tab={navBar.MORE_SETTINGS} key="5">

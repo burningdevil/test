@@ -5,7 +5,7 @@ import { env } from '../../../main'
 import { RadioChangeEvent } from 'antd/lib/radio';
 import * as _ from "lodash";
 import { HttpProxy } from '../../../main';
-import { WorkstationModule, ObjectSelectorSettings, ObjectSelectorResponse } from '@mstr/workstation-types';
+import { WorkstationModule, ObjectSelectorSettings, ObjectSelectorResponse, ObjectEditorSettings, WindowEvent } from '@mstr/workstation-types';
 
 declare var workstation: WorkstationModule;
 
@@ -48,19 +48,34 @@ export default class HomeScreenHomeSetting extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    this.loadData();
+      this.loadData();
+  }
+
+  async componentDidMount() {
+      workstation.window.addHandler(WindowEvent.POSTMESSAGE, (message: any) => {
+        console.log(message);
+        const response = _.get(message, 'Message.selectedHomeScreenObject', '');
+        if (response) {
+            const name = response.name;
+            const id = this.state.currentEnv.url + response.projectId + '/' + response.id;
+            this.handleDossierChange(name, id);
+        }
+        return {
+            ResponseValue: true
+        };
+    });
   }
 
   openDossierPicker = async () => {
     console.log("open dossier picker" + this.state.environmentURL);
     const options: ObjectSelectorSettings = {
       types: ['Dossier', 'Document'],
-      footerMessage: 'test',
+      footerMessage: 'Select a dossier to be used as a home screen.',
       excludedIds: []
     }
     const response = await workstation.dialogs.objectSelector(options).catch(e =>
       workstation.dialogs.error({
-          message: 'Select a dossier to be used as a home screen.',
+          message: 'Error open object editor.',
           additionalInformation: JSON.stringify(e)
       })
     )
@@ -72,8 +87,23 @@ export default class HomeScreenHomeSetting extends React.Component<any, any> {
         const id = this.state.currentEnv.url + selectedDossier.projectId + '/' + selectedDossier.id;
         this.handleDossierChange(name, id);
       }
-
     }
+  }
+
+  openDossierPickerPlugin = async () => {
+    console.log("open dossier picker plugin" + this.state.environmentURL);
+    const objType = 'HomeScreenObject';
+    let options: ObjectEditorSettings = {
+      objectType: objType,
+      environment: this.state.currentEnv
+    }
+    
+    workstation.dialogs.openObjectEditor(options).catch(e =>
+      workstation.dialogs.error({
+          message: 'Error open object editor.',
+          additionalInformation: JSON.stringify(e)
+      })
+    )
   }
 
   handleHomeSettingChange = (event: RadioChangeEvent) => {
@@ -144,58 +174,3 @@ export default class HomeScreenHomeSetting extends React.Component<any, any> {
     );
   }
 }
-// import * as React from 'react'
-// import './Module3.scss'
-// import { Environment, environments, EnvironmentChangeArg } from "@mstr/workstation-types"
-
-// export default class Module3 extends React.Component<any, any> {
-//   constructor(props: any) {
-//     super(props)
-//     this.state = { currentEnv: null, envChangeList: [] }
-//   }
-  
-//   componentWillMount() {
-//     environments.getCurrentEnvironment().then((env: Environment) => {
-//       this.setState({currentEnv: env})
-//     })
-//     // console.dir(environments)
-//     // environments.onEnvironmentChange((change: EnvironmentChangeArg) => {
-//     //   var updateList = this.state.envChangeList
-//     //   updateList.push(change)
-//     //   this.setState({envChangeList: updateList})
-//     // })
-//   }
-  
-//   renderEnvDetail(env: Environment) {
-//     return (
-//       env ?
-//       <ul>
-//         <li>name: {env.name}</li>
-//         <li>url: {env.url}</li>
-//         <li>webVersion: {env.webVersion}</li>
-//         <li>status: {env.status}</li>
-//       </ul> : null
-//     )
-//   }
-
-//   render() {
-//     return (
-//       <div>
-//         <div className="module3-welcome">{ this.state.currentEnv ? <h1>Current Environment</h1> : <h1>No Current Environment, try context menu on one selected object.</h1> }</div>
-//         <div>
-//           {this.renderEnvDetail(this.state.currentEnv)}
-//         </div>
-//         <div>
-//           {
-//             this.state.envChangeList ? this.state.envChangeList.map((envChange: EnvironmentChangeArg) => {
-//               return (<div>
-//                 <h2>Environment Change Type: {envChange.actionTaken}</h2>
-//                 {this.renderEnvDetail(envChange.changedEnvironment)})}
-//               </div>)
-//             }) : <div>No env change list!</div>
-//           }
-//         </div>
-//       </div>
-//     )
-//   }
-// }
