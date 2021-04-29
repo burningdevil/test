@@ -67,6 +67,12 @@ module.exports = {
       url: `/index.html#/homescreenObjectPicker`
     }
   },
+  openContentBundlePicker: function(info) {
+    console.log("openContentBundlePicker");
+    return {
+      url: `/index.html#/contentBundlePicker`
+    }
+  },
   isHomeScreenConfigEnabled: function(info) {
     return getResponseValue(true)
   },

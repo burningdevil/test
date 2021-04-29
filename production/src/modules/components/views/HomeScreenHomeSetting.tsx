@@ -54,7 +54,7 @@ export default class HomeScreenHomeSetting extends React.Component<any, any> {
   async componentDidMount() {
       workstation.window.addHandler(WindowEvent.POSTMESSAGE, (message: any) => {
         console.log(message);
-        const response = _.get(message, 'selectedHomeScreenObject', '');
+        const response = _.get(message, 'Message.selectedHomeScreenObject', '');
         if (response) {
             const name = response.name;
             const id = this.state.currentEnv.url + response.projectId + '/' + response.id;
@@ -122,14 +122,14 @@ export default class HomeScreenHomeSetting extends React.Component<any, any> {
                 <div className = "home-screen-home-settings-dossier-name">
                     {this.state.dossierName}
                 </div>
-                <Button type='link' className = "home-screen-home-settings-dossier-change" disabled = {homeScreen.mode == homeScreenType.library} onClick={this.openDossierPickerPlugin}>
+                <Button type='link' className = "home-screen-home-settings-dossier-change" disabled = {homeScreen.mode == homeScreenType.library} onClick={this.openDossierPicker}>
                     Change
                 </Button>
             </div>
         );
     } else {
         return (
-            <Button type='link' className = "home-screen-home-settings-pick" disabled = {homeScreen.mode == homeScreenType.library} onClick={this.openDossierPickerPlugin}>
+            <Button type='link' className = "home-screen-home-settings-pick" disabled = {homeScreen.mode == homeScreenType.library} onClick={this.openDossierPicker}>
                 Pick Dossier
             </Button>
         );

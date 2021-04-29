@@ -8,7 +8,7 @@ import { HttpProxy } from '../../../main';
 
 declare var workstation: WorkstationModule;
 
-export const objectCountInBatch = 100;
+export const objectCountInBatch = 50;
 
 export const navBar = {
   DOSSIER: 'Dossiers',

@@ -21,7 +21,7 @@ export default class HomeScreenObjectList extends React.Component<any, any> {
     this.state = {
       offset: 0,
       objectList: [],
-      loadingData: false
+      loadingData: true
     }
   }
 
@@ -43,7 +43,7 @@ export default class HomeScreenObjectList extends React.Component<any, any> {
       return resultInfo;
     });
     
-    this.setState({objectList: modifiedList, offset: currentList.length});
+    this.setState({objectList: modifiedList, offset: currentList.length, loadingData: currentList.length == 0});
   }
 
   getObjectType(viewMedia: number) {
