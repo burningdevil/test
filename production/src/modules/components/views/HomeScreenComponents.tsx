@@ -24,7 +24,11 @@ const iconTypes = {
     hyper: ['Hyper Intelligence (Desktop Only)', 'icon-checkmark2'],
     aaFont: ['Font Size in Grid (Mobile Only)', 'icon-pnl_shared'],
     // sidebar children
-    test: ['test', 'icon-searchfilter'],
+    all: ['All', 'icon-group_all'],
+    favorites: ['Favorites', 'icon-home_favorite_i'],
+    recents: ['Recents', 'icon-group_recents'],
+    defaultGroup: ['Default Groups', ' icon-group_groups'],
+    myGroup: ['My Groups', ' icon-group_groups'],
 }
 
 // library icons when mode is Libary as home
@@ -43,7 +47,7 @@ const extraDesktopIcons = [iconTypes.dataSearch, iconTypes.hyper]
 const extraMobileIcons = [iconTypes.aaFont]
 
 // children icons for sidebar
-const childrenIcons = [iconTypes.test]
+const childrenIcons = [iconTypes.all, iconTypes.favorites, iconTypes.recents, iconTypes.defaultGroup, iconTypes.myGroup]
 interface RowData {
     key: number;
     image: string;
@@ -56,7 +60,7 @@ const columns = [
         title: "",
         key: "image",
         dataIndex: "image",
-        size: "small",
+        // size: "small",
         render: (iconName: string) => (<div className={iconName}/>)
     },
     {
@@ -100,6 +104,11 @@ export default class HomeScreenComponents extends React.Component<any, any> {
         const { mode, platform } = this.props
         const dossierAsHome = mode === 1
 
+        let extraIcons = platform.includes(platformType.desktop) ? extraDesktopIcons : []
+        if (platform.includes(platformType.mobile)) {
+            extraIcons.concat(extraMobileIcons)
+        }
+
         return (
             <Layout className="home-screen-components">
                 <Layout.Content className="home-screen-components-left"> 
@@ -114,6 +123,7 @@ export default class HomeScreenComponents extends React.Component<any, any> {
                         <Checkbox>Collapse toolbar by default</Checkbox>
                     </div>
 
+                    <span className="home-screen-components-scrollcontainer">
                     {
                         // dossier as home group
                         dossierAsHome && <div className="home-screen-components-icons">
@@ -140,19 +150,14 @@ export default class HomeScreenComponents extends React.Component<any, any> {
                     
                     {
                         // conditional render platform specified icons
-                        platform.includes(platformType.desktop) && <div>
+                        extraIcons.length > 0 && <div className="home-screen-components-icons">
+                            PLATFORM SPECIFIC
                             {
-                                this.renderTable(extraDesktopIcons)
+                                this.renderTable(extraIcons)
                             }
                         </div>
                     }
-                    {
-                        platform.includes(platformType.mobile) && <div> 
-                            {
-                                this.renderTable(extraMobileIcons)
-                            }
-                        </div>
-                    }
+                    </span>
                 </Layout.Content>
                 {/* previewer */}
                 <Layout.Sider className="home-screen-components-right">

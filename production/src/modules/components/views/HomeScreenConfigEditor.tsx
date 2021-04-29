@@ -5,6 +5,7 @@ import { WorkstationModule, WindowEvent } from '@mstr/workstation-types';
 import { Alert } from '@mstr/rc';
 import HomeScreenGeneral from './HomeScreenGeneral';
 import HomeScreenComponents from './HomeScreenComponents';
+import HomeScreenMoreSetting from './HomeScreenMoreSetting';
 import HomeScreenHomeSetting from './HomeScreenHomeSetting';
 import HomeScreenContentBundles from './HomeScreenContentBundles';
 import * as _ from "lodash";
@@ -37,7 +38,8 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
           description: '',
           platform: ['Mobile'],
           homeScreen: {mode: 0, homeDocument: {}, icons:[]},
-          homeLibrary: {icons:[], contentBundleIds:[]}
+          homeLibrary: {icons:[], contentBundleIds:[]},
+          general: { networkTimeout: 180, cacheClearMode: 1, clearCacheOnLogout: false, maxLogSize: 500, logLevel: 12, updateInterval: 1440}
       }
     }
   }
@@ -173,6 +175,7 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
                                 {this.buttonGroup()}
                             </Tabs.TabPane>
                             <Tabs.TabPane tab={navBar.MORE_SETTINGS} key="5">
+                                <HomeScreenMoreSetting general = {this.state.configInfo.general} handleChange = {this.handleConfigPropertiesChange}/>
                                 {this.buttonGroup()}
                             </Tabs.TabPane>
                         </Tabs>

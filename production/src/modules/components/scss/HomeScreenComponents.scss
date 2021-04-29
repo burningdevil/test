@@ -19,6 +19,12 @@
     line-height: 150%;
 }
 
+.home-screen-components-scrollcontainer{
+    overflow: auto;
+    overflow-x: none;
+    overflow-y: auto;
+}
+
 .home-screen-components-enable-feature-description{
     text-align: left;
     font-family: Helvetica, serif;
@@ -52,4 +58,44 @@
     height: intrinsic;           /* Safari/WebKit 使用了非标准的名称 */
     height: -moz-max-content;    /* Firefox/Gecko */
     height: -webkit-max-content; /* Chrome */
+
+    .ant-table-row-expand-icon-cell {
+
+        position: relative;
+    
+        .ant-table-row-collapsed:after {
+          content : "\E61D";
+          font-family: "anticon" !important;
+          font-style: normal;
+          vertical-align: baseline;
+          text-align: center;
+          text-transform: none;
+          text-rendering: auto;
+    
+          right: 160px;
+          top: 0;
+          display: inline-block;
+          transform: scale(0.66666667) rotate(0deg);
+          transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+          zoom: 1;
+        }
+    
+        .ant-table-row-expanded:after {
+          content : "\E61D";
+          font-family: "anticon" !important;
+          font-style: normal;
+          vertical-align: baseline;
+          text-align: center;
+          text-transform: none;
+          text-rendering: auto;
+    
+          right: 160px;
+          top: 0;
+          display: inline-block;
+          transform: rotate(180deg) scale(0.75);
+          transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+          zoom: 1;
+        }
+    }
 }
+

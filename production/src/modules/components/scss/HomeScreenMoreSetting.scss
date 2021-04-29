@@ -1,0 +1,112 @@
+
+$primary-blue: #0e6ff9;
+
+.home-screen-moresetting-title {
+    font-size: 14px;
+    color: #3f4042;
+    font-family: Helvetica-Bold, serif;
+}
+
+.home-screen-moresetting-tooltip-overlay {
+    max-width: 400px;
+    .ant-tooltip-arrow {
+        border-top-color: #fff;
+    }
+    .ant-tooltip-inner {
+        background-color: #fff;
+    }
+    span {
+        color: #000;
+    }
+    .icon-error {
+        color: #fbbd71;
+    }
+}
+
+// layout
+.home-screen-moresetting-box-vertical {
+    display: -webkit-flex;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: baseline;
+    flex-direction: column;
+    overflow: visible;
+}
+
+.home-screen-moresetting-box {
+    display: -webkit-flex;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    overflow: visible;
+
+    &-left {
+        align-items: baseline;
+    }
+
+    &-vertical {
+        flex-direction: column;
+    }
+}
+
+.ant-checkbox-wrapper + .ant-checkbox-wrapper {
+    margin-left: 0px;
+}
+.ant-input-affix-wrapper {
+    display: inline-flex;
+}
+
+.home-screen-moresetting-cfg-advance {
+    padding: 28px 25px 0 30px;
+    position: relative;
+    div {
+        margin-bottom: 11px;
+    }
+    &-padding {
+        margin-bottom: 14px;
+    }
+    &-input {
+        width: 160px;
+        height: 34px;
+        margin-left: 20px;
+        
+        
+        .ant-input {
+            padding-left: 9px;
+            padding-right: 70px;
+            padding-top: 0px;
+        }
+        button {
+            width: 160px;
+            height: 32px;
+            line-height: 32px;
+            background-color: #fff;
+            text-align: left;
+            padding-left: 12px;
+            div {
+                display: inline;
+                float: right;
+            }
+        }
+        &:hover,
+        &:focus {
+            .ant-input:not(.ant-input-disabled) {
+                border-color: $primary-blue;
+            }
+        }
+    }
+    .ant-divider {
+        margin-top: 35px;
+        margin-bottom: 30px;
+    }
+}
+
+.home-screen-moresetting-text {
+    text-align: left;
+    font-family: Helvetica, serif;
+    color: #444649;
+    font-size: 13px;
+    line-height: 150%;
+}
