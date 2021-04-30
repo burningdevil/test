@@ -14,7 +14,9 @@ export default {
     MODE_USE_DOSSIER_AS_HOME_SCREEN: 1,
     REVIEW_MODE_TABLET: 'tablet',
     REVIEW_MODE_PHONE: 'Phone',
+    HOME_SCREEN: 'homeScreen',
     HOME_DOCUMENT: 'homeDocument',
+    HOME_LIBRARY: 'homeLibrary',
     MODE: 'mode',
     URL: 'url',
     ICONS: 'icons',
@@ -42,9 +44,30 @@ export default {
     LOG_LEVEL_OFF: 16,
     CLEAR_ON_CLOSE: 2,
     CLEAR_AUTOMATIC: 1,
+
+    // components 
+    SHOW_TOOLBAR: 0,
+    COLLAPSE_TOOLBAR: 1,
+
+    // icons
+    ICON_SIDEBAR: 'sidebars',
+    ICON_SORT_FILTER: 'sortAndFilter',
+    ICON_MULTI_SELECT: 'multiSelect',
+    ICON_SEARCH: 'search',
     ICON_COMMENTS: 'comments',
     ICON_NOTIFICATIONS: 'notifications',
     ICON_OPTIONS: 'options',
-    SHOW_TOOLBAR: 0,
-    COLLAPSE_TOOLBAR: 1,
+    ICON_TOCS: 'TOCs',
+    ICON_BOOKMARK: 'bookmark',
+    ICON_RESET: 'reset',
+    ICON_FILTER: 'filter',
+    ICON_SHARE: 'share',
+    ICON_DATA_SEARCH: 'dataSearch',
+    ICON_HYPER: 'hyper',
+    ICON_AA_FONT: 'aaFont',
+    ICON_ALL: 'all',
+    ICON_FAV: 'favourites',
+    ICON_RECENENT: 'recents',
+    ICON_DEFAULT_GROUP: 'defaultGroups',
+    ICON_MY_GROUP: 'myGroups'
 }

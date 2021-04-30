@@ -27,18 +27,6 @@ const sectionTitle = {
     LOGGING: 'Logging',
     CACHE: 'Cache'
 };
-// const sectionAuth = {
-//     AUTH_MODE: 'Authentication Modes',
-// };
-// const authModesStr = {
-//     STANDARD: 'Standard',
-//     AZURE: 'MicoSoft Azure',
-//     SAML: 'SAML',
-//     LDAP: 'LDAP',
-//     GUEST: 'Guest',
-//     INTEGRATED: 'Integrated',
-//     TRUESTED: 'Truested'
-// };
 const sectionAccess = {
     CHECK_UPDATE: 'Check and update configuration every',
 };
@@ -94,17 +82,6 @@ export default class HomeScreenMoreSetting extends React.Component<any, any> {
         const number = Number(value)
         let update = {}
         switch (type) {
-            // case authModesStr.STANDARD:
-            // case authModesStr.AZURE:
-            // case authModesStr.SAML:
-            // case authModesStr.LDAP:
-            // case authModesStr.GUEST:
-            // case authModesStr.INTEGRATED:
-            // case authModesStr.TRUESTED:
-            //     const { auth } = this.props.general
-            //     let result = number === 0 ? _.pull(auth, type) : _.concat(auth, type)
-            //     update = {auth: result}
-            //     break;
             case VC.UPDATE_INTERVAL:
                 const { updateInterval } = this.props.general
                 // const interval = updatein
@@ -166,30 +143,6 @@ export default class HomeScreenMoreSetting extends React.Component<any, any> {
         this.props.handleChange({general: update})
     }
 
-    //auth modes
-    singleAuthCheckbox = (key: string, text: string, auths: [string]) => {
-        return (<Checkbox key={key} checked={auths.includes(key)}
-                    disabled={false}
-                    onChange={(e) => this.onInputChange(key, e.target.checked)}>
-                    {text}
-                </Checkbox>
-                )
-    }
-
-    // authModesCheckboxs = (auths: [string]) => {
-    //     return (
-    //         <div className="home-screen-moresetting-box-vertical">
-    //             { this.singleAuthCheckbox(authModesStr.STANDARD, authModesStr.STANDARD, auths) }
-    //             { this.singleAuthCheckbox(authModesStr.AZURE, authModesStr.AZURE, auths) }
-    //             { this.singleAuthCheckbox(authModesStr.SAML, authModesStr.SAML, auths) }
-    //             { this.singleAuthCheckbox(authModesStr.LDAP, authModesStr.LDAP, auths) }
-    //             { this.singleAuthCheckbox(authModesStr.GUEST, authModesStr.GUEST, auths) }
-    //             { this.singleAuthCheckbox(authModesStr.INTEGRATED, authModesStr.INTEGRATED, auths) }
-    //             { this.singleAuthCheckbox(authModesStr.TRUESTED, authModesStr.TRUESTED, auths) }
-    //         </div>
-    //     )
-    // }
-
     //log
     logMenu = (level: number) => {
         return (
@@ -231,18 +184,6 @@ export default class HomeScreenMoreSetting extends React.Component<any, any> {
         } = this.props.general;
 
         return <div className="home-screen-moresetting-cfg-advance">
-                    {/* Security section */}
-                    {/* <div className="home-screen-moresetting-title">
-                        {sectionTitle.SECURITY}
-                        <div className="home-screen-moresetting-box-top">
-                            <div className="home-screen-moresetting-text">
-                                {sectionAuth.AUTH_MODE}
-                            </div>
-                            {this.authModesCheckboxs(auth)}
-                        </div>
-                    </div>
-
-                    <Divider/> */}
                     {/* Access section */}
                     <div className="home-screen-moresetting-title">
                         {sectionTitle.ACCESS}
