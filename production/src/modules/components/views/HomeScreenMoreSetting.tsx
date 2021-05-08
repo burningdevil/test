@@ -134,13 +134,13 @@ export default class HomeScreenMoreSetting extends React.Component<any, any> {
                 update = {[type]: value}
                 break;
             case VC.CLEAR_CACHE_ON_CLOSE:
-                update = {[type]: value ? 2 : 1}
+                update = {[type]: value ? VC.CLEAR_ON_CLOSE : VC.CLEAR_AUTOMATIC}
                 break;
             default:
                 update = {[type]: number}
                 break;
         }
-        this.props.handleChange({general: update})
+        this.props.handleChange({[VC.GENERAL]: update})
     }
 
     //log
@@ -298,7 +298,7 @@ export default class HomeScreenMoreSetting extends React.Component<any, any> {
                     </div>
                     <div className="home-screen-moresetting-box-vertical">
                         <Checkbox
-                            defaultChecked={cacheClearMode === 2}
+                            defaultChecked={cacheClearMode === VC.CLEAR_ON_CLOSE}
                             onChange={(e) => this.onInputChange(VC.CLEAR_CACHE_ON_CLOSE, e.target.checked)}>
                             {sectionCache.CLEAR_CACHE_ON_CLOSE}
                         </Checkbox>

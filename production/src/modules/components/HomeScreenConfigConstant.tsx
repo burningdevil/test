@@ -1,4 +1,5 @@
 export default {
+    GENERAL: 'general',
     ALL: 'all',
     //PAGE
     PAGE_TAB1: '1',

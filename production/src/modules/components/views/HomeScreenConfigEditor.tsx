@@ -37,7 +37,7 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
           name: '',
           description: '',
           platform: ['Mobile'],
-          homeScreen: {mode: 0, homeDocument: {url:"", icons:['comments', 'notifications'], sidebars: ['recents', 'favourites', 'defaultGroups', 'myGroups'], toolbarMode: 0}, homeLibrary: {icons:['comments', 'notifications', 'TOCs'], contentBundleIds:["37BE16A411D3E48C1000E787EC6DE8A4", "37BE16A411D3E48C1000E787EC6DE8A5"], toolbarMode: 0}},
+          homeScreen: {mode: 0, homeLibrary: {url:"", icons:['comments', 'notifications'], sidebars: ['recents', 'favourites', 'defaultGroups', 'myGroups'], toolbarMode: 0}, homeDocument: {icons:['comments', 'notifications', 'TOCs'], contentBundleIds:["37BE16A411D3E48C1000E787EC6DE8A4", "37BE16A411D3E48C1000E787EC6DE8A5"], toolbarMode: 0}},
           general: { networkTimeout: 180, cacheClearMode: 1, clearCacheOnLogout: false, maxLogSize: 500, logLevel: 12, updateInterval: 1440}
       }
     }
