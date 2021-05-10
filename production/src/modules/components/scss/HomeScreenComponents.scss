@@ -1,3 +1,4 @@
+
 .home-screen-components{
     padding: 28px 25px 0 30px;
     position: relative;
@@ -11,7 +12,7 @@
 
     &-right{
         float: right;
-        width: 30%;
+        width: 307px;
         margin-right: 0px;
         background-color: white;
     }
@@ -64,4 +65,12 @@
         height: -moz-max-content;    /* Firefox/Gecko */
         height: -webkit-max-content; /* Chrome */
     }
+
+    // .ant-layout-sider {
+    //     width: 307px;
+    //     max-width: 307px;
+    //     min-width: 307px;
+        
+    // }
 }
+

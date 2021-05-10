@@ -1,10 +1,11 @@
-import { Checkbox, Switch, Table, Layout, Icon } from 'antd'
+import { Checkbox, Switch, Table, Layout, Icon, Radio } from 'antd'
 import * as React from 'react'
 import '../../../../src/assets/fonts/webfonts/css/dossier.css'
 import '../scss/HomeScreenComponents.scss'
 import { platformType } from './HomeScreenGeneral'
-import { default as VC } from '../HomeScreenConfigConstant'
+import { default as VC, iconDetail, iconTypes, bothSideIcons, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons } from '../HomeScreenConfigConstant'
 import * as _ from 'lodash'
+import { HomeScreenPreviewer } from './HomeScreenPreviewer'
 
 // constatns 
 const localizedString = {
@@ -16,59 +17,6 @@ const localizedString = {
     PLATFORM_SPECIFIC: 'PLATFORM SPECIFIC',
 }
 
-// toolbar icon [display text, icon-name, key]
-interface iconDetail{
-    displayText: string,
-    iconName: string,
-    key: string,
-}
-
-const iconTypes = {
-    sidebar: {displayText: 'Sidebar', iconName: 'icon-listview', key: VC.ICON_SIDEBAR},
-    sortAndFilter: {displayText: 'Library Sort and Filter', iconName: 'icon-filter', key: VC.ICON_SORT_FILTER},
-    multiSelect: {displayText: 'Multi-Select (Web and Desktop)', iconName: 'icon-tb_select_a', key: VC.ICON_MULTI_SELECT},
-    search: {displayText: 'Search', iconName: 'icon-search', key: VC.ICON_SEARCH},
-    notification: {displayText: 'Notification', iconName: 'icon-tb_notif_n', key: VC.ICON_NOTIFICATIONS},
-    account: {displayText: 'Account', iconName: 'icon-account-resp', key: VC.ICON_OPTIONS},
-    toc: {displayText: 'Table of Contents', iconName: 'icon-toc', key: VC.ICON_TOCS},
-    bookmark: {displayText: 'Bookmark', iconName: 'icon-bookmark', key: VC.ICON_BOOKMARK},
-    reset: {displayText: 'Reset Dossier', iconName: 'icon-resetfile', key: VC.ICON_RESET},
-    filter: {displayText: 'Filter', iconName: 'icon-tb_filter_n', key: VC.ICON_FILTER},
-    comment: {displayText: 'Comments', iconName: 'icon-lv_comments_i', key: VC.ICON_COMMENTS},
-    share: {displayText: 'Share', iconName: 'icon-tb_share_n', key: VC.ICON_SHARE},
-    // platform specified
-    // TODOz: ?
-    dataSearch: {displayText: 'Data Search (Desktop Only)', iconName: 'icon-searchfilter', key: VC.ICON_DATA_SEARCH},
-    hyper: {displayText: 'Hyper Intelligence (Desktop Only)', iconName: 'icon-checkmark2', key: VC.ICON_HYPER},
-    aaFont: {displayText: 'Font Size in Grid (Mobile Only)', iconName: 'icon-pnl_shared', key: VC.ICON_AA_FONT},
-    // sidebar children
-    all: {displayText: 'All', iconName: 'icon-group_all', key: VC.ICON_ALL},
-    favorites: {displayText: 'Favorites', iconName: 'icon-home_favorite_i', key: VC.ICON_FAV},
-    recents: {displayText: 'Recents', iconName: 'icon-group_recents', key: VC.ICON_RECENENT},
-    defaultGroup: {displayText: 'Default Groups', iconName: 'icon-group_groups', key: VC.ICON_DEFAULT_GROUP},
-    myGroup: {displayText: 'My Groups', iconName: 'icon-group_groups', key: VC.ICON_MY_GROUP}
-}
-
-// icons may appear in both library and dossier
-const bothSideIcons = [iconTypes.notification, iconTypes.account]
-
-// library icons when mode is Libary as home
-const libraryIcons = [iconTypes.sidebar, iconTypes.sortAndFilter, iconTypes.multiSelect, 
-    iconTypes.search, iconTypes.notification, iconTypes.account]
-
-// dossier icons when mode is Library as home
-const dossierIcons = [iconTypes.toc, iconTypes.bookmark, iconTypes.reset, 
-    iconTypes.filter, iconTypes.comment, iconTypes.share]
-
-// dossier icons when mode is dossier as home, should append 
-const dossierIconsDossierHome = dossierIcons.concat(bothSideIcons)
-
-// extra icons for specified platforms
-const extraDesktopIcons = [iconTypes.dataSearch, iconTypes.hyper]
-const extraMobileIcons = [iconTypes.aaFont]
-
-// children icons for sidebar
-const childrenIcons = [iconTypes.all, iconTypes.favorites, iconTypes.recents, iconTypes.defaultGroup, iconTypes.myGroup]
 const childrenKeyOffset = 1000
 
 // helper
@@ -77,8 +25,12 @@ function iconExpandable(iconText: string) {
 }
 
 function iconUpdateBothSide(iconKey: string) {
+    // for icons appear in library and dossier mode, update their value in both modes
+    const dossierModeIcons = _.concat(dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons)
+    const libraryModeIcons = _.concat(dossierIcons, libraryIcons, extraDesktopIcons, extraMobileIcons)
+    const updateBothSideIcons = _.intersection(dossierModeIcons, libraryModeIcons)
     let updateBothSide = false
-    bothSideIcons.forEach(element => {
+    updateBothSideIcons.forEach(element => {
         if(element.key === iconKey) {
             updateBothSide = true
         }
@@ -93,7 +45,16 @@ interface RowData {
     selected: [boolean, string];
 }
 
-export default class HomeScreenComponents extends React.Component<any, any> {
+interface HomeScreenComponentsState {
+    isDossierHome: boolean,
+    toolbarHidden: boolean,
+    selectedSidebarIcons: [string],
+    selectedToolbarIcons: [string],
+    selectedOtherModeToolbarIcons: [string],
+    extraIcons: iconDetail[],
+}
+
+export default class HomeScreenComponents extends React.Component<any, HomeScreenComponentsState> {
     columns = [
         {
             title: "",
@@ -123,15 +84,6 @@ export default class HomeScreenComponents extends React.Component<any, any> {
             }
         }
     ];
-
-    state = {
-        isDossierHome: false,
-        toolbarHidden: false,
-        selectedSidebarIcons: [],
-        selectedToolbarIcons: [],
-        selectedOtherModeToolbarIcons: [],
-        extraIcons: [],
-    }
 
     getNewState = () => {
         let state = {...this.state}
@@ -268,6 +220,7 @@ export default class HomeScreenComponents extends React.Component<any, any> {
     }
 
     render() {
+        const allSelectedIcons = _.concat(this.state.selectedToolbarIcons, this.state.selectedSidebarIcons)
         return (
             <Layout className="home-screen-components">
                 <Layout.Content className="home-screen-components-left"> 
@@ -323,7 +276,8 @@ export default class HomeScreenComponents extends React.Component<any, any> {
                     </div>
                 </Layout.Content>
                 {/* previewer */}
-                <Layout.Sider className="home-screen-components-right">
+                <Layout.Sider className="home-screen-components-right" width='307px'>
+                    <HomeScreenPreviewer deviceType={this.props.deviceType} icons={allSelectedIcons} isDossierHome={this.state.isDossierHome} handleDeviceTypeChange={this.props.handleDeviceTypeChange}/>
                 </Layout.Sider>
             </Layout>
         )

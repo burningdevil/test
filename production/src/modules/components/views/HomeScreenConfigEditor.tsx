@@ -11,6 +11,7 @@ import HomeScreenContentBundles from './HomeScreenContentBundles';
 import * as _ from "lodash";
 import { HttpProxy } from '../../../main';
 import { PARSE_METHOD } from '../../../utils/ParseMethods';
+import { CONSTANTS } from '../HomeScreenConfigConstant';
 
 declare var workstation: WorkstationModule;
 
@@ -33,6 +34,7 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
     this.state = {
       activeKey: '1',
       configId: undefined,
+      previewDeviceType: CONSTANTS.REVIEW_MODE_TABLET,
       configInfo: {
           name: '',
           description: '',
@@ -130,6 +132,12 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
     });
   }
 
+  handlePreviewDeviceTypeChange = (type: string) => {
+      this.setState({
+        previewDeviceType: type
+      })
+  }
+
   handleSaveConfig = async () => {
       const configId = this.state.configId;
       if (configId) {
@@ -173,7 +181,7 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
                                 {this.buttonGroup()}
                             </Tabs.TabPane>
                             <Tabs.TabPane tab={navBar.COMPONENTS} key="3">
-                                <HomeScreenComponents homeScreen={this.state.configInfo.homeScreen} platform={this.state.configInfo.platform} handleChange = {this.handleConfigPropertiesChange}/>
+                                <HomeScreenComponents homeScreen={this.state.configInfo.homeScreen} deviceType={this.state.previewDeviceType} platform={this.state.configInfo.platform} handleChange = {this.handleConfigPropertiesChange} handleDeviceTypeChange={this.handlePreviewDeviceTypeChange}/>
                                 {this.buttonGroup()}
                             </Tabs.TabPane>
                             <Tabs.TabPane tab={navBar.CONTENT_BUNDLES} key="4" disabled={this.state.configInfo.homeScreen.mode===1}>
