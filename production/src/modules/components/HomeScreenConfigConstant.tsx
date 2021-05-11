@@ -98,7 +98,8 @@ export const CONSTANTS = {
     FONT_MY_GROUP: 'icon-group_groups',
 
     // home button
-    FONT_HOME: 'icon-library',
+    FONT_HOME: 'icon-tb_home',
+    FONT_PREVIEWSIDEBAR: 'icon-library',
 }
 // toolbar icon [display text, icon-name, key]
 export interface iconDetail{
@@ -121,7 +122,6 @@ export const iconTypes = {
     comment: {displayText: 'Comments', iconName: CONSTANTS.FONT_COMMENTS, key: CONSTANTS.ICON_COMMENTS},
     share: {displayText: 'Share', iconName: CONSTANTS.FONT_SHARE, key: CONSTANTS.ICON_SHARE},
     // platform specified
-    // TODOz: ?
     dataSearch: {displayText: 'Data Search (Desktop Only)', iconName: CONSTANTS.FONT_DATA_SEARCH, key: CONSTANTS.ICON_DATA_SEARCH},
     hyper: {displayText: 'Hyper Intelligence (Desktop Only)', iconName: CONSTANTS.FONT_HYPER, key: CONSTANTS.ICON_HYPER},
     aaFont: {displayText: 'Font Size in Grid (Mobile Only)', iconName: CONSTANTS.FONT_AA_FONT, key: CONSTANTS.ICON_AA_FONT},
@@ -131,8 +131,11 @@ export const iconTypes = {
     recents: {displayText: 'Recents', iconName: CONSTANTS.FONT_RECENT, key: CONSTANTS.ICON_RECENENT},
     defaultGroup: {displayText: 'Default Groups', iconName: CONSTANTS.FONT_DEFAULT_GROUP, key: CONSTANTS.ICON_DEFAULT_GROUP},
     myGroup: {displayText: 'My Groups', iconName: CONSTANTS.FONT_MY_GROUP, key: CONSTANTS.ICON_MY_GROUP},
+    
+    //// for preview
     // home button
     home: {displayText: 'Home', iconName: CONSTANTS.FONT_HOME, key: CONSTANTS.ICON_HOME},
+    previewSidebar: {displayText: 'Sidebar', iconName: CONSTANTS.FONT_PREVIEWSIDEBAR, key: CONSTANTS.ICON_SIDEBAR}
 }
 
 

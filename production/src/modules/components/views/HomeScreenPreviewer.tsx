@@ -1,10 +1,11 @@
 import * as React from 'react'
-import { default as VC, libraryIcons, childrenIcons, iconDetail, iconTypes, toolbarDossierHomeIcons, toolbarDossierIcons, toolbarLibraryIcons } from '../HomeScreenConfigConstant'
+import { default as VC, childrenIcons, iconDetail, iconTypes } from '../HomeScreenConfigConstant'
 import { Layout, Radio } from 'antd'
 import '../scss/HomeScreenPreviewer.scss'
 import * as _ from 'lodash'
 
 type HomeScreenPreviewerProps = {
+    toolbarHidden: boolean,
     icons: string[],
     deviceType: string,
     isDossierHome: boolean,
@@ -19,24 +20,20 @@ const deviceTypeText = {
 }
 
 const sectionTitle = {
-    preview: 'preview',
+    preview: 'PREVIEW',
     libraryHome: 'Libary Window (Home)',
-    dossierHome: 'Dossier Window',
+    dossier: 'Dossier Window',
+    dossierHome: 'Dossier Window (Home)',
     notificationPanel: 'Notification Panel',
 }
 
-const deviceTypeOptions = [
-    { label: deviceTypeText.tablet, value: VC.REVIEW_MODE_TABLET },
-    { label: deviceTypeText.phone, value: VC.REVIEW_MODE_PHONE },
-    { label: deviceTypeText.web, value: VC.REVIEW_MODE_WEB },
-    { label: deviceTypeText.desktop, value: VC.REVIEW_MODE_DESKTOP },
-];
-
 export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProps, any> {
-    constructor(props: any) {
-        super(props)
+    iconShouldShow(icon: iconDetail) {
+        const {icons} = this.props
+        return icons.includes(icon.key) || icon.key === iconTypes.home.key
     }
 
+    // call back
     onDeviceTypeChange = (e: any) => {
         this.props.handleDeviceTypeChange(e.target.value)
     }
@@ -45,15 +42,22 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
     deviceTypesRender = (deviceType: string) => {
         return <div className="homeScreenPreviewer-radio">
             {sectionTitle.preview}
-            <Radio.Group
-                options = {deviceTypeOptions}
-                onChange={this.onDeviceTypeChange}
-                value={deviceType}
-                buttonStyle="solid"
-            ></Radio.Group>
+            <div>
+                <Radio.Group
+                    onChange={this.onDeviceTypeChange}
+                    value={deviceType}
+                    buttonStyle='solid'
+                >
+                    <Radio.Button value={VC.REVIEW_MODE_TABLET}>{deviceTypeText.tablet}</Radio.Button>
+                    <Radio.Button value={VC.REVIEW_MODE_PHONE}>{deviceTypeText.phone}</Radio.Button>
+                    <Radio.Button value={VC.REVIEW_MODE_WEB}>{deviceTypeText.web}</Radio.Button>
+                    <Radio.Button value={VC.REVIEW_MODE_DESKTOP}>{deviceTypeText.desktop}</Radio.Button> 
+                </Radio.Group>
+            </div>
         </div>
     }
 
+    // render of titles
     titleRender = (title: string) => {
         return <div className="homeScreenPreviewer-title">{title}</div> 
     }
@@ -61,16 +65,16 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
     // render arry of icons
     toolbarIconsRender = (iconsToRender: iconDetail[]) => {
         return iconsToRender.map( (element, index) => {
-            const show = this.props.icons.includes(element.key) || element.key === iconTypes.home.key
-            return show && <span className={element.iconName} key={index}> </span>
+            return this.iconShouldShow(element) && 
+                <span className={element.iconName} key={index}> </span>
         }) 
     }
 
     // render array of side bar icons
     sidebarIconsRender = (iconsToRender: iconDetail[]) => {
         return iconsToRender.map( (element, index) => {
-            return this.props.icons.includes(element.key) && 
-                <div key={index}> <span className={element.iconName} key={index}/>  {element.key} </div>  
+            return this.iconShouldShow(element) && 
+                <div> <span className={element.iconName} key={index}/> {element.displayText} </div>  
         })
     }
 
@@ -83,13 +87,15 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
         let footerIcons: iconDetail[] = []
         switch (deviceType) {
             case VC.REVIEW_MODE_TABLET:
+                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.account, iconTypes.share, iconTypes.filter, iconTypes.comment, iconTypes.notification] : [iconTypes.home, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.share, iconTypes.filter, iconTypes.comment]
+                break
             case VC.REVIEW_MODE_WEB:
             case VC.REVIEW_MODE_DESKTOP:
                 headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.account, iconTypes.share, iconTypes.filter, iconTypes.comment, iconTypes.notification] : [iconTypes.home, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.account, iconTypes.share, iconTypes.filter, iconTypes.comment]
                 break
             case VC.REVIEW_MODE_PHONE:
-                headerIcons = [iconTypes.home, iconTypes.share, iconTypes.aaFont]
-                footerIcons = isDossierHome ? [iconTypes.filter, iconTypes.comment, iconTypes.notification, iconTypes.account] : [iconTypes.filter, iconTypes.comment]
+                headerIcons = [iconTypes.home, iconTypes.share]
+                footerIcons = isDossierHome ? [iconTypes.comment, iconTypes.bookmark, iconTypes.reset, iconTypes.filter, iconTypes.notification, iconTypes.account] : [iconTypes.comment, iconTypes.bookmark, iconTypes.reset, iconTypes.filter]
                 break
             default:
                 break
@@ -103,13 +109,16 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
         let footerIcons: iconDetail[] = []
         switch (deviceType) {
             case VC.REVIEW_MODE_TABLET:
+                // account in sidebar?
+                headerIcons = [iconTypes.home, iconTypes.sidebar, iconTypes.notification, iconTypes.sortAndFilter, iconTypes.search]
+                break
             case VC.REVIEW_MODE_WEB:
             case VC.REVIEW_MODE_DESKTOP:
-                headerIcons = [iconTypes.home, iconTypes.sidebar, iconTypes.account, iconTypes.multiSelect, iconTypes.search, iconTypes.notification]
+                headerIcons = [iconTypes.home, iconTypes.previewSidebar, iconTypes.account, iconTypes.multiSelect, iconTypes.notification, iconTypes.search]
                 break
             case VC.REVIEW_MODE_PHONE:
-                headerIcons = [iconTypes.home, iconTypes.sortAndFilter]
-                footerIcons = [iconTypes.search, iconTypes.filter, iconTypes.notification]
+                headerIcons = [iconTypes.home, iconTypes.sidebar]
+                footerIcons = [iconTypes.search, iconTypes.sortAndFilter, iconTypes.notification]
                 break
             default:
                 break
@@ -118,9 +127,12 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
     }
 
     render() {
-        const {deviceType, isDossierHome} = this.props
+        const {deviceType, isDossierHome, toolbarHidden} = this.props
         const {libraryHeaderIcons, libraryFooterIcons} = this.libraryIconsToRender()
         const {dossierHeaderIcons, dossierFooterIcons} = this.dossierIconsToRender()
+        const showSideBar = this.iconShouldShow(iconTypes.sidebar) 
+        const showSortAndFilter = this.iconShouldShow(iconTypes.sortAndFilter) && (deviceType === VC.REVIEW_MODE_WEB || deviceType === VC.REVIEW_MODE_DESKTOP)
+        const rightClassName = showSideBar ? "homeScreenPreviewer-pad-overview-right" : "homeScreenPreviewer-pad-overview-rightFull" 
 
         switch (deviceType) {
             case VC.REVIEW_MODE_TABLET:
@@ -135,20 +147,29 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
                         {!isDossierHome &&
                         <div>
                             <Layout className="homeScreenPreviewer-pad">
-                                <Layout.Header>
-                                    {this.toolbarIconsRender(libraryHeaderIcons)}
-                                </Layout.Header>
+                                { !toolbarHidden &&
+                                    <Layout.Header>
+                                        {this.toolbarIconsRender(libraryHeaderIcons)}
+                                    </Layout.Header>
+                                }
                                 <Layout>
                                     <Layout.Content className="homeScreenPreviewer-pad-content">
                                         <Layout className="homeScreenPreviewer-pad-container">
                                             <div className="homeScreenPreviewer-pad-overview">
-                                                <div className="homeScreenPreviewer-pad-overview-left">
-                                                    {this.sidebarIconsRender(childrenIcons)}
-                                                </div>
-                                                <div className="homeScreenPreviewer-pad-overview-right">
+                                                { showSideBar && 
+                                                    <div className="homeScreenPreviewer-pad-overview-left">
+                                                        {this.sidebarIconsRender(childrenIcons)}
+                                                    </div>
+                                                }
+                                                {
+                                                    showSortAndFilter && this.toolbarIconsRender([iconTypes.sortAndFilter])
+                                                }
+                                                <div/>
+                                                <div className={rightClassName}>
                                                     <div className="homeScreenPreviewer-pad-overview-right-sub"/>
                                                     <div/>
                                                 </div>
+                                                
                                             </div>
                                         </Layout>
                                     </Layout.Content>
@@ -158,12 +179,14 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
                         }
 
                         {/* dossier toolbars */}
-                        {this.titleRender(sectionTitle.dossierHome)}
+                        {this.titleRender( isDossierHome ? sectionTitle.dossierHome : sectionTitle.dossier )}
                         <div>
                             <Layout className="homeScreenPreviewer-pad">
-                                <Layout.Header>
-                                    {this.toolbarIconsRender(dossierHeaderIcons)}
-                                </Layout.Header>
+                                { !toolbarHidden &&
+                                    <Layout.Header>
+                                        {this.toolbarIconsRender(dossierHeaderIcons)}
+                                    </Layout.Header>
+                                }
                                 <Layout.Content className="homeScreenPreviewer-pad-content">
                                     <Layout className="homeScreenPreviewer-pad-container">
                                         <div className="homeScreenPreviewer-pad-overview">
@@ -179,7 +202,7 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
                         </div>
 
                         {/* notification panel */}
-                        {this.titleRender(sectionTitle.notificationPanel)}
+                        {/* {this.titleRender(sectionTitle.notificationPanel)} */}
                     </div>
                 )
             case VC.REVIEW_MODE_PHONE:
@@ -191,10 +214,13 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
                         {!isDossierHome && this.titleRender(sectionTitle.libraryHome)}
                         {!isDossierHome && 
                         <Layout className="homeScreenPreviewer-phone">
-                            <Layout.Header>
-                                {this.toolbarIconsRender(libraryHeaderIcons)}
-                                <span className="icon-tb_undoarrow"/>
-                            </Layout.Header>
+                            { !toolbarHidden &&
+                                <Layout.Header>
+                                    {this.toolbarIconsRender(libraryHeaderIcons)}
+                                    <span className="icon-tb_undoarrow"/>
+                                </Layout.Header>
+                            }
+
                             <Layout.Content className="homeScreenPreviewer-phone-content">
                                 <Layout className="homeScreenPreviewer-phone-container">
                                     <div className="homeScreenPreviewer-phone-container-top">
@@ -205,22 +231,25 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
                                     <div className="homeScreenPreviewer-phone-container-bottom second"/>
                                 </Layout>
                             </Layout.Content>
-                            <footer className="homeScreenPreviewer-phone-footer">
-                                <span/>
-                                {this.toolbarIconsRender(libraryFooterIcons)}
-                                <span/>
-                            </footer>
+                            { !toolbarHidden &&
+                                <footer className="homeScreenPreviewer-phone-footer">
+                                    <span/>
+                                    {this.toolbarIconsRender(libraryFooterIcons)}
+                                    <span/>
+                                </footer>
+                            }
                         </Layout>
                         }
                         
-
                         {/* dossier toolbars */}
-                        {this.titleRender(sectionTitle.dossierHome)}
+                        {this.titleRender( isDossierHome ? sectionTitle.dossierHome : sectionTitle.dossier )}
                         <Layout className="homeScreenPreviewer-phone">
-                            <Layout.Header>
-                                {this.toolbarIconsRender(libraryHeaderIcons)}
-                                <span className="icon-tb_undoarrow"/>
-                            </Layout.Header>
+                            { !toolbarHidden &&
+                                <Layout.Header>
+                                    {this.toolbarIconsRender(dossierHeaderIcons)}
+                                    <span className="icon-tb_undoarrow"/>
+                                </Layout.Header>
+                            }
                             <Layout.Content className="homeScreenPreviewer-phone-content">
                                 <Layout className="homeScreenPreviewer-phone-container">
                                     <div className="homeScreenPreviewer-phone-container-top">
@@ -231,14 +260,16 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
                                     <div className="homeScreenPreviewer-phone-container-bottom second"/>
                                 </Layout>
                             </Layout.Content>
-                            <footer className="homeScreenPreviewer-phone-footer">
-                                <span/>
-                                {this.toolbarIconsRender(libraryFooterIcons)}
-                                <span/>
-                            </footer>
+                            { !toolbarHidden &&
+                                <footer className="homeScreenPreviewer-phone-footer">
+                                    <span/>
+                                    {this.toolbarIconsRender(dossierFooterIcons)}
+                                    <span/>
+                                </footer>
+                            }
                         </Layout>
                         {/* notification panel */}
-                        {this.titleRender(sectionTitle.notificationPanel)}
+                        {/* {this.titleRender(sectionTitle.notificationPanel)} */}
                     </div>
                 )
             default:

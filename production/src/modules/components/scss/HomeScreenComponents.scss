@@ -3,6 +3,7 @@
     padding: 28px 25px 0 30px;
     position: relative;
     overflow: scroll;
+    background-color: white;
 
     &-left{
         float: left;
@@ -64,13 +65,11 @@
         height: intrinsic;           /* Safari/WebKit 使用了非标准的名称 */
         height: -moz-max-content;    /* Firefox/Gecko */
         height: -webkit-max-content; /* Chrome */
-    }
 
-    // .ant-layout-sider {
-    //     width: 307px;
-    //     max-width: 307px;
-    //     min-width: 307px;
-        
-    // }
+        .ant-table-tbody > tr > td {
+            padding-bottom: 10px;
+            padding-top: 10px
+        }
+    }
 }
 

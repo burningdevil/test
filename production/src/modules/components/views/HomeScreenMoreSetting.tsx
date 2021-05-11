@@ -134,7 +134,7 @@ export default class HomeScreenMoreSetting extends React.Component<any, any> {
                 update = {[type]: value}
                 break;
             case VC.CLEAR_CACHE_ON_CLOSE:
-                update = {[type]: value ? VC.CLEAR_ON_CLOSE : VC.CLEAR_AUTOMATIC}
+                update = {[VC.CACHE_CLEAR_MODE]: value ? VC.CLEAR_ON_CLOSE : VC.CLEAR_AUTOMATIC}
                 break;
             default:
                 update = {[type]: number}
@@ -298,12 +298,12 @@ export default class HomeScreenMoreSetting extends React.Component<any, any> {
                     </div>
                     <div className="home-screen-moresetting-box-vertical">
                         <Checkbox
-                            defaultChecked={cacheClearMode === VC.CLEAR_ON_CLOSE}
+                            checked={cacheClearMode === VC.CLEAR_ON_CLOSE}
                             onChange={(e) => this.onInputChange(VC.CLEAR_CACHE_ON_CLOSE, e.target.checked)}>
                             {sectionCache.CLEAR_CACHE_ON_CLOSE}
                         </Checkbox>
                         <Checkbox
-                            defaultChecked={clearCacheOnLogout}
+                            checked={clearCacheOnLogout}
                             onChange={(e) => this.onInputChange(VC.CLEAR_CACHE_ON_LOGOUT, e.target.checked)}>
                             {sectionCache.CLEAR_CACHE_ON_LOGOUT}
                         </Checkbox>

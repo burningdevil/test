@@ -37,6 +37,7 @@ $primary-blue: #3892ED;
                 color: #3f4042;
             }
             .icon-library,
+            .icon-tb_home,
             .icon-listview,
             .icon-toc,
             .icon-tb_bookmarks_n,
@@ -50,7 +51,9 @@ $primary-blue: #3892ED;
             .icon-bell,
             .icon-comments,
             .icon-filter,
+            .icon-tb_filter_n,
             .icon-tb_share_n {
+                float: right;
                 margin-right: 4.5px;
             }
         }
@@ -89,6 +92,19 @@ $primary-blue: #3892ED;
                     margin-bottom: 8px;
                 }
             }
+            &-rightFull {
+                width: 100%;
+                height: 146px;
+                div {
+                    width: 100%;
+                    height: 69px;
+                    border-radius: 2px;
+                    background-color: #e2e2e2;
+                }
+                &-sub {
+                    margin-bottom: 8px;
+                }
+            }
         }
     }
     &-phone {
@@ -110,16 +126,22 @@ $primary-blue: #3892ED;
                 color: #3f4042;
             }
             .icon-tb_undoarrow {
-                position: absolute;
+                // position: relative;
+                float: none;
+                align-content: center;
+                align-items: center;
+                align-self: center;
                 font-size: 16px;
             }
             .icon-library,
+            .icon-tb_home,
             .icon-listview,
             .icon-toc,
             .icon-tb_bookmarks_n,
             .icon-resetfile {
                 margin-left: 4.5px;
                 float: left;
+                color:#3892ED;
             }
             .icon-search,
             .icon-tb_select_a,
@@ -127,8 +149,11 @@ $primary-blue: #3892ED;
             .icon-bell,
             .icon-comments,
             .icon-filter,
+            .icon-tb_filter_n,
             .icon-tb_share_n {
+                float: right;
                 margin-right: 4.5px;
+                color:#3892ED;
             }
         }
         &-content {

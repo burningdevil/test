@@ -1,9 +1,9 @@
-import { Checkbox, Switch, Table, Layout, Icon, Radio } from 'antd'
+import { Checkbox, Switch, Table, Layout, Icon } from 'antd'
 import * as React from 'react'
 import '../../../../src/assets/fonts/webfonts/css/dossier.css'
 import '../scss/HomeScreenComponents.scss'
 import { platformType } from './HomeScreenGeneral'
-import { default as VC, iconDetail, iconTypes, bothSideIcons, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons } from '../HomeScreenConfigConstant'
+import { default as VC, iconDetail, iconTypes, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons } from '../HomeScreenConfigConstant'
 import * as _ from 'lodash'
 import { HomeScreenPreviewer } from './HomeScreenPreviewer'
 
@@ -12,8 +12,9 @@ const localizedString = {
     ENABLE_FEATURE_TITLE: 'Enable Feature',
     ENABLE_FEATURE_DESC: 'Set toolbar behaviors and enable or disable the functions below',
     COLLAPSE_TOOLBAR: 'Collapse toolbar by default',
-    LIBRARY_WINDOW: 'Library Window (HOME)',
+    LIBRARY_WINDOW: 'LIBRARY WINDOW (HOME)',
     DOSSIER_WINDOW: 'DOSSIER WINDOW',
+    DOSSIER_WINDOW_HOME: 'DOSSIER WINDOW (HOME)',
     PLATFORM_SPECIFIC: 'PLATFORM SPECIFIC',
 }
 
@@ -77,9 +78,11 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
             dataIndex: "selected",
             align: "right",
             render: (selectedInfo: [boolean, string]) => {
+                const disabled = childrenIcons.map((element) => element.key).includes(selectedInfo[1]) && 
+                    !this.state.selectedToolbarIcons.includes(iconTypes.sidebar.key)
                 return (
-                    < Switch  checked={selectedInfo[0]} onChange={
-                    (e) => this.onIconStateChange(e, selectedInfo[1])} />
+                    < Switch checked={selectedInfo[0]} onChange={
+                    (e) => this.onIconStateChange(e, selectedInfo[1])} disabled={disabled} />
                 )
             }
         }
@@ -133,8 +136,8 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
             <span>
                 <span className={icon[0]}/>
                 <span>  {icon[1]}  </span> 
-                {expanded && <Icon type="minus"/>}
-                {!expanded && <Icon type="plus"/>}
+                {expanded && <Icon type="down" />}
+                {!expanded && <Icon type="right" />}
             </span>
         )
     }
@@ -142,9 +145,9 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
     customExpandIcon = (props: any) => {
         const marginLeft = props.record.key >= childrenKeyOffset ? '20px' : '0px'
         if (props.expandable || props.record.expandable) {
-            return <a style={{ color: 'black', marginLeft: marginLeft}} onClick={e => {
+            return <span style={{marginLeft: marginLeft}} onClick={e => {
                 props.onExpand(props.record, e);
-            }}>{this.renderTableExpander(props.record.displayText, props.expanded)}</a>
+            }}>{this.renderTableExpander(props.record.displayText, props.expanded)}</span>
         } else {
             return <a style={{marginLeft: marginLeft} }/>
         }
@@ -165,7 +168,7 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
             }
         )
         
-        return <Table className="home-screen-components-table" dataSource={data} columns={this.columns} pagination={false} showHeader={false} expandIcon={(props) => this.customExpandIcon(props)}/>
+        return <Table className="home-screen-components-table" dataSource={data} columns={this.columns} pagination={false} showHeader={false} expandIcon={(props) => this.customExpandIcon(props)} />
     }
 
     // call backs
@@ -243,7 +246,7 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
                     {
                         // dossier as home group
                         this.state.isDossierHome && <div className="home-screen-components-icons">
-                            {localizedString.DOSSIER_WINDOW}
+                            {localizedString.DOSSIER_WINDOW_HOME}
                             {
                                 this.renderTable(dossierIconsDossierHome)
                             }
@@ -264,7 +267,7 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
                         </div>
                     }
                     
-                    {
+                    {/* {
                         // conditional render platform specified icons
                         this.state.extraIcons.length > 0 && <div className="home-screen-components-icons">
                             {localizedString.PLATFORM_SPECIFIC}
@@ -272,12 +275,12 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
                                 this.renderTable(this.state.extraIcons)
                             }
                         </div>
-                    }
+                    } */}
                     </div>
                 </Layout.Content>
                 {/* previewer */}
                 <Layout.Sider className="home-screen-components-right" width='307px'>
-                    <HomeScreenPreviewer deviceType={this.props.deviceType} icons={allSelectedIcons} isDossierHome={this.state.isDossierHome} handleDeviceTypeChange={this.props.handleDeviceTypeChange}/>
+                    <HomeScreenPreviewer deviceType={this.props.deviceType} toolbarHidden={this.state.toolbarHidden} icons={allSelectedIcons} isDossierHome={this.state.isDossierHome} handleDeviceTypeChange={this.props.handleDeviceTypeChange}/>
                 </Layout.Sider>
             </Layout>
         )
