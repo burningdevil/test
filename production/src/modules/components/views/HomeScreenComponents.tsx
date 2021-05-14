@@ -8,7 +8,7 @@ import { HomeScreenPreviewer } from './HomeScreenPreviewer'
 
 // constatns 
 const localizedString = {
-    ENABLE_FEATURE_TITLE: 'Enable Feature',
+    ENABLE_FEATURE_TITLE: 'Enable Features',
     ENABLE_FEATURE_DESC: 'Set toolbar behaviors and enable or disable the functions below',
     COLLAPSE_TOOLBAR: 'Collapse toolbar by default',
     LIBRARY_WINDOW: 'LIBRARY WINDOW (HOME)',

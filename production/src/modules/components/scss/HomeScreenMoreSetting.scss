@@ -66,8 +66,18 @@ $primary-blue: #0e6ff9;
 }
 
 .home-screen-moresetting-cfg-advance {
-    padding: 28px 25px 0 30px;
+    padding: 10px 20px 0 20px;
     position: relative;
+    font-size: 13px;
+
+    .ant-checkbox-wrapper {
+        font-size: 13px;
+    }
+
+    .ant-input-suffix {
+        margin-right: 4px;
+    }
+
     div {
         margin-bottom: 11px;
     }
@@ -78,15 +88,16 @@ $primary-blue: #0e6ff9;
         width: 160px;
         height: 34px;
         margin-left: 20px;
-        padding: 0 0px;    
+        padding: 0 0px;  
+        font-size: 13px;  
 
         button {
             width: 160px;
             height: 32px;
-            line-height: 32px;
             background-color: #fff;
             text-align: left;
             padding-left: 12px;
+            font-size: 13px;
             div {
                 display: inline;
                 float: right;
@@ -100,7 +111,11 @@ $primary-blue: #0e6ff9;
         }
     }
     .ant-divider {
-        margin-top: 35px;
-        margin-bottom: 30px;
+        margin-top: 25px;
+        margin-bottom: 20px;
+    }
+
+    .ant-input {
+        font-size: 13px;
     }
 }
