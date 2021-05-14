@@ -115,6 +115,33 @@ export interface iconDetail{
     key: string,
 }
 
+export interface BundleRecipient {
+    id: string,
+    group: boolean,
+    name: string
+}
+
+export interface BundleOwner {
+  id: string,
+  name: string
+}
+
+export interface BundleInfo {
+  color: number,
+  opacity: number,
+  emailEnabled: boolean,
+  id: string,
+  name: string,
+  dateCreated: string,
+  dateModified: string,
+  owner: BundleOwner,
+  type: number,
+  recipients: BundleRecipient[],
+  recipientStr: string,//eg: 2 users and 2 groups
+  expand: boolean,
+  recipientType: number
+}
+
 export const iconTypes = {
     sidebar: {displayText: 'Sidebar', iconName: CONSTANTS.FONT_SIDEBAR, key: CONSTANTS.ICON_SIDEBAR},
     sortAndFilter: {displayText: 'Library Sort and Filter', iconName: CONSTANTS.FONT_SORT_FILTER, key: CONSTANTS.ICON_SORT_FILTER},

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="243px" height="110px" viewBox="0 0 243 110" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>36*20</title>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="36" height="20"></rect>
+        <polygon id="path-3" points="0 0 36 0 36 26 0 26"></polygon>
+        <polygon id="path-5" points="19.984579 0 34.5798925 0 36 1.42010899 36 11.1374743 21.1374751 26 0 26 0 19.9845762 19.984579 0"></polygon>
+        <polygon id="path-7" points="20.6 0.121160083 20.6 20.6 0.121160932 20.6 20.6 0.121160083"></polygon>
+        <polygon id="path-9" points="23.4203847 23.6 0 23.6 0 0.179626224 23.4203847 23.6"></polygon>
+        <path d="M7.27184,4.008566 L3.70019,7.649344 L0.780608,4.743646 C0.54997,4.514342 0.547978,4.14053 0.775626,3.908716 C1.003274,3.676402 1.374388,3.674394 1.605024,3.903698 L4.24615,6.532424 L7.54282,3.17163 L4.76272,0.40442 C4.456862,0.09985 3.959222,0.10286 3.65735,0.410942 L0.36018,3.771736 C0.05781,4.079816 0.060798,4.581076 0.367154,4.885644 L3.70318,8.206298 L7.5498,4.285038 L7.27184,4.008566 Z" id="path-11"></path>
+        <path d="M3.994862,0.05904 C3.78415,0.05904 3.57294,0.140326 3.414034,0.302394 L0.348996,3.426356 C0.033176,3.748988 0.036164,4.272326 0.355968,4.590944 L3.395604,7.60753 L3.683028,7.314502 L0.788352,4.442422 C0.547752,4.20258 0.545262,3.81221 0.78337,3.56986 C0.903422,3.44743 1.061332,3.386216 1.219242,3.386216 C1.37466,3.386216 1.530576,3.445424 1.65013,3.56434 L5.278064,7.175514 L5.288526,7.164474 L2.852634,4.739966 C2.54628,4.435398 2.54329,3.934138 2.84566,3.626058 L5.350294,1.072596 L4.569714,0.29537 C4.410808,0.137816 4.203084,0.05904 3.994862,0.05904 Z" id="path-13"></path>
+        <rect id="path-15" x="0" y="0" width="36" height="20"></rect>
+        <rect id="path-17" x="0" y="0" width="36" height="20.2"></rect>
+    </defs>
+    <g id="36*20" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="object-report-grid">
+            <rect id="Rectangle" stroke="#DBDBDB" fill="#FFFFFF" x="0.5" y="0.5" width="35" height="19"></rect>
+            <g id="Group" transform="translate(8.000000, 0.000000)" fill="#4774C6" fill-rule="nonzero">
+                <g id="Common/Objects/Report/Grid-Graph/Grid" transform="translate(2.222222, 3.333333)">
+                    <path d="M15.5555556,0 L15.5555556,13.3333333 L0,13.3333333 L0,0 L15.5555556,0 Z M4.44444444,10 L1.11111111,10 L1.11111111,12.2222222 L4.44444444,12.2222222 L4.44444444,10 Z M8.88888889,10 L5.55555556,10 L5.55555556,12.2222222 L8.88888889,12.2222222 L8.88888889,10 Z M14.4444444,10 L10,10 L10,12.2222222 L14.4444444,12.2222222 L14.4444444,10 Z M4.44444444,6.66666667 L1.11111111,6.66666667 L1.11111111,8.88888889 L4.44444444,8.88888889 L4.44444444,6.66666667 Z M8.88888889,6.66666667 L5.55555556,6.66666667 L5.55555556,8.88888889 L8.88888889,8.88888889 L8.88888889,6.66666667 Z M14.4444444,6.66666667 L10,6.66666667 L10,8.88888889 L14.4444444,8.88888889 L14.4444444,6.66666667 Z M4.44444444,3.33333333 L1.11111111,3.33333333 L1.11111111,5.55555556 L4.44444444,5.55555556 L4.44444444,3.33333333 Z M8.88888889,3.33333333 L5.55555556,3.33333333 L5.55555556,5.55555556 L8.88888889,5.55555556 L8.88888889,3.33333333 Z M14.4444444,3.33333333 L10,3.33333333 L10,5.55555556 L14.4444444,5.55555556 L14.4444444,3.33333333 Z" id="Combined-Shape"></path>
+                </g>
+            </g>
+        </g>
+        <g id="object-report-graph" transform="translate(36.000000, 0.000000)">
+            <rect id="Rectangle" stroke="#DBDBDB" fill="#FFFFFF" x="0.5" y="0.5" width="35" height="19"></rect>
+            <g id="Group" transform="translate(8.000000, 0.000000)" fill="#4774C6" fill-rule="nonzero">
+                <g id="Common/Objects/Report/Grid-Graph/Graph" transform="translate(2.222222, 3.333333)">
+                    <path d="M1.11111111,0 L1.11111111,12.2222222 L15.5555556,12.2222222 L15.5555556,13.3333333 L0,13.3333333 L0,0 L1.11111111,0 Z M5.55555556,5.55555556 L5.55555556,11.1111111 L2.22222222,11.1111111 L2.22222222,5.55555556 L5.55555556,5.55555556 Z M10,3.33333333 L10,11.1111111 L6.66666667,11.1111111 L6.66666667,3.33333333 L10,3.33333333 Z M14.4444444,1.11111111 L14.4444444,11.1111111 L11.1111111,11.1111111 L11.1111111,1.11111111 L14.4444444,1.11111111 Z" id="Graph"></path>
+                </g>
+            </g>
+        </g>
+        <g id="object-dossier" transform="translate(72.000000, 0.000000)">
+            <mask id="mask-2" fill="white">
+                <use xlink:href="#path-1"></use>
+            </mask>
+            <use id="Mask" fill="#D8D8D8" xlink:href="#path-1"></use>
+            <g id="defaultcoverpage_Dossier-Copy" mask="url(#mask-2)">
+                <g transform="translate(0.000000, -3.000000)" id="defaultcoverpage_Dossier">
+                    <g transform="translate(0.000000, 0.100000)">
+                        <g id="Group-13">
+                            <g id="Group-3">
+                                <mask id="mask-4" fill="white">
+                                    <use xlink:href="#path-3"></use>
+                                </mask>
+                                <g id="Clip-2"></g>
+                                <polygon id="Fill-1" fill="#1C91DC" mask="url(#mask-4)" points="0 23.1 36 23.1 36 2.9 0 2.9"></polygon>
+                            </g>
+                            <g id="Group-6">
+                                <mask id="mask-6" fill="white">
+                                    <use xlink:href="#path-5"></use>
+                                </mask>
+                                <g id="Clip-5"></g>
+                                <polygon id="Fill-4" fill-opacity="0.0491" fill="#FFFFFF" mask="url(#mask-6)" points="-8.62651 27.1968712 27.28224 -8.71186 42.2729 6.278794 6.364154 42.187534"></polygon>
+                            </g>
+                            <g id="Group-9" transform="translate(15.400000, 5.400000)">
+                                <mask id="mask-8" fill="white">
+                                    <use xlink:href="#path-7"></use>
+                                </mask>
+                                <g id="Clip-8"></g>
+                                <polygon id="Fill-7" fill-opacity="0.1851" fill="#FFFFFF" mask="url(#mask-8)" points="-27.04583 46.35278 22.59098 -3.28404 37.58164 11.70663 -12.055166 61.34344"></polygon>
+                            </g>
+                            <g id="Group-12" transform="translate(0.000000, 2.400000)">
+                                <mask id="mask-10" fill="white">
+                                    <use xlink:href="#path-9"></use>
+                                </mask>
+                                <g id="Clip-11"></g>
+                                <polygon id="Fill-10" fill-opacity="0.0711" fill="#FFFFFF" mask="url(#mask-10)" points="-25.08922 7.61732 -8.11865 -9.35324 25.97514 24.7405548 9.004584 41.711118"></polygon>
+                            </g>
+                        </g>
+                        <g id="Group-16" transform="translate(15.400000, 8.800000)">
+                            <mask id="mask-12" fill="white">
+                                <use xlink:href="#path-11"></use>
+                            </mask>
+                            <g id="Clip-15"></g>
+                            <polygon id="Fill-14" fill="#FFFFFF" mask="url(#mask-12)" points="-0.86462 9.206298 8.549796 9.206298 8.549796 -0.822076 -0.86462 -0.822076"></polygon>
+                        </g>
+                        <g id="Group-19" transform="translate(13.000000, 9.000000)">
+                            <mask id="mask-14" fill="white">
+                                <use xlink:href="#path-13"></use>
+                            </mask>
+                            <g id="Clip-18"></g>
+                            <polygon id="Fill-17" fill="#FFFFFF" mask="url(#mask-14)" points="-0.885892 8.60753 6.350294 8.60753 6.350294 -0.94096 -0.885892 -0.94096"></polygon>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+        <g id="defaultcoverpage_RSD" transform="translate(108.000000, 0.000000)">
+            <mask id="mask-16" fill="white">
+                <use xlink:href="#path-15"></use>
+            </mask>
+            <use id="Mask" fill="#D8D8D8" xlink:href="#path-15"></use>
+            <g mask="url(#mask-16)">
+                <g id="Group-2">
+                    <mask id="mask-18" fill="white">
+                        <use xlink:href="#path-17"></use>
+                    </mask>
+                    <use id="Rectangle-5" fill="#E4442D" xlink:href="#path-17"></use>
+                    <polygon id="Rectangle" fill="#FFFFFF" opacity="0.0452898551" mask="url(#mask-18)" transform="translate(18.194370, 11.126867) rotate(-345.000000) translate(-18.194370, -11.126867) " points="-6.19694466 1.52686679 42.5856838 1.52686679 42.5856838 20.7268668 -6.19694466 20.7268668"></polygon>
+                    <polygon id="Rectangle" fill="#FFFFFF" opacity="0.18506567" mask="url(#mask-18)" transform="translate(19.115258, 27.751944) rotate(-383.000000) translate(-19.115258, -27.751944) " points="-14.9832708 18.151944 53.2137874 18.151944 53.2137874 37.351944 -14.9832708 37.351944"></polygon>
+                    <polygon id="Rectangle-Copy" fill="#FFFFFF" opacity="0.0588768116" mask="url(#mask-18)" transform="translate(-25.148321, 19.049043) rotate(-383.000000) translate(25.148321, -19.049043) " points="-59.2468504 0.970582585 8.95020779 0.970582585 8.95020779 37.127503 -59.2468504 37.127503"></polygon>
+                    <polygon id="Rectangle" fill="#FFFFFF" opacity="0.0711050725" mask="url(#mask-18)" transform="translate(-0.175834, 5.487370) rotate(-333.000000) translate(0.175834, -5.487370) " points="-11.1758335 -15.0438764 10.8241665 -15.0438764 10.8241665 26.0186157 -11.1758335 26.0186157"></polygon>
+                </g>
+                <g id="defaultcoverpage_Dossier" transform="translate(14.052632, 5.400000)">
+                    <g id="Group-5" transform="translate(0.059088, 0.168375)">
+                        <g id="icon_RSD_white" transform="translate(0.043318, 0.000000)">
+                            <g id="icon_RSD">
+                                <rect id="Rectangle-65-Copy-2" stroke-opacity="0" stroke="#FF0000" stroke-width="0.5" x="0.25" y="0.25" width="8.02631579" height="8.7"></rect>
+                                <g id="Group" transform="translate(4.063158, 4.088889)" fill="#FFFFFF" fill-rule="nonzero">
+                                    <polygon id="Line" points="0.0997094157 0.382245132 3.29970942 0.382245132 3.29970942 0.382245132 3.29970942 0.0822451317 3.29970942 0.0822451317 0.0997094157 0.0822451317 0.0997094157 0.0822451317 0.0997094157 0.382245132"></polygon>
+                                    <polygon id="Line-Copy" points="0.0997094157 1.38224513 3.29970942 1.38224513 3.29970942 1.38224513 3.29970942 1.08224513 3.29970942 1.08224513 0.0997094157 1.08224513 0.0997094157 1.08224513 0.0997094157 1.38224513"></polygon>
+                                    <polygon id="Line-Copy-2" points="0.0997094157 2.38224513 3.29970942 2.38224513 3.29970942 2.38224513 3.29970942 2.08224513 3.29970942 2.08224513 0.0997094157 2.08224513 0.0997094157 2.08224513 0.0997094157 2.38224513"></polygon>
+                                    <polygon id="Line-Copy-2" points="0.0997094157 3.38224513 3.29970942 3.38224513 3.29970942 3.38224513 3.29970942 3.08224513 3.29970942 3.08224513 0.0997094157 3.08224513 0.0997094157 3.08224513 0.0997094157 3.38224513"></polygon>
+                                </g>
+                            </g>
+                            <rect id="Rectangle-9" fill="#FFFFFF" x="2.36286731" y="4.57113402" width="1" height="3"></rect>
+                            <rect id="Rectangle-9" fill="#FFFFFF" x="0.96286731" y="5.57113402" width="1" height="2"></rect>
+                            <rect id="Rectangle-62" fill="#FFFFFF" x="0.704050164" y="1.53333333" width="7.10526316" height="1.02222222"></rect>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

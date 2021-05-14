@@ -5,6 +5,7 @@ import { env } from '../../../main'
 import { RadioChangeEvent } from 'antd/lib/radio';
 import * as _ from "lodash";
 import { HttpProxy } from '../../../main';
+import ContentBundleContentPicker from './ContentBundleContentPicker'
 import { WorkstationModule, ObjectSelectorSettings, ObjectSelectorResponse, ObjectEditorSettings, WindowEvent } from '@mstr/workstation-types';
 import { HomeScreenPreviewer } from './HomeScreenPreviewer';
 import { default as VC } from '../HomeScreenConfigConstant';
@@ -15,7 +16,8 @@ export default class HomeScreenHomeSetting extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
     this.state = {
-        dossierName: ''
+      showContentPicker: false,
+      dossierName: ''
     };
   }
 
@@ -48,59 +50,70 @@ export default class HomeScreenHomeSetting extends React.Component<any, any> {
       this.loadData();
   }
 
-  async componentDidMount() {
-      workstation.window.addHandler(WindowEvent.POSTMESSAGE, (message: any) => {
-        console.log(message);
-        const response = _.get(message, 'Message.selectedHomeScreenObject', '');
-        if (response) {
-            const name = response.name;
-            const id = this.state.currentEnv.url + response.projectId + '/' + response.id;
-            this.handleDossierChange(name, id);
-        }
-        return {
-            ResponseValue: true
-        };
+  /* --------------- Below used for select dossier in workstation native way -----------------------*/
+  // async componentDidMount() {
+  //     workstation.window.addHandler(WindowEvent.POSTMESSAGE, (message: any) => {
+  //       console.log(message);
+  //       const response = _.get(message, 'Message.selectedHomeScreenObject', '');
+  //       if (response) {
+  //           const name = response.name;
+  //           const id = response.projectId + '/' + response.id;
+  //           this.handleDossierChange(name, id);
+  //       }
+  //       return {
+  //           ResponseValue: true
+  //       };
+  //   });
+  // }
+
+  // openDossierPicker = async () => {
+  //   console.log("open dossier picker" + this.state.environmentURL);
+  //   const options: ObjectSelectorSettings = {
+  //     types: ['Dossier', 'Document'],
+  //     footerMessage: 'Select a dossier to be used as a home screen.',
+  //     excludedIds: []
+  //   }
+  //   const response = await workstation.dialogs.objectSelector(options).catch(e =>
+  //     workstation.dialogs.error({
+  //         message: 'Error open object editor.',
+  //         additionalInformation: JSON.stringify(e)
+  //     })
+  //   )
+  //   if (response) {
+  //     const selectedDossiers = _.get(response, 'selectedObjects', []);
+  //     if (selectedDossiers.length) {
+  //       const selectedDossier = selectedDossiers[0];
+  //       const name = selectedDossier.name;
+  //       const id = this.state.currentEnv.url + selectedDossier.projectId + '/' + selectedDossier.id;
+  //       this.handleDossierChange(name, id);
+  //     }
+  //   }
+  // }
+  /* --------------- Above used for select dossier in workstation native way -----------------------*/
+
+  handleDismissAdd = () => {
+    this.setState({
+      showContentPicker: false
     });
   }
 
-  openDossierPicker = async () => {
-    console.log("open dossier picker" + this.state.environmentURL);
-    const options: ObjectSelectorSettings = {
-      types: ['Dossier', 'Document'],
-      footerMessage: 'Select a dossier to be used as a home screen.',
-      excludedIds: []
-    }
-    const response = await workstation.dialogs.objectSelector(options).catch(e =>
-      workstation.dialogs.error({
-          message: 'Error open object editor.',
-          additionalInformation: JSON.stringify(e)
-      })
-    )
-    if (response) {
-      const selectedDossiers = _.get(response, 'selectedObjects', []);
-      if (selectedDossiers.length) {
-        const selectedDossier = selectedDossiers[0];
-        const name = selectedDossier.name;
-        const id = this.state.currentEnv.url + selectedDossier.projectId + '/' + selectedDossier.id;
-        this.handleDossierChange(name, id);
-      }
-    }
-  }
-
   openDossierPickerPlugin = async () => {
-    console.log("open dossier picker plugin" + this.state.environmentURL);
-    const objType = 'HomeScreenObject';
-    let options: ObjectEditorSettings = {
-      objectType: objType,
-      environment: this.state.currentEnv
-    }
+    // console.log("open dossier picker plugin" + this.state.environmentURL);
+    // const objType = 'HomeScreenObject';
+    // let options: ObjectEditorSettings = {
+    //   objectType: objType,
+    //   environment: this.state.currentEnv
+    // }
     
-    workstation.dialogs.openObjectEditor(options).catch(e =>
-      workstation.dialogs.error({
-          message: 'Error open object editor.',
-          additionalInformation: JSON.stringify(e)
-      })
-    )
+    // workstation.dialogs.openObjectEditor(options).catch(e =>
+    //   workstation.dialogs.error({
+    //       message: 'Error open object editor.',
+    //       additionalInformation: JSON.stringify(e)
+    //   })
+    // )
+    this.setState({
+      showContentPicker: true
+    });
   }
 
   handleHomeSettingChange = (event: RadioChangeEvent) => {
@@ -119,14 +132,14 @@ export default class HomeScreenHomeSetting extends React.Component<any, any> {
                 <div className = "home-screen-home-settings-dossier-name">
                     {this.state.dossierName}
                 </div>
-                <Button type='link' className = "home-screen-home-settings-dossier-change" disabled = {homeScreen.mode == VC.MODE_USE_DEFAULT_HOME_SCREEN} onClick={this.openDossierPicker}>
+                <Button type='link' className = "home-screen-home-settings-dossier-change" disabled = {homeScreen.mode == VC.MODE_USE_DEFAULT_HOME_SCREEN} onClick={this.openDossierPickerPlugin}>
                     Change
                 </Button>
             </div>
         );
     } else {
         return (
-            <Button type='link' className = "home-screen-home-settings-pick" disabled = {homeScreen.mode == VC.MODE_USE_DEFAULT_HOME_SCREEN} onClick={this.openDossierPicker}>
+            <Button type='link' className = "home-screen-home-settings-pick" disabled = {homeScreen.mode == VC.MODE_USE_DEFAULT_HOME_SCREEN} onClick={this.openDossierPickerPlugin}>
                 Pick Dossier
             </Button>
         );
@@ -143,7 +156,7 @@ export default class HomeScreenHomeSetting extends React.Component<any, any> {
     })
     //update dossier url
     //write back
-    this.props.handleChange( {homeScreen:{homeDocument: {url: dossierUrl}}} );
+    this.props.handleChange( {homeScreen:{homeDocument: {url: this.state.currentEnv.url + dossierUrl}}} );
   }
 
   render() {
@@ -172,6 +185,7 @@ export default class HomeScreenHomeSetting extends React.Component<any, any> {
                     The default page of the dossier or document be set as the home screen. <br/> This will grant all users in this configuration the View permission for the selected dossier.
                 </div>
                 {this.renderPickDossier()}
+                <ContentBundleContentPicker visible={this.state.showContentPicker} handleClose={this.handleDismissAdd} handleChange={this.handleDossierChange}/>
             </Layout.Content>
             <Layout.Sider className="home-screen-home-preview" width='307px'>
               <HomeScreenPreviewer deviceType={deviceType} toolbarHidden={this.state.toolbarHidden} icons={icons} isDossierHome={isDossierHome} handleDeviceTypeChange={this.props.handleDeviceTypeChange}/>

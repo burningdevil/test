@@ -25,6 +25,7 @@
   "license": "MIT",
   "dependencies": {
     "@mstr/rc": "^1.23.19",
+    "@mstr/react-ws-grid":"^0.0.5",
     "@mstr/workstation-types": "^1.0.7",
     "@types/bluebird": "^3.5.27",
     "@types/lodash": "^4.14.133",
@@ -33,7 +34,7 @@
     "@types/react-redux": "^7.0.9",
     "@types/react-router-dom": "^5.1.5",
     "ajv": "^6.9.1",
-    "antd": "3.26.19",
+    "antd": "4.15.4",
     "axios": "^0.19.0",
     "axios-mock-adapter": "^1.17.0",
     "classnames": "^2.2.6",
