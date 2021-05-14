@@ -5,13 +5,8 @@ import { env } from '../../../main'
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import * as _ from "lodash";
 import { Input } from 'antd';
+import { platformType } from '../HomeScreenConfigConstant';
 const { TextArea } = Input;
-
-export const platformType = {
-    mobile: 'Mobile',
-    web: 'Web',
-    desktop: 'Desktop',
-  };
 
 export default class HomeScreenGeneral extends React.Component<any, any> {
   constructor(props: any) {

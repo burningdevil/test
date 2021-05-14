@@ -63,7 +63,7 @@ export const CONSTANTS = {
     ICON_TOCS: 'TOCs',
     ICON_BOOKMARK: 'bookmark',
     ICON_RESET: 'reset',
-    ICON_FILTER: 'filter',
+    ICON_FILTER: 'filters',
     ICON_SHARE: 'share',
     ICON_DATA_SEARCH: 'dataSearch',
     ICON_HYPER: 'hyper',
@@ -102,6 +102,12 @@ export const CONSTANTS = {
     FONT_PREVIEWSIDEBAR: 'icon-library',
     FONT_PREVIEWTOC: 'icon-tb_undoarrow',
 }
+
+export const platformType = {
+    mobile: 'Mobile',
+    web: 'Web',
+    desktop: 'Desktop',
+  };
 // toolbar icon [display text, icon-name, key]
 export interface iconDetail{
     displayText: string,
