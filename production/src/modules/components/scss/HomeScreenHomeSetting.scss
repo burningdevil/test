@@ -1,6 +1,7 @@
 .home-screen-home {
-    padding: 10px 20px 0 20px;
+    padding: 0px 0px 0 20px;
     background-color: white;
+    height: 660px;
 
     .ant-radio-button-wrapper {
         font-size: 13px;
@@ -78,5 +79,8 @@
     }
     &-preview {
         background-color: white;
+        padding-right: 10px;
+        padding-top: 10px;
+        background-color:#f6f8fa;
     }
 }

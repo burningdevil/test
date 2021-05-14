@@ -60,6 +60,7 @@ $container-height: 191px;
     &-pad {
         padding: 8px;
         height: $container-height;
+        background-color:#f6f8fa;
         .ant-layout-header {
             padding: 0 5px;
             height: 28px;
