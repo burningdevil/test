@@ -3,17 +3,17 @@
     padding: 28px 25px 0 30px;
     position: relative;
     overflow: scroll;
+    display: flex , float;
+    height: 644px;
     background-color: white;
 
     &-left{
         float: left;
-        width: 70%;
         margin-left: 0px;
     }
 
     &-right{
         float: right;
-        width: 307px;
         margin-right: 0px;
         background-color: white;
     }
@@ -22,7 +22,7 @@
         text-align: left;
         font-family: Helvetica, serif;
         color: #444649;
-        font-size: 26px;
+        font-size: 20px;
         line-height: 150%;
 
         &-description{
@@ -36,8 +36,7 @@
 
     &-scrollcontainer{
         overflow: auto;
-        overflow-y: auto;
-        height: 575px;
+        height: auto;
     }
 
     &-toolbar{
@@ -54,6 +53,11 @@
         color: #444649;
         font-size: 13px;
         line-height: 150%;
+        height: 100%;
+        
+        &-title{
+            margin: 10px 0;
+        }
     }
 
     &-table{

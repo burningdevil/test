@@ -1,18 +1,15 @@
 import * as React from 'react'
 import '../scss/HomeScreenHomeSetting.scss'
-import { Radio, Button } from 'antd';
+import { Radio, Button, Layout } from 'antd';
 import { env } from '../../../main'
 import { RadioChangeEvent } from 'antd/lib/radio';
 import * as _ from "lodash";
 import { HttpProxy } from '../../../main';
 import { WorkstationModule, ObjectSelectorSettings, ObjectSelectorResponse, ObjectEditorSettings, WindowEvent } from '@mstr/workstation-types';
+import { HomeScreenPreviewer } from './HomeScreenPreviewer';
+import { default as VC } from '../HomeScreenConfigConstant';
 
 declare var workstation: WorkstationModule;
-
-const homeScreenType = {
-    library: 0,
-    dossier: 1,
-  };
 
 export default class HomeScreenHomeSetting extends React.Component<any, any> {
   constructor(props: any) {
@@ -122,14 +119,14 @@ export default class HomeScreenHomeSetting extends React.Component<any, any> {
                 <div className = "home-screen-home-settings-dossier-name">
                     {this.state.dossierName}
                 </div>
-                <Button type='link' className = "home-screen-home-settings-dossier-change" disabled = {homeScreen.mode == homeScreenType.library} onClick={this.openDossierPicker}>
+                <Button type='link' className = "home-screen-home-settings-dossier-change" disabled = {homeScreen.mode == VC.MODE_USE_DEFAULT_HOME_SCREEN} onClick={this.openDossierPicker}>
                     Change
                 </Button>
             </div>
         );
     } else {
         return (
-            <Button type='link' className = "home-screen-home-settings-pick" disabled = {homeScreen.mode == homeScreenType.library} onClick={this.openDossierPicker}>
+            <Button type='link' className = "home-screen-home-settings-pick" disabled = {homeScreen.mode == VC.MODE_USE_DEFAULT_HOME_SCREEN} onClick={this.openDossierPicker}>
                 Pick Dossier
             </Button>
         );
@@ -144,33 +141,42 @@ export default class HomeScreenHomeSetting extends React.Component<any, any> {
     this.setState({
         dossierName: dossierName
     })
-      //update dossier url
-      //write back
-      this.props.handleChange( {homeScreen:{homeDocument: {url: dossierUrl}}} );
+    //update dossier url
+    //write back
+    this.props.handleChange( {homeScreen:{homeDocument: {url: dossierUrl}}} );
   }
 
   render() {
-    const { homeScreen } = this.props;
+    const { homeScreen, deviceType } = this.props;
+    const isDossierHome = _.get(homeScreen, 'mode') === VC.MODE_USE_DOSSIER_AS_HOME_SCREEN
+    const toolbarIcons = isDossierHome ? _.get(homeScreen, 'homeDocument.icons') : _.get(homeScreen, 'homeLibrary.icons')
+    const sidebarIcons = isDossierHome ? [] : _.get(homeScreen, 'homeLibrary.sidebars')
+    const icons = _.concat(toolbarIcons, sidebarIcons)
     return (
-        <div className = "home-screen-home-settings">
-            <div className="home-screen-home-settings-title">
-                Select the Home Screen
-            </div>
-            <div className="home-screen-home-settings-option">
-                <Radio.Group value={ homeScreen.mode } onChange={this.handleHomeSettingChange}>
-                    <Radio className="home-screen-home-settings-library" value={homeScreenType.library}>
-                            Use the default Library home screen
-                    </Radio>
-                    <Radio className="home-screen-home-settings-dossier" value={homeScreenType.dossier}>
-                        Use a dossier or document in the current server as the home screen
-                    </Radio>
-                </Radio.Group>
-            </div>
-            <div className="home-screen-home-settings-hint">
-                The default page of the dossier or document be set as the home screen. <br/> This will grant all users in this configuration the View permission for the selected dossier.
-            </div>
-            {this.renderPickDossier()}
-         </div>
+        <Layout className="home-screen-home">
+            <Layout.Content className = "home-screen-home-settings">
+                <div className="home-screen-home-settings-title">
+                    Select the Home Screen
+                </div>
+                <div className="home-screen-home-settings-option">
+                    <Radio.Group value={ homeScreen.mode } onChange={this.handleHomeSettingChange}>
+                        <Radio className="home-screen-home-settings-library" value={VC.MODE_USE_DEFAULT_HOME_SCREEN}>
+                                Use the default Library home screen
+                        </Radio>
+                        <Radio className="home-screen-home-settings-dossier" value={VC.MODE_USE_DOSSIER_AS_HOME_SCREEN}>
+                            Use a dossier or document in the current server as the home screen
+                        </Radio>
+                    </Radio.Group>
+                </div>
+                <div className="home-screen-home-settings-hint">
+                    The default page of the dossier or document be set as the home screen. <br/> This will grant all users in this configuration the View permission for the selected dossier.
+                </div>
+                {this.renderPickDossier()}
+            </Layout.Content>
+            <Layout.Sider className="home-screen-home-preview" width='307px'>
+              <HomeScreenPreviewer deviceType={deviceType} toolbarHidden={this.state.toolbarHidden} icons={icons} isDossierHome={isDossierHome} handleDeviceTypeChange={this.props.handleDeviceTypeChange}/>
+            </Layout.Sider>
+        </Layout>
     );
   }
 }

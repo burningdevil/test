@@ -97,9 +97,10 @@ export const CONSTANTS = {
     FONT_DEFAULT_GROUP: 'icon-group_groups',
     FONT_MY_GROUP: 'icon-group_groups',
 
-    // home button
+    // preview use only
     FONT_HOME: 'icon-tb_home',
     FONT_PREVIEWSIDEBAR: 'icon-library',
+    FONT_PREVIEWTOC: 'icon-tb_undoarrow',
 }
 // toolbar icon [display text, icon-name, key]
 export interface iconDetail{
@@ -135,7 +136,8 @@ export const iconTypes = {
     //// for preview
     // home button
     home: {displayText: 'Home', iconName: CONSTANTS.FONT_HOME, key: CONSTANTS.ICON_HOME},
-    previewSidebar: {displayText: 'Sidebar', iconName: CONSTANTS.FONT_PREVIEWSIDEBAR, key: CONSTANTS.ICON_SIDEBAR}
+    previewSidebar: {displayText: 'Sidebar', iconName: CONSTANTS.FONT_PREVIEWSIDEBAR, key: CONSTANTS.ICON_SIDEBAR},
+    previewTocPhone: {displayText: 'Table of Contents', iconName: CONSTANTS.FONT_PREVIEWTOC, key: CONSTANTS.ICON_TOCS},
 }
 
 

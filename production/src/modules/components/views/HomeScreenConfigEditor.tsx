@@ -177,11 +177,11 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
                                 {this.buttonGroup()}
                             </Tabs.TabPane>
                             <Tabs.TabPane tab={navBar.HOME_SCREEN} key="2">
-                                <HomeScreenHomeSetting homeScreen={this.state.configInfo.homeScreen} handleChange = {this.handleConfigPropertiesChange}/>
+                                <HomeScreenHomeSetting homeScreen={this.state.configInfo.homeScreen} handleChange = {this.handleConfigPropertiesChange} deviceType={this.state.previewDeviceType} platform={this.state.configInfo.platform} handleDeviceTypeChange={this.handlePreviewDeviceTypeChange}/>
                                 {this.buttonGroup()}
                             </Tabs.TabPane>
                             <Tabs.TabPane tab={navBar.COMPONENTS} key="3">
-                                <HomeScreenComponents homeScreen={this.state.configInfo.homeScreen} deviceType={this.state.previewDeviceType} platform={this.state.configInfo.platform} handleChange = {this.handleConfigPropertiesChange} handleDeviceTypeChange={this.handlePreviewDeviceTypeChange}/>
+                                <HomeScreenComponents homeScreen={this.state.configInfo.homeScreen} handleChange = {this.handleConfigPropertiesChange} deviceType={this.state.previewDeviceType} platform={this.state.configInfo.platform} handleDeviceTypeChange={this.handlePreviewDeviceTypeChange}/>
                                 {this.buttonGroup()}
                             </Tabs.TabPane>
                             <Tabs.TabPane tab={navBar.CONTENT_BUNDLES} key="4" disabled={this.state.configInfo.homeScreen.mode===1}>

@@ -78,6 +78,11 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
         })
     }
 
+    // overlay of header toolbar
+    overlayRender = () => {
+        // return <div className="a123"> <span className={'icon-filter'}> </span> </div>
+    }
+
     /// for previewer
     // dossier preview icons to render
     // split in header icons and footer icons
@@ -132,7 +137,7 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
         const {dossierHeaderIcons, dossierFooterIcons} = this.dossierIconsToRender()
         const showSideBar = this.iconShouldShow(iconTypes.sidebar) 
         const showSortAndFilter = this.iconShouldShow(iconTypes.sortAndFilter) && (deviceType === VC.REVIEW_MODE_WEB || deviceType === VC.REVIEW_MODE_DESKTOP)
-        const rightClassName = showSideBar ? "homeScreenPreviewer-pad-overview-right" : "homeScreenPreviewer-pad-overview-rightFull" 
+        const showToc = this.iconShouldShow(iconTypes.toc) && deviceType === VC.REVIEW_MODE_PHONE
 
         switch (deviceType) {
             case VC.REVIEW_MODE_TABLET:
@@ -149,7 +154,9 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
                             <Layout className="homeScreenPreviewer-pad">
                                 { !toolbarHidden &&
                                     <Layout.Header>
-                                        {this.toolbarIconsRender(libraryHeaderIcons)}
+                                        <div className="homeScreenPreviewer-pad-header">
+                                            {this.toolbarIconsRender(libraryHeaderIcons)}
+                                        </div>
                                     </Layout.Header>
                                 }
                                 <Layout>
@@ -165,16 +172,14 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
                                                     showSortAndFilter && this.toolbarIconsRender([iconTypes.sortAndFilter])
                                                 }
                                                 <div/>
-                                                <div className={rightClassName}>
-                                                    <div className="homeScreenPreviewer-pad-overview-right-sub"/>
-                                                    <div/>
+                                                <div className={"homeScreenPreviewer-pad-overview-right"}>
                                                 </div>
-                                                
                                             </div>
                                         </Layout>
                                     </Layout.Content>
                                 </Layout>
                             </Layout>
+                            {toolbarHidden && this.overlayRender()}
                         </div>
                         }
 
@@ -190,15 +195,13 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
                                 <Layout.Content className="homeScreenPreviewer-pad-content">
                                     <Layout className="homeScreenPreviewer-pad-container">
                                         <div className="homeScreenPreviewer-pad-overview">
-                                            <div className="homeScreenPreviewer-pad-overview-left"/>
                                             <div className="homeScreenPreviewer-pad-overview-right">
-                                                <div className="homeScreenPreviewer-pad-overview-right-sub"/>
-                                                <div/>
                                             </div>
                                         </div>
                                     </Layout>
                                 </Layout.Content>
                             </Layout>
+                            {toolbarHidden && this.overlayRender()}
                         </div>
 
                         {/* notification panel */}
@@ -217,7 +220,7 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
                             { !toolbarHidden &&
                                 <Layout.Header>
                                     {this.toolbarIconsRender(libraryHeaderIcons)}
-                                    <span className="icon-tb_undoarrow"/>
+                                    {showToc && <span className={iconTypes.previewTocPhone.iconName}/>}
                                 </Layout.Header>
                             }
 
@@ -240,6 +243,7 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
                             }
                         </Layout>
                         }
+                        {toolbarHidden && this.overlayRender()}
                         
                         {/* dossier toolbars */}
                         {this.titleRender( isDossierHome ? sectionTitle.dossierHome : sectionTitle.dossier )}
@@ -247,7 +251,7 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
                             { !toolbarHidden &&
                                 <Layout.Header>
                                     {this.toolbarIconsRender(dossierHeaderIcons)}
-                                    <span className="icon-tb_undoarrow"/>
+                                    {showToc && <span className={iconTypes.previewTocPhone.iconName}/>}
                                 </Layout.Header>
                             }
                             <Layout.Content className="homeScreenPreviewer-phone-content">
@@ -268,6 +272,7 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
                                 </footer>
                             }
                         </Layout>
+                        {toolbarHidden && this.overlayRender()}
                         {/* notification panel */}
                         {/* {this.titleRender(sectionTitle.notificationPanel)} */}
                     </div>

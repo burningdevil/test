@@ -54,8 +54,15 @@ $primary-blue: #0e6ff9;
 .ant-checkbox-wrapper + .ant-checkbox-wrapper {
     margin-left: 0px;
 }
+
 .ant-input-affix-wrapper {
     display: inline-flex;
+    padding: 0;
+    margin: 0;
+
+    input.ant-input {
+        padding: 0 8px;
+    }
 }
 
 .home-screen-moresetting-cfg-advance {
@@ -71,12 +78,8 @@ $primary-blue: #0e6ff9;
         width: 160px;
         height: 34px;
         margin-left: 20px;
-        
-        .ant-input {
-            padding-left: 9px;
-            padding-right: 70px;
-            padding-top: 0px;
-        }
+        padding: 0 0px;    
+
         button {
             width: 160px;
             height: 32px;
