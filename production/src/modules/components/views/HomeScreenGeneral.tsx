@@ -81,7 +81,7 @@ export default class HomeScreenGeneral extends React.Component<any, any> {
                         Name
                     </div>
                     <div className="home-screen-general-name-name">
-                        <Input placeholder="Enter Text..." value = {name} onChange={this.handleNameChange}/>
+                        <Input placeholder="" value = {name} onChange={this.handleNameChange}/>
                     </div>
             </div>
             <div className="home-screen-general-description">
@@ -89,7 +89,7 @@ export default class HomeScreenGeneral extends React.Component<any, any> {
                     Description
                 </div>
                 <div className="home-screen-general-description-name">
-                    <TextArea className="home-screen-general-description-name-input" placeholder="Enter Text..." rows = {3} value = {description} onChange={this.handleDescChange}/>
+                    <TextArea className="home-screen-general-description-name-input" placeholder="" rows = {3} value = {description} onChange={this.handleDescChange}/>
                 </div>
             </div>
             <div className="home-screen-general-platform">
@@ -98,7 +98,7 @@ export default class HomeScreenGeneral extends React.Component<any, any> {
                 </div>
                 <div className="home-screen-general-platform-name">
                     <Checkbox
-                        className=""
+                        className="home-screen-general-platform-mobile"
                         disabled={false}
                         label="Mobile"
                         checked={platform.includes(platformType.mobile)}
@@ -125,7 +125,7 @@ export default class HomeScreenGeneral extends React.Component<any, any> {
                   App Url
               </div>
               <div className="home-screen-general-url-name">
-                  {this.state.currentEnv.url + 'config/'}
+                  {this.state.currentEnv.url + 'config/' + this.props.configId}
               </div>
             </div>
          </div>

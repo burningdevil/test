@@ -9,55 +9,36 @@
     border-radius: 3px;
     box-shadow: 0 1px 8px 3px rgba(68, 70, 73, .2);
 
-    //close button style
-    .ant-modal-close {
-        width: 20px;
-        height: 20px;
-        right: 14px;
-        top: 5px;
-        .ant-modal-close-x {
-            width: 20px;
-            height: 20px;
-            line-height: 20px;
-            font-size: 15px;
-            font-weight: bolder;
-        }
-    }
     .ant-modal-body {
         padding: 0;
     }
-    &-layout {
-        //popover header style
-        .ant-layout-header {
-            line-height: 100%;
-            font-family: Helvetica-Bold, serif;
-            font-size: 12px;
-            color: #444649;
-            background-color: #ededed;
-            padding: 9px 14px 0 16px;
-            height: 31px;
-        }
 
+    &-layout {
         //popover content style
         &-content {
             background: #ffffff;
             //bar style
             .ant-tabs-nav {
                 width: 200px;
+                padding-top: 17px;
                 //.ant-tabs-nav-container {
                     font-size: 12px;
-                    background-color: #fbfbfb;
+                    background-color: #e6e7e7;
+
                     .ant-tabs-tab {
-                        margin-top: 6px;
-                        margin-bottom: 0;
+                        padding: 8px 15px;
+                        font-size: 12px;
                         text-align: left;
-                        font-family: Helvetica, serif;
-                        color: #444649;
+                        color: #29313b;
+                        margin: 0px !important;
                     }
                     .ant-tabs-tab-active {
-                        font-family: Helvetica, serif;
                         color: #fff;
-                        background-color: #1C8DD4;
+                        background-color: #3492ed;
+
+                        .ant-tabs-tab-btn {
+                            color: #fff;
+                        }
                     }
                     .ant-tabs-ink-bar-animated {
                         transition: none;
@@ -74,12 +55,14 @@
                 background-color: #fff;
                 .mstr-Admin-cfg-popover-btn {
                     position: absolute;
-                    top: 670px;
-                    right: 20px;
-                    font-size: 11px;
+                    top: 674px;
+                    right: 16px;
 
                     .ant-btn {
-                        height: 26px;
+                        padding: 0px;
+                        font-size: 13px;
+                        height: 20px;
+                        width: 74px;
                     }
                 }
             }

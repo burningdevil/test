@@ -129,7 +129,7 @@ export function getHomeScreenBundleListGroupCellInnerRenderer() {
       if (params.node.group) {
         const color = hexIntToColorStr(params.node.data.color);
         tempDiv.innerHTML =
-          '<span class="icon-group_groups_a" style="color:'+ color + '"/><span style="color: #000000; padding: 6px;">' +
+          '<span class="icon-group_groups_a" style="color:'+ color + '"/><span style="color: #35383a; padding: 6px;">' +
           params.value +
           '</span>';
       } else {
@@ -137,12 +137,12 @@ export function getHomeScreenBundleListGroupCellInnerRenderer() {
         const type: HomeScreenHomeObjectType = getContentType(viewMedia);
         if (type === HomeScreenHomeObjectType.DOSSIER) {
             tempDiv.innerHTML =
-            '<span class="icon-dossier" style="color: #3492ed"/><span style="color: #000000; padding: 6px">' +
+            '<span class="icon-dossier" style="color: #3492ed"/><span style="color: #35383a; padding: 6px">' +
             params.value +
             '</span>';
         } else {
             tempDiv.innerHTML =
-            '<span class="icon-rsd-cover" style="color: #ff4000"/><span style="color: #000000; padding: 6px">' +
+            '<span class="icon-rsd-cover" style="color: #ff4000"/><span style="color: #35383a; padding: 6px">' +
             params.value +
             '</span>';
         }

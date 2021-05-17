@@ -23,8 +23,8 @@ const navBar = {
   MORE_SETTINGS: 'More Settings'
 };
 const popoverGeneral = {
-  width: 1045,
-  height: 700,
+  width: 962,
+  height: 708,
   headerHeight: 0,
 };
 
@@ -139,12 +139,12 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
   handleSaveConfig = async () => {
       const configId = this.state.configId;
       if (configId) {
-        await HttpProxy.put('/mstrClients/libraryApplications/configs/' + configId, this.state.configInfo, {}, PARSE_METHOD.BLOB).catch(e=>(<Alert details="Fix the warning"
+        await HttpProxy.put('/mstrClients/libraryApplications/configs/' + configId, this.state.configInfo, {}, PARSE_METHOD.BLOB).catch((e: any)=>(<Alert details="Fix the warning"
         message="Warning..."
         theme="as"
         title="Warning"/>));
       } else {
-        await HttpProxy.post('/mstrClients/libraryApplications/configs', this.state.configInfo, {}, PARSE_METHOD.BLOB).catch(e=>(<Alert details="Fix the warning"
+        await HttpProxy.post('/mstrClients/libraryApplications/configs', this.state.configInfo, {}, PARSE_METHOD.BLOB).catch((e: any)=>(<Alert details="Fix the warning"
         message="Warning..."
         theme="as"
         title="Warning"/>));
@@ -171,7 +171,7 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
                             tabPosition="left"
                             style={{height: bodyHeight}}>
                             <Tabs.TabPane tab={navBar.GENERAL} key="1">
-                                <HomeScreenGeneral name={this.state.configInfo.name} description={this.state.configInfo.description} platform={this.state.configInfo.platform} handleChange = {this.handleConfigPropertiesChange}/>
+                                <HomeScreenGeneral name={this.state.configInfo.name} description={this.state.configInfo.description} platform={this.state.configInfo.platform} configId = {this.state.configInfo.id} handleChange = {this.handleConfigPropertiesChange}/>
                                 {this.buttonGroup()}
                             </Tabs.TabPane>
                             <Tabs.TabPane tab={navBar.HOME_SCREEN} key="2">
