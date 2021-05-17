@@ -1,43 +1,52 @@
 .content-bundle-content-picker {
-    
+    font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';
+    color: #35383a;
+
+    .icon-certified {
+        color: #ff6214;
+        font-size: 14px;
+    }
+
     &-modal {
         top: 0px;
     }
     
     &-top {
-        padding: 10px;
+        padding: 6px 15px;
         display: flex;
         align-items: center;
     }
 
     &-header {
         flex-grow: 1;
+        font-size: 12px;
     }
 
     &-search {
         flex-grow: 0;
-        width: 40%;
+        width: 290px;
+        height: 28px;
     }
 
     &-middle {
-        height: 500px;
+        height: 516px;
         border: 1px solid #e0e0e0;
     }
 
     &-grid {
         display: flex;
-        height: 499px;
+        height: 515px;
 
         &-left {
-            width: 20%;
+            width: 220px;
             display: flex;
             flex-direction: column;
-            background-color: #374057;
+            background-color: #363c59;
         }
 
         &-right {
-            width: 80%;
-            height: 499px;
+            width: 689px;
+            height: 514px;
         }
     }
 
@@ -49,16 +58,81 @@
 
     &-footer {
         padding-left: 10px;
-        height: 23px;
+        height: 53px;
         background-color: #f0f0f0;
     }
 
     &-btn {
-        padding: 10px;
+        padding: 11px 15px 15px 15px;
         text-align: right;
         .ant-btn {
-            height: 24px;
+            height: 22px;
+            width: 74px;
+            font-size: 13px;
         }
+    }
+
+    &-loading {
+        position: absolute;
+        left: 450px;
+        top: 200px;
+        width: 150px;
+        background: #fff;
+    }
+    
+    &-grid-menu {
+        //background-color: rgba(0, 0, 0, 0.0);
+        color: #fff;
+        
+        &-tab1 {
+            display: flex;
+        }
+
+        &-dossier {
+            padding-left: 6px;
+        }
+
+        &-tab2 {
+            display: flex;
+        }
+
+        &-document {
+            padding-left: 6px;
+        }
+    }
+
+    .ant-menu-dark.ant-menu-inline {
+        background-color: rgba(0, 0, 0, 0.0);
+        padding-top: 22px;
+
+        .ant-menu-item {
+            height: 36px;
+            margin: 0px;
+            font-size: 14px;
+            color: #fff;
+            padding-left: 16px !important;
+        }
+    }
+    
+    .ant-menu-item-selected {
+        background-color: rgba(#9eacd6, 0.2) !important;
+        color: #fff;
+    }
+    
+    .disabled-row {
+        opacity: 0.5;
+    }
+
+    .mstr-window-table .mstr-window-table-row .mstr-window-table-cell{
+        color: #35383a;
+        font-size: 12px;
+        font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';
+    }
+
+    .mstr-window-table .mstr-window-table-header-row .mstr-window-table-header-cell {
+        font-size: 11px;
+        color: #35383a;
+        font-weight: 600;
     }
 
     .ant-table {
@@ -74,37 +148,6 @@
     .ant-table-thead > tr > th {
         height: 5px;
         padding: 0px;
-    }
-
-    &-loading {
-        position: absolute;
-        left: 450px;
-        top: 200px;
-        width: 150px;
-        background: #fff;
-    }
-    
-    &-grid-menu {
-        //background-color: rgba(0, 0, 0, 0.0);
-        color: #fff;
-    }
-
-    .ant-menu-dark.ant-menu-inline {
-        background-color: rgba(0, 0, 0, 0.0);
-    }
-    
-    .ant-menu-item-selected {
-        background-color: #405770 !important;
-        color: #fff;
-    }
-    
-    .disabled-row {
-        opacity: 0.5;
-    }
-    
-    .ant-checkbox-inner {
-        width: 14px;
-        height: 14px;
     }
     
     .ant-table-selection-column {
@@ -137,13 +180,15 @@
       
         &.icon-content-dossier {
           background-position: -72px 0px;
-          margin-right: 10px;
+          margin-left: 10px;
+          margin-right: 18px;
           flex-shrink: 0;
         }
     
         &.icon-content-document {
             background-position: -108px -0px;
-            margin-right: 10px;
+            margin-left: 10px;
+            margin-right: 18px;
             flex-shrink: 0;
           }
       }

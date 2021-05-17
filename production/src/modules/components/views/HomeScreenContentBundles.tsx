@@ -37,14 +37,14 @@ export default class HomeScreenContentBundles extends React.Component<any, any> 
 
   }
 
-  handleBundleDelete= (deleted:[]) => {
+  handleBundleDelete= (deleted:any[]) => {
     const currentIds = this.props.contentBundleIds;
     const deletedIds = deleted.map(bundle => (bundle.id));
     const newIds = _.difference(currentIds, deletedIds);
     this.props.handleChange(newIds);
   }
 
-  handleBundleAdd= (added:[]) => {
+  handleBundleAdd= (added:any[]) => {
     const currentIds = this.props.contentBundleIds;
     const addedIds = added.map(bundle => (bundle.id));
     const newIds = _.concat(currentIds || [], addedIds);
