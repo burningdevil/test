@@ -277,7 +277,7 @@ export default class ContentBundleList extends React.Component<any, any> {
 
   getContextMenuItems = (params: GetContextMenuItemsParams) => {
     console.log(params);
-    if (!this.props.allowDelete) {
+    if (!this.props.allowDelete || params.api.getSelectedNodes().length === 0) {
       return [];
     }
 
@@ -354,11 +354,11 @@ export default class ContentBundleList extends React.Component<any, any> {
         {field: 'recipientStr', headerName: 'Recipients', cellRenderer: (params: any) => {
           if (params.node.group) {
             if (params.node.data.recipientType === BundleRecipientType.GROUP) {
-              return `<span class="icon-group2" style="color: #3492ed; font-size: 11px" /><span style="color: #000000; padding: 8px; font-size: 12px">${params.value}</span>`;
+              return `<span class="icon-group2" style="color: #3492ed; font-size: 11px" /><span style="color: #35383a;; padding: 8px; font-size: 12px">${params.value}</span>`;
             } else if (params.node.data.recipientType === BundleRecipientType.USER) {
-              return `<span class="icon-user-profile" style="color: #3492ed; font-size: 14px" /><span style="color: #000000; padding: 6px; font-size: 12px">${params.value}</span>`;
+              return `<span class="icon-user-profile" style="color: #3492ed; font-size: 14px" /><span style="color: #35383a; padding: 6px; font-size: 12px">${params.value}</span>`;
             } else if (params.node.data.recipientType === BundleRecipientType.BOTH) {
-              return `<span class="icon-user-profile" style="color: #3492ed; font-size: 14px" /><span class="icon-user-profile" style="color: #3492ed; font-size: 14px" /><span style="color: #000000; padding: 6px; font-size: 12px">${params.value}</span>`;
+              return `<span class="icon-user-profile" style="color: #3492ed; font-size: 14px" /><span class="icon-user-profile" style="color: #3492ed; font-size: 14px" /><span style="color: #35383a; padding: 6px; font-size: 12px">${params.value}</span>`;
             } else {
               return '';
             }
@@ -414,15 +414,33 @@ export default class ContentBundleList extends React.Component<any, any> {
 
   renderAddContent = () => {
     return (
-      <div className = "content-bundle-add-content">
+      <div className = "content-bundle-list-container-add-content">
         <span className="icon-pnl_add-new"
           onClick={() => {
             this.handleAddContent();
           }}
         />
-        <span className="content-bundle-list-add-text">
+        <span className="content-bundle-list-container-add-text">
           Add Content
         </span>
+      </div>
+    );
+  }
+
+  renderEmptyView = () => {
+    const bookmarksImg = require('../images/emptyFolder.png');
+    return (
+      <div className = "content-bundle-list-container-empty">
+        <img className="content-bundle-list-container-empty-img" src={bookmarksImg}/>
+        <div className="content-bundle-list-container-empty-desc">
+          Add content bundles to this application
+        </div>
+        <div className="content-bundle-list-container-empty-add">
+          <span className= "icon-pnl_add-new" onClick={this.handleAddContent}/>
+          <span className="content-bundle-list-container-empty-add-text">
+            Add Content
+          </span>
+        </div>
       </div>
     );
   }
@@ -449,7 +467,7 @@ export default class ContentBundleList extends React.Component<any, any> {
       <div className="content-bundle-list-container" style={{ height: '100%'}}>
         {this.props.allowDelete &&
           <div className="content-bundle-list-container-header">
-            <SearchInput className="content-bundle-list-search"
+            <SearchInput className="content-bundle-list-container-search" placeholder="Search"
                 onChange={(value: string) => {
                   this.handleSearch(value);
                 }}/>
@@ -464,6 +482,7 @@ export default class ContentBundleList extends React.Component<any, any> {
           </div>
         </div>
         <ContentBundlePicker handleClose={this.handleClosePicker} visible={this.state.showBundlePicker} handleBundlesAdd={this.handleNewBundlesAdded}/>
+        {this.props.allowDelete && this.state.currentBundleList && this.state.currentBundleList.length === 0 && this.renderEmptyView()}
         {/* <ReactWindowGrid
           columnDef={[
             {

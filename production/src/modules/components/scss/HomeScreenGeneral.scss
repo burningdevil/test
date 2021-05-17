@@ -1,56 +1,70 @@
 .home-screen-general {
     text-align: right;
-    font-family: Helvetica, serif;
+    font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';
     color: #444649;
-    font-size: 13px;
+    font-size: 12px;
     line-height: 350%;
-}
-.home-screen-general-environment {
-    display: flex;
-    &-title {
-        width: 30%;
-        padding-right: 20px;
-    }
-}
 
-.home-screen-general-name {
-    display: flex;
-    &-title {
-        width: 30%;
-        padding-right: 20px;
+    &-environment {
+        display: flex;
+        padding-top: 12px;
+        &-title {
+            width: 20%;
+            padding-right: 20px;
+        }
     }
 
     &-name {
-        flex: auto;
-        padding-right: 50px;
-
-        .ant-input {
-            padding-left: 5px;
-            padding-right: 5px;
+        display: flex;
+        &-title {
+            width: 20%;
+            padding-right: 20px;
+        }
+    
+        &-name {
+            flex: auto;
+            padding-right: 50px;
+    
+            .ant-input {
+                padding-left: 5px;
+                padding-right: 5px;
+            }
         }
     }
-}
 
-.home-screen-general-description {
-    display: flex;
-    &-title {
-        width: 30%;
-        padding-right: 20px;
-    }
-    &-name {
-        flex: auto;
-        padding-right: 50px;
-        &-input {
-            padding-left: 5px;
-            padding-right: 5px;
+    &-description {
+        display: flex;
+        &-title {
+            width: 20%;
+            padding-right: 20px;
+        }
+        &-name {
+            flex: auto;
+            padding-right: 50px;
+            &-input {
+                padding-left: 5px;
+                padding-right: 5px;
+            }
         }
     }
-}
 
-.home-screen-general-platform {
-    display: flex;
-    &-title {
-        width: 30%;
-        padding-right: 20px;
+    &-platform {
+        display: flex;
+        &-title {
+            width: 20%;
+            padding-right: 20px;
+        }
+    }
+
+    &-url {
+        display: flex;
+        &-title {
+            width: 20%;
+            padding-right: 20px;
+        }
+    
+        &-name {
+            text-align: left;
+        }
     }
 }

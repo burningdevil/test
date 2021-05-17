@@ -47,6 +47,7 @@ export default class ContentBundlePicker extends React.Component<any, any> {
   }
 
   handleCancelAdd = () => {
+    this.handleSelectionChanged([]);
     this.props.handleClose();
   }
 
@@ -54,6 +55,7 @@ export default class ContentBundlePicker extends React.Component<any, any> {
     // const {id, projectId, name} = this.state.selectedObject;
     // this.props.handleChange(name, projectId +'/' + id);
     this.props.handleBundlesAdd(this.state.selectedBundles)
+    this.handleSelectionChanged([]);
     this.props.handleClose();
   }
 
@@ -69,7 +71,7 @@ export default class ContentBundlePicker extends React.Component<any, any> {
                 style={{marginLeft: 10, paddingTop: 0}}
                 onClick={this.handleSaveAdd}
                 disabled = {this.state.selectedBundles.length === 0}>
-                Save
+                Select
             </Button>
         </div>
     );
@@ -112,8 +114,11 @@ export default class ContentBundlePicker extends React.Component<any, any> {
                   mode="inline"
                   theme={'dark'}
                 >
-                  <Menu.Item key="bundles">
-                    Content Bundles
+                  <Menu.Item key="bundles" className="content-bundle-picker-grid-menu-tab">
+                    <div className="icon-group_groups_a"/>
+                    <div className="content-bundle-picker-grid-menu-text">
+                        Content Bundles
+                    </div>
                   </Menu.Item>
                 </Menu>
               </div>
@@ -121,7 +126,7 @@ export default class ContentBundlePicker extends React.Component<any, any> {
                 <ContentBundleList includedIds = {[]} handleSelection = {this.handleSelectionChanged} allowDelete={false}/>
               </div>
             </div>
-            <div className="content-bundle-content-picker-footer">
+            <div className="content-bundle-picker-footer">
               {this.state.selectedBundles.length + ' selected'}
             </div>
           </div>

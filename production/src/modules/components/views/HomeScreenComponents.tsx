@@ -1,4 +1,5 @@
-import { Checkbox, Switch, Table, Layout, Icon } from 'antd'
+import { Checkbox, Switch, Table, Layout } from 'antd'
+import { RightOutlined, DownOutlined } from '@ant-design/icons'
 import * as React from 'react'
 import '../../../../src/assets/fonts/webfonts/css/dossier.css'
 import '../scss/HomeScreenComponents.scss'
@@ -10,7 +11,9 @@ import { HomeScreenPreviewer } from './HomeScreenPreviewer'
 const localizedString = {
     ENABLE_FEATURE_TITLE: 'Enable Features',
     ENABLE_FEATURE_DESC: 'Set toolbar behaviors and enable or disable the functions below',
+    DISABLE_TOOLBAR: 'Disable toolbar',
     COLLAPSE_TOOLBAR: 'Collapse toolbar by default',
+
     LIBRARY_WINDOW: 'LIBRARY WINDOW (HOME)',
     DOSSIER_WINDOW: 'DOSSIER WINDOW',
     DOSSIER_WINDOW_HOME: 'DOSSIER WINDOW (HOME)',
@@ -66,7 +69,7 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
                     !iconExpandable(icon[1]) &&
                     <span>
                         <span className={icon[0]}/>
-                        <span>  {icon[1]}  </span> 
+                        <span className="table-text">  {icon[1]}  </span> 
                     </span>
                 )
             }
@@ -81,7 +84,7 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
                     !this.state.selectedToolbarIcons.includes(iconTypes.sidebar.key)
                 return (
                     < Switch checked={selectedInfo[0]} onChange={
-                    (e) => this.onIconStateChange(e, selectedInfo[1])} disabled={disabled} />
+                    (e) => this.onIconStateChange(e, selectedInfo[1])} disabled={disabled} size={'small'} />
                 )
             }
         }
@@ -134,15 +137,15 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
             iconExpandable(icon[1]) &&
             <span>
                 <span className={icon[0]}/>
-                <span>  {icon[1]}  </span> 
-                {expanded && <Icon type="down" />}
-                {!expanded && <Icon type="right" />}
+                <span className="table-text">  {icon[1]}  </span> 
+                {expanded && <DownOutlined />}
+                {!expanded && <RightOutlined />}
             </span>
         )
     }
 
     customExpandIcon = (props: any) => {
-        const marginLeft = props.record.key >= childrenKeyOffset ? '20px' : '0px'
+        const marginLeft = props.record.key >= childrenKeyOffset ? '27px' : '0px'
         if (props.expandable || props.record.expandable) {
             return <span style={{marginLeft: marginLeft}} onClick={e => {
                 props.onExpand(props.record, e);
@@ -174,12 +177,30 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
         return <Table className="home-screen-components-table" dataSource={data} columns={this.columns} pagination={false} showHeader={false} expandIcon={(props) => this.customExpandIcon(props)} />
     }
 
+    renderOptions = (checked: boolean, value: string, text: string) => {
+        return <div className = "home-screen-components-toolbar">
+            <Checkbox 
+                checked={checked}
+                value={value}
+                onChange = {(e) => this.onToolbarStateChange(e.target.value, e.target.checked)}>
+                {text}
+            </Checkbox>
+        </div>
+    }
+
     // call backs
-    onToolbarStateChange = (value: boolean) => {
+    onToolbarStateChange = (type: string, value: boolean) => {
         let update = {}
-        update = {[VC.TOOLBAR_MODE]: value ? VC.COLLAPSE_TOOLBAR : VC.SHOW_TOOLBAR}
-        update = this.state.isDossierHome ? {[VC.HOME_DOCUMENT]: update} : {[VC.HOME_LIBRARY]: update}
-        update = {[VC.HOME_SCREEN]: update}
+        switch (type) { 
+            case VC.TOOLBAR_MODE:
+                update = {[VC.TOOLBAR_MODE]: value ? VC.COLLAPSE_TOOLBAR : VC.SHOW_TOOLBAR}
+                update = this.state.isDossierHome ? {[VC.HOME_DOCUMENT]: update} : {[VC.HOME_LIBRARY]: update}
+                update = {[VC.HOME_SCREEN]: update}
+                break;
+            // case VC.TOOLBAR_H
+            default:
+                break;
+        }
         this.props.handleChange(update)
     }
 
@@ -237,13 +258,8 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
                         </div>
                     </div>
 
-                    <div className = "home-screen-components-toolbar">
-                        <Checkbox 
-                            checked={this.state.toolbarHidden}
-                            onChange = {(e) => this.onToolbarStateChange(e.target.checked)}>
-                            {localizedString.COLLAPSE_TOOLBAR}
-                        </Checkbox>
-                    </div>
+                    {this.renderOptions(this.state.toolbarHidden, VC.TOOLBAR_MODE, localizedString.DISABLE_TOOLBAR)}
+                    {this.renderOptions(this.state.toolbarHidden, VC.TOOLBAR_MODE, localizedString.COLLAPSE_TOOLBAR)}
 
                     <div className="home-screen-components-scrollcontainer">
                     {

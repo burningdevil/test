@@ -1,7 +1,9 @@
 .home-screen-home {
-    padding: 0px 0px 0 20px;
+    padding: 0px 0px 0 34px;
     background-color: white;
     height: 660px;
+    color: #35383a;
+    font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';
 
     .ant-radio-button-wrapper {
         font-size: 13px;
@@ -13,40 +15,42 @@
     }
 
     &-settings{
-        font-family: Helvetica, serif;
-        color: #444649;
-        
         &-title {
-            font-size: 15px;
-            line-height: 300%;
+            font-size: 14px;
+            font-weight: 600;
+            padding-top: 28px;
+            // line-height: 300%;
         }
 
         &-library {
-            font-size: 13px;
+            font-size: 12px;
             display: block;
-            line-height:200%;
+            color: #35383a;
+            // line-height:200%;
         }
 
         &-dossier {
-            font-size: 13px;
+            font-size: 12px;
             display: block;
-            line-height:200%;
+            color: #35383a;
+            // line-height:200%;
         }
 
         &-hint {
-            font-size: 13px;
+            font-size: 12px;
             padding-top: 4px;
-            color: #75777a;
-            padding-left: 22px;
-            line-height: 160%;
+            color: rgba($color:#35383a, $alpha: 0.5);
+            padding-left: 24px;
+            // line-height: 160%;
         }
 
         &-pick {
             margin-left: 10px;
-            padding-top: 10px;
-            color: #2eacfe;
+            padding-top: 8px;
+            color: #3492ed;
             border-style: none;
             box-shadow: none;
+            font-size: 12px;
         }
 
         &-dossier-info {
@@ -56,12 +60,12 @@
             margin-top: 10px;
             margin-right: 10px;
             margin-left: 22px;
-            background-color: #dfe1e2;
+            background-color: #f2f3f5;
             border-radius: 3px;
         }
 
         &-dossier-image {
-            height: 60px;
+            height: 48px;
         }
 
         &-dossier-name {
@@ -69,14 +73,13 @@
         }
 
         &-dossier-change {
-            color: #2eacfe;
+            color: #3492ed;
             border-style: none;
             box-shadow: none;
-            background-color:  #dfe1e2;
+            background-color:  #f2f3f5;
             flex-grow: 0;
+            font-size: 12px;
         }
-
-        
     }
     &-preview {
         background-color: white;

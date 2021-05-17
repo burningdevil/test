@@ -1,30 +1,71 @@
 .content-bundle-list-container {
     height: 89%;
+    font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';
+
+    .icon-pnl_add-new {
+      cursor: pointer;
+    }
     // padding: 5px;
-}
-  
-.content-bundle-list-container-header {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  padding-bottom: 10px;
-  padding-top: 5px;
-}
+    &-header {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      padding-bottom: 10px;
+      padding-top: 5px;
+    }
 
-.content-bundle-list-search {
-  flex-grow: 0;
-}
+    &-search {
+      flex-grow: 0;
+      width: 330px;
+      height: 28px;
+    }
 
-.content-bundle-add-content {
-  flex-grow: 1;
-  padding-left: 10px;
-  padding-right: 10px;
-  text-align: right;
-}
+    &-add-content {
+      flex-grow: 1;
+      padding-left: 10px;
+      padding-right: 10px;
+      text-align: right;
+      color: #35383a;
+    }
 
-.content-bundle-list-add-icon {
-  margin-right: 5px;
-  cursor: pointer;
+    &-add-icon {
+      margin-right: 5px;
+      cursor: pointer;
+    }
+
+    &-add-text {
+      margin-left: 5px;
+      cursor: pointer;
+    }
+
+    &-empty {
+      position: absolute;
+      top: 100px;
+      left: 220px;
+      padding: 200px 100px;
+      border: 1px dashed rgba($color: #35383a, $alpha: 0.2) ;
+      // left: 460px;
+      width: 720px;
+      height: 540px;
+      display: flex;
+      flex-direction: column;
+      align-items:center;
+      vertical-align:middle;
+    
+      &-img {
+        width: 100px;
+      }
+      
+      &-desc {
+        padding: 10px;
+        color: #9a9a9a
+      }
+    
+      &-add {
+        color: #3492ed;
+        cursor: pointer;
+      }
+    }
 }
 
 .content-bundle-list-name-icon {
@@ -61,7 +102,7 @@
 div.ag-theme-alpine .ag-row {
   font-size: 11px;
   border-color: #f3f4f5;
-  font-family: sans-serif;
+  font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';
 }
 
 div.ag-theme-alpine .ag-header {
@@ -72,6 +113,8 @@ div.ag-theme-alpine .ag-header-cell {
   border-left: 1px solid #eaeaea;
   padding-left: 10px;
   padding-right: 10px;
+  color: #35383a;
+  font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';
 }
 
 div.ag-theme-alpine .ag-cell  {

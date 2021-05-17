@@ -32,7 +32,7 @@ export default class HomeScreenHomeSetting extends React.Component<any, any> {
         const ids = _.split(dossierUrl, '/');
         const projectId = ids[ids.length - 2];
         const dossierId = ids[ids.length - 1];
-        const response = await HttpProxy.get('/objects/' + dossierId + '?type=55', {'X-MSTR-ProjectID': projectId}).catch(e => (this.setState({
+        const response = await HttpProxy.get('/objects/' + dossierId + '?type=55', {'X-MSTR-ProjectID': projectId}).catch((e: any) => (this.setState({
           dossierName: 'Invalid Dossier'
         })));
         

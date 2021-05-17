@@ -1,4 +1,12 @@
 
+$text-color: #35383A;
+$text-font: 'SFProText';
+$font-size: 12px;
+$font-size-mini: 11px;
+$line-height: 16px;
+$line-height-mini: 14px;
+$line-height-small: 13px;
+
 .home-screen-components{
     padding: 0px 0px 0 20px;
     position: relative;
@@ -6,6 +14,9 @@
     display: flex , float;
     height: 660px;
     background-color: white;
+    text-align: left;
+    font: $text-font;
+    color: $text-color;
 
     &-left{
         float: left;
@@ -21,21 +32,16 @@
     }
 
     &-enable-feature{
-        text-align: left;
-        font-family: Helvetica, serif;
-        color: #444649;
-        font-size: 16px;
-        line-height: 150%;
-        font-weight: 600;
+        font-weight: bold;
+        font-size: $font-size;
+        margin-bottom: 4px;
+        line-height: $line-height;
 
         &-description{
-            text-align: left;
-            font-family: Helvetica, serif;
-            color: #444649;
-            padding-top: 6px;
-            font-size: 13px;
-            line-height: 150%;
-            font-weight: 400;
+            font-weight: normal;
+            font-size: $font-size;
+            line-height: $line-height-mini;
+            margin-bottom: 16px;
         }
     }
 
@@ -45,39 +51,48 @@
     }
 
     &-toolbar{
-        text-align: left;
-        font-family: Helvetica, serif;
-        color: #444649;
-        font-size: 13px;
-        line-height: 350%;
+        font-size: $font-size;
+        line-height: $line-height-mini;
+        margin-bottom: 3px;
     }
 
     &-icons{
-        text-align: left;
-        font-family: Helvetica, serif;
-        color: #444649;
-        font-size: 13px;
-        line-height: 150%;
-        height: 100%;
+        font-size: $font-size;
+        line-height: $line-height-mini;
         
         &-title{
-            margin: 10px 0;
+            font-size: $font-size-mini;
+            line-height: $line-height-small;
+            margin-bottom: 2px;
+            margin-top: 23px;
         }
     }
 
     &-table{
-        text-align: left;
-        font-family: Helvetica, serif;
-        color: #444649;
         font-size: 12px;
-        line-height: 150%;
+        line-height: 14px;
         height: intrinsic;           /* Safari/WebKit 使用了非标准的名称 */
         height: -moz-max-content;    /* Firefox/Gecko */
         height: -webkit-max-content; /* Chrome */
 
-        .ant-table-tbody > tr > td {
-            padding-bottom: 10px;
-            padding-top: 10px
+        .ant-table-tbody > tr:nth-child(n-1)  > td {
+            padding: 12px 0px;
+            .table-text {
+                font-size: $font-size;
+                color: $text-color;
+                margin-left: 10px;
+                margin-right: 7px;
+            }
+        }
+        .ant-table-tbody > tr:nth-last-child(1)  > td {
+            padding: 12px 0px;
+            border-bottom-style: none;
+            .table-text {
+                font-size: $font-size;
+                color: $text-color;
+                margin-left: 10px;
+                margin-right: 7px;
+            }
         }
     }
     .ant-table {

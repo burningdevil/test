@@ -12,8 +12,8 @@ import { isContentTypeDossier } from './HomeScreenUtils'
 declare var workstation: WorkstationModule;
 
 const popoverGeneral = {
-  width: 900,
-  height: 600,
+  width: 909,
+  height: 617,
   headerHeight: 0,
 };
 
@@ -36,7 +36,7 @@ export default class ContentBundleContentPicker extends React.Component<any, any
   }
 
   loadData = async () => {
-    const response = await HttpProxy.get('/searches/results?pattern=4&type=14081&getAncestors=false&limit=100&certifiedStatus=ALL').catch((e: any) => (console.log(e)));
+    const response = await HttpProxy.get('/searches/results?pattern=4&type=14081&getAncestors=false&limit=1000&certifiedStatus=ALL').catch((e: any) => (console.log(e)));
     let objectList = response;
     if (response && response.data) {
         objectList = response.data;
@@ -79,18 +79,14 @@ export default class ContentBundleContentPicker extends React.Component<any, any
                 style={{marginLeft: 10, paddingTop: 0}}
                 onClick={this.handleSaveAdd}
                 disabled = {_.isEmpty(this.state.selectedObject)}>
-                Save
+                Select
             </Button>
         </div>
     );
   };
 
   geCertifiedIcon (isCertified: boolean) {
-    const iconClass = classNames(
-      'mstr-ws-icons-copy',
-      'icon-content-certified'
-    );
-    return isCertified ? <div className = "content-bundle-content-picker-certified"><span className={iconClass}/></div> : '';
+    return isCertified ? <div className = "icon-certified"/> : '';
 }
 
   getContentIconWithName (name: string, type: string) {
@@ -104,7 +100,7 @@ export default class ContentBundleContentPicker extends React.Component<any, any
     return <div className = "content-bundle-content-picker-name"><span className={iconClass}/>{name}</div>;
   }
 
-  getGridContents = (contents: [], activeTab: string) => {
+  getGridContents = (contents: any[], activeTab: string) => {
     // return [{
     //   "name": "DE30028 HeatMap flash html5",
     //   "id": "001808FB497F3C0256DB1B847AE4FA35",
@@ -211,11 +207,17 @@ export default class ContentBundleContentPicker extends React.Component<any, any
                   mode="inline"
                   theme={'dark'}
                 >
-                  <Menu.Item key="Dossier" onClick={this.tabBarChanged}>
-                    Dossiers
+                  <Menu.Item key="Dossier" className="content-bundle-content-picker-grid-menu-tab1" onClick={this.tabBarChanged}>
+                    <div className="icon-dossier"/>
+                    <div className="content-bundle-content-picker-grid-menu-dossier">
+                      Dossiers
+                    </div>
                   </Menu.Item>
-                  <Menu.Item key="Document" onClick={this.tabBarChanged}>
-                    Documents
+                  <Menu.Item key="Document" className="content-bundle-content-picker-grid-menu-tab2" onClick={this.tabBarChanged}>
+                    <div className="icon-rsd-cover"/>
+                    <div className="content-bundle-content-picker-grid-menu-document">
+                      Documents
+                    </div>
                   </Menu.Item>
                 </Menu>
               </div>
@@ -258,9 +260,10 @@ export default class ContentBundleContentPicker extends React.Component<any, any
                   <ReactWindowGrid
               columnDef={[
                 {
+                  comparator: (a:any, b: any) => a.name.localeCompare(b.name),
                   field: 'nameWithIcon',
                   headerName: 'Name',
-                  sortable: false,
+                  sortable: true,
                   width: '40%'
                 },
                 {
