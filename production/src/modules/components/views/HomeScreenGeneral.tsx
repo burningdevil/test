@@ -11,13 +11,15 @@ const { TextArea } = Input;
 export default class HomeScreenGeneral extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
-    this.state = {};
+    this.state = {
+      currentEnv: {name: '', url: ''}
+    };
   }
 
   loadData = async () => {
     const curEnv = await env.environments.getCurrentEnvironment()
     this.setState({
-        currentEnv: curEnv.name
+        currentEnv: curEnv
     })
   }
 
@@ -71,7 +73,7 @@ export default class HomeScreenGeneral extends React.Component<any, any> {
                     Environment
                 </div>
                 <div className="home-screen-general-environment-name">
-                    {this.state.currentEnv}
+                    {this.state.currentEnv.name}
                 </div>
             </div>
             <div className="home-screen-general-name">
@@ -117,6 +119,14 @@ export default class HomeScreenGeneral extends React.Component<any, any> {
                         onChange={this.handlePlatformDesktopChange}
                     />
                 </div>
+            </div>
+            <div className="home-screen-general-url">
+              <div className="home-screen-general-url-title">
+                  App Url
+              </div>
+              <div className="home-screen-general-url-name">
+                  {this.state.currentEnv.url + 'config/'}
+              </div>
             </div>
          </div>
     );

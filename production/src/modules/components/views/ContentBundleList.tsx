@@ -9,13 +9,13 @@ import { ContextMenuItem } from '@mstr/rc/types/react-window-grid/type';
 import { HttpProxy } from '../../../main';
 import {AgGridReact} from 'ag-grid-react';
 import { BundleInfo } from '../HomeScreenConfigConstant'
-import { hexIntToColorStr, BundleRecipientType } from './HomeScreenUtils'
+import { hexIntToColorStr, BundleRecipientType, HomeScreenBundleListDatasource, getHomeScreenBundleListGroupCellInnerRenderer, FakeHomeScreenBundleListServer } from './HomeScreenUtils'
 import {
   GridReadyEvent,
   SelectionChangedEvent,
   GetContextMenuItemsParams,
   CheckboxSelectionCallbackParams,
-  IServerSideGetRowsParams,
+  RowNode
 } from 'ag-grid-community'
 import 'ag-grid-enterprise';
 import 'ag-grid-community/dist/styles/ag-grid.css';
@@ -162,101 +162,6 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 declare var workstation: WorkstationModule;
 
-function ServerSideDatasource(server: any) {
-  return {
-    getRows: function (params: IServerSideGetRowsParams) {
-      console.log('[Datasource] - rows requested by grid: ', params.request);
-      var response = server.getData(params);
-      setTimeout(function () {
-        if (response.success) {
-          params.success({
-            rowData: response.rows,
-            rowCount: response.lastRow,
-          });
-        } else {
-          params.fail();
-        }
-      }, 200);
-    },
-  };
-}
-
-function FakeServer(allData: BundleInfo[]) {
-  return {
-    getData: function (params: IServerSideGetRowsParams) {
-      var results: any[] = [];
-      var lastRow: number = allData.length;
-      if (params.request.groupKeys.length === 0) {
-        results = allData.map(function (d) {
-          return {
-            nameWithIcon: d.name,
-            recipientStr: d.recipientStr,
-            bundleId: d.id,
-            color: d.color,
-            id: d.id,
-            expand: d.expand,
-            recipientType: d.recipientType
-          };
-        });
-
-        return {
-          success: true,
-          rows: results,
-          lastRow: lastRow
-        };
-      } else {
-        var key = params.request.groupKeys[0];
-        HttpProxy.get('/contentBundles/'+ key + '/contents?projectId=B7CA92F04B9FAE8D941C3E9B7E0CD754&projectId=5FDF3E5C4CCB76AA7E3292A4C47DECB8')
-        .then((response: any) => {
-            let contents = response;
-            if (response && response.data) {
-              contents = response.data;
-            }
-            var arr = Object.keys(contents).reduce(function(res, v) {
-              return res.concat(contents[v]);
-            }, []);
-            results = arr.map(function (d) {
-              return {
-                nameWithIcon: d.name,
-                userWithIcon: ' - -',
-                expand: false
-              };
-            });
-            lastRow = arr.length;
-        })
-        .then (()=>{
-          params.successCallback(results, lastRow);
-        })
-        .catch((e: any) => (console.log(e)));
-      }
-    },
-  };
-}
-
-function getBundleGroupCellInnerRenderer() {
-  function BundleGroupCellInnerRenderer() {}
-  BundleGroupCellInnerRenderer.prototype.init = function (params: any) {
-    var tempDiv = document.createElement('div');
-    if (params.node.group) {
-      const color = hexIntToColorStr(params.node.data.color);
-      tempDiv.innerHTML =
-        '<span class="icon-group_groups_a" style="color:'+ color + '"/><span style="color: #000000; padding: 6px;">' +
-        params.value +
-        '</span>';
-    } else {
-      tempDiv.innerHTML =
-        '<span class="icon-dossier" style="color: #2eacee"/><span style="color: #000000; padding: 6px">' +
-        params.value +
-        '</span>';
-    }
-    this.eGui = tempDiv.firstChild;
-  };
-  BundleGroupCellInnerRenderer.prototype.getGui = function () {
-    return this.eGui;
-  };
-  return BundleGroupCellInnerRenderer;
-}
-
 export default class ContentBundleList extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
@@ -268,8 +173,8 @@ export default class ContentBundleList extends React.Component<any, any> {
   }
 
   updateData = (data: BundleInfo[], params: any) => {
-    var fakeServer = new FakeServer(data);
-    var datasource = new ServerSideDatasource(fakeServer);
+    var fakeServer = FakeHomeScreenBundleListServer(data);
+    var datasource = HomeScreenBundleListDatasource(fakeServer);
     params.api.setServerSideDatasource(datasource);
   };
 
@@ -390,6 +295,9 @@ export default class ContentBundleList extends React.Component<any, any> {
     return result;
   }
 
+  isRowSelectable(node: RowNode) {
+    return node.group;
+  }
 
   getCheckboxEnabled(params: CheckboxSelectionCallbackParams) {
     console.log(params);
@@ -397,24 +305,22 @@ export default class ContentBundleList extends React.Component<any, any> {
   }
 
   gridOptions = {
-    components: { bundleGroupCellInnerRenderer: getBundleGroupCellInnerRenderer()},
+    components: { bundleGroupCellInnerRenderer: getHomeScreenBundleListGroupCellInnerRenderer()},
     rowHeight: 35,
     headerHeight:35,
     defaultColDef: {
-      flex: 1,
+      flex: 0,
       minWidth: 120,
       resizable: false,
       sortable: true,
-      headerCheckboxSelection:true,
-      menuTabs: []
+      menuTabs: [] as string[]
     },
 
     autoGroupColumnDef: {
       flex: 1,
       minWidth: 280,
-      field: 'nameWithIcon',
+      field: 'name',
       headerName: 'Content',
-      headerCheckboxSelection:true,
       checkboxSelection: this.getCheckboxEnabled,
       cellRenderer: "agGroupCellRenderer",
       cellRendererParams: {
@@ -433,30 +339,31 @@ export default class ContentBundleList extends React.Component<any, any> {
     },
 
     rowModelType: 'serverSide',
-    serverSideStoreType: 'partial',
+    serverSideStoreType: 'full',
     suppressAggFuncInHeader: true,
-    cacheBlockSize: 5,
+    rowMultiSelectWithClick: true,
     rowSelection: 'multiple',
     animateRows: true,
     onGridReady: this.onGridReady,
     getContextMenuItems: this.getContextMenuItems,
     onSelectionChanged: this.onSelectionChanged,
+    isRowSelectable: this.isRowSelectable,
   
     columnDefs: [
-        {field: 'nameWithIcon', rowGroup: true, hide: true},
-        {field: 'recipientStr', headerName: 'Recipients',headerCheckboxSelection:true, cellRenderer: (params: any) => {
+        {field: 'name', rowGroup: true, hide: true},
+        {field: 'recipientStr', headerName: 'Recipients', cellRenderer: (params: any) => {
           if (params.node.group) {
             if (params.node.data.recipientType === BundleRecipientType.GROUP) {
-              return `<span class="icon-group2" style="color: #2eacee; font-size: 11px" /><span style="color: #000000; padding: 6px; font-size: 12px">${params.value}</span>`;
+              return `<span class="icon-group2" style="color: #3492ed; font-size: 11px" /><span style="color: #000000; padding: 8px; font-size: 12px">${params.value}</span>`;
             } else if (params.node.data.recipientType === BundleRecipientType.USER) {
-              return `<span class="icon-user-profile" style="color: #2eacee; font-size: 14px" /><span style="color: #000000; padding: 6px; font-size: 12px">${params.value}</span>`;
+              return `<span class="icon-user-profile" style="color: #3492ed; font-size: 14px" /><span style="color: #000000; padding: 6px; font-size: 12px">${params.value}</span>`;
             } else if (params.node.data.recipientType === BundleRecipientType.BOTH) {
-              return `<span class="icon-user-profile" style="color: #2eacee; font-size: 14px" /><span class="icon-group2" style="color: #2eacee; font-size: 11px" /><span style="color: #000000; padding: 6px; font-size: 12px">${params.value}</span>`;
+              return `<span class="icon-user-profile" style="color: #3492ed; font-size: 14px" /><span class="icon-user-profile" style="color: #3492ed; font-size: 14px" /><span style="color: #000000; padding: 6px; font-size: 12px">${params.value}</span>`;
             } else {
               return '';
             }
           } else {
-            return '--';
+            return '    - -';
           }}
         }
     ]

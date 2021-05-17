@@ -1,6 +1,6 @@
 // set up your REST Server here
 module.exports = {
-  host: 'http://10.197.104.174:8282',
+  host: 'http://localhost:8282',
   path: '/consume-dev',
   username: 'administrator',
   password: '',
