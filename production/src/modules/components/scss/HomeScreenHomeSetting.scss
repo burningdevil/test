@@ -1,65 +1,87 @@
-.home-screen-home-settings{
-    font-family: Helvetica, serif;
-    color: #444649;
-    padding-left: 50px;
-    
+.home-screen-home {
+    padding: 0px 0px 0 20px;
+    background-color: white;
+    height: 660px;
 
-    &-title {
-        font-size: 15px;
-        line-height: 300%;
+    .ant-radio-button-wrapper {
+        font-size: 13px;
+        font-weight: 400;
     }
 
-    &-library {
-        font-size: 13px;
-        display: block;
-        line-height:200%;
-    }
-
-    &-dossier {
-        font-size: 13px;
-        display: block;
-        line-height:200%;
-    }
-
-    &-hint {
-        font-size: 13px;
+    .ant-radio-group {
         padding-top: 10px;
-        color: #75777a;
-        padding-left: 22px;
-        line-height: 160%;
     }
 
-    &-pick {
-        margin-left: 10px;
-        color: #2eacfe;
-        border-style: none;
-        box-shadow: none;
-    }
+    &-settings{
+        font-family: Helvetica, serif;
+        color: #444649;
+        
+        &-title {
+            font-size: 15px;
+            line-height: 300%;
+        }
 
-    &-dossier-info {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        margin-top: 10px;
-        margin-right: 10px;
-        margin-left: 22px;
-        background-color: #dfe1e2;
-        border-radius: 3px;
-    }
+        &-library {
+            font-size: 13px;
+            display: block;
+            line-height:200%;
+        }
 
-    &-dossier-image {
-        height: 60px;
-    }
+        &-dossier {
+            font-size: 13px;
+            display: block;
+            line-height:200%;
+        }
 
-    &-dossier-name {
-        flex-grow: 1;
-    }
+        &-hint {
+            font-size: 13px;
+            padding-top: 4px;
+            color: #75777a;
+            padding-left: 22px;
+            line-height: 160%;
+        }
 
-    &-dossier-change {
-        color: #2eacfe;
-        border-style: none;
-        box-shadow: none;
-        background-color:  #dfe1e2;
-        flex-grow: 0;
+        &-pick {
+            margin-left: 10px;
+            padding-top: 10px;
+            color: #2eacfe;
+            border-style: none;
+            box-shadow: none;
+        }
+
+        &-dossier-info {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-top: 10px;
+            margin-right: 10px;
+            margin-left: 22px;
+            background-color: #dfe1e2;
+            border-radius: 3px;
+        }
+
+        &-dossier-image {
+            height: 60px;
+        }
+
+        &-dossier-name {
+            flex-grow: 1;
+        }
+
+        &-dossier-change {
+            color: #2eacfe;
+            border-style: none;
+            box-shadow: none;
+            background-color:  #dfe1e2;
+            flex-grow: 0;
+        }
+
+        
+    }
+    &-preview {
+        background-color: white;
+        padding-right: 10px;
+        padding-top: 10px;
+        background-color:#f6f8fa;
     }
 }

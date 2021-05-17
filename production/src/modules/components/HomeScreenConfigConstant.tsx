@@ -63,7 +63,7 @@ export const CONSTANTS = {
     ICON_TOCS: 'TOCs',
     ICON_BOOKMARK: 'bookmark',
     ICON_RESET: 'reset',
-    ICON_FILTER: 'filter',
+    ICON_FILTER: 'filters',
     ICON_SHARE: 'share',
     ICON_DATA_SEARCH: 'dataSearch',
     ICON_HYPER: 'hyper',
@@ -97,15 +97,49 @@ export const CONSTANTS = {
     FONT_DEFAULT_GROUP: 'icon-group_groups',
     FONT_MY_GROUP: 'icon-group_groups',
 
-    // home button
+    // preview use only
     FONT_HOME: 'icon-tb_home',
     FONT_PREVIEWSIDEBAR: 'icon-library',
+    FONT_PREVIEWTOC: 'icon-tb_undoarrow',
 }
+
+export const platformType = {
+    mobile: 'Mobile',
+    web: 'Web',
+    desktop: 'Desktop',
+  };
 // toolbar icon [display text, icon-name, key]
 export interface iconDetail{
     displayText: string,
     iconName: string,
     key: string,
+}
+
+export interface BundleRecipient {
+    id: string,
+    group: boolean,
+    name: string
+}
+
+export interface BundleOwner {
+  id: string,
+  name: string
+}
+
+export interface BundleInfo {
+  color: number,
+  opacity: number,
+  emailEnabled: boolean,
+  id: string,
+  name: string,
+  dateCreated: string,
+  dateModified: string,
+  owner: BundleOwner,
+  type: number,
+  recipients: BundleRecipient[],
+  recipientStr: string,//eg: 2 users and 2 groups
+  expand: boolean,
+  recipientType: number
 }
 
 export const iconTypes = {
@@ -135,7 +169,8 @@ export const iconTypes = {
     //// for preview
     // home button
     home: {displayText: 'Home', iconName: CONSTANTS.FONT_HOME, key: CONSTANTS.ICON_HOME},
-    previewSidebar: {displayText: 'Sidebar', iconName: CONSTANTS.FONT_PREVIEWSIDEBAR, key: CONSTANTS.ICON_SIDEBAR}
+    previewSidebar: {displayText: 'Sidebar', iconName: CONSTANTS.FONT_PREVIEWSIDEBAR, key: CONSTANTS.ICON_SIDEBAR},
+    previewTocPhone: {displayText: 'Table of Contents', iconName: CONSTANTS.FONT_PREVIEWTOC, key: CONSTANTS.ICON_TOCS},
 }
 
 

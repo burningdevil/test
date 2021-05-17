@@ -2,14 +2,13 @@ import { Checkbox, Switch, Table, Layout, Icon } from 'antd'
 import * as React from 'react'
 import '../../../../src/assets/fonts/webfonts/css/dossier.css'
 import '../scss/HomeScreenComponents.scss'
-import { platformType } from './HomeScreenGeneral'
-import { default as VC, iconDetail, iconTypes, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons } from '../HomeScreenConfigConstant'
+import { default as VC, platformType, iconDetail, iconTypes, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons } from '../HomeScreenConfigConstant'
 import * as _ from 'lodash'
 import { HomeScreenPreviewer } from './HomeScreenPreviewer'
 
 // constatns 
 const localizedString = {
-    ENABLE_FEATURE_TITLE: 'Enable Feature',
+    ENABLE_FEATURE_TITLE: 'Enable Features',
     ENABLE_FEATURE_DESC: 'Set toolbar behaviors and enable or disable the functions below',
     COLLAPSE_TOOLBAR: 'Collapse toolbar by default',
     LIBRARY_WINDOW: 'LIBRARY WINDOW (HOME)',
@@ -153,6 +152,10 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
         }
     }
 
+    renderTableTitle = (title: string) => {
+        return <div className="home-screen-components-icons-title">{title}</div> 
+    }
+
     renderTable = (icons: Array<iconDetail>) => {
         const expandChildren = childrenIcons.map( (icon, index) =>     
             ({key: childrenKeyOffset+index, displayText: [icon.iconName, icon.displayText], selected: this.iconSelectedInfo(icon.key)})
@@ -246,24 +249,18 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
                     {
                         // dossier as home group
                         this.state.isDossierHome && <div className="home-screen-components-icons">
-                            {localizedString.DOSSIER_WINDOW_HOME}
-                            {
-                                this.renderTable(dossierIconsDossierHome)
-                            }
+                            { this.renderTableTitle(localizedString.DOSSIER_WINDOW_HOME) }
+                            { this.renderTable(dossierIconsDossierHome) }
                         </div>
                     }
 
                     {
                         // library as home group
                         !this.state.isDossierHome && <div className="home-screen-components-icons">
-                            {localizedString.LIBRARY_WINDOW}
-                            {
-                                this.renderTable(libraryIcons)
-                            }
-                            {localizedString.DOSSIER_WINDOW}
-                            {
-                                this.renderTable(dossierIcons)
-                            }
+                            { this.renderTableTitle(localizedString.LIBRARY_WINDOW) }
+                            { this.renderTable(libraryIcons) }
+                            { this.renderTableTitle(localizedString.DOSSIER_WINDOW) }
+                            { this.renderTable(dossierIcons) }
                         </div>
                     }
                     

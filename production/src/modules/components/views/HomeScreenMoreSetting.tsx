@@ -78,6 +78,7 @@ export default class HomeScreenMoreSetting extends React.Component<any, any> {
         }, dispatchAfter);
     }
 
+    // call back
     onInputChange = (type: string, value: any) => {
         const number = Number(value)
         let update = {}
@@ -173,6 +174,27 @@ export default class HomeScreenMoreSetting extends React.Component<any, any> {
         }
     };
 
+    inputRender = (visible: boolean, maxValue: number, suffix: string, disabled: boolean, value: number, onChange: React.ChangeEventHandler<HTMLInputElement>) => {
+        return <Tooltip 
+            overlayClassName="home-screen-moresetting-tooltip-overlay"
+            visible={visible}
+            placement="topLeft"
+            title={
+                <span>
+                    <span className="icon-error"/>
+                    {`  ${tooltipStr(MIN_METRIC_VALUE, maxValue)}`}
+                </span>
+            }>
+            <Input 
+                className='home-screen-moresetting-cfg-advance-input' 
+                suffix={suffix} 
+                disabled={disabled}
+                value={value}
+                onBlur={() => this.resetTooltipState(0)}
+                onChange={onChange} />
+        </Tooltip>
+    }
+
     render() {
         const {
             updateInterval,
@@ -194,27 +216,12 @@ export default class HomeScreenMoreSetting extends React.Component<any, any> {
                             onChange={(e) => this.onInputChange(VC.UPDATE_INTERVAL, e.target.checked)}>
                             {sectionAccess.CHECK_UPDATE}
                         </Checkbox>
-                        <Tooltip overlayClassName="home-screen-moresetting-tooltip-overlay"
-                            visible={!this.state.intervalValid}
-                            placement="topLeft"
-                            title={
-                                <span>
-                                    <span className="icon-error"/>
-                                    {`  ${tooltipStr(MIN_METRIC_VALUE, MAX_UPDATE_INTERVAL)}`}
-                                </span>
-                            }
-                        >
-                            <Input 
-                                className='home-screen-moresetting-cfg-advance-input' 
-                                suffix={metricStr.HOURS} 
-                                disabled={updateInterval === VC.UPDATE_INTERVAL_DISABLED}
-                                value={updateInterval === VC.UPDATE_INTERVAL_DISABLED ? DEFAULT_INTERVAL_HOURS : parseInt(updateInterval) / 60}
-                                onBlur={() => this.resetTooltipState(0)}
-                                onChange={(e) => this.onInputChange(VC.UPDATE_INTERVAL_TEXT, e.target.value)} />
-                        </Tooltip>
+                        <span>
+                            {this.inputRender(!this.state.intervalValid, MAX_UPDATE_INTERVAL, metricStr.HOURS, updateInterval === VC.UPDATE_INTERVAL_DISABLED, VC.UPDATE_INTERVAL_DISABLED ? DEFAULT_INTERVAL_HOURS : parseInt(updateInterval)/60, (e) => this.onInputChange(VC.UPDATE_INTERVAL_TEXT, e.target.value))}
+                        </span>
                     </div>
-
                     <Divider/>
+                    
                     {/* Connectivity section */}
                     <div className = "home-screen-moresetting-cfg-advance-padding">
                         <span className="home-screen-moresetting-title">
@@ -225,23 +232,7 @@ export default class HomeScreenMoreSetting extends React.Component<any, any> {
                         <div>
                             <span>{sectionConnectivity.NETWORK_TIMEOUT}</span>
                         </div>
-                        <Tooltip
-                            overlayClassName="home-screen-moresetting-tooltip-overlay"
-                            visible={!this.state.timeoutValid}
-                            placement="topLeft"
-                            title={
-                                <span>
-                                    <span className="icon-error"/>
-                                    {`  ${tooltipStr(MIN_METRIC_VALUE, MAX_TIMEOUT)}`}
-                                </span>}>
-                            <Input
-                                className='home-screen-moresetting-cfg-advance-input timeout-input'
-                                suffix={metricStr.SECONDS}
-                                disabled={false}
-                                value={parseInt(networkTimeout)}
-                                onBlur={() => this.resetTooltipState(0)}
-                                onChange={(e) => this.onInputChange(VC.NETWORK_TIMEOUT, e.target.value)} />
-                        </Tooltip>
+                        {this.inputRender(!this.state.timeoutValid, MAX_TIMEOUT, metricStr.SECONDS, false, parseInt(networkTimeout), (e) => this.onInputChange(VC.NETWORK_TIMEOUT, e.target.value))}
                     </div>
                     <Divider/>
             
@@ -253,24 +244,7 @@ export default class HomeScreenMoreSetting extends React.Component<any, any> {
                         <div className='home-screen-moresetting-cfg-advance-padding'>
                             <span>{sectionLogging.MAX_LOG_SIZE}</span>
                         </div>
-                        <Tooltip
-                            overlayClassName="home-screen-moresetting-tooltip-overlay"
-                            visible={!this.state.loggingSizeValid}
-                            placement="topLeft"
-                            title={
-                                <span>
-                                    <span className="icon-error"/>
-                                    {`  ${tooltipStr(MIN_METRIC_VALUE, MAX_LOGGING_SIZE)}`}
-                                </span>}>
-                            <Input
-                                className='home-screen-moresetting-cfg-advance-input log-input'
-                                suffix={metricStr.ENTRIES}
-                                disabled={false}
-                                value={parseInt(maxLogSize)}
-                                defaultValue={maxLogSize}
-                                onBlur={() => this.resetTooltipState(0)}
-                                onChange={(e) => this.onInputChange(VC.MAX_LOG_SIZE, e.target.value)} />
-                        </Tooltip>
+                        {this.inputRender(!this.state.loggingSizeValid, MAX_LOGGING_SIZE, metricStr.ENTRIES, false, parseInt(maxLogSize), (e) => this.onInputChange(VC.MAX_LOG_SIZE, e.target.value))}
                     </div>
 
                     <div className="home-screen-moresetting-box">
