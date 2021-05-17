@@ -1,10 +1,28 @@
 
 $primary-blue: #0e6ff9;
+$font-family: 'SFProText';
+$font-color: #35383A;
+$font-size: 12px;
+$line-height: 14px;
+$font-size-mini: 11px;
+$line-height-mini: 13px;
 
-.home-screen-moresetting-title {
-    font-size: 14px;
-    color: #3f4042;
-    font-family: Helvetica-Bold, serif;
+.home-screen-moresetting {
+    font-family: $font-family;
+    font-size: $font-size;
+    color: $font-color;
+    line-height: $line-height;
+
+    &-desc {
+        font-size: $font-size-mini;
+        line-height: $line-height-mini;
+        margin-bottom: 13px;
+    }
+
+    &-title {
+        font-weight: bold;
+        margin-bottom: 17px;
+    }
 }
 
 .home-screen-moresetting-tooltip-overlay {
@@ -25,79 +43,84 @@ $primary-blue: #0e6ff9;
 
 // layout
 .home-screen-moresetting-box-vertical {
-    display: -webkit-flex;
     display: flex;
     flex-wrap: nowrap;
-    justify-content: flex-start;
-    align-items: baseline;
+    justify-content: center;
+    align-items: flex-start;
     flex-direction: column;
     overflow: visible;
 }
 
 .home-screen-moresetting-box {
-    display: -webkit-flex;
     display: flex;
     flex-wrap: nowrap;
     justify-content: flex-start;
     align-items: center;
     overflow: visible;
-
-    &-left {
-        align-items: baseline;
-    }
-
-    &-vertical {
-        flex-direction: column;
-    }
 }
 
+// to align second line of cache section
 .ant-checkbox-wrapper + .ant-checkbox-wrapper {
     margin-left: 0px;
 }
 
+// make sure input content in same line
 .ant-input-affix-wrapper {
     display: inline-flex;
     padding: 0;
     margin: 0;
+    align-content: center;
 
     input.ant-input {
-        padding: 0 8px;
+        padding: 0 6px;
     }
 }
 
 .home-screen-moresetting-cfg-advance {
     padding: 10px 20px 0 20px;
     position: relative;
-    font-size: 13px;
+    font-size: $font-size;
+    line-height: $line-height;
 
     .ant-checkbox-wrapper {
-        font-size: 13px;
+        font-size: $font-size;
+        color: $font-color;
+        line-height: 24px;
+    }
+
+    .ant-checkbox-inner, .ant-checkbox-input {
+        transform: scale(0.75);
     }
 
     .ant-input-suffix {
         margin-right: 4px;
     }
 
-    div {
-        margin-bottom: 11px;
-    }
     &-padding {
         margin-bottom: 14px;
     }
+
+    &-paddingmini {
+        margin-bottom: 12px;
+    }
+
     &-input {
-        width: 160px;
-        height: 34px;
-        margin-left: 20px;
+        width: 163px;
+        height: 24px;
+        margin-left: 11px;
         padding: 0 0px;  
-        font-size: 13px;  
+        font-size: $font-size;  
+        display: flex;
+        align-items: center;
 
         button {
-            width: 160px;
-            height: 32px;
+            width: 163px;
+            height: 22px;
             background-color: #fff;
             text-align: left;
             padding-left: 12px;
-            font-size: 13px;
+            font-size: $font-size;
+            padding: 0 6px;
             div {
                 display: inline;
                 float: right;
@@ -111,11 +134,11 @@ $primary-blue: #0e6ff9;
         }
     }
     .ant-divider {
-        margin-top: 25px;
-        margin-bottom: 20px;
+        margin-top: 16px;
+        margin-bottom: 16px;
     }
 
     .ant-input {
-        font-size: 13px;
+        font-size: $font-size;
     }
 }
