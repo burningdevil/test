@@ -1,5 +1,7 @@
 import * as React from 'react';
 import '../scss/HomeScreenConfigMainView.scss';
+import { message } from 'antd';
+import { copyToClipboard } from '../../../utils/copy';
 import { ReactWindowGrid, MSTRWSIcon } from '@mstr/rc';
 import { SelectionStructure, Record } from '@mstr/rc/types';
 import { ContextMenuItem } from '@mstr/rc/types/react-window-grid/type';
@@ -7,15 +9,7 @@ import { WorkstationModule, ObjectEditorSettings, EnvironmentChangeArg, WindowEv
 import { HttpProxy } from '../../../main';
 import * as _ from "lodash";
 
-
-//TODO: remove when rest api to migrate to library user.
-// import serverConfig from '../../../../build/server.config';
-// const headers = {
-//   Authorization: "Basic " + btoa(serverConfig.adminUser + ":" + serverConfig.adminPassword)
-// }
-
 declare var workstation: WorkstationModule;
-
 export default class HomeScreenConfigMainView extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
@@ -55,29 +49,26 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
       configList: []
     })));
     let data = response;
-    console.log(response);
     if (response.data) {
-      console.log('success1');
       data = response.data;
     }
-    const configList = data.map(config => {
+    const configList = data.map((config: any) => {
       let resultConfig = config;
       if (!_.has(resultConfig, 'platform')) {
-        _.assign(resultConfig, {platform: ['Mobile']});
+        _.assign(resultConfig, {platform: 'Mobile'});
+      } else {
+        _.assign(resultConfig, {platform: resultConfig.platform.join(',')});
       }
       if (!_.has(resultConfig, 'contentBundleIds')) {
-        _.assign(resultConfig, {contentBundleIds: []});
+        _.assign(resultConfig, {contentBundleIds: 'Demo Content Bundle'});
       }
       _.assign(resultConfig, {mode: resultConfig.mode == 0 ? 'Library' : 'Dossier'});
 
+      if (_.has(resultConfig, 'lastUpdate')) {
+        _.assign(resultConfig, {lastUpdate: new Date(resultConfig.lastUpdate).toLocaleString()});
+      }
+
       return resultConfig;
-      // return {
-      //   ...config,
-      //   platform: 'Web',
-      //   home: 'Dossier',
-      //   components: 'xxx,yyy,zzz',
-      //   contentBundles: 'aa,bb,bb'
-      // }
     });
     this.setState({
       configList: configList
@@ -104,14 +95,14 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
 
   deleteConfig = async (objId : string = '') => {
     if (objId) {
-      await HttpProxy.delete('/mstrClients/libraryApplications/configs/' + objId, {}).catch(e => (console.log(e)));
+      await HttpProxy.delete('/mstrClients/libraryApplications/configs/' + objId, {}).catch((e: any) => (console.log(e)));
     }
     this.loadData();
   }
 
   duplicateConfig = async (objId : string = '') => {
     if (objId) {
-      await HttpProxy.post('/mstrClients/libraryApplications/configs?sourceId=' + objId, {}).catch(e => (console.log(e)));
+      await HttpProxy.post('/mstrClients/libraryApplications/configs?sourceId=' + objId, {}).catch((e: any) => (console.log(e)));
     }
     this.loadData();
   }
@@ -129,12 +120,26 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
       const handleClickDuplicate = () => {
         this.duplicateConfig(contextMenuTarget.id);
       };
-      const handleClickMobileLink = () => {
-        const a = 1;
+      const handleClickMobileLink = async () => {
+        try {
+          const currentEnv = await workstation.environments.getCurrentEnvironment();
+          const mobileLink = currentEnv.url + "config/" + contextMenuTarget.id;
+          copyToClipboard(mobileLink);
+          message.success('copy application url to clipboard successfully!');
+        } catch (e) {
+          message.error('copy application url to clipboard fail: ' + e);
+        }
       };
 
-      const handleClickWebLink = () => {
-        const a = 1;
+      const handleClickWebLink = async () => {
+        try {
+          const currentEnv = await workstation.environments.getCurrentEnvironment();
+          const webLink = currentEnv.url + "config/" + contextMenuTarget.id;
+          copyToClipboard(webLink);
+          message.success('copy application url to clipboard successfully!');
+        } catch (e) {
+          message.error('copy application url to clipboard fail: ' + e);
+        }
       };
       
       const handleClickDownload = () => {
@@ -161,6 +166,14 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
         {
           "name": "Download Json File",
           "action": handleClickDownload
+        },
+        {
+          "name": 'Link for Mobile', 
+          'action': handleClickMobileLink
+        },
+        {
+          "name": 'Link for Web and Desktop', 
+          'action': handleClickWebLink
         }
       ];
     };
@@ -197,12 +210,6 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
               sortable: true
             },
             {
-              field: 'icons',
-              headerName: 'Components',
-              sortable: false,
-              width: '30%'
-            },
-            {
               field: 'contentBundleIds',
               headerName: 'Content Bundles',
               sortable: true,
@@ -212,7 +219,7 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
               field: 'lastUpdate',
               headerName: 'Date Modified',
               sortable: true,
-              width: '10%'
+              width: '15%'
             }
           ]}
           rowData={this.state.configList}
