@@ -71,7 +71,7 @@ export default class ContentBundlePicker extends React.Component<any, any> {
                 style={{marginLeft: 10, paddingTop: 0}}
                 onClick={this.handleSaveAdd}
                 disabled = {this.state.selectedBundles.length === 0}>
-                Save
+                Select
             </Button>
         </div>
     );
