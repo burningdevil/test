@@ -1,3 +1,5 @@
+@import '~@mstr/rc/es/assets/scss/variables.scss';
+
 .home-screen-main-container {
     height: 100%;
     font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';
@@ -24,4 +26,59 @@
 
 .mstr-window-table-body {
     min-height: 400px;
+}
+
+.ant-menu-item {
+    padding: 0 !important;
+    margin-bottom: 0px !important;
+    margin-top: 0px !important;
+    background-color: white !important;
+}
+
+
+div.mstr-rc-context-menu-wrapper {
+    border: 1px solid $msdl-border-gray;
+    border-radius: $msdl-border-radius;
+    box-shadow: 0 1px 7px 0 $msdl-shadow-gray;
+    background-color: white !important;
+    width: 155px;
+
+    ul{
+        padding: 0px !important;
+        margin: 0px !important;
+    }
+
+    // List Item Style
+    li{
+        div.context-menu-item-wrapper {
+            @include msdl-label;
+            width: 155px !important;
+            cursor: pointer;
+            height: 40px !important;
+            margin: 5px 0px;
+            background-color: white !important;
+            &:hover {
+                background-color: #3492ED !important;
+                color: white !important;
+            }
+        }
+            
+        &:not(:last-child) {
+            border-bottom: 1px solid $msdl-divider-gray;
+        }
+
+        &.ant-menu-item-disabled{
+            div.context-menu-item-wrapper{
+                @include msdl-label-gray;
+                cursor: not-allowed; 
+            }
+        }
+    }
+}
+  
+  
+  
+.mstr-context-menu-wrapper{
+    width: inherit;
+    height: inherit;
 }

@@ -179,11 +179,11 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
           "name": "Duplicate",
           "action": handleClickDuplicate,
         },
-        {
-          "name": "Copy Link",
-          "subMenuItems":[{'title': 'Link for Mobile', "itemIndex": '0', 'action': handleClickMobileLink},
-                          {'title': 'Link for Web and Desktop', "itemIndex": '1', 'action': handleClickWebLink}]
-        },
+        // {
+        //   "name": "Copy Link",
+        //   "subMenuItems":[{'title': 'Link for Mobile', "itemIndex": '0', 'action': handleClickMobileLink},
+        //                   {'title': 'Link for Web and Desktop', "itemIndex": '1', 'action': handleClickWebLink}]
+        // },
         {
           "name": "Download Json File",
           "action": handleClickDownload
