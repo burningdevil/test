@@ -36,7 +36,7 @@ export default class ContentBundleContentPicker extends React.Component<any, any
   }
 
   loadData = async () => {
-    const response = await HttpProxy.get('/searches/results?pattern=4&type=14081&getAncestors=false&limit=1000&certifiedStatus=ALL').catch((e: any) => (console.log(e)));
+    const response = await HttpProxy.get('/searches/results?pattern=4&type=14081&getAncestors=false&limit=-1&certifiedStatus=ALL').catch((e: any) => (console.log(e)));
     let objectList = response;
     if (response && response.data) {
         objectList = response.data;
