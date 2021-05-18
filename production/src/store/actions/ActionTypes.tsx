@@ -1,8 +1,8 @@
-import { GenerlSettingsType } from '../../types/redux-state/HomeScreenConfigEditorState'
+import { GeneralSettingsType } from '../../types/redux-state/HomeScreenConfigEditorState'
 
 export interface UpdateGeneralSettingsActionType {
     type: string,
-    data: GenerlSettingsType,
+    data: GeneralSettingsType,
 }
 
 export type ActionTypes = UpdateGeneralSettingsActionType

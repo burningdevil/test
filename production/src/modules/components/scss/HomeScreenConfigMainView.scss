@@ -1,5 +1,8 @@
 .home-screen-main-container {
-    height: 100%;;
+    height: 100%;
+    font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';
+    color: #35383A;
+    font-size: 14px;
 }
 
 .add-application-container {
@@ -9,10 +12,14 @@
     padding-top: 5px;
 }
 
-.add-application-icon {
+.icon-pnl_add-new {
     margin-right: 3px;
-    margin-left: 2px;
+    margin-left: 15px;
     cursor: pointer;
+}
+
+.mstr-ws-icons.icon-gear::before {
+    display: none;
 }
 
 .mstr-window-table-body {

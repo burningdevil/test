@@ -1,12 +1,14 @@
 import * as React from 'react';
 import '../scss/HomeScreenConfigMainView.scss';
 import { message } from 'antd';
+import FileSaver from 'file-saver';
 import { copyToClipboard } from '../../../utils/copy';
 import { ReactWindowGrid, MSTRWSIcon } from '@mstr/rc';
 import { SelectionStructure, Record } from '@mstr/rc/types';
 import { ContextMenuItem } from '@mstr/rc/types/react-window-grid/type';
 import { WorkstationModule, ObjectEditorSettings, EnvironmentChangeArg, WindowEvent} from '@mstr/workstation-types';
 import { HttpProxy } from '../../../main';
+import * as api from '../../../services/api';
 import * as _ from "lodash";
 
 declare var workstation: WorkstationModule;
@@ -61,6 +63,8 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
       }
       if (!_.has(resultConfig, 'contentBundleIds')) {
         _.assign(resultConfig, {contentBundleIds: 'Demo Content Bundle'});
+      } else {
+        _.assign(resultConfig, {contentBundleIds: 'Default Content Bundle'});
       }
       _.assign(resultConfig, {mode: resultConfig.mode == 0 ? 'Library' : 'Dossier'});
 
@@ -73,6 +77,10 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
     this.setState({
       configList: configList
     });
+  }
+
+  handleAddApplication = () => {
+    this.openConfigEditor();
   }
 
   openConfigEditor = (objId : string = '') => {
@@ -105,6 +113,13 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
       await HttpProxy.post('/mstrClients/libraryApplications/configs?sourceId=' + objId, {}).catch((e: any) => (console.log(e)));
     }
     this.loadData();
+  }
+
+  downloadJsonFile = async (configJson: JSON, configId: string) => {
+    let blob = new Blob(
+        [decodeURIComponent(encodeURI(JSON.stringify(configJson)))],
+        { type: 'application/json;charset=utf-8;' });
+    FileSaver.saveAs(blob, configId + '.json');
   }
 
   render() {
@@ -143,8 +158,14 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
       };
       
       const handleClickDownload = () => {
-        const a = 1;
+        const configId = contextMenuTarget.id;
+        api.downloadSingleMobileConfig(configId).then(config => {
+          this.downloadJsonFile(config, configId);
+        }).catch(() => {
+          message.error('download application config json file fail.');
+        });
       };
+
       return [
         {
           "name": "Edit",
@@ -180,12 +201,8 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
     return (
       <div className="home-screen-main-container">
         <div className="add-application-container">
-          <MSTRWSIcon
-            className="add-application-icon"
-            type="msdl-add"
-            onClick={this.openConfigEditor}
-          />
-          <span className="story-icon-text">
+          <span className= "icon-pnl_add-new" onClick={this.handleAddApplication}/>
+          <span className="add-application-icon-text">
             New Application
           </span>
         </div>

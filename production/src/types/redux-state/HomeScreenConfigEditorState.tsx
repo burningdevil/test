@@ -1,4 +1,4 @@
-export interface GenerlSettingsType {
+export interface GeneralSettingsType {
     name: string,
     description: string,
     platform: string
@@ -17,7 +17,7 @@ export interface AdvancedSettingsType {
 }
 
 export interface HomeScreenConfigState {
-    general: GenerlSettingsType,
+    general: GeneralSettingsType,
     homeScreen: HomeScreenType,
     components: ComponentsType,
     contentBundles: ContentBundlesType,
