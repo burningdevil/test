@@ -348,17 +348,27 @@ export default class ContentBundleList extends React.Component<any, any> {
     getContextMenuItems: this.getContextMenuItems,
     onSelectionChanged: this.onSelectionChanged,
     isRowSelectable: this.isRowSelectable,
+    icons: {
+      // use some strings from group
+      groupExpanded: '<span class="ag-icon ag-icon-small-down"/>',
+      groupContracted: '<span class="ag-icon ag-icon-small-right"/>'
+    },
   
     columnDefs: [
         {field: 'name', rowGroup: true, hide: true},
         {field: 'recipientStr', headerName: 'Recipients', cellRenderer: (params: any) => {
+          const userGroupImg = require('../images/bundleUserGroup.png');
+          const userImg = require('../images/bundleUser.png');
           if (params.node.group) {
             if (params.node.data.recipientType === BundleRecipientType.GROUP) {
-              return `<span class="icon-group2" style="color: #3492ed; font-size: 11px" /><span style="color: #35383a;; padding: 8px; font-size: 12px">${params.value}</span>`;
+              return `<img class="content-bundle-list-container-item-group" src=${userGroupImg}/><span style="color: #35383a;; padding: 4px; font-size: 12px">${params.value}</span>`;
+              // return `<span class="icon-group2" style="color: #3492ed; font-size: 11px" /><span style="color: #35383a;; padding: 8px; font-size: 12px">${params.value}</span>`;
             } else if (params.node.data.recipientType === BundleRecipientType.USER) {
-              return `<span class="icon-user-profile" style="color: #3492ed; font-size: 14px" /><span style="color: #35383a; padding: 6px; font-size: 12px">${params.value}</span>`;
+              return `<img class="content-bundle-list-container-item-user" src=${userImg}/><span style="color: #35383a; padding: 4px; font-size: 12px">${params.value}</span>`;
+              // return `<span class="icon-user-profile" style="color: #3492ed; font-size: 14px" /><span style="color: #35383a; padding: 6px; font-size: 12px">${params.value}</span>`;
             } else if (params.node.data.recipientType === BundleRecipientType.BOTH) {
-              return `<span class="icon-user-profile" style="color: #3492ed; font-size: 14px" /><span class="icon-user-profile" style="color: #3492ed; font-size: 14px" /><span style="color: #35383a; padding: 6px; font-size: 12px">${params.value}</span>`;
+              return `<img class="content-bundle-list-container-item-user" src=${userImg}/><img class="content-bundle-list-container-item-group2" src=${userGroupImg}/><span style="color: #35383a; padding: 4px; font-size: 12px">${params.value}</span>`;
+              // return `<span class="icon-user-profile" style="color: #3492ed; font-size: 14px" /><span class="icon-user-profile" style="color: #3492ed; font-size: 14px" /><span style="color: #35383a; padding: 6px; font-size: 12px">${params.value}</span>`;
             } else {
               return '';
             }

@@ -1,10 +1,28 @@
 .content-bundle-list-container {
     height: 89%;
     font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';
+    font-size: 12px;
 
     .icon-pnl_add-new {
       cursor: pointer;
     }
+
+    &-item-user {
+      width: 14px;
+      height: 14px;
+    }
+
+    &-item-group {
+      width: 14px;
+      height: 14px;
+    }
+
+    &-item-group2 {
+      width: 14px;
+      height: 14px;
+      margin-left: -4px;
+    }
+
     // padding: 5px;
     &-header {
       display: flex;
