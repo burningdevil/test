@@ -348,6 +348,11 @@ export default class ContentBundleList extends React.Component<any, any> {
     getContextMenuItems: this.getContextMenuItems,
     onSelectionChanged: this.onSelectionChanged,
     isRowSelectable: this.isRowSelectable,
+    icons: {
+      // use some strings from group
+      groupExpanded: '<span class="ag-icon ag-icon-small-down"/>',
+      groupContracted: '<span class="ag-icon ag-icon-small-right"/>'
+    },
   
     columnDefs: [
         {field: 'name', rowGroup: true, hide: true},
