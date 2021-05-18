@@ -23,7 +23,8 @@ export const CONSTANTS = {
     MODE: 'mode',
     URL: 'url',
     ICONS: 'icons',
-    TOOLBAR_MODE: 'toolbarMode',
+    TOOLBAR_MODE: 'toolbarMode',   // hide toolbar by default
+    TOOLBAR_DISABLED: 'toolbarDisabled',  // remove toolbar from view
     //Advanced Settings
     AUTH_MODES: 'authModes',
     DISABLE_ADVANCED_SETTINGS: 'disableAdvancedSettings',
@@ -48,7 +49,7 @@ export const CONSTANTS = {
     CLEAR_ON_CLOSE: 2,
     CLEAR_AUTOMATIC: 1,
 
-    // components 
+    // components for TOOLBAR_MODE, TOOLBAR_DISABLED
     SHOW_TOOLBAR: 0,
     COLLAPSE_TOOLBAR: 1,
 

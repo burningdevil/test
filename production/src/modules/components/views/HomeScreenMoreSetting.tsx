@@ -9,16 +9,6 @@ const MAX_UPDATE_INTERVAL = 2400;//100 days
 const MAX_TIMEOUT = 9999;
 const MAX_LOGGING_SIZE = 9999;
 const MIN_METRIC_VALUE = 0;
-const defaultGeneral = {
-    'disableAdvancedSettings': false,
-    'disablePreferences': false,
-    'networkTimeout': VC.DEFAULT_NETWORK_TIMEOUT,
-    'updateInterval': VC.UPDATE_INTERVAL_DISABLED,
-    'maxLogSize': VC.DEFAULT_MAX_LOG_SIZE,
-    'logLevel': VC.LOG_LEVEL_WARNING, // All=0, Info=10, Warning=12, Severe=14, Off=16
-    'cacheClearMode': VC.CLEAR_AUTOMATIC,// clear cache on close 1-false / 2-true
-    'clearCacheOnLogout': false,
-};
 const TOOLTIP_DISAPPEAR_TIME = 3000;
 const DEFAULT_INTERVAL_HOURS = 24;
 const sectionTitle = {
@@ -53,7 +43,7 @@ const sectionCache = {
 const metricStr = {
     HOURS: 'hours',
     SECONDS: 'seconds',
-    ENTRIES: 'entries',
+    ENTRIES: 'items',
 };
 const tooltipStr = (min: number, max: number) => {
     return 'The value must be between ' +  [min] + ' and ' + [max];;
@@ -227,7 +217,7 @@ export default class HomeScreenMoreSetting extends React.Component<any, any> {
                             </Checkbox>
                         </span>
                         <span>
-                            {this.inputRender(!this.state.intervalValid, MAX_UPDATE_INTERVAL, metricStr.HOURS, updateInterval === VC.UPDATE_INTERVAL_DISABLED, VC.UPDATE_INTERVAL_DISABLED ? DEFAULT_INTERVAL_HOURS : parseInt(updateInterval)/60, (e) => this.onInputChange(VC.UPDATE_INTERVAL_TEXT, e.target.value))}
+                            {this.inputRender(!this.state.intervalValid, MAX_UPDATE_INTERVAL*60, metricStr.HOURS, updateInterval === VC.UPDATE_INTERVAL_DISABLED, updateInterval === VC.UPDATE_INTERVAL_DISABLED ? DEFAULT_INTERVAL_HOURS : parseInt(updateInterval)/60, (e) => this.onInputChange(VC.UPDATE_INTERVAL_TEXT, e.target.value))}
                         </span>
                     </div>
                     <Divider/>

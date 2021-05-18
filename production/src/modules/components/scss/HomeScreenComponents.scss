@@ -1,6 +1,5 @@
 
 $text-color: #35383A;
-$text-font: 'SFProText';
 $font-size: 12px;
 $font-size-mini: 11px;
 $line-height: 16px;
@@ -15,19 +14,15 @@ $line-height-small: 13px;
     height: 660px;
     background-color: white;
     text-align: left;
-    font: $text-font;
+    font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';
     color: $text-color;
 
     &-left{
         float: left;
-        margin-left: 0px;
-        margin-top: 10px;
     }
 
     &-right{
         float: right;
-        padding-right: 10px;
-        padding-top: 10px;
         background-color:#f6f8fa;
     }
 

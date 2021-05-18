@@ -20,7 +20,7 @@ const deviceTypeText = {
 }
 
 const sectionTitle = {
-    preview: 'PREVIEW',
+    preview: 'Preview',
     libraryHome: 'Libary Window (Home)',
     dossier: 'Dossier Window',
     dossierHome: 'Dossier Window (Home)',

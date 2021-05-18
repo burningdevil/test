@@ -162,9 +162,10 @@ export default class HomeScreenHomeSetting extends React.Component<any, any> {
   render() {
     const { homeScreen, deviceType } = this.props;
     const isDossierHome = _.get(homeScreen, 'mode') === VC.MODE_USE_DOSSIER_AS_HOME_SCREEN
-    const toolbarIcons = isDossierHome ? _.get(homeScreen, 'homeDocument.icons') : _.get(homeScreen, 'homeLibrary.icons')
+    const dossierIcons =  _.get(homeScreen, 'homeDocument.icons')
+    const libraryIcons = isDossierHome ? [] : _.get(homeScreen, 'homeLibrary.icons')
     const sidebarIcons = isDossierHome ? [] : _.get(homeScreen, 'homeLibrary.sidebars')
-    const icons = _.concat(toolbarIcons, sidebarIcons)
+    const icons = _.concat(dossierIcons, libraryIcons, sidebarIcons)
     return (
         <Layout className="home-screen-home">
             <Layout.Content className = "home-screen-home-settings">
@@ -187,7 +188,7 @@ export default class HomeScreenHomeSetting extends React.Component<any, any> {
                 {this.renderPickDossier()}
                 <ContentBundleContentPicker visible={this.state.showContentPicker} handleClose={this.handleDismissAdd} handleChange={this.handleDossierChange}/>
             </Layout.Content>
-            <Layout.Sider className="home-screen-home-preview" width='307px'>
+            <Layout.Sider className="home-screen-home-preview" width='274px'>
               <HomeScreenPreviewer deviceType={deviceType} toolbarHidden={this.state.toolbarHidden} icons={icons} isDossierHome={isDossierHome} handleDeviceTypeChange={this.props.handleDeviceTypeChange}/>
             </Layout.Sider>
         </Layout>

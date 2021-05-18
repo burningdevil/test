@@ -1,6 +1,16 @@
 
 $primary-blue: #3892ED;
-$container-height: 191px;
+$container-width: 274px;
+$preview-width: 241px;
+$preview-height: 162px;
+$preview-width-phone: 121px;
+$preview-header-height: 18px;
+
+$font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';
+$font-color: #35383A;
+$font-size: 12px;
+$line-height: 14px;
+$font-size-mini: 11px;
 
 @mixin iconFeatures() {
     .icon-tb_undoarrow {
@@ -35,35 +45,44 @@ $container-height: 191px;
 }
 
 .homeScreenPreviewer {
+    font-family: $font-family;
+    font-size: $font-size;
+    color: $font-color;
+    width: $container-width;
+
     .ant-radio-button-wrapper {
-        font-size: 13px;
+        font-size: $font-size-mini;
         font-weight: 400;
     }
 
     .ant-radio-group {
-        padding-top: 10px;
+        padding-top: 8px;
     }
 
     &-title {
-        font: normal;
         text-align: center;
-        margin-top: 14px;
+        margin-top: 12px;
         margin-bottom: 8px;
-        font-size: 13px;
+        font-size: $font-size;
+        font-family: $font-family;
     }
     &-radio {
         text-align: center;
-        margin-bottom: 10px;
         align-content: center;
-        font-weight: 500;
+        font-weight: bold;
+        font-size: $font-size;
+        font-family: $font-family;
+        line-height: $line-height;
     }
     &-pad {
-        padding: 8px;
-        height: $container-height;
-        background-color:#f6f8fa;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 8px;
+        height: $preview-height;
+        background-color:#f2f3f5;
         .ant-layout-header {
             padding: 0 5px;
-            height: 28px;
+            height: $preview-header-height;
             text-align: center;
             border: .07rem solid lightgrey;
             border-radius: 4px 4px 0 0;
@@ -93,6 +112,7 @@ $container-height: 191px;
             padding: 0;
             border: .07rem solid lightgrey;
             border-radius: 0 0 4px 4px;
+            align-self: center;
         }
         &-overview {
             display: flex;
@@ -115,7 +135,7 @@ $container-height: 191px;
     }
     &-phone {
         width: 120px;
-        height: $container-height;
+        height: $preview-height;
         margin-left: auto;
         margin-right: auto;
         .ant-layout-header {

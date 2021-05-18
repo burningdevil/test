@@ -3,7 +3,7 @@ import { RightOutlined, DownOutlined } from '@ant-design/icons'
 import * as React from 'react'
 import '../../../../src/assets/fonts/webfonts/css/dossier.css'
 import '../scss/HomeScreenComponents.scss'
-import { default as VC, platformType, iconDetail, iconTypes, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons } from '../HomeScreenConfigConstant'
+import { default as VC, platformType, iconDetail, iconTypes, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons, bothSideIcons } from '../HomeScreenConfigConstant'
 import * as _ from 'lodash'
 import { HomeScreenPreviewer } from './HomeScreenPreviewer'
 
@@ -20,27 +20,15 @@ const localizedString = {
     PLATFORM_SPECIFIC: 'PLATFORM SPECIFIC',
 }
 
+const dossierIconKeys = dossierIconsDossierHome.map((element) => element.key)
+const libraryIconKeys = libraryIcons.map((element) => element.key)
+const sidebarIconKeys = childrenIcons.map((element) => element.key)
 const childrenKeyOffset = 1000
 
 // helper
 function iconExpandable(iconText: string) {
     return iconText === iconTypes.sidebar.displayText
 }
-
-function iconUpdateBothSide(iconKey: string) {
-    // for icons appear in library and dossier mode, update their value in both modes
-    const dossierModeIcons = _.concat(dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons)
-    const libraryModeIcons = _.concat(dossierIcons, libraryIcons, extraDesktopIcons, extraMobileIcons)
-    const updateBothSideIcons = _.intersection(dossierModeIcons, libraryModeIcons)
-    let updateBothSide = false
-    updateBothSideIcons.forEach(element => {
-        if(element.key === iconKey) {
-            updateBothSide = true
-        }
-    }); 
-    return updateBothSide
-}
-
 interface RowData {
     key: number;
     icon: string;
@@ -51,9 +39,10 @@ interface RowData {
 interface HomeScreenComponentsState {
     isDossierHome: boolean,
     toolbarHidden: boolean,
+    toolbarDisabled: boolean,
     selectedSidebarIcons: [string],
-    selectedToolbarIcons: [string],
-    selectedOtherModeToolbarIcons: [string],
+    selectedLibraryIcons: [string],
+    selectedDocumentIcons: [string],
     extraIcons: iconDetail[],
 }
 
@@ -80,8 +69,7 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
             dataIndex: "selected",
             align: "right",
             render: (selectedInfo: [boolean, string]) => {
-                const disabled = childrenIcons.map((element) => element.key).includes(selectedInfo[1]) && 
-                    !this.state.selectedToolbarIcons.includes(iconTypes.sidebar.key)
+                const disabled = sidebarIconKeys.includes(selectedInfo[1]) && !(this.iconSelectedInfo(iconTypes.sidebar.key)[0])
                 return (
                     < Switch checked={selectedInfo[0]} onChange={
                     (e) => this.onIconStateChange(e, selectedInfo[1])} disabled={disabled} size={'small'} />
@@ -100,26 +88,27 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
         let selectedDocumentIcons = []
         
         {
-            const { icons, toolbarMode } = homeDocument
+            const { icons, toolbarMode, toolbarDisabled } = homeDocument
             selectedDocumentIcons = icons
             if (isDossierHome) {
                 state.toolbarHidden = toolbarMode === VC.COLLAPSE_TOOLBAR
+                state.toolbarDisabled = toolbarDisabled === VC.COLLAPSE_TOOLBAR
             }
-        }
-        
+        }  
         {
-            const { icons, sidebars, toolbarMode } = homeLibrary
-            selectedSideBarIcons = sidebars
-            selectedLibraryIcons = icons
+            const { icons, sidebars, toolbarMode, toolbarDisabled } = homeLibrary
             if (!isDossierHome) {
+                selectedSideBarIcons = sidebars
+                selectedLibraryIcons = icons
                 state.toolbarHidden = toolbarMode === VC.COLLAPSE_TOOLBAR
+                state.toolbarDisabled = toolbarDisabled === VC.COLLAPSE_TOOLBAR
             }
         }
    
         state.isDossierHome = isDossierHome
-        state.selectedSidebarIcons = isDossierHome ? [] : selectedSideBarIcons
-        state.selectedToolbarIcons = isDossierHome ? selectedDocumentIcons : selectedLibraryIcons
-        state.selectedOtherModeToolbarIcons = isDossierHome ? selectedLibraryIcons : selectedDocumentIcons
+        state.selectedSidebarIcons = selectedSideBarIcons
+        state.selectedDocumentIcons = selectedDocumentIcons
+        state.selectedLibraryIcons = selectedLibraryIcons
 
         const extraIcons = _.concat(platform.includes(platformType.desktop) ? extraDesktopIcons : [], platform.includes(platformType.mobile) ? extraMobileIcons : [])
         state.extraIcons = extraIcons
@@ -127,7 +116,10 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
     }
 
     iconSelectedInfo = (iconKey: string) => {
-        const selected = this.state.selectedSidebarIcons.includes(iconKey) || this.state.selectedToolbarIcons.includes(iconKey)
+        let selected = this.state.selectedSidebarIcons.includes(iconKey) || this.state.selectedDocumentIcons.includes(iconKey)
+        if (!this.state.isDossierHome) {
+            selected = selected || this.state.selectedLibraryIcons.includes(iconKey)
+        }
         return [selected, iconKey]
     }
 
@@ -193,11 +185,12 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
         let update = {}
         switch (type) { 
             case VC.TOOLBAR_MODE:
-                update = {[VC.TOOLBAR_MODE]: value ? VC.COLLAPSE_TOOLBAR : VC.SHOW_TOOLBAR}
-                update = this.state.isDossierHome ? {[VC.HOME_DOCUMENT]: update} : {[VC.HOME_LIBRARY]: update}
+            case VC.TOOLBAR_DISABLED:
+                update = {[type]: value ? VC.COLLAPSE_TOOLBAR : VC.SHOW_TOOLBAR}
+                // update on both library and dossier
+                update = {[VC.HOME_DOCUMENT]: update, [VC.HOME_LIBRARY]: update}
                 update = {[VC.HOME_SCREEN]: update}
                 break;
-            // case VC.TOOLBAR_H
             default:
                 break;
         }
@@ -211,23 +204,23 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
         if (allSideIconsKey.includes(iconKey)) {
             const icons = value ? _.concat(this.state.selectedSidebarIcons, iconKey) : _.pull(this.state.selectedSidebarIcons, iconKey)
             update = {[VC.ICON_SIDEBAR]: icons}
+            update = {[VC.HOME_LIBRARY]: update}
         } else {
-            const icons = value ? _.concat(this.state.selectedToolbarIcons, iconKey) : _.pull(this.state.selectedToolbarIcons, iconKey)
-            update = {[VC.ICONS] : icons}
+            let updateDocument = {}
+            let updateLibrary = {}
+            if (dossierIconKeys.includes(iconKey)) {
+                const icons = value ? _.concat(this.state.selectedDocumentIcons, iconKey) : _.pull(this.state.selectedDocumentIcons, iconKey)
+                update = {[VC.ICONS]: icons}
+                updateDocument = {[VC.HOME_DOCUMENT]: update} 
+            }
+            if (libraryIconKeys.includes(iconKey)) {
+                const icons = value ? _.concat(this.state.selectedLibraryIcons, iconKey) : _.pull(this.state.selectedLibraryIcons, iconKey)
+                update = {[VC.ICONS] : icons}
+                updateLibrary = {[VC.HOME_LIBRARY]: update}
+            }
+            update = _.merge(updateDocument, updateLibrary)
         }
-
-        // put options and notification back in both library and dossier home
-        if (iconUpdateBothSide(iconKey)) {
-            const otherModeIcons = value ? _.concat(this.state.selectedOtherModeToolbarIcons, iconKey) : _.pull(this.state.selectedOtherModeToolbarIcons, iconKey)
-            const otherUpdate = {[VC.ICONS] : otherModeIcons}
-            const updateDocument = this.state.isDossierHome ? {[VC.HOME_DOCUMENT]: update} : {[VC.HOME_DOCUMENT]: otherUpdate}
-            const updateLibrary = !this.state.isDossierHome ? {[VC.HOME_LIBRARY]: update} : {[VC.HOME_LIBRARY]: otherUpdate}
-            update = {[VC.HOME_SCREEN]: _.merge(updateDocument, updateLibrary)}
-        } else {
-            update = this.state.isDossierHome ? {[VC.HOME_DOCUMENT] : update} : {[VC.HOME_LIBRARY] : update}
-            update = {[VC.HOME_SCREEN]: update}
-        }
-        
+        update = {[VC.HOME_SCREEN]: update}
         this.props.handleChange(update) 
     }
 
@@ -239,15 +232,15 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
 
     componentDidUpdate() {
         const newState = this.getNewState()
-        if (newState.isDossierHome !== this.state.isDossierHome || newState.toolbarHidden !== this.state.toolbarHidden ||
+        if (newState.isDossierHome !== this.state.isDossierHome || newState.toolbarHidden !== this.state.toolbarHidden || newState.toolbarDisabled !== this.state.toolbarDisabled ||
             !_.isEqual(newState.extraIcons, this.state.extraIcons) || newState.selectedSidebarIcons.length !== this.state.selectedSidebarIcons.length || 
-            newState.selectedToolbarIcons.length !== this.state.selectedToolbarIcons.length) {
+            newState.selectedDocumentIcons.length !== this.state.selectedDocumentIcons.length || newState.selectedLibraryIcons.length != this.state.selectedLibraryIcons.length) {
             this.setState(newState)
         }
     }
 
     render() {
-        const allSelectedIcons = _.concat(this.state.selectedToolbarIcons, this.state.selectedSidebarIcons)
+        const allSelectedIcons = _.concat(this.state.selectedDocumentIcons, this.state.selectedLibraryIcons, this.state.selectedSidebarIcons)
         return (
             <Layout className="home-screen-components">
                 <Layout.Content className="home-screen-components-left"> 
@@ -258,7 +251,7 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
                         </div>
                     </div>
 
-                    {this.renderOptions(this.state.toolbarHidden, VC.TOOLBAR_MODE, localizedString.DISABLE_TOOLBAR)}
+                    {this.renderOptions(this.state.toolbarDisabled, VC.TOOLBAR_DISABLED, localizedString.DISABLE_TOOLBAR)}
                     {this.renderOptions(this.state.toolbarHidden, VC.TOOLBAR_MODE, localizedString.COLLAPSE_TOOLBAR)}
 
                     <div className="home-screen-components-scrollcontainer">
@@ -292,7 +285,7 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
                     </div>
                 </Layout.Content>
                 {/* previewer */}
-                <Layout.Sider className="home-screen-components-right" width='307px'>
+                <Layout.Sider className="home-screen-components-right" width='274px'>
                     <HomeScreenPreviewer deviceType={this.props.deviceType} toolbarHidden={this.state.toolbarHidden} icons={allSelectedIcons} isDossierHome={this.state.isDossierHome} handleDeviceTypeChange={this.props.handleDeviceTypeChange}/>
                 </Layout.Sider>
             </Layout>
