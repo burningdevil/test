@@ -1,9 +1,9 @@
 import * as Actions from './ActionConstants'
-import { GenerlSettingsType } from './ActionTypes'
+import { GeneralSettingsType } from '../../types/redux-state/HomeScreenConfigEditorState'
 
 /* ------------------------------ General Settings ---------------------------- */
 
-export const updateGeneralSettings = (settings: GenerlSettingsType) => ({
+export const updateGeneralSettings = (settings: GeneralSettingsType) => ({
   type: Actions.UPDATE_GENERAL_SETTINGS,
   data: settings,
 })

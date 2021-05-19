@@ -1,12 +1,14 @@
 import * as React from 'react';
 import '../scss/HomeScreenConfigMainView.scss';
 import { message } from 'antd';
+import FileSaver from 'file-saver';
 import { copyToClipboard } from '../../../utils/copy';
-import { ReactWindowGrid, MSTRWSIcon } from '@mstr/rc';
+import { ReactWindowGrid } from '@mstr/rc';
 import { SelectionStructure, Record } from '@mstr/rc/types';
 import { ContextMenuItem } from '@mstr/rc/types/react-window-grid/type';
 import { WorkstationModule, ObjectEditorSettings, EnvironmentChangeArg, WindowEvent} from '@mstr/workstation-types';
 import { HttpProxy } from '../../../main';
+import * as api from '../../../services/api';
 import * as _ from "lodash";
 
 declare var workstation: WorkstationModule;
@@ -60,7 +62,41 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
         _.assign(resultConfig, {platform: resultConfig.platform.join(',')});
       }
       if (!_.has(resultConfig, 'contentBundleIds')) {
-        _.assign(resultConfig, {contentBundleIds: 'Demo Content Bundle'});
+        _.assign(resultConfig, { contentBundles: []});
+      } else {
+        const mockContentBundles = [{
+          id:'0C9E5B884608E5B1C2134B88A184062A',
+          color: '#7565C0',
+          name: 'CT-Clients-FrameWork'
+        },
+        {
+          id: '14D70C8D48AFE28F03446E8AFC3C2313',
+          color: '#176AFF',
+          name: 'Hiring Plan'
+        },
+        {
+          id: '1E63CC394EF298FD7C4EBD8F449FAFF6',
+          color: '#B464E7',
+          name: 'HR-Team'
+        },
+        {
+          id: '1E63CC394EF298FD7C4EBD8F449FAFF6',
+          color: '#176AFF',
+          name: 'Budget and Operation'
+        },
+        {
+          id: '1E63CC394EF298FD7C4EBD8F449FAFF6',
+          color: '#7565C0',
+          name: 'Applications'
+        },
+        {
+          id: '1E63CC394EF298FD7C4EBD8F449FAFF6',
+          color: '#B464E7',
+          name: 'Spike'
+        }];
+        _.assign(resultConfig, { contentBundles: resultConfig.contentBundleIds.map((bundleId: string) => {
+          return mockContentBundles[Math.ceil(Math.random() * 6) % 6];
+        }) });
       }
       _.assign(resultConfig, {mode: resultConfig.mode == 0 ? 'Library' : 'Dossier'});
 
@@ -73,6 +109,10 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
     this.setState({
       configList: configList
     });
+  }
+
+  handleAddApplication = () => {
+    this.openConfigEditor();
   }
 
   openConfigEditor = (objId : string = '') => {
@@ -105,6 +145,13 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
       await HttpProxy.post('/mstrClients/libraryApplications/configs?sourceId=' + objId, {}).catch((e: any) => (console.log(e)));
     }
     this.loadData();
+  }
+
+  downloadJsonFile = async (configJson: JSON, configId: string) => {
+    let blob = new Blob(
+        [decodeURIComponent(encodeURI(JSON.stringify(configJson)))],
+        { type: 'application/json;charset=utf-8;' });
+    FileSaver.saveAs(blob, configId + '.json');
   }
 
   render() {
@@ -143,8 +190,14 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
       };
       
       const handleClickDownload = () => {
-        const a = 1;
+        const configId = contextMenuTarget.id;
+        api.downloadSingleMobileConfig(configId).then(config => {
+          this.downloadJsonFile(config, configId);
+        }).catch(() => {
+          message.error('download application config json file fail.');
+        });
       };
+
       return [
         {
           "name": "Edit",
@@ -158,11 +211,11 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
           "name": "Duplicate",
           "action": handleClickDuplicate,
         },
-        {
-          "name": "Copy Link",
-          "subMenuItems":[{'title': 'Link for Mobile', "itemIndex": '0', 'action': handleClickMobileLink},
-                          {'title': 'Link for Web and Desktop', "itemIndex": '1', 'action': handleClickWebLink}]
-        },
+        // {
+        //   "name": "Copy Link",
+        //   "subMenuItems":[{'title': 'Link for Mobile', "itemIndex": '0', 'action': handleClickMobileLink},
+        //                   {'title': 'Link for Web and Desktop', "itemIndex": '1', 'action': handleClickWebLink}]
+        // },
         {
           "name": "Download Json File",
           "action": handleClickDownload
@@ -180,12 +233,8 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
     return (
       <div className="home-screen-main-container">
         <div className="add-application-container">
-          <MSTRWSIcon
-            className="add-application-icon"
-            type="msdl-add"
-            onClick={this.openConfigEditor}
-          />
-          <span className="story-icon-text">
+          <span className= "icon-pnl_add-new" onClick={this.handleAddApplication}/>
+          <span className="add-application-icon-text">
             New Application
           </span>
         </div>
@@ -210,10 +259,31 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
               sortable: true
             },
             {
-              field: 'contentBundleIds',
+              field: 'contentBundles',
               headerName: 'Content Bundles',
               sortable: true,
-              width: '30%'
+              width: '30%',
+              render: (d: Record) => {
+                if (d.contentBundles.length === 0) {
+                  return (
+                    <div className='Config-List-Content-Bundles'>
+                      <span>All bundles users have access to will appear in the app.</span>
+                    </div>
+                  )
+                }
+                return (
+                  <div className='Config-List-Content-Bundles'>
+                    {
+                      d.contentBundles.map(((bundle: {name: string, color: string}) => {
+                        return (<span className='Config-List-Content-Bundle-Item'>
+                          <span className='Config-List-Content-Bundle-Item-Icon' style={{background: bundle.color}}></span>
+                          <span className='Config-List-Content-Bundle-Item-Text'>{bundle.name}</span>
+                        </span>)
+                      }))
+                    }
+                  </div>
+                )
+              },
             },
             {
               field: 'lastUpdate',
