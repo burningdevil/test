@@ -101,6 +101,7 @@ export const CONSTANTS = {
     // preview use only
     FONT_HOME: 'icon-tb_home',
     FONT_PREVIEWSIDEBAR: 'icon-library',
+    FONT_PREVIEWSIDEBAR_MOBILE: 'icon-backarrow',
     FONT_PREVIEWTOC: 'icon-tb_undoarrow',
 }
 
@@ -171,6 +172,7 @@ export const iconTypes = {
     // home button
     home: {displayText: 'Home', iconName: CONSTANTS.FONT_HOME, key: CONSTANTS.ICON_HOME},
     previewSidebar: {displayText: 'Sidebar', iconName: CONSTANTS.FONT_PREVIEWSIDEBAR, key: CONSTANTS.ICON_SIDEBAR},
+    previewSidebarMobile: {displayText: 'Sidebar', iconName: CONSTANTS.FONT_PREVIEWSIDEBAR_MOBILE, key: CONSTANTS.ICON_SIDEBAR},
     previewTocPhone: {displayText: 'Table of Contents', iconName: CONSTANTS.FONT_PREVIEWTOC, key: CONSTANTS.ICON_TOCS},
 }
 

@@ -3,7 +3,7 @@ import { RightOutlined, DownOutlined } from '@ant-design/icons'
 import * as React from 'react'
 import '../../../../src/assets/fonts/webfonts/css/dossier.css'
 import '../scss/HomeScreenComponents.scss'
-import { default as VC, platformType, iconDetail, iconTypes, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons, bothSideIcons } from '../HomeScreenConfigConstant'
+import { default as VC, platformType, iconDetail, iconTypes, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons } from '../HomeScreenConfigConstant'
 import * as _ from 'lodash'
 import { HomeScreenPreviewer } from './HomeScreenPreviewer'
 
@@ -286,7 +286,7 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
                 </Layout.Content>
                 {/* previewer */}
                 <Layout.Sider className="home-screen-components-right" width='274px'>
-                    <HomeScreenPreviewer deviceType={this.props.deviceType} toolbarHidden={this.state.toolbarHidden} icons={allSelectedIcons} isDossierHome={this.state.isDossierHome} handleDeviceTypeChange={this.props.handleDeviceTypeChange}/>
+                    <HomeScreenPreviewer deviceType={this.props.deviceType} toolbarDisabled={this.state.toolbarDisabled} toolbarHidden={this.state.toolbarHidden} icons={allSelectedIcons} isDossierHome={this.state.isDossierHome} handleDeviceTypeChange={this.props.handleDeviceTypeChange}/>
                 </Layout.Sider>
             </Layout>
         )

@@ -11,7 +11,8 @@ import HomeScreenContentBundles from './HomeScreenContentBundles';
 import * as _ from "lodash";
 import { HttpProxy } from '../../../main';
 import { PARSE_METHOD } from '../../../utils/ParseMethods';
-import { CONSTANTS } from '../HomeScreenConfigConstant';
+import { childrenIcons, CONSTANTS, dossierIconsDossierHome, iconTypes, libraryIcons } from '../HomeScreenConfigConstant';
+import { includes } from 'lodash';
 
 declare var workstation: WorkstationModule;
 
@@ -39,10 +40,10 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
           name: '',
           description: '',
           platform: ['Mobile'],
-          homeScreen: {mode: 0, homeLibrary: {icons:['comments', 'notifications'], sidebars: ['recents', 'favourites', 'defaultGroups', 'myGroups'], contentBundleIds:[], toolbarMode: 0, toolbarDisabled: 0}, homeDocument: {url:"", icons:['comments', 'notifications', 'TOCs'], toolbarMode: 0, toolbarDisabled: 0}},
+          homeScreen: {mode: 0, homeLibrary: {icons:libraryIcons.map((icon) => icon.key), sidebars: childrenIcons.map((icon) => icon.key).filter((key) => key !== iconTypes.defaultGroup.key), contentBundleIds:[], toolbarMode: 0, toolbarDisabled: 0}, homeDocument: {url:"", icons:dossierIconsDossierHome.map((icon) => icon.key), toolbarMode: 0, toolbarDisabled: 0}},
           general: { networkTimeout: 180, cacheClearMode: 1, clearCacheOnLogout: false, maxLogSize: 500, logLevel: 12, updateInterval: 1440}
       }
-    }
+    } 
   }
 
   async componentDidMount() {

@@ -1,25 +1,32 @@
 
 $primary-blue: #3892ED;
+$background-color: rgba(255, 255, 255, .7);
 $container-width: 274px;
+$container-width-phone: 103px;
 $preview-width: 241px;
 $preview-height: 162px;
 $preview-width-phone: 121px;
-$preview-header-height: 18px;
+$preview-header-height: 19px;
+$sidebar-width: 91px;
 
 $font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';
 $font-color: #35383A;
 $font-size: 12px;
 $line-height: 14px;
 $font-size-mini: 11px;
+$font-size-side: 7px;
+$line-height-side: 18px;
 
+// put all icons here
 @mixin iconFeatures() {
     .icon-tb_undoarrow {
         float: none;
         text-align: center;
         position: absolute;
-        left: 140px;
+        left: 124px;
         font-size: 16px;
     }
+    .icon-backarrow,
     .icon-library,
     .icon-tb_home,
     .icon-listview,
@@ -50,6 +57,10 @@ $font-size-mini: 11px;
     color: $font-color;
     width: $container-width;
 
+    &-overlay {
+        position: absolute;
+    }
+
     .ant-radio-button-wrapper {
         font-size: $font-size-mini;
         font-weight: 400;
@@ -75,31 +86,24 @@ $font-size-mini: 11px;
         line-height: $line-height;
     }
     &-pad {
-        margin-left: auto;
-        margin-right: auto;
+        margin-left: 16px;
+        margin-right: 16px;
         margin-bottom: 8px;
         height: $preview-height;
-        background-color:#f2f3f5;
+        // background-color: $background-color;
         .ant-layout-header {
-            padding: 0 5px;
+            padding: 0 1px;
             height: $preview-header-height;
             text-align: center;
             border: .07rem solid lightgrey;
             border-radius: 4px 4px 0 0;
             border-bottom-width: .01rem;
-            line-height: 28px;
-            background-color: rgba(255, 255, 255, .7);
+            line-height: $preview-header-height;
+            background-color: $background-color;
             span {
                 float: right;
                 color: #3e96e9;
                 font-size: 10px;
-            }
-            .title {
-                font-size: 11px;
-                font-family: Helvetica, serif;
-                position: absolute;
-                left: 140px;
-                color: #3f4042;
             }
             @include iconFeatures()
         }
@@ -118,26 +122,87 @@ $font-size-mini: 11px;
             display: flex;
             height: 100%;
             width: 100%;
-            padding: 8px;
+            // padding: 8px;
             &-left {
                 border-radius: 2px;
-                margin-right: 8px;
-                padding: 5px;
-                background-color: #e2e2e2;
-                width: auto;
+                padding-left: 3px;
+                background-color: $background-color;
+                width: $sidebar-width;
+                border-right: .07rem solid lightgrey;
+                display: flex;
+                flex-direction: column;
+                justify-items: flex-start;
+                font-size: $font-size-side;
+                line-height: $line-height-side;
+                font-family: $font-family;
+
+                &-text {        
+                   span {
+                        margin-left: 4px;
+                    }
+                }
+                &-down {
+                    margin-left: 4px;
+                    margin-top: auto;
+                }
             }
             &-right {
                 flex: auto;
                 flex-direction: column;
-                background-color: #e2e2e2;
+                background-color: $background-color;
+                padding: 10px;
+
+                &-library {
+                    width: 100%;
+                    height: 100%;
+                    background: url('../images/library-home-dossiers.svg') ; 
+                }
+
+                &-dossier {
+                    width: 100%;
+                    height: 100%;
+                    background: url('../images/dossier-window-vis.svg') no-repeat; 
+                }
+
+                &-dossier-nobar {
+                    width: 100%;
+                    height: 100%;
+                    margin-top: 5px;
+                    background: url('../images/dossier-window-vis-notoolbar.svg') no-repeat;
+                }
             }
         }
     }
+
+    &-horcontainer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
     &-phone {
-        width: 120px;
+        width: $container-width-phone;
         height: $preview-height;
+        flex: none;
         margin-left: auto;
         margin-right: auto;
+        font-size: $font-size-side;
+        line-height: $line-height-side;
+        font-family: $font-family;
+
+        &-sidebar {
+            border-radius: 2px;
+            padding-left: 3px;
+            background-color: $background-color;
+            
+            border: .07rem solid lightgrey;
+            display: flex;
+            flex: auto;
+            flex-direction: column;
+            justify-items: flex-start;
+        }
+
         .ant-layout-header {
             flex: auto;
             height: 24px;
@@ -165,34 +230,23 @@ $font-size-mini: 11px;
             height: 100%;
             padding: 4px;
             border: .07rem solid lightgrey;
-            &-top {
-                display: inherit;
-                div {
-                    border-radius: 2px;
-                    width: 54px;
-                    height: 56px;
-                    background-color: #e2e2e2;
-                }
-                &-first {
-                    margin: 0 2px 2px 0;
-                }
-                &-second {
-                    margin: 0 0 2px 2px;
-                }
+            
+            &-library {
+                width: 100%;
+                height: 100%;
+                background: url('../images/dossier-list-on-phone.svg') repeat;
             }
-            &-bottom {
-                border-radius: 2px;
-                width: 110px;
-                height: 34px;
-                background-color: #e2e2e2;
-                &.first {
-                    margin: 2px 0;
-                }
-                &.second {
-                    flex: auto;
-                    height: auto;
-                    margin-top: 2px;
-                }
+
+            &-dossier {
+                width: 100%;
+                height: 100%;
+                background: url('../images/dossier-vis-on-phone.svg') no-repeat;
+            }
+
+            &-dossier-nobar {
+                width: 100%;
+                height: 100%;
+                background: url('../images/dossier-vis-on-phone.svg') repeat;
             }
         }
         &-footer {

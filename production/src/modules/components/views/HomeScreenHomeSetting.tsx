@@ -166,6 +166,8 @@ export default class HomeScreenHomeSetting extends React.Component<any, any> {
     const libraryIcons = isDossierHome ? [] : _.get(homeScreen, 'homeLibrary.icons')
     const sidebarIcons = isDossierHome ? [] : _.get(homeScreen, 'homeLibrary.sidebars')
     const icons = _.concat(dossierIcons, libraryIcons, sidebarIcons)
+    const toolbarHidden = VC.COLLAPSE_TOOLBAR === (isDossierHome ? _.get(homeScreen, 'homeDocument.toolbarMode') : _.get(homeScreen, 'homeLibrary.toolbarMode'))
+    const toolbarDisabled = VC.COLLAPSE_TOOLBAR === (isDossierHome ? _.get(homeScreen, 'homeDocument.toolbarDisabled') : _.get(homeScreen, 'homeLibrary.toolbarDisabled'))
     return (
         <Layout className="home-screen-home">
             <Layout.Content className = "home-screen-home-settings">
@@ -189,7 +191,7 @@ export default class HomeScreenHomeSetting extends React.Component<any, any> {
                 <ContentBundleContentPicker visible={this.state.showContentPicker} handleClose={this.handleDismissAdd} handleChange={this.handleDossierChange}/>
             </Layout.Content>
             <Layout.Sider className="home-screen-home-preview" width='274px'>
-              <HomeScreenPreviewer deviceType={deviceType} toolbarHidden={this.state.toolbarHidden} icons={icons} isDossierHome={isDossierHome} handleDeviceTypeChange={this.props.handleDeviceTypeChange}/>
+              <HomeScreenPreviewer deviceType={deviceType} toolbarDisabled={toolbarDisabled} toolbarHidden={toolbarHidden} icons={icons} isDossierHome={isDossierHome} handleDeviceTypeChange={this.props.handleDeviceTypeChange}/>
             </Layout.Sider>
         </Layout>
     );
