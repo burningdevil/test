@@ -82,14 +82,20 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
         })
         // account for mobile
         const {deviceType} = this.props
-        const accountShow = (deviceType === VC.REVIEW_MODE_PHONE || deviceType === VC.REVIEW_MODE_TABLET) && this.iconShouldShow(iconTypes.account)
-        const accountIcon = accountShow && <div className="homeScreenPreviewer-pad-overview-left-down"> {this.toolbarIconsRender([iconTypes.account])}</div>
+        const accountShow = (deviceType === VC.REVIEW_MODE_PHONE || deviceType === VC.REVIEW_MODE_TABLET) && this.iconShouldShow(iconTypes.previewAccountMobile)
+        const accountIcon = accountShow && <div className="homeScreenPreviewer-pad-overview-left-down"> {this.toolbarIconsRender([iconTypes.previewAccountMobile])}</div>
         return <div className={rootClassName}> {sidebarIcons} {accountIcon} </div>
     }
 
     // overlay of header toolbar
-    overlayRender = () => {
-        return <div className="homeScreenPreviewer-overlay"> <span className={'icon-filter'}> </span> </div>
+    overlayRender = (index: number, centered: boolean) => {
+        const top = index === 0 ? '130px' : '330px'
+        const right = !!centered ? '87px' : '17px'
+        const style = {top: top, right: right}
+        return <div> 
+            <div className={'homeScreenPreviewer-overlay'} style={style}> </div>
+            <div className={'homeScreenPreviewer-overlay-Icon'} style={style}> <span className={'icon-fullscreen'}> </span> </div> 
+            </div>
     }
 
     /// for previewer
@@ -124,14 +130,14 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
         switch (deviceType) {
             case VC.REVIEW_MODE_TABLET:
                 // account in sidebar?
-                headerIcons = [iconTypes.home, iconTypes.previewSidebarMobile, iconTypes.notification, iconTypes.sortAndFilter, iconTypes.search]
+                headerIcons = [iconTypes.previewSidebarMobile, iconTypes.notification, iconTypes.sortAndFilter, iconTypes.search]
                 break
             case VC.REVIEW_MODE_WEB:
             case VC.REVIEW_MODE_DESKTOP:
-                headerIcons = [iconTypes.home, iconTypes.previewSidebar, iconTypes.account, iconTypes.multiSelect, iconTypes.notification, iconTypes.sortAndFilter, iconTypes.search]
+                headerIcons = [iconTypes.previewSidebar, iconTypes.account, iconTypes.multiSelect, iconTypes.notification, iconTypes.sortAndFilter, iconTypes.search]
                 break
             case VC.REVIEW_MODE_PHONE:
-                headerIcons = [iconTypes.home, iconTypes.previewSidebarMobile]
+                headerIcons = [iconTypes.previewSidebarMobile]
                 footerIcons = [iconTypes.search, iconTypes.sortAndFilter, iconTypes.notification]
                 break
             default:
@@ -184,7 +190,7 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
                                     </Layout.Content>
                                 </Layout>
                             </Layout>
-                            {showExpander && this.overlayRender()}
+                            {showExpander && this.overlayRender(0, false)}
                         </div>
                         }
 
@@ -208,7 +214,7 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
                                     </Layout>
                                 </Layout.Content>
                             </Layout>
-                            {showExpander && this.overlayRender()}
+                            {showExpander && this.overlayRender(isDossierHome ? 0 : 1, false)}
                         </div>
 
                         {/* notification panel */}
@@ -253,7 +259,7 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
                             }
                         </Layout>
                         }
-                        {showExpander && this.overlayRender()}
+                        {showExpander && this.overlayRender(0, false)}
                         </div>
                         
                         {/* dossier toolbars */}
@@ -268,7 +274,7 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
                             <Layout.Content className="homeScreenPreviewer-phone-content">
                                 <Layout className="homeScreenPreviewer-phone-container">
                                     {!hideHeader && <div className="homeScreenPreviewer-phone-container-dossier" />}
-                                    {hideHeader && <div className="homeScreenPreviewer-phone-container-dossier" />}
+                                    {hideHeader && <div className="homeScreenPreviewer-phone-container-dossier-nobar" />}
                                 </Layout>
                             </Layout.Content>
                             { !hideHeader &&
@@ -279,7 +285,7 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
                                 </footer>
                             }
                         </Layout>
-                        {showExpander && this.overlayRender()}
+                        {showExpander && this.overlayRender(isDossierHome ? 0 : 1, true)}
                         {/* notification panel */}
                         {/* {this.titleRender(sectionTitle.notificationPanel)} */}
                     </div>

@@ -83,7 +83,7 @@ export const CONSTANTS = {
     FONT_SEARCH: 'icon-search',
     FONT_COMMENTS: 'icon-comments',
     FONT_NOTIFICATIONS: 'icon-bell',
-    FONT_OPTIONS: 'icon-user-profile',
+    FONT_OPTIONS: 'icon-tb_profile_n',
     FONT_TOCS: 'icon-toc',
     FONT_BOOKMARK: 'icon-tb_bookmarks_n',
     FONT_RESET: 'icon-resetfile',
@@ -103,6 +103,7 @@ export const CONSTANTS = {
     FONT_PREVIEWSIDEBAR: 'icon-library',
     FONT_PREVIEWSIDEBAR_MOBILE: 'icon-backarrow',
     FONT_PREVIEWTOC: 'icon-tb_undoarrow',
+    FONT_PREVIEWOPTIONS: 'icon-user-profile',
 }
 
 export const platformType = {
@@ -173,6 +174,7 @@ export const iconTypes = {
     home: {displayText: 'Home', iconName: CONSTANTS.FONT_HOME, key: CONSTANTS.ICON_HOME},
     previewSidebar: {displayText: 'Sidebar', iconName: CONSTANTS.FONT_PREVIEWSIDEBAR, key: CONSTANTS.ICON_SIDEBAR},
     previewSidebarMobile: {displayText: 'Sidebar', iconName: CONSTANTS.FONT_PREVIEWSIDEBAR_MOBILE, key: CONSTANTS.ICON_SIDEBAR},
+    previewAccountMobile: {displayText: 'Account', iconName: CONSTANTS.FONT_PREVIEWOPTIONS, key: CONSTANTS.ICON_OPTIONS},
     previewTocPhone: {displayText: 'Table of Contents', iconName: CONSTANTS.FONT_PREVIEWTOC, key: CONSTANTS.ICON_TOCS},
 }
 

@@ -8,9 +8,8 @@ $line-height-mini: 14px;
 $line-height-small: 13px;
 
 .home-screen-components{
-    padding: 0px 0px 0 20px;
+    padding: 0px;
     position: relative;
-    overflow: scroll;
     display: flex , float;
     height: 660px;
     background-color: white;
@@ -24,10 +23,12 @@ $line-height-small: 13px;
 
     &-left{
         float: left;
+        margin: 43px 20px 0px 40px;
     }
 
     &-right{
         float: right;
+        padding: 43px 0 0 0;
         background-color:#f6f8fa;
     }
 
@@ -47,7 +48,7 @@ $line-height-small: 13px;
 
     &-scrollcontainer{
         overflow: auto;
-        height: auto;
+        height: 512px; // ??
     }
 
     &-toolbar{
