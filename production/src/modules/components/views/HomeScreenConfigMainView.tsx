@@ -167,28 +167,16 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
       const handleClickDuplicate = () => {
         this.duplicateConfig(contextMenuTarget.id);
       };
-      const handleClickMobileLink = async () => {
+      const handleClickCopyLink = async () => {
         try {
           const currentEnv = await workstation.environments.getCurrentEnvironment();
           const mobileLink = currentEnv.url + "config/" + contextMenuTarget.id;
           copyToClipboard(mobileLink);
-          message.success('copy application url to clipboard successfully!');
+          message.success('The application link has been successfully copied!');
         } catch (e) {
-          message.error('copy application url to clipboard fail: ' + e);
+          message.error('Copy application link to clipboard fail: ' + e);
         }
       };
-
-      const handleClickWebLink = async () => {
-        try {
-          const currentEnv = await workstation.environments.getCurrentEnvironment();
-          const webLink = currentEnv.url + "config/" + contextMenuTarget.id;
-          copyToClipboard(webLink);
-          message.success('copy application url to clipboard successfully!');
-        } catch (e) {
-          message.error('copy application url to clipboard fail: ' + e);
-        }
-      };
-      
       const handleClickDownload = () => {
         const configId = contextMenuTarget.id;
         api.downloadSingleMobileConfig(configId).then(config => {
@@ -211,22 +199,10 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
           "name": "Duplicate",
           "action": handleClickDuplicate,
         },
-        // {
-        //   "name": "Copy Link",
-        //   "subMenuItems":[{'title': 'Link for Mobile', "itemIndex": '0', 'action': handleClickMobileLink},
-        //                   {'title': 'Link for Web and Desktop', "itemIndex": '1', 'action': handleClickWebLink}]
-        // },
         {
-          "name": "Download Json File",
-          "action": handleClickDownload
-        },
-        {
-          "name": 'Link for Mobile', 
-          'action': handleClickMobileLink
-        },
-        {
-          "name": 'Link for Web and Desktop', 
-          'action': handleClickWebLink
+          "name": "Share",
+          "subMenuItems":[{'title': 'Copy Link', "itemIndex": '0', 'action': handleClickCopyLink},
+                          {'title': 'Download Json File', "itemIndex": '1', 'action': handleClickDownload}]
         }
       ];
     };
