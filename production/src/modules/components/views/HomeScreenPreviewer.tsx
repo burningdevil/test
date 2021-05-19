@@ -156,6 +156,8 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
 
         const showExpander = toolbarHidden && !toolbarDisabled
         const hideHeader = toolbarHidden || toolbarDisabled
+        // const padItemRowCount = hideHeader ? 3 : 2
+        // const padItemColCount = showSideBar ? 2 : 3
 
         switch (deviceType) {
             case VC.REVIEW_MODE_TABLET:
@@ -182,8 +184,8 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
                                                 { showSideBar && this.sidebarIconsRender(childrenIcons, 'homeScreenPreviewer-pad-overview-left') }
                                                 {/* { showSortAndFilter && this.toolbarIconsRender([iconTypes.sortAndFilter]) } */}
                                                 <div className={"homeScreenPreviewer-pad-overview-right"}>
-                                                    {!hideHeader && <div className={"homeScreenPreviewer-pad-overview-right-library"} />}
-                                                    {hideHeader && <div className={"homeScreenPreviewer-pad-overview-right-library"} />}
+                                                    { showSideBar && <div className="homeScreenPreviewer-pad-overview-right-library"> </div> }
+                                                    { !showSideBar && <div className="homeScreenPreviewer-pad-overview-right-library"> </div> }
                                                 </div>
                                             </div>
                                         </Layout>
@@ -231,35 +233,35 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
 
                         {/* library sidebar */}
                         <div className="homeScreenPreviewer-horcontainer">
-                        {showSideBar && 
-                        <Layout className="homeScreenPreviewer-phone">
-                            {this.sidebarIconsRender(childrenIcons, 'homeScreenPreviewer-phone-sidebar')}
-                        </Layout>
-                        }
+                            {showSideBar && 
+                            <Layout className="homeScreenPreviewer-phone">
+                                {this.sidebarIconsRender(childrenIcons, 'homeScreenPreviewer-phone-sidebar')}
+                            </Layout>
+                            }
 
-                        { /* library toolbar */}
-                        {!isDossierHome && 
-                        <Layout className="homeScreenPreviewer-phone">
-                            { !hideHeader &&
-                                <Layout.Header>
-                                    {this.toolbarIconsRender(libraryHeaderIcons)}
-                                </Layout.Header>
-                            }
-                            <Layout.Content className="homeScreenPreviewer-phone-content">
-                                <Layout className="homeScreenPreviewer-phone-container">
-                                    <div className="homeScreenPreviewer-phone-container-library" />
+                            { /* library toolbar */}
+                            {!isDossierHome && 
+                                <Layout className="homeScreenPreviewer-phone">
+                                    { !hideHeader &&
+                                        <Layout.Header>
+                                            {this.toolbarIconsRender(libraryHeaderIcons)}
+                                        </Layout.Header>
+                                    }
+                                    <Layout.Content className="homeScreenPreviewer-phone-content">
+                                        <Layout className="homeScreenPreviewer-phone-container">
+                                            <div className="homeScreenPreviewer-phone-container-library" />
+                                        </Layout>
+                                    </Layout.Content>
+                                    { !hideHeader &&
+                                        <footer className="homeScreenPreviewer-phone-footer">
+                                            <span/>
+                                            {this.toolbarIconsRender(libraryFooterIcons)}
+                                            <span/>
+                                        </footer>
+                                    }
                                 </Layout>
-                            </Layout.Content>
-                            { !hideHeader &&
-                                <footer className="homeScreenPreviewer-phone-footer">
-                                    <span/>
-                                    {this.toolbarIconsRender(libraryFooterIcons)}
-                                    <span/>
-                                </footer>
                             }
-                        </Layout>
-                        }
-                        {showExpander && this.overlayRender(0, false)}
+                            { !isDossierHome && showExpander && this.overlayRender(0, false) }
                         </div>
                         
                         {/* dossier toolbars */}

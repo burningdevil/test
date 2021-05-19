@@ -48,6 +48,7 @@ $line-height-small: 13px;
 
     &-scrollcontainer{
         overflow: auto;
+        margin-top: 23px; //?
         height: 512px; // ??
     }
 
@@ -65,7 +66,6 @@ $line-height-small: 13px;
             font-size: $font-size-mini;
             line-height: $line-height-small;
             margin-bottom: 2px;
-            margin-top: 23px;
         }
     }
 
@@ -75,6 +75,7 @@ $line-height-small: 13px;
         height: intrinsic;           /* Safari/WebKit 使用了非标准的名称 */
         height: -moz-max-content;    /* Firefox/Gecko */
         height: -webkit-max-content; /* Chrome */
+        margin-bottom: 23px; // ??
 
         .ant-table-tbody > tr:nth-child(n-1)  > td {
             padding: 12px 0px;

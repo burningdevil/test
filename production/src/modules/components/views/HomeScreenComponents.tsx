@@ -1,4 +1,4 @@
-import { Checkbox, Switch, Table, Layout } from 'antd'
+import { Checkbox, Switch, Table, Layout, Divider } from 'antd'
 import { RightOutlined, DownOutlined } from '@ant-design/icons'
 import * as React from 'react'
 import '../../../../src/assets/fonts/webfonts/css/dossier.css'
@@ -44,6 +44,7 @@ interface HomeScreenComponentsState {
     selectedLibraryIcons: [string],
     selectedDocumentIcons: [string],
     extraIcons: iconDetail[],
+    childrenIcons: iconDetail[],
 }
 
 export default class HomeScreenComponents extends React.Component<any, HomeScreenComponentsState> {
@@ -96,12 +97,14 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
             }
         }  
         {
-            const { icons, sidebars, toolbarMode, toolbarDisabled } = homeLibrary
+            const { icons, sidebars, toolbarMode, toolbarDisabled, contentBundleIds } = homeLibrary
             if (!isDossierHome) {
                 selectedSideBarIcons = sidebars
                 selectedLibraryIcons = icons
                 state.toolbarHidden = toolbarMode === VC.COLLAPSE_TOOLBAR
                 state.toolbarDisabled = toolbarDisabled === VC.COLLAPSE_TOOLBAR
+                const defaultGroupShow = !_.isEmpty(contentBundleIds) && contentBundleIds.length > 0
+                state.childrenIcons = childrenIcons.filter( (icon) => icon.key != iconTypes.defaultGroup.key || defaultGroupShow )
             }
         }
    
@@ -152,7 +155,7 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
     }
 
     renderTable = (icons: Array<iconDetail>) => {
-        const expandChildren = childrenIcons.map( (icon, index) =>     
+        const expandChildren = this.state.childrenIcons.map( (icon, index) =>     
             ({key: childrenKeyOffset+index, displayText: [icon.iconName, icon.displayText], selected: this.iconSelectedInfo(icon.key)})
         )
 
@@ -234,7 +237,7 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
         const newState = this.getNewState()
         if (newState.isDossierHome !== this.state.isDossierHome || newState.toolbarHidden !== this.state.toolbarHidden || newState.toolbarDisabled !== this.state.toolbarDisabled ||
             !_.isEqual(newState.extraIcons, this.state.extraIcons) || newState.selectedSidebarIcons.length !== this.state.selectedSidebarIcons.length || 
-            newState.selectedDocumentIcons.length !== this.state.selectedDocumentIcons.length || newState.selectedLibraryIcons.length != this.state.selectedLibraryIcons.length) {
+            newState.selectedDocumentIcons.length !== this.state.selectedDocumentIcons.length || newState.selectedLibraryIcons.length != this.state.selectedLibraryIcons.length || newState.childrenIcons.length != this.state.childrenIcons.length) {
             this.setState(newState)
         }
     }

@@ -75,7 +75,6 @@ $line-height-side: 18px;
         padding: 3px 3px;
     }
     
-
     .ant-radio-button-wrapper {
         font-size: $font-size-mini;
         font-weight: 400;
@@ -170,7 +169,13 @@ $line-height-side: 18px;
                 &-library {
                     width: 100%;
                     height: 100%;
-                    background: url('../images/library-home-dossiers.svg') ; 
+                    background: url('../images/library-home-dossiers.svg') repeat-y; 
+                }
+
+                &-library-nosidebar {
+                    width: 100%;
+                    height: 100%;
+                    background: url('../images/library-home-dossiers-nosidebar.svg') repeat-y;
                 }
 
                 &-dossier {
@@ -228,11 +233,7 @@ $line-height-side: 18px;
             border-bottom-width: .01rem;
             line-height: 24px;
             background-color: rgba(255, 255, 255, .7);
-            .title {
-                font-size: 11px;
-                font-family: Helvetica, serif;
-                color: #3f4042;
-            }
+            font-size: $font-size-mini;
             @include iconFeatures() 
         }
         &-content {
@@ -245,7 +246,8 @@ $line-height-side: 18px;
             height: 100%;
             padding: 4px;
             border: .07rem solid lightgrey;
-            
+            background-color: $background-color;
+             
             &-library {
                 width: 100%;
                 height: 100%;
@@ -275,7 +277,7 @@ $line-height-side: 18px;
             border-top-width: .01rem;
             border-radius: 0 0 4px 4px;
             line-height: 24px;
-            background-color: rgba(255, 255, 255, .7);
+            background-color: $background-color;
             display: flex;
             justify-content: space-between;
             span {
