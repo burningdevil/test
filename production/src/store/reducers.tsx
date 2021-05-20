@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
-import configReducer from './reducers/HomeScreenConfigEditorReducer'
+import configEditorReducer from './reducers/HomeScreenConfigEditorReducer'
 
 export const rootReducer = combineReducers({
-  configReducer
+  configEditor: configEditorReducer
 })

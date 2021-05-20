@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { connect } from 'react-redux'
 import '../scss/HomeScreenConfigEditor.scss'
 import { Tabs, Layout, Button} from 'antd';
 import { WorkstationModule, WindowEvent } from '@mstr/workstation-types';
@@ -12,6 +13,9 @@ import * as _ from "lodash";
 import { HttpProxy } from '../../../main';
 import { PARSE_METHOD } from '../../../utils/ParseMethods';
 import { CONSTANTS } from '../HomeScreenConfigConstant';
+import { HomeScreenConfigEditorState } from '../../../types/redux-state/HomeScreenConfigState';
+import { selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEditorSelector';
+import * as Actions from '../../../store/actions/ActionsCreator';
 
 declare var workstation: WorkstationModule;
 
@@ -28,7 +32,7 @@ const popoverGeneral = {
   headerHeight: 0,
 };
 
-export default class HomeScreenConfigEditor extends React.Component<any, any> {
+class HomeScreenConfigEditor extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
     this.state = {
@@ -74,6 +78,8 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
     this.setState({
       configInfo: data
     });
+
+    this.props.setCurrentConfig(data);
 
     console.log(data);
   }
@@ -198,3 +204,13 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
     );
   }
 }
+
+const mapState = (state: HomeScreenConfigEditorState) => ({
+  config: selectCurrentConfig(state)
+})
+
+const connector = connect(mapState, {
+  setCurrentConfig: Actions.setCurrentConfig
+})
+
+export default connector(HomeScreenConfigEditor)

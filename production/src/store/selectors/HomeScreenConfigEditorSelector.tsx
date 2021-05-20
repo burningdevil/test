@@ -1,8 +1,8 @@
 import { createSelector } from 'reselect'
 
-import { HomeScreenConfigEditorState } from '../../types/redux-state/HomeScreenConfigEditorState'
+import { RootState } from '../../types/redux-state/HomeScreenConfigState'
 
-export const selectConfigEditorRoot = (state: HomeScreenConfigEditorState) => state
+export const selectConfigEditorRoot = (state: RootState) => state.configEditor
 
 export const selectCurrentConfig = createSelector(
     selectConfigEditorRoot,
