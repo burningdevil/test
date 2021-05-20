@@ -1,15 +1,32 @@
 
 $primary-blue: #3892ED;
-$container-height: 191px;
+$background-color: rgba(255, 255, 255, .7);
+$container-width: 274px;
+$container-width-phone: 103px;
+$preview-width: 241px;
+$preview-height: 162px;
+$preview-width-phone: 121px;
+$preview-header-height: 19px;
+$sidebar-width: 91px;
 
+$font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';
+$font-color: #35383A;
+$font-size: 12px;
+$line-height: 14px;
+$font-size-mini: 11px;
+$font-size-side: 7px;
+$line-height-side: 18px;
+
+// put all icons here
 @mixin iconFeatures() {
     .icon-tb_undoarrow {
         float: none;
         text-align: center;
         position: absolute;
-        left: 140px;
+        left: 124px;
         font-size: 16px;
     }
+    .icon-backarrow,
     .icon-library,
     .icon-tb_home,
     .icon-listview,
@@ -23,6 +40,7 @@ $container-height: 191px;
     .icon-search,
     .icon-tb_select_a,
     .icon-user-profile,
+    .icon-tb_profile_n,
     .icon-bell,
     .icon-comments,
     .icon-filter,
@@ -35,52 +53,71 @@ $container-height: 191px;
 }
 
 .homeScreenPreviewer {
+    font-family: $font-family;
+    font-size: $font-size;
+    color: $font-color;
+    width: $container-width;
+
+    &-overlay {
+        position: fixed;
+        z-index: 102;
+
+        border-top: 10px solid rgba(63, 64, 66, .4);
+        border-right: 10px solid rgba(63, 64, 66, .4);
+        border-bottom: 10px solid transparent;
+        border-left: 10px solid transparent;
+    }
+    &-overlay-Icon {
+        position: fixed;
+        z-index: 103; 
+
+        font-size: 9px;
+        padding: 3px 3px;
+    }
+    
     .ant-radio-button-wrapper {
-        font-size: 13px;
+        font-size: $font-size-mini;
         font-weight: 400;
     }
 
     .ant-radio-group {
-        padding-top: 10px;
+        padding-top: 8px;
     }
 
     &-title {
-        font: normal;
         text-align: center;
-        margin-top: 14px;
+        margin-top: 12px;
         margin-bottom: 8px;
-        font-size: 13px;
+        font-size: $font-size;
+        font-family: $font-family;
     }
     &-radio {
         text-align: center;
-        margin-bottom: 10px;
         align-content: center;
-        font-weight: 500;
+        font-weight: bold;
+        font-size: $font-size;
+        font-family: $font-family;
+        line-height: $line-height;
     }
     &-pad {
-        padding: 8px;
-        height: $container-height;
-        background-color:#f6f8fa;
+        margin-left: 16px;
+        margin-right: 16px;
+        margin-bottom: 8px;
+        height: $preview-height;
+        // background-color: $background-color;
         .ant-layout-header {
-            padding: 0 5px;
-            height: 28px;
+            padding: 0 1px;
+            height: $preview-header-height;
             text-align: center;
             border: .07rem solid lightgrey;
             border-radius: 4px 4px 0 0;
             border-bottom-width: .01rem;
-            line-height: 28px;
-            background-color: rgba(255, 255, 255, .7);
+            line-height: $preview-header-height;
+            background-color: $background-color;
             span {
                 float: right;
                 color: #3e96e9;
                 font-size: 10px;
-            }
-            .title {
-                font-size: 11px;
-                font-family: Helvetica, serif;
-                position: absolute;
-                left: 140px;
-                color: #3f4042;
             }
             @include iconFeatures()
         }
@@ -93,31 +130,99 @@ $container-height: 191px;
             padding: 0;
             border: .07rem solid lightgrey;
             border-radius: 0 0 4px 4px;
+            align-self: center;
         }
         &-overview {
             display: flex;
             height: 100%;
             width: 100%;
-            padding: 8px;
+            // padding: 8px;
             &-left {
                 border-radius: 2px;
-                margin-right: 8px;
-                padding: 5px;
-                background-color: #e2e2e2;
-                width: auto;
+                padding-left: 3px;
+                background-color: $background-color;
+                width: $sidebar-width;
+                border-right: .07rem solid lightgrey;
+                display: flex;
+                flex-direction: column;
+                justify-items: flex-start;
+                font-size: $font-size-side;
+                line-height: $line-height-side;
+                font-family: $font-family;
+
+                &-text {        
+                   span {
+                        margin-left: 4px;
+                    }
+                }
+                &-down {
+                    margin-left: 4px;
+                    margin-top: auto;
+                }
             }
             &-right {
                 flex: auto;
                 flex-direction: column;
-                background-color: #e2e2e2;
+                background-color: $background-color;
+                padding: 10px;
+
+                &-library {
+                    width: 100%;
+                    height: 100%;
+                    background: url('../images/library-home-dossiers.svg') repeat-y; 
+                }
+
+                &-library-nosidebar {
+                    width: 100%;
+                    height: 100%;
+                    background: url('../images/library-home-dossiers-nosidebar.svg') repeat-y;
+                }
+
+                &-dossier {
+                    width: 100%;
+                    height: 100%;
+                    background: url('../images/dossier-window-vis.svg') no-repeat; 
+                }
+
+                &-dossier-nobar {
+                    width: 100%;
+                    height: 100%;
+                    margin-top: 5px;
+                    background: url('../images/dossier-window-vis-notoolbar.svg') no-repeat;
+                }
             }
         }
     }
+
+    &-horcontainer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
     &-phone {
-        width: 120px;
-        height: $container-height;
+        width: $container-width-phone;
+        height: $preview-height;
+        flex: none;
         margin-left: auto;
         margin-right: auto;
+        font-size: $font-size-side;
+        line-height: $line-height-side;
+        font-family: $font-family;
+
+        &-sidebar {
+            border-radius: 2px;
+            padding-left: 3px;
+            background-color: $background-color;
+            
+            border: .07rem solid lightgrey;
+            display: flex;
+            flex: auto;
+            flex-direction: column;
+            justify-items: flex-start;
+        }
+
         .ant-layout-header {
             flex: auto;
             height: 24px;
@@ -128,11 +233,7 @@ $container-height: 191px;
             border-bottom-width: .01rem;
             line-height: 24px;
             background-color: rgba(255, 255, 255, .7);
-            .title {
-                font-size: 11px;
-                font-family: Helvetica, serif;
-                color: #3f4042;
-            }
+            font-size: $font-size-mini;
             @include iconFeatures() 
         }
         &-content {
@@ -145,36 +246,29 @@ $container-height: 191px;
             height: 100%;
             padding: 4px;
             border: .07rem solid lightgrey;
-            &-top {
-                display: inherit;
-                div {
-                    border-radius: 2px;
-                    width: 54px;
-                    height: 56px;
-                    background-color: #e2e2e2;
-                }
-                &-first {
-                    margin: 0 2px 2px 0;
-                }
-                &-second {
-                    margin: 0 0 2px 2px;
-                }
+            background-color: $background-color;
+             
+            &-library {
+                width: 100%;
+                height: 100%;
+                background: url('../images/dossier-list-on-phone.svg') repeat-y;
             }
-            &-bottom {
-                border-radius: 2px;
-                width: 110px;
-                height: 34px;
-                background-color: #e2e2e2;
-                &.first {
-                    margin: 2px 0;
-                }
-                &.second {
-                    flex: auto;
-                    height: auto;
-                    margin-top: 2px;
-                }
+
+            &-dossier {
+                width: 100%;
+                height: 100%;
+                margin: 10px 0;
+                background: url('../images/dossier-vis-on-phone.svg') no-repeat;
+            }
+
+            &-dossier-nobar {
+                width: 100%;
+                height: 100%;
+                margin: 10px 0;
+                background: url('../images/dossier-vis-on-phone.svg') repeat-y;
             }
         }
+        
         &-footer {
             padding: 0;
             width: 100%;
@@ -183,7 +277,7 @@ $container-height: 191px;
             border-top-width: .01rem;
             border-radius: 0 0 4px 4px;
             line-height: 24px;
-            background-color: rgba(255, 255, 255, .7);
+            background-color: $background-color;
             display: flex;
             justify-content: space-between;
             span {

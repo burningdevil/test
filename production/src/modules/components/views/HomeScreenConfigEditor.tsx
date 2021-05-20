@@ -2,7 +2,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import '../scss/HomeScreenConfigEditor.scss'
 import { Tabs, Layout, Button} from 'antd';
-import { WorkstationModule, WindowEvent } from '@mstr/workstation-types';
+import { WorkstationModule } from '@mstr/workstation-types';
 import { Alert } from '@mstr/rc';
 import HomeScreenGeneral from './HomeScreenGeneral';
 import HomeScreenComponents from './HomeScreenComponents';
@@ -12,10 +12,10 @@ import HomeScreenContentBundles from './HomeScreenContentBundles';
 import * as _ from "lodash";
 import { HttpProxy } from '../../../main';
 import { PARSE_METHOD } from '../../../utils/ParseMethods';
-import { CONSTANTS } from '../HomeScreenConfigConstant';
-import { HomeScreenConfigEditorState } from '../../../types/redux-state/HomeScreenConfigState';
+import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
+import { childrenIcons, CONSTANTS, dossierIconsDossierHome, iconTypes, libraryIcons } from '../HomeScreenConfigConstant';
 
 declare var workstation: WorkstationModule;
 
@@ -42,11 +42,11 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
       configInfo: {
           name: '',
           description: '',
-          platform: ['Mobile'],
-          homeScreen: {mode: 0, homeLibrary: {icons:['comments', 'notifications'], sidebars: ['recents', 'favourites', 'defaultGroups', 'myGroups'], contentBundleIds:[], toolbarMode: 0}, homeDocument: {url:"", icons:['comments', 'notifications', 'TOCs'], toolbarMode: 0}},
+          platform: ['Mobile', 'Web', 'Desktop'],
+          homeScreen: {mode: 0, homeLibrary: {icons:libraryIcons.map((icon) => icon.key), sidebars: childrenIcons.map((icon) => icon.key).filter((key) => key !== iconTypes.defaultGroup.key), contentBundleIds:[], toolbarMode: 0, toolbarDisabled: 0}, homeDocument: {url:"", icons:dossierIconsDossierHome.map((icon) => icon.key), toolbarMode: 0, toolbarDisabled: 0}},
           general: { networkTimeout: 180, cacheClearMode: 1, clearCacheOnLogout: false, maxLogSize: 500, logLevel: 12, updateInterval: 1440}
       }
-    }
+    } 
   }
 
   async componentDidMount() {
@@ -205,7 +205,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
   }
 }
 
-const mapState = (state: HomeScreenConfigEditorState) => ({
+const mapState = (state: RootState) => ({
   config: selectCurrentConfig(state)
 })
 

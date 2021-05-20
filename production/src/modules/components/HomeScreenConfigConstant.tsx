@@ -23,7 +23,8 @@ export const CONSTANTS = {
     MODE: 'mode',
     URL: 'url',
     ICONS: 'icons',
-    TOOLBAR_MODE: 'toolbarMode',
+    TOOLBAR_MODE: 'toolbarMode',   // hide toolbar by default
+    TOOLBAR_DISABLED: 'toolbarDisabled',  // remove toolbar from view
     //Advanced Settings
     AUTH_MODES: 'authModes',
     DISABLE_ADVANCED_SETTINGS: 'disableAdvancedSettings',
@@ -48,7 +49,7 @@ export const CONSTANTS = {
     CLEAR_ON_CLOSE: 2,
     CLEAR_AUTOMATIC: 1,
 
-    // components 
+    // components for TOOLBAR_MODE, TOOLBAR_DISABLED
     SHOW_TOOLBAR: 0,
     COLLAPSE_TOOLBAR: 1,
 
@@ -82,7 +83,7 @@ export const CONSTANTS = {
     FONT_SEARCH: 'icon-search',
     FONT_COMMENTS: 'icon-comments',
     FONT_NOTIFICATIONS: 'icon-bell',
-    FONT_OPTIONS: 'icon-user-profile',
+    FONT_OPTIONS: 'icon-tb_profile_n',
     FONT_TOCS: 'icon-toc',
     FONT_BOOKMARK: 'icon-tb_bookmarks_n',
     FONT_RESET: 'icon-resetfile',
@@ -100,7 +101,9 @@ export const CONSTANTS = {
     // preview use only
     FONT_HOME: 'icon-tb_home',
     FONT_PREVIEWSIDEBAR: 'icon-library',
+    FONT_PREVIEWSIDEBAR_MOBILE: 'icon-backarrow',
     FONT_PREVIEWTOC: 'icon-tb_undoarrow',
+    FONT_PREVIEWOPTIONS: 'icon-user-profile',
 }
 
 export const platformType = {
@@ -170,6 +173,8 @@ export const iconTypes = {
     // home button
     home: {displayText: 'Home', iconName: CONSTANTS.FONT_HOME, key: CONSTANTS.ICON_HOME},
     previewSidebar: {displayText: 'Sidebar', iconName: CONSTANTS.FONT_PREVIEWSIDEBAR, key: CONSTANTS.ICON_SIDEBAR},
+    previewSidebarMobile: {displayText: 'Sidebar', iconName: CONSTANTS.FONT_PREVIEWSIDEBAR_MOBILE, key: CONSTANTS.ICON_SIDEBAR},
+    previewAccountMobile: {displayText: 'Account', iconName: CONSTANTS.FONT_PREVIEWOPTIONS, key: CONSTANTS.ICON_OPTIONS},
     previewTocPhone: {displayText: 'Table of Contents', iconName: CONSTANTS.FONT_PREVIEWTOC, key: CONSTANTS.ICON_TOCS},
 }
 

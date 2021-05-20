@@ -10,6 +10,7 @@ import { WorkstationModule, ObjectEditorSettings, EnvironmentChangeArg, WindowEv
 import { HttpProxy } from '../../../main';
 import * as api from '../../../services/api';
 import * as _ from "lodash";
+import { hexIntToColorStr } from './HomeScreenUtils'
 
 declare var workstation: WorkstationModule;
 export default class HomeScreenConfigMainView extends React.Component<any, any> {
@@ -17,6 +18,7 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
     super(props)
     this.state = {
       configList: [],
+      bundleList: []
     }
   }
 
@@ -47,13 +49,25 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
   }
 
   loadData = async () => {
-    const response = await HttpProxy.get('/mstrClients/libraryApplications/configs').catch(e => (this.setState({
+    const response = await HttpProxy.get('/mstrClients/libraryApplications/configs').catch((e: any) => (this.setState({
       configList: []
     })));
     let data = response;
     if (response.data) {
       data = response.data;
     }
+
+    const bundleResponse = await HttpProxy.get('/contentBundles').catch((e: any) => (this.setState({
+      bundleList: []
+    })));
+
+    let bundleData = bundleResponse;
+    if (bundleResponse.data) {
+      bundleData = bundleResponse.data;
+    }
+
+    bundleData = bundleData.contentBundles;
+
     const configList = data.map((config: any) => {
       let resultConfig = config;
       if (!_.has(resultConfig, 'platform')) {
@@ -64,40 +78,46 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
       if (!_.has(resultConfig, 'contentBundleIds')) {
         _.assign(resultConfig, { contentBundles: []});
       } else {
-        const mockContentBundles = [{
-          id:'0C9E5B884608E5B1C2134B88A184062A',
-          color: '#7565C0',
-          name: 'CT-Clients-FrameWork'
-        },
-        {
-          id: '14D70C8D48AFE28F03446E8AFC3C2313',
-          color: '#176AFF',
-          name: 'Hiring Plan'
-        },
-        {
-          id: '1E63CC394EF298FD7C4EBD8F449FAFF6',
-          color: '#B464E7',
-          name: 'HR-Team'
-        },
-        {
-          id: '1E63CC394EF298FD7C4EBD8F449FAFF6',
-          color: '#176AFF',
-          name: 'Budget and Operation'
-        },
-        {
-          id: '1E63CC394EF298FD7C4EBD8F449FAFF6',
-          color: '#7565C0',
-          name: 'Applications'
-        },
-        {
-          id: '1E63CC394EF298FD7C4EBD8F449FAFF6',
-          color: '#B464E7',
-          name: 'Spike'
-        }];
-        _.assign(resultConfig, { contentBundles: resultConfig.contentBundleIds.map((bundleId: string) => {
-          return mockContentBundles[Math.ceil(Math.random() * 6) % 6];
-        }) });
+      //   const mockContentBundles = [{
+      //     id:'0C9E5B884608E5B1C2134B88A184062A',
+      //     color: '#7565C0',
+      //     name: 'CT-Clients-FrameWork'
+      //   },
+      //   {
+      //     id: '14D70C8D48AFE28F03446E8AFC3C2313',
+      //     color: '#176AFF',
+      //     name: 'Hiring Plan'
+      //   },
+      //   {
+      //     id: '1E63CC394EF298FD7C4EBD8F449FAFF6',
+      //     color: '#B464E7',
+      //     name: 'HR-Team'
+      //   },
+      //   {
+      //     id: '1E63CC394EF298FD7C4EBD8F449FAFF6',
+      //     color: '#176AFF',
+      //     name: 'Budget and Operation'
+      //   },
+      //   {
+      //     id: '1E63CC394EF298FD7C4EBD8F449FAFF6',
+      //     color: '#7565C0',
+      //     name: 'Applications'
+      //   },
+      //   {
+      //     id: '1E63CC394EF298FD7C4EBD8F449FAFF6',
+      //     color: '#B464E7',
+      //     name: 'Spike'
+      //   }];
+      //   _.assign(resultConfig, { contentBundles: resultConfig.contentBundleIds.map((bundleId: string) => {
+      //     return mockContentBundles[Math.ceil(Math.random() * 6) % 6];
+      //   }) });
+        var arr = resultConfig.contentBundleIds.reduce(function(res: any, v: any) {
+          return res.concat(_.filter(bundleData, function(o) { return o.id === v; }));
+          }, []);
+        
+        _.assign(resultConfig, { contentBundles: arr });
       }
+
       _.assign(resultConfig, {mode: resultConfig.mode == 0 ? 'Library' : 'Dossier'});
 
       if (_.has(resultConfig, 'lastUpdate')) {
@@ -252,7 +272,7 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
                     {
                       d.contentBundles.map(((bundle: {name: string, color: string}) => {
                         return (<span className='Config-List-Content-Bundle-Item'>
-                          <span className='Config-List-Content-Bundle-Item-Icon' style={{background: bundle.color}}></span>
+                          <span className='Config-List-Content-Bundle-Item-Icon' style={{ background: hexIntToColorStr(bundle.color) }}></span>
                           <span className='Config-List-Content-Bundle-Item-Text'>{bundle.name}</span>
                         </span>)
                       }))

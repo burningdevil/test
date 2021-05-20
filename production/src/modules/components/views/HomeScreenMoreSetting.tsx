@@ -1,26 +1,18 @@
 import * as React from 'react'
 import '../scss/HomeScreenMoreSetting.scss'
 import { default as VC } from '../HomeScreenConfigConstant'
-import { Button, Checkbox, Divider, Dropdown, Menu, Icon, Input, Tooltip} from 'antd';
+import { Button, Checkbox, Divider, Dropdown, Menu, Input, Tooltip} from 'antd'
+import { DownOutlined } from '@ant-design/icons'
 import * as _ from "lodash";
 
 const MAX_UPDATE_INTERVAL = 2400;//100 days
 const MAX_TIMEOUT = 9999;
 const MAX_LOGGING_SIZE = 9999;
 const MIN_METRIC_VALUE = 0;
-const defaultGeneral = {
-    'disableAdvancedSettings': false,
-    'disablePreferences': false,
-    'networkTimeout': VC.DEFAULT_NETWORK_TIMEOUT,
-    'updateInterval': VC.UPDATE_INTERVAL_DISABLED,
-    'maxLogSize': VC.DEFAULT_MAX_LOG_SIZE,
-    'logLevel': VC.LOG_LEVEL_WARNING, // All=0, Info=10, Warning=12, Severe=14, Off=16
-    'cacheClearMode': VC.CLEAR_AUTOMATIC,// clear cache on close 1-false / 2-true
-    'clearCacheOnLogout': false,
-};
 const TOOLTIP_DISAPPEAR_TIME = 3000;
 const DEFAULT_INTERVAL_HOURS = 24;
 const sectionTitle = {
+    DESC: 'SPECIFIC TO MOBILE SETTINGS',
     SECURITY: 'Security',
     ACCESS: 'Access',
     CONNECTIVITY: 'Connectivity',
@@ -51,7 +43,7 @@ const sectionCache = {
 const metricStr = {
     HOURS: 'hours',
     SECONDS: 'seconds',
-    ENTRIES: 'entries',
+    ENTRIES: 'items',
 };
 const tooltipStr = (min: number, max: number) => {
     return 'The value must be between ' +  [min] + ' and ' + [max];;
@@ -195,6 +187,10 @@ export default class HomeScreenMoreSetting extends React.Component<any, any> {
         </Tooltip>
     }
 
+    sectionTitleRender = (title: string) => {
+        return <div className="home-screen-moresetting-title">{title}</div>
+    }
+
     render() {
         const {
             updateInterval,
@@ -206,72 +202,64 @@ export default class HomeScreenMoreSetting extends React.Component<any, any> {
         } = this.props.general;
 
         return <div className="home-screen-moresetting-cfg-advance">
-                    {/* Access section */}
-                    <div className="home-screen-moresetting-title">
-                        {sectionTitle.ACCESS}
+                    <div className="home-screen-moresetting-desc">
+                        {sectionTitle.DESC}
                     </div>
+
+                    {/* Access section */}
+                    {this.sectionTitleRender(sectionTitle.ACCESS)}
                     <div className="home-screen-moresetting-box">
-                        <Checkbox
-                            checked={updateInterval != VC.UPDATE_INTERVAL_DISABLED}
-                            onChange={(e) => this.onInputChange(VC.UPDATE_INTERVAL, e.target.checked)}>
-                            {sectionAccess.CHECK_UPDATE}
-                        </Checkbox>
                         <span>
-                            {this.inputRender(!this.state.intervalValid, MAX_UPDATE_INTERVAL, metricStr.HOURS, updateInterval === VC.UPDATE_INTERVAL_DISABLED, VC.UPDATE_INTERVAL_DISABLED ? DEFAULT_INTERVAL_HOURS : parseInt(updateInterval)/60, (e) => this.onInputChange(VC.UPDATE_INTERVAL_TEXT, e.target.value))}
+                            <Checkbox
+                                checked={updateInterval != VC.UPDATE_INTERVAL_DISABLED}
+                                onChange={(e) => this.onInputChange(VC.UPDATE_INTERVAL, e.target.checked)}>
+                                {sectionAccess.CHECK_UPDATE}
+                            </Checkbox>
+                        </span>
+                        <span>
+                            {this.inputRender(!this.state.intervalValid, MAX_UPDATE_INTERVAL, metricStr.HOURS, updateInterval === VC.UPDATE_INTERVAL_DISABLED, updateInterval === VC.UPDATE_INTERVAL_DISABLED ? DEFAULT_INTERVAL_HOURS : parseInt(updateInterval)/60, (e) => this.onInputChange(VC.UPDATE_INTERVAL_TEXT, e.target.value))}
                         </span>
                     </div>
                     <Divider/>
                     
                     {/* Connectivity section */}
-                    <div className = "home-screen-moresetting-cfg-advance-padding">
-                        <span className="home-screen-moresetting-title">
-                            {sectionTitle.CONNECTIVITY}
-                        </span>
-                    </div>
+                    {this.sectionTitleRender(sectionTitle.CONNECTIVITY)}
                     <div className="home-screen-moresetting-box">
-                        <div>
-                            <span>{sectionConnectivity.NETWORK_TIMEOUT}</span>
-                        </div>
+                        <span>{sectionConnectivity.NETWORK_TIMEOUT}</span>
                         {this.inputRender(!this.state.timeoutValid, MAX_TIMEOUT, metricStr.SECONDS, false, parseInt(networkTimeout), (e) => this.onInputChange(VC.NETWORK_TIMEOUT, e.target.value))}
                     </div>
                     <Divider/>
             
                     {/* Log section */}
-                    <div className='home-screen-moresetting-cfg-advance-padding'>
-                        <span className="home-screen-moresetting-title">{sectionTitle.LOGGING}</span>
-                    </div>
-                    <div className="home-screen-moresetting-box">
-                        <div className='home-screen-moresetting-cfg-advance-padding'>
+                    {this.sectionTitleRender(sectionTitle.LOGGING)}
+                    <div className="home-screen-moresetting-cfg-advance-padding">
+                        <div className='home-screen-moresetting-box'>
                             <span>{sectionLogging.MAX_LOG_SIZE}</span>
+                            {this.inputRender(!this.state.loggingSizeValid, MAX_LOGGING_SIZE, metricStr.ENTRIES, false, parseInt(maxLogSize), (e) => this.onInputChange(VC.MAX_LOG_SIZE, e.target.value))}
                         </div>
-                        {this.inputRender(!this.state.loggingSizeValid, MAX_LOGGING_SIZE, metricStr.ENTRIES, false, parseInt(maxLogSize), (e) => this.onInputChange(VC.MAX_LOG_SIZE, e.target.value))}
                     </div>
 
                     <div className="home-screen-moresetting-box">
-                        <div>
-                            <span>{sectionLogging.LOG_LEVEL}</span>
-                        </div>
-                        <div className='home-screen-moresetting-cfg-advance-input log-dropdown'>
+                        <span>{sectionLogging.LOG_LEVEL}</span>
+                        <span className='home-screen-moresetting-cfg-advance-input log-dropdown'>
                             <Dropdown overlay={this.logMenu(logLevel)}>
                                 <Button>
                                     <span>
                                         {this.logLevelMappingStr(logLevel)}
                                     </span>
                                     <div>
-                                        <Icon type="down" theme="outlined" />
+                                        <DownOutlined />
                                     </div>
                                 </Button>
                             </Dropdown>
-                        </div>
+                        </span>
                     </div>
                     <Divider/>
 
                     {/* Cache section */}
-                    <div className='home-screen-moresetting-cfg-advance-padding'>
-                        <span className="home-screen-moresetting-title">{sectionTitle.CACHE}</span>
-                    </div>
+                    {this.sectionTitleRender(sectionTitle.CACHE)}
                     <div className="home-screen-moresetting-box-vertical">
-                        <Checkbox
+                        <Checkbox className="home-screen-moresetting-cfg-advance-padding"
                             checked={cacheClearMode === VC.CLEAR_ON_CLOSE}
                             onChange={(e) => this.onInputChange(VC.CLEAR_CACHE_ON_CLOSE, e.target.checked)}>
                             {sectionCache.CLEAR_CACHE_ON_CLOSE}

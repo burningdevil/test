@@ -1,6 +1,6 @@
 
+$font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';
 $text-color: #35383A;
-$text-font: 'SFProText';
 $font-size: 12px;
 $font-size-mini: 11px;
 $line-height: 16px;
@@ -8,26 +8,27 @@ $line-height-mini: 14px;
 $line-height-small: 13px;
 
 .home-screen-components{
-    padding: 0px 0px 0 20px;
+    padding: 0px;
     position: relative;
-    overflow: scroll;
     display: flex , float;
     height: 660px;
     background-color: white;
     text-align: left;
-    font: $text-font;
+    font-family: $font-family;
     color: $text-color;
+
+    .ant-checkbox-inner, .ant-checkbox-input {
+        transform: scale(0.75);
+    }
 
     &-left{
         float: left;
-        margin-left: 0px;
-        margin-top: 10px;
+        margin: 43px 20px 0px 40px;
     }
 
     &-right{
         float: right;
-        padding-right: 10px;
-        padding-top: 10px;
+        padding: 43px 0 0 0;
         background-color:#f6f8fa;
     }
 
@@ -47,7 +48,8 @@ $line-height-small: 13px;
 
     &-scrollcontainer{
         overflow: auto;
-        height: auto;
+        margin-top: 23px; //?
+        height: 512px; // ??
     }
 
     &-toolbar{
@@ -64,7 +66,6 @@ $line-height-small: 13px;
             font-size: $font-size-mini;
             line-height: $line-height-small;
             margin-bottom: 2px;
-            margin-top: 23px;
         }
     }
 
@@ -74,10 +75,12 @@ $line-height-small: 13px;
         height: intrinsic;           /* Safari/WebKit 使用了非标准的名称 */
         height: -moz-max-content;    /* Firefox/Gecko */
         height: -webkit-max-content; /* Chrome */
+        margin-bottom: 23px; // ??
 
         .ant-table-tbody > tr:nth-child(n-1)  > td {
             padding: 12px 0px;
             .table-text {
+                font-family: $font-family;
                 font-size: $font-size;
                 color: $text-color;
                 margin-left: 10px;
@@ -88,6 +91,7 @@ $line-height-small: 13px;
             padding: 12px 0px;
             border-bottom-style: none;
             .table-text {
+                font-family: $font-family;
                 font-size: $font-size;
                 color: $text-color;
                 margin-left: 10px;
