@@ -54,6 +54,26 @@ $right-background: rgb(224, 224, 224);
         height: 512px; // ??
     }
 
+    &-scrollcontainer::-webkit-scrollbar{
+        display: none;
+    }
+
+    // &-scrollcontainer:hover{
+    //     ::-webkit-scrollbar {
+    //         display: none;
+    //     }
+    // }
+    // &-scrollcontainer:focus{
+    //     ::-webkit-scrollbar {
+    //         display: none;
+    //     }
+    // }
+    // &-scrollcontainer:hover{
+    //     ::-webkit-scrollbar {
+    //         display: none;
+    //     }
+    // }
+
     &-toolbar{
         font-size: $font-size;
         line-height: $line-height-mini;

@@ -70,11 +70,12 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
             dataIndex: "selected",
             align: "right",
             render: (selectedInfo: [boolean, string]) => {
-                const disabled = sidebarIconKeys.includes(selectedInfo[1]) && !(this.iconSelectedInfo(iconTypes.sidebar.key)[0])
+                const toolbarDisabled = this.state.toolbarDisabled
+                const sidebarDisabled = sidebarIconKeys.includes(selectedInfo[1]) && !(this.iconSelectedInfo(iconTypes.sidebar.key)[0])
                 const defaultGroupDisabled = !this.state.defaultGroupEnable && iconTypes.defaultGroup.key === selectedInfo[1]
                 return (
                     < Switch checked={selectedInfo[0]} onChange={
-                    (e) => this.onIconStateChange(e, selectedInfo[1])} disabled={disabled || defaultGroupDisabled} size={'small'} />
+                    (e) => this.onIconStateChange(e, selectedInfo[1])} disabled={toolbarDisabled || sidebarDisabled || defaultGroupDisabled} size={'small'} />
                 )
             }
         }
