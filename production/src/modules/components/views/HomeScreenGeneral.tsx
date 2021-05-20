@@ -125,7 +125,7 @@ export default class HomeScreenGeneral extends React.Component<any, any> {
                   App Url
               </div>
               <div className="home-screen-general-url-name">
-                  {this.state.currentEnv.url + 'config/' + this.props.configId}
+                  {this.state.currentEnv.url + 'app/config/' + this.props.configId}
               </div>
             </div>
          </div>

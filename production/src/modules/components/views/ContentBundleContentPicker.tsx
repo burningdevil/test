@@ -8,6 +8,8 @@ import classNames from 'classnames';
 import { ClickParam } from 'antd/lib/menu';
 import { HttpProxy } from '../../../main';
 import { isContentTypeDossier } from './HomeScreenUtils'
+import { Record } from '@mstr/rc/types';
+import { ContextMenuItem } from '@mstr/rc/types/react-window-grid/type';
 
 declare var workstation: WorkstationModule;
 
@@ -175,6 +177,9 @@ export default class ContentBundleContentPicker extends React.Component<any, any
   // };
 
   render() {
+    const getContextMenuItems = (selection: SelectionStructure, contextMenuTarget: Record): ContextMenuItem[] => {
+      return [];
+    }
     const { dossiers, documents, loadingData } = this.state;
     const contents = this.getGridContents(this.state.activeTab === 'Dossier' ? dossiers : documents, this.state.activeTab);
     return (
@@ -294,6 +299,7 @@ export default class ContentBundleContentPicker extends React.Component<any, any
               rowData={contents}
               isColumnConfigurable={false}
               onRowClick={this.handleSelectObject}
+              getContextMenuItems={getContextMenuItems}
             />
               </div>
             </div>

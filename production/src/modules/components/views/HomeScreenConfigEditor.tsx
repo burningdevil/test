@@ -1,7 +1,8 @@
 import * as React from 'react'
+import { connect } from 'react-redux'
 import '../scss/HomeScreenConfigEditor.scss'
 import { Tabs, Layout, Button} from 'antd';
-import { WorkstationModule, WindowEvent } from '@mstr/workstation-types';
+import { WorkstationModule } from '@mstr/workstation-types';
 import { Alert } from '@mstr/rc';
 import HomeScreenGeneral from './HomeScreenGeneral';
 import HomeScreenComponents from './HomeScreenComponents';
@@ -11,6 +12,9 @@ import HomeScreenContentBundles from './HomeScreenContentBundles';
 import * as _ from "lodash";
 import { HttpProxy } from '../../../main';
 import { PARSE_METHOD } from '../../../utils/ParseMethods';
+import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
+import { selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEditorSelector';
+import * as Actions from '../../../store/actions/ActionsCreator';
 import { childrenIcons, CONSTANTS, dossierIconsDossierHome, iconTypes, libraryIcons } from '../HomeScreenConfigConstant';
 
 declare var workstation: WorkstationModule;
@@ -28,7 +32,7 @@ const popoverGeneral = {
   headerHeight: 0,
 };
 
-export default class HomeScreenConfigEditor extends React.Component<any, any> {
+class HomeScreenConfigEditor extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
     this.state = {
@@ -38,7 +42,7 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
       configInfo: {
           name: '',
           description: '',
-          platform: ['Mobile'],
+          platform: ['Mobile', 'Web', 'Desktop'],
           homeScreen: {mode: 0, homeLibrary: {icons:libraryIcons.map((icon) => icon.key), sidebars: childrenIcons.map((icon) => icon.key).filter((key) => key !== iconTypes.defaultGroup.key), contentBundleIds:[], toolbarMode: 0, toolbarDisabled: 0}, homeDocument: {url:"", icons:dossierIconsDossierHome.map((icon) => icon.key), toolbarMode: 0, toolbarDisabled: 0}},
           general: { networkTimeout: 180, cacheClearMode: 1, clearCacheOnLogout: false, maxLogSize: 500, logLevel: 12, updateInterval: 1440}
       }
@@ -74,6 +78,8 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
     this.setState({
       configInfo: data
     });
+
+    this.props.setCurrentConfig(data);
 
     console.log(data);
   }
@@ -207,3 +213,13 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
     );
   }
 }
+
+const mapState = (state: RootState) => ({
+  config: selectCurrentConfig(state)
+})
+
+const connector = connect(mapState, {
+  setCurrentConfig: Actions.setCurrentConfig
+})
+
+export default connector(HomeScreenConfigEditor)

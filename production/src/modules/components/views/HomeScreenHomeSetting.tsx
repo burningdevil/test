@@ -156,7 +156,7 @@ export default class HomeScreenHomeSetting extends React.Component<any, any> {
     })
     //update dossier url
     //write back
-    this.props.handleChange( {homeScreen:{homeDocument: {url: this.state.currentEnv.url + dossierUrl}}} );
+    this.props.handleChange( {homeScreen:{homeDocument: {url: this.state.currentEnv.url + 'app/' + dossierUrl}}} );
   }
 
   render() {
