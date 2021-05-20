@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="139px" height="114px" viewBox="0 0 139 114" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="69px" height="57px" viewBox="0 0 69 57" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <title>Group 2</title>
     <defs>
         <path d="M0,0.560621669 C0,0.250998871 0.254659799,0 0.547007567,0 L56.5717418,0 C56.8738458,0 57.1187494,0.252894189 57.1187494,0.560621669 L57.1187494,46.4433492 C57.1187494,46.752972 56.8640896,47.0039709 56.5717418,47.0039709 L0.547007567,47.0039709 C0.24490363,47.0039709 0,46.7510767 0,46.4433492 L0,0.560621669 Z" id="path-1"></path>
@@ -52,63 +52,6 @@
                                 <polygon id="Rectangle" fill="#FFFFFF" opacity="0.1" mask="url(#mask-5)" transform="translate(42.630970, 23.738685) rotate(20.000000) translate(-42.630970, -23.738685) " points="26.7494983 36.5983021 53.3680249 10.8790675 58.5124424 25.0132386"></polygon>
                                 <polygon id="Rectangle" fill="#FFFFFF" opacity="0.06" mask="url(#mask-5)" transform="translate(10.123200, 10.409275) scale(-1, 1) translate(-10.123200, -10.409275) " points="0 31.8138884 20.2463998 -10.9953375 20.2463998 31.8138884"></polygon>
                                 <polygon id="Rectangle" fill="#FFFFFF" opacity="0.06" mask="url(#mask-5)" transform="translate(12.654000, 19.024995) scale(-1, -1) translate(-12.654000, -19.024995) " points="0 37.8814402 25.3079997 0.16855071 25.3079997 37.8814402"></polygon>
-                            </g>
-                            <path d="M8.24346336,35.7230179 L48.875286,35.7230179 C49.4847984,35.7230179 49.9789057,36.2171252 49.9789057,36.8266375 L49.9789057,37.4396364 C49.9789057,38.0491487 49.4847984,38.5432561 48.875286,38.5432561 L8.24346336,38.5432561 C7.63395104,38.5432561 7.13984368,38.0491487 7.13984368,37.4396364 L7.13984368,36.8266375 C7.13984368,36.2171252 7.63395104,35.7230179 8.24346336,35.7230179 Z" id="Rectangle-7" fill="#D8D8D8"></path>
-                        </g>
-                        <g id="Group-12" transform="translate(76.200000, 0.000000)">
-                            <mask id="mask-7" fill="white">
-                                <use xlink:href="#path-6"></use>
-                            </mask>
-                            <g id="Rectangle">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-8)" xlink:href="#path-6"></use>
-                                <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-6"></use>
-                            </g>
-                            <g id="blue-page" mask="url(#mask-7)">
-                                <mask id="mask-10" fill="white">
-                                    <use xlink:href="#path-9"></use>
-                                </mask>
-                                <use id="Mask" fill="#0E6FF9" xlink:href="#path-9"></use>
-                                <polygon id="Rectangle" fill="#FFFFFF" opacity="0.1" mask="url(#mask-10)" transform="translate(42.630970, 23.738685) rotate(20.000000) translate(-42.630970, -23.738685) " points="26.7494983 36.5983021 53.3680249 10.8790675 58.5124424 25.0132386"></polygon>
-                                <polygon id="Rectangle" fill="#FFFFFF" opacity="0.06" mask="url(#mask-10)" transform="translate(10.123200, 10.409275) scale(-1, 1) translate(-10.123200, -10.409275) " points="0 31.8138884 20.2463998 -10.9953375 20.2463998 31.8138884"></polygon>
-                                <polygon id="Rectangle" fill="#FFFFFF" opacity="0.06" mask="url(#mask-10)" transform="translate(12.654000, 19.024995) scale(-1, -1) translate(-12.654000, -19.024995) " points="0 37.8814402 25.3079997 0.16855071 25.3079997 37.8814402"></polygon>
-                            </g>
-                            <path d="M8.24346336,35.7230179 L48.875286,35.7230179 C49.4847984,35.7230179 49.9789057,36.2171252 49.9789057,36.8266375 L49.9789057,37.4396364 C49.9789057,38.0491487 49.4847984,38.5432561 48.875286,38.5432561 L8.24346336,38.5432561 C7.63395104,38.5432561 7.13984368,38.0491487 7.13984368,37.4396364 L7.13984368,36.8266375 C7.13984368,36.2171252 7.63395104,35.7230179 8.24346336,35.7230179 Z" id="Rectangle-7" fill="#D8D8D8"></path>
-                        </g>
-                        <g id="Group-14" transform="translate(0.000000, 61.800000)">
-                            <mask id="mask-12" fill="white">
-                                <use xlink:href="#path-11"></use>
-                            </mask>
-                            <g id="Rectangle">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-13)" xlink:href="#path-11"></use>
-                                <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-11"></use>
-                            </g>
-                            <g id="blue-page" mask="url(#mask-12)">
-                                <mask id="mask-15" fill="white">
-                                    <use xlink:href="#path-14"></use>
-                                </mask>
-                                <use id="Mask" fill="#0E6FF9" xlink:href="#path-14"></use>
-                                <polygon id="Rectangle" fill="#FFFFFF" opacity="0.1" mask="url(#mask-15)" transform="translate(42.630970, 23.738685) rotate(20.000000) translate(-42.630970, -23.738685) " points="26.7494983 36.5983021 53.3680249 10.8790675 58.5124424 25.0132386"></polygon>
-                                <polygon id="Rectangle" fill="#FFFFFF" opacity="0.06" mask="url(#mask-15)" transform="translate(10.123200, 10.409275) scale(-1, 1) translate(-10.123200, -10.409275) " points="0 31.8138884 20.2463998 -10.9953375 20.2463998 31.8138884"></polygon>
-                                <polygon id="Rectangle" fill="#FFFFFF" opacity="0.06" mask="url(#mask-15)" transform="translate(12.654000, 19.024995) scale(-1, -1) translate(-12.654000, -19.024995) " points="0 37.8814402 25.3079997 0.16855071 25.3079997 37.8814402"></polygon>
-                            </g>
-                            <path d="M8.24346336,35.7230179 L48.875286,35.7230179 C49.4847984,35.7230179 49.9789057,36.2171252 49.9789057,36.8266375 L49.9789057,37.4396364 C49.9789057,38.0491487 49.4847984,38.5432561 48.875286,38.5432561 L8.24346336,38.5432561 C7.63395104,38.5432561 7.13984368,38.0491487 7.13984368,37.4396364 L7.13984368,36.8266375 C7.13984368,36.2171252 7.63395104,35.7230179 8.24346336,35.7230179 Z" id="Rectangle-7" fill="#D8D8D8"></path>
-                        </g>
-                        <g id="Group-15" transform="translate(76.200000, 61.800000)">
-                            <mask id="mask-17" fill="white">
-                                <use xlink:href="#path-16"></use>
-                            </mask>
-                            <g id="Rectangle">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-18)" xlink:href="#path-16"></use>
-                                <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-16"></use>
-                            </g>
-                            <g id="blue-page" mask="url(#mask-17)">
-                                <mask id="mask-20" fill="white">
-                                    <use xlink:href="#path-19"></use>
-                                </mask>
-                                <use id="Mask" fill="#0E6FF9" xlink:href="#path-19"></use>
-                                <polygon id="Rectangle" fill="#FFFFFF" opacity="0.1" mask="url(#mask-20)" transform="translate(42.630970, 23.738685) rotate(20.000000) translate(-42.630970, -23.738685) " points="26.7494983 36.5983021 53.3680249 10.8790675 58.5124424 25.0132386"></polygon>
-                                <polygon id="Rectangle" fill="#FFFFFF" opacity="0.06" mask="url(#mask-20)" transform="translate(10.123200, 10.409275) scale(-1, 1) translate(-10.123200, -10.409275) " points="0 31.8138884 20.2463998 -10.9953375 20.2463998 31.8138884"></polygon>
-                                <polygon id="Rectangle" fill="#FFFFFF" opacity="0.06" mask="url(#mask-20)" transform="translate(12.654000, 19.024995) scale(-1, -1) translate(-12.654000, -19.024995) " points="0 37.8814402 25.3079997 0.16855071 25.3079997 37.8814402"></polygon>
                             </g>
                             <path d="M8.24346336,35.7230179 L48.875286,35.7230179 C49.4847984,35.7230179 49.9789057,36.2171252 49.9789057,36.8266375 L49.9789057,37.4396364 C49.9789057,38.0491487 49.4847984,38.5432561 48.875286,38.5432561 L8.24346336,38.5432561 C7.63395104,38.5432561 7.13984368,38.0491487 7.13984368,37.4396364 L7.13984368,36.8266375 C7.13984368,36.2171252 7.63395104,35.7230179 8.24346336,35.7230179 Z" id="Rectangle-7" fill="#D8D8D8"></path>
                         </g>

@@ -90,11 +90,11 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
     // overlay of header toolbar
     overlayRender = (index: number, centered: boolean) => {
         const top = index === 0 ? '130px' : '330px'
-        const right = !!centered ? '87px' : '17px'
+        const right = !!centered ? '85px' : '17px'
         const style = {top: top, right: right}
         return <div> 
             <div className={'homeScreenPreviewer-overlay'} style={style}> </div>
-            <div className={'homeScreenPreviewer-overlay-Icon'} style={style}> <span className={'icon-fullscreen'}> </span> </div> 
+            <div className={'homeScreenPreviewer-overlay-Icon'} style={style}> <span className={iconTypes.previewFullScreen.iconName}> </span> </div> 
             </div>
     }
 
@@ -156,8 +156,7 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
 
         const showExpander = toolbarHidden && !toolbarDisabled
         const hideHeader = toolbarHidden || toolbarDisabled
-        // const padItemRowCount = hideHeader ? 3 : 2
-        // const padItemColCount = showSideBar ? 2 : 3
+        const padRightClassName = showSideBar ? 'homeScreenPreviewer-pad-overview-right-library' : 'homeScreenPreviewer-pad-overview-right-library-nosidebar'
 
         switch (deviceType) {
             case VC.REVIEW_MODE_TABLET:
@@ -184,8 +183,9 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
                                                 { showSideBar && this.sidebarIconsRender(childrenIcons, 'homeScreenPreviewer-pad-overview-left') }
                                                 {/* { showSortAndFilter && this.toolbarIconsRender([iconTypes.sortAndFilter]) } */}
                                                 <div className={"homeScreenPreviewer-pad-overview-right"}>
-                                                    { showSideBar && <div className="homeScreenPreviewer-pad-overview-right-library"> </div> }
-                                                    { !showSideBar && <div className="homeScreenPreviewer-pad-overview-right-library"> </div> }
+                                                    { <div className={padRightClassName}> </div> }
+                                                    { <div className={padRightClassName}> </div> }
+                                                    { !showSideBar && <div className={padRightClassName}> </div>}
                                                 </div>
                                             </div>
                                         </Layout>

@@ -104,7 +104,6 @@ $line-height-side: 18px;
         margin-right: 16px;
         margin-bottom: 8px;
         height: $preview-height;
-        // background-color: $background-color;
         .ant-layout-header {
             padding: 0 1px;
             height: $preview-header-height;
@@ -162,20 +161,23 @@ $line-height-side: 18px;
             }
             &-right {
                 flex: auto;
-                flex-direction: column;
+                flex-direction: row;
                 background-color: $background-color;
                 padding: 10px;
+                display: flex;  
+                justify-content: space-between;
 
                 &-library {
-                    width: 100%;
+                    width: 50%;
                     height: 100%;
                     background: url('../images/library-home-dossiers.svg') repeat-y; 
                 }
 
                 &-library-nosidebar {
-                    width: 100%;
+                    margin-left: 5px;
+                    width: 33%;
                     height: 100%;
-                    background: url('../images/library-home-dossiers-nosidebar.svg') repeat-y;
+                    background: url('../images/library-home-dossiers.svg') repeat-y;
                 }
 
                 &-dossier {

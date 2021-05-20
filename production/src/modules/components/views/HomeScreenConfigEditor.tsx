@@ -12,7 +12,6 @@ import * as _ from "lodash";
 import { HttpProxy } from '../../../main';
 import { PARSE_METHOD } from '../../../utils/ParseMethods';
 import { childrenIcons, CONSTANTS, dossierIconsDossierHome, iconTypes, libraryIcons } from '../HomeScreenConfigConstant';
-import { includes } from 'lodash';
 
 declare var workstation: WorkstationModule;
 
@@ -123,7 +122,16 @@ export default class HomeScreenConfigEditor extends React.Component<any, any> {
 
   handleContentBundleChange = (bundles: []) => {
     const currentConfig = this.state.configInfo;
+    const currentBundles = _.get(currentConfig, 'homeScreen.homeLibrary.contentBundleIds')
+    let sideBarIcons = _.get(currentConfig, 'homeScreen.homeLibrary.sidebars')
     _.set(currentConfig, 'homeScreen.homeLibrary.contentBundleIds', bundles);
+    // set components options default group automaticlly 
+    if (!_.isEmpty(currentBundles) && currentBundles.length > 0 && bundles.length === 0) {
+        sideBarIcons = _.concat(sideBarIcons, iconTypes.defaultGroup.key)
+    } else if ((_.isEmpty(currentBundles) || currentBundles.length === 0) && bundles.length > 0) {
+        sideBarIcons = _.pull(sideBarIcons, iconTypes.defaultGroup.key)
+    }
+    _.set(currentConfig, 'homeScreen.homeLibrary.sidebars', sideBarIcons)
     console.log('handle bundle change');
     console.log(currentConfig);
     this.setState({

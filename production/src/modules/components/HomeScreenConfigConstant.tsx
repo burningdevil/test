@@ -75,6 +75,7 @@ export const CONSTANTS = {
     ICON_DEFAULT_GROUP: 'defaultGroups',
     ICON_MY_GROUP: 'myGroups',
     ICON_HOME: 'home',
+    ICON_FULL_SCREEN: 'fullScreen',
 
     // icon font code
     FONT_SIDEBAR: 'icon-listview',
@@ -104,6 +105,7 @@ export const CONSTANTS = {
     FONT_PREVIEWSIDEBAR_MOBILE: 'icon-backarrow',
     FONT_PREVIEWTOC: 'icon-tb_undoarrow',
     FONT_PREVIEWOPTIONS: 'icon-user-profile',
+    FONT_FULLSCREEN: 'icon-fullscreen',
 }
 
 export const platformType = {
@@ -176,6 +178,7 @@ export const iconTypes = {
     previewSidebarMobile: {displayText: 'Sidebar', iconName: CONSTANTS.FONT_PREVIEWSIDEBAR_MOBILE, key: CONSTANTS.ICON_SIDEBAR},
     previewAccountMobile: {displayText: 'Account', iconName: CONSTANTS.FONT_PREVIEWOPTIONS, key: CONSTANTS.ICON_OPTIONS},
     previewTocPhone: {displayText: 'Table of Contents', iconName: CONSTANTS.FONT_PREVIEWTOC, key: CONSTANTS.ICON_TOCS},
+    previewFullScreen: {displayText: 'Full Screen', iconName: CONSTANTS.FONT_FULLSCREEN, key: CONSTANTS.ICON_FULL_SCREEN},
 }
 
 

@@ -44,7 +44,7 @@ interface HomeScreenComponentsState {
     selectedLibraryIcons: [string],
     selectedDocumentIcons: [string],
     extraIcons: iconDetail[],
-    childrenIcons: iconDetail[],
+    defaultGroupEnable: boolean,
 }
 
 export default class HomeScreenComponents extends React.Component<any, HomeScreenComponentsState> {
@@ -71,9 +71,10 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
             align: "right",
             render: (selectedInfo: [boolean, string]) => {
                 const disabled = sidebarIconKeys.includes(selectedInfo[1]) && !(this.iconSelectedInfo(iconTypes.sidebar.key)[0])
+                const defaultGroupDisabled = !this.state.defaultGroupEnable && iconTypes.defaultGroup.key === selectedInfo[1]
                 return (
                     < Switch checked={selectedInfo[0]} onChange={
-                    (e) => this.onIconStateChange(e, selectedInfo[1])} disabled={disabled} size={'small'} />
+                    (e) => this.onIconStateChange(e, selectedInfo[1])} disabled={disabled || defaultGroupDisabled} size={'small'} />
                 )
             }
         }
@@ -103,8 +104,7 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
                 selectedLibraryIcons = icons
                 state.toolbarHidden = toolbarMode === VC.COLLAPSE_TOOLBAR
                 state.toolbarDisabled = toolbarDisabled === VC.COLLAPSE_TOOLBAR
-                const defaultGroupShow = !_.isEmpty(contentBundleIds) && contentBundleIds.length > 0
-                state.childrenIcons = childrenIcons.filter( (icon) => icon.key != iconTypes.defaultGroup.key || defaultGroupShow )
+                state.defaultGroupEnable = !_.isEmpty(contentBundleIds) && contentBundleIds.length > 0
             }
         }
    
@@ -155,7 +155,7 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
     }
 
     renderTable = (icons: Array<iconDetail>) => {
-        const expandChildren = this.state.childrenIcons.map( (icon, index) =>     
+        const expandChildren = childrenIcons.map( (icon, index) =>     
             ({key: childrenKeyOffset+index, displayText: [icon.iconName, icon.displayText], selected: this.iconSelectedInfo(icon.key)})
         )
 
@@ -237,7 +237,7 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
         const newState = this.getNewState()
         if (newState.isDossierHome !== this.state.isDossierHome || newState.toolbarHidden !== this.state.toolbarHidden || newState.toolbarDisabled !== this.state.toolbarDisabled ||
             !_.isEqual(newState.extraIcons, this.state.extraIcons) || newState.selectedSidebarIcons.length !== this.state.selectedSidebarIcons.length || 
-            newState.selectedDocumentIcons.length !== this.state.selectedDocumentIcons.length || newState.selectedLibraryIcons.length != this.state.selectedLibraryIcons.length || newState.childrenIcons.length != this.state.childrenIcons.length) {
+            newState.selectedDocumentIcons.length !== this.state.selectedDocumentIcons.length || newState.selectedLibraryIcons.length != this.state.selectedLibraryIcons.length || newState.defaultGroupEnable != this.state.defaultGroupEnable) {
             this.setState(newState)
         }
     }
