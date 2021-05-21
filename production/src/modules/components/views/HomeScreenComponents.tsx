@@ -143,7 +143,7 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
     customExpandIcon = (props: any) => {
         const marginLeft = props.record.key >= childrenKeyOffset ? '27px' : '0px'
         if (props.expandable || props.record.expandable) {
-            return <span style={{marginLeft: marginLeft}} onClick={e => {
+            return <span style={{marginLeft: marginLeft, cursor: 'pointer'}} onClick={e => {
                 props.onExpand(props.record, e);
             }}>{this.renderTableExpander(props.record.displayText, props.expanded)}</span>
         } else {

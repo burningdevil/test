@@ -79,7 +79,7 @@ export const CONSTANTS = {
     ICON_FULL_SCREEN: 'fullScreen',
 
     // icon font code
-    FONT_SIDEBAR: 'icon-listview',
+    FONT_SIDEBAR: 'icon-tb_hamburger',
     FONT_SORT_FILTER: 'icon-filter',
     FONT_MULTI_SELECT: 'icon-tb_select_a',
     FONT_SEARCH: 'icon-search',
