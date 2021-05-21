@@ -18,7 +18,7 @@ $font-size-side: 7px;
 $line-height-side: 18px;
 
 // put all icons here
-@mixin iconFeatures() {
+@mixin iconFeatures($color) {
     .icon-tb_undoarrow {
         float: none;
         text-align: center;
@@ -26,16 +26,20 @@ $line-height-side: 18px;
         left: 124px;
         font-size: 16px;
     }
-    .icon-backarrow,
-    .icon-library,
     .icon-tb_home,
+    .icon-library{
+        float: left;
+        margin-left: 4.5px;
+        color: $primary-blue;
+    }
+    .icon-backarrow,
     .icon-listview,
     .icon-toc,
     .icon-tb_bookmarks_n,
     .icon-resetfile {
         float: left;
         margin-left: 4.5px;
-        color: $primary-blue;
+        color: $color;
     }
     .icon-search,
     .icon-tb_select_a,
@@ -48,7 +52,104 @@ $line-height-side: 18px;
     .icon-tb_share_n {
         float: right;
         margin-right: 4.5px;
-        color: $primary-blue;
+        color: $color;
+    }
+}
+
+@mixin padOrWebSetting($color) {
+    margin-left: 16px;
+    margin-right: 16px;
+    margin-bottom: 8px;
+    height: $preview-height;
+    .ant-layout-header {
+        padding: 0 1px;
+        height: $preview-header-height;
+        text-align: center;
+        border: .07rem solid lightgrey;
+        border-radius: 4px 4px 0 0;
+        border-bottom-width: .01rem;
+        line-height: $preview-header-height;
+        background-color: $background-color;
+        span {
+            float: right;
+            color: #3e96e9;
+            font-size: 10px;
+        }
+        @include iconFeatures($color)
+    }
+    &-content {
+        padding: 0;
+        flex: auto;
+    }
+    &-container {
+        height: 100%;
+        padding: 0;
+        border: .07rem solid lightgrey;
+        border-radius: 0 0 4px 4px;
+        align-self: center;
+    }
+    &-overview {
+        display: flex;
+        height: 100%;
+        width: 100%;
+        // padding: 8px;
+        &-left {
+            border-radius: 2px;
+            padding-left: 3px;
+            background-color: $background-color;
+            width: $sidebar-width;
+            border-right: .07rem solid lightgrey;
+            display: flex;
+            flex-direction: column;
+            justify-items: flex-start;
+            font-size: $font-size-side;
+            line-height: $line-height-side;
+            font-family: $font-family;
+
+            &-text {        
+                span {
+                    margin-left: 4px;
+                }
+            }
+            &-down {
+                margin-left: 4px;
+                margin-top: auto;
+            }
+        }
+        &-right {
+            flex: auto;
+            flex-direction: row;
+            background-color: $background-color;
+            padding: 10px;
+            display: flex;  
+            justify-content: space-between;
+
+            &-library {
+                width: 50%;
+                height: 100%;
+                background: url('../images/library-home-dossiers.svg') repeat-y; 
+            }
+
+            &-library-nosidebar {
+                margin-left: 5px;
+                width: 33%;
+                height: 100%;
+                background: url('../images/library-home-dossiers.svg') repeat-y;
+            }
+
+            &-dossier {
+                width: 100%;
+                height: 100%;
+                background: url('../images/dossier-window-vis.svg') no-repeat; 
+            }
+
+            &-dossier-nobar {
+                width: 100%;
+                height: 100%;
+                margin-top: 5px;
+                background: url('../images/dossier-window-vis-notoolbar.svg') no-repeat;
+            }
+        }
     }
 }
 
@@ -99,108 +200,20 @@ $line-height-side: 18px;
         font-family: $font-family;
         line-height: $line-height;
     }
-    &-pad {
-        margin-left: 16px;
-        margin-right: 16px;
-        margin-bottom: 8px;
-        height: $preview-height;
-        .ant-layout-header {
-            padding: 0 1px;
-            height: $preview-header-height;
-            text-align: center;
-            border: .07rem solid lightgrey;
-            border-radius: 4px 4px 0 0;
-            border-bottom-width: .01rem;
-            line-height: $preview-header-height;
-            background-color: $background-color;
-            span {
-                float: right;
-                color: #3e96e9;
-                font-size: 10px;
-            }
-            @include iconFeatures()
-        }
-        &-content {
-            padding: 0;
-            flex: auto;
-        }
-        &-container {
-            height: 100%;
-            padding: 0;
-            border: .07rem solid lightgrey;
-            border-radius: 0 0 4px 4px;
-            align-self: center;
-        }
-        &-overview {
-            display: flex;
-            height: 100%;
-            width: 100%;
-            // padding: 8px;
-            &-left {
-                border-radius: 2px;
-                padding-left: 3px;
-                background-color: $background-color;
-                width: $sidebar-width;
-                border-right: .07rem solid lightgrey;
-                display: flex;
-                flex-direction: column;
-                justify-items: flex-start;
-                font-size: $font-size-side;
-                line-height: $line-height-side;
-                font-family: $font-family;
-
-                &-text {        
-                   span {
-                        margin-left: 4px;
-                    }
-                }
-                &-down {
-                    margin-left: 4px;
-                    margin-top: auto;
-                }
-            }
-            &-right {
-                flex: auto;
-                flex-direction: row;
-                background-color: $background-color;
-                padding: 10px;
-                display: flex;  
-                justify-content: space-between;
-
-                &-library {
-                    width: 50%;
-                    height: 100%;
-                    background: url('../images/library-home-dossiers.svg') repeat-y; 
-                }
-
-                &-library-nosidebar {
-                    margin-left: 5px;
-                    width: 33%;
-                    height: 100%;
-                    background: url('../images/library-home-dossiers.svg') repeat-y;
-                }
-
-                &-dossier {
-                    width: 100%;
-                    height: 100%;
-                    background: url('../images/dossier-window-vis.svg') no-repeat; 
-                }
-
-                &-dossier-nobar {
-                    width: 100%;
-                    height: 100%;
-                    margin-top: 5px;
-                    background: url('../images/dossier-window-vis-notoolbar.svg') no-repeat;
-                }
-            }
-        }
-    }
-
+    
     &-horcontainer {
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: space-evenly;
+    }
+
+    &-pad {
+        @include padOrWebSetting($primary-blue)
+    }
+
+    &-web {
+        @include padOrWebSetting($font-color)
     }
 
     &-phone {
@@ -236,7 +249,7 @@ $line-height-side: 18px;
             line-height: 24px;
             background-color: rgba(255, 255, 255, .7);
             font-size: $font-size-mini;
-            @include iconFeatures() 
+            @include iconFeatures($primary-blue) 
         }
         &-content {
             flex: auto;
