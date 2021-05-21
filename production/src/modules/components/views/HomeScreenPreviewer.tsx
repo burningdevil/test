@@ -289,7 +289,7 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
                                         }
                                     </Layout>
                                 }
-                                { !isDossierHome && showExpanderOverlay && this.overlayRender(false) }
+                                { !isDossierHome && showExpanderOverlay && this.overlayRender(!showSideBar) }
                             </div>
                         </div>
                         
