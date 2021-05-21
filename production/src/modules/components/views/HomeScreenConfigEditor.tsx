@@ -43,8 +43,8 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
           name: '',
           description: '',
           platform: ['Mobile', 'Web', 'Desktop'],
-          homeScreen: {mode: 0, homeLibrary: {icons:libraryIcons.map((icon) => icon.key), sidebars: childrenIcons.map((icon) => icon.key).filter((key) => key !== iconTypes.defaultGroup.key), contentBundleIds:[], toolbarMode: 0, toolbarDisabled: 0}, homeDocument: {url:"", icons:dossierIconsDossierHome.map((icon) => icon.key), toolbarMode: 0, toolbarDisabled: 0}},
-          general: { networkTimeout: 180, cacheClearMode: 1, clearCacheOnLogout: false, maxLogSize: 500, logLevel: 12, updateInterval: 1440}
+          homeScreen: {mode: CONSTANTS.MODE_USE_DEFAULT_HOME_SCREEN, homeLibrary: {icons:libraryIcons.map((icon) => icon.key), sidebars: childrenIcons.map((icon) => icon.key).filter((key) => key !== iconTypes.defaultGroup.key), contentBundleIds:[], toolbarMode: CONSTANTS.SHOW_TOOLBAR, toolbarDisabled: CONSTANTS.SHOW_TOOLBAR}, homeDocument: {url:"", icons:dossierIconsDossierHome.map((icon) => icon.key), toolbarMode: CONSTANTS.SHOW_TOOLBAR, toolbarDisabled: CONSTANTS.SHOW_TOOLBAR}},
+          general: { networkTimeout: CONSTANTS.DEFAULT_NETWORK_TIMEOUT, cacheClearMode: CONSTANTS.CLEAR_AUTOMATIC, clearCacheOnLogout: false, maxLogSize: CONSTANTS.DEFAULT_MAX_LOG_SIZE, logLevel: CONSTANTS.LOG_LEVEL_WARNING, updateInterval: CONSTANTS.DEFAULT_UPDATE_INTERVAL}
       }
     } 
   }
@@ -131,11 +131,11 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
     const currentBundles = _.get(currentConfig, 'homeScreen.homeLibrary.contentBundleIds')
     let sideBarIcons = _.get(currentConfig, 'homeScreen.homeLibrary.sidebars')
     _.set(currentConfig, 'homeScreen.homeLibrary.contentBundleIds', bundles);
-    // set components options default group automaticlly 
+    // set components options 'default groups' automaticlly 
     if (!_.isEmpty(currentBundles) && currentBundles.length > 0 && bundles.length === 0) {
-        sideBarIcons = _.concat(sideBarIcons, iconTypes.defaultGroup.key)
-    } else if ((_.isEmpty(currentBundles) || currentBundles.length === 0) && bundles.length > 0) {
         sideBarIcons = _.pull(sideBarIcons, iconTypes.defaultGroup.key)
+    } else if ((_.isEmpty(currentBundles) || currentBundles.length === 0) && bundles.length > 0) {
+        sideBarIcons = _.concat(sideBarIcons, iconTypes.defaultGroup.key)
     }
     _.set(currentConfig, 'homeScreen.homeLibrary.sidebars', sideBarIcons)
     console.log('handle bundle change');
