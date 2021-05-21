@@ -22,7 +22,7 @@ export const env = __IS_WS__ ? workstation : browser
 wsEvents.init(env)
 // Store Initialization
 // ------------------------------------
-const store = createStore(window.__INITIAL_STATE__)
+export const store = createStore(window.__INITIAL_STATE__)
 
 // Render Setup
 // ------------------------------------

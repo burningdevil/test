@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { connect } from 'react-redux'
 import '../scss/HomeScreenConfigMainView.scss';
 import { message } from 'antd';
 import FileSaver from 'file-saver';
@@ -6,129 +7,75 @@ import { copyToClipboard } from '../../../utils/copy';
 import { ReactWindowGrid } from '@mstr/rc';
 import { SelectionStructure, Record } from '@mstr/rc/types';
 import { ContextMenuItem } from '@mstr/rc/types/react-window-grid/type';
-import { WorkstationModule, ObjectEditorSettings, EnvironmentChangeArg, WindowEvent} from '@mstr/workstation-types';
+import { WorkstationModule, ObjectEditorSettings, EnvironmentChangeArg, WindowEvent, EnvironmentAction, EnvironmentStatus} from '@mstr/workstation-types';
 import { HttpProxy } from '../../../main';
+import { RestApiError } from '../../../server/RestApiError';
+import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
+import { selectConfigList, selectContentBundleList } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as api from '../../../services/api';
 import * as _ from "lodash";
-import { hexIntToColorStr } from './HomeScreenUtils'
+import { hexIntToColorStr } from './HomeScreenUtils';
+import DisconnectedPage from './disconnected-page';
 
 declare var workstation: WorkstationModule;
-export default class HomeScreenConfigMainView extends React.Component<any, any> {
+class HomeScreenConfigMainView extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
     this.state = {
       configList: [],
-      bundleList: []
+      bundleList: [],
+      currentEnv: {},
+      isEnvReady: true
     }
   }
 
   async componentDidMount() {
     this.loadData();
     const currentEnv = await workstation.environments.getCurrentEnvironment();
-    console.log("Env: " + currentEnv);
     this.setState({
-      currentEnv: currentEnv
+      currentEnv: currentEnv,
+      isEnvReady: currentEnv.status === EnvironmentStatus.Connected
     });
     workstation.environments.onEnvironmentChange((change: EnvironmentChangeArg) => {
-      console.log('enviornment change');
-      this.setState({
-        currentEnv: change.changedEnvironment
-      });
-      this.loadData();
+      console.log('enviornment change: ' + change.actionTaken);
+      console.log('enviornment change: env name : ' + change.changedEnvironment.name);
+      console.log('enviornment change: env status : ' + change.changedEnvironment.status);
+      if (change.actionTaken === EnvironmentAction.ChangeEnvironmentSelection && change.changedEnvironment.url !== this.state.currentEnv.url) {
+        this.setState({
+          currentEnv: change.changedEnvironment,
+          isEnvReady: change.changedEnvironment.status === EnvironmentStatus.Connected
+        });
+        if (change.changedEnvironment.status === EnvironmentStatus.Connected) {
+          this.loadData();
+        }
+      }
+      if (change.actionTaken === EnvironmentAction.Connect && change.changedEnvironment.url === this.state.currentEnv.url) {
+        this.setState({
+          isEnvReady: true
+        });
+        this.loadData();
+      }
+      if (change.actionTaken === EnvironmentAction.Disconnect && change.changedEnvironment.status === EnvironmentStatus.Disconnected && change.changedEnvironment.url === this.state.currentEnv.url) {
+        this.setState({
+          isEnvReady: false
+        });
+      }
     })
 
-    workstation.window.addHandler(WindowEvent.POSTMESSAGE, (message: any) => {
-      console.log(message);
-      if(_.get(message, 'Message.homeConfigSaveSuccess', '')){
+    workstation.window.addHandler(WindowEvent.POSTMESSAGE, (msg: any) => {
+      console.log(msg);
+      if(_.get(msg, 'Message.homeConfigSaveSuccess', '')){
         this.loadData();
       }
       return {
           ResponseValue: true
       };
-  });
+    });
   }
 
-  loadData = async () => {
-    const response = await HttpProxy.get('/mstrClients/libraryApplications/configs').catch((e: any) => (this.setState({
-      configList: []
-    })));
-    let data = response;
-    if (response.data) {
-      data = response.data;
-    }
-
-    const bundleResponse = await HttpProxy.get('/contentBundles').catch((e: any) => (this.setState({
-      bundleList: []
-    })));
-
-    let bundleData = bundleResponse;
-    if (bundleResponse.data) {
-      bundleData = bundleResponse.data;
-    }
-
-    bundleData = bundleData.contentBundles;
-
-    const configList = data.map((config: any) => {
-      let resultConfig = config;
-      if (!_.has(resultConfig, 'platform')) {
-        _.assign(resultConfig, {platform: 'Mobile'});
-      } else {
-        _.assign(resultConfig, {platform: resultConfig.platform.join(',')});
-      }
-      if (!_.has(resultConfig, 'contentBundleIds')) {
-        _.assign(resultConfig, { contentBundles: []});
-      } else {
-      //   const mockContentBundles = [{
-      //     id:'0C9E5B884608E5B1C2134B88A184062A',
-      //     color: '#7565C0',
-      //     name: 'CT-Clients-FrameWork'
-      //   },
-      //   {
-      //     id: '14D70C8D48AFE28F03446E8AFC3C2313',
-      //     color: '#176AFF',
-      //     name: 'Hiring Plan'
-      //   },
-      //   {
-      //     id: '1E63CC394EF298FD7C4EBD8F449FAFF6',
-      //     color: '#B464E7',
-      //     name: 'HR-Team'
-      //   },
-      //   {
-      //     id: '1E63CC394EF298FD7C4EBD8F449FAFF6',
-      //     color: '#176AFF',
-      //     name: 'Budget and Operation'
-      //   },
-      //   {
-      //     id: '1E63CC394EF298FD7C4EBD8F449FAFF6',
-      //     color: '#7565C0',
-      //     name: 'Applications'
-      //   },
-      //   {
-      //     id: '1E63CC394EF298FD7C4EBD8F449FAFF6',
-      //     color: '#B464E7',
-      //     name: 'Spike'
-      //   }];
-      //   _.assign(resultConfig, { contentBundles: resultConfig.contentBundleIds.map((bundleId: string) => {
-      //     return mockContentBundles[Math.ceil(Math.random() * 6) % 6];
-      //   }) });
-        var arr = resultConfig.contentBundleIds.reduce(function(res: any, v: any) {
-          return res.concat(_.filter(bundleData, function(o) { return o.id === v; }));
-          }, []);
-        
-        _.assign(resultConfig, { contentBundles: arr });
-      }
-
-      _.assign(resultConfig, {mode: resultConfig.mode == 0 ? 'Library' : 'Dossier'});
-
-      if (_.has(resultConfig, 'lastUpdate')) {
-        _.assign(resultConfig, {lastUpdate: new Date(resultConfig.lastUpdate).toLocaleString()});
-      }
-
-      return resultConfig;
-    });
-    this.setState({
-      configList: configList
-    });
+  loadData = () => {
+    api.loadConfigList();
+    api.loadContentBundleList();
   }
 
   handleAddApplication = () => {
@@ -136,7 +83,6 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
   }
 
   openConfigEditor = (objId : string = '') => {
-    console.log("Env: " + this.state.environmentURL);
     const objType = 'HomeScreenConfig';
     let options: ObjectEditorSettings = {
       objectType: objType,
@@ -153,18 +99,36 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
     )
   }
 
-  deleteConfig = async (objId : string = '') => {
+  deleteConfig = (objId : string = '') => {
     if (objId) {
-      await HttpProxy.delete('/mstrClients/libraryApplications/configs/' + objId, {}).catch((e: any) => (console.log(e)));
+      HttpProxy.delete('/mstrClients/libraryApplications/configs/' + objId, {}).then((res: any) => {
+        this.loadData();
+      }).catch((e: any) => {
+        const error = e as RestApiError;
+        if (error.statusCode === 401) {
+          workstation.environments.getCurrentEnvironment().then(currentEnv => {
+            workstation.environments.disconnect(currentEnv.url);
+            message.error('404 error and disconnect');
+          });
+        }
+      });
     }
-    this.loadData();
   }
 
   duplicateConfig = async (objId : string = '') => {
     if (objId) {
-      await HttpProxy.post('/mstrClients/libraryApplications/configs?sourceId=' + objId, {}).catch((e: any) => (console.log(e)));
+      HttpProxy.post('/mstrClients/libraryApplications/configs?sourceId=' + objId, {}).then((res: any) => {
+        this.loadData();
+      }).catch((e: any) => {
+        const error = e as RestApiError;
+        if (error.statusCode === 401) {
+          workstation.environments.getCurrentEnvironment().then(currentEnv => {
+            workstation.environments.disconnect(currentEnv.url);
+            message.error('404 error and disconnect');
+          });
+        }
+      });
     }
-    this.loadData();
   }
 
   downloadJsonFile = async (configJson: JSON, configId: string) => {
@@ -174,11 +138,38 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
     FileSaver.saveAs(blob, configId + '.json');
   }
 
+  generateConfigDisplayList = () => {
+    const configList = this.props.configList.map((config: any) => {
+      let resultConfig = _.cloneDeep(config);
+      if (!_.has(resultConfig, 'platform')) {
+        _.assign(resultConfig, {platform: 'Mobile'});
+      } else {
+        _.assign(resultConfig, {platform: resultConfig.platform.join(',')});
+      }
+      if (!_.has(resultConfig, 'contentBundleIds')) {
+        _.assign(resultConfig, { contentBundles: []});
+      } else {
+        var arr = resultConfig.contentBundleIds.reduce(function(res: any, v: any) {
+          return res.concat(_.filter(this.props.contentBundleList, function(o) { return o.id === v; }));
+          }, []);
+        _.assign(resultConfig, { contentBundles: arr });
+      }
+
+      _.assign(resultConfig, {mode: resultConfig.mode == 0 ? 'Library' : 'Dossier'});
+
+      if (_.has(resultConfig, 'lastUpdate')) {
+        _.assign(resultConfig, {lastUpdate: new Date(resultConfig.lastUpdate).toLocaleString()});
+      }
+
+      return resultConfig;
+    });
+    return configList;
+  }
+
   render() {
+    const configDisplayList = this.generateConfigDisplayList();
     const getContextMenuItems = (selection: SelectionStructure, contextMenuTarget: Record): ContextMenuItem[] => {
       const handleClickEdit = () => {
-        console.log(selection);
-        console.log(contextMenuTarget);
         this.openConfigEditor(contextMenuTarget.id);
       };
       const handleClickDelete = () => {
@@ -190,8 +181,8 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
       const handleClickCopyLink = async () => {
         try {
           const currentEnv = await workstation.environments.getCurrentEnvironment();
-          const mobileLink = currentEnv.url + "config/" + contextMenuTarget.id;
-          copyToClipboard(mobileLink);
+          const appLink = currentEnv.url + "app/config/" + contextMenuTarget.id;
+          copyToClipboard(appLink);
           message.success('The application link has been successfully copied!');
         } catch (e) {
           message.error('Copy application link to clipboard fail: ' + e);
@@ -226,7 +217,7 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
         }
       ];
     };
-    return (
+    return this.state.isEnvReady ? (
       <div className="home-screen-main-container">
         <div className="add-application-container">
           <span className= "icon-pnl_add-new" onClick={this.handleAddApplication}/>
@@ -270,7 +261,7 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
                 return (
                   <div className='Config-List-Content-Bundles'>
                     {
-                      d.contentBundles.map(((bundle: {name: string, color: string}) => {
+                      d.contentBundles.map(((bundle: {name: string, color: number}) => {
                         return (<span className='Config-List-Content-Bundle-Item'>
                           <span className='Config-List-Content-Bundle-Item-Icon' style={{ background: hexIntToColorStr(bundle.color) }}></span>
                           <span className='Config-List-Content-Bundle-Item-Text'>{bundle.name}</span>
@@ -288,11 +279,23 @@ export default class HomeScreenConfigMainView extends React.Component<any, any> 
               width: '15%'
             }
           ]}
-          rowData={this.state.configList}
+          rowData={configDisplayList}
           getContextMenuItems={getContextMenuItems}
           isColumnConfigurable={true}
         />
-       </div>
-    )
+      </div>
+    ) : (
+      <DisconnectedPage />
+    ) 
   }
 }
+
+const mapState = (state: RootState) => ({
+  configList: selectConfigList(state),
+  contentBundleList: selectContentBundleList(state)
+})
+
+const connector = connect(mapState, {
+})
+
+export default connector(HomeScreenConfigMainView)

@@ -11,6 +11,19 @@ export interface HomeScreenConfigType {
     // To be extended.
 }
 
+export interface MainViewContentBundleType {
+    'id': string,
+    'name': string,
+    'color': number
+}
+
+export interface HomeScreenEditConfigType {
+    'id': string,
+    'name': string,
+    'description': string,
+    'lastUpdate': number
+}
+
 export interface GeneralSettingsType {
     name: string,
     description: string,
