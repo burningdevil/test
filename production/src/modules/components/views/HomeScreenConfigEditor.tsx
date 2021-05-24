@@ -15,7 +15,7 @@ import { PARSE_METHOD } from '../../../utils/ParseMethods';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
-import { childrenIcons, CONSTANTS, dossierIconsDossierHome, iconTypes, libraryIcons } from '../HomeScreenConfigConstant';
+import { childrenIcons, CONSTANTS, dossierIconsDossierHome, iconTypes, libraryIcons, platformType } from '../HomeScreenConfigConstant';
 
 declare var workstation: WorkstationModule;
 
@@ -121,6 +121,35 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
 
   handleConfigPropertiesChange = (properties: object) => {
     const currentConfig = _.merge(this.state.configInfo, properties);
+    // in case pewviewDeviceType not visible
+    const platform = _.get(currentConfig, 'platform')
+    let deviceType = this.state.previewDeviceType
+    const availableTypes = _.concat(platform.includes(platformType.mobile) ? [CONSTANTS.REVIEW_MODE_TABLET, CONSTANTS.REVIEW_MODE_PHONE] : [], platform.includes(platformType.web) ? CONSTANTS.REVIEW_MODE_WEB : [], platform.includes(platformType.desktop) ? CONSTANTS.REVIEW_MODE_DESKTOP : [])
+    
+    let valid = true
+    switch (deviceType) {
+        case CONSTANTS.REVIEW_MODE_TABLET:
+        case CONSTANTS.REVIEW_MODE_PHONE:
+            if (!platform.includes(platformType.mobile)) {
+                valid = false
+            }
+            break;
+        case CONSTANTS.REVIEW_MODE_WEB:
+            if (!platform.includes(platformType.web)) {
+                valid = false
+            }
+            break;
+        case CONSTANTS.REVIEW_MODE_DESKTOP:
+            if (!platform.includes(platformType.desktop)) {
+                valid = false
+            }
+            break;
+        default:
+            break;
+    }
+    if (!valid && availableTypes.length > 0) {
+        this.handlePreviewDeviceTypeChange(availableTypes[0])
+    }
     this.setState({
         configInfo: currentConfig
     });

@@ -25,6 +25,9 @@ const libraryIconKeys = libraryIcons.map((element) => element.key)
 const sidebarIconKeys = childrenIcons.map((element) => element.key)
 const childrenKeyOffset = 1000
 
+const mobileOnlyIconKeys = [iconTypes.accountMobile].map((element) => element.key)
+const webDesktopOnlyIconKeys = [iconTypes.multiSelect, iconTypes.accountWeb].map((element) => element.key)
+
 // helper
 function iconExpandable(iconText: string) {
     return iconText === iconTypes.sidebar.displayText
@@ -45,9 +48,26 @@ interface HomeScreenComponentsState {
     selectedDocumentIcons: [string],
     extraIcons: iconDetail[],
     defaultGroupEnable: boolean,
+    mobileOptionsVisible: boolean,
+    webOptionsVisible: boolean,
 }
 
 export default class HomeScreenComponents extends React.Component<any, HomeScreenComponentsState> {
+    isIconDisabled = (iconKey: string) => {
+        const toolbarDisabled = this.state.toolbarDisabled
+        const sidebarDisabled = sidebarIconKeys.includes(iconKey) && !(this.iconSelectedInfo(iconTypes.sidebar.key)[0])
+
+        let enabled = true
+        switch (iconKey) {
+            case iconTypes.defaultGroup.key:
+                enabled = this.state.defaultGroupEnable
+                break
+            default:
+                break
+        }
+        return !enabled || toolbarDisabled || sidebarDisabled
+    }
+
     columns = [
         {
             title: "",
@@ -70,12 +90,9 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
             dataIndex: "selected",
             align: "right",
             render: (selectedInfo: [boolean, string]) => {
-                const toolbarDisabled = this.state.toolbarDisabled
-                const sidebarDisabled = sidebarIconKeys.includes(selectedInfo[1]) && !(this.iconSelectedInfo(iconTypes.sidebar.key)[0])
-                const defaultGroupDisabled = !this.state.defaultGroupEnable && iconTypes.defaultGroup.key === selectedInfo[1]
                 return (
                     < Switch checked={selectedInfo[0]} onChange={
-                    (e) => this.onIconStateChange(e, selectedInfo[1])} disabled={toolbarDisabled || sidebarDisabled || defaultGroupDisabled} size={'small'} />
+                    (e) => this.onIconStateChange(e, selectedInfo[1])} disabled={this.isIconDisabled(selectedInfo[1])} size={'small'} />
                 )
             }
         }
@@ -106,6 +123,8 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
                 state.toolbarHidden = toolbarMode === VC.COLLAPSE_TOOLBAR
                 state.toolbarDisabled = toolbarDisabled === VC.COLLAPSE_TOOLBAR
                 state.defaultGroupEnable = !_.isEmpty(contentBundleIds) && contentBundleIds.length > 0
+                state.mobileOptionsVisible = _.includes(platform, platformType.mobile)
+                state.webOptionsVisible = _.includes(platform, platformType.web) || _.includes(platform, platformType.desktop)
             }
         }
    
@@ -141,7 +160,7 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
     }
 
     customExpandIcon = (props: any) => {
-        const marginLeft = props.record.key >= childrenKeyOffset ? '27px' : '0px'
+        const marginLeft = props.record.key >= childrenKeyOffset ? '10px' : '0px'
         if (props.expandable || props.record.expandable) {
             return <span style={{marginLeft: marginLeft, cursor: 'pointer'}} onClick={e => {
                 props.onExpand(props.record, e);
@@ -156,12 +175,15 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
     }
 
     renderTable = (icons: Array<iconDetail>) => {
-        const expandChildren = childrenIcons.map( (icon, index) =>     
+        const expandChildren = childrenIcons
+            .filter( (icon) => !mobileOnlyIconKeys.includes(icon.key) || this.state.mobileOptionsVisible)
+            .map( (icon, index) =>     
             ({key: childrenKeyOffset+index, displayText: [icon.iconName, icon.displayText], selected: this.iconSelectedInfo(icon.key)})
         )
 
-        const data = icons.map( (icon, index) => 
-            {
+        const data = icons
+            .filter( (icon) => !webDesktopOnlyIconKeys.includes(icon.key) || this.state.webOptionsVisible)
+            .map( (icon, index) => {
                 const hasChildren = iconExpandable(icon.displayText)
                 const selectedInfo = this.iconSelectedInfo(icon.key)
                 return (
@@ -206,7 +228,11 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
         // check side bar icons
         const allSideIconsKey = childrenIcons.map( (icon) => icon.key )
         if (allSideIconsKey.includes(iconKey)) {
-            const icons = value ? _.concat(this.state.selectedSidebarIcons, iconKey) : _.pull(this.state.selectedSidebarIcons, iconKey)
+            let key = iconKey
+            if (iconKey === iconTypes.accountMobile.key) { // translate mobile option key to normal key
+                key = iconTypes.account.key
+            }
+            const icons = value ? _.concat(this.state.selectedSidebarIcons, iconKey) : _.pull(this.state.selectedSidebarIcons, key)
             update = {[VC.ICON_SIDEBAR]: icons}
             update = {[VC.HOME_LIBRARY]: update}
         } else {
@@ -238,7 +264,7 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
         const newState = this.getNewState()
         if (newState.isDossierHome !== this.state.isDossierHome || newState.toolbarHidden !== this.state.toolbarHidden || newState.toolbarDisabled !== this.state.toolbarDisabled ||
             !_.isEqual(newState.extraIcons, this.state.extraIcons) || newState.selectedSidebarIcons.length !== this.state.selectedSidebarIcons.length || 
-            newState.selectedDocumentIcons.length !== this.state.selectedDocumentIcons.length || newState.selectedLibraryIcons.length != this.state.selectedLibraryIcons.length || newState.defaultGroupEnable != this.state.defaultGroupEnable) {
+            newState.selectedDocumentIcons.length !== this.state.selectedDocumentIcons.length || newState.selectedLibraryIcons.length != this.state.selectedLibraryIcons.length || newState.defaultGroupEnable != this.state.defaultGroupEnable || newState.mobileOptionsVisible != this.state.mobileOptionsVisible || newState.webOptionsVisible != this.state.webOptionsVisible) {
             this.setState(newState)
         }
     }
@@ -290,7 +316,7 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
                 </Layout.Content>
                 {/* previewer */}
                 <Layout.Sider className="home-screen-components-right" width='274px'>
-                    <HomeScreenPreviewer deviceType={this.props.deviceType} toolbarDisabled={this.state.toolbarDisabled} toolbarHidden={this.state.toolbarHidden} icons={allSelectedIcons} isDossierHome={this.state.isDossierHome} handleDeviceTypeChange={this.props.handleDeviceTypeChange}/>
+                    <HomeScreenPreviewer deviceType={this.props.deviceType} platform={this.props.platform} toolbarDisabled={this.state.toolbarDisabled} toolbarHidden={this.state.toolbarHidden} icons={allSelectedIcons} isDossierHome={this.state.isDossierHome} handleDeviceTypeChange={this.props.handleDeviceTypeChange}/>
                 </Layout.Sider>
             </Layout>
         )

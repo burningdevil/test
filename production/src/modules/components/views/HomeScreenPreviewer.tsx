@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { default as VC, childrenIcons, iconDetail, iconTypes } from '../HomeScreenConfigConstant'
+import { default as VC, childrenIcons, iconDetail, iconTypes, platformType } from '../HomeScreenConfigConstant'
 import { Layout, Radio } from 'antd'
 import { PlusCircleOutlined, DownOutlined } from '@ant-design/icons'
 import '../scss/HomeScreenPreviewer.scss'
@@ -10,6 +10,7 @@ type HomeScreenPreviewerProps = {
     toolbarHidden: boolean,
     icons: string[],
     deviceType: string,
+    platform: string[],
     isDossierHome: boolean,
     handleDeviceTypeChange: Function,
 }
@@ -29,8 +30,6 @@ const sectionTitle = {
     notificationPanel: 'Notification Panel',
 }
 
-const img1 = require('../images/dossier-window-vis.svg')
-const img2 = require('../images/library-home-dossiers.svg')
 export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProps, any> {
     iconShouldShow(icon: iconDetail) {
         const {icons} = this.props
@@ -44,6 +43,11 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
 
      // render device type radio buttons
     deviceTypesRender = (deviceType: string) => {
+        const { platform } = this.props
+        const mobileShow = platform.includes(platformType.mobile)
+        const webShow = platform.includes(platformType.web)
+        const desktopShow = platform.includes(platformType.desktop)
+        
         return <div className="homeScreenPreviewer-radio">
             {sectionTitle.preview}
             <div>
@@ -53,10 +57,10 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
                     buttonStyle='solid'
                     size="small"
                 >
-                    <Radio.Button value={VC.REVIEW_MODE_TABLET}>{deviceTypeText.tablet}</Radio.Button>
-                    <Radio.Button value={VC.REVIEW_MODE_PHONE}>{deviceTypeText.phone}</Radio.Button>
-                    <Radio.Button value={VC.REVIEW_MODE_WEB}>{deviceTypeText.web}</Radio.Button>
-                    <Radio.Button value={VC.REVIEW_MODE_DESKTOP}>{deviceTypeText.desktop}</Radio.Button> 
+                    {mobileShow && <Radio.Button value={VC.REVIEW_MODE_TABLET}>{deviceTypeText.tablet}</Radio.Button>}
+                    {mobileShow && <Radio.Button value={VC.REVIEW_MODE_PHONE}>{deviceTypeText.phone}</Radio.Button>}
+                    {webShow && <Radio.Button value={VC.REVIEW_MODE_WEB}>{deviceTypeText.web}</Radio.Button>}
+                    {desktopShow && <Radio.Button value={VC.REVIEW_MODE_DESKTOP}>{deviceTypeText.desktop}</Radio.Button>}
                 </Radio.Group>
             </div>
         </div>
@@ -77,7 +81,9 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
 
     // render array of side bar icons
     sidebarIconsRender = (iconsToRender: iconDetail[], rootClassName: string) => {
-        const sidebarIcons = iconsToRender.map( (element, index) => {
+        const sidebarIcons = iconsToRender
+            .filter ( (element) => element.key !== iconTypes.accountMobile.key )
+            .map( (element, index) => {
             const showAddButton = iconTypes.myGroup.key === element.key
             const showExpandIcon = iconTypes.myGroup.key === element.key || iconTypes.defaultGroup.key === element.key
             const showContent = iconTypes.defaultGroup.key === element.key
@@ -122,14 +128,14 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
         let footerIcons: iconDetail[] = []
         switch (deviceType) {
             case VC.REVIEW_MODE_TABLET:
-                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.account, iconTypes.share, iconTypes.filter, iconTypes.comment, iconTypes.notification] : [iconTypes.home, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.share, iconTypes.filter, iconTypes.comment]
+                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.account, iconTypes.share, iconTypes.filter, iconTypes.comment, iconTypes.notification] : [iconTypes.previewSidebarAndLibrary, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.share, iconTypes.filter, iconTypes.comment]
                 break
             case VC.REVIEW_MODE_WEB:
             case VC.REVIEW_MODE_DESKTOP:
-                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.account, iconTypes.share, iconTypes.filter, iconTypes.comment, iconTypes.notification] : [iconTypes.home, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.account, iconTypes.share, iconTypes.filter, iconTypes.comment]
+                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.account, iconTypes.share, iconTypes.filter, iconTypes.comment, iconTypes.notification] : [iconTypes.previewSidebarAndLibrary, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.account, iconTypes.share, iconTypes.filter, iconTypes.comment]
                 break
             case VC.REVIEW_MODE_PHONE:
-                headerIcons = [iconTypes.home, iconTypes.share]
+                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.share] : [iconTypes.previewSidebarAndLibrary, iconTypes.share]
                 footerIcons = isDossierHome ? [iconTypes.comment, iconTypes.bookmark, iconTypes.reset, iconTypes.filter, iconTypes.notification, iconTypes.account] : [iconTypes.comment, iconTypes.bookmark, iconTypes.reset, iconTypes.filter]
                 break
             default:
@@ -149,7 +155,7 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
                 break
             case VC.REVIEW_MODE_WEB:
             case VC.REVIEW_MODE_DESKTOP:
-                headerIcons = [iconTypes.previewSidebar, iconTypes.account, iconTypes.multiSelect, iconTypes.notification, iconTypes.sortAndFilter, iconTypes.search]
+                headerIcons = [iconTypes.previewSidebarAndLibrary, iconTypes.account, iconTypes.multiSelect, iconTypes.notification, iconTypes.sortAndFilter, iconTypes.search]
                 break
             case VC.REVIEW_MODE_PHONE:
                 headerIcons = [iconTypes.previewSidebarMobile]
