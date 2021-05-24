@@ -128,14 +128,14 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
         let footerIcons: iconDetail[] = []
         switch (deviceType) {
             case VC.REVIEW_MODE_TABLET:
-                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.account, iconTypes.share, iconTypes.filter, iconTypes.comment, iconTypes.notification] : [iconTypes.previewSidebarAndLibrary, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.share, iconTypes.filter, iconTypes.comment]
+                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.account, iconTypes.share, iconTypes.filter, iconTypes.comment, iconTypes.notification] : [iconTypes.previewLibrary, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.share, iconTypes.filter, iconTypes.comment]
                 break
             case VC.REVIEW_MODE_WEB:
             case VC.REVIEW_MODE_DESKTOP:
-                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.account, iconTypes.share, iconTypes.filter, iconTypes.comment, iconTypes.notification] : [iconTypes.previewSidebarAndLibrary, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.account, iconTypes.share, iconTypes.filter, iconTypes.comment]
+                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.account, iconTypes.share, iconTypes.filter, iconTypes.comment, iconTypes.notification] : [iconTypes.previewLibrary, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.account, iconTypes.share, iconTypes.filter, iconTypes.comment]
                 break
             case VC.REVIEW_MODE_PHONE:
-                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.share] : [iconTypes.previewSidebarAndLibrary, iconTypes.share]
+                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.share] : [iconTypes.previewLibrary, iconTypes.share]
                 footerIcons = isDossierHome ? [iconTypes.comment, iconTypes.bookmark, iconTypes.reset, iconTypes.filter, iconTypes.notification, iconTypes.account] : [iconTypes.comment, iconTypes.bookmark, iconTypes.reset, iconTypes.filter]
                 break
             default:
@@ -155,7 +155,7 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
                 break
             case VC.REVIEW_MODE_WEB:
             case VC.REVIEW_MODE_DESKTOP:
-                headerIcons = [iconTypes.previewSidebarAndLibrary, iconTypes.account, iconTypes.multiSelect, iconTypes.notification, iconTypes.sortAndFilter, iconTypes.search]
+                headerIcons = [iconTypes.previewSidebar, iconTypes.account, iconTypes.multiSelect, iconTypes.notification, iconTypes.sortAndFilter, iconTypes.search]
                 break
             case VC.REVIEW_MODE_PHONE:
                 headerIcons = [iconTypes.previewSidebarMobile]

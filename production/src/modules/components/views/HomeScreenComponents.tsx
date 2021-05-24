@@ -1,4 +1,4 @@
-import { Checkbox, Switch, Table, Layout, Divider } from 'antd'
+import { Checkbox, Switch, Table, Layout } from 'antd'
 import { RightOutlined, DownOutlined } from '@ant-design/icons'
 import * as React from 'react'
 import '../../../../src/assets/fonts/webfonts/css/dossier.css'
@@ -182,7 +182,7 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
         )
 
         const data = icons
-            .filter( (icon) => !webDesktopOnlyIconKeys.includes(icon.key) || this.state.webOptionsVisible)
+            .filter( (icon) => !webDesktopOnlyIconKeys.includes(icon.key) || this.state.webOptionsVisible || this.state.isDossierHome )
             .map( (icon, index) => {
                 const hasChildren = iconExpandable(icon.displayText)
                 const selectedInfo = this.iconSelectedInfo(icon.key)

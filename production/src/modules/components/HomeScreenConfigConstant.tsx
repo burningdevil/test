@@ -177,8 +177,11 @@ export const iconTypes = {
     //// for preview
     // home button
     home: {displayText: 'Home', iconName: CONSTANTS.FONT_HOME, key: CONSTANTS.ICON_HOME},
-    // stands for 'sidebar' in library, 'library' in dossier
-    previewSidebarAndLibrary: {displayText: 'Sidebar', iconName: CONSTANTS.FONT_PREVIEWSIDEBAR, key: CONSTANTS.ICON_SIDEBAR},
+    // stands for 'sidebar' in library
+    previewSidebar: {displayText: 'Sidebar', iconName: CONSTANTS.FONT_PREVIEWSIDEBAR, key: CONSTANTS.ICON_SIDEBAR},
+    // stands for 'library' in dossier
+    previewLibrary: {displayText: 'Home', iconName: CONSTANTS.FONT_PREVIEWSIDEBAR, key: CONSTANTS.ICON_HOME}, 
+    // mobile sidebar
     previewSidebarMobile: {displayText: 'Sidebar', iconName: CONSTANTS.FONT_PREVIEWSIDEBAR_MOBILE, key: CONSTANTS.ICON_SIDEBAR},
     previewAccountMobile: {displayText: 'Account', iconName: CONSTANTS.FONT_PREVIEWOPTIONS, key: CONSTANTS.ICON_OPTIONS},
     previewTocPhone: {displayText: 'Table of Contents', iconName: CONSTANTS.FONT_PREVIEWTOC, key: CONSTANTS.ICON_TOCS},
