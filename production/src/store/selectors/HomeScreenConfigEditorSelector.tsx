@@ -72,15 +72,13 @@ export const selectIsToolbarCollapsed = createSelector(
 )
 
 export const selectSelectedSideBarIcons = createSelector(
-  selectIsDossierAsHome,
   selectCurrentConfig,
-  (isDossierHome, config) => isDossierHome ? [] : config.homeScreen.homeLibrary.sidebars
+  (config) => config.homeScreen.homeLibrary.sidebars
 )
 
 export const selectSelectedLibraryIcons = createSelector(
-  selectIsDossierAsHome,
   selectCurrentConfig,
-  (isDossierHome, config) => isDossierHome ? [] : config.homeScreen.homeLibrary.icons
+  (config) => config.homeScreen.homeLibrary.icons
 )
 
 export const selectSelectedDocumentIcons = createSelector(

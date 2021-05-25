@@ -107,11 +107,11 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         if (sidebarIconKeys.includes(iconKey)) {
             selected = this.props.selectedSidebarIcons.includes(validKey)
         } else {
+            if (libraryIconKeys.includes(iconKey)) {
+                selected = this.props.selectedLibraryIcons.includes(validKey)
+            }
             if (dossierIconKeys.includes(iconKey)) {
                 selected = this.props.selectedDocumentIcons.includes(validKey) 
-            }
-            if (libraryIconKeys.includes(iconKey)) {
-                selected = selected || this.props.selectedLibraryIcons.includes(validKey)
             }
         }
         return [selected, iconKey]
