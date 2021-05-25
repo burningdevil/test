@@ -15,7 +15,7 @@ import { PARSE_METHOD } from '../../../utils/ParseMethods';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
-import { childrenIcons, CONSTANTS, dossierIconsDossierHome, iconTypes, libraryIcons, platformType } from '../HomeScreenConfigConstant';
+import { childrenIcons, CONSTANTS, dossierIconsDossierHome, iconTypes, libraryIcons, platformType, reviewType } from '../HomeScreenConfigConstant';
 
 declare var workstation: WorkstationModule;
 
@@ -38,7 +38,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
     this.state = {
       activeKey: '1',
       configId: undefined,
-      previewDeviceType: CONSTANTS.REVIEW_MODE_TABLET,
+      previewDeviceType: reviewType.TABLET,
       configInfo: {
           name: '',
           description: '',
@@ -121,25 +121,25 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
 
   handleConfigPropertiesChange = (properties: object) => {
     const currentConfig = _.merge(this.state.configInfo, properties);
-    // in case pewviewDeviceType not visible
+    // in case previewDeviceType not valid
     const platform = _.get(currentConfig, 'platform')
     let deviceType = this.state.previewDeviceType
-    const availableTypes = _.concat(platform.includes(platformType.mobile) ? [CONSTANTS.REVIEW_MODE_TABLET, CONSTANTS.REVIEW_MODE_PHONE] : [], platform.includes(platformType.web) ? CONSTANTS.REVIEW_MODE_WEB : [], platform.includes(platformType.desktop) ? CONSTANTS.REVIEW_MODE_DESKTOP : [])
+    const availableTypes = _.concat(platform.includes(platformType.mobile) ? [reviewType.TABLET, reviewType.PHONE] : [], platform.includes(platformType.web) ? reviewType.WEB : [], platform.includes(platformType.desktop) ? reviewType.DESKTOP : [])
     
     let valid = true
     switch (deviceType) {
-        case CONSTANTS.REVIEW_MODE_TABLET:
-        case CONSTANTS.REVIEW_MODE_PHONE:
+        case reviewType.TABLET:
+        case reviewType.PHONE:
             if (!platform.includes(platformType.mobile)) {
                 valid = false
             }
             break;
-        case CONSTANTS.REVIEW_MODE_WEB:
+        case reviewType.WEB:
             if (!platform.includes(platformType.web)) {
                 valid = false
             }
             break;
-        case CONSTANTS.REVIEW_MODE_DESKTOP:
+        case reviewType.DESKTOP:
             if (!platform.includes(platformType.desktop)) {
                 valid = false
             }
@@ -147,8 +147,8 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         default:
             break;
     }
-    if (!valid && availableTypes.length > 0) {
-        this.handlePreviewDeviceTypeChange(availableTypes[0])
+    if (!valid) {
+        this.handlePreviewDeviceTypeChange(availableTypes.length > 0 ? availableTypes[0] : reviewType.TABLET)
     }
     this.setState({
         configInfo: currentConfig

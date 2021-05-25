@@ -13,10 +13,7 @@ export const CONSTANTS = {
     //Home Screen
     MODE_USE_DEFAULT_HOME_SCREEN: 0,
     MODE_USE_DOSSIER_AS_HOME_SCREEN: 1,
-    REVIEW_MODE_TABLET: 'tablet',
-    REVIEW_MODE_PHONE: 'Phone',
-    REVIEW_MODE_DESKTOP: 'Desktop',
-    REVIEW_MODE_WEB: 'Web',
+    
     HOME_SCREEN: 'homeScreen',
     HOME_DOCUMENT: 'homeDocument',
     HOME_LIBRARY: 'homeLibrary',
@@ -109,11 +106,19 @@ export const CONSTANTS = {
     FONT_FULLSCREEN: 'icon-fullscreen',
 }
 
+export const reviewType = {
+    TABLET: 'tablet',
+    PHONE: 'Phone',
+    DESKTOP: 'Desktop',
+    WEB: 'Web',
+}
+
 export const platformType = {
     mobile: 'Mobile',
     web: 'Web',
     desktop: 'Desktop',
-  };
+}
+
 // toolbar icon [display text, icon-name, key]
 export interface iconDetail{
     displayText: string,
