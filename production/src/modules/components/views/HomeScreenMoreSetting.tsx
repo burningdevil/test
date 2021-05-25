@@ -1,9 +1,12 @@
 import * as React from 'react'
+import { connect } from 'react-redux'
 import '../scss/HomeScreenMoreSetting.scss'
 import { default as VC } from '../HomeScreenConfigConstant'
 import { Button, Checkbox, Divider, Dropdown, Menu, Input, Tooltip} from 'antd'
 import { DownOutlined } from '@ant-design/icons'
-import * as _ from "lodash";
+import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
+import { selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEditorSelector'
+import * as Actions from '../../../store/actions/ActionsCreator'
 
 const MAX_UPDATE_INTERVAL = 2400;//100 days
 const MAX_TIMEOUT = 9999;
@@ -49,7 +52,7 @@ const tooltipStr = (min: number, max: number) => {
     return 'The value must be between ' +  [min] + ' and ' + [max];;
 };
 
-export default class HomeScreenMoreSetting extends React.Component<any, any> {
+class HomeScreenMoreSetting extends React.Component<any, any> {
     constructor(props: any) {
         super(props)
     }
@@ -76,7 +79,7 @@ export default class HomeScreenMoreSetting extends React.Component<any, any> {
         let update = {}
         switch (type) {
             case VC.UPDATE_INTERVAL:
-                const { updateInterval } = this.props.general
+                const { updateInterval } = this.props.config.general
                 // const interval = updatein
                 const result = updateInterval === VC.UPDATE_INTERVAL_DISABLED ? DEFAULT_INTERVAL_HOURS * 60 : VC.UPDATE_INTERVAL_DISABLED;
                 update = {[type]: result}
@@ -133,7 +136,7 @@ export default class HomeScreenMoreSetting extends React.Component<any, any> {
                 update = {[type]: number}
                 break;
         }
-        this.props.handleChange({[VC.GENERAL]: update})
+        this.props.updateCurrentConfig({[VC.GENERAL]: update})
     }
 
     //log
@@ -199,7 +202,7 @@ export default class HomeScreenMoreSetting extends React.Component<any, any> {
             maxLogSize,
             cacheClearMode,
             clearCacheOnLogout,
-        } = this.props.general;
+        } = this.props.config.general;
 
         return <div className="home-screen-moresetting-cfg-advance">
                     <div className="home-screen-moresetting-desc">
@@ -273,3 +276,13 @@ export default class HomeScreenMoreSetting extends React.Component<any, any> {
                 </div>
     }
 }
+
+const mapState = (state: RootState) => ({
+    config: selectCurrentConfig(state),
+})
+  
+const connector = connect(mapState, {
+    updateCurrentConfig: Actions.updateCurrentConfig
+})
+  
+export default connector(HomeScreenMoreSetting)

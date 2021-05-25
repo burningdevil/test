@@ -1,4 +1,4 @@
-import { GeneralSettingsType, HomeScreenConfigType, HomeScreenEditConfigType, MainViewContentBundleType } from '../../types/data-model/HomeScreenConfigModels'
+import { HomeScreenConfigType, HomeScreenEditConfigType, MainViewContentBundleType } from '../../types/data-model/HomeScreenConfigModels'
 
 export interface LoadConfigListSuccessActionType {
     type: string,
@@ -14,9 +14,9 @@ export interface SetCurrentConfigActionType {
     type: string,
     data: HomeScreenEditConfigType,
 }
-export interface UpdateGeneralSettingsActionType {
+export interface UpdateCurrentConfigActionType {
     type: string,
-    data: GeneralSettingsType,
+    data: Partial<HomeScreenEditConfigType>,
 }
 
-export type ActionTypes = UpdateGeneralSettingsActionType | SetCurrentConfigActionType | LoadConfigListSuccessActionType | LoadContentBundleListSuccessActionType
+export type ActionTypes = UpdateCurrentConfigActionType | SetCurrentConfigActionType | LoadConfigListSuccessActionType | LoadContentBundleListSuccessActionType

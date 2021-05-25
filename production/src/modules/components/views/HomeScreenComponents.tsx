@@ -1,11 +1,15 @@
 import { Checkbox, Switch, Table, Layout, Divider } from 'antd'
 import { RightOutlined, DownOutlined } from '@ant-design/icons'
 import * as React from 'react'
+import { connect } from 'react-redux'
 import '../../../../src/assets/fonts/webfonts/css/dossier.css'
 import '../scss/HomeScreenComponents.scss'
 import { default as VC, platformType, iconDetail, iconTypes, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons } from '../HomeScreenConfigConstant'
 import * as _ from 'lodash'
 import { HomeScreenPreviewer } from './HomeScreenPreviewer'
+import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
+import { selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEditorSelector'
+import * as Actions from '../../../store/actions/ActionsCreator'
 
 // constatns 
 const localizedString = {
@@ -47,7 +51,7 @@ interface HomeScreenComponentsState {
     defaultGroupEnable: boolean,
 }
 
-export default class HomeScreenComponents extends React.Component<any, HomeScreenComponentsState> {
+class HomeScreenComponents extends React.Component<any, HomeScreenComponentsState> {
     columns = [
         {
             title: "",
@@ -83,7 +87,7 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
 
     getNewState = () => {
         let state = {...this.state}
-        const { homeScreen, platform } = this.props
+        const { homeScreen, platform } = this.props.config
         const { mode, homeLibrary, homeDocument } = homeScreen
         const isDossierHome = mode === VC.MODE_USE_DOSSIER_AS_HOME_SCREEN
         let selectedSideBarIcons = []
@@ -198,7 +202,7 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
             default:
                 break;
         }
-        this.props.handleChange(update)
+        this.props.updateCurrentConfig(update)
     }
 
     onIconStateChange = (value: boolean, iconKey: string) => {
@@ -225,7 +229,7 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
             update = _.merge(updateDocument, updateLibrary)
         }
         update = {[VC.HOME_SCREEN]: update}
-        this.props.handleChange(update) 
+        this.props.updateCurrentConfig(update) 
     }
 
     // Life cycle
@@ -296,3 +300,13 @@ export default class HomeScreenComponents extends React.Component<any, HomeScree
         )
     }
 }
+
+const mapState = (state: RootState) => ({
+    config: selectCurrentConfig(state)
+  })
+  
+  const connector = connect(mapState, {
+    updateCurrentConfig: Actions.updateCurrentConfig
+  })
+  
+  export default connector(HomeScreenComponents)

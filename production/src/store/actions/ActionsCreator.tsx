@@ -1,5 +1,5 @@
 import * as Actions from './ActionConstants'
-import { GeneralSettingsType, HomeScreenConfigType, HomeScreenEditConfigType, MainViewContentBundleType } from '../../types/data-model/HomeScreenConfigModels'
+import { HomeScreenConfigType, HomeScreenEditConfigType, MainViewContentBundleType } from '../../types/data-model/HomeScreenConfigModels'
 
 export const loadConfigListSuccess = (configList: Array<HomeScreenConfigType>) => ({
   type: Actions.LOAD_CONFIG_LIST_SUCCESS,
@@ -17,11 +17,11 @@ export const setCurrentConfig = (config: HomeScreenEditConfigType) => ({
   data: config,
 })
 
-/* ------------------------------ General Settings ---------------------------- */
-
-export const updateGeneralSettings = (settings: GeneralSettingsType) => ({
-  type: Actions.UPDATE_GENERAL_SETTINGS,
+export const updateCurrentConfig = (settings: Partial<HomeScreenEditConfigType>) => ({
+  type: Actions.UPDATE_CURRENT_CONFIG,
   data: settings,
 })
+
+
 
 

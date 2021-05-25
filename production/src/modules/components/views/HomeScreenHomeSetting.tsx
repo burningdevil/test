@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { connect } from 'react-redux'
 import '../scss/HomeScreenHomeSetting.scss'
 import { Radio, Button, Layout } from 'antd';
 import { env } from '../../../main'
@@ -6,13 +7,16 @@ import { RadioChangeEvent } from 'antd/lib/radio';
 import * as _ from "lodash";
 import { HttpProxy } from '../../../main';
 import ContentBundleContentPicker from './ContentBundleContentPicker'
-import { WorkstationModule, ObjectSelectorSettings, ObjectSelectorResponse, ObjectEditorSettings, WindowEvent } from '@mstr/workstation-types';
+import { WorkstationModule } from '@mstr/workstation-types';
+import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
+import { selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEditorSelector';
+import * as Actions from '../../../store/actions/ActionsCreator';
 import { HomeScreenPreviewer } from './HomeScreenPreviewer';
 import { default as VC } from '../HomeScreenConfigConstant';
 
 declare var workstation: WorkstationModule;
 
-export default class HomeScreenHomeSetting extends React.Component<any, any> {
+class HomeScreenHomeSetting extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
     this.state = {
@@ -26,7 +30,7 @@ export default class HomeScreenHomeSetting extends React.Component<any, any> {
     this.setState({
         currentEnv: curEnv
     })
-    const { homeScreen } = this.props;
+    const { homeScreen } = this.props.config;
     const dossierUrl = _.get(homeScreen, 'homeDocument.url', '');
     if (dossierUrl) {
         const ids = _.split(dossierUrl, '/');
@@ -117,12 +121,15 @@ export default class HomeScreenHomeSetting extends React.Component<any, any> {
   }
 
   handleHomeSettingChange = (event: RadioChangeEvent) => {
-    console.log(event);
-    this.props.handleChange( {homeScreen:{mode: event.target.value}} );
+    this.props.updateCurrentConfig({
+      homeScreen: {
+        mode: event.target.value
+      }
+    });
   }
 
   renderPickDossier = () => {
-    const { homeScreen } = this.props;
+    const { homeScreen } = this.props.config;
     const dossierUrl = _.get(homeScreen, 'homeDocument.url', '');
     const dossierImg = require('../images/dossier.png');
     if (dossierUrl) {
@@ -147,20 +154,21 @@ export default class HomeScreenHomeSetting extends React.Component<any, any> {
   }
 
   handleDossierChange = (dossierName: string, dossierUrl: string) => {
-    console.log(dossierName);
-    console.log(dossierUrl);
-
-    //change dossier name
     this.setState({
         dossierName: dossierName
     })
-    //update dossier url
-    //write back
-    this.props.handleChange( {homeScreen:{homeDocument: {url: this.state.currentEnv.url + 'app/' + dossierUrl}}} );
+    this.props.updateCurrentConfig({
+      homeScreen: {
+        homeDocument: {
+          url: this.state.currentEnv.url + 'app/' + dossierUrl
+        }
+      }
+    });
   }
 
   render() {
-    const { homeScreen, deviceType } = this.props;
+    const { deviceType } = this.props;
+    const { homeScreen } = this.props.config;
     const isDossierHome = _.get(homeScreen, 'mode') === VC.MODE_USE_DOSSIER_AS_HOME_SCREEN
     const dossierIcons =  _.get(homeScreen, 'homeDocument.icons')
     const libraryIcons = isDossierHome ? [] : _.get(homeScreen, 'homeLibrary.icons')
@@ -197,3 +205,13 @@ export default class HomeScreenHomeSetting extends React.Component<any, any> {
     );
   }
 }
+
+const mapState = (state: RootState) => ({
+  config: selectCurrentConfig(state)
+})
+
+const connector = connect(mapState, {
+  updateCurrentConfig: Actions.updateCurrentConfig
+})
+
+export default connector(HomeScreenHomeSetting)

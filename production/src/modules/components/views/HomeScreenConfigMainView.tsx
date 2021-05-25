@@ -108,7 +108,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         if (error.statusCode === 401) {
           workstation.environments.getCurrentEnvironment().then(currentEnv => {
             workstation.environments.disconnect(currentEnv.url);
-            message.error('404 error and disconnect');
+            message.error('401 error and disconnect');
           });
         }
       });
@@ -124,7 +124,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         if (error.statusCode === 401) {
           workstation.environments.getCurrentEnvironment().then(currentEnv => {
             workstation.environments.disconnect(currentEnv.url);
-            message.error('404 error and disconnect');
+            message.error('401 error and disconnect');
           });
         }
       });
@@ -192,8 +192,14 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         const configId = contextMenuTarget.id;
         api.downloadSingleMobileConfig(configId).then(config => {
           this.downloadJsonFile(config, configId);
-        }).catch(() => {
-          message.error('download application config json file fail.');
+        }).catch((e) => {
+          const error = e as RestApiError;
+          if (error.statusCode === 401) {
+            workstation.environments.getCurrentEnvironment().then(currentEnv => {
+              workstation.environments.disconnect(currentEnv.url);
+              message.error('401 error and disconnect');
+            });
+          }
         });
       };
 
