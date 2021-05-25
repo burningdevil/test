@@ -15,6 +15,8 @@ import { PARSE_METHOD } from '../../../utils/ParseMethods';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
+import { CONSTANTS } from '../HomeScreenConfigConstant';
+import * as api from '../../../services/api';
 
 declare var workstation: WorkstationModule;
 
@@ -47,27 +49,28 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
       });
       console.log(configId);
       if (configId) {
-        this.loadData(configId);
+        // this.loadData(configId);
+        api.loadCurrentEditConfig(configId);
       }
   }
 
-  loadData = async (configId: string) => {
-    const response = await HttpProxy.get('/mstrClients/libraryApplications/configs/' + configId);
-    let data = response;
-    if (response.data) {
-      data = response.data;
-    }
+  // loadData = async (configId: string) => {
+  //   const response = await HttpProxy.get('/mstrClients/libraryApplications/configs/' + configId);
+  //   let data = response;
+  //   if (response.data) {
+  //     data = response.data;
+  //   }
 
-    if (!_.has(data, 'platform')) {
-        _.assign(data, {platform: ['Mobile']});
-    }
+  //   if (!_.has(data, 'platform')) {
+  //       _.assign(data, {platform: ['Mobile']});
+  //   }
 
-    if (!_.has(data, 'homeScreen.homeLibrary')) {
-      data.homeScreen.homeLibrary = {icons:[], sidebars:[], contentBundleIds:[]}
-    }
+  //   if (!_.has(data, 'homeScreen.homeLibrary')) {
+  //     data.homeScreen.homeLibrary = {icons:[], sidebars:[], contentBundleIds:[]}
+  //   }
 
-    this.props.setCurrentConfig(data);
-  }
+  //   this.props.setCurrentConfig(data);
+  // }
 
   parseConfigId = (querystr: string) => {
       if (querystr) {
