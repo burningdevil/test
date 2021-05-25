@@ -20,6 +20,10 @@ import {
 import 'ag-grid-enterprise';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+import { RootState } from '../../../types/redux-state/HomeScreenConfigState';;
+import { connect } from 'react-redux';
+import { selectContentBundleList } from '../../../store/selectors/HomeScreenConfigEditorSelector';
+import * as api from '../../../services/api';
 
 // const bundleList = {
     //   contentBundles:
@@ -162,11 +166,11 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 declare var workstation: WorkstationModule;
 
-export default class ContentBundleList extends React.Component<any, any> {
+class ContentBundleList extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
     this.state = {
-      allBundleList: [],
+      // allBundleList: [],
       currentBundleList: [],
       showBundlePicker: false
     }
@@ -183,7 +187,9 @@ export default class ContentBundleList extends React.Component<any, any> {
   };
 
   async componentDidMount() {
-    this.loadData();
+    // this.loadData();
+    api.loadContentBundleList();
+    this.processBundleList(this.props.allBundleList, this.props.includedIds, this.props.excludedIds);
     const currentEnv = await workstation.environments.getCurrentEnvironment();
     console.log("Env: " + currentEnv);
     this.setState({
@@ -192,18 +198,18 @@ export default class ContentBundleList extends React.Component<any, any> {
     
   }
 
-  loadData = async () => {
-    const response = await HttpProxy.get('/contentBundles').catch((e: any) => (console.log(e)));
-    let bundleList = response;
-    if (response && response.data) {
-      bundleList = response.data;
-    }
-    var bundles = bundleList.contentBundles;
-    this.setState({
-      allBundleList: bundles
-    });
-    this.processBundleList(bundles, this.props.includedIds, this.props.excludedIds);
-  }
+  // loadData = async () => {
+  //   const response = await HttpProxy.get('/contentBundles').catch((e: any) => (console.log(e)));
+  //   let bundleList = response;
+  //   if (response && response.data) {
+  //     bundleList = response.data;
+  //   }
+  //   var bundles = bundleList.contentBundles;
+  //   this.setState({
+  //     allBundleList: bundles
+  //   });
+  //   this.processBundleList(bundles, this.props.includedIds, this.props.excludedIds);
+  // }
 
   processBundleList(bundles: BundleInfo[], includedIds:[], excludedIds:[]) {
     if (includedIds && this.props.allowDelete) {
@@ -251,6 +257,10 @@ export default class ContentBundleList extends React.Component<any, any> {
   }
 
   componentWillReceiveProps(nextProps: any) {
+    if (nextProps.allBundleList && this.props.allBundleList && nextProps.allBundleList.length !== this.props.allBundleList.length){
+      this.processBundleList(nextProps.allBundleList, nextProps.includedIds, nextProps.excludedIds);
+      return;
+    }
     console.log('bundle list receive props');
     if (nextProps.includedIds == this.props.includedIds){
       return;
@@ -260,7 +270,7 @@ export default class ContentBundleList extends React.Component<any, any> {
     }
     console.log('bundle list process');
     // if (nextProps.includedIds && nextProps.includedIds.length !== this.props.includedIds.length) {
-      this.processBundleList(this.state.allBundleList, nextProps.includedIds, nextProps.excludedIds);
+      this.processBundleList(this.props.allBundleList, nextProps.includedIds, nextProps.excludedIds);
     // }
   }
 
@@ -516,3 +526,12 @@ export default class ContentBundleList extends React.Component<any, any> {
     )
   }
 }
+
+const mapState = (state: RootState) => ({
+  allBundleList: selectContentBundleList(state)
+})
+
+const connector = connect(mapState, {
+})
+
+export default connector(ContentBundleList)

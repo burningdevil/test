@@ -22,8 +22,6 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
     this.state = {
-      configList: [],
-      bundleList: [],
       currentEnv: {},
       isEnvReady: true
     }

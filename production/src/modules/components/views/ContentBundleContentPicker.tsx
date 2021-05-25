@@ -36,7 +36,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
       activeTab: 'Dossier',
       searchNameFilter: '',
       selectedObject: {},
-      offset: 0,
+      // offset: 0,
       // dossiers: [],
       // documents: [],
       // loadingData: true

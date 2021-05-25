@@ -1,4 +1,3 @@
-import { iconDetail } from "../../modules/components/HomeScreenConfigConstant"
 export interface HomeScreenConfigType {
     'id': string,
     'name': string,
