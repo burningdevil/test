@@ -199,7 +199,7 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
                 <ContentBundleContentPicker visible={this.state.showContentPicker} handleClose={this.handleDismissAdd} handleChange={this.handleDossierChange}/>
             </Layout.Content>
             <Layout.Sider className="home-screen-home-preview" width='274px'>
-              <HomeScreenPreviewer deviceType={deviceType} toolbarDisabled={toolbarDisabled} toolbarHidden={toolbarHidden} icons={icons} isDossierHome={isDossierHome} handleDeviceTypeChange={this.props.handleDeviceTypeChange}/>
+              <HomeScreenPreviewer deviceType={deviceType} platform={this.props.config.platform} toolbarDisabled={toolbarDisabled} toolbarHidden={toolbarHidden} icons={icons} isDossierHome={isDossierHome} handleDeviceTypeChange={this.props.handleDeviceTypeChange}/>
             </Layout.Sider>
         </Layout>
     );

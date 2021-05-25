@@ -79,7 +79,7 @@ export const CONSTANTS = {
     ICON_FULL_SCREEN: 'fullScreen',
 
     // icon font code
-    FONT_SIDEBAR: 'icon-listview',
+    FONT_SIDEBAR: 'icon-tb_hamburger',
     FONT_SORT_FILTER: 'icon-filter',
     FONT_MULTI_SELECT: 'icon-tb_select_a',
     FONT_SEARCH: 'icon-search',
@@ -155,6 +155,7 @@ export const iconTypes = {
     search: {displayText: 'Search', iconName: CONSTANTS.FONT_SEARCH, key: CONSTANTS.ICON_SEARCH},
     notification: {displayText: 'Notification', iconName: CONSTANTS.FONT_NOTIFICATIONS, key: CONSTANTS.ICON_NOTIFICATIONS},
     account: {displayText: 'Account', iconName: CONSTANTS.FONT_OPTIONS, key: CONSTANTS.ICON_OPTIONS},
+    accountWeb: {displayText: 'Account (Web and Desktop)', iconName: CONSTANTS.FONT_OPTIONS, key: CONSTANTS.ICON_OPTIONS},
     toc: {displayText: 'Table of Contents', iconName: CONSTANTS.FONT_TOCS, key: CONSTANTS.ICON_TOCS},
     bookmark: {displayText: 'Bookmark', iconName: CONSTANTS.FONT_BOOKMARK, key: CONSTANTS.ICON_BOOKMARK},
     reset: {displayText: 'Reset Dossier', iconName: CONSTANTS.FONT_RESET, key: CONSTANTS.ICON_RESET},
@@ -171,11 +172,16 @@ export const iconTypes = {
     recents: {displayText: 'Recents', iconName: CONSTANTS.FONT_RECENT, key: CONSTANTS.ICON_RECENENT},
     defaultGroup: {displayText: 'Default Groups', iconName: CONSTANTS.FONT_DEFAULT_GROUP, key: CONSTANTS.ICON_DEFAULT_GROUP},
     myGroup: {displayText: 'My Groups', iconName: CONSTANTS.FONT_MY_GROUP, key: CONSTANTS.ICON_MY_GROUP},
+    accountMobile: {displayText: 'Account (Mobile only)', iconName: CONSTANTS.FONT_OPTIONS, key: CONSTANTS.ICON_OPTIONS+'mobile'},
     
     //// for preview
     // home button
     home: {displayText: 'Home', iconName: CONSTANTS.FONT_HOME, key: CONSTANTS.ICON_HOME},
+    // stands for 'sidebar' in library
     previewSidebar: {displayText: 'Sidebar', iconName: CONSTANTS.FONT_PREVIEWSIDEBAR, key: CONSTANTS.ICON_SIDEBAR},
+    // stands for 'library' in dossier
+    previewLibrary: {displayText: 'Home', iconName: CONSTANTS.FONT_PREVIEWSIDEBAR, key: CONSTANTS.ICON_HOME}, 
+    // mobile sidebar
     previewSidebarMobile: {displayText: 'Sidebar', iconName: CONSTANTS.FONT_PREVIEWSIDEBAR_MOBILE, key: CONSTANTS.ICON_SIDEBAR},
     previewAccountMobile: {displayText: 'Account', iconName: CONSTANTS.FONT_PREVIEWOPTIONS, key: CONSTANTS.ICON_OPTIONS},
     previewTocPhone: {displayText: 'Table of Contents', iconName: CONSTANTS.FONT_PREVIEWTOC, key: CONSTANTS.ICON_TOCS},
@@ -189,7 +195,7 @@ export const bothSideIcons = [iconTypes.notification, iconTypes.account]
 
 // library icons when mode is Libary as home
 export const libraryIcons = [iconTypes.sidebar, iconTypes.sortAndFilter, iconTypes.multiSelect, 
-    iconTypes.search, iconTypes.notification, iconTypes.account]
+    iconTypes.search, iconTypes.notification, iconTypes.accountWeb]
 
 // dossier icons when mode is Library as home
 export const dossierIcons = [iconTypes.toc, iconTypes.bookmark, iconTypes.reset, 
@@ -203,6 +209,6 @@ export const extraDesktopIcons = [iconTypes.dataSearch, iconTypes.hyper]
 export const extraMobileIcons = [iconTypes.aaFont]
 
 // children icons for sidebar
-export const childrenIcons = [iconTypes.all, iconTypes.favorites, iconTypes.recents, iconTypes.defaultGroup, iconTypes.myGroup]
+export const childrenIcons = [iconTypes.all, iconTypes.favorites, iconTypes.recents, iconTypes.defaultGroup, iconTypes.myGroup, iconTypes.accountMobile]
 
 export default CONSTANTS

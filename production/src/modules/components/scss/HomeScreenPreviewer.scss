@@ -1,6 +1,7 @@
 
 $primary-blue: #3892ED;
 $background-color: rgba(255, 255, 255, .7);
+$fill-color: rgb(224, 224, 224);
 $container-width: 274px;
 $container-width-phone: 103px;
 $preview-width: 241px;
@@ -33,7 +34,7 @@ $line-height-side: 18px;
         color: $primary-blue;
     }
     .icon-backarrow,
-    .icon-listview,
+    .icon-tb_hamburger,
     .icon-toc,
     .icon-tb_bookmarks_n,
     .icon-resetfile {
@@ -107,8 +108,23 @@ $line-height-side: 18px;
             font-family: $font-family;
 
             &-text {        
+                display: flex;
+                align-items: center;
                 span {
                     margin-left: 4px;
+                }
+            }
+            &-blank {
+                background-color: transparent;
+                height: 12px;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                padding-right: 5px;
+                &-fill {
+                    width: 70%;
+                    height: 7px;
+                    background-color: $fill-color;
                 }
             }
             &-down {
@@ -160,7 +176,7 @@ $line-height-side: 18px;
     width: $container-width;
 
     &-overlay {
-        position: fixed;
+        position: absolute;
         z-index: 102;
 
         border-top: 10px solid rgba(63, 64, 66, .4);
@@ -169,7 +185,7 @@ $line-height-side: 18px;
         border-left: 10px solid transparent;
     }
     &-overlay-Icon {
-        position: fixed;
+        position: absolute;
         z-index: 103; 
 
         font-size: 9px;

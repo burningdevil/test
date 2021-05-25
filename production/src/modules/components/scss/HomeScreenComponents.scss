@@ -49,29 +49,22 @@ $right-background: rgb(224, 224, 224);
 
     &-scrollcontainer{
         overflow-y: scroll;
-        padding-right: 10px;
+        padding-right: 20px;
         margin-top: 23px; //?
         height: 512px; // ??
     }
 
     // &-scrollcontainer::-webkit-scrollbar{
-    //     display: none;
+        // width: 110px;
+        // display: none;
     // }
 
-    // &-scrollcontainer:hover{
-    //     ::-webkit-scrollbar {
-    //         display: none;
-    //     }
+    // &-scrollcontainer:window-inactive::-webkit-scrollbar{
+    //     display: none;
+    //     // width: 55px;
     // }
-    // &-scrollcontainer:focus{
-    //     ::-webkit-scrollbar {
-    //         display: none;
-    //     }
-    // }
-    // &-scrollcontainer:hover{
-    //     ::-webkit-scrollbar {
-    //         display: none;
-    //     }
+    // &-scrollcontainer:not(:hover)::-webkit-scrollbar{
+    //     width: 110px;
     // }
 
     &-toolbar{
