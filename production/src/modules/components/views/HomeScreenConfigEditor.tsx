@@ -2,7 +2,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import '../scss/HomeScreenConfigEditor.scss'
 import { Tabs, Layout, Button, message} from 'antd';
-import { WorkstationModule } from '@mstr/workstation-types';
+import { WorkstationModule, EnvironmentChangeArg, EnvironmentAction, EnvironmentStatus} from '@mstr/workstation-types';
 import HomeScreenGeneral from './HomeScreenGeneral';
 import HomeScreenComponents from './HomeScreenComponents';
 import HomeScreenMoreSetting from './HomeScreenMoreSetting';
@@ -38,7 +38,8 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
     this.state = {
       activeKey: '1',
       configId: undefined,
-      previewDeviceType: CONSTANTS.REVIEW_MODE_TABLET
+      previewDeviceType: CONSTANTS.REVIEW_MODE_TABLET,
+      currentEnv: {}
     }
   }
 
@@ -47,14 +48,35 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
       this.setState({
           configId: configId
       });
-      console.log(configId);
       if (configId) {
         this.loadData(configId);
       }
+      const currentEnv = await workstation.environments.getCurrentEnvironment();
+      this.setState({
+        currentEnv: currentEnv
+      });
+      workstation.environments.onEnvironmentChange((change: EnvironmentChangeArg) => {
+        console.log('editor enviornment change: ' + change.actionTaken);
+        console.log('editor enviornment change: env name : ' + change.changedEnvironment.name);
+        console.log('editor enviornment change: env status : ' + change.changedEnvironment.status);
+        if (change.actionTaken === EnvironmentAction.Disconnect && change.changedEnvironment.status === EnvironmentStatus.Disconnected && change.changedEnvironment.url === this.state.currentEnv.url) {
+          // Disconnect environment and Close current window
+          workstation.environments.disconnect(this.state.currentEnv.url);
+          workstation.window.close();  
+        }
+      })
   }
 
   loadData = async (configId: string) => {
-    const response = await HttpProxy.get('/mstrClients/libraryApplications/configs/' + configId);
+    const response = await HttpProxy.get('/mstrClients/libraryApplications/configs/' + configId).catch((e: any) => {
+      // request error handle, if 401, need re-authrioze, disconnect current environment and close current sub-window. Else, show error message
+      const error = e as RestApiError;
+      if (error.statusCode === 401) {
+        workstation.environments.disconnect(this.state.currentEnv.url);
+        workstation.window.close();
+        return;
+      }
+    });
     let data = response;
     if (response.data) {
       data = response.data;
@@ -122,10 +144,8 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
           // request error handle, if 401, need re-authrioze, disconnect current environment and close current sub-window. Else, show error message
           const error = e as RestApiError;
           if (error.statusCode === 401) {
-            workstation.environments.getCurrentEnvironment().then(currentEnv => {
-              workstation.environments.disconnect(currentEnv.url);
-              workstation.window.close();
-            });
+            workstation.environments.disconnect(this.state.currentEnv.url);
+            workstation.window.close();
             return;
           }
           message.error('save application error:' + error.errorMsg);
@@ -136,10 +156,8 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         }).catch((e: any) => {
           const error = e as RestApiError;
           if (error.statusCode === 401) {
-            workstation.environments.getCurrentEnvironment().then(currentEnv => {
-              workstation.environments.disconnect(currentEnv.url);
-              workstation.window.close();
-            });
+            workstation.environments.disconnect(this.state.currentEnv.url);
+            workstation.window.close();
             return;
           }
           message.error('save application error:' + error.errorMsg);
