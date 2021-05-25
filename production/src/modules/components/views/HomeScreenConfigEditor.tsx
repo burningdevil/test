@@ -16,6 +16,7 @@ import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import { CONSTANTS } from '../HomeScreenConfigConstant';
+import * as api from '../../../services/api';
 
 declare var workstation: WorkstationModule;
 
@@ -38,7 +39,6 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
     this.state = {
       activeKey: '1',
       configId: undefined,
-      previewDeviceType: CONSTANTS.REVIEW_MODE_TABLET,
       currentEnv: {}
     }
   }
@@ -49,7 +49,8 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
           configId: configId
       });
       if (configId) {
-        this.loadData(configId);
+        // this.loadData(configId);
+        api.loadCurrentEditConfig(configId);
       }
       const currentEnv = await workstation.environments.getCurrentEnvironment();
       this.setState({
@@ -67,31 +68,23 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
       })
   }
 
-  loadData = async (configId: string) => {
-    const response = await HttpProxy.get('/mstrClients/libraryApplications/configs/' + configId).catch((e: any) => {
-      // request error handle, if 401, need re-authrioze, disconnect current environment and close current sub-window. Else, show error message
-      const error = e as RestApiError;
-      if (error.statusCode === 401) {
-        workstation.environments.disconnect(this.state.currentEnv.url);
-        workstation.window.close();
-        return;
-      }
-    });
-    let data = response;
-    if (response.data) {
-      data = response.data;
-    }
+  // loadData = async (configId: string) => {
+  //   const response = await HttpProxy.get('/mstrClients/libraryApplications/configs/' + configId);
+  //   let data = response;
+  //   if (response.data) {
+  //     data = response.data;
+  //   }
 
-    if (!_.has(data, 'platform')) {
-        _.assign(data, {platform: ['Mobile']});
-    }
+  //   if (!_.has(data, 'platform')) {
+  //       _.assign(data, {platform: ['Mobile']});
+  //   }
 
-    if (!_.has(data, 'homeScreen.homeLibrary')) {
-      data.homeScreen.homeLibrary = {icons:[], sidebars:[], contentBundleIds:[]}
-    }
+  //   if (!_.has(data, 'homeScreen.homeLibrary')) {
+  //     data.homeScreen.homeLibrary = {icons:[], sidebars:[], contentBundleIds:[]}
+  //   }
 
-    this.props.setCurrentConfig(data);
-  }
+  //   this.props.setCurrentConfig(data);
+  // }
 
   parseConfigId = (querystr: string) => {
       if (querystr) {
@@ -127,12 +120,6 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         </div>
     );
   };
-
-  handlePreviewDeviceTypeChange = (type: string) => {
-      this.setState({
-        previewDeviceType: type
-      })
-  }
 
   handleSaveConfig = async () => {
       const configId = this.state.configId;
@@ -186,11 +173,11 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                                 {this.buttonGroup()}
                             </Tabs.TabPane>
                             <Tabs.TabPane tab={navBar.HOME_SCREEN} key="2">
-                                <HomeScreenHomeSetting deviceType={this.state.previewDeviceType} handleDeviceTypeChange={this.handlePreviewDeviceTypeChange}/>
+                                <HomeScreenHomeSetting />
                                 {this.buttonGroup()}
                             </Tabs.TabPane>
                             <Tabs.TabPane tab={navBar.COMPONENTS} key="3">
-                                <HomeScreenComponents deviceType={this.state.previewDeviceType} handleDeviceTypeChange={this.handlePreviewDeviceTypeChange}/>
+                                <HomeScreenComponents />
                                 {this.buttonGroup()}
                             </Tabs.TabPane>
                             <Tabs.TabPane tab={navBar.CONTENT_BUNDLES} key="4" disabled={this.props.config.homeScreen.mode === 1}>

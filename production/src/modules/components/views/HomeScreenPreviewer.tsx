@@ -1,18 +1,20 @@
 import * as React from 'react'
-import { default as VC, childrenIcons, iconDetail, iconTypes, platformType } from '../HomeScreenConfigConstant'
+import { default as VC, childrenIcons, iconDetail, iconTypes, platformType, reviewType } from '../HomeScreenConfigConstant'
 import { Layout, Radio } from 'antd'
 import { PlusCircleOutlined, DownOutlined } from '@ant-design/icons'
 import '../scss/HomeScreenPreviewer.scss'
 import * as _ from 'lodash'
+import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
+import { connect } from 'react-redux'
+import { selectPreviewDeviceType } from '../../../store/selectors/HomeScreenConfigEditorSelector'
+import * as Actions from '../../../store/actions/ActionsCreator'
 
 type HomeScreenPreviewerProps = {
     toolbarDisabled: boolean,
     toolbarHidden: boolean,
     icons: string[],
-    deviceType: string,
     platform: string[],
     isDossierHome: boolean,
-    handleDeviceTypeChange: Function,
 }
 
 const deviceTypeText = {
@@ -30,7 +32,7 @@ const sectionTitle = {
     notificationPanel: 'Notification Panel',
 }
 
-export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProps, any> {
+class HomeScreenPreviewer extends React.Component<any, any> {
     iconShouldShow(icon: iconDetail) {
         const {icons} = this.props
         return icons.includes(icon.key) || icon.key === iconTypes.home.key
@@ -44,9 +46,9 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
      // render device type radio buttons
     deviceTypesRender = (deviceType: string) => {
         const { platform } = this.props
-        const mobileShow = platform.includes(platformType.mobile)
-        const webShow = platform.includes(platformType.web)
-        const desktopShow = platform.includes(platformType.desktop)
+        const mobileDisabled = !platform.includes(platformType.mobile)
+        const webDisabled = !platform.includes(platformType.web)
+        const desktopDisabled = !platform.includes(platformType.desktop)
         
         return <div className="homeScreenPreviewer-radio">
             {sectionTitle.preview}
@@ -57,10 +59,10 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
                     buttonStyle='solid'
                     size="small"
                 >
-                    {mobileShow && <Radio.Button value={VC.REVIEW_MODE_TABLET}>{deviceTypeText.tablet}</Radio.Button>}
-                    {mobileShow && <Radio.Button value={VC.REVIEW_MODE_PHONE}>{deviceTypeText.phone}</Radio.Button>}
-                    {webShow && <Radio.Button value={VC.REVIEW_MODE_WEB}>{deviceTypeText.web}</Radio.Button>}
-                    {desktopShow && <Radio.Button value={VC.REVIEW_MODE_DESKTOP}>{deviceTypeText.desktop}</Radio.Button>}
+                    <Radio.Button value={reviewType.TABLET} disabled={mobileDisabled}>{deviceTypeText.tablet}</Radio.Button>
+                    <Radio.Button value={reviewType.PHONE} disabled={mobileDisabled}>{deviceTypeText.phone}</Radio.Button>
+                    <Radio.Button value={reviewType.WEB} disabled={webDisabled}>{deviceTypeText.web}</Radio.Button>
+                    <Radio.Button value={reviewType.DESKTOP} disabled={desktopDisabled}>{deviceTypeText.desktop}</Radio.Button>
                 </Radio.Group>
             </div>
         </div>
@@ -104,7 +106,7 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
         })
         // account for mobile
         const {deviceType} = this.props
-        const accountShow = (deviceType === VC.REVIEW_MODE_PHONE || deviceType === VC.REVIEW_MODE_TABLET) && this.iconShouldShow(iconTypes.previewAccountMobile)
+        const accountShow = (deviceType === reviewType.PHONE || deviceType === reviewType.TABLET) && this.iconShouldShow(iconTypes.previewAccountMobile)
         const accountIcon = accountShow && <div className="homeScreenPreviewer-pad-overview-left-down"> {this.toolbarIconsRender([iconTypes.previewAccountMobile])}</div>
         return <div className={rootClassName}> {sidebarIcons} {accountIcon} </div>
     }
@@ -127,14 +129,14 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
         let headerIcons: iconDetail[] = []
         let footerIcons: iconDetail[] = []
         switch (deviceType) {
-            case VC.REVIEW_MODE_TABLET:
+            case reviewType.TABLET:
                 headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.account, iconTypes.share, iconTypes.filter, iconTypes.comment, iconTypes.notification] : [iconTypes.previewLibrary, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.share, iconTypes.filter, iconTypes.comment]
                 break
-            case VC.REVIEW_MODE_WEB:
-            case VC.REVIEW_MODE_DESKTOP:
+            case reviewType.WEB:
+            case reviewType.DESKTOP:
                 headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.account, iconTypes.share, iconTypes.filter, iconTypes.comment, iconTypes.notification] : [iconTypes.previewLibrary, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.account, iconTypes.share, iconTypes.filter, iconTypes.comment]
                 break
-            case VC.REVIEW_MODE_PHONE:
+            case reviewType.PHONE:
                 headerIcons = isDossierHome ? [iconTypes.home, iconTypes.share] : [iconTypes.previewLibrary, iconTypes.share]
                 footerIcons = isDossierHome ? [iconTypes.comment, iconTypes.bookmark, iconTypes.reset, iconTypes.filter, iconTypes.notification, iconTypes.account] : [iconTypes.comment, iconTypes.bookmark, iconTypes.reset, iconTypes.filter]
                 break
@@ -149,15 +151,15 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
         let headerIcons: iconDetail[] = []
         let footerIcons: iconDetail[] = []
         switch (deviceType) {
-            case VC.REVIEW_MODE_TABLET:
+            case reviewType.TABLET:
                 // account in sidebar?
                 headerIcons = [iconTypes.previewSidebarMobile, iconTypes.notification, iconTypes.sortAndFilter, iconTypes.search]
                 break
-            case VC.REVIEW_MODE_WEB:
-            case VC.REVIEW_MODE_DESKTOP:
+            case reviewType.WEB:
+            case reviewType.DESKTOP:
                 headerIcons = [iconTypes.previewSidebar, iconTypes.account, iconTypes.multiSelect, iconTypes.notification, iconTypes.sortAndFilter, iconTypes.search]
                 break
-            case VC.REVIEW_MODE_PHONE:
+            case reviewType.PHONE:
                 headerIcons = [iconTypes.previewSidebarMobile]
                 footerIcons = [iconTypes.search, iconTypes.sortAndFilter, iconTypes.notification]
                 break
@@ -169,10 +171,10 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
 
     previewerClassName = (deviceType: string, appender: string) => {
         switch (deviceType) {
-            case VC.REVIEW_MODE_TABLET:
+            case reviewType.TABLET:
                 return 'homeScreenPreviewer-pad' + appender 
-            case VC.REVIEW_MODE_WEB:
-            case VC.REVIEW_MODE_DESKTOP:
+            case reviewType.WEB:
+            case reviewType.DESKTOP:
                 return 'homeScreenPreviewer-web' + appender
             default:
                 return ''
@@ -180,12 +182,13 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
     }
 
     render() {
-        const {deviceType, isDossierHome, toolbarHidden, toolbarDisabled} = this.props
+        const deviceType = this.props.deviceType
+        const {isDossierHome, toolbarHidden, toolbarDisabled} = this.props
         const {libraryHeaderIcons, libraryFooterIcons} = this.libraryIconsToRender()
         const {dossierHeaderIcons, dossierFooterIcons} = this.dossierIconsToRender()
 
         const showSideBar = this.iconShouldShow(iconTypes.sidebar) && !toolbarDisabled // when toolbar disabled, sidebar will hide as well
-        const showTocOnPhone = this.iconShouldShow(iconTypes.toc) && deviceType === VC.REVIEW_MODE_PHONE
+        const showTocOnPhone = this.iconShouldShow(iconTypes.toc) && deviceType === reviewType.PHONE
         const showExpanderOverlay = toolbarHidden && !toolbarDisabled
         const hideHeader = toolbarHidden || toolbarDisabled
 
@@ -193,9 +196,9 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
         const padRightClassName = showSideBar ?  this.previewerClassName(deviceType, '-overview-right-library') : this.previewerClassName(deviceType, '-overview-right-library-nosidebar')
 
         switch (deviceType) {
-            case VC.REVIEW_MODE_TABLET:
-            case VC.REVIEW_MODE_WEB:
-            case VC.REVIEW_MODE_DESKTOP:
+            case reviewType.TABLET:
+            case reviewType.WEB:
+            case reviewType.DESKTOP:
                 return (
                     <div>
                         {this.deviceTypesRender(deviceType)}
@@ -256,7 +259,7 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
                         {/* {this.titleRender(sectionTitle.notificationPanel)} */}
                     </div>
                 )
-            case VC.REVIEW_MODE_PHONE:
+            case reviewType.PHONE:
                 return (
                     <div>
                         {this.deviceTypesRender(deviceType)}
@@ -334,3 +337,13 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
         }
     }
 }
+
+const mapState = (state: RootState) => ({
+    deviceType: selectPreviewDeviceType(state)
+})
+
+const connector = connect(mapState, {
+    handleDeviceTypeChange: Actions.updatePreviewDeviceType
+})
+
+export default connector(HomeScreenPreviewer)

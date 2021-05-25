@@ -1,5 +1,5 @@
 import { HomeScreenConfigEditorState } from '../../types/redux-state/HomeScreenConfigState'
-import { childrenIcons, CONSTANTS, dossierIconsDossierHome, iconTypes, libraryIcons } from '../../modules/components/HomeScreenConfigConstant'
+import { childrenIcons, CONSTANTS, dossierIconsDossierHome, iconTypes, libraryIcons, reviewType } from '../../modules/components/HomeScreenConfigConstant'
 import { ActionTypes } from '../actions/ActionTypes'
 import * as Actions from '../actions/ActionConstants'
 import * as _ from 'lodash'
@@ -33,7 +33,8 @@ const initialState: HomeScreenConfigEditorState = {
       logLevel: CONSTANTS.LOG_LEVEL_WARNING, 
       updateInterval: CONSTANTS.DEFAULT_UPDATE_INTERVAL
     }
-  }
+  },
+  previewDeviceType: reviewType.TABLET,
 }
 
 const HomeScreenConfigEditorReducer = (state: HomeScreenConfigEditorState = initialState, action: ActionTypes) => {
@@ -44,6 +45,8 @@ const HomeScreenConfigEditorReducer = (state: HomeScreenConfigEditorState = init
       return {...state, currentConfig: _.merge({}, state.currentConfig, data)}
     case Actions.SET_CURRENT_CONFIG:
       return {...state, currentConfig: data}
+    case Actions.UPDATE_REVIEW_TYPE:
+      return {...state, previewDeviceType: data}
     default:
       return state
   }

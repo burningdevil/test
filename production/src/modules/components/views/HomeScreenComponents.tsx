@@ -6,7 +6,7 @@ import '../../../../src/assets/fonts/webfonts/css/dossier.css'
 import '../scss/HomeScreenComponents.scss'
 import { default as VC, platformType, iconDetail, iconTypes, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons } from '../HomeScreenConfigConstant'
 import * as _ from 'lodash'
-import { HomeScreenPreviewer } from './HomeScreenPreviewer'
+import HomeScreenPreviewer from './HomeScreenPreviewer'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
 import { selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEditorSelector'
 import * as Actions from '../../../store/actions/ActionsCreator'
@@ -58,18 +58,20 @@ interface HomeScreenComponentsState {
 
 class HomeScreenComponents extends React.Component<any, HomeScreenComponentsState> {
     isIconDisabled = (iconKey: string) => {
+        // toolbar hidden
         const toolbarDisabled = this.state.toolbarDisabled
+        // side bar hidden
         const sidebarDisabled = sidebarIconKeys.includes(iconKey) && !(this.iconSelectedInfo(iconTypes.sidebar.key)[0])
 
-        let enabled = true
-        switch (iconKey) {
-            case iconTypes.defaultGroup.key:
-                enabled = this.state.defaultGroupEnable
-                break
-            default:
-                break
+        let disabled = false
+        if (mobileOnlyIconKeys.includes(iconKey) && !this.state.mobileOptionsVisible) {
+            disabled = true
+        } else if (webDesktopOnlyIconKeys.includes(iconKey) && !this.state.webOptionsVisible && !this.state.isDossierHome) {
+            disabled = true
+        } else if (iconKey === iconTypes.defaultGroup.key && !this.state.defaultGroupEnable) {
+            disabled = true
         }
-        return !enabled || toolbarDisabled || sidebarDisabled
+        return disabled || toolbarDisabled || sidebarDisabled
     }
 
     columns = [
@@ -180,13 +182,13 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
 
     renderTable = (icons: Array<iconDetail>) => {
         const expandChildren = childrenIcons
-            .filter( (icon) => !mobileOnlyIconKeys.includes(icon.key) || this.state.mobileOptionsVisible)
+            // .filter( (icon) => !mobileOnlyIconKeys.includes(icon.key) || this.state.mobileOptionsVisible)
             .map( (icon, index) =>     
             ({key: childrenKeyOffset+index, displayText: [icon.iconName, icon.displayText], selected: this.iconSelectedInfo(icon.key)})
         )
 
         const data = icons
-            .filter( (icon) => !webDesktopOnlyIconKeys.includes(icon.key) || this.state.webOptionsVisible || this.state.isDossierHome )
+            // .filter( (icon) => !webDesktopOnlyIconKeys.includes(icon.key) || this.state.webOptionsVisible || this.state.isDossierHome )
             .map( (icon, index) => {
                 const hasChildren = iconExpandable(icon.displayText)
                 const selectedInfo = this.iconSelectedInfo(icon.key)
@@ -329,10 +331,10 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
 
 const mapState = (state: RootState) => ({
     config: selectCurrentConfig(state)
-  })
+})
   
-  const connector = connect(mapState, {
+const connector = connect(mapState, {
     updateCurrentConfig: Actions.updateCurrentConfig
-  })
-  
-  export default connector(HomeScreenComponents)
+})
+
+export default connector(HomeScreenComponents)

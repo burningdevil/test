@@ -6,9 +6,9 @@ import { env } from '../../../main'
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import * as _ from "lodash";
 import { Input } from 'antd';
-import { platformType } from '../HomeScreenConfigConstant';
+import { platformType, reviewType } from '../HomeScreenConfigConstant';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
-import { selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEditorSelector';
+import { selectCurrentConfig, selectPreviewDeviceType } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 const { TextArea } = Input;
 
@@ -47,7 +47,39 @@ class HomeScreenGeneral extends React.Component<any, any> {
     } else {
         resultedPlatform = _.pull(platform, platType);
     }
+    this.handlePreViewDeviceTypeInvalid(resultedPlatform)
     this.props.updateCurrentConfig({platform: resultedPlatform});
+  }
+
+  handlePreViewDeviceTypeInvalid = (platform: string[]) => {
+    // in case previewDeviceType not valid
+    let deviceType = this.props.previewDeviceType
+    const availableTypes = _.concat(platform.includes(platformType.mobile) ? [reviewType.TABLET, reviewType.PHONE] : [], platform.includes(platformType.web) ? reviewType.WEB : [], platform.includes(platformType.desktop) ? reviewType.DESKTOP : [])
+    
+    let valid = true
+    switch (deviceType) {
+        case reviewType.TABLET:
+        case reviewType.PHONE:
+            if (!platform.includes(platformType.mobile)) {
+                valid = false
+            }
+            break;
+        case reviewType.WEB:
+            if (!platform.includes(platformType.web)) {
+                valid = false
+            }
+            break;
+        case reviewType.DESKTOP:
+            if (!platform.includes(platformType.desktop)) {
+                valid = false
+            }
+            break;
+        default:
+            break;
+    }
+    if (!valid) {
+        this.props.updateDeviceType(availableTypes.length > 0 ? availableTypes[0] : reviewType.TABLET)
+    }
   }
 
   render() {
@@ -126,11 +158,13 @@ class HomeScreenGeneral extends React.Component<any, any> {
 }
 
 const mapState = (state: RootState) => ({
-  config: selectCurrentConfig(state)
+  config: selectCurrentConfig(state),
+  previewDeviceType: selectPreviewDeviceType(state), 
 })
 
 const connector = connect(mapState, {
-  updateCurrentConfig: Actions.updateCurrentConfig
+  updateCurrentConfig: Actions.updateCurrentConfig,
+  updateDeviceType: Actions.updatePreviewDeviceType,
 })
 
 export default connector(HomeScreenGeneral)

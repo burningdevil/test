@@ -47,3 +47,17 @@ export interface HomeScreenEditConfigType {
         updateInterval: number
     }
 }
+
+export interface HomeScreenBundleContentListItem {
+    id: string,
+    projectId: string,
+    type: number,
+    viewMedia: number,
+    dateModified: string,
+    owner: {name: string, id: string},
+    isCertified: boolean,
+    name: string
+    dateCreated: string,
+    acg: number,
+    certifiedInfo: {certified: any}
+}

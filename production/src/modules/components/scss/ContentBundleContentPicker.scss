@@ -30,7 +30,7 @@
 
     &-middle {
         height: 516px;
-        border: 1px solid #e0e0e0;
+        // border: 1px solid #e0e0e0;
     }
 
     &-grid {
@@ -47,6 +47,20 @@
         &-right {
             width: 689px;
             height: 514px;
+
+            &-name-dossier {
+                width: 36px;
+                height: 20px;
+                margin-right: 14px;
+                margin-left: 2px;
+            }
+
+            &-name-document {
+                width: 36px;
+                height: 20px;
+                margin-right: 14px;
+                margin-left: 2px;
+            }
         }
     }
 

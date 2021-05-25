@@ -11,7 +11,7 @@ import { WorkstationModule } from '@mstr/workstation-types';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
-import { HomeScreenPreviewer } from './HomeScreenPreviewer';
+import HomeScreenPreviewer from './HomeScreenPreviewer';
 import { default as VC } from '../HomeScreenConfigConstant';
 
 declare var workstation: WorkstationModule;
@@ -167,7 +167,6 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
   }
 
   render() {
-    const { deviceType } = this.props;
     const { homeScreen } = this.props.config;
     const isDossierHome = _.get(homeScreen, 'mode') === VC.MODE_USE_DOSSIER_AS_HOME_SCREEN
     const dossierIcons =  _.get(homeScreen, 'homeDocument.icons')
@@ -199,7 +198,7 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
                 <ContentBundleContentPicker visible={this.state.showContentPicker} handleClose={this.handleDismissAdd} handleChange={this.handleDossierChange}/>
             </Layout.Content>
             <Layout.Sider className="home-screen-home-preview" width='274px'>
-              <HomeScreenPreviewer deviceType={deviceType} platform={this.props.config.platform} toolbarDisabled={toolbarDisabled} toolbarHidden={toolbarHidden} icons={icons} isDossierHome={isDossierHome} handleDeviceTypeChange={this.props.handleDeviceTypeChange}/>
+              <HomeScreenPreviewer platform={this.props.config.platform} toolbarDisabled={toolbarDisabled} toolbarHidden={toolbarHidden} icons={icons} isDossierHome={isDossierHome}/>
             </Layout.Sider>
         </Layout>
     );
