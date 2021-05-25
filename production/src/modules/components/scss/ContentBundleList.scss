@@ -186,12 +186,15 @@ div.ag-has-focus{
 }
 
 div[aria-sort=none]::after{
-  padding: 10px;
+  padding: 10px 0px;
 }
 
-div[aria-sort=ascending]::after div[aria-sort=descending]::after {
-  margin: 10px;
-  padding: 10px;
+div[aria-sort=descending]:after {
+  padding: 10px 0px;
+}
+
+div[aria-sort=ascending]:after {
+  padding: 10px 0px;
 }
 
 div.ag-theme-alpine .ag-row-odd {

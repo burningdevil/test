@@ -1,5 +1,5 @@
 import * as Actions from './ActionConstants'
-import { HomeScreenConfigType, HomeScreenEditConfigType, MainViewContentBundleType } from '../../types/data-model/HomeScreenConfigModels'
+import { HomeScreenConfigType, HomeScreenEditConfigType, MainViewContentBundleType, HomeScreenBundleContentListItem } from '../../types/data-model/HomeScreenConfigModels'
 
 export const loadConfigListSuccess = (configList: Array<HomeScreenConfigType>) => ({
   type: Actions.LOAD_CONFIG_LIST_SUCCESS,
@@ -25,6 +25,25 @@ export const updateCurrentConfig = (settings: Partial<HomeScreenEditConfigType>)
 export const updatePreviewDeviceType = (type: string) => ({
   type: Actions.UPDATE_REVIEW_TYPE,
   data: type,
+})
+/* ------------------------------ Bundle content objects list ---------------------------- */
+
+export const appendContentDossiers = (list: HomeScreenBundleContentListItem[]) => ({
+  type: Actions.APPEND_CONTENT_DOSSIER_LIST,
+  data: list,
+})
+
+export const appendContentDocuments = (list: HomeScreenBundleContentListItem[]) => ({
+  type: Actions.APPEND_CONTENT_DOCUMENT_LIST,
+  data: list,
+})
+
+export const startLoadingDossierList = () => ({
+  type: Actions.START_LOADING_DOSSIER_LIST
+})
+
+export const finishLoadingDossierList = () => ({
+  type: Actions.LOADING_DOSSIER_LIST_FINISHED
 })
 
 
