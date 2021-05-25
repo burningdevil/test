@@ -1,3 +1,4 @@
+import { iconDetail } from "../../modules/components/HomeScreenConfigConstant"
 export interface HomeScreenConfigType {
     'id': string,
     'name': string,
@@ -8,7 +9,6 @@ export interface HomeScreenConfigType {
     'mode': number,
     'platform': Array<string>
     'contentBundleIds': Array<string>
-    // To be extended.
 }
 
 export interface MainViewContentBundleType {
@@ -21,11 +21,30 @@ export interface HomeScreenEditConfigType {
     'id': string,
     'name': string,
     'description': string,
-    'lastUpdate': number
-}
-
-export interface GeneralSettingsType {
-    name: string,
-    description: string,
-    platform: string
+    'platform': Array<string>,
+    'lastUpdate': number,
+    'homeScreen': {
+        mode: number, 
+        homeLibrary: { 
+            icons: Array<string>,
+            sidebars: Array<string>,
+            contentBundleIds: Array<string>,
+            toolbarMode: number,
+            toolbarDisabled: number
+        }, 
+        homeDocument: {
+            url: string,
+            icons: Array<string>,
+            toolbarMode: number,
+            toolbarDisabled: number
+        }
+    },
+    'general': {
+        networkTimeout: number,
+        cacheClearMode: number,
+        clearCacheOnLogout: boolean, 
+        maxLogSize: number,
+        logLevel: number,
+        updateInterval: number
+    }
 }

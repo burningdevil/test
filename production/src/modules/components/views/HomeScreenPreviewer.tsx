@@ -4,15 +4,17 @@ import { Layout, Radio } from 'antd'
 import { PlusCircleOutlined, DownOutlined } from '@ant-design/icons'
 import '../scss/HomeScreenPreviewer.scss'
 import * as _ from 'lodash'
+import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
+import { connect } from 'react-redux'
+import { selectPreviewDeviceType } from '../../../store/selectors/HomeScreenConfigEditorSelector'
+import * as Actions from '../../../store/actions/ActionsCreator'
 
 type HomeScreenPreviewerProps = {
     toolbarDisabled: boolean,
     toolbarHidden: boolean,
     icons: string[],
-    deviceType: string,
     platform: string[],
     isDossierHome: boolean,
-    handleDeviceTypeChange: Function,
 }
 
 const deviceTypeText = {
@@ -30,7 +32,7 @@ const sectionTitle = {
     notificationPanel: 'Notification Panel',
 }
 
-export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProps, any> {
+class HomeScreenPreviewer extends React.Component<any, any> {
     iconShouldShow(icon: iconDetail) {
         const {icons} = this.props
         return icons.includes(icon.key) || icon.key === iconTypes.home.key
@@ -180,7 +182,8 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
     }
 
     render() {
-        const {deviceType, isDossierHome, toolbarHidden, toolbarDisabled} = this.props
+        const deviceType = this.props.deviceType
+        const {isDossierHome, toolbarHidden, toolbarDisabled} = this.props
         const {libraryHeaderIcons, libraryFooterIcons} = this.libraryIconsToRender()
         const {dossierHeaderIcons, dossierFooterIcons} = this.dossierIconsToRender()
 
@@ -334,3 +337,13 @@ export class HomeScreenPreviewer extends React.Component<HomeScreenPreviewerProp
         }
     }
 }
+
+const mapState = (state: RootState) => ({
+    deviceType: selectPreviewDeviceType(state)
+})
+
+const connector = connect(mapState, {
+    handleDeviceTypeChange: Actions.updatePreviewDeviceType
+})
+
+export default connector(HomeScreenPreviewer)
