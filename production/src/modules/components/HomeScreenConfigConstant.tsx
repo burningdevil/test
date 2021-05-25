@@ -21,7 +21,6 @@ export const CONSTANTS = {
     URL: 'url',
     ICONS: 'icons',
     TOOLBAR_MODE: 'toolbarMode',   // hide toolbar by default
-    TOOLBAR_DISABLED: 'toolbarDisabled',  // remove toolbar from view
     //Advanced Settings
     AUTH_MODES: 'authModes',
     DISABLE_ADVANCED_SETTINGS: 'disableAdvancedSettings',
@@ -47,9 +46,11 @@ export const CONSTANTS = {
     CLEAR_ON_CLOSE: 2,
     CLEAR_AUTOMATIC: 1,
 
-    // components for TOOLBAR_MODE, TOOLBAR_DISABLED
+    // components for TOOLBAR_MODE
+    // Hidden when value == 2|3, collapse when value == 1
     SHOW_TOOLBAR: 0,
     COLLAPSE_TOOLBAR: 1,
+    HIDE_TOOLBAR: 2,
 
     // icons key name
     ICON_SIDEBAR: 'sidebars',
@@ -160,7 +161,7 @@ export const iconTypes = {
     search: {displayText: 'Search', iconName: CONSTANTS.FONT_SEARCH, key: CONSTANTS.ICON_SEARCH},
     notification: {displayText: 'Notification', iconName: CONSTANTS.FONT_NOTIFICATIONS, key: CONSTANTS.ICON_NOTIFICATIONS},
     account: {displayText: 'Account', iconName: CONSTANTS.FONT_OPTIONS, key: CONSTANTS.ICON_OPTIONS},
-    accountWeb: {displayText: 'Account (Web and Desktop)', iconName: CONSTANTS.FONT_OPTIONS, key: CONSTANTS.ICON_OPTIONS},
+    accountWeb: {displayText: 'Account (Web and Desktop)', iconName: CONSTANTS.FONT_OPTIONS, key: CONSTANTS.ICON_OPTIONS+'_web'},
     toc: {displayText: 'Table of Contents', iconName: CONSTANTS.FONT_TOCS, key: CONSTANTS.ICON_TOCS},
     bookmark: {displayText: 'Bookmark', iconName: CONSTANTS.FONT_BOOKMARK, key: CONSTANTS.ICON_BOOKMARK},
     reset: {displayText: 'Reset Dossier', iconName: CONSTANTS.FONT_RESET, key: CONSTANTS.ICON_RESET},
@@ -177,7 +178,7 @@ export const iconTypes = {
     recents: {displayText: 'Recents', iconName: CONSTANTS.FONT_RECENT, key: CONSTANTS.ICON_RECENENT},
     defaultGroup: {displayText: 'Default Groups', iconName: CONSTANTS.FONT_DEFAULT_GROUP, key: CONSTANTS.ICON_DEFAULT_GROUP},
     myGroup: {displayText: 'My Groups', iconName: CONSTANTS.FONT_MY_GROUP, key: CONSTANTS.ICON_MY_GROUP},
-    accountMobile: {displayText: 'Account (Mobile only)', iconName: CONSTANTS.FONT_OPTIONS, key: CONSTANTS.ICON_OPTIONS+'mobile'},
+    accountMobile: {displayText: 'Account (Mobile only)', iconName: CONSTANTS.FONT_OPTIONS, key: CONSTANTS.ICON_OPTIONS+'_mobile'},
     
     //// for preview
     // home button
@@ -188,7 +189,7 @@ export const iconTypes = {
     previewLibrary: {displayText: 'Home', iconName: CONSTANTS.FONT_PREVIEWSIDEBAR, key: CONSTANTS.ICON_HOME}, 
     // mobile sidebar
     previewSidebarMobile: {displayText: 'Sidebar', iconName: CONSTANTS.FONT_PREVIEWSIDEBAR_MOBILE, key: CONSTANTS.ICON_SIDEBAR},
-    previewAccountMobile: {displayText: 'Account', iconName: CONSTANTS.FONT_PREVIEWOPTIONS, key: CONSTANTS.ICON_OPTIONS},
+    previewAccountMobile: {displayText: 'Account', iconName: CONSTANTS.FONT_PREVIEWOPTIONS, key: CONSTANTS.ICON_OPTIONS+'_mobile'},
     previewTocPhone: {displayText: 'Table of Contents', iconName: CONSTANTS.FONT_PREVIEWTOC, key: CONSTANTS.ICON_TOCS},
     previewFullScreen: {displayText: 'Full Screen', iconName: CONSTANTS.FONT_FULLSCREEN, key: CONSTANTS.ICON_FULL_SCREEN},
 }
@@ -215,5 +216,15 @@ export const extraMobileIcons = [iconTypes.aaFont]
 
 // children icons for sidebar
 export const childrenIcons = [iconTypes.all, iconTypes.favorites, iconTypes.recents, iconTypes.defaultGroup, iconTypes.myGroup, iconTypes.accountMobile]
+
+// for accountMobile and accountWeb to remove suffix
+export const iconValidKey = (iconKey: string) => iconKey.split('_').length > 0 ? iconKey.split('_')[0] : iconKey
+
+export const dossierIconKeys = dossierIconsDossierHome.map((element) => element.key)
+export const libraryIconKeys = libraryIcons.map((element) => element.key)
+export const sidebarIconKeys = childrenIcons.map((element) => element.key)
+
+export const mobileOnlyIconKeys = [iconTypes.accountMobile].map((element) => element.key)
+export const webDesktopOnlyIconKeys = [iconTypes.multiSelect, iconTypes.accountWeb].map((element) => element.key)
 
 export default CONSTANTS

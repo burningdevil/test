@@ -4,11 +4,11 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import '../../../../src/assets/fonts/webfonts/css/dossier.css'
 import '../scss/HomeScreenComponents.scss'
-import { default as VC, platformType, iconDetail, iconTypes, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons } from '../HomeScreenConfigConstant'
+import { default as VC, platformType, iconDetail, iconTypes, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons, iconValidKey, dossierIconKeys, libraryIconKeys, sidebarIconKeys, mobileOnlyIconKeys, webDesktopOnlyIconKeys } from '../HomeScreenConfigConstant'
 import * as _ from 'lodash'
 import HomeScreenPreviewer from './HomeScreenPreviewer'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
-import { selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEditorSelector'
+import { selectCurrentConfig, selectIsDossierAsHome, selectIsToolbarHidden, selectIsToolbarCollapsed, selectSelectedSideBarIcons, selectSelectedLibraryIcons, selectSelectedDocumentIcons, selectCurrentConfigContentBundleIds } from '../../../store/selectors/HomeScreenConfigEditorSelector'
 import * as Actions from '../../../store/actions/ActionsCreator'
 
 // constatns 
@@ -23,33 +23,14 @@ const localizedString = {
     DOSSIER_WINDOW_HOME: 'DOSSIER WINDOW (HOME)',
     PLATFORM_SPECIFIC: 'PLATFORM SPECIFIC',
 }
-
-const dossierIconKeys = dossierIconsDossierHome.map((element) => element.key)
-const libraryIconKeys = libraryIcons.map((element) => element.key)
-const sidebarIconKeys = childrenIcons.map((element) => element.key)
 const childrenKeyOffset = 1000
-
-const mobileOnlyIconKeys = [iconTypes.accountMobile].map((element) => element.key)
-const webDesktopOnlyIconKeys = [iconTypes.multiSelect, iconTypes.accountWeb].map((element) => element.key)
 
 // helper
 function iconExpandable(iconText: string) {
     return iconText === iconTypes.sidebar.displayText
 }
-interface RowData {
-    key: number;
-    icon: string;
-    text: string;
-    selected: [boolean, string];
-}
 
 interface HomeScreenComponentsState {
-    isDossierHome: boolean,
-    toolbarHidden: boolean,
-    toolbarDisabled: boolean,
-    selectedSidebarIcons: [string],
-    selectedLibraryIcons: [string],
-    selectedDocumentIcons: [string],
     extraIcons: iconDetail[],
     defaultGroupEnable: boolean,
     mobileOptionsVisible: boolean,
@@ -59,19 +40,19 @@ interface HomeScreenComponentsState {
 class HomeScreenComponents extends React.Component<any, HomeScreenComponentsState> {
     isIconDisabled = (iconKey: string) => {
         // toolbar hidden
-        const toolbarDisabled = this.state.toolbarDisabled
+        const {toolbarHidden} = this.props
         // side bar hidden
         const sidebarDisabled = sidebarIconKeys.includes(iconKey) && !(this.iconSelectedInfo(iconTypes.sidebar.key)[0])
 
         let disabled = false
         if (mobileOnlyIconKeys.includes(iconKey) && !this.state.mobileOptionsVisible) {
             disabled = true
-        } else if (webDesktopOnlyIconKeys.includes(iconKey) && !this.state.webOptionsVisible && !this.state.isDossierHome) {
+        } else if (webDesktopOnlyIconKeys.includes(iconKey) && !this.state.webOptionsVisible && !this.props.isDossierHome) {
             disabled = true
         } else if (iconKey === iconTypes.defaultGroup.key && !this.state.defaultGroupEnable) {
             disabled = true
         }
-        return disabled || toolbarDisabled || sidebarDisabled
+        return disabled || toolbarHidden || sidebarDisabled
     }
 
     columns = [
@@ -106,48 +87,32 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
 
     getNewState = () => {
         let state = {...this.state}
-        const { homeScreen, platform } = this.props.config
-        const { mode, homeLibrary, homeDocument } = homeScreen
-        const isDossierHome = mode === VC.MODE_USE_DOSSIER_AS_HOME_SCREEN
-        let selectedSideBarIcons = []
-        let selectedLibraryIcons = []
-        let selectedDocumentIcons = []
         
-        {
-            const { icons, toolbarMode, toolbarDisabled } = homeDocument
-            selectedDocumentIcons = icons
-            if (isDossierHome) {
-                state.toolbarHidden = toolbarMode === VC.COLLAPSE_TOOLBAR
-                state.toolbarDisabled = toolbarDisabled === VC.COLLAPSE_TOOLBAR
-            }
-        }  
-        {
-            const { icons, sidebars, toolbarMode, toolbarDisabled, contentBundleIds } = homeLibrary
-            if (!isDossierHome) {
-                selectedSideBarIcons = sidebars
-                selectedLibraryIcons = icons
-                state.toolbarHidden = toolbarMode === VC.COLLAPSE_TOOLBAR
-                state.toolbarDisabled = toolbarDisabled === VC.COLLAPSE_TOOLBAR
-                state.defaultGroupEnable = !_.isEmpty(contentBundleIds) && contentBundleIds.length > 0
-                state.mobileOptionsVisible = _.includes(platform, platformType.mobile)
-                state.webOptionsVisible = _.includes(platform, platformType.web) || _.includes(platform, platformType.desktop)
-            }
+        const {contentBundleIds, config, isDossierHome} = this.props
+        const {platform} = config
+        if (!isDossierHome) {
+            state.defaultGroupEnable = !_.isEmpty(contentBundleIds) && contentBundleIds.length > 0
+            state.mobileOptionsVisible = _.includes(platform, platformType.mobile)
+            state.webOptionsVisible = _.includes(platform, platformType.web) || _.includes(platform, platformType.desktop)
         }
    
-        state.isDossierHome = isDossierHome
-        state.selectedSidebarIcons = selectedSideBarIcons
-        state.selectedDocumentIcons = selectedDocumentIcons
-        state.selectedLibraryIcons = selectedLibraryIcons
-
         const extraIcons = _.concat(platform.includes(platformType.desktop) ? extraDesktopIcons : [], platform.includes(platformType.mobile) ? extraMobileIcons : [])
         state.extraIcons = extraIcons
         return state
     }
 
     iconSelectedInfo = (iconKey: string) => {
-        let selected = this.state.selectedSidebarIcons.includes(iconKey) || this.state.selectedDocumentIcons.includes(iconKey)
-        if (!this.state.isDossierHome) {
-            selected = selected || this.state.selectedLibraryIcons.includes(iconKey)
+        const validKey = iconValidKey(iconKey) // trasnfrom 'account_web', 'account_mobile', to 'account'
+        let selected = false
+        if (sidebarIconKeys.includes(iconKey)) {
+            selected = this.props.selectedSidebarIcons.includes(validKey)
+        } else {
+            if (dossierIconKeys.includes(iconKey)) {
+                selected = this.props.selectedDocumentIcons.includes(validKey) 
+            }
+            if (libraryIconKeys.includes(iconKey)) {
+                selected = selected || this.props.selectedLibraryIcons.includes(validKey)
+            }
         }
         return [selected, iconKey]
     }
@@ -182,13 +147,11 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
 
     renderTable = (icons: Array<iconDetail>) => {
         const expandChildren = childrenIcons
-            // .filter( (icon) => !mobileOnlyIconKeys.includes(icon.key) || this.state.mobileOptionsVisible)
             .map( (icon, index) =>     
             ({key: childrenKeyOffset+index, displayText: [icon.iconName, icon.displayText], selected: this.iconSelectedInfo(icon.key)})
         )
 
         const data = icons
-            // .filter( (icon) => !webDesktopOnlyIconKeys.includes(icon.key) || this.state.webOptionsVisible || this.state.isDossierHome )
             .map( (icon, index) => {
                 const hasChildren = iconExpandable(icon.displayText)
                 const selectedInfo = this.iconSelectedInfo(icon.key)
@@ -201,7 +164,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         return <Table className="home-screen-components-table" dataSource={data} columns={this.columns} pagination={false} showHeader={false} expandIcon={(props) => this.customExpandIcon(props)} />
     }
 
-    renderOptions = (checked: boolean, value: string, text: string) => {
+    renderOptions = (checked: boolean, value: number, text: string) => {
         return <div className = "home-screen-components-toolbar">
             <Checkbox 
                 checked={checked}
@@ -213,44 +176,43 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
     }
 
     // call backs
-    onToolbarStateChange = (type: string, value: boolean) => {
+    onToolbarStateChange = (value: number, checked: boolean) => {
         let update = {}
-        switch (type) { 
-            case VC.TOOLBAR_MODE:
-            case VC.TOOLBAR_DISABLED:
-                update = {[type]: value ? VC.COLLAPSE_TOOLBAR : VC.SHOW_TOOLBAR}
-                // update on both library and dossier
-                update = {[VC.HOME_DOCUMENT]: update, [VC.HOME_LIBRARY]: update}
-                update = {[VC.HOME_SCREEN]: update}
+        
+        switch (value) { 
+            case VC.HIDE_TOOLBAR:
+                update = {[VC.TOOLBAR_MODE]: (checked ? value : 0) | (this.props.toolbarCollapsed ? VC.COLLAPSE_TOOLBAR : 0)}
+                break;
+            case VC.COLLAPSE_TOOLBAR:
+                update = {[VC.TOOLBAR_MODE]: (checked ? value : 0) | (this.props.toolbarHidden ? VC.HIDE_TOOLBAR : 0)}
                 break;
             default:
                 break;
         }
+        // update on both library and dossier
+        update = {[VC.HOME_DOCUMENT]: update, [VC.HOME_LIBRARY]: update}
+        update = {[VC.HOME_SCREEN]: update}
         this.props.updateCurrentConfig(update)
     }
 
     onIconStateChange = (value: boolean, iconKey: string) => {
         let update = {}
         // check side bar icons
-        const allSideIconsKey = childrenIcons.map( (icon) => icon.key )
-        if (allSideIconsKey.includes(iconKey)) {
-            let key = iconKey
-            if (iconKey === iconTypes.accountMobile.key) { // translate mobile option key to normal key
-                key = iconTypes.account.key
-            }
-            const icons = value ? _.concat(this.state.selectedSidebarIcons, iconKey) : _.pull(this.state.selectedSidebarIcons, key)
+        const validKey = iconValidKey(iconKey) 
+        if (sidebarIconKeys.includes(iconKey)) {
+            const icons = value ? _.concat(this.props.selectedSidebarIcons, validKey) : _.pull(this.props.selectedSidebarIcons, validKey)
             update = {[VC.ICON_SIDEBAR]: icons}
             update = {[VC.HOME_LIBRARY]: update}
         } else {
             let updateDocument = {}
             let updateLibrary = {}
             if (dossierIconKeys.includes(iconKey)) {
-                const icons = value ? _.concat(this.state.selectedDocumentIcons, iconKey) : _.pull(this.state.selectedDocumentIcons, iconKey)
+                const icons = value ? _.concat(this.props.selectedDocumentIcons, validKey) : _.pull(this.props.selectedDocumentIcons, validKey)
                 update = {[VC.ICONS]: icons}
                 updateDocument = {[VC.HOME_DOCUMENT]: update} 
             }
             if (libraryIconKeys.includes(iconKey)) {
-                const icons = value ? _.concat(this.state.selectedLibraryIcons, iconKey) : _.pull(this.state.selectedLibraryIcons, iconKey)
+                const icons = value ? _.concat(this.props.selectedLibraryIcons, validKey) : _.pull(this.props.selectedLibraryIcons, validKey)
                 update = {[VC.ICONS] : icons}
                 updateLibrary = {[VC.HOME_LIBRARY]: update}
             }
@@ -268,15 +230,12 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
 
     componentDidUpdate() {
         const newState = this.getNewState()
-        if (newState.isDossierHome !== this.state.isDossierHome || newState.toolbarHidden !== this.state.toolbarHidden || newState.toolbarDisabled !== this.state.toolbarDisabled ||
-            !_.isEqual(newState.extraIcons, this.state.extraIcons) || newState.selectedSidebarIcons.length !== this.state.selectedSidebarIcons.length || 
-            newState.selectedDocumentIcons.length !== this.state.selectedDocumentIcons.length || newState.selectedLibraryIcons.length != this.state.selectedLibraryIcons.length || newState.defaultGroupEnable != this.state.defaultGroupEnable || newState.mobileOptionsVisible != this.state.mobileOptionsVisible || newState.webOptionsVisible != this.state.webOptionsVisible) {
+        if (!_.isEqual(newState.extraIcons, this.state.extraIcons) || newState.defaultGroupEnable !== this.state.defaultGroupEnable || newState.mobileOptionsVisible !== this.state.mobileOptionsVisible || newState.webOptionsVisible !== this.state.webOptionsVisible) {
             this.setState(newState)
         }
     }
 
     render() {
-        const allSelectedIcons = _.concat(this.state.selectedDocumentIcons, this.state.selectedLibraryIcons, this.state.selectedSidebarIcons)
         return (
             <Layout className="home-screen-components">
                 <Layout.Content className="home-screen-components-left"> 
@@ -287,13 +246,13 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                         </div>
                     </div>
 
-                    {this.renderOptions(this.state.toolbarDisabled, VC.TOOLBAR_DISABLED, localizedString.DISABLE_TOOLBAR)}
-                    {this.renderOptions(this.state.toolbarHidden, VC.TOOLBAR_MODE, localizedString.COLLAPSE_TOOLBAR)}
+                    {this.renderOptions(this.props.toolbarHidden, VC.HIDE_TOOLBAR, localizedString.DISABLE_TOOLBAR)}
+                    {this.renderOptions(this.props.toolbarCollapsed, VC.COLLAPSE_TOOLBAR, localizedString.COLLAPSE_TOOLBAR)}
 
                     <div className="home-screen-components-scrollcontainer">
                     {
                         // dossier as home group
-                        this.state.isDossierHome && <div className="home-screen-components-icons">
+                        this.props.isDossierHome && <div className="home-screen-components-icons">
                             { this.renderTableTitle(localizedString.DOSSIER_WINDOW_HOME) }
                             { this.renderTable(dossierIconsDossierHome) }
                         </div>
@@ -301,7 +260,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
 
                     {
                         // library as home group
-                        !this.state.isDossierHome && <div className="home-screen-components-icons">
+                        !this.props.isDossierHome && <div className="home-screen-components-icons">
                             { this.renderTableTitle(localizedString.LIBRARY_WINDOW) }
                             { this.renderTable(libraryIcons) }
                             { this.renderTableTitle(localizedString.DOSSIER_WINDOW) }
@@ -322,7 +281,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                 </Layout.Content>
                 {/* previewer */}
                 <Layout.Sider className="home-screen-components-right" width='274px'>
-                    <HomeScreenPreviewer deviceType={this.props.deviceType} platform={this.props.config.platform} toolbarDisabled={this.state.toolbarDisabled} toolbarHidden={this.state.toolbarHidden} icons={allSelectedIcons} isDossierHome={this.state.isDossierHome} handleDeviceTypeChange={this.props.handleDeviceTypeChange}/>
+                    <HomeScreenPreviewer />
                 </Layout.Sider>
             </Layout>
         )
@@ -330,7 +289,14 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
 }
 
 const mapState = (state: RootState) => ({
-    config: selectCurrentConfig(state)
+    config: selectCurrentConfig(state),
+    isDossierHome: selectIsDossierAsHome(state),
+    toolbarHidden: selectIsToolbarHidden(state),
+    toolbarCollapsed: selectIsToolbarCollapsed(state),
+    selectedSidebarIcons: selectSelectedSideBarIcons(state),
+    selectedLibraryIcons: selectSelectedLibraryIcons(state),
+    selectedDocumentIcons: selectSelectedDocumentIcons(state), 
+    contentBundleIds: selectCurrentConfigContentBundleIds(state),
 })
   
 const connector = connect(mapState, {

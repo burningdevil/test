@@ -30,13 +30,11 @@ export interface HomeScreenEditConfigType {
             sidebars: Array<string>,
             contentBundleIds: Array<string>,
             toolbarMode: number,
-            toolbarDisabled: number
         }, 
         homeDocument: {
             url: string,
             icons: Array<string>,
             toolbarMode: number,
-            toolbarDisabled: number
         }
     },
     'general': {
