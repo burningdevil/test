@@ -271,7 +271,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                         {/* library sidebar */}
                         <div style={{position: 'relative'}}>
                             <div className="homeScreenPreviewer-horcontainer">
-                                {showSideBar && 
+                                {!isDossierHome && showSideBar && 
                                 <Layout className="homeScreenPreviewer-phone">
                                     {this.sidebarIconsRender(childrenIcons, 'homeScreenPreviewer-phone-sidebar')}
                                 </Layout>
