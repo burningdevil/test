@@ -1,3 +1,5 @@
+import * as _ from 'lodash'
+
 export const CONSTANTS = {
     GENERAL: 'general',
     ALL: 'all',
@@ -197,7 +199,7 @@ export const iconTypes = {
 
 /// for icon switch
 // icons may appear in both library and dossier
-export const bothSideIcons = [iconTypes.notification, iconTypes.account]
+// export const bothSideIcons = [iconTypes.notification, iconTypes.account]
 
 // library icons when mode is Libary as home
 export const libraryIcons = [iconTypes.sidebar, iconTypes.sortAndFilter, iconTypes.multiSelect, 
@@ -208,7 +210,8 @@ export const dossierIcons = [iconTypes.toc, iconTypes.bookmark, iconTypes.reset,
     iconTypes.filter, iconTypes.comment, iconTypes.share]
 
 // dossier icons when mode is dossier as home, should append 
-export const dossierIconsDossierHome = dossierIcons.concat(bothSideIcons)
+export const dossierIconsDossierHome = [iconTypes.toc, 
+    iconTypes.filter, iconTypes.comment, iconTypes.share, iconTypes.notification, iconTypes.account]
 
 // extra icons for specified platforms
 export const extraDesktopIcons = [iconTypes.dataSearch, iconTypes.hyper]
@@ -220,7 +223,7 @@ export const childrenIcons = [iconTypes.all, iconTypes.favorites, iconTypes.rece
 // for accountMobile and accountWeb to remove suffix
 export const iconValidKey = (iconKey: string) => iconKey.split('_').length > 0 ? iconKey.split('_')[0] : iconKey
 
-export const dossierIconKeys = dossierIconsDossierHome.map((element) => element.key)
+export const dossierIconKeys =  _.union(dossierIcons.map((element) => element.key), dossierIconsDossierHome.map((element) => element.key)) 
 export const libraryIconKeys = libraryIcons.map((element) => element.key)
 export const sidebarIconKeys = childrenIcons.map((element) => element.key)
 

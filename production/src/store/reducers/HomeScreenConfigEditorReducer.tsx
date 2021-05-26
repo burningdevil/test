@@ -1,5 +1,5 @@
 import { HomeScreenConfigEditorState } from '../../types/redux-state/HomeScreenConfigState'
-import { childrenIcons, CONSTANTS, dossierIconsDossierHome, iconTypes, libraryIcons, reviewType, iconValidKey, platformType } from '../../modules/components/HomeScreenConfigConstant'
+import { CONSTANTS, iconTypes, reviewType, iconValidKey, platformType, dossierIconKeys, libraryIconKeys, sidebarIconKeys } from '../../modules/components/HomeScreenConfigConstant'
 import { ActionTypes } from '../actions/ActionTypes'
 import * as Actions from '../actions/ActionConstants'
 import * as _ from 'lodash'
@@ -12,14 +12,14 @@ const initialState: HomeScreenConfigEditorState = {
     'homeScreen': {
       mode: CONSTANTS.MODE_USE_DEFAULT_HOME_SCREEN, 
       homeLibrary: { 
-        icons: libraryIcons.map((icon) => iconValidKey(icon.key)), 
-        sidebars: childrenIcons.map((icon) => iconValidKey(icon.key)).filter((key) => key !== iconTypes.defaultGroup.key), 
+        icons: libraryIconKeys.map((key) => iconValidKey(key)), 
+        sidebars: sidebarIconKeys.filter((key) => key !== iconTypes.defaultGroup.key).map((key) => iconValidKey(key)), 
         contentBundleIds: [],
         toolbarMode: CONSTANTS.SHOW_TOOLBAR, 
       }, 
       homeDocument: {
         url: "", 
-        icons: dossierIconsDossierHome.map((icon) => iconValidKey(icon.key)), 
+        icons: dossierIconKeys.map((key) => iconValidKey(key)), 
         toolbarMode: CONSTANTS.SHOW_TOOLBAR,
       }
     },
