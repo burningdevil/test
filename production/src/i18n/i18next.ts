@@ -52,16 +52,13 @@ const languages = {
     },
     'zh': {
       translation: require('./strings/zh.json')
-    },
-    'test': {
-      translation: require('./test.json')
     }
   }
 
 export const i18nextInstance = i18next.createInstance()
 i18nextInstance.init({
   lng: /* 'zh-CN' */ navigator.language,
-  fallbackLng: ['test'],
+  fallbackLng: ['en'],
   resources: languages,
 })
 
