@@ -17,15 +17,16 @@ import { selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEd
 import * as Actions from '../../../store/actions/ActionsCreator';
 import { CONSTANTS } from '../HomeScreenConfigConstant';
 import * as api from '../../../services/api';
+import { t } from '../../../i18n/i18next'
 
 declare var workstation: WorkstationModule;
 
 const navBar = {
-  GENERAL: 'General',
-  HOME_SCREEN: 'Home Screen',
-  COMPONENTS: 'Components',
-  CONTENT_BUNDLES: 'Content Bundles',
-  MORE_SETTINGS: 'More Settings'
+  GENERAL: t('general'),
+  HOME_SCREEN: t('homeScreen'),
+  COMPONENTS: t('components'),
+  CONTENT_BUNDLES: t('cotentBundle'),
+  MORE_SETTINGS: t('moreSettings')
 };
 const popoverGeneral = {
   width: 962,

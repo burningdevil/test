@@ -24,6 +24,7 @@ import { RootState } from '../../../types/redux-state/HomeScreenConfigState';;
 import { connect } from 'react-redux';
 import { selectContentBundleList } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as api from '../../../services/api';
+import { t } from '../../../i18n/i18next';
 
 // const bundleList = {
     //   contentBundles:
@@ -439,7 +440,7 @@ class ContentBundleList extends React.Component<any, any> {
           }}
         />
         <span className="content-bundle-list-container-add-text">
-          Add Content
+          {t('addContent')} 
         </span>
       </div>
     );
@@ -451,12 +452,12 @@ class ContentBundleList extends React.Component<any, any> {
       <div className = "content-bundle-list-container-empty">
         <img className="content-bundle-list-container-empty-img" src={bookmarksImg}/>
         <div className="content-bundle-list-container-empty-desc">
-          Add content bundles to this application
+          {t('addContentBundles')}
         </div>
         <div className="content-bundle-list-container-empty-add">
           <span className= "icon-pnl_add-new" onClick={this.handleAddContent}/>
           <span className="content-bundle-list-container-empty-add-text">
-            Add Content
+            {t('addContent')}
           </span>
         </div>
       </div>
@@ -485,7 +486,7 @@ class ContentBundleList extends React.Component<any, any> {
       <div className="content-bundle-list-container" style={{ height: '100%'}}>
         {this.props.allowDelete &&
           <div className="content-bundle-list-container-header">
-            <SearchInput className="content-bundle-list-container-search" placeholder="Search"
+            <SearchInput className="content-bundle-list-container-search" placeholder={t('search')}
                 onChange={(value: string) => {
                   this.handleSearch(value);
                 }}/>

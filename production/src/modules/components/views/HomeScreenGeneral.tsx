@@ -11,6 +11,7 @@ import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { selectCurrentConfig, selectPreviewDeviceType } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 const { TextArea } = Input;
+import { t } from '../../../i18n/i18next'
 
 class HomeScreenGeneral extends React.Component<any, any> {
   constructor(props: any) {
@@ -88,7 +89,7 @@ class HomeScreenGeneral extends React.Component<any, any> {
         <div className = "home-screen-general">
             <div className="home-screen-general-environment">
                 <div className="home-screen-general-environment-title">
-                    Environment
+                    {t('environment')}
                 </div>
                 <div className="home-screen-general-environment-name">
                     {this.state.currentEnv.name}
@@ -96,7 +97,7 @@ class HomeScreenGeneral extends React.Component<any, any> {
             </div>
             <div className="home-screen-general-name">
                 <div className="home-screen-general-name-title">
-                        Name
+                        {t('name')}
                     </div>
                     <div className="home-screen-general-name-name">
                         <Input placeholder="" value = {name} onChange={this.handleNameChange}/>
@@ -104,7 +105,7 @@ class HomeScreenGeneral extends React.Component<any, any> {
             </div>
             <div className="home-screen-general-description">
                 <div className="home-screen-general-description-title">
-                    Description
+                    {t('description')}
                 </div>
                 <div className="home-screen-general-description-name">
                     <TextArea className="home-screen-general-description-name-input" placeholder="" rows = {3} value = {description} onChange={this.handleDescChange}/>
@@ -112,13 +113,13 @@ class HomeScreenGeneral extends React.Component<any, any> {
             </div>
             <div className="home-screen-general-platform">
                 <div className="home-screen-general-platform-title">
-                    Platform
+                    {t('platform')}
                 </div>
                 <div className="home-screen-general-platform-name">
                     <Checkbox
                         className="home-screen-general-platform-mobile"
                         disabled={false}
-                        label="Mobile"
+                        label={t('mobile')}
                         checked={platform.includes(platformType.mobile)}
                         onChange={(event: CheckboxChangeEvent) => {
                           this.handlePlatformChange(event, 'Mobile')
@@ -127,7 +128,7 @@ class HomeScreenGeneral extends React.Component<any, any> {
                     <Checkbox
                         className=""
                         disabled={false}
-                        label="Web"
+                        label={t('web')}
                         checked={platform.includes(platformType.web)}
                         onChange={(event: CheckboxChangeEvent) => {
                           this.handlePlatformChange(event, 'Web')
@@ -136,7 +137,7 @@ class HomeScreenGeneral extends React.Component<any, any> {
                     <Checkbox
                         className=""
                         disabled={false}
-                        label="Desktop"
+                        label={t('desktop')}
                         checked={platform.includes(platformType.desktop)}
                         onChange={(event: CheckboxChangeEvent) => {
                           this.handlePlatformChange(event, 'Desktop')
@@ -146,7 +147,7 @@ class HomeScreenGeneral extends React.Component<any, any> {
             </div>
             <div className="home-screen-general-url">
               <div className="home-screen-general-url-title">
-                  App Url
+                  {t('appUrl')}
               </div>
               <div className="home-screen-general-url-name">
                   {this.state.currentEnv.url + 'app/config/' + this.props.config.configId}

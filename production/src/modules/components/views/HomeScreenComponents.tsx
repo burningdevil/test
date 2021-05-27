@@ -10,18 +10,19 @@ import HomeScreenPreviewer from './HomeScreenPreviewer'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
 import { selectCurrentConfig, selectIsDossierAsHome, selectIsToolbarHidden, selectIsToolbarCollapsed, selectSelectedSideBarIcons, selectSelectedLibraryIcons, selectSelectedDocumentIcons, selectCurrentConfigContentBundleIds } from '../../../store/selectors/HomeScreenConfigEditorSelector'
 import * as Actions from '../../../store/actions/ActionsCreator'
+import { t } from '../../../i18n/i18next'
 
 // constatns 
 const localizedString = {
-    ENABLE_FEATURE_TITLE: 'Enable Features',
-    ENABLE_FEATURE_DESC: 'Set toolbar behaviors and enable or disable the functions below',
-    DISABLE_TOOLBAR: 'Disable toolbar',
-    COLLAPSE_TOOLBAR: 'Collapse toolbar by default',
+    ENABLE_FEATURE_TITLE: t('enableFeatureTitle'),
+    ENABLE_FEATURE_DESC: t('enableFeatureDesc'),
+    DISABLE_TOOLBAR: t('disableToolbar'),
+    COLLAPSE_TOOLBAR: t('collapseToolbar'),
 
-    LIBRARY_WINDOW: 'LIBRARY WINDOW (HOME)',
-    DOSSIER_WINDOW: 'DOSSIER WINDOW',
-    DOSSIER_WINDOW_HOME: 'DOSSIER WINDOW (HOME)',
-    PLATFORM_SPECIFIC: 'PLATFORM SPECIFIC',
+    LIBRARY_WINDOW: t('libraryWindow'),
+    DOSSIER_WINDOW: t('dossierWindow'),
+    DOSSIER_WINDOW_HOME: t('dossierWindowHome'),
+    // PLATFORM_SPECIFIC: 'PLATFORM SPECIFIC',
 }
 const childrenKeyOffset = 1000
 
