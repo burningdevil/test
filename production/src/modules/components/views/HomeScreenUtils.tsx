@@ -65,62 +65,10 @@ export function HomeScreenBundleListDatasource(server: any) {
           } else {
             params.fail();
           }
-        }, 200);
+        }, 500);
       },
     };
   }
-  
-export function FakeHomeScreenBundleListServer(allData: BundleInfo[]) {
-    return {
-        getData: function (params: IServerSideGetRowsParams) {
-        var results: any[] = [];
-        var lastRow: number = allData.length;
-        if (params.request.groupKeys.length === 0) {
-            results = allData.map(function (d) {
-            return {
-                name: d.name,
-                recipientStr: d.recipientStr,
-                bundleId: d.id,
-                color: d.color,
-                id: d.id,
-                expand: d.expand,
-                recipientType: d.recipientType
-            };
-            });
-
-            return {
-            success: true,
-            rows: results,
-            lastRow: lastRow
-            };
-        } else {
-            var key = params.request.groupKeys[0];
-            HttpProxy.get('/contentBundles/'+ key + '/contents?projectId=B7CA92F04B9FAE8D941C3E9B7E0CD754&projectId=5FDF3E5C4CCB76AA7E3292A4C47DECB8')
-            .then((response: any) => {
-                let contents = response;
-                if (response && response.data) {
-                contents = response.data;
-                }
-                var arr = Object.keys(contents).reduce(function(res, v) {
-                return res.concat(contents[v]);
-                }, []);
-                results = arr.map(function (d) {
-                return {
-                    name: d.name,
-                    expand: false,
-                    viewMedia: d.viewMedia
-                };
-                });
-                lastRow = arr.length;
-            })
-            .then (()=>{
-            params.successCallback(results, lastRow);
-            })
-            .catch((e: any) => (console.log(e)));
-        }
-        },
-    };
-}
   
 export function getHomeScreenBundleListGroupCellInnerRenderer() {
     function HomeScreenBundleListGroupCellInnerRenderer() {}

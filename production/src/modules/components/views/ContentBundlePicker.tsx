@@ -27,7 +27,8 @@ export default class ContentBundlePicker extends React.Component<any, any> {
     super(props)
     this.state = {
       activeTab: 'bundles',
-      selectedBundles:[ ]
+      selectedBundles:[ ],
+      nameFilter: ''
     }
   }
 
@@ -83,6 +84,12 @@ export default class ContentBundlePicker extends React.Component<any, any> {
     });
   }
 
+  handleSearch = (value: string) => {
+    this.setState({
+      nameFilter: value
+    });
+  }
+
   render() {
     return (
       <Modal
@@ -103,7 +110,7 @@ export default class ContentBundlePicker extends React.Component<any, any> {
             </div>
             <SearchInput className="content-bundle-picker-search" placeholder="Search"
                 onChange={(value: string) => {
-                  //this.handleSearch(value);
+                  this.handleSearch(value);
                 }}/>
           </div>
           <div className="content-bundle-picker-middle">
@@ -123,7 +130,7 @@ export default class ContentBundlePicker extends React.Component<any, any> {
                 </Menu>
               </div>
               <div className="content-bundle-picker-grid-right">
-                <ContentBundleList includedIds = {[]} handleSelection = {this.handleSelectionChanged} allowDelete={false}/>
+                <ContentBundleList includedIds = {[]} handleSelection = {this.handleSelectionChanged} allowDelete={false} nameFilter={this.state.nameFilter}/>
               </div>
             </div>
             <div className="content-bundle-picker-footer">
