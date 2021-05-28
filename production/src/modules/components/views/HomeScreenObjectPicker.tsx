@@ -5,6 +5,7 @@ import { WorkstationModule } from '@mstr/workstation-types';
 import HomeScreenObjectList from './HomeScreenObjectList';
 import * as _ from "lodash";
 import { HttpProxy } from '../../../main';
+import { t } from '../../../i18n/i18next';
 
 declare var workstation: WorkstationModule;
 
@@ -66,13 +67,13 @@ export default class HomeScreenObjectPicker extends React.Component<any, any> {
             <Button key="back"
                 onClick={this.handleCancel}
             >
-                {'Cancel'}
+                {t('cancel')}
             </Button>
             <Button key="Generate"
                 type="primary"
                 style={{marginLeft: 10}}
                 onClick={this.handleSelectObjects}>
-                {'Select'}
+                {t('select')}
             </Button>
         </div>
     );

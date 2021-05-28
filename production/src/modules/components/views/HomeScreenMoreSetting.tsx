@@ -7,6 +7,7 @@ import { DownOutlined } from '@ant-design/icons'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
 import { selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEditorSelector'
 import * as Actions from '../../../store/actions/ActionsCreator'
+import { t } from '../../../i18n/i18next'
 
 const MAX_UPDATE_INTERVAL = 2400;//100 days
 const MAX_TIMEOUT = 9999;
@@ -15,41 +16,41 @@ const MIN_METRIC_VALUE = 0;
 const TOOLTIP_DISAPPEAR_TIME = 3000;
 const DEFAULT_INTERVAL_HOURS = 24;
 const sectionTitle = {
-    DESC: 'SPECIFIC TO MOBILE SETTINGS',
-    SECURITY: 'Security',
-    ACCESS: 'Access',
-    CONNECTIVITY: 'Connectivity',
-    LOGGING: 'Logging',
-    CACHE: 'Cache'
+    DESC: t('mobileOnlyDesc'),
+    SECURITY: t('security'),
+    ACCESS: t('access'),
+    CONNECTIVITY: t('connectivity'),
+    LOGGING: t('logging'),
+    CACHE: t('cache')
 };
 const sectionAccess = {
-    CHECK_UPDATE: 'Check and update configuration every',
+    CHECK_UPDATE: t('checkUpdate'),
 };
 const sectionConnectivity = {
-    NETWORK_TIMEOUT: 'Network Timeout',
+    NETWORK_TIMEOUT: t('networkTimeout'),
 };
 const sectionLogging = {
-    MAX_LOG_SIZE: 'Maximum Log Size',
-    LOG_LEVEL: 'Logging Level',
+    MAX_LOG_SIZE: t('maxLogSize'),
+    LOG_LEVEL: t('logLevel'),
 };
 const logLevelStr = {
-    ALL: 'All',
-    INFO: 'Message',
-    WARNING: 'Warning',
-    SEVERE: 'Error',
-    OFF: 'Off',
+    ALL: t('logAll'),
+    INFO: t('logInfo'),
+    WARNING: t('logWarning'),
+    SEVERE: t('logServre'),
+    OFF: t('logOff'),
 };
 const sectionCache = {
-    CLEAR_CACHE_ON_CLOSE: 'Clear Caches when the application closes',
-    CLEAR_CACHE_ON_LOGOUT: 'Clear Caches on logout',
+    CLEAR_CACHE_ON_CLOSE: t('clearCacheOnClose'),
+    CLEAR_CACHE_ON_LOGOUT: t('clearCacheOnLogout'),
 };
 const metricStr = {
-    HOURS: 'hours',
-    SECONDS: 'seconds',
-    ENTRIES: 'items',
+    HOURS: t('hours'),
+    SECONDS: t('seconds'),
+    ENTRIES: t('items'),
 };
-const tooltipStr = (min: number, max: number) => {
-    return 'The value must be between ' +  [min] + ' and ' + [max];;
+const tooltipStr = (min: string, max: string) => {
+    return t('tooltipStr',  {min, max}) 
 };
 
 class HomeScreenMoreSetting extends React.Component<any, any> {
@@ -177,7 +178,7 @@ class HomeScreenMoreSetting extends React.Component<any, any> {
             title={
                 <span>
                     <span className="icon-error"/>
-                    {`  ${tooltipStr(MIN_METRIC_VALUE, maxValue)}`}
+                    {`  ${tooltipStr(MIN_METRIC_VALUE.toString(), maxValue.toString())}`}
                 </span>
             }>
             <Input 

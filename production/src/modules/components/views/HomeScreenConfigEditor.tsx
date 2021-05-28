@@ -15,7 +15,6 @@ import { PARSE_METHOD } from '../../../utils/ParseMethods';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
-import { CONSTANTS } from '../HomeScreenConfigConstant';
 import * as api from '../../../services/api';
 import { t } from '../../../i18n/i18next'
 
@@ -110,13 +109,13 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
     return (
         <div className="mstr-Admin-cfg-popover-btn">
             <Button key="back" onClick={this.handleCancel}>
-                {'Cancel'}
+                {t('cancel')}
             </Button>
             <Button key="Generate"
                 type="primary"
                 style={{marginLeft: 10}}
                 onClick={this.handleSaveConfig}>
-                {'Save'}
+                {t('save')}
             </Button>
         </div>
     );

@@ -7,6 +7,7 @@ import * as _ from "lodash";
 import classNames from 'classnames';
 import { HttpProxy } from '../../../main';
 import ContentBundleList from './ContentBundleList';
+import { t } from '../../../i18n/i18next'
 
 declare var workstation: WorkstationModule;
 
@@ -65,14 +66,14 @@ export default class ContentBundlePicker extends React.Component<any, any> {
         <div className="content-bundle-picker-btn">
             <Button onClick={this.handleCancelAdd}
             style={{ paddingTop: 0}}>
-                Cancel
+                {t('cancel')}
             </Button>
             <Button
                 type="primary"
                 style={{marginLeft: 10, paddingTop: 0}}
                 onClick={this.handleSaveAdd}
                 disabled = {this.state.selectedBundles.length === 0}>
-                Select
+                {t('select')}
             </Button>
         </div>
     );
@@ -106,7 +107,7 @@ export default class ContentBundlePicker extends React.Component<any, any> {
         <div className="content-bundle-picker">
           <div className="content-bundle-picker-top">
             <div className="content-bundle-picker-header">
-              Select content bundles
+              {t('selectContentBundles')}
             </div>
             <SearchInput className="content-bundle-picker-search" placeholder="Search"
                 onChange={(value: string) => {
@@ -124,7 +125,7 @@ export default class ContentBundlePicker extends React.Component<any, any> {
                   <Menu.Item key="bundles" className="content-bundle-picker-grid-menu-tab">
                     <div className="icon-group_groups_a"/>
                     <div className="content-bundle-picker-grid-menu-text">
-                        Content Bundles
+                        {t('cotentBundles')}
                     </div>
                   </Menu.Item>
                 </Menu>

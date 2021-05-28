@@ -1,5 +1,11 @@
 
 {
+    "applications": "Applications",
+    "newApplication": "New Application",
+    "editApplication": "Edit Application",
+    "selectObject": "Select Object",
+    "selectContentBundle": "Select Content Bundle",
+
     "general": "General",
     "homeScreen": "Home Screen",
     "components": "Components",
@@ -11,6 +17,8 @@
     "description": "Description",
     "platform": "Platform",
     "mobile": "Mobile",
+    "tablet": "Tablet",
+    "phone": "Phone",
     "web": "Web",
     "desktop": "Desktop",
     "appUrl": "App Url",
@@ -52,5 +60,38 @@
 
     "content": "Content",
     "addContent": "Add Content",
-    "addContentBundles": "Add content bundles to this application"
+    "addContentBundles": "Add content bundles to this application",
+    "selectContentBundles": "Select content bundles",
+    "cotentBundles": "Content Bundles",
+
+    "preview": "Preview",
+    "libraryWindowLowerCase": "Libary Window (Home)",
+    "dossierWindowLowerCase": "Dossier Window",
+    "dossierWindowHomeLowerCase": "Dossier Window (Home)",
+
+    "mobileOnlyDesc": "SPECIFIC TO MOBILE SETTINGS",
+    "security": "Security",
+    "access": "Access",
+    "connectivity": "Connectivity",
+    "logging": "Logging",
+    "cache": "Cache",
+    "checkUpdate": "Check and update configuration every",
+    "networkTimeout": "Network Timeout",
+    "maxLogSize": "Maximum Log Size",
+    "logLevel": "Logging Level",
+    "logAll": "All",
+    "logInfo": "Message",
+    "logWarning": "Warning",
+    "logServre": "Error",
+    "logOff": "Off",
+    "clearCacheOnClose": "Clear Caches when the application closes",
+    "clearCacheOnLogout": "Clear Caches on logout",
+    "hours": "hours",
+    "seconds": "seconds",
+    "items": "items",
+    "tooltipStr": "The value must be between {{min}} and {{max}}",
+
+    "cancel":"Cancel",
+    "save": "Save",
+    "select": "Select"
 }

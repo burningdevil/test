@@ -8,20 +8,21 @@ import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
 import { connect } from 'react-redux'
 import { selectCurrentConfig, selectIsDossierAsHome, selectPreviewDeviceType, selectIsToolbarHidden, selectIsToolbarCollapsed, selectSelectedSideBarIcons, selectSelectedLibraryIcons, selectSelectedDocumentIcons } from '../../../store/selectors/HomeScreenConfigEditorSelector'
 import * as Actions from '../../../store/actions/ActionsCreator'
+import { t } from '../../../i18n/i18next'
 
 const deviceTypeText = {
-    tablet: 'Tablet',
-    phone: 'Phone',
-    web: 'Web',
-    desktop: 'Desktop',
+    tablet: t('tablet'),
+    phone: t('phone'),
+    web: t('web'),
+    desktop: t('desktop'),
 }
 
 const sectionTitle = {
-    preview: 'Preview',
-    libraryHome: 'Libary Window (Home)',
-    dossier: 'Dossier Window',
-    dossierHome: 'Dossier Window (Home)',
-    notificationPanel: 'Notification Panel',
+    preview: t('preview'),
+    libraryHome: t('libraryWindowLowerCase'),
+    dossier: t('dossierWindowLowerCase'),
+    dossierHome: t('dossierWindowHomeLowerCase'),
+    // notificationPanel: 'Notification Panel',
 }
 
 class HomeScreenPreviewer extends React.Component<any, any> {

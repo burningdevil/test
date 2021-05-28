@@ -111,7 +111,7 @@ export const CONSTANTS = {
 }
 
 export const reviewType = {
-    TABLET: 'tablet',
+    TABLET: 'Tablet',
     PHONE: 'Phone',
     DESKTOP: 'Desktop',
     WEB: 'Web',
