@@ -1,23 +1,69 @@
 @import '~@mstr/rc/es/assets/scss/variables.scss';
 
-.home-screen-main-container {
-    height: 100%;
+.home-screen-main {
     font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';
     color: #35383A;
     font-size: 12px;
+
+    .new-application-container {
+        display: flex;
+        align-items: center;
+        padding-bottom: 10px;
+        padding-top: 5px;
+
+    }
+
+    .icon-pnl_add-new {
+        margin-right: 3px;
+        margin-left: 15px;
+        cursor: pointer;
+    }
+
+    .mstr-window-table-row {
+        .icon-tb_share_n {
+            cursor: pointer;
+            display: none;
+            
+            &.ant-dropdown-open {
+                display: inline-block;
+            }
+        }
+    }
+
+    .mstr-window-table-row:hover {
+        .icon-tb_share_n {
+            cursor: pointer;
+            display: inline-block;
+        }
+    }
+
+    .Application-Name-Text {
+        padding-right: 5px;
+    }
+
+    .application-share-menu-container {
+        padding: 0px;
+    }
 }
 
-.add-application-container {
-    display: flex;
-    align-items: center;
-    padding-bottom: 10px;
-    padding-top: 5px;
-}
+.ant-dropdown-menu {
+    padding: 0px !important;
+    .ant-dropdown-menu-item {
+        width: 160px !important;
+        background-color: white !important;
+        font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif' !important;
+        color: #35383A !important;
+        font-size: 12px !important;
+    }
 
-.icon-pnl_add-new {
-    margin-right: 3px;
-    margin-left: 15px;
-    cursor: pointer;
+    .ant-dropdown-menu-item:hover {
+        background-color: #3492ED !important;
+        color: white !important;
+    }
+
+    .ant-dropdown-menu-item-divider {
+        margin: 0px;
+    }
 }
 
 .mstr-ws-icons.icon-gear::before {
@@ -41,7 +87,7 @@
 }
 
 .mstr-window-table-body {
-    min-height: 400px;
+    min-height: 708px;
 }
 
 .mstr-rc-mstr-react-window-table-wrapper {

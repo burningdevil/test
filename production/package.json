@@ -24,7 +24,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@mstr/rc": "^1.24.13",
+    "@mstr/rc": "^1.24.22",
     "@mstr/react-ws-grid":"^0.0.5",
     "@mstr/workstation-types": "^1.0.7",
     "@types/bluebird": "^3.5.27",
