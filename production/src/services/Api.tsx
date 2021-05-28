@@ -48,17 +48,37 @@ export const loadCurrentEditConfig = (configId: string) => {
     });
 }
 
-export const loadBatchDossierDocuments = (offset: number, limit: number) => {
-    return HttpProxy.get('/searches/results?pattern=4&type=14081&offset='+ offset +'&getAncestors=false&limit='+ limit + '&certifiedStatus=ALL').then((response: any) => {
+export const loadSearchedDossierDocuments = (name: string) => {
+    return HttpProxy.get('/searches/results?name=' + name + '&pattern=4&type=14081&getAncestors=false&limit=-1&certifiedStatus=OFF').then((response: any) => {
         let data = response;
+        let totalCount = response.totalItems;
         if (data && response.data) {
           data = response.data;
+          totalCount = response.data.totalItems;
         }
-        const dossiers = data.result.filter((o: { viewMedia: number; }) => {return isContentTypeDossier(o.viewMedia)});
-        const documents = data.result.filter((o: { viewMedia: number; }) => {return !isContentTypeDossier(o.viewMedia)});
+        var dossiers = data.result.filter((o: { viewMedia: number; }) => {return isContentTypeDossier(o.viewMedia)});
+        var documents = data.result.filter((o: { viewMedia: number; }) => {return !isContentTypeDossier(o.viewMedia)});
+        return {dossiers, documents, totalCount};
+    })
+    .catch((e: any) => (console.log(e)));
+}
+
+export const loadBatchDossierDocuments = (offset: number, limit: number) => {
+    return HttpProxy.get('/searches/results?pattern=4&type=14081&offset='+ offset +'&getAncestors=false&limit='+ limit + '&certifiedStatus=OFF').then((response: any) => {
+        let data = response;
+        let totalCount = response.totalItems;
+        if (data && response.data) {
+          data = response.data;
+          totalCount = response.data.totalItems;
+        }
+        var dossiers = data.result.filter((o: { viewMedia: number; }) => {return isContentTypeDossier(o.viewMedia)});
+        var documents = data.result.filter((o: { viewMedia: number; }) => {return !isContentTypeDossier(o.viewMedia)});
         store.dispatch(ActionsCreator.appendContentDossiers(dossiers));
         store.dispatch(ActionsCreator.appendContentDocuments(documents));
-        return {dossiers, documents};
+        if(totalCount <= offset + limit) {
+            store.dispatch(ActionsCreator.finishLoadingDossierList());
+        }
+        return {dossiers, documents, totalCount};
     })
     .catch((e: any) => (console.log(e)));
 }

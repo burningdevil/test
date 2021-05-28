@@ -13,6 +13,7 @@ import { selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEd
 import * as Actions from '../../../store/actions/ActionsCreator';
 import HomeScreenPreviewer from './HomeScreenPreviewer';
 import { default as VC } from '../HomeScreenConfigConstant';
+import { t } from '../../../i18n/i18next'
 
 declare var workstation: WorkstationModule;
 
@@ -140,14 +141,14 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
                     {this.state.dossierName}
                 </div>
                 <Button type='link' className = "home-screen-home-settings-dossier-change" disabled = {homeScreen.mode == VC.MODE_USE_DEFAULT_HOME_SCREEN} onClick={this.openDossierPickerPlugin}>
-                    Change
+                    {t('change')}
                 </Button>
             </div>
         );
     } else {
         return (
             <Button type='link' className = "home-screen-home-settings-pick" disabled = {homeScreen.mode == VC.MODE_USE_DEFAULT_HOME_SCREEN} onClick={this.openDossierPickerPlugin}>
-                Pick Dossier
+              {t('pickDossier')}
             </Button>
         );
     }
@@ -168,37 +169,30 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
 
   render() {
     const { homeScreen } = this.props.config;
-    const isDossierHome = _.get(homeScreen, 'mode') === VC.MODE_USE_DOSSIER_AS_HOME_SCREEN
-    const dossierIcons =  _.get(homeScreen, 'homeDocument.icons')
-    const libraryIcons = isDossierHome ? [] : _.get(homeScreen, 'homeLibrary.icons')
-    const sidebarIcons = isDossierHome ? [] : _.get(homeScreen, 'homeLibrary.sidebars')
-    const icons = _.concat(dossierIcons, libraryIcons, sidebarIcons)
-    const toolbarHidden = VC.COLLAPSE_TOOLBAR === (isDossierHome ? _.get(homeScreen, 'homeDocument.toolbarMode') : _.get(homeScreen, 'homeLibrary.toolbarMode'))
-    const toolbarDisabled = VC.COLLAPSE_TOOLBAR === (isDossierHome ? _.get(homeScreen, 'homeDocument.toolbarDisabled') : _.get(homeScreen, 'homeLibrary.toolbarDisabled'))
     return (
         <Layout className="home-screen-home">
             <Layout.Content className = "home-screen-home-settings">
                 <div className="home-screen-home-settings-title">
-                    Select the Home Screen
+                    {t('selectHomeScreen')}
                 </div>
                 <div className="home-screen-home-settings-option">
                     <Radio.Group value={ homeScreen.mode } onChange={this.handleHomeSettingChange}>
                         <Radio className="home-screen-home-settings-library" value={VC.MODE_USE_DEFAULT_HOME_SCREEN}>
-                                Use the default Library home screen
+                                {t('useDefaultHome')}
                         </Radio>
                         <Radio className="home-screen-home-settings-dossier" value={VC.MODE_USE_DOSSIER_AS_HOME_SCREEN}>
-                            Use a dossier or document in the current server as the home screen
+                            {t('useDossierHome')}
                         </Radio>
                     </Radio.Group>
                 </div>
                 <div className="home-screen-home-settings-hint">
-                    The default page of the dossier or document be set as the home screen.
+                    {t('useDossierHomeDesc')}
                 </div>
                 {this.renderPickDossier()}
                 <ContentBundleContentPicker visible={this.state.showContentPicker} handleClose={this.handleDismissAdd} handleChange={this.handleDossierChange}/>
             </Layout.Content>
             <Layout.Sider className="home-screen-home-preview" width='274px'>
-              <HomeScreenPreviewer platform={this.props.config.platform} toolbarDisabled={toolbarDisabled} toolbarHidden={toolbarHidden} icons={icons} isDossierHome={isDossierHome}/>
+              <HomeScreenPreviewer/>
             </Layout.Sider>
         </Layout>
     );

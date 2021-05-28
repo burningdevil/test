@@ -1,6 +1,7 @@
 import * as React from 'react'
 import '../scss/ContentBundleContentPicker.scss'
 import { ReactWindowGrid, SearchInput, SelectionStructure } from '@mstr/rc';
+import { store } from '../../../main'
 import { Modal, Button, Menu, Table } from 'antd';
 import { WorkstationModule } from '@mstr/workstation-types';
 import * as _ from "lodash";
@@ -14,14 +15,19 @@ import {AgGridReact} from 'ag-grid-react';
 import {
   GridReadyEvent,
   GetContextMenuItemsParams,
+  IServerSideGetRowsParams,
   SelectionChangedEvent
 } from 'ag-grid-community'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';;
 import { connect } from 'react-redux';
-import { selectAllDossiers, selectAllDocuments, selectIsLoadingDossiers } from '../../../store/selectors/HomeScreenConfigEditorSelector';
+import { selectAllDossiers, selectAllDocuments, selectIsLoadingDossiers, selectLoadingDossiersFinish } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as api from '../../../services/api';
+import ContentBundleList from './ContentBundleList';
 
 declare var workstation: WorkstationModule;
+var currentOffset = 0;
+var activeTab = 'Dossier';
+var searchNameFilter = '';
 
 const popoverGeneral = {
   width: 909,
@@ -34,7 +40,6 @@ class ContentBundleContentPicker extends React.Component<any, any> {
     super(props)
     this.state = {
       activeTab: 'Dossier',
-      searchNameFilter: '',
       selectedObject: {},
       // offset: 0,
       // dossiers: [],
@@ -43,8 +48,130 @@ class ContentBundleContentPicker extends React.Component<any, any> {
     }
   }
 
+  bundleContentPickerDataSource(server: any) {
+    return {
+      getRows: function (params: IServerSideGetRowsParams) {
+        console.log('[Datasource] - rows requested by grid: ', params.request);
+        var response = server.getData(params);
+        setTimeout(function () {
+          if (response.success) {
+            params.success({
+              rowData: response.rows,
+              rowCount: response.lastRow,
+            });
+          } else {
+            params.fail();
+          }
+        }, 200);
+      },
+    };
+  }
+  
+  bundleContentPickerServer() {
+    return {
+        getData: function (params: IServerSideGetRowsParams) {
+          const isDossier = activeTab === 'Dossier';
+          console.log(activeTab);
+          var results: any[] = [];
+          var lastRow: number = -1;
+          var limit: number = 300;
+          var dossiers = selectAllDossiers(store.getState());
+          var documents = selectAllDocuments(store.getState());
+          var loadFinished = selectLoadingDossiersFinish(store.getState());
+          
+          var startRow = params.request.startRow;
+          var endRow = params.request.endRow;
+          if (params.request.sortModel && params.request.sortModel.length > 0) {
+            const { sort, colId } = params.request.sortModel[0];
+            if (loadFinished) {
+                lastRow = isDossier ? dossiers.length : documents.length;
+                results = isDossier ? _.orderBy(dossiers, [colId], [sort]): _.orderBy(documents, [colId], [sort]);
+                results = _.slice(results, startRow, lastRow);
+                results = results.map((content: any) => {
+                  return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});//certifiedWithIcon: this.geCertifiedIcon(content.certifiedInfo.certified), nameWithIcon: this.getContentIconWithName(content.name, activeTab)});
+                });
+                params.successCallback(results, lastRow);
+            } else {
+              api.loadBatchDossierDocuments(dossiers.length + documents.length, -1).then((response: {dossiers: any, documents: any, totalCount: any}) => {
+                dossiers = dossiers.concat(response.dossiers);
+                documents = documents.concat(response.documents);
+                lastRow = isDossier ? dossiers.length : documents.length;
+                results = isDossier ? _.orderBy(dossiers, [colId], [sort]): _.orderBy(documents, [colId], [sort]);
+                results = _.slice(results, startRow, lastRow);
+                results = results.map((content: any) => {
+                  return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});//certifiedWithIcon: this.geCertifiedIcon(content.certifiedInfo.certified), nameWithIcon: this.getContentIconWithName(content.name, activeTab)});
+                });
+                params.successCallback(results, lastRow);
+              });
+            }
+          } else {
+          if(searchNameFilter !== '') {
+            api.loadSearchedDossierDocuments(searchNameFilter).then((response: {dossiers: any, documents: any, totalCount: any}) => {
+              lastRow = isDossier ? response.dossiers.length : response.documents.length;
+              results = isDossier ? _.slice(response.dossiers, startRow, lastRow) : _.slice(response.documents, startRow, lastRow);
+              results = results.map((content: any) => {
+                return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});//certifiedWithIcon: this.geCertifiedIcon(content.certifiedInfo.certified), nameWithIcon: this.getContentIconWithName(content.name, activeTab)});
+              });
+              params.successCallback(results, lastRow);
+            });
+          } else {
+            console.log(dossiers);
+            if (loadFinished) {
+              lastRow = isDossier ? dossiers.length : documents.length;
+              results = isDossier ? _.slice(dossiers, startRow, lastRow) : _.slice(documents, startRow, lastRow);
+              results = results.map((content: any) => {
+                return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});//certifiedWithIcon: this.geCertifiedIcon(content.certifiedInfo.certified), nameWithIcon: this.getContentIconWithName(content.name, activeTab)});
+              });
+              params.successCallback(results, lastRow);
+            } else {
+              var currentLength = isDossier ? dossiers.length : documents.length;
+              if (endRow < currentLength) {
+                results = isDossier ? _.slice(dossiers, startRow, endRow) : _.slice(documents, startRow, endRow);
+                results = results.map((content: any) => {
+                  return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});//certifiedWithIcon: this.geCertifiedIcon(content.certifiedInfo.certified), nameWithIcon: this.getContentIconWithName(content.name, activeTab)});
+                });
+                params.successCallback(results, lastRow);
+              } else {
+                var expectedCount = endRow - currentLength;
+                (function loop(count) {
+                  if (count > 0) {
+                    api.loadBatchDossierDocuments(currentOffset, limit).then((response: {dossiers: any, documents: any, totalCount: any}) => {
+                      dossiers = dossiers.concat(response.dossiers);
+                      documents = documents.concat(response.documents);
+                      if(response.totalCount <= currentOffset + limit) {//load finished
+                        lastRow = isDossier ? dossiers.length : documents.length;
+                        results = isDossier ? _.slice(dossiers, startRow, lastRow) : _.slice(documents, startRow, lastRow);
+                        results = results.map((content: any) => {
+                          return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});//certifiedWithIcon: this.geCertifiedIcon(content.certifiedInfo.certified), nameWithIcon: this.getContentIconWithName(content.name, activeTab)});
+                        });
+                        params.successCallback(results, lastRow);
+                      } else {
+                        var loaded = isDossier ? response.dossiers.length : response.documents.length;
+                        if (loaded > expectedCount) {//loaded
+                          results = isDossier ? _.slice(dossiers, startRow, endRow) : _.slice(documents, startRow, endRow);
+                          results = results.map((content: any) => {
+                            return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});//certifiedWithIcon: this.geCertifiedIcon(content.certifiedInfo.certified), nameWithIcon: this.getContentIconWithName(content.name, activeTab)});
+                          });
+                          params.successCallback(results, lastRow);
+                        } else {//need to continue load
+                          currentOffset = currentOffset + limit;
+                          expectedCount = expectedCount - loaded;
+                          loop(expectedCount);
+                        }
+                      }
+                    }).catch((e: any) => (console.log(e)));
+                  }
+                })(expectedCount);
+              }
+            }
+         }
+        }
+       }
+    }
+  }
+
   async componentDidMount() {
-    api.loadAllDossierDocuments();
+    // api.loadAllDossierDocuments();
     // this.loadData();
   }
 
@@ -68,11 +195,21 @@ class ContentBundleContentPicker extends React.Component<any, any> {
     this.setState({
       activeTab: param.key
     });
+    activeTab = param.key;
+    this.gridOptions.api.refreshServerSideStore();
   }
 
   handleCancelAdd = () => {
     this.props.handleClose();
     this.handleSelectionChanged({});
+    searchNameFilter = '';
+  }
+
+  handleSearch = (value: string) => {
+    //filter on name in allBundleList
+    searchNameFilter = value;
+    this.gridOptions.api.deselectAll();
+    this.gridOptions.api.onFilterChanged();
   }
 
   handleSaveAdd = () => {
@@ -80,6 +217,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
     this.props.handleChange(name, projectId +'/' + id);
     this.props.handleClose();
     this.handleSelectionChanged({});
+    searchNameFilter = '';
   }
 
   buttonGroup = () => {
@@ -207,6 +345,11 @@ class ContentBundleContentPicker extends React.Component<any, any> {
     if (!params || !params.api) {
       return;
     }
+
+    var fakeServer = this.bundleContentPickerServer();
+    var datasource = this.bundleContentPickerDataSource(fakeServer);
+    params.api.setServerSideDatasource(datasource);
+
     const { selectedObject } = this.state;
     params.api.forEachNode(function (node: any) {
       node.setSelected(node.data.id === selectedObject.id);
@@ -227,6 +370,8 @@ class ContentBundleContentPicker extends React.Component<any, any> {
     rowMultiSelectWithClick: true,
     onSelectionChanged: this.onSelectionChanged,
     onGridReady: this.onGridReady,
+    rowModelType: 'serverSide',
+    serverSideStoreType: 'partial',
     
     getContextMenuItems: this.getContextMenuItems,
     columnDefs: [
@@ -255,7 +400,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
     //   return [];
     // }
     const { dossiers, documents, loadingData } = this.props;
-    const contents = this.getGridContents(this.state.activeTab === 'Dossier' ? dossiers : documents, this.state.activeTab);
+    // const contents = this.getGridContents(this.state.activeTab === 'Dossier' ? dossiers : documents, this.state.activeTab);
     
     return (
       <Modal
@@ -276,7 +421,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
             </div>
             <SearchInput className="content-bundle-content-picker-search" placeholder="Search"
                 onChange={(value: string) => {
-                  //this.handleSearch(value);
+                  this.handleSearch(value);
                 }}/>
           </div>
           <div className="content-bundle-content-picker-middle">
@@ -304,9 +449,9 @@ class ContentBundleContentPicker extends React.Component<any, any> {
               <div className="content-bundle-content-picker-grid-right">
                 <div style={{ width: '100%', height: '100%' }}>
                 <div id="myGrid" style={{ height: '100%', width: '100%'}} className="ag-theme-alpine">
-                    <AgGridReact rowData = {contents} gridOptions={this.gridOptions}>
+                    <AgGridReact gridOptions={this.gridOptions}>
                     </AgGridReact>
-                    {/* <ReactWsGrid gridOptions={gridOptions} columnDefs={gridOptions.columnDefs}/> */}
+                    {/* <ReactWsGrid gridOptions={gridOptions} columnDefs={gridOptions.columnDefs}/> rowData = {contents} */}
                 </div>
               </div>
                 {/* <Table className="content-bundle-content-picker-grid-table" columns = {[

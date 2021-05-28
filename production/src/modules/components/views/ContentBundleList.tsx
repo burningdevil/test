@@ -2,6 +2,7 @@ import * as React from 'react';
 import '../scss/ContentBundleList.scss';
 import ContentBundlePicker from './ContentBundlePicker'
 import * as _ from "lodash";
+import { Input } from 'antd';
 import { ReactWindowGrid, MSTRWSIcon, SearchInput, SelectionStructure, Record } from '@mstr/rc';
 import { WorkstationModule } from '@mstr/workstation-types';
 import classNames from 'classnames';
@@ -9,11 +10,12 @@ import { ContextMenuItem } from '@mstr/rc/types/react-window-grid/type';
 import { HttpProxy } from '../../../main';
 import {AgGridReact} from 'ag-grid-react';
 import { BundleInfo } from '../HomeScreenConfigConstant'
-import { hexIntToColorStr, BundleRecipientType, HomeScreenBundleListDatasource, getHomeScreenBundleListGroupCellInnerRenderer, FakeHomeScreenBundleListServer } from './HomeScreenUtils'
+import { hexIntToColorStr, BundleRecipientType, HomeScreenBundleListDatasource, getHomeScreenBundleListGroupCellInnerRenderer } from './HomeScreenUtils'
 import {
   GridReadyEvent,
   SelectionChangedEvent,
   GetContextMenuItemsParams,
+  IServerSideGetRowsParams,
   CheckboxSelectionCallbackParams,
   RowNode
 } from 'ag-grid-community'
@@ -24,6 +26,7 @@ import { RootState } from '../../../types/redux-state/HomeScreenConfigState';;
 import { connect } from 'react-redux';
 import { selectContentBundleList } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as api from '../../../services/api';
+import { t } from '../../../i18n/i18next';
 
 // const bundleList = {
     //   contentBundles:
@@ -165,14 +168,70 @@ import * as api from '../../../services/api';
     // };
 
 declare var workstation: WorkstationModule;
+var searchName = '';
+
+function FakeHomeScreenBundleListServer(allData: BundleInfo[]) {
+  return {
+      getData: function (params: IServerSideGetRowsParams) {
+      var results: any[] = [];
+      var filterData = searchName === '' ? allData : _.filter(allData, function(o) { return o.name.includes(searchName); });
+      var lastRow: number = allData.length;
+      if (params.request.groupKeys.length === 0) {
+          results = filterData.map(function (d) {
+          return {
+              name: d.name,
+              recipientStr: d.recipientStr,
+              bundleId: d.id,
+              color: d.color,
+              id: d.id,
+              expand: d.expand,
+              recipientType: d.recipientType
+          };
+          });
+
+          return {
+          success: true,
+          rows: results,
+          lastRow: lastRow
+          };
+      } else {
+          var key = params.request.groupKeys[0];
+          HttpProxy.get('/contentBundles/'+ key + '/contents?projectId=B7CA92F04B9FAE8D941C3E9B7E0CD754&projectId=5FDF3E5C4CCB76AA7E3292A4C47DECB8')
+          .then((response: any) => {
+              let contents = response;
+              if (response && response.data) {
+              contents = response.data;
+              }
+              var arr = Object.keys(contents).reduce(function(res, v) {
+              return res.concat(contents[v]);
+              }, []);
+              results = arr.map(function (d) {
+              return {
+                  name: d.name,
+                  expand: false,
+                  viewMedia: d.viewMedia
+              };
+              });
+              lastRow = arr.length;
+          })
+          .then (()=>{
+              params.successCallback(results, lastRow);
+          })
+          // .catch((e: any) => (console.log(e)));
+      }
+      },
+  };
+}
 
 class ContentBundleList extends React.Component<any, any> {
+  searchNode: any;
   constructor(props: any) {
     super(props)
     this.state = {
       // allBundleList: [],
       currentBundleList: [],
-      showBundlePicker: false
+      showBundlePicker: false,
+      nameFilter: ''
     }
   }
 
@@ -257,6 +316,10 @@ class ContentBundleList extends React.Component<any, any> {
   }
 
   componentWillReceiveProps(nextProps: any) {
+    if (nextProps.nameFilter !== this.props.nameFilter){
+      this.handleSearch(nextProps.nameFilter);
+      return;
+    }
     if (nextProps.allBundleList && this.props.allBundleList && nextProps.allBundleList.length !== this.props.allBundleList.length){
       this.processBundleList(nextProps.allBundleList, nextProps.includedIds, nextProps.excludedIds);
       return;
@@ -276,6 +339,7 @@ class ContentBundleList extends React.Component<any, any> {
 
   handleNewBundlesAdded = (selections:[]) => {
     this.props.handleAdd(selections);
+    this.handleSearch('');
   }
 
   onSelectionChanged = (event: SelectionChangedEvent) => {
@@ -363,6 +427,7 @@ class ContentBundleList extends React.Component<any, any> {
       groupExpanded: '<span class="ag-icon ag-icon-small-down"/>',
       groupContracted: '<span class="ag-icon ag-icon-small-right"/>'
     },
+    pagination: false,
   
     columnDefs: [
         {field: 'name', rowGroup: true, hide: true},
@@ -391,13 +456,20 @@ class ContentBundleList extends React.Component<any, any> {
     this.setState({
       showBundlePicker: true
     });
+    searchName = '';
   }
 
   handleSearch = (value: string) => {
     //filter on name in allBundleList
+    searchName = value;
     this.setState({
-      currentBundleList: []
+      nameFilter: value
     });
+    this.gridOptions.api.deselectAll();
+    this.gridOptions.api.onFilterChanged();
+    // this.setState({
+    //   currentBundleList: []
+    // });
   }
 
   handleClosePicker = () => {
@@ -439,7 +511,7 @@ class ContentBundleList extends React.Component<any, any> {
           }}
         />
         <span className="content-bundle-list-container-add-text">
-          Add Content
+          {t('addContent')} 
         </span>
       </div>
     );
@@ -451,12 +523,12 @@ class ContentBundleList extends React.Component<any, any> {
       <div className = "content-bundle-list-container-empty">
         <img className="content-bundle-list-container-empty-img" src={bookmarksImg}/>
         <div className="content-bundle-list-container-empty-desc">
-          Add content bundles to this application
+          {t('addContentBundles')}
         </div>
         <div className="content-bundle-list-container-empty-add">
           <span className= "icon-pnl_add-new" onClick={this.handleAddContent}/>
           <span className="content-bundle-list-container-empty-add-text">
-            Add Content
+            {t('addContent')}
           </span>
         </div>
       </div>
@@ -485,7 +557,7 @@ class ContentBundleList extends React.Component<any, any> {
       <div className="content-bundle-list-container" style={{ height: '100%'}}>
         {this.props.allowDelete &&
           <div className="content-bundle-list-container-header">
-            <SearchInput className="content-bundle-list-container-search" placeholder="Search"
+            <SearchInput value={this.state.nameFilter} className="content-bundle-list-container-search" placeholder={t('search')}
                 onChange={(value: string) => {
                   this.handleSearch(value);
                 }}/>

@@ -1,3 +1,6 @@
+import * as _ from 'lodash'
+import { t } from '../../i18n/i18next'
+
 export const CONSTANTS = {
     GENERAL: 'general',
     ALL: 'all',
@@ -21,7 +24,6 @@ export const CONSTANTS = {
     URL: 'url',
     ICONS: 'icons',
     TOOLBAR_MODE: 'toolbarMode',   // hide toolbar by default
-    TOOLBAR_DISABLED: 'toolbarDisabled',  // remove toolbar from view
     //Advanced Settings
     AUTH_MODES: 'authModes',
     DISABLE_ADVANCED_SETTINGS: 'disableAdvancedSettings',
@@ -47,9 +49,11 @@ export const CONSTANTS = {
     CLEAR_ON_CLOSE: 2,
     CLEAR_AUTOMATIC: 1,
 
-    // components for TOOLBAR_MODE, TOOLBAR_DISABLED
+    // components for TOOLBAR_MODE
+    // Hidden when value == 2|3, collapse when value == 1
     SHOW_TOOLBAR: 0,
     COLLAPSE_TOOLBAR: 1,
+    HIDE_TOOLBAR: 2,
 
     // icons key name
     ICON_SIDEBAR: 'sidebars',
@@ -154,32 +158,32 @@ export interface BundleInfo {
 }
 
 export const iconTypes = {
-    sidebar: {displayText: 'Sidebar', iconName: CONSTANTS.FONT_SIDEBAR, key: CONSTANTS.ICON_SIDEBAR},
-    sortAndFilter: {displayText: 'Library Sort and Filter', iconName: CONSTANTS.FONT_SORT_FILTER, key: CONSTANTS.ICON_SORT_FILTER},
-    multiSelect: {displayText: 'Multi-Select (Web and Desktop)', iconName: CONSTANTS.FONT_MULTI_SELECT, key: CONSTANTS.ICON_MULTI_SELECT},
-    search: {displayText: 'Search', iconName: CONSTANTS.FONT_SEARCH, key: CONSTANTS.ICON_SEARCH},
-    notification: {displayText: 'Notification', iconName: CONSTANTS.FONT_NOTIFICATIONS, key: CONSTANTS.ICON_NOTIFICATIONS},
-    account: {displayText: 'Account', iconName: CONSTANTS.FONT_OPTIONS, key: CONSTANTS.ICON_OPTIONS},
-    accountWeb: {displayText: 'Account (Web and Desktop)', iconName: CONSTANTS.FONT_OPTIONS, key: CONSTANTS.ICON_OPTIONS},
-    toc: {displayText: 'Table of Contents', iconName: CONSTANTS.FONT_TOCS, key: CONSTANTS.ICON_TOCS},
-    bookmark: {displayText: 'Bookmark', iconName: CONSTANTS.FONT_BOOKMARK, key: CONSTANTS.ICON_BOOKMARK},
-    reset: {displayText: 'Reset Dossier', iconName: CONSTANTS.FONT_RESET, key: CONSTANTS.ICON_RESET},
-    filter: {displayText: 'Filter', iconName: CONSTANTS.FONT_FILTER, key: CONSTANTS.ICON_FILTER},
-    comment: {displayText: 'Comments', iconName: CONSTANTS.FONT_COMMENTS, key: CONSTANTS.ICON_COMMENTS},
-    share: {displayText: 'Share', iconName: CONSTANTS.FONT_SHARE, key: CONSTANTS.ICON_SHARE},
+    sidebar: {displayText: t('sidebar'), iconName: CONSTANTS.FONT_SIDEBAR, key: CONSTANTS.ICON_SIDEBAR},
+    sortAndFilter: {displayText: t('librarySortFilter'), iconName: CONSTANTS.FONT_SORT_FILTER, key: CONSTANTS.ICON_SORT_FILTER},
+    multiSelect: {displayText: t('multiSelect'), iconName: CONSTANTS.FONT_MULTI_SELECT, key: CONSTANTS.ICON_MULTI_SELECT},
+    search: {displayText: t('search'), iconName: CONSTANTS.FONT_SEARCH, key: CONSTANTS.ICON_SEARCH},
+    notification: {displayText: t('notification'), iconName: CONSTANTS.FONT_NOTIFICATIONS, key: CONSTANTS.ICON_NOTIFICATIONS},
+    account: {displayText: t('account'), iconName: CONSTANTS.FONT_OPTIONS, key: CONSTANTS.ICON_OPTIONS},
+    accountWeb: {displayText: t('accountWeb'), iconName: CONSTANTS.FONT_OPTIONS, key: CONSTANTS.ICON_OPTIONS+'_web'},
+    toc: {displayText: t('toc'), iconName: CONSTANTS.FONT_TOCS, key: CONSTANTS.ICON_TOCS},
+    bookmark: {displayText: t('bookmark'), iconName: CONSTANTS.FONT_BOOKMARK, key: CONSTANTS.ICON_BOOKMARK},
+    reset: {displayText: t('reset'), iconName: CONSTANTS.FONT_RESET, key: CONSTANTS.ICON_RESET},
+    filter: {displayText: t('filter'), iconName: CONSTANTS.FONT_FILTER, key: CONSTANTS.ICON_FILTER},
+    comment: {displayText: t('comments'), iconName: CONSTANTS.FONT_COMMENTS, key: CONSTANTS.ICON_COMMENTS},
+    share: {displayText: t('share'), iconName: CONSTANTS.FONT_SHARE, key: CONSTANTS.ICON_SHARE},
     // platform specified
     dataSearch: {displayText: 'Data Search (Desktop Only)', iconName: CONSTANTS.FONT_DATA_SEARCH, key: CONSTANTS.ICON_DATA_SEARCH},
     hyper: {displayText: 'Hyper Intelligence (Desktop Only)', iconName: CONSTANTS.FONT_HYPER, key: CONSTANTS.ICON_HYPER},
     aaFont: {displayText: 'Font Size in Grid (Mobile Only)', iconName: CONSTANTS.FONT_AA_FONT, key: CONSTANTS.ICON_AA_FONT},
     // sidebar children
-    all: {displayText: 'All', iconName: CONSTANTS.FONT_ALL, key: CONSTANTS.ICON_ALL},
-    favorites: {displayText: 'Favorites', iconName: CONSTANTS.FONT_FAV, key: CONSTANTS.ICON_FAV},
-    recents: {displayText: 'Recents', iconName: CONSTANTS.FONT_RECENT, key: CONSTANTS.ICON_RECENENT},
-    defaultGroup: {displayText: 'Default Groups', iconName: CONSTANTS.FONT_DEFAULT_GROUP, key: CONSTANTS.ICON_DEFAULT_GROUP},
-    myGroup: {displayText: 'My Groups', iconName: CONSTANTS.FONT_MY_GROUP, key: CONSTANTS.ICON_MY_GROUP},
-    accountMobile: {displayText: 'Account (Mobile only)', iconName: CONSTANTS.FONT_OPTIONS, key: CONSTANTS.ICON_OPTIONS+'mobile'},
+    all: {displayText: t('all'), iconName: CONSTANTS.FONT_ALL, key: CONSTANTS.ICON_ALL},
+    favorites: {displayText: t('favorites'), iconName: CONSTANTS.FONT_FAV, key: CONSTANTS.ICON_FAV},
+    recents: {displayText: t('recents'), iconName: CONSTANTS.FONT_RECENT, key: CONSTANTS.ICON_RECENENT},
+    defaultGroup: {displayText: t('defaultGroups'), iconName: CONSTANTS.FONT_DEFAULT_GROUP, key: CONSTANTS.ICON_DEFAULT_GROUP},
+    myGroup: {displayText: t('myGroup'), iconName: CONSTANTS.FONT_MY_GROUP, key: CONSTANTS.ICON_MY_GROUP},
+    accountMobile: {displayText: t('accountMobile'), iconName: CONSTANTS.FONT_OPTIONS, key: CONSTANTS.ICON_OPTIONS+'_mobile'},
     
-    //// for preview
+    //// for preview. Localization not needed.
     // home button
     home: {displayText: 'Home', iconName: CONSTANTS.FONT_HOME, key: CONSTANTS.ICON_HOME},
     // stands for 'sidebar' in library
@@ -188,7 +192,7 @@ export const iconTypes = {
     previewLibrary: {displayText: 'Home', iconName: CONSTANTS.FONT_PREVIEWSIDEBAR, key: CONSTANTS.ICON_HOME}, 
     // mobile sidebar
     previewSidebarMobile: {displayText: 'Sidebar', iconName: CONSTANTS.FONT_PREVIEWSIDEBAR_MOBILE, key: CONSTANTS.ICON_SIDEBAR},
-    previewAccountMobile: {displayText: 'Account', iconName: CONSTANTS.FONT_PREVIEWOPTIONS, key: CONSTANTS.ICON_OPTIONS},
+    previewAccountMobile: {displayText: 'Account', iconName: CONSTANTS.FONT_PREVIEWOPTIONS, key: CONSTANTS.ICON_OPTIONS+'_mobile'},
     previewTocPhone: {displayText: 'Table of Contents', iconName: CONSTANTS.FONT_PREVIEWTOC, key: CONSTANTS.ICON_TOCS},
     previewFullScreen: {displayText: 'Full Screen', iconName: CONSTANTS.FONT_FULLSCREEN, key: CONSTANTS.ICON_FULL_SCREEN},
 }
@@ -196,7 +200,7 @@ export const iconTypes = {
 
 /// for icon switch
 // icons may appear in both library and dossier
-export const bothSideIcons = [iconTypes.notification, iconTypes.account]
+// export const bothSideIcons = [iconTypes.notification, iconTypes.account]
 
 // library icons when mode is Libary as home
 export const libraryIcons = [iconTypes.sidebar, iconTypes.sortAndFilter, iconTypes.multiSelect, 
@@ -207,7 +211,8 @@ export const dossierIcons = [iconTypes.toc, iconTypes.bookmark, iconTypes.reset,
     iconTypes.filter, iconTypes.comment, iconTypes.share]
 
 // dossier icons when mode is dossier as home, should append 
-export const dossierIconsDossierHome = dossierIcons.concat(bothSideIcons)
+export const dossierIconsDossierHome = [iconTypes.toc, 
+    iconTypes.filter, iconTypes.comment, iconTypes.share, iconTypes.notification, iconTypes.account]
 
 // extra icons for specified platforms
 export const extraDesktopIcons = [iconTypes.dataSearch, iconTypes.hyper]
@@ -215,5 +220,15 @@ export const extraMobileIcons = [iconTypes.aaFont]
 
 // children icons for sidebar
 export const childrenIcons = [iconTypes.all, iconTypes.favorites, iconTypes.recents, iconTypes.defaultGroup, iconTypes.myGroup, iconTypes.accountMobile]
+
+// for accountMobile and accountWeb to remove suffix
+export const iconValidKey = (iconKey: string) => iconKey.split('_').length > 0 ? iconKey.split('_')[0] : iconKey
+
+export const dossierIconKeys =  _.union(dossierIcons.map((element) => element.key), dossierIconsDossierHome.map((element) => element.key)) 
+export const libraryIconKeys = libraryIcons.map((element) => element.key)
+export const sidebarIconKeys = childrenIcons.map((element) => element.key)
+
+export const mobileOnlyIconKeys = [iconTypes.accountMobile].map((element) => element.key)
+export const webDesktopOnlyIconKeys = [iconTypes.multiSelect, iconTypes.accountWeb].map((element) => element.key)
 
 export default CONSTANTS
