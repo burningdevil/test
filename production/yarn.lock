@@ -1278,10 +1278,10 @@
     resize-observer-polyfill "^1.5.1"
     use-resize-observer "^6.1.0"
 
-"@mstr/rc@^1.24.13":
-  version "1.24.13"
-  resolved "http://nexus.internal.microstrategy.com:8081/repository/npm-group/@mstr/rc/-/rc-1.24.13.tgz#bc12b667020c26afa7bf2af7adf5fb67fb5a696a"
-  integrity sha512-YL/IauDJIqIWArzmoZikS7UIwyrbzKwT+YqhM2QPwZFOdLblqSlVjqD0sHaH/42CeeqkMtXIX/N5xl2cw0yUwg==
+"@mstr/rc@^1.24.22":
+  version "1.24.22"
+  resolved "http://nexus.internal.microstrategy.com:8081/repository/npm-group/@mstr/rc/-/rc-1.24.22.tgz#9da24189251d53c9c6ce8af46960c963cb3908e3"
+  integrity sha512-ZqJqRep7iRob1R5jAVSsR6+7xU4RIOC1hhqsr5jwsO5srm1GfIAY7RMbJuoBDp5mMVuTJc6WjmBQGtXTGqVM+w==
   dependencies:
     "@ant-design/icons" "^4.2.1"
     antd "^4.10.2"

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux'
 import '../scss/HomeScreenConfigMainView.scss';
-import { message } from 'antd';
+import { message, Menu, Dropdown } from 'antd';
 import FileSaver from 'file-saver';
 import { copyToClipboard } from '../../../utils/copy';
 import { ReactWindowGrid } from '@mstr/rc';
@@ -16,14 +16,18 @@ import * as api from '../../../services/api';
 import * as _ from "lodash";
 import { hexIntToColorStr } from './HomeScreenUtils';
 import DisconnectedPage from './disconnected-page';
+import classNames from 'classnames';
+
 
 declare var workstation: WorkstationModule;
+const prefixMainCls = 'home-screen-main';
 class HomeScreenConfigMainView extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
     this.state = {
       currentEnv: {},
-      isEnvReady: true
+      isEnvReady: true,
+      isShareMenuVisible: false
     }
   }
 
@@ -136,6 +140,51 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     FileSaver.saveAs(blob, configId + '.json');
   }
 
+  renderShareContextMenu = (d: Record) => {
+    const handleClickCopyLink = async () => {
+      try {
+        const currentEnv = await workstation.environments.getCurrentEnvironment();
+        const appLink = currentEnv.url + "app/config/" + d.id;
+        copyToClipboard(appLink);
+        message.success('The application link has been successfully copied!');
+      } catch (e) {
+        message.error('Copy application link to clipboard fail: ' + e);
+      }
+    };
+    const handleClickDownload = () => {
+      const configId = d.id;
+      api.downloadSingleMobileConfig(configId).then(config => {
+        this.downloadJsonFile(config, configId);
+      }).catch((e) => {
+        const error = e as RestApiError;
+        if (error.statusCode === 401) {
+          workstation.environments.getCurrentEnvironment().then(currentEnv => {
+            workstation.environments.disconnect(currentEnv.url);
+            message.error('401 error and disconnect');
+          });
+        }
+      });
+    };
+
+    const menu = (
+      <Menu>
+        <Menu.Item key="0" onClick={handleClickCopyLink}>
+          Copy Link
+        </Menu.Item>
+        <Menu.Divider/>
+        <Menu.Item key="1" onClick={handleClickDownload}>
+          Download Json File
+        </Menu.Item>
+      </Menu>
+    );
+  
+    return (
+      <Dropdown className={classNames(prefixMainCls, "application-share-menu-container")} overlay={menu} trigger={['click']}>
+        <span className="icon-tb_share_n"/>
+      </Dropdown>
+    );
+  };
+
   generateConfigDisplayList = () => {
     const configList = this.props.configList.map((config: any) => {
       let resultConfig = _.cloneDeep(config);
@@ -176,30 +225,6 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       const handleClickDuplicate = () => {
         this.duplicateConfig(contextMenuTarget.id);
       };
-      const handleClickCopyLink = async () => {
-        try {
-          const currentEnv = await workstation.environments.getCurrentEnvironment();
-          const appLink = currentEnv.url + "app/config/" + contextMenuTarget.id;
-          copyToClipboard(appLink);
-          message.success('The application link has been successfully copied!');
-        } catch (e) {
-          message.error('Copy application link to clipboard fail: ' + e);
-        }
-      };
-      const handleClickDownload = () => {
-        const configId = contextMenuTarget.id;
-        api.downloadSingleMobileConfig(configId).then(config => {
-          this.downloadJsonFile(config, configId);
-        }).catch((e) => {
-          const error = e as RestApiError;
-          if (error.statusCode === 401) {
-            workstation.environments.getCurrentEnvironment().then(currentEnv => {
-              workstation.environments.disconnect(currentEnv.url);
-              message.error('401 error and disconnect');
-            });
-          }
-        });
-      };
 
       return [
         {
@@ -213,19 +238,15 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         {
           "name": "Duplicate",
           "action": handleClickDuplicate,
-        },
-        {
-          "name": "Share",
-          "subMenuItems":[{'title': 'Copy Link', "itemIndex": '0', 'action': handleClickCopyLink},
-                          {'title': 'Download Json File', "itemIndex": '1', 'action': handleClickDownload}]
         }
       ];
     };
+
     return this.state.isEnvReady ? (
-      <div className="home-screen-main-container">
-        <div className="add-application-container">
-          <span className= "icon-pnl_add-new" onClick={this.handleAddApplication}/>
-          <span className="add-application-icon-text">
+      <div className={prefixMainCls}>
+        <div className={classNames(prefixMainCls, "new-application-container")}>
+          <span className={classNames(prefixMainCls, "icon-pnl_add-new")} onClick={this.handleAddApplication}/>
+          <span>
             New Application
           </span>
         </div>
@@ -235,7 +256,15 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
               field: 'name',
               headerName: 'Name',
               sortable: true,
-              width: '10%'
+              width: '10%',
+              render: (d: Record) => {
+                return (
+                  <div className='Application-Name-Container'>
+                    <span className='Application-Name-Text'>{d.name}</span>
+                    {this.renderShareContextMenu(d)}
+                  </div>
+                )
+              },
             },
             {
               field: 'platform',

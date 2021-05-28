@@ -49,7 +49,6 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
           configId: configId
       });
       if (configId) {
-        // this.loadData(configId);
         api.loadCurrentEditConfig(configId);
       }
       const currentEnv = await workstation.environments.getCurrentEnvironment();
@@ -67,24 +66,6 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         }
       })
   }
-
-  // loadData = async (configId: string) => {
-  //   const response = await HttpProxy.get('/mstrClients/libraryApplications/configs/' + configId);
-  //   let data = response;
-  //   if (response.data) {
-  //     data = response.data;
-  //   }
-
-  //   if (!_.has(data, 'platform')) {
-  //       _.assign(data, {platform: ['Mobile']});
-  //   }
-
-  //   if (!_.has(data, 'homeScreen.homeLibrary')) {
-  //     data.homeScreen.homeLibrary = {icons:[], sidebars:[], contentBundleIds:[]}
-  //   }
-
-  //   this.props.setCurrentConfig(data);
-  // }
 
   parseConfigId = (querystr: string) => {
       if (querystr) {
