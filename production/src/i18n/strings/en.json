@@ -1,11 +1,5 @@
 
 {
-    "applications": "Applications",
-    "newApplication": "New Application",
-    "editApplication": "Edit Application",
-    "selectObject": "Select Object",
-    "selectContentBundle": "Select Content Bundle",
-
     "general": "General",
     "homeScreen": "Home Screen",
     "components": "Components",
@@ -62,7 +56,7 @@
     "addContent": "Add Content",
     "addContentBundles": "Add content bundles to this application",
     "selectContentBundles": "Select content bundles",
-    "cotentBundles": "Content Bundles",
+    "contentBundles": "Content Bundles",
 
     "preview": "Preview",
     "libraryWindowLowerCase": "Libary Window (Home)",
@@ -93,5 +87,12 @@
 
     "cancel":"Cancel",
     "save": "Save",
-    "select": "Select"
+    "select": "Select",
+
+    "copyLink": "Copy Link",
+    "downloadJson": "Download Json File",
+    "bundleUserHint": "All bundles users have access to will appear in the app.",
+    "edit": "Edit",
+    "delete": "Delete",
+    "duplicate": "Duplicate"
 }

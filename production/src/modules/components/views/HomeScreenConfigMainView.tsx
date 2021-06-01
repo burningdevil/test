@@ -17,6 +17,7 @@ import * as _ from "lodash";
 import { hexIntToColorStr } from './HomeScreenUtils';
 import DisconnectedPage from './disconnected-page';
 import classNames from 'classnames';
+import { t } from '../../../i18n/i18next'
 
 
 declare var workstation: WorkstationModule;
@@ -169,11 +170,11 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     const menu = (
       <Menu>
         <Menu.Item key="0" onClick={handleClickCopyLink}>
-          Copy Link
+          {t('copyLink')} 
         </Menu.Item>
         <Menu.Divider/>
         <Menu.Item key="1" onClick={handleClickDownload}>
-          Download Json File
+          {t('downloadJson')}
         </Menu.Item>
       </Menu>
     );
@@ -228,15 +229,15 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
 
       return [
         {
-          "name": "Edit",
+          "name": t('edit'),
           "action": handleClickEdit,
         },
         {
-          "name": "Delete",
+          "name": t('delete'),
           "action": handleClickDelete,
         },
         {
-          "name": "Duplicate",
+          "name": t('duplicate'),
           "action": handleClickDuplicate,
         }
       ];
@@ -247,7 +248,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         <div className={classNames(prefixMainCls, "new-application-container")}>
           <span className={classNames(prefixMainCls, "icon-pnl_add-new")} onClick={this.handleAddApplication}/>
           <span>
-            New Application
+            {t('newApplication')}
           </span>
         </div>
         <ReactWindowGrid
@@ -287,7 +288,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                 if (d.contentBundles.length === 0) {
                   return (
                     <div className='Config-List-Content-Bundles'>
-                      <span>All bundles users have access to will appear in the app.</span>
+                      <span>{t('bundleUserHint')}</span>
                     </div>
                   )
                 }

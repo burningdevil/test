@@ -125,7 +125,7 @@ export default class ContentBundlePicker extends React.Component<any, any> {
                   <Menu.Item key="bundles" className="content-bundle-picker-grid-menu-tab">
                     <div className="icon-group_groups_a"/>
                     <div className="content-bundle-picker-grid-menu-text">
-                        {t('cotentBundles')}
+                        {t('contentBundles')}
                     </div>
                   </Menu.Item>
                 </Menu>
