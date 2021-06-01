@@ -28,6 +28,7 @@ export interface HomeScreenEditConfigType {
             icons: Array<string>,
             sidebars: Array<string>,
             contentBundleIds: Array<string>,
+            defaultGroupsName: string,
             toolbarMode: number,
         }, 
         homeDocument: {

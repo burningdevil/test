@@ -3,6 +3,7 @@ import { CONSTANTS, iconTypes, reviewType, iconValidKey, platformType, dossierIc
 import { ActionTypes } from '../actions/ActionTypes'
 import * as Actions from '../actions/ActionConstants'
 import * as _ from 'lodash'
+import { t } from '../../../src/i18n/i18next'
 
 const initialState: HomeScreenConfigEditorState = {
   currentConfig: {
@@ -15,7 +16,8 @@ const initialState: HomeScreenConfigEditorState = {
         icons: libraryIconKeys.map((key) => iconValidKey(key)), 
         sidebars: sidebarIconKeys.filter((key) => key !== iconTypes.defaultGroup.key).map((key) => iconValidKey(key)), 
         contentBundleIds: [],
-        toolbarMode: CONSTANTS.SHOW_TOOLBAR, 
+        defaultGroupsName: '',
+        toolbarMode: CONSTANTS.SHOW_TOOLBAR,
       }, 
       homeDocument: {
         url: "", 

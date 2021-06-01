@@ -1,5 +1,6 @@
 import * as _ from 'lodash'
 import { createSelector } from 'reselect'
+import { t } from '../../../src/i18n/i18next'
 import CONSTANTS from '../../modules/components/HomeScreenConfigConstant'
 
 import { RootState } from '../../types/redux-state/HomeScreenConfigState'
@@ -84,4 +85,9 @@ export const selectSelectedLibraryIcons = createSelector(
 export const selectSelectedDocumentIcons = createSelector(
   selectCurrentConfig,
   (config) => config.homeScreen.homeDocument.icons
+)
+
+export const selectDefaultGroupsName = createSelector(
+  selectCurrentConfig,
+  (config) =>  _.isEmpty(config.homeScreen.homeLibrary.defaultGroupsName) ? t('defaultGroups') : config.homeScreen.homeLibrary.defaultGroupsName
 )

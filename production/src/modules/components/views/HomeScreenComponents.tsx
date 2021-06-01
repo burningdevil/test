@@ -8,7 +8,7 @@ import { default as VC, platformType, iconDetail, iconTypes, libraryIcons, dossi
 import * as _ from 'lodash'
 import HomeScreenPreviewer from './HomeScreenPreviewer'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
-import { selectCurrentConfig, selectIsDossierAsHome, selectIsToolbarHidden, selectIsToolbarCollapsed, selectSelectedSideBarIcons, selectSelectedLibraryIcons, selectSelectedDocumentIcons, selectCurrentConfigContentBundleIds } from '../../../store/selectors/HomeScreenConfigEditorSelector'
+import { selectCurrentConfig, selectIsDossierAsHome, selectIsToolbarHidden, selectIsToolbarCollapsed, selectSelectedSideBarIcons, selectSelectedLibraryIcons, selectSelectedDocumentIcons, selectCurrentConfigContentBundleIds, selectDefaultGroupsName } from '../../../store/selectors/HomeScreenConfigEditorSelector'
 import * as Actions from '../../../store/actions/ActionsCreator'
 import { t } from '../../../i18n/i18next'
 
@@ -148,8 +148,15 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
 
     renderTable = (icons: Array<iconDetail>) => {
         const expandChildren = childrenIcons
-            .map( (icon, index) =>     
-            ({key: childrenKeyOffset+index, displayText: [icon.iconName, icon.displayText], selected: this.iconSelectedInfo(icon.key)})
+            .map( (icon, index) =>  {
+                let displayText = icon.displayText
+                if(icon.key === iconTypes.defaultGroup.key) {
+                    displayText = this.props.defaultGroupsName
+                }
+                return (
+                    {key: childrenKeyOffset+index, displayText: [icon.iconName, displayText], selected: this.iconSelectedInfo(icon.key)}
+                )
+            }
         )
 
         const data = icons
@@ -298,6 +305,7 @@ const mapState = (state: RootState) => ({
     selectedLibraryIcons: selectSelectedLibraryIcons(state),
     selectedDocumentIcons: selectSelectedDocumentIcons(state), 
     contentBundleIds: selectCurrentConfigContentBundleIds(state),
+    defaultGroupsName: selectDefaultGroupsName(state),
 })
   
 const connector = connect(mapState, {

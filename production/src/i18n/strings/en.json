@@ -3,7 +3,7 @@
     "general": "General",
     "homeScreen": "Home Screen",
     "components": "Components",
-    "contentBundle": "Content Bundles",
+    "contentBundles": "Content Bundles",
     "moreSettings": "More Settings",
 
     "environment": "Environment",
@@ -56,7 +56,7 @@
     "addContent": "Add Content",
     "addContentBundles": "Add content bundles to this application",
     "selectContentBundles": "Select content bundles",
-    "contentBundles": "Content Bundles",
+    "defaultGroupsSectionTitle": "Default Groups Section Title",
 
     "preview": "Preview",
     "libraryWindowLowerCase": "Libary Window (Home)",
@@ -88,6 +88,7 @@
     "cancel":"Cancel",
     "save": "Save",
     "select": "Select",
+    "selectedStr": "{{bundlesCount}} selected",
 
     "copyLink": "Copy Link",
     "downloadJson": "Download Json File",
