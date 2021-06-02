@@ -7,7 +7,7 @@ import { RootState } from '../../types/redux-state/HomeScreenConfigState'
 
 export const selectConfigEditorRoot = (state: RootState) => state.configEditor
 export const selectConfigMainRoot = (state: RootState) => state.configMain
-export const selectContentFetchRoot = (state: RootState) => state.bundleContentFetch
+export const selectBundleContentRoot = (state: RootState) => state.bundleContent
 
 export const selectCurrentConfig = createSelector(
     selectConfigEditorRoot,
@@ -35,23 +35,23 @@ export const selectContentBundleList = createSelector(
 )
 
 export const selectAllDossiers = createSelector(
-  selectContentFetchRoot,
-  (bundleFetchRoot) => bundleFetchRoot.dossiers
+  selectBundleContentRoot,
+  (bundleContentRoot) => bundleContentRoot.dossiers
 )
 
 export const selectAllDocuments = createSelector(
-  selectContentFetchRoot,
-  (bundleFetchRoot) => bundleFetchRoot.documents
+  selectBundleContentRoot,
+  (bundleContentRoot) => bundleContentRoot.documents
 )
 
 export const selectIsLoadingDossiers = createSelector(
-  selectContentFetchRoot,
-  (bundleFetchRoot) => bundleFetchRoot.loadingDossiers
+  selectBundleContentRoot,
+  (bundleContentRoot) => bundleContentRoot.loadingDossiers
 );
 
 export const selectLoadingDossiersFinish = createSelector(
-  selectContentFetchRoot,
-  (bundleFetchRoot) => bundleFetchRoot.loadingDossiersFinish
+  selectBundleContentRoot,
+  (bundleContentRoot) => bundleContentRoot.loadingDossiersFinish
 );
 
 // helper 

@@ -3,7 +3,6 @@ import { CONSTANTS, iconTypes, reviewType, iconValidKey, platformType, dossierIc
 import { ActionTypes } from '../actions/ActionTypes'
 import * as Actions from '../actions/ActionConstants'
 import * as _ from 'lodash'
-import { t } from '../../../src/i18n/i18next'
 
 const initialState: HomeScreenConfigEditorState = {
   currentConfig: {
