@@ -73,7 +73,7 @@ export const CONSTANTS = {
     ICON_HYPER: 'hyper',
     ICON_AA_FONT: 'aaFont',
     ICON_ALL: 'all',
-    ICON_FAV: 'favourites',
+    ICON_FAV: 'favorites',
     ICON_RECENENT: 'recents',
     ICON_DEFAULT_GROUP: 'defaultGroups',
     ICON_MY_GROUP: 'myGroups',

@@ -89,5 +89,5 @@ export const selectSelectedDocumentIcons = createSelector(
 
 export const selectDefaultGroupsName = createSelector(
   selectCurrentConfig,
-  (config) =>  _.isEmpty(config.homeScreen.homeLibrary.defaultGroupsName) ? t('defaultGroups') : config.homeScreen.homeLibrary.defaultGroupsName
+  (config) =>  config.homeScreen.homeLibrary.defaultGroupsName
 )
