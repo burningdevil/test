@@ -24,7 +24,7 @@ const navBar = {
   GENERAL: t('general'),
   HOME_SCREEN: t('homeScreen'),
   COMPONENTS: t('components'),
-  CONTENT_BUNDLES: t('cotentBundle'),
+  CONTENT_BUNDLES: t('contentBundles'),
   MORE_SETTINGS: t('moreSettings')
 };
 const popoverGeneral = {

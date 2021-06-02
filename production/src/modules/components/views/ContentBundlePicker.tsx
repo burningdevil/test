@@ -92,6 +92,7 @@ export default class ContentBundlePicker extends React.Component<any, any> {
   }
 
   render() {
+    const bundlesCount = this.state.selectedBundles.length
     return (
       <Modal
           className='content-bundle-picker-modal'
@@ -109,7 +110,7 @@ export default class ContentBundlePicker extends React.Component<any, any> {
             <div className="content-bundle-picker-header">
               {t('selectContentBundles')}
             </div>
-            <SearchInput className="content-bundle-picker-search" placeholder="Search"
+            <SearchInput className="content-bundle-picker-search" placeholder={t('search')}
                 onChange={(value: string) => {
                   this.handleSearch(value);
                 }}/>
@@ -125,7 +126,7 @@ export default class ContentBundlePicker extends React.Component<any, any> {
                   <Menu.Item key="bundles" className="content-bundle-picker-grid-menu-tab">
                     <div className="icon-group_groups_a"/>
                     <div className="content-bundle-picker-grid-menu-text">
-                        {t('cotentBundles')}
+                        {t('contentBundles')}
                     </div>
                   </Menu.Item>
                 </Menu>
@@ -135,7 +136,7 @@ export default class ContentBundlePicker extends React.Component<any, any> {
               </div>
             </div>
             <div className="content-bundle-picker-footer">
-              {this.state.selectedBundles.length + ' selected'}
+              {t('selectedStr', {bundlesCount})}
             </div>
           </div>
           {this.buttonGroup()}

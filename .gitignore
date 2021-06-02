@@ -37,3 +37,6 @@ tests/acceptance/reports/raw/*.json
 tests/acceptance/reports/ubIndividual/*.json
 tests/acceptance/reports/*.json
 
+production/src/i18n/languages.ts
+production/locale
+production/public/assets/i18N

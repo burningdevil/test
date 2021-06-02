@@ -24,7 +24,9 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';;
 import { connect } from 'react-redux';
-import { selectContentBundleList } from '../../../store/selectors/HomeScreenConfigEditorSelector';
+import { selectContentBundleList, selectDefaultGroupsName } from '../../../store/selectors/HomeScreenConfigEditorSelector';
+import * as Actions from '../../../store/actions/ActionsCreator'
+import Constatnt from '../HomeScreenConfigConstant'
 import * as api from '../../../services/api';
 import { t } from '../../../i18n/i18next';
 
@@ -478,6 +480,18 @@ class ContentBundleList extends React.Component<any, any> {
     });
   }
 
+  handleChangeDefaultGroupsName = (name: string) => {
+    let update = {}
+    if (!_.isEmpty(name)) {
+      update = {[Constatnt.DEFAULT_GROUPS_NAME]: name}
+    } else {
+      update = {[Constatnt.DEFAULT_GROUPS_NAME]: t('defaultGroups')}
+    }
+    update = {[Constatnt.HOME_LIBRARY]: update}
+    update = {[Constatnt.HOME_SCREEN]: update}
+    this.props.updateCurrentConfig(update)
+  }
+
   // getBundleIconWithNameColor = (name: string, color: number) => {
   //   const iconClass = classNames(
   //     'mstr-ws-icons-copy',
@@ -501,6 +515,18 @@ class ContentBundleList extends React.Component<any, any> {
   //   console.log(selections);
   //   this.props.handleSelection(selections);
   // }
+
+  renderChangeNameField = () => {
+    return (
+      <div>
+        <div> {t('defaultGroupsSectionTitle')} </div>
+        <Input 
+          value={this.props.defaultGroupsName} 
+          onChange={(e) => this.handleChangeDefaultGroupsName(e.target.value)}
+        />
+      </div>
+    )
+  }
 
   renderAddContent = () => {
     return (
@@ -555,6 +581,7 @@ class ContentBundleList extends React.Component<any, any> {
     // };
     return (
       <div className="content-bundle-list-container" style={{ height: '100%'}}>
+        {this.renderChangeNameField()}
         {this.props.allowDelete &&
           <div className="content-bundle-list-container-header">
             <SearchInput value={this.state.nameFilter} className="content-bundle-list-container-search" placeholder={t('search')}
@@ -600,10 +627,12 @@ class ContentBundleList extends React.Component<any, any> {
 }
 
 const mapState = (state: RootState) => ({
-  allBundleList: selectContentBundleList(state)
+  allBundleList: selectContentBundleList(state),
+  defaultGroupsName: selectDefaultGroupsName(state),
 })
 
 const connector = connect(mapState, {
+  updateCurrentConfig: Actions.updateCurrentConfig
 })
 
 export default connector(ContentBundleList)

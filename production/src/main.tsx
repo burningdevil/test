@@ -8,7 +8,6 @@ import './styles/main.scss'
 import WorkStationProxy from './httpProxy/WorkStationProxy'
 import browser from './env/Browser'
 import workstation from './env/Workstation'
-import './i18n/i18n'
 import wsEvents from './env/WSEvents'
 
 declare var __IS_WS__: any

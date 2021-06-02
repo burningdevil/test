@@ -24,6 +24,7 @@ export const CONSTANTS = {
     URL: 'url',
     ICONS: 'icons',
     TOOLBAR_MODE: 'toolbarMode',   // hide toolbar by default
+    DEFAULT_GROUPS_NAME: 'defaultGroupsName',
     //Advanced Settings
     AUTH_MODES: 'authModes',
     DISABLE_ADVANCED_SETTINGS: 'disableAdvancedSettings',
