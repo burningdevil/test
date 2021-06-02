@@ -10,7 +10,7 @@ export interface HomeScreenMainViewState {
     contentBundleList: Array<MainViewContentBundleType>
 }
 
-export interface HomeScreenBundleContentFetchState {
+export interface HomeScreenBundleContentState {
     dossiers: Array<HomeScreenBundleContentListItem>
     documents: Array<HomeScreenBundleContentListItem>
     loadingDossiers: boolean,
@@ -20,5 +20,5 @@ export interface HomeScreenBundleContentFetchState {
 export interface RootState {
     configEditor: HomeScreenConfigEditorState,
     configMain: HomeScreenMainViewState,
-    bundleContentFetch: HomeScreenBundleContentFetchState
+    bundleContent: HomeScreenBundleContentState
 }

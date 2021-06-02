@@ -1,16 +1,16 @@
-import { HomeScreenBundleContentFetchState } from '../../types/redux-state/HomeScreenConfigState'
+import { HomeScreenBundleContentState } from '../../types/redux-state/HomeScreenConfigState'
 import { ActionTypes } from '../actions/ActionTypes'
 import * as Actions from '../actions/ActionConstants'
 import { HomeScreenBundleContentListItem } from '../../types/data-model/HomeScreenConfigModels'
 
-const initialState: HomeScreenBundleContentFetchState = {
+const initialState: HomeScreenBundleContentState = {
   dossiers: [],
   documents: [],
   loadingDossiers: false,
   loadingDossiersFinish: false,
 }
 
-const HomeScreenContentFetchReducer = (state: HomeScreenBundleContentFetchState = initialState, action: ActionTypes) => {
+const HomeScreenBundleContentReducer = (state: HomeScreenBundleContentState = initialState, action: ActionTypes) => {
   const { type, data } = action
 
   switch (type) {
@@ -27,4 +27,4 @@ const HomeScreenContentFetchReducer = (state: HomeScreenBundleContentFetchState 
   }
 }
 
-export default HomeScreenContentFetchReducer
+export default HomeScreenBundleContentReducer
