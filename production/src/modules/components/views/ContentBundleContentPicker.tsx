@@ -22,7 +22,7 @@ import { RootState } from '../../../types/redux-state/HomeScreenConfigState';;
 import { connect } from 'react-redux';
 import { selectAllDossiers, selectAllDocuments, selectIsLoadingDossiers, selectLoadingDossiersFinish } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as api from '../../../services/api';
-import ContentBundleList from './ContentBundleList';
+import { t } from '../../../i18n/i18next';
 
 declare var workstation: WorkstationModule;
 var currentOffset = 0;
@@ -432,16 +432,16 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                   mode="inline"
                   theme={'dark'}
                 >
-                  <Menu.Item key="Dossier" className="content-bundle-content-picker-grid-menu-tab1" onClick={this.tabBarChanged}>
+                  <Menu.Item tabIndex={0} aria-label={t('dossiersTab')} key="Dossier" className="content-bundle-content-picker-grid-menu-tab1" onClick={this.tabBarChanged}>
                     <div className="icon-dossier"/>
                     <div className="content-bundle-content-picker-grid-menu-dossier">
-                      Dossiers
+                      {t('dossiers')}
                     </div>
                   </Menu.Item>
-                  <Menu.Item key="Document" className="content-bundle-content-picker-grid-menu-tab2" onClick={this.tabBarChanged}>
+                  <Menu.Item tabIndex={0} aria-label={t('documentsTab')} key="Document" className="content-bundle-content-picker-grid-menu-tab2" onClick={this.tabBarChanged}>
                     <div className="icon-rsd-cover"/>
                     <div className="content-bundle-content-picker-grid-menu-document">
-                      Documents
+                      {t('documents')}
                     </div>
                   </Menu.Item>
                 </Menu>

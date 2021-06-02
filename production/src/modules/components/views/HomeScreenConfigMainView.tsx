@@ -246,7 +246,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     return this.state.isEnvReady ? (
       <div className={prefixMainCls}>
         <div className={classNames(prefixMainCls, "new-application-container")}>
-          <span className={classNames(prefixMainCls, "icon-pnl_add-new")} onClick={this.handleAddApplication}/>
+          <span tabIndex={0} aria-label={t('newApplicationBtn')} className={classNames(prefixMainCls, "icon-pnl_add-new")} onClick={this.handleAddApplication}/>
           <span>
             {t('newApplication')}
           </span>

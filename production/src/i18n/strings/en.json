@@ -6,7 +6,13 @@
     "contentBundles": "Content Bundles",
     "moreSettings": "More Settings",
 
+    "dossiers": "Dossiers",
+    "documents": "Documents",
+    "dossiersTab": "Dossiers Tab",
+    "documentsTab": "Documents Tab",
+
     "newApplication": "New Application",
+    "newApplicationBtn": "Create Application Button",
     "environment": "Environment",
     "name": "Name",
     "description": "Description",
@@ -55,6 +61,7 @@
 
     "content": "Content",
     "addContent": "Add Content",
+    "addContentBundlesBtn": "Add Content Bundles Button",
     "addContentBundles": "Add content bundles to this application",
     "selectContentBundles": "Select content bundles",
     "defaultGroupsSectionTitle": "Default Groups Section Title",

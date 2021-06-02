@@ -531,7 +531,7 @@ class ContentBundleList extends React.Component<any, any> {
   renderAddContent = () => {
     return (
       <div className = "content-bundle-list-container-add-content">
-        <span className="icon-pnl_add-new"
+        <span tabIndex={0} aria-label={t('addContentBundlesBtn')} className="icon-pnl_add-new"
           onClick={() => {
             this.handleAddContent();
           }}
