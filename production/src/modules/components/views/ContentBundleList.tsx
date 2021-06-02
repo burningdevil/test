@@ -2,14 +2,12 @@ import * as React from 'react';
 import '../scss/ContentBundleList.scss';
 import ContentBundlePicker from './ContentBundlePicker'
 import * as _ from "lodash";
-import { Input } from 'antd';
-import { ReactWindowGrid, MSTRWSIcon, SearchInput, SelectionStructure, Record } from '@mstr/rc';
+import { SearchInput, Input, Tooltip } from '@mstr/rc';
 import { WorkstationModule } from '@mstr/workstation-types';
-import classNames from 'classnames';
-import { ContextMenuItem } from '@mstr/rc/types/react-window-grid/type';
 import { HttpProxy } from '../../../main';
 import {AgGridReact} from 'ag-grid-react';
-import { BundleInfo } from '../HomeScreenConfigConstant'
+import { BundleInfo, iconTypes } from '../HomeScreenConfigConstant'
+import { PlusCircleOutlined, DownOutlined, FallOutlined } from '@ant-design/icons'
 import { hexIntToColorStr, BundleRecipientType, HomeScreenBundleListDatasource, getHomeScreenBundleListGroupCellInnerRenderer } from './HomeScreenUtils'
 import {
   GridReadyEvent,
@@ -482,11 +480,7 @@ class ContentBundleList extends React.Component<any, any> {
 
   handleChangeDefaultGroupsName = (name: string) => {
     let update = {}
-    if (!_.isEmpty(name)) {
-      update = {[Constatnt.DEFAULT_GROUPS_NAME]: name}
-    } else {
-      update = {[Constatnt.DEFAULT_GROUPS_NAME]: t('defaultGroups')}
-    }
+    update = {[Constatnt.DEFAULT_GROUPS_NAME]: name} 
     update = {[Constatnt.HOME_LIBRARY]: update}
     update = {[Constatnt.HOME_SCREEN]: update}
     this.props.updateCurrentConfig(update)
@@ -495,7 +489,7 @@ class ContentBundleList extends React.Component<any, any> {
   // getBundleIconWithNameColor = (name: string, color: number) => {
   //   const iconClass = classNames(
   //     'mstr-ws-icons-copy',
-  //     'icon-bundle-group'
+  //     'icon-bundle-group' 
   //   );
   //   return <div className = "content-bundle-list-name-icon"><span className={iconClass} color={color.toString()}/>{name}</div>;
   // }
@@ -516,13 +510,61 @@ class ContentBundleList extends React.Component<any, any> {
   //   this.props.handleSelection(selections);
   // }
 
+  renderPopoverContent = () => {
+      const title = <div> {t('tipOfDefaultGroups')} </div>
+      const sidebarIcons = [iconTypes.all, iconTypes.favorites, iconTypes.recents, iconTypes.defaultGroup]
+          .map( (element, index) => {
+          const showAddButton = iconTypes.myGroup.key === element.key
+          const showExpandIcon = iconTypes.myGroup.key === element.key || iconTypes.defaultGroup.key === element.key
+          const showContent = iconTypes.defaultGroup.key === element.key
+          return (
+              <div style={{display: 'relative'}}>
+                  <div className="content-bundle-list-container-popover-text"> <span className={element.iconName} key={index}/> 
+                      <span>{element.displayText}</span> 
+                      {showAddButton && <PlusCircleOutlined/>}
+                      {showExpandIcon && <DownOutlined style={{fontSize: '5px', marginLeft: 'auto', marginRight: '4px'}}/>}
+                  </div>
+                  {showContent && <div className="content-bundle-list-container-popover-blank">
+                      <div className="content-bundle-list-container-popover-blank-fill"/>
+                  </div>}
+                  {showContent && <div className="content-bundle-list-container-popover-blank">
+                      <div className="content-bundle-list-container-popover-blank-fill"/>
+                  </div>}
+                  {showContent && <div className="content-bundle-list-container-popover-blank">
+                      <div className="content-bundle-list-container-popover-blank-fill"/>
+                  </div>}
+                  <FallOutlined style={{position: 'absolute', left: '110px', top: '100px', fontSize: '30px'}}/>
+              </div> 
+          )
+      })
+      // account for mobile
+      return (
+      <div className='content-bundle-list-container-popover'> 
+          {title} 
+          <div className="content-bundle-list-container-popover-container"> 
+          {sidebarIcons} </div>
+      </div>
+      )
+  }
+
   renderChangeNameField = () => {
+    const msgInfoID = 'contentBundleListMsgInfoID'
     return (
-      <div>
-        <div> {t('defaultGroupsSectionTitle')} </div>
+      <div className='content-bundle-list-container-title'>
+        {t('defaultGroupsSectionTitle')}
+        <Tooltip 
+          title={this.renderPopoverContent()}
+          placement="rightTop"
+          onVisibleChange={(visible) => 
+            document.getElementById(msgInfoID).style.color =  visible ? '#3892ed' : 'gray'
+          }
+        >
+        <span className='icon-msg_info' id={msgInfoID}> </span>
+        </Tooltip>
         <Input 
-          value={this.props.defaultGroupsName} 
-          onChange={(e) => this.handleChangeDefaultGroupsName(e.target.value)}
+        placeholder={t('defaultGroups')}
+        value={this.props.defaultGroupsName}
+        onChange={(e: any) => this.handleChangeDefaultGroupsName(e.target.value)}
         />
       </div>
     )
@@ -581,7 +623,7 @@ class ContentBundleList extends React.Component<any, any> {
     // };
     return (
       <div className="content-bundle-list-container" style={{ height: '100%'}}>
-        {this.renderChangeNameField()}
+        {this.props.allowDelete && this.renderChangeNameField()}
         {this.props.allowDelete &&
           <div className="content-bundle-list-container-header">
             <SearchInput value={this.state.nameFilter} className="content-bundle-list-container-search" placeholder={t('search')}
@@ -591,15 +633,15 @@ class ContentBundleList extends React.Component<any, any> {
             {this.renderAddContent()}
           </div>
         }
-        <div style={{ width: '100%', height: '100%' }}>
+        <div style={{ width: '100%', height: 'calc(100% - 60px)', position: 'relative' }}>
           <div id="myGrid" style={{ height: '100%', width: '100%'}} className="ag-theme-alpine">
               <AgGridReact gridOptions={this.gridOptions}>
               </AgGridReact>
               {/* <ReactWsGrid gridOptions={gridOptions} columnDefs={gridOptions.columnDefs}/> */}
+              {this.props.allowDelete && this.state.currentBundleList && this.state.currentBundleList.length === 0 && this.renderEmptyView()}
           </div>
         </div>
         <ContentBundlePicker handleClose={this.handleClosePicker} visible={this.state.showBundlePicker} handleBundlesAdd={this.handleNewBundlesAdded}/>
-        {this.props.allowDelete && this.state.currentBundleList && this.state.currentBundleList.length === 0 && this.renderEmptyView()}
         {/* <ReactWindowGrid
           columnDef={[
             {

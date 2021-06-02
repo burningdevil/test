@@ -151,7 +151,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
             .map( (icon, index) =>  {
                 let displayText = icon.displayText
                 if(icon.key === iconTypes.defaultGroup.key) {
-                    displayText = this.props.defaultGroupsName
+                    displayText = _.isEmpty(this.props.defaultGroupsName) ? t('defaultGroups') : this.props.defaultGroupsName
                 }
                 return (
                     {key: childrenKeyOffset+index, displayText: [icon.iconName, displayText], selected: this.iconSelectedInfo(icon.key)}
