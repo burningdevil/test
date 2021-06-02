@@ -168,11 +168,11 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
 
     const menu = (
       <Menu>
-        <Menu.Item key="0" onClick={handleClickCopyLink}>
+        <Menu.Item key="0" onClick={handleClickCopyLink} icon={<span className="icon-tb_share_n" style={{paddingRight: '5px'}}/>}>
           Copy Link
         </Menu.Item>
         <Menu.Divider/>
-        <Menu.Item key="1" onClick={handleClickDownload}>
+        <Menu.Item key="1" onClick={handleClickDownload} icon={<span className="icon-tb_share_n" style={{paddingRight: '5px'}}/>}>
           Download Json File
         </Menu.Item>
       </Menu>
