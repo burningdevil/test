@@ -255,7 +255,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
           columnDef={[
             {
               field: 'name',
-              headerName: 'Name',
+              headerName: t('name'),
               sortable: true,
               width: '10%',
               render: (d: Record) => {
@@ -269,19 +269,19 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
             },
             {
               field: 'platform',
-              headerName: 'Platform',
+              headerName: t('platform'),
               sortable: true,
               width: '10%'
             },
             {
               field: 'mode',
-              headerName: 'Home',
+              headerName: t('home'),
               width: '10%',
               sortable: true
             },
             {
               field: 'contentBundles',
-              headerName: 'Content Bundles',
+              headerName: t('contentBundles'),
               sortable: true,
               width: '30%',
               render: (d: Record) => {
@@ -308,7 +308,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
             },
             {
               field: 'lastUpdate',
-              headerName: 'Date Modified',
+              headerName: t('dateModified'),
               sortable: true,
               width: '15%'
             }

@@ -5,12 +5,7 @@ import { store } from '../../../main'
 import { Modal, Button, Menu, Table } from 'antd';
 import { WorkstationModule } from '@mstr/workstation-types';
 import * as _ from "lodash";
-import classNames from 'classnames';
-import { ClickParam } from 'antd/lib/menu';
-import { HttpProxy } from '../../../main';
-import { isContentTypeDossier } from './HomeScreenUtils'
-import { Record } from '@mstr/rc/types';
-import { ContextMenuItem } from '@mstr/rc/types/react-window-grid/type';
+import ClickParam from 'antd/lib/menu';
 import {AgGridReact} from 'ag-grid-react';
 import {
   GridReadyEvent,
@@ -375,23 +370,23 @@ class ContentBundleContentPicker extends React.Component<any, any> {
     
     getContextMenuItems: this.getContextMenuItems,
     columnDefs: [
-        {field: 'name', headerName: 'Name', width: 250, cellRenderer: (params: any) => {
+        {field: 'name', headerName: t('name'), width: 250, cellRenderer: (params: any) => {
           if (params.node.data.isDossier) {
             return '<img class="content-bundle-content-picker-grid-right-name-dossier" src="../assets/images/dossier.jpg"/><span style="color: #35383a;; padding: 4px; font-size: 12px">' + params.value + '</span>';
           } else {
             return '<img class="content-bundle-content-picker-grid-right-name-document" src="../assets/images/document.png"/><span style="color: #35383a;; padding: 4px; font-size: 12px">' + params.value + '</span>';
           }
         }},
-        {field: 'certified', headerName: 'Certified', width: 90, cellRenderer: (params: any) => {
+        {field: 'certified', headerName: t('certified'), width: 90, cellRenderer: (params: any) => {
           if (params.node.data.certified) {
               return `<span class="icon-home_certified" style="color: #f08033; font-size: 14px" />`;
           } else {
             return '';
           }}
         },
-        {field: 'ownerName', headerName: 'Owner', width: 120},
-        {field: 'dateCreatedShort', width: 116, headerName: 'Date Created'},
-        {field: 'dateModifiedShort', width: 116, headerName: 'Date Modified'}
+        {field: 'ownerName', headerName: t('owner'), width: 120},
+        {field: 'dateCreatedShort', width: 116, headerName: t('dateCreated')},
+        {field: 'dateModifiedShort', width: 116, headerName: t('dateModified')}
     ]
   };
 
@@ -417,7 +412,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
         <div className="content-bundle-content-picker">
           <div className="content-bundle-content-picker-top">
             <div className="content-bundle-content-picker-header">
-              Select dossiers or documents to add
+              {t('selectDossierHint')}
             </div>
             <SearchInput className="content-bundle-content-picker-search" placeholder="Search"
                 onChange={(value: string) => {
@@ -454,80 +449,6 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                     {/* <ReactWsGrid gridOptions={gridOptions} columnDefs={gridOptions.columnDefs}/> rowData = {contents} */}
                 </div>
               </div>
-                {/* <Table className="content-bundle-content-picker-grid-table" columns = {[
-                  {
-                    dataIndex: 'nameWithIcon',
-                    title: 'Name',
-                    width: '40%',
-                    sorter: (a, b) => a.name.localeCompare(b.name),
-                    sortDirections: ['descend', 'ascend'],
-                  },
-                  {
-                    dataIndex: 'certifiedWithIcon',
-                    title: 'Certified',
-                    width: '15%'
-                  },
-                  {
-                    dataIndex: 'ownerName',
-                    title: 'Owner',
-                    width: '15%',
-                    sorter: (a, b) => a.ownerName.localeCompare(b.ownerName),
-                    sortDirections: ['descend', 'ascend'],
-                  },
-                  {
-                    dataIndex: 'dateCreatedShort',
-                    title: 'Date Created',
-                    width: '15%',
-                    sorter: (a, b) => a.dateCreated.localeCompare(b.dateCreated),
-                    sortDirections: ['descend', 'ascend'],
-                  },
-                  {
-                    dataIndex: 'dateModifiedShort',
-                    title: 'Date Modified',
-                    width: '15%',
-                    sorter: (a, b) => a.dateModified.localeCompare(b.dateModified),
-                    sortDirections: ['descend', 'ascend'],
-                  }
-                ]} dataSource = {contents} scroll={{ y: 410 }} pagination={false}/> */}
-                  {/* <ReactWindowGrid
-              columnDef={[
-                {
-                  comparator: (a:any, b: any) => a.name.localeCompare(b.name),
-                  field: 'nameWithIcon',
-                  headerName: 'Name',
-                  sortable: true,
-                  width: '40%'
-                },
-                {
-                  field: 'certifiedWithIcon',
-                  headerName: 'Certified',
-                  width: '15%',
-                  sortable: false
-                },
-                {
-                  field: 'ownerName',
-                  headerName: 'Owner',
-                  sortable: true,
-                  width: '15%'
-                },
-                {
-                  field: 'dateCreatedShort',
-                  headerName: 'Date Created',
-                  sortable: true,
-                  width: '15%'
-                },
-                {
-                  field: 'dateModifiedShort',
-                  headerName: 'Date Modified',
-                  sortable: true,
-                  width: '15%'
-                }
-              ]}
-              rowData={contents}
-              isColumnConfigurable={false}
-              onRowClick={this.handleSelectObject}
-              getContextMenuItems={getContextMenuItems}
-            /> */}
               </div>
             </div>
             {/* <div className="content-bundle-content-picker-footer">
