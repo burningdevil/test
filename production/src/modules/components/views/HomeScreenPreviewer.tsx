@@ -124,6 +124,14 @@ class HomeScreenPreviewer extends React.Component<any, any> {
             </div>
     }
 
+    placeHolderRender = (left: string, renderExpander: boolean) => {
+        const width = renderExpander ? '40px' : '30px'
+        return <div style={{left: left, top: '8px', width: width, height: '5px', display: 'flex', alignItems: 'center', position: 'absolute'}}>
+                <span style={{backgroundColor: 'rgb(224, 224, 224)', width: '100%', height: '5px'}} />
+                {renderExpander && <DownOutlined style={{fontSize: '5px', marginLeft: '5px'}}/>}
+             </div>
+    }
+
     /// for previewer
     // dossier preview icons to render
     // split in header icons and footer icons
@@ -134,15 +142,15 @@ class HomeScreenPreviewer extends React.Component<any, any> {
         let footerIcons: iconDetail[] = []
         switch (deviceType) {
             case reviewType.TABLET:
-                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.account, iconTypes.share, iconTypes.filter, iconTypes.comment, iconTypes.notification] : [iconTypes.previewLibrary, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.share, iconTypes.filter, iconTypes.comment]
+                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.account, iconTypes.share, iconTypes.filter, iconTypes.comment, iconTypes.notification] : [iconTypes.previewLibraryMobile, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.share, iconTypes.filter, iconTypes.comment]
+                break
+            case reviewType.PHONE:
+                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.share] : [iconTypes.previewLibraryMobile, iconTypes.share]
+                footerIcons = isDossierHome ? [iconTypes.comment, iconTypes.filter, iconTypes.notification, iconTypes.account] : [iconTypes.comment, iconTypes.bookmark, iconTypes.reset, iconTypes.filter]
                 break
             case reviewType.WEB:
             case reviewType.DESKTOP:
-                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.account, iconTypes.share, iconTypes.filter, iconTypes.comment, iconTypes.notification] : [iconTypes.previewLibrary, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.accountWeb, iconTypes.share, iconTypes.filter, iconTypes.comment]
-                break
-            case reviewType.PHONE:
-                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.share] : [iconTypes.previewLibrary, iconTypes.share]
-                footerIcons = isDossierHome ? [iconTypes.comment, iconTypes.filter, iconTypes.notification, iconTypes.account] : [iconTypes.comment, iconTypes.bookmark, iconTypes.reset, iconTypes.filter]
+                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.account, iconTypes.share, iconTypes.filter, iconTypes.comment, iconTypes.notification] : [iconTypes.previewLibraryWeb, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.accountWeb, iconTypes.share, iconTypes.filter, iconTypes.comment]
                 break
             default:
                 break
@@ -269,21 +277,27 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                         {/* library */}
                         {!isDossierHome && this.titleRender(sectionTitle.libraryHome)}
 
-                        {/* library sidebar */}
                         <div style={{position: 'relative'}}>
                             <div className="homeScreenPreviewer-horcontainer">
-                                {!isDossierHome && showSideBar && 
-                                <Layout className="homeScreenPreviewer-phone">
-                                    {this.sidebarIconsRender(childrenIcons, 'homeScreenPreviewer-phone-sidebar')}
-                                </Layout>
+                                {/* library sidebar */}
+                                {!isDossierHome && showSideBar &&
+                                    <Layout className="homeScreenPreviewer-phone">
+                                        {!hideHeader &&
+                                        <Layout.Header >
+                                            {this.placeHolderRender('auto', true)}
+                                        </Layout.Header>
+                                        }
+                                        <Layout.Content className="homeScreenPreviewer-phone-content">{this.sidebarIconsRender(childrenIcons, 'homeScreenPreviewer-phone-sidebar')}</Layout.Content>
+                                    </Layout>
                                 }
 
-                                { /* library toolbar */}
+                                {/* library toolbar */}
                                 {!isDossierHome && 
                                     <Layout className="homeScreenPreviewer-phone">
                                         { !hideHeader &&
                                             <Layout.Header>
                                                 {this.toolbarIconsRender(libraryHeaderIcons)}
+                                                {this.placeHolderRender(showSideBar ? '190px' : '123px', false)}
                                             </Layout.Header>
                                         }
                                         <Layout.Content className="homeScreenPreviewer-phone-content">
