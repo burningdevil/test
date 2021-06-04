@@ -7,7 +7,7 @@ import { copyToClipboard } from '../../../utils/copy';
 import { ReactWindowGrid } from '@mstr/rc';
 import { SelectionStructure, Record } from '@mstr/rc/types';
 import { ContextMenuItem } from '@mstr/rc/types/react-window-grid/type';
-import { WorkstationModule, ObjectEditorSettings, EnvironmentChangeArg, WindowEvent, EnvironmentAction, EnvironmentStatus} from '@mstr/workstation-types';
+import { WorkstationModule, ObjectEditorSettings, EnvironmentChangeArg, WindowEvent, EnvironmentAction, EnvironmentStatus, Environment} from '@mstr/workstation-types';
 import { HttpProxy } from '../../../main';
 import { RestApiError } from '../../../server/RestApiError';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
@@ -15,7 +15,10 @@ import { selectConfigList, selectContentBundleList } from '../../../store/select
 import * as api from '../../../services/api';
 import * as _ from "lodash";
 import { hexIntToColorStr } from './HomeScreenUtils';
-import DisconnectedPage from './disconnected-page';
+import DisconnectedPage from './error-pages/DisconnectedPage';
+import ServerIncompatiblePage from './error-pages/ServerIncompatiblePage';
+import NoAccessPage from './error-pages/NoAccessPage';
+import { isLibraryServerVersionMatch, isIServerVersionMatch, isUserHasManageApplicationPrivilege, DEFAULT_CONFIG_ID } from '../../../utils';
 import classNames from 'classnames';
 import { t } from '../../../i18n/i18next'
 
@@ -28,29 +31,28 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     this.state = {
       currentEnv: {},
       isEnvReady: true,
-      isShareMenuVisible: false
+      isConnected: true,
+      isLibraryVersionMatched: true,
+      isIServerVersionMatched: true,
+      isMDVersionMatched: true,
+      isUserHasAccess: true
     }
   }
 
   async componentDidMount() {
     this.loadData();
     const currentEnv = await workstation.environments.getCurrentEnvironment();
-    this.setState({
-      currentEnv: currentEnv,
-      isEnvReady: currentEnv.status === EnvironmentStatus.Connected
-    });
+    this.checkServerAndUserPrivilege(currentEnv);
+
     workstation.environments.onEnvironmentChange((change: EnvironmentChangeArg) => {
       console.log('enviornment change: ' + change.actionTaken);
       console.log('enviornment change: env name : ' + change.changedEnvironment.name);
       console.log('enviornment change: env status : ' + change.changedEnvironment.status);
       if (change.actionTaken === EnvironmentAction.ChangeEnvironmentSelection && change.changedEnvironment.url !== this.state.currentEnv.url) {
-        this.setState({
-          currentEnv: change.changedEnvironment,
-          isEnvReady: change.changedEnvironment.status === EnvironmentStatus.Connected
-        });
         if (change.changedEnvironment.status === EnvironmentStatus.Connected) {
           this.loadData();
         }
+        this.checkServerAndUserPrivilege(change.changedEnvironment);
       }
       if (change.actionTaken === EnvironmentAction.Connect && change.changedEnvironment.url === this.state.currentEnv.url) {
         this.setState({
@@ -60,7 +62,8 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       }
       if (change.actionTaken === EnvironmentAction.Disconnect && change.changedEnvironment.status === EnvironmentStatus.Disconnected && change.changedEnvironment.url === this.state.currentEnv.url) {
         this.setState({
-          isEnvReady: false
+          isEnvReady: false,
+          isConnected: false
         });
       }
     })
@@ -74,6 +77,33 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
           ResponseValue: true
       };
     });
+  }
+
+  checkServerAndUserPrivilege = async (env: Environment) => {
+    const status: any = await api.getServerStatus();
+    console.log('server status: ' + JSON.stringify(status));
+    const isMDVersionMatched = await this.loadDefaultConfig();
+    const isConnected = env.status === EnvironmentStatus.Connected;
+    const isLibraryVersionMatched = isLibraryServerVersionMatch(status.webVersion);
+    const isIServerVersionMatched = isIServerVersionMatch(status.iServerVersion);
+    const isUserHasAccess = isUserHasManageApplicationPrivilege(env.privileges);
+    this.setState({
+      currentEnv: env,
+      isConnected: isConnected,
+      isLibraryVersionMatched: isLibraryVersionMatched,
+      isIServerVersionMatched: isIServerVersionMatched,
+      isMDVersionMatched: isMDVersionMatched,
+      isUserHasAccess: isUserHasAccess,
+      isEnvReady: isConnected && isLibraryVersionMatched && isIServerVersionMatched && isMDVersionMatched && isUserHasAccess
+    });
+  }
+
+  loadDefaultConfig = async () => {
+    return true;
+    // TOBE Enabled.
+    // let hasDefault = true;
+    // await HttpProxy.get('/mstrClients/libraryApplications/configs/' + DEFAULT_CONFIG_ID).catch(() => { hasDefault = false });
+    // return hasDefault;
   }
 
   loadData = () => {
@@ -145,7 +175,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     const handleClickCopyLink = async () => {
       try {
         const currentEnv = await workstation.environments.getCurrentEnvironment();
-        const appLink = currentEnv.url + "app/config/" + d.id;
+        const appLink = d.isDefault ? currentEnv.url + "app" : currentEnv.url + "app/config/" + d.id;
         copyToClipboard(appLink);
         message.success('The application link has been successfully copied!');
       } catch (e) {
@@ -154,7 +184,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     };
     const handleClickDownload = () => {
       const configId = d.id;
-      api.downloadSingleMobileConfig(configId).then(config => {
+      api.downloadSingleConfig(configId).then(config => {
         this.downloadJsonFile(config, configId);
       }).catch((e) => {
         const error = e as RestApiError;
@@ -318,8 +348,10 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
           isColumnConfigurable={true}
         />
       </div>
-    ) : (
-      <DisconnectedPage />
+    ) : (!this.state.isConnected ? <DisconnectedPage/> :
+          (!this.state.isLibraryVersionMatched ? <ServerIncompatiblePage needUpgradeLibraryServer={true}/> : 
+            (!this.state.isIServerVersionMatched ? <ServerIncompatiblePage needIServerUpgrade={true}/> : 
+              (!this.state.isMDVersionMatched ? <ServerIncompatiblePage needUpgradeMD={true}/> : <NoAccessPage />)))
     ) 
   }
 }
