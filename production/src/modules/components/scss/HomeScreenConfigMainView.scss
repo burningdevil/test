@@ -47,22 +47,47 @@
 }
 
 .ant-dropdown-menu {
-    padding: 0px !important;
+    padding: 5px 0px !important;
     .ant-dropdown-menu-item {
-        width: 160px !important;
+        width: 165px !important;
         background-color: white !important;
         font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif' !important;
         color: #35383A !important;
         font-size: 12px !important;
+        display: flex;
+        align-items: center;
+        padding: 5px 20px; 
+
+        .item-copy {
+            background: url("../images/copy.svg");
+            margin-right: 3px;
+            display: inline-block;
+            width: 16px;
+            height: 10px;
+            background-repeat: no-repeat;
+        }
+        .item-json {
+            background: url("../images/json.svg");
+            margin-right: 3px;
+            display: inline-block;
+            width: 16px;
+            height: 10px;
+            background-repeat: no-repeat;
+        }
     }
 
     .ant-dropdown-menu-item:hover {
         background-color: #3492ED !important;
         color: white !important;
-    }
 
-    .ant-dropdown-menu-item-divider {
-        margin: 0px;
+        .item-copy {
+            background: url("../images/copy_hover.svg");
+            background-repeat: no-repeat;
+        }
+        .item-json {
+            background: url("../images/json_hover.svg");
+            background-repeat: no-repeat;
+        }
     }
 }
 

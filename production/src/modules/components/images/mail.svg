@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="11px" height="9px" viewBox="0 0 11 9" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Shape</title>
+    <g id="Specs" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Flow-1-12" transform="translate(-309.000000, -223.000000)" fill="#000000" fill-rule="nonzero">
+            <g id="Group" transform="translate(293.000000, 168.000000)">
+                <path d="M25.375,55 L17.125,55 C16.525,55 16,55.525 16,56.125 L16,62.275 C16,62.875 16.525,63.4 17.125,63.4 L25.375,63.4 C25.975,63.4 26.5,62.875 26.5,62.275 L26.5,56.125 C26.5,55.525 25.975,55 25.375,55 Z M21.25,59.725 L17.2,55.75 L25.225,55.75 L21.25,59.725 Z M25.375,62.65 L17.125,62.65 C16.9,62.65 16.75,62.5 16.75,62.275 L16.75,56.35 L20.95,60.55 C21.025,60.625 21.1,60.625 21.25,60.625 C21.325,60.625 21.475,60.625 21.55,60.55 L25.75,56.275 L25.75,62.275 C25.75,62.5 25.6,62.65 25.375,62.65 Z" id="Shape"></path>
+            </g>
+        </g>
+    </g>
+</svg>
