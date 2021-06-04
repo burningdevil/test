@@ -69,7 +69,7 @@ export function HomeScreenBundleListDatasource(server: any) {
   }
   
 export function getHomeScreenBundleListGroupCellInnerRenderer() {
-    function HomeScreenBundleListGroupCellInnerRenderer() {}
+    function HomeScreenBundleListGroupCellInnerRenderer() { return '' };
     HomeScreenBundleListGroupCellInnerRenderer.prototype.init = function (params: any) {
       var tempDiv = document.createElement('div');
       if (params.node.group) {

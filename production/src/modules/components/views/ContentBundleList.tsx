@@ -15,7 +15,9 @@ import {
   GetContextMenuItemsParams,
   IServerSideGetRowsParams,
   CheckboxSelectionCallbackParams,
-  RowNode
+  RowNode,
+  GridOptions,
+  ServerSideStoreType,
 } from 'ag-grid-community'
 import 'ag-grid-enterprise';
 import 'ag-grid-community/dist/styles/ag-grid.css';
@@ -224,7 +226,7 @@ class ContentBundleList extends React.Component<any, any> {
     return params.node.group === true;
   }
 
-  gridOptions = {
+  gridOptions: GridOptions = {
     components: { bundleGroupCellInnerRenderer: getHomeScreenBundleListGroupCellInnerRenderer()},
     rowHeight: 35,
     headerHeight:35,
@@ -259,7 +261,7 @@ class ContentBundleList extends React.Component<any, any> {
     },
 
     rowModelType: 'serverSide',
-    serverSideStoreType: 'full',
+    serverSideStoreType: ServerSideStoreType.Full,
     suppressAggFuncInHeader: true,
     rowMultiSelectWithClick: true,
     rowSelection: 'multiple',

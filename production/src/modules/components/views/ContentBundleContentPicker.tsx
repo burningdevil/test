@@ -4,13 +4,14 @@ import { SearchInput } from '@mstr/rc';
 import { store } from '../../../main'
 import { Modal, Button, Menu } from 'antd';
 import * as _ from "lodash";
-import ClickParam from 'antd/lib/menu';
 import {AgGridReact} from 'ag-grid-react';
 import {
   GridReadyEvent,
   GetContextMenuItemsParams,
   IServerSideGetRowsParams,
-  SelectionChangedEvent
+  SelectionChangedEvent,
+  GridOptions,
+  ServerSideStoreType,
 } from 'ag-grid-community'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { connect } from 'react-redux';
@@ -159,12 +160,12 @@ class ContentBundleContentPicker extends React.Component<any, any> {
     }
   }
 
-  tabBarChanged = (param: ClickParam) => {
+  tabBarChanged = (param: any) => {
     this.setState({
       activeTab: param.key
     });
     activeTab = param.key;
-    this.gridOptions.api.refreshServerSideStore();
+    this.gridOptions.api.refreshServerSideStore({});
   }
 
   handleCancelAdd = () => {
@@ -253,7 +254,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
     });
   };
 
-  gridOptions = {
+  gridOptions: GridOptions = {
     rowHeight: 35,
     headerHeight:35,
     defaultColDef: {
@@ -268,7 +269,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
     onSelectionChanged: this.onSelectionChanged,
     onGridReady: this.onGridReady,
     rowModelType: 'serverSide',
-    serverSideStoreType: 'partial',
+    serverSideStoreType: ServerSideStoreType.Partial,
     
     getContextMenuItems: this.getContextMenuItems,
     columnDefs: [
@@ -293,7 +294,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
   };
 
   render() {
-    const { dossiers, documents, loadingData } = this.props;
+    const { loadingData } = this.props;
     
     return (
       <Modal
