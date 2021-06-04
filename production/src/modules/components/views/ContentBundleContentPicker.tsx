@@ -1,9 +1,8 @@
 import * as React from 'react'
 import '../scss/ContentBundleContentPicker.scss'
-import { ReactWindowGrid, SearchInput, SelectionStructure } from '@mstr/rc';
+import { SearchInput } from '@mstr/rc';
 import { store } from '../../../main'
-import { Modal, Button, Menu, Table } from 'antd';
-import { WorkstationModule } from '@mstr/workstation-types';
+import { Modal, Button, Menu } from 'antd';
 import * as _ from "lodash";
 import ClickParam from 'antd/lib/menu';
 import {AgGridReact} from 'ag-grid-react';
@@ -13,13 +12,12 @@ import {
   IServerSideGetRowsParams,
   SelectionChangedEvent
 } from 'ag-grid-community'
-import { RootState } from '../../../types/redux-state/HomeScreenConfigState';;
+import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { connect } from 'react-redux';
 import { selectAllDossiers, selectAllDocuments, selectIsLoadingDossiers, selectLoadingDossiersFinish } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as api from '../../../services/api';
 import { t } from '../../../i18n/i18next';
 
-declare var workstation: WorkstationModule;
 var currentOffset = 0;
 var activeTab = 'Dossier';
 var searchNameFilter = '';
@@ -36,10 +34,6 @@ class ContentBundleContentPicker extends React.Component<any, any> {
     this.state = {
       activeTab: 'Dossier',
       selectedObject: {},
-      // offset: 0,
-      // dossiers: [],
-      // documents: [],
-      // loadingData: true
     }
   }
 
@@ -83,7 +77,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                 results = isDossier ? _.orderBy(dossiers, [colId], [sort]): _.orderBy(documents, [colId], [sort]);
                 results = _.slice(results, startRow, lastRow);
                 results = results.map((content: any) => {
-                  return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});//certifiedWithIcon: this.geCertifiedIcon(content.certifiedInfo.certified), nameWithIcon: this.getContentIconWithName(content.name, activeTab)});
+                  return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});
                 });
                 params.successCallback(results, lastRow);
             } else {
@@ -94,7 +88,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                 results = isDossier ? _.orderBy(dossiers, [colId], [sort]): _.orderBy(documents, [colId], [sort]);
                 results = _.slice(results, startRow, lastRow);
                 results = results.map((content: any) => {
-                  return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});//certifiedWithIcon: this.geCertifiedIcon(content.certifiedInfo.certified), nameWithIcon: this.getContentIconWithName(content.name, activeTab)});
+                  return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});
                 });
                 params.successCallback(results, lastRow);
               });
@@ -105,7 +99,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
               lastRow = isDossier ? response.dossiers.length : response.documents.length;
               results = isDossier ? _.slice(response.dossiers, startRow, lastRow) : _.slice(response.documents, startRow, lastRow);
               results = results.map((content: any) => {
-                return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});//certifiedWithIcon: this.geCertifiedIcon(content.certifiedInfo.certified), nameWithIcon: this.getContentIconWithName(content.name, activeTab)});
+                return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});
               });
               params.successCallback(results, lastRow);
             });
@@ -115,7 +109,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
               lastRow = isDossier ? dossiers.length : documents.length;
               results = isDossier ? _.slice(dossiers, startRow, lastRow) : _.slice(documents, startRow, lastRow);
               results = results.map((content: any) => {
-                return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});//certifiedWithIcon: this.geCertifiedIcon(content.certifiedInfo.certified), nameWithIcon: this.getContentIconWithName(content.name, activeTab)});
+                return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});
               });
               params.successCallback(results, lastRow);
             } else {
@@ -123,7 +117,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
               if (endRow < currentLength) {
                 results = isDossier ? _.slice(dossiers, startRow, endRow) : _.slice(documents, startRow, endRow);
                 results = results.map((content: any) => {
-                  return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});//certifiedWithIcon: this.geCertifiedIcon(content.certifiedInfo.certified), nameWithIcon: this.getContentIconWithName(content.name, activeTab)});
+                  return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});
                 });
                 params.successCallback(results, lastRow);
               } else {
@@ -137,7 +131,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                         lastRow = isDossier ? dossiers.length : documents.length;
                         results = isDossier ? _.slice(dossiers, startRow, lastRow) : _.slice(documents, startRow, lastRow);
                         results = results.map((content: any) => {
-                          return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});//certifiedWithIcon: this.geCertifiedIcon(content.certifiedInfo.certified), nameWithIcon: this.getContentIconWithName(content.name, activeTab)});
+                          return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});
                         });
                         params.successCallback(results, lastRow);
                       } else {
@@ -145,7 +139,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                         if (loaded > expectedCount) {//loaded
                           results = isDossier ? _.slice(dossiers, startRow, endRow) : _.slice(documents, startRow, endRow);
                           results = results.map((content: any) => {
-                            return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});//certifiedWithIcon: this.geCertifiedIcon(content.certifiedInfo.certified), nameWithIcon: this.getContentIconWithName(content.name, activeTab)});
+                            return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});
                           });
                           params.successCallback(results, lastRow);
                         } else {//need to continue load
@@ -164,27 +158,6 @@ class ContentBundleContentPicker extends React.Component<any, any> {
        }
     }
   }
-
-  async componentDidMount() {
-    // api.loadAllDossierDocuments();
-    // this.loadData();
-  }
-
-  // loadData = async () => {
-  //   const response = await HttpProxy.get('/searches/results?pattern=4&type=14081&getAncestors=false&limit=-1&certifiedStatus=ALL').catch((e: any) => (console.log(e)));
-  //   let objectList = response;
-  //   if (response && response.data) {
-  //       objectList = response.data;
-  //   }
-
-  //   const dossiers = objectList.result.filter((o: { viewMedia: number; }) => {return isContentTypeDossier(o.viewMedia)});
-  //   const documents = objectList.result.filter((o: { viewMedia: number; }) => {return !isContentTypeDossier(o.viewMedia)});
-  //   this.setState({
-  //     loadingData: false,
-  //     dossiers,
-  //     documents
-  //   });
-  // }
 
   tabBarChanged = (param: ClickParam) => {
     this.setState({
@@ -233,72 +206,9 @@ class ContentBundleContentPicker extends React.Component<any, any> {
     );
   };
 
-  // geCertifiedIcon (isCertified: boolean) {
-  //   return isCertified ? <div className = "icon-certified"/> : '';
-  // }
-
-  // getContentIconWithName (name: string, type: string) {
-  //   const iconClass = type === 'Dossier' ? classNames(
-  //     'mstr-ws-iconset-objects',
-  //     'icon-content-dossier'
-  //   ) : classNames(
-  //     'mstr-ws-iconset-objects',
-  //     'icon-content-document'
-  //   );
-  //   return <div className = "content-bundle-content-picker-name"><span className={iconClass}/>{name}</div>;
-  // }
-
-   // rowSelection = {
-  //   onChange: (selectedRowKeys: string[] | number[], selectedRows:[] ) => {
-  //     console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-  //     this.handleSelectionChanged(selectedRows);
-  //   },
-  //   type:'radio'
-  // };
-
-  // renderVirtualList = () => {
-  //   const { visible, dossiers, documents } = this.props;
-  //   const contents = this.getGridContents(this.state.activeTab === 'Dossier' ? dossiers : documents, this.state.activeTab);
-  //   if (!contents) {
-  //     return null;
-  //   }
-  //   return (
-  //     <Grid
-  //       className="virtual-grid"
-  //       columnCount={5}
-  //       columnWidth={() => 104}
-  //       height={440}
-  //       rowCount={contents.length}
-  //       rowHeight={() => 54}
-  //       width={800}
-  //     >
-  //       {({ columnIndex, rowIndex, style }) => (
-  //         <div style={style}>
-  //           {contents[rowIndex]['nameWithIcon']}
-  //         </div>
-  //       )}
-  //     </Grid>
-  //   );
-  // };
-
   getGridContents = (contents: any[], activeTab: string) => {
-    // return [{
-    //   "name": "DE30028 HeatMap flash html5",
-    //   "id": "001808FB497F3C0256DB1B847AE4FA35",
-    //   "dateCreated": "2016-03-09T06:40:19.000+0000",
-    //   "dateModified": "2016-07-21T03:45:11.000+0000",
-    //   "acg": 199,
-    //   "owner": {
-    //     "name": "Wu, Qiong",
-    //     "id": "D595FF124C25A2C67E9C14A36C93BD5C"
-    //   },
-    //   "viewMedia": 134217845,
-    //   "certifiedInfo": {
-    //     "certified": false
-    //   }}];
-
       const newlist = contents.map((content) => {
-        return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: activeTab === 'Dossier'});//certifiedWithIcon: this.geCertifiedIcon(content.certifiedInfo.certified), nameWithIcon: this.getContentIconWithName(content.name, activeTab)});
+        return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: activeTab === 'Dossier'});
       });
       return newlist;
   }
@@ -310,15 +220,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
     if (selections && selections.length > 0) {
       this.handleSelectionChanged(selections[0]);
     }
-    //this.props.handleSelection(selections);
   }
-
-  // handleSelectObject = (event: MouseEvent, record: {}) => {
-  //   // console.log(event);
-  //   // console.log(record);
-  //   this.handleSelectionChanged(record);
-  //   //this.props.handleSelectedObjectChange(record);
-  // }
 
   handleSelectionChanged = (selection: {}) => {
     this.setState({
@@ -391,11 +293,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
   };
 
   render() {
-    // const getContextMenuItems = (selection: SelectionStructure, contextMenuTarget: Record): ContextMenuItem[] => {
-    //   return [];
-    // }
     const { dossiers, documents, loadingData } = this.props;
-    // const contents = this.getGridContents(this.state.activeTab === 'Dossier' ? dossiers : documents, this.state.activeTab);
     
     return (
       <Modal
@@ -446,7 +344,6 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                 <div id="myGrid" style={{ height: '100%', width: '100%'}} className="ag-theme-alpine">
                     <AgGridReact gridOptions={this.gridOptions}>
                     </AgGridReact>
-                    {/* <ReactWsGrid gridOptions={gridOptions} columnDefs={gridOptions.columnDefs}/> rowData = {contents} */}
                 </div>
               </div>
               </div>

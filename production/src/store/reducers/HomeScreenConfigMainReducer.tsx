@@ -1,6 +1,7 @@
 import { HomeScreenMainViewState } from '../../types/redux-state/HomeScreenConfigState'
 import { ActionTypes } from '../actions/ActionTypes'
 import * as Actions from '../actions/ActionConstants'
+import * as _ from 'lodash'
 
 const initialState: HomeScreenMainViewState = {
   configList: [],
@@ -8,7 +9,8 @@ const initialState: HomeScreenMainViewState = {
 }
 
 const HomeScreenConfigMainReducer = (state: HomeScreenMainViewState = initialState, action: ActionTypes) => {
-  const { type, data } = action
+  const { type } = action
+  const data = _.get(action, 'data')
 
   switch (type) {
     case Actions.LOAD_CONFIG_LIST_SUCCESS:

@@ -7,15 +7,12 @@ import { RadioChangeEvent } from 'antd/lib/radio';
 import * as _ from "lodash";
 import { HttpProxy } from '../../../main';
 import ContentBundleContentPicker from './ContentBundleContentPicker'
-import { WorkstationModule } from '@mstr/workstation-types';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import HomeScreenPreviewer from './HomeScreenPreviewer';
 import { default as VC } from '../HomeScreenConfigConstant';
 import { t } from '../../../i18n/i18next'
-
-declare var workstation: WorkstationModule;
 
 class HomeScreenHomeSetting extends React.Component<any, any> {
   constructor(props: any) {
@@ -55,47 +52,6 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
       this.loadData();
   }
 
-  /* --------------- Below used for select dossier in workstation native way -----------------------*/
-  // async componentDidMount() {
-  //     workstation.window.addHandler(WindowEvent.POSTMESSAGE, (message: any) => {
-  //       console.log(message);
-  //       const response = _.get(message, 'Message.selectedHomeScreenObject', '');
-  //       if (response) {
-  //           const name = response.name;
-  //           const id = response.projectId + '/' + response.id;
-  //           this.handleDossierChange(name, id);
-  //       }
-  //       return {
-  //           ResponseValue: true
-  //       };
-  //   });
-  // }
-
-  // openDossierPicker = async () => {
-  //   console.log("open dossier picker" + this.state.environmentURL);
-  //   const options: ObjectSelectorSettings = {
-  //     types: ['Dossier', 'Document'],
-  //     footerMessage: 'Select a dossier to be used as a home screen.',
-  //     excludedIds: []
-  //   }
-  //   const response = await workstation.dialogs.objectSelector(options).catch(e =>
-  //     workstation.dialogs.error({
-  //         message: 'Error open object editor.',
-  //         additionalInformation: JSON.stringify(e)
-  //     })
-  //   )
-  //   if (response) {
-  //     const selectedDossiers = _.get(response, 'selectedObjects', []);
-  //     if (selectedDossiers.length) {
-  //       const selectedDossier = selectedDossiers[0];
-  //       const name = selectedDossier.name;
-  //       const id = this.state.currentEnv.url + selectedDossier.projectId + '/' + selectedDossier.id;
-  //       this.handleDossierChange(name, id);
-  //     }
-  //   }
-  // }
-  /* --------------- Above used for select dossier in workstation native way -----------------------*/
-
   handleDismissAdd = () => {
     this.setState({
       showContentPicker: false
@@ -103,19 +59,6 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
   }
 
   openDossierPickerPlugin = async () => {
-    // console.log("open dossier picker plugin" + this.state.environmentURL);
-    // const objType = 'HomeScreenObject';
-    // let options: ObjectEditorSettings = {
-    //   objectType: objType,
-    //   environment: this.state.currentEnv
-    // }
-    
-    // workstation.dialogs.openObjectEditor(options).catch(e =>
-    //   workstation.dialogs.error({
-    //       message: 'Error open object editor.',
-    //       additionalInformation: JSON.stringify(e)
-    //   })
-    // )
     this.setState({
       showContentPicker: true
     });
