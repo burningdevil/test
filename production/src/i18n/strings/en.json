@@ -60,12 +60,20 @@
     "dossierWindowHome": "DOSSIER WINDOW (HOME)",
 
     "content": "Content",
+    "recipients": "Recipients",
     "addContent": "Add Content",
     "addContentBundlesBtn": "Add Content Bundles Button",
     "addContentBundles": "Add content bundles to this application",
     "selectContentBundles": "Select content bundles",
     "defaultGroupsSectionTitle": "Default Groups Section Title",
     "tipOfDefaultGroups": "Where it appears in Library",
+
+    "certified": "Certified",
+    "owner": "Owner",
+    "dateCreated": "Date Created",
+    "dateModified": "Date Modified",
+    "home": "Home",
+    "application": "Application",
 
     "preview": "Preview",
     "libraryWindowLowerCase": "Libary Window (Home)",
@@ -104,5 +112,10 @@
     "bundleUserHint": "All bundles users have access to will appear in the app.",
     "edit": "Edit",
     "delete": "Delete",
-    "duplicate": "Duplicate"
+    "duplicate": "Duplicate",
+
+    "recipentsStr": "{{groupsCount}} Groups and {{usersCount}} Users",
+    "recipentsStrOnlyGroups": "{{groupsCount}} Groups",
+    "recipentsStrOnlyUsers": "{{usersCount}} Users",
+    "selectDossierHint": "Select dossiers or documents to add"
 }

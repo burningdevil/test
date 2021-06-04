@@ -6,6 +6,7 @@ import { WorkstationModule } from '@mstr/workstation-types';
 import { HttpProxy } from '../../../main';
 import { Button } from 'antd';
 import { objectCountInBatch, navBar } from './HomeScreenObjectPicker'
+import { t } from '../../../i18n/i18next';
 
 declare var workstation: WorkstationModule;
 
@@ -117,27 +118,27 @@ export default class HomeScreenObjectList extends React.Component<any, any> {
           columnDef={[
             {
               field: 'name',
-              headerName: 'Name',
+              headerName: t('name'),
               sortable: true
             },
             {
               field: 'certified',
-              headerName: 'Certified',
+              headerName: t('certified'),
               sortable: true
             },
             {
               field: 'ownerName',
-              headerName: 'Owner',
+              headerName: t('owner'),
               sortable: true
             },
             {
               field: 'dateModified',
-              headerName: 'Date Modified',
+              headerName: t('dateModified'),
               sortable: true
             },
             {
               field: 'projectId',
-              headerName: 'Application',
+              headerName: t('application'),
               width: '20%',
               sortable: true
             }

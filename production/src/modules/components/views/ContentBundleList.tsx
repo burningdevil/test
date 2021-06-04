@@ -28,145 +28,6 @@ import Constatnt from '../HomeScreenConfigConstant'
 import * as api from '../../../services/api';
 import { t } from '../../../i18n/i18next';
 
-// const bundleList = {
-    //   contentBundles:
-    //   [{
-    //     "color": 100,
-    //     "opacity" : 100,
-    //     "emailEnabled": true,
-    //     "id": "37BE16A411D3E48C1000E787EC6DE8A4",
-    //     "name": "Content Bundle Name",
-    //     "dateCreated": "2001-01-02T20:49:47.000Z",
-    //     "dateModified": "2021-01-07T07:13:59.000Z",
-    //     "owner": {"id": "54F3D26011D2896560009A8E67019608","name": "xyz"},
-    //     "type": 77,
-    //     "recipients":
-    //     [
-    //         {
-    //             "id": "54F3D26011D2896560009A8E67019608",
-    //             "isGroup": true
-    //         },
-    //         {
-    //             "id": "CE132A8447058084F270F5ADA3ED0433",
-    //             "isGroup": false
-    //         }
-    //     ]
-    //   },
-    //   {
-    //     "color": 1000,
-    //     "opacity" : 100,
-    //     "emailEnabled": true,
-    //     "id": "37BE16A411D3E48C1000E787EC6DE8A5",
-    //     "name": "Content Bundle Name2",
-    //     "dateCreated": "2001-01-02T20:49:47.000Z",
-    //     "dateModified": "2021-01-07T07:13:59.000Z",
-    //     "owner": {"id": "54F3D26011D2896560009A8E67019608","name": "xyz"},
-    //     "type": 77,
-    //     "recipients":
-    //     [
-    //         {
-    //             "id": "54F3D26011D2896560009A8E67019608",
-    //             "isGroup": true
-    //         },
-    //         {
-    //             "id": "CE132A8447058084F270F5ADA3ED0433",
-    //             "isGroup": false
-    //         }
-    //     ]
-    //   },
-    //   {
-    //     "color": 1000,
-    //     "opacity" : 100,
-    //     "emailEnabled": true,
-    //     "id": "37BE16A411D3E48C1000E787EC6DE8A6",
-    //     "name": "Content Bundle Name3",
-    //     "dateCreated": "2001-01-02T20:49:47.000Z",
-    //     "dateModified": "2021-01-07T07:13:59.000Z",
-    //     "owner": {"id": "54F3D26011D2896560009A8E67019608","name": "xyz"},
-    //     "type": 77,
-    //     "recipients":
-    //     [
-    //         {
-    //             "id": "54F3D26011D2896560009A8E67019608",
-    //             "isGroup": true
-    //         },
-    //         {
-    //             "id": "CE132A8447058084F270F5ADA3ED0433",
-    //             "isGroup": false
-    //         }
-    //     ]
-    //   },
-    //   {
-    //     "color": 1000,
-    //     "opacity" : 100,
-    //     "emailEnabled": true,
-    //     "id": "37BE16A411D3E48C1000E787EC6DE8A7",
-    //     "name": "Content Bundle Name4",
-    //     "dateCreated": "2001-01-02T20:49:47.000Z",
-    //     "dateModified": "2021-01-07T07:13:59.000Z",
-    //     "owner": {"id": "54F3D26011D2896560009A8E67019608","name": "xyz"},
-    //     "type": 77,
-    //     "recipients":
-    //     [
-    //         {
-    //             "id": "54F3D26011D2896560009A8E67019608",
-    //             "isGroup": true
-    //         },
-    //         {
-    //             "id": "CE132A8447058084F270F5ADA3ED0433",
-    //             "isGroup": false
-    //         }
-    //     ]
-    //   }
-    //   ]
-    // };
-
-    // let contents = {
-    //   "DED77D324ED01C5DC719AB884D1756C3":
-    //   [
-    //       {
-    //           "id": "46A61F2345F765F0836036B63240A0B9",
-    //           "projectId": "DED77D324ED01C5DC719AB884D1756C3",
-    //           "name": "dname1",
-    //           "type": 55,
-    //           "viewMedia": 1879072805,
-    //           "dateModified": "2021-01-07T07:13:59.000Z",
-    //           "owner": {"name": "xyz", "id":"54F3D26011D2896560009A8E67019608"},
-    //           "isCertified": true
-    //       },
-    //       {
-    //           "id": "46A61F2345F765F0836036B63240A0B1",
-    //           "projectId": "DED77D324ED01C5DC719AB884D1756C3",
-    //           "name": "dname1",
-    //           "type": 55,
-    //           "viewMedia": 1879072805,
-    //           "dateModified": "2021-01-07T07:13:59.000Z",
-    //           "owner": {"name": "xyz", "id":"54F3D26011D2896560009A8E67019608"},
-    //           "isCertified": true
-    //       },
-    //       {
-    //           "id": "46A61F2345F765F0836036B63240A0B2",
-    //           "projectId": "DED77D324ED01C5DC719AB884D1756C3",
-    //           "name": "dname1",
-    //           "type": 55,
-    //           "viewMedia": 1879072805,
-    //           "dateModified": "2021-01-07T07:13:59.000Z",
-    //           "owner": {"name": "xyz", "id":"54F3D26011D2896560009A8E67019608"},
-    //           "isCertified": true
-    //       },
-    //       {
-    //           "id": "46A61F2345F765F0836036B63240A0BA",
-    //           "projectId": "DED77D324ED01C5DC719AB884D1756C3",
-    //           "name": "dname2",
-    //           "type": 55,
-    //           "viewMedia": 1879072805,
-    //           "dateModified": "2021-01-07T09:13:59.000Z",
-    //           "owner": {"name": "xyz", "id":"54F3D26011D2896560009A8E67019608"},
-    //           "isCertified": false
-    //       }
-    //   ]
-    // };
-
 declare var workstation: WorkstationModule;
 var searchName = '';
 
@@ -293,15 +154,17 @@ class ContentBundleList extends React.Component<any, any> {
       const totalCount = recipients.length;
       const groups = recipients.filter(user => (user.group));
       let mode = BundleRecipientType.BOTH;
-      let recipientsStr = groups.length + ' Groups and ' + (totalCount - groups.length) + ' Users';
+      const groupsCount = groups.length
+      const usersCount = totalCount - groupsCount
+      let recipientsStr = t('recipentsStr', {groupsCount, usersCount});
       if (groups.length === 0 && totalCount - groups.length === 0) {
          recipientsStr = '';
          mode = BundleRecipientType.NONE;
       } else if (groups.length === 0 && totalCount - groups.length > 0) {
-        recipientsStr = (totalCount - groups.length) + ' Users';
+        recipientsStr = t('recipentsStrOnlyUsers', {usersCount});
         mode = BundleRecipientType.USER;
       } else if (groups.length > 0 && totalCount - groups.length === 0) {
-        recipientsStr = groups.length + ' Groups';
+        recipientsStr = t('recipentsStrOnlyGroups', {groupsCount});
         mode = BundleRecipientType.GROUP;
       }
       return _.assign(bundle, {recipientType: mode, expand: true, recipientStr: recipientsStr});
@@ -394,7 +257,7 @@ class ContentBundleList extends React.Component<any, any> {
       flex: 1,
       minWidth: 280,
       field: 'name',
-      headerName: 'Content',
+      headerName: t('content'),
       checkboxSelection: this.getCheckboxEnabled,
       cellRenderer: "agGroupCellRenderer",
       cellRendererParams: {
@@ -431,7 +294,7 @@ class ContentBundleList extends React.Component<any, any> {
   
     columnDefs: [
         {field: 'name', rowGroup: true, hide: true},
-        {field: 'recipientStr', headerName: 'Recipients', cellRenderer: (params: any) => {
+        {field: 'recipientStr', headerName: t('recipients'), cellRenderer: (params: any) => {
           if (params.node.group) {
             if (params.node.data.recipientType === BundleRecipientType.GROUP) {
               return '<img class="content-bundle-list-container-item-group" src="../assets/images/bundleUserGroup.png"/><span style="color: #35383a;; padding: 4px; font-size: 12px">' + params.value + '</span>';
@@ -621,6 +484,7 @@ class ContentBundleList extends React.Component<any, any> {
     //     }
     //   ];
     // };
+    const containerHeight = this.props.allowDelete ? 'calc(100% - 60px)' : '100%'
     return (
       <div className="content-bundle-list-container" style={{ height: '100%'}}>
         {this.props.allowDelete && this.renderChangeNameField()}
@@ -633,7 +497,7 @@ class ContentBundleList extends React.Component<any, any> {
             {this.renderAddContent()}
           </div>
         }
-        <div style={{ width: '100%', height: 'calc(100% - 60px)', position: 'relative' }}>
+        <div style={{ width: '100%', height: containerHeight, position: 'relative' }}>
           <div id="myGrid" style={{ height: '100%', width: '100%'}} className="ag-theme-alpine">
               <AgGridReact gridOptions={this.gridOptions}>
               </AgGridReact>

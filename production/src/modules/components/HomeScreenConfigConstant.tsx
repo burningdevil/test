@@ -109,6 +109,7 @@ export const CONSTANTS = {
     FONT_PREVIEWTOC: 'icon-tb_undoarrow',
     FONT_PREVIEWOPTIONS: 'icon-user-profile',
     FONT_FULLSCREEN: 'icon-fullscreen',
+    FONT_LIBRARY_MOBILE: 'icon-tb_appicon',
 }
 
 export const reviewType = {
@@ -186,15 +187,16 @@ export const iconTypes = {
     
     //// for preview. Localization not needed.
     // home button
-    home: {displayText: 'Home', iconName: CONSTANTS.FONT_HOME, key: CONSTANTS.ICON_HOME},
+    home: {displayText: t('home'), iconName: CONSTANTS.FONT_HOME, key: CONSTANTS.ICON_HOME},
     // stands for 'sidebar' in library
-    previewSidebar: {displayText: 'Sidebar', iconName: CONSTANTS.FONT_PREVIEWSIDEBAR, key: CONSTANTS.ICON_SIDEBAR},
+    previewSidebar: {displayText: t('sidebar'), iconName: CONSTANTS.FONT_PREVIEWSIDEBAR, key: CONSTANTS.ICON_SIDEBAR},
     // stands for 'library' in dossier
-    previewLibrary: {displayText: 'Home', iconName: CONSTANTS.FONT_PREVIEWSIDEBAR, key: CONSTANTS.ICON_HOME}, 
+    previewLibraryWeb: {displayText: t('home'), iconName: CONSTANTS.FONT_PREVIEWSIDEBAR, key: CONSTANTS.ICON_HOME},
+    previewLibraryMobile: {displayText: t('home'), iconName: CONSTANTS.FONT_LIBRARY_MOBILE, key: CONSTANTS.ICON_HOME},
     // mobile sidebar
-    previewSidebarMobile: {displayText: 'Sidebar', iconName: CONSTANTS.FONT_PREVIEWSIDEBAR_MOBILE, key: CONSTANTS.ICON_SIDEBAR},
-    previewAccountMobile: {displayText: 'Account', iconName: CONSTANTS.FONT_PREVIEWOPTIONS, key: CONSTANTS.ICON_OPTIONS+'_mobile'},
-    previewTocPhone: {displayText: 'Table of Contents', iconName: CONSTANTS.FONT_PREVIEWTOC, key: CONSTANTS.ICON_TOCS},
+    previewSidebarMobile: {displayText: t('sidebar'), iconName: CONSTANTS.FONT_PREVIEWSIDEBAR_MOBILE, key: CONSTANTS.ICON_SIDEBAR},
+    previewAccountMobile: {displayText: t('account'), iconName: CONSTANTS.FONT_PREVIEWOPTIONS, key: CONSTANTS.ICON_OPTIONS+'_mobile'},
+    previewTocPhone: {displayText: t('toc'), iconName: CONSTANTS.FONT_PREVIEWTOC, key: CONSTANTS.ICON_TOCS},
     previewFullScreen: {displayText: 'Full Screen', iconName: CONSTANTS.FONT_FULLSCREEN, key: CONSTANTS.ICON_FULL_SCREEN},
 }
 
