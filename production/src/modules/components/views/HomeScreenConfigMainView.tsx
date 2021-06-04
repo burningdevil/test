@@ -288,7 +288,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
               field: 'name',
               headerName: t('name'),
               sortable: true,
-              width: '10%',
+              width: '20%',
               render: (d: Record) => {
                 return (
                   <div className='Application-Name-Container'>
@@ -313,7 +313,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
             {
               field: 'contentBundles',
               headerName: t('contentBundles'),
-              sortable: true,
+              sortable: false,
               width: '30%',
               render: (d: Record) => {
                 if (d.contentBundles.length === 0) {

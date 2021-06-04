@@ -56,7 +56,7 @@
         font-size: 12px !important;
         display: flex;
         align-items: center;
-        padding: 5px 20px; 
+        padding: 5px 18px; 
 
         .item-copy {
             background: url("../images/copy.svg");
@@ -112,6 +112,10 @@
 }
 
 .mstr-window-table-body {
+    min-height: 708px;
+}
+
+.mstr-rc-no-data-screen {
     min-height: 708px;
 }
 
