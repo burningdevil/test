@@ -19,7 +19,6 @@ import DisconnectedPage from './error-pages/DisconnectedPage';
 import ServerIncompatiblePage from './error-pages/ServerIncompatiblePage';
 import NoAccessPage from './error-pages/NoAccessPage';
 import { isLibraryServerVersionMatch, isIServerVersionMatch, isUserHasManageApplicationPrivilege, DEFAULT_CONFIG_ID } from '../../../utils';
-import { ReactComponent as copyIcon } from '../images/copy.svg';
 import classNames from 'classnames';
 import { t } from '../../../i18n/i18next';
 
@@ -289,7 +288,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
               field: 'name',
               headerName: t('name'),
               sortable: true,
-              width: '10%',
+              width: '20%',
               render: (d: Record) => {
                 return (
                   <div className='Application-Name-Container'>
@@ -314,7 +313,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
             {
               field: 'contentBundles',
               headerName: t('contentBundles'),
-              sortable: true,
+              sortable: false,
               width: '30%',
               render: (d: Record) => {
                 if (d.contentBundles.length === 0) {
