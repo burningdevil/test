@@ -4,10 +4,15 @@ import * as ActionsCreator from '../store/actions/ActionsCreator';
 import { isContentTypeDossier } from '../modules/components/views/HomeScreenUtils'
 import * as _ from 'lodash';
 
-const CONFIG_ENDPOINTS = '/mstrClients/libraryApplications/configs';
+const CONFIG_ENDPOINTS = '/mstrClients/libraryApplications/configs/';
 
-export const downloadSingleMobileConfig = async (configID: string) => {
-    const response = await HttpProxy.get(CONFIG_ENDPOINTS + '/' + configID).then((res: { data: JSON }) => res.data);
+export const getServerStatus = async () => {
+    const response = await HttpProxy.get('/status');
+    return response
+}
+
+export const downloadSingleConfig = async (configID: string) => {
+    const response = await HttpProxy.get(CONFIG_ENDPOINTS + configID).then((res: { data: JSON }) => res.data);
     return response
 }
 
@@ -32,7 +37,7 @@ export const loadContentBundleList = () => {
 }
 
 export const loadCurrentEditConfig = (configId: string) => {
-    HttpProxy.get('/mstrClients/libraryApplications/configs/' + configId).then((response: any) => {
+    HttpProxy.get(CONFIG_ENDPOINTS + configId).then((response: any) => {
         let data = response;
         if (data && response.data) {
           data = response.data;

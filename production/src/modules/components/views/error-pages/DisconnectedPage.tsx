@@ -1,5 +1,5 @@
 import React from 'react'
-import './style/index.scss'
+import './style/DisconnectedPage.scss'
 
 export const DisconnectedPage: React.FunctionComponent = () => {
   return (
