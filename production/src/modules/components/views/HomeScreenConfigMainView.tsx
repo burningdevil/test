@@ -19,8 +19,9 @@ import DisconnectedPage from './error-pages/DisconnectedPage';
 import ServerIncompatiblePage from './error-pages/ServerIncompatiblePage';
 import NoAccessPage from './error-pages/NoAccessPage';
 import { isLibraryServerVersionMatch, isIServerVersionMatch, isUserHasManageApplicationPrivilege, DEFAULT_CONFIG_ID } from '../../../utils';
+import { ReactComponent as copyIcon } from '../images/copy.svg';
 import classNames from 'classnames';
-import { t } from '../../../i18n/i18next'
+import { t } from '../../../i18n/i18next';
 
 
 declare var workstation: WorkstationModule;
@@ -175,7 +176,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     const handleClickCopyLink = async () => {
       try {
         const currentEnv = await workstation.environments.getCurrentEnvironment();
-        const appLink = d.isDefault ? currentEnv.url + "app" : currentEnv.url + "app/config/" + d.id;
+        const appLink = d.default ? currentEnv.url + "app" : currentEnv.url + "app/config/" + d.id;
         copyToClipboard(appLink);
         message.success('The application link has been successfully copied!');
       } catch (e) {
@@ -196,14 +197,15 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         }
       });
     };
-
+    const copyIcon = require('../images/copy.svg');
     const menu = (
       <Menu>
         <Menu.Item key="0" onClick={handleClickCopyLink}>
-          {t('copyLink')} 
+          <span className="item-copy"/>
+          {t('copyLink')}
         </Menu.Item>
-        <Menu.Divider/>
         <Menu.Item key="1" onClick={handleClickDownload}>
+          <span className="item-json"/>
           {t('downloadJson')}
         </Menu.Item>
       </Menu>
