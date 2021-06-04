@@ -114,8 +114,12 @@
     "delete": "Delete",
     "duplicate": "Duplicate",
 
-    "recipentsStr": "{{groupsCount}} Groups and {{usersCount}} Users",
-    "recipentsStrOnlyGroups": "{{groupsCount}} Groups",
-    "recipentsStrOnlyUsers": "{{usersCount}} Users",
+    "recipentsStr": "$t(groupsCount, {\"count\": {{groupsCount}} }) and $t(usersCount, {\"count\": {{usersCount}} })",
+    "recipentsStrOnlyGroups": "$t(groupsCount, {\"count\": {{groupsCount}} })",
+    "recipentsStrOnlyUsers": "$t(usersCount, {\"count\": {{usersCount}} })",
+    "groupsCount": "{{count}} Group",
+    "groupsCount_plural": "{{count}} Groups",
+    "usersCount": "{{count}} User",
+    "usersCount_plural": "{{count}} Users",
     "selectDossierHint": "Select dossiers or documents to add"
 }
