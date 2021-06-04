@@ -8,7 +8,7 @@ import { HttpProxy } from '../../../main';
 import {AgGridReact} from 'ag-grid-react';
 import { BundleInfo, iconTypes } from '../HomeScreenConfigConstant'
 import { PlusCircleOutlined, DownOutlined, FallOutlined } from '@ant-design/icons'
-import { hexIntToColorStr, BundleRecipientType, HomeScreenBundleListDatasource, getHomeScreenBundleListGroupCellInnerRenderer } from './HomeScreenUtils'
+import { BundleRecipientType, HomeScreenBundleListDatasource, getHomeScreenBundleListGroupCellInnerRenderer } from './HomeScreenUtils'
 import {
   GridReadyEvent,
   SelectionChangedEvent,
@@ -115,21 +115,7 @@ class ContentBundleList extends React.Component<any, any> {
     this.setState({
       currentEnv: currentEnv
     });
-    
   }
-
-  // loadData = async () => {
-  //   const response = await HttpProxy.get('/contentBundles').catch((e: any) => (console.log(e)));
-  //   let bundleList = response;
-  //   if (response && response.data) {
-  //     bundleList = response.data;
-  //   }
-  //   var bundles = bundleList.contentBundles;
-  //   this.setState({
-  //     allBundleList: bundles
-  //   });
-  //   this.processBundleList(bundles, this.props.includedIds, this.props.excludedIds);
-  // }
 
   processBundleList(bundles: BundleInfo[], includedIds:[], excludedIds:[]) {
     if (includedIds && this.props.allowDelete) {
@@ -145,9 +131,6 @@ class ContentBundleList extends React.Component<any, any> {
           return bundle;
         }});
     }
-    // bundles = bundles.map((bundle) => {
-    //   return _.assign(bundle, {nameWithIcon: this.getBundleIconWithNameColor(bundle.name, bundle.color)});
-    // });
 
     bundles = bundles.map((bundle) => {
       const recipients = bundle.recipients;
@@ -298,13 +281,10 @@ class ContentBundleList extends React.Component<any, any> {
           if (params.node.group) {
             if (params.node.data.recipientType === BundleRecipientType.GROUP) {
               return '<img class="content-bundle-list-container-item-group" src="../assets/images/bundleUserGroup.png"/><span style="color: #35383a;; padding: 4px; font-size: 12px">' + params.value + '</span>';
-              // return `<span class="icon-group2" style="color: #3492ed; font-size: 11px" /><span style="color: #35383a;; padding: 8px; font-size: 12px">${params.value}</span>`;
             } else if (params.node.data.recipientType === BundleRecipientType.USER) {
               return '<img class="content-bundle-list-container-item-user" src="../assets/images/bundleUser.png"/><span style="color: #35383a; padding: 4px; font-size: 12px">' + params.value + '</span>';
-              // return `<span class="icon-user-profile" style="color: #3492ed; font-size: 14px" /><span style="color: #35383a; padding: 6px; font-size: 12px">${params.value}</span>`;
             } else if (params.node.data.recipientType === BundleRecipientType.BOTH) {
               return '<img class="content-bundle-list-container-item-user" src="../assets/images/bundleUser.png"/><img class="content-bundle-list-container-item-group2" src="../assets/images/bundleUserGroup.png"/><span style="color: #35383a; padding: 4px; font-size: 12px">' + params.value + '</span>';
-              // return `<span class="icon-user-profile" style="color: #3492ed; font-size: 14px" /><span class="icon-user-profile" style="color: #3492ed; font-size: 14px" /><span style="color: #35383a; padding: 6px; font-size: 12px">${params.value}</span>`;
             } else {
               return '';
             }
@@ -348,30 +328,6 @@ class ContentBundleList extends React.Component<any, any> {
     update = {[Constatnt.HOME_SCREEN]: update}
     this.props.updateCurrentConfig(update)
   }
-
-  // getBundleIconWithNameColor = (name: string, color: number) => {
-  //   const iconClass = classNames(
-  //     'mstr-ws-icons-copy',
-  //     'icon-bundle-group' 
-  //   );
-  //   return <div className = "content-bundle-list-name-icon"><span className={iconClass} color={color.toString()}/>{name}</div>;
-  // }
-
-  // getUserIconWithNameColor = (name: string) => {
-  //   const iconClass = classNames(
-  //     'mstr-ws-icons-copy',
-  //     'icon-user-group'
-  //   );
-  //   return <div className = "content-bundle-list-user-icon"><span className={iconClass}/>{name}</div>;
-  // }
-
-  // handleSelectionChange = (selection: {}) => {
-  //   console.log("test");
-  //   console.log(selection);
-  //   const selections = _.values(selection);
-  //   console.log(selections);
-  //   this.props.handleSelection(selections);
-  // }
 
   renderPopoverContent = () => {
       const title = <div> {t('tipOfDefaultGroups')} </div>
@@ -467,23 +423,6 @@ class ContentBundleList extends React.Component<any, any> {
   }
 
   render() {
-    // const getContextMenuItems1 = (selection: SelectionStructure, contextMenuTarget: Record): ContextMenuItem[] => {
-    //   if (!this.props.allowDelete) {
-    //     return [];
-    //   }
-    //   const handleClickDelete = () => {
-    //     console.log(selection);
-    //     console.log(contextMenuTarget);
-    //     const selections = _.values(selection);
-    //     this.props.handleDeletion(selections);
-    //   };
-    //   return [
-    //     {
-    //       "name": "Delete",
-    //       "action": handleClickDelete,
-    //     }
-    //   ];
-    // };
     const containerHeight = this.props.allowDelete ? 'calc(100% - 60px)' : '100%'
     return (
       <div className="content-bundle-list-container" style={{ height: '100%'}}>
@@ -506,27 +445,6 @@ class ContentBundleList extends React.Component<any, any> {
           </div>
         </div>
         <ContentBundlePicker handleClose={this.handleClosePicker} visible={this.state.showBundlePicker} handleBundlesAdd={this.handleNewBundlesAdded}/>
-        {/* <ReactWindowGrid
-          columnDef={[
-            {
-              field: 'nameWithIcon',
-              headerName: 'Content',
-              sortable: false,
-              width: '65%'
-            },
-            {
-              field: 'userWithIcon',
-              headerName: 'Recipients',
-              width: '35%',
-              sortable: false
-            }
-          ]}
-          rowData={this.state.currentBundleList}
-          isColumnConfigurable={false}
-          onSelectionChanged={this.handleSelectionChange}
-          rowSelectable
-          getContextMenuItems={getContextMenuItems}
-        /> */}
       </div>
     )
   }

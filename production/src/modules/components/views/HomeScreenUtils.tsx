@@ -1,7 +1,5 @@
 import * as _ from "lodash";
 import { IServerSideGetRowsParams } from 'ag-grid-community'
-import { BundleInfo } from '../HomeScreenConfigConstant'
-import { HttpProxy } from '../../../main';
 
 const EnumDSSXMLViewMedia = {
     DssXmlViewMediaViewStatic: 0x00000001,

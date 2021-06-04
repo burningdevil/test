@@ -61,7 +61,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
             title: "",
             key: "displayText",
             dataIndex: "displayText",
-            align: "left",
+            align: "left" as const,
             render: (icon: [string, string]) => {
                 return (
                     !iconExpandable(icon[1]) &&
@@ -76,7 +76,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
             title: "",
             key: "selected",
             dataIndex: "selected",
-            align: "right",
+            align: "right" as const,
             render: (selectedInfo: [boolean, string]) => {
                 return (
                     < Switch checked={selectedInfo[0]} onChange={
@@ -275,16 +275,6 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                             { this.renderTable(dossierIcons) }
                         </div>
                     }
-                    
-                    {/* {
-                        // conditional render platform specified icons
-                        this.state.extraIcons.length > 0 && <div className="home-screen-components-icons">
-                            {localizedString.PLATFORM_SPECIFIC}
-                            {
-                                this.renderTable(this.state.extraIcons)
-                            }
-                        </div>
-                    } */}
                     </div>
                 </Layout.Content>
                 {/* previewer */}

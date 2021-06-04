@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import './style/index.scss'
 
 export const DisconnectedPage: React.FunctionComponent = () => {

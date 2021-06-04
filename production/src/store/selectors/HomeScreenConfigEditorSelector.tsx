@@ -1,6 +1,5 @@
 import * as _ from 'lodash'
 import { createSelector } from 'reselect'
-import { t } from '../../../src/i18n/i18next'
 import CONSTANTS from '../../modules/components/HomeScreenConfigConstant'
 
 import { RootState } from '../../types/redux-state/HomeScreenConfigState'

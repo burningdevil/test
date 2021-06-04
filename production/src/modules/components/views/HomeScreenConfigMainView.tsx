@@ -2,7 +2,6 @@ import * as React from 'react';
 import { connect } from 'react-redux'
 import '../scss/HomeScreenConfigMainView.scss';
 import { message, Menu, Dropdown } from 'antd';
-import FileSaver from 'file-saver';
 import { copyToClipboard } from '../../../utils/copy';
 import { ReactWindowGrid } from '@mstr/rc';
 import { SelectionStructure, Record } from '@mstr/rc/types';
@@ -16,7 +15,7 @@ import * as api from '../../../services/api';
 import * as _ from "lodash";
 import { hexIntToColorStr } from './HomeScreenUtils';
 import DisconnectedPage from './disconnected-page';
-import classNames from 'classnames';
+import classNames from 'classNames';
 import { t } from '../../../i18n/i18next'
 
 
@@ -135,6 +134,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
   }
 
   downloadJsonFile = async (configJson: JSON, configId: string) => {
+    var FileSaver = require('file-saver');
     let blob = new Blob(
         [decodeURIComponent(encodeURI(JSON.stringify(configJson)))],
         { type: 'application/json;charset=utf-8;' });

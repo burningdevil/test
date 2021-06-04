@@ -1,13 +1,10 @@
 import * as React from 'react'
 import '../scss/ContentBundlePicker.scss'
-import { ReactWindowGrid, SearchInput, SelectionStructure } from '@mstr/rc';
-import { Modal, Button, Menu, Table } from 'antd';
-import { WorkstationModule } from '@mstr/workstation-types';
+import { SearchInput } from '@mstr/rc';
+import { Modal, Button, Menu } from 'antd';
 import * as _ from "lodash";
 import ContentBundleList from './ContentBundleList';
 import { t } from '../../../i18n/i18next'
-
-declare var workstation: WorkstationModule;
 
 const popoverGeneral = {
   width: 900,
@@ -52,8 +49,6 @@ export default class ContentBundlePicker extends React.Component<any, any> {
   }
 
   handleSaveAdd = () => {
-    // const {id, projectId, name} = this.state.selectedObject;
-    // this.props.handleChange(name, projectId +'/' + id);
     this.props.handleBundlesAdd(this.state.selectedBundles)
     this.handleSelectionChanged([]);
     this.props.handleClose();
