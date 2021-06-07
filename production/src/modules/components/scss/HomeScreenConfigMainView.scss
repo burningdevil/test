@@ -1,22 +1,10 @@
 @import '~@mstr/rc/es/assets/scss/variables.scss';
 
 .home-screen-main {
+    height: 100%;
     font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';
     color: #35383A;
     font-size: 12px;
-
-    .new-application-container {
-        display: flex;
-        align-items: center;
-        padding-bottom: 10px;
-        padding-top: 5px;
-    }
-
-    .icon-pnl_add-new {
-        margin-right: 3px;
-        margin-left: 15px;
-        cursor: pointer;
-    }
 
     .mstr-window-table-row {
         .icon-tb_share_n {
@@ -44,6 +32,19 @@
     .application-share-menu-container {
         padding: 0px;
     }
+}
+
+.new-application-container {
+    display: flex;
+    align-items: center;
+    padding-bottom: 10px;
+    padding-top: 5px;
+}
+
+.icon-pnl_add-new {
+    margin-right: 3px;
+    margin-left: 15px;
+    cursor: pointer;
 }
 
 .ant-dropdown-menu {
