@@ -41,15 +41,6 @@
           "canExecute": "isHomeScreenConfigEnabled"
         },
         {
-          "key": "selectHomeScreenObject",
-          "displayName": "Select Object",
-          "command": "openObjectPicker",
-          "icon": "Applications.png",
-          "windowKey": "homescreenObjectPicker",
-          "isVisible": "isHomeScreenConfigEnabled",
-          "canExecute": "isHomeScreenConfigEnabled"
-        },
-        {
           "key": "selectHomeScreenContentBundle",
           "displayName": "Select Content Bundle",
           "command": "openContentBundlePicker",
@@ -72,11 +63,6 @@
         "editorTypes": ["Create"]
       },
       {
-        "objectType": "HomeScreenObject",
-        "item": "selectHomeScreenObject",
-        "editorTypes": ["Create"]
-      },
-      {
         "objectType": "ContentBundleObject",
         "item": "selectHomeScreenContentBundle",
         "editorTypes": ["Create"]
@@ -85,16 +71,6 @@
     "windows": [
       {
         "key": "homescreenConfigEditor",
-        "showMenus": false,
-        "size": {
-          "minimumHeight": 708,
-          "minimumWidth": 962,
-          "initialHeight": 708,
-          "initialWidth": 962
-        }
-      },
-      {
-        "key": "homescreenObjectPicker",
         "showMenus": false,
         "size": {
           "minimumHeight": 708,

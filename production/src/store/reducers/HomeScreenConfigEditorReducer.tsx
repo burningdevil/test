@@ -9,6 +9,7 @@ const initialState: HomeScreenConfigEditorState = {
     'name': '',
     'description': '',
     'platform': [platformType.mobile, platformType.web, platformType.desktop],
+    'default': false,
     'homeScreen': {
       mode: CONSTANTS.MODE_USE_DEFAULT_HOME_SCREEN, 
       homeLibrary: { 
@@ -17,11 +18,13 @@ const initialState: HomeScreenConfigEditorState = {
         contentBundleIds: [],
         defaultGroupsName: '',
         toolbarMode: CONSTANTS.SHOW_TOOLBAR,
+        toolbarDisabled: false,
       }, 
       homeDocument: {
         url: "", 
         icons: dossierIconKeys.map((key) => iconValidKey(key)), 
         toolbarMode: CONSTANTS.SHOW_TOOLBAR,
+        toolbarDisabled: false,
       }
     },
     'general': {

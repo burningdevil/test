@@ -207,9 +207,9 @@ class ContentBundleContentPicker extends React.Component<any, any> {
     );
   };
 
-  getGridContents = (contents: any[], activeTab: string) => {
+  getGridContents = (contents: any[], activeTabStr: string) => {
       const newlist = contents.map((content) => {
-        return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: activeTab === 'Dossier'});
+        return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: activeTabStr === 'Dossier'});
       });
       return newlist;
   }

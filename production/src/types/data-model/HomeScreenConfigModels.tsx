@@ -20,6 +20,7 @@ export interface HomeScreenEditConfigType {
     'id': string,
     'name': string,
     'description': string,
+    'default': boolean,
     'platform': Array<string>,
     'lastUpdate': number,
     'homeScreen': {
@@ -30,11 +31,13 @@ export interface HomeScreenEditConfigType {
             contentBundleIds: Array<string>,
             defaultGroupsName: string,
             toolbarMode: number,
+            toolbarDisabled: boolean,
         }, 
         homeDocument: {
             url: string,
             icons: Array<string>,
             toolbarMode: number,
+            toolbarDisabled: boolean,
         }
     },
     'general': {
