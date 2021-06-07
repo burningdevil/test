@@ -20,6 +20,7 @@ export interface HomeScreenEditConfigType {
     'id': string,
     'name': string,
     'description': string,
+    'default': boolean,
     'platform': Array<string>,
     'lastUpdate': number,
     'homeScreen': {

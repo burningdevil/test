@@ -109,7 +109,6 @@ class ContentBundleList extends React.Component<any, any> {
   };
 
   async componentDidMount() {
-    // this.loadData();
     api.loadContentBundleList();
     this.processBundleList(this.props.allBundleList, this.props.includedIds, this.props.excludedIds);
     const currentEnv = await workstation.environments.getCurrentEnvironment();

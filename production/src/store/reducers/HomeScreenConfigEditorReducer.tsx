@@ -9,6 +9,7 @@ const initialState: HomeScreenConfigEditorState = {
     'name': '',
     'description': '',
     'platform': [platformType.mobile, platformType.web, platformType.desktop],
+    'default': false,
     'homeScreen': {
       mode: CONSTANTS.MODE_USE_DEFAULT_HOME_SCREEN, 
       homeLibrary: { 

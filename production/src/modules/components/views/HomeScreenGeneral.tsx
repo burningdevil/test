@@ -84,7 +84,7 @@ class HomeScreenGeneral extends React.Component<any, any> {
   }
 
   render() {
-    const { name, description, platform } = this.props.config;
+    const { name, description, platform} = this.props.config;
     return (
         <div className = "home-screen-general">
             <div className="home-screen-general-environment">
@@ -116,43 +116,43 @@ class HomeScreenGeneral extends React.Component<any, any> {
                     {t('platform')}
                 </div>
                 <div className="home-screen-general-platform-name">
-                    <Checkbox
+                    {this.props.config.default && <Checkbox
                         className="home-screen-general-platform-mobile"
-                        disabled={false}
+                        disabled={true}
                         label={t('mobile')}
                         checked={platform.includes(platformType.mobile)}
                         onChange={(event: CheckboxChangeEvent) => {
                           this.handlePlatformChange(event, 'Mobile')
                         }}
-                    />
+                    />}
                     <Checkbox
                         className=""
-                        disabled={false}
+                        disabled={true}
                         label={t('web')}
                         checked={platform.includes(platformType.web)}
                         onChange={(event: CheckboxChangeEvent) => {
                           this.handlePlatformChange(event, 'Web')
                         }}
                     />
-                    <Checkbox
+                    {this.props.config.default && <Checkbox
                         className=""
-                        disabled={false}
+                        disabled={true}
                         label={t('desktop')}
                         checked={platform.includes(platformType.desktop)}
                         onChange={(event: CheckboxChangeEvent) => {
                           this.handlePlatformChange(event, 'Desktop')
                         }}
-                    />
+                    />}
                 </div>
             </div>
-            <div className="home-screen-general-url">
+            {/* <div className="home-screen-general-url">
               <div className="home-screen-general-url-title">
                   {t('appUrl')}
               </div>
               <div className="home-screen-general-url-name">
                   {this.state.currentEnv.url + 'app/config/' + this.props.config.configId}
               </div>
-            </div>
+            </div> */}
          </div>
     );
   }

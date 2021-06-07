@@ -121,8 +121,8 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
       } else {
         HttpProxy.post('/mstrClients/libraryApplications/configs', this.props.config, {}, PARSE_METHOD.BLOB).then(() => {
           workstation.window.postMessage({homeConfigSaveSuccess: true}).then(() => {workstation.window.close();});
-        }).catch((e: any) => {
-          const error = e as RestApiError;
+        }).catch((err: any) => {
+          const error = err as RestApiError;
           if (error.statusCode === 401) {
             workstation.environments.disconnect(this.state.currentEnv.url);
             workstation.window.close();
