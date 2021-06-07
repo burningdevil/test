@@ -24,6 +24,7 @@ export const CONSTANTS = {
     URL: 'url',
     ICONS: 'icons',
     TOOLBAR_MODE: 'toolbarMode',   // hide toolbar by default
+    TOOLBAR_DISABLED: 'toolbarDisabled',
     DEFAULT_GROUPS_NAME: 'defaultGroupsName',
     //Advanced Settings
     AUTH_MODES: 'authModes',
@@ -51,10 +52,8 @@ export const CONSTANTS = {
     CLEAR_AUTOMATIC: 1,
 
     // components for TOOLBAR_MODE
-    // Hidden when value == 2|3, collapse when value == 1
     SHOW_TOOLBAR: 0,
     COLLAPSE_TOOLBAR: 1,
-    HIDE_TOOLBAR: 2,
 
     // icons key name
     ICON_SIDEBAR: 'sidebars',

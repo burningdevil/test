@@ -17,11 +17,13 @@ const initialState: HomeScreenConfigEditorState = {
         contentBundleIds: [],
         defaultGroupsName: '',
         toolbarMode: CONSTANTS.SHOW_TOOLBAR,
+        toolbarDisabled: false,
       }, 
       homeDocument: {
         url: "", 
         icons: dossierIconKeys.map((key) => iconValidKey(key)), 
         toolbarMode: CONSTANTS.SHOW_TOOLBAR,
+        toolbarDisabled: false,
       }
     },
     'general': {

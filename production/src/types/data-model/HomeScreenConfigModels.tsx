@@ -30,11 +30,13 @@ export interface HomeScreenEditConfigType {
             contentBundleIds: Array<string>,
             defaultGroupsName: string,
             toolbarMode: number,
+            toolbarDisabled: boolean,
         }, 
         homeDocument: {
             url: string,
             icons: Array<string>,
             toolbarMode: number,
+            toolbarDisabled: boolean,
         }
     },
     'general': {

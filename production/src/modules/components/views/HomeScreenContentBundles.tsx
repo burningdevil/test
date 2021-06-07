@@ -9,8 +9,6 @@ import * as Actions from '../../../store/actions/ActionsCreator';
 import { connect } from 'react-redux';
 import { iconTypes } from '../HomeScreenConfigConstant';
 
-declare var workstation: WorkstationModule;
-
 class HomeScreenContentBundles extends React.Component<any, any> {
   constructor(props: any) {
     super(props)

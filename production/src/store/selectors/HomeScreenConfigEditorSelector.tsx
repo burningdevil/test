@@ -62,13 +62,13 @@ export const selectIsDossierAsHome = createSelector(
 export const selectIsToolbarHidden = createSelector(
   selectIsDossierAsHome,
   selectCurrentConfig,
-  (isDossierHome, config) => ((isDossierHome ? config.homeScreen.homeDocument.toolbarMode : config.homeScreen.homeLibrary.toolbarMode) & CONSTANTS.HIDE_TOOLBAR) > 0
+  (isDossierHome, config) => isDossierHome ? config.homeScreen.homeDocument.toolbarDisabled : config.homeScreen.homeLibrary.toolbarDisabled
 )
 
 export const selectIsToolbarCollapsed = createSelector(
   selectIsDossierAsHome,
   selectCurrentConfig,
-  (isDossierHome, config) => ((isDossierHome ? config.homeScreen.homeDocument.toolbarMode : config.homeScreen.homeLibrary.toolbarMode) & CONSTANTS.COLLAPSE_TOOLBAR) > 0
+  (isDossierHome, config) => (isDossierHome ? config.homeScreen.homeDocument.toolbarMode : config.homeScreen.homeLibrary.toolbarMode) === CONSTANTS.COLLAPSE_TOOLBAR
 )
 
 export const selectSelectedSideBarIcons = createSelector(

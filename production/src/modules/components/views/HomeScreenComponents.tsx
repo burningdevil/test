@@ -172,7 +172,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         return <Table className="home-screen-components-table" dataSource={data} columns={this.columns} pagination={false} showHeader={false} expandIcon={(props) => this.customExpandIcon(props)} />
     }
 
-    renderOptions = (checked: boolean, value: number, text: string) => {
+    renderOptions = (checked: boolean, value: string, text: string) => {
         return <div className = "home-screen-components-toolbar">
             <Checkbox 
                 checked={checked}
@@ -184,15 +184,15 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
     }
 
     // call backs
-    onToolbarStateChange = (value: number, checked: boolean) => {
+    onToolbarStateChange = (type: string, checked: boolean) => {
         let update = {}
         
-        switch (value) { 
-            case VC.HIDE_TOOLBAR:
-                update = {[VC.TOOLBAR_MODE]: (checked ? value : 0) | (this.props.toolbarCollapsed ? VC.COLLAPSE_TOOLBAR : 0)}
+        switch (type) { 
+            case VC.TOOLBAR_MODE:
+                update = {[VC.TOOLBAR_MODE]: checked ? VC.COLLAPSE_TOOLBAR : VC.SHOW_TOOLBAR}
                 break;
-            case VC.COLLAPSE_TOOLBAR:
-                update = {[VC.TOOLBAR_MODE]: (checked ? value : 0) | (this.props.toolbarHidden ? VC.HIDE_TOOLBAR : 0)}
+            case VC.TOOLBAR_DISABLED:
+                update = {[VC.TOOLBAR_DISABLED]: checked}
                 break;
             default:
                 break;
@@ -254,8 +254,8 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                         </div>
                     </div>
 
-                    {this.renderOptions(this.props.toolbarHidden, VC.HIDE_TOOLBAR, localizedString.DISABLE_TOOLBAR)}
-                    {this.renderOptions(this.props.toolbarCollapsed, VC.COLLAPSE_TOOLBAR, localizedString.COLLAPSE_TOOLBAR)}
+                    {this.renderOptions(this.props.toolbarHidden, VC.TOOLBAR_DISABLED, localizedString.DISABLE_TOOLBAR)}
+                    {this.renderOptions(this.props.toolbarCollapsed, VC.TOOLBAR_MODE, localizedString.COLLAPSE_TOOLBAR)}
 
                     <div className="home-screen-components-scrollcontainer">
                     {
