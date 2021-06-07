@@ -12,7 +12,7 @@ import {
   SelectionChangedEvent,
   GridOptions,
   ServerSideStoreType,
-} from 'ag-grid-community'
+} from 'ag-grid-community';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { connect } from 'react-redux';
 import { selectAllDossiers, selectAllDocuments, selectIsLoadingDossiers, selectLoadingDossiersFinish } from '../../../store/selectors/HomeScreenConfigEditorSelector';

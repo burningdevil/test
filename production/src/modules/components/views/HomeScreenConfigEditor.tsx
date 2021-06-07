@@ -45,15 +45,13 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
 
   async componentDidMount() {
       const configId = this.parseConfigId(_.get(this.props, 'location.search', undefined));
-      this.setState({
-          configId: configId
-      });
       if (configId) {
         api.loadCurrentEditConfig(configId);
       }
       const currentEnv = await workstation.environments.getCurrentEnvironment();
       this.setState({
-        currentEnv: currentEnv
+        currentEnv: currentEnv,
+        configId: configId
       });
       workstation.environments.onEnvironmentChange((change: EnvironmentChangeArg) => {
         console.log('editor enviornment change: ' + change.actionTaken);
@@ -102,7 +100,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
     );
   };
 
-  handleSaveConfig = async () => {
+  handleSaveConfig = () => {
       const configId = this.state.configId;
       if (configId) {
         HttpProxy.put('/mstrClients/libraryApplications/configs/' + configId, this.props.config, {}, PARSE_METHOD.BLOB).then(() => {
@@ -128,7 +126,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             workstation.window.close();
             return;
           }
-          message.error('save application error:' + error.errorMsg);
+          message.error('new application error:' + error.errorMsg);
         });
       }
   }

@@ -32,24 +32,26 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
     const dossierUrl = _.get(homeScreen, 'homeDocument.url', '');
     if (dossierUrl) {
         const ids = _.split(dossierUrl, '/');
-        const projectId = ids[ids.length - 2];
-        const dossierId = ids[ids.length - 1];
-        const response = await HttpProxy.get('/objects/' + dossierId + '?type=55', {'X-MSTR-ProjectID': projectId}).catch((e: any) => (this.setState({
-          dossierName: 'Invalid Dossier'
-        })));
-        
-        let data = response;
-        if (response.data) {
-          data = response.data;
+        if (ids && ids.length > 1) {
+          const projectId = ids[ids.length - 2];
+          const dossierId = ids[ids.length - 1];
+          const response = await HttpProxy.get('/objects/' + dossierId + '?type=55', {'X-MSTR-ProjectID': projectId}).catch((e: any) => (this.setState({
+            dossierName: 'Invalid Dossier'
+          })));
+          
+          let data = response;
+          if (response.data) {
+            data = response.data;
+          }
+          this.setState({
+              dossierName: data.name
+          });
         }
-        this.setState({
-            dossierName: data.name
-        });
     }
   }
 
   componentWillMount() {
-      this.loadData();
+    this.loadData();
   }
 
   handleDismissAdd = () => {

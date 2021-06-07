@@ -21,15 +21,11 @@ class HomeScreenGeneral extends React.Component<any, any> {
     };
   }
 
-  loadData = async () => {
-    const curEnv = await env.environments.getCurrentEnvironment()
+  async componentDidMount() {
+    const curEnv = await env.environments.getCurrentEnvironment();
     this.setState({
         currentEnv: curEnv
     })
-  }
-
-  componentDidMount() {
-    this.loadData();
   }
 
   handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -97,27 +93,26 @@ class HomeScreenGeneral extends React.Component<any, any> {
             </div>
             <div className="home-screen-general-name">
                 <div className="home-screen-general-name-title">
-                        {t('name')}
-                    </div>
-                    <div className="home-screen-general-name-name">
-                        <Input placeholder="" value = {name} onChange={this.handleNameChange}/>
-                    </div>
+                    {t('name')}
+                </div>
+                <div className="home-screen-general-name-name">
+                    <Input placeholder="" value={name} onChange={this.handleNameChange}/>
+                </div>
             </div>
             <div className="home-screen-general-description">
                 <div className="home-screen-general-description-title">
                     {t('description')}
                 </div>
                 <div className="home-screen-general-description-name">
-                    <TextArea className="home-screen-general-description-name-input" placeholder="" rows = {3} value = {description} onChange={this.handleDescChange}/>
+                    <TextArea className="home-screen-general-description-name-input" placeholder="" rows={3} value={description} onChange={this.handleDescChange}/>
                 </div>
             </div>
             <div className="home-screen-general-platform">
                 <div className="home-screen-general-platform-title">
                     {t('platform')}
                 </div>
-                <div className="home-screen-general-platform-name">
+                <div className="home-screen-general-platform-item-group">
                     <Checkbox
-                        className="home-screen-general-platform-mobile"
                         disabled={false}
                         label={t('mobile')}
                         checked={platform.includes(platformType.mobile)}
@@ -126,7 +121,6 @@ class HomeScreenGeneral extends React.Component<any, any> {
                         }}
                     />
                     <Checkbox
-                        className=""
                         disabled={false}
                         label={t('web')}
                         checked={platform.includes(platformType.web)}
@@ -135,7 +129,6 @@ class HomeScreenGeneral extends React.Component<any, any> {
                         }}
                     />
                     <Checkbox
-                        className=""
                         disabled={false}
                         label={t('desktop')}
                         checked={platform.includes(platformType.desktop)}
