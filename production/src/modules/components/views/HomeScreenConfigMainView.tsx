@@ -218,6 +218,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
   };
 
   generateConfigDisplayList = () => {
+    const THIS = this;
     const configList = this.props.configList.map((config: any) => {
       let resultConfig = _.cloneDeep(config);
       if (!_.has(resultConfig, 'platform')) {
@@ -229,7 +230,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         _.assign(resultConfig, { contentBundles: []});
       } else {
         var arr = resultConfig.contentBundleIds.reduce(function(res: any, v: any) {
-          return res.concat(_.filter(this.props.contentBundleList, function(o) { return o.id === v; }));
+          return res.concat(_.filter(THIS.props.contentBundleList, function(o) { return o.id === v; }));
           }, []);
         _.assign(resultConfig, { contentBundles: arr });
       }
