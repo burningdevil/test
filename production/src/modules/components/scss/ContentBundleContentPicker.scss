@@ -1,3 +1,5 @@
+@import './common.scss';
+
 .content-bundle-content-picker {
     font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';
     color: #35383a;
@@ -116,7 +118,6 @@
     }
 
     .ant-menu-dark.ant-menu-inline {
-        background-color: rgba(0, 0, 0, 0.0);
         padding-top: 22px;
 
         .ant-menu-item {
@@ -126,15 +127,6 @@
             color: #fff;
             padding-left: 16px !important;
         }
-    }
-    
-    .ant-menu-item-selected {
-        background-color: rgba(#9eacd6, 0.2) !important;
-        color: #fff;
-    }
-    
-    .disabled-row {
-        opacity: 0.5;
     }
 
     .mstr-window-table .mstr-window-table-row .mstr-window-table-cell{
@@ -148,77 +140,8 @@
         color: #35383a;
         font-weight: 600;
     }
-
-    .ant-table {
-        font-size: 10px;
-    }
-    
-    /* row data */
-    .ant-table-tbody > tr > td {
-        height: 5px;
-        padding: 4px;
-    }
-    
-    .ant-table-thead > tr > th {
-        height: 5px;
-        padding: 0px;
-    }
-    
-    .ant-table-selection-column {
-        padding-left: 15px !important;
-        padding-right: 15px !important;
-    }
-    
-    .mstr-ws-icons-copy {
-        background: url("../images/ws-icons-18_18.svg");
-        margin-right: 3px;
-        cursor: pointer;
-        display: inline-block;
-        width: 18px;
-        height: 18px;
-        background-repeat: no-repeat;
-      
-        &.icon-content-certified {
-          background-position: -288px -288px;
-        }
-    }
-    
-    .mstr-ws-iconset-objects {
-        background: url("../images/iconset_objects.svg");
-        margin-right: 3px;
-        cursor: pointer;
-        display: inline-block;
-        width: 36px;
-        height: 20px;
-        background-repeat: no-repeat;
-      
-        &.icon-content-dossier {
-          background-position: -72px 0px;
-          margin-left: 10px;
-          margin-right: 18px;
-          flex-shrink: 0;
-        }
-    
-        &.icon-content-document {
-            background-position: -108px -0px;
-            margin-left: 10px;
-            margin-right: 18px;
-            flex-shrink: 0;
-          }
-      }
 }
 
-.ant-modal-mask {
-    background-color: rgba(0, 0, 0, 0.0);
-}
-
-.ant-modal-close {
-    visibility: hidden;
-}
-
-.ant-modal-body {
-    padding: 0px;
-}
 
 .ant-menu-item-disabled {
     display: none !important;

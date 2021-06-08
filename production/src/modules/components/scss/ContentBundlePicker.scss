@@ -1,3 +1,5 @@
+@import './common.scss';
+
 .content-bundle-picker {
     font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';
     
@@ -81,21 +83,6 @@
         }
     }
 
-    .ant-table {
-        font-size: 10px;
-    }
-    
-    /* row data */
-    .ant-table-tbody > tr > td {
-        height: 5px;
-        padding: 4px;
-    }
-    
-    .ant-table-thead > tr > th {
-        height: 5px;
-        padding: 0px;
-    }
-
     &-loading {
         position: absolute;
         left: 450px;
@@ -108,119 +95,13 @@
         //background-color: rgba(0, 0, 0, 0.0);
         color: #fff;
     }
-
-    .ant-menu-dark.ant-menu-inline {
-        background-color: rgba(0, 0, 0, 0.0);
-    }
-    
-    .ant-menu-item-selected {
-        background-color: #405770 !important;
-        color: #fff;
-    }
-    
-    .disabled-row {
-        opacity: 0.5;
-    }
     
     .ant-checkbox-inner {
         width: 14px;
         height: 14px;
     }
     
-    .ant-table-selection-column {
-        padding-left: 15px !important;
-        padding-right: 15px !important;
-    }
-    
     .mstr-ws-icons-copy {
-        background: url("../images/ws-icons-18_18.svg");
         margin-right: 3px;
-        cursor: pointer;
-        display: inline-block;
-        width: 18px;
-        height: 18px;
-        background-repeat: no-repeat;
-      
-        &.icon-content-certified {
-          background-position: -288px -288px;
-        }
     }
-    
-    .mstr-ws-iconset-objects {
-        background: url("../images/iconset_objects.svg");
-        margin-right: 3px;
-        cursor: pointer;
-        display: inline-block;
-        width: 36px;
-        height: 20px;
-        background-repeat: no-repeat;
-      
-        &.icon-content-dossier {
-          background-position: -72px 0px;
-          margin-right: 10px;
-          flex-shrink: 0;
-        }
-    
-        &.icon-content-document {
-            background-position: -108px -0px;
-            margin-right: 10px;
-            flex-shrink: 0;
-          }
-      }
 }
-
-.ant-modal-mask {
-    background-color: rgba(0, 0, 0, 0.0);
-}
-
-.ant-modal-close {
-    visibility: hidden;
-}
-
-.ant-modal-body {
-    padding: 0px;
-}
-// .content-bundle-picker {
-//     padding-bottom: 0;
-//     border: 1px solid #fff;
-//     border-radius: 3px;
-//     box-shadow: 0 1px 8px 3px rgba(68, 70, 73, .2);
-
-//     &-container {
-//         background: #ffffff;
-//         //bar style
-//         .ant-tabs-bar {
-//             width: 200px;
-//             .ant-tabs-nav-container {
-//                 font-size: 12px;
-//                 background-color: #fbfbfb;
-//                 .ant-tabs-tab {
-//                     margin-top: 6px;
-//                     margin-bottom: 0;
-//                     text-align: left;
-//                     font-family: Helvetica, serif;
-//                     color: #444649;
-//                 }
-//                 .ant-tabs-tab-active {
-//                     font-family: Helvetica, serif;
-//                     color: #fff;
-//                     background-color: #1C8DD4;
-//                 }
-//                 .ant-tabs-ink-bar-animated {
-//                     transition: none;
-//                 }
-//             }
-//         }
-//         //content style
-//         .ant-tabs-content {
-//             padding-left: 0;
-//             background-color: #fff;
-            
-//         }
-//     }
-// }
-// .content-bundle-picker-btn {
-//     position: absolute;
-//     bottom: 12px;
-//     right: 20px;
-// }

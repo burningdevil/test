@@ -18,7 +18,7 @@ $right-background: rgb(224, 224, 224);
     font-family: $font-family;
     color: $text-color;
 
-    .ant-checkbox-inner, .ant-checkbox-input {
+    .ant-checkbox-inner .ant-checkbox-input {
         transform: scale(0.75);
     }
 
@@ -53,19 +53,6 @@ $right-background: rgb(224, 224, 224);
         margin-top: 23px; //?
         height: 512px; // ??
     }
-
-    // &-scrollcontainer::-webkit-scrollbar{
-        // width: 110px;
-        // display: none;
-    // }
-
-    // &-scrollcontainer:window-inactive::-webkit-scrollbar{
-    //     display: none;
-    //     // width: 55px;
-    // }
-    // &-scrollcontainer:not(:hover)::-webkit-scrollbar{
-    //     width: 110px;
-    // }
 
     &-toolbar{
         font-size: $font-size;

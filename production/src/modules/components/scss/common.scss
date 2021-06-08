@@ -1,0 +1,84 @@
+// ant modal
+.ant-modal-mask {
+    background-color: rgba(0, 0, 0, 0.0);
+}
+
+.ant-modal-close {
+    visibility: hidden;
+}
+
+.ant-modal-body {
+    padding: 0px;
+}
+
+// ant menu
+.ant-menu-dark.ant-menu-inline {
+    background-color: rgba(0, 0, 0, 0.0);
+}
+
+.ant-menu-item-selected {
+    background-color: rgba(158, 172, 214, 0.2) !important;
+    color: #fff !important;
+}
+
+// ant table
+.ant-table {
+    font-size: 10px;
+}
+
+.ant-table-tbody > tr > td {
+    height: 5px;
+    padding: 4px;
+}
+
+.ant-table-thead > tr > th {
+    height: 5px;
+    padding: 0px;
+}
+
+.disabled-row {
+    opacity: 0.5;
+}
+
+.ant-table-selection-column {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+}
+
+// mstr rc
+.mstr-ws-icons-copy {
+    background: url("../images/ws-icons-18_18.svg");
+    margin-right: 3px;
+    cursor: pointer;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background-repeat: no-repeat;
+  
+    &.icon-content-certified {
+      background-position: -288px -288px;
+    }
+}
+
+.mstr-ws-iconset-objects {
+    background: url("../images/iconset_objects.svg");
+    margin-right: 3px;
+    cursor: pointer;
+    display: inline-block;
+    width: 36px;
+    height: 20px;
+    background-repeat: no-repeat;
+  
+    &.icon-content-dossier {
+      background-position: -72px 0px;
+      margin-right: 10px;
+      flex-shrink: 0;
+    }
+
+    &.icon-content-document {
+        background-position: -108px -0px;
+        margin-right: 10px;
+        flex-shrink: 0;
+    }
+}
+

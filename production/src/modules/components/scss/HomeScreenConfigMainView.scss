@@ -25,6 +25,19 @@
         }
     }
 
+    .new-application-container {
+        display: flex;
+        align-items: center;
+        padding-bottom: 10px;
+        padding-top: 5px;
+    }
+    
+    .icon-pnl_add-new {
+        margin-right: 3px;
+        margin-left: 15px;
+        cursor: pointer;
+    }
+
     .Application-Name-Text {
         padding-right: 5px;
     }
@@ -32,19 +45,45 @@
     .application-share-menu-container {
         padding: 0px;
     }
-}
 
-.new-application-container {
-    display: flex;
-    align-items: center;
-    padding-bottom: 10px;
-    padding-top: 5px;
-}
+    .mstr-window-table-body {
+        min-height: 708px;
+    }
+    
+    .mstr-rc-no-data-screen {
+        min-height: 708px;
+    }
+    
+    .mstr-rc-mstr-react-window-table-wrapper {
+        outline: none !important;
+    }
+    .mstr-window-table {
+        outline: none !important;
+    }
+    
+    .mstr-window-table-cell {
+        font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif' !important;
+    }
 
-.icon-pnl_add-new {
-    margin-right: 3px;
-    margin-left: 15px;
-    cursor: pointer;
+    .mstr-ws-icons.icon-gear::before {
+        display: none;
+    }
+    
+    .Config-List-Content-Bundle-Item {
+        padding-right: 10px;
+    }
+    
+    .Config-List-Content-Bundle-Item-Icon {
+        content:'\A';
+        width:6px;
+        height:6px;
+        border-radius:50%;
+        display:inline-block;
+    }
+    
+    .Config-List-Content-Bundle-Item-Text {
+        padding-left: 4px;
+    }
 }
 
 .ant-dropdown-menu {
@@ -92,51 +131,12 @@
     }
 }
 
-.mstr-ws-icons.icon-gear::before {
-    display: none;
-}
-
-.Config-List-Content-Bundle-Item {
-    padding-right: 10px;
-}
-
-.Config-List-Content-Bundle-Item-Icon {
-    content:'\A';
-    width:6px;
-    height:6px;
-    border-radius:50%;
-    display:inline-block;
-}
-
-.Config-List-Content-Bundle-Item-Text {
-    padding-left: 4px;
-}
-
-.mstr-window-table-body {
-    min-height: 708px;
-}
-
-.mstr-rc-no-data-screen {
-    min-height: 708px;
-}
-
-.mstr-rc-mstr-react-window-table-wrapper {
-    outline: none !important;
-}
-.mstr-window-table {
-    outline: none !important;
-}
-
-.mstr-window-table-cell {
-    font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif' !important;
-}
-
-div.context-menu-item-wrapper {
+.context-menu-item-wrapper {
     width: 160px !important;
     background-color: white !important;
 }
 
-div.context-menu-item-wrapper:hover {
+.context-menu-item-wrapper:hover {
     background-color: #3492ED !important;
     color: white !important;
 }
