@@ -87,6 +87,8 @@
     "logging": "Logging",
     "cache": "Cache",
     "checkUpdate": "Check and update configuration every",
+    "allowPreference": "Allow users to access preferences",
+    "allowAdvancedSettings": "Allow users to access advanced settings",
     "networkTimeout": "Network Timeout",
     "maxLogSize": "Maximum Log Size",
     "logLevel": "Logging Level",

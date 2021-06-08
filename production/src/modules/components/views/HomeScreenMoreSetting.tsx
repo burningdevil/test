@@ -24,6 +24,8 @@ const sectionTitle = {
     CACHE: t('cache')
 };
 const sectionAccess = {
+    ACCESS_PREFERENCE: t('allowPreference'),
+    ACCESS_ADVANCED_SETTINGS: t('allowAdvancedSettings'),
     CHECK_UPDATE: t('checkUpdate'),
 };
 const sectionConnectivity = {
@@ -130,6 +132,10 @@ class HomeScreenMoreSetting extends React.Component<any, any> {
             case VC.CLEAR_CACHE_ON_LOGOUT:
                 update = {[type]: value}
                 break;
+            case VC.DISABLE_ADVANCED_SETTINGS:
+            case VC.DISABLE_PREFERENCES:
+                update = {[type]: !value}
+                break;
             case VC.CLEAR_CACHE_ON_CLOSE:
                 update = {[VC.CACHE_CLEAR_MODE]: value ? VC.CLEAR_ON_CLOSE : VC.CLEAR_AUTOMATIC}
                 break;
@@ -191,12 +197,23 @@ class HomeScreenMoreSetting extends React.Component<any, any> {
         </Tooltip>
     }
 
+    checkboxRender = (checked: boolean, value: string, title: string) => {
+        return <Checkbox 
+                    checked={checked}
+                    onChange={(e) => this.onInputChange(value, e.target.checked)}
+                >
+                {title}
+                </Checkbox>
+    }
+
     sectionTitleRender = (title: string) => {
         return <div className="home-screen-moresetting-title">{title}</div>
     }
 
     render() {
         const {
+            disableAdvancedSettings,
+            disablePreferences,
             updateInterval,
             networkTimeout,
             logLevel,
@@ -212,13 +229,15 @@ class HomeScreenMoreSetting extends React.Component<any, any> {
 
                     {/* Access section */}
                     {this.sectionTitleRender(sectionTitle.ACCESS)}
+                    <div>
+                        {this.checkboxRender(!disablePreferences, VC.DISABLE_PREFERENCES, sectionAccess.ACCESS_PREFERENCE)}
+                    </div> 
+                    <div>
+                        {this.checkboxRender(!disableAdvancedSettings, VC.DISABLE_ADVANCED_SETTINGS, sectionAccess.ACCESS_ADVANCED_SETTINGS)}
+                    </div>
                     <div className="home-screen-moresetting-box">
                         <span>
-                            <Checkbox
-                                checked={updateInterval != VC.UPDATE_INTERVAL_DISABLED}
-                                onChange={(e) => this.onInputChange(VC.UPDATE_INTERVAL, e.target.checked)}>
-                                {sectionAccess.CHECK_UPDATE}
-                            </Checkbox>
+                            {this.checkboxRender(updateInterval !== VC.UPDATE_INTERVAL_DISABLED, VC.UPDATE_INTERVAL, sectionAccess.CHECK_UPDATE)}
                         </span>
                         <span>
                             {this.inputRender(!this.state.intervalValid, MAX_UPDATE_INTERVAL, metricStr.HOURS, updateInterval === VC.UPDATE_INTERVAL_DISABLED, updateInterval === VC.UPDATE_INTERVAL_DISABLED ? DEFAULT_INTERVAL_HOURS : parseInt(updateInterval)/60, (e) => this.onInputChange(VC.UPDATE_INTERVAL_TEXT, e.target.value))}
@@ -262,17 +281,12 @@ class HomeScreenMoreSetting extends React.Component<any, any> {
 
                     {/* Cache section */}
                     {this.sectionTitleRender(sectionTitle.CACHE)}
-                    <div className="home-screen-moresetting-box-vertical">
-                        <Checkbox className="home-screen-moresetting-cfg-advance-padding"
-                            checked={cacheClearMode === VC.CLEAR_ON_CLOSE}
-                            onChange={(e) => this.onInputChange(VC.CLEAR_CACHE_ON_CLOSE, e.target.checked)}>
-                            {sectionCache.CLEAR_CACHE_ON_CLOSE}
-                        </Checkbox>
-                        <Checkbox
-                            checked={clearCacheOnLogout}
-                            onChange={(e) => this.onInputChange(VC.CLEAR_CACHE_ON_LOGOUT, e.target.checked)}>
-                            {sectionCache.CLEAR_CACHE_ON_LOGOUT}
-                        </Checkbox>
+                    {/* // disable clearOnClose for now. iOS client hasn't expose this feature yet.
+                     <div>
+                        {this.checkboxRender(cacheClearMode === VC.CLEAR_ON_CLOSE, VC.CLEAR_CACHE_ON_CLOSE, sectionCache.CLEAR_CACHE_ON_CLOSE)}
+                    </div> */} 
+                    <div>
+                        {this.checkboxRender(clearCacheOnLogout, VC.CLEAR_CACHE_ON_LOGOUT, sectionCache.CLEAR_CACHE_ON_LOGOUT)}
                     </div>
                 </div>
     }

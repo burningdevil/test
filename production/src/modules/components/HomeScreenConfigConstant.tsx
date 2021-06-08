@@ -111,6 +111,10 @@ export const CONSTANTS = {
     FONT_LIBRARY_MOBILE: 'icon-tb_appicon',
 }
 
+export const featureFlag = {
+    platformEnable: false,
+}
+
 export const reviewType = {
     TABLET: 'Tablet',
     PHONE: 'Phone',
