@@ -4,7 +4,7 @@ module.exports = {
   path: '/MicroStrategyLibrary',
   username: 'administrator',
   password: '',
-  projectId: '',  // VI106-2
+  projectId: '',
   adminUser: 'admin',
   adminPassword: 'admin'
 }
