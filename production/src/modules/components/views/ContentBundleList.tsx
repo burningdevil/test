@@ -145,10 +145,10 @@ class ContentBundleList extends React.Component<any, any> {
          recipientsStr = '';
          mode = BundleRecipientType.NONE;
       } else if (groups.length === 0 && totalCount - groups.length > 0) {
-        recipientsStr = t('recipentsStrOnlyUsers', {usersCount});
+        recipientsStr = t('usersCount', {usersCount});
         mode = BundleRecipientType.USER;
       } else if (groups.length > 0 && totalCount - groups.length === 0) {
-        recipientsStr = t('recipentsStrOnlyGroups', {groupsCount});
+        recipientsStr = t('groupsCount', {groupsCount});
         mode = BundleRecipientType.GROUP;
       }
       return _.assign(bundle, {recipientType: mode, expand: true, recipientStr: recipientsStr});
