@@ -62,12 +62,6 @@ $line-height-mini: 13px;
     overflow: visible;
 }
 
-// to align second line of cache section
-.ant-checkbox-wrapper + .ant-checkbox-wrapper {
-    font-family: $font-family;
-    margin-left: 0px;
-}
-
 // make sure input content in same line
 .ant-input-affix-wrapper {
     font-family: $font-family;
@@ -94,7 +88,7 @@ $line-height-mini: 13px;
         line-height: 24px;
     }
 
-    .ant-checkbox-inner .ant-checkbox-input {
+    .ant-checkbox {
         transform: scale(0.75);
     }
 

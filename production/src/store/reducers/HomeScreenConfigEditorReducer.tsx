@@ -1,5 +1,5 @@
 import { HomeScreenConfigEditorState } from '../../types/redux-state/HomeScreenConfigState'
-import { CONSTANTS, iconTypes, reviewType, iconValidKey, platformType, dossierIconKeys, libraryIconKeys, sidebarIconKeys } from '../../modules/components/HomeScreenConfigConstant'
+import { CONSTANTS, iconTypes, reviewType, iconValidKey, platformType, dossierIconKeys, libraryIconKeys, sidebarIconKeys, featureFlag } from '../../modules/components/HomeScreenConfigConstant'
 import { ActionTypes } from '../actions/ActionTypes'
 import * as Actions from '../actions/ActionConstants'
 import * as _ from 'lodash'
@@ -8,7 +8,7 @@ const initialState: HomeScreenConfigEditorState = {
   currentConfig: {
     'name': '',
     'description': '',
-    'platform': [platformType.mobile, platformType.web, platformType.desktop],
+    'platform': featureFlag.platformEnable ? [platformType.mobile, platformType.web, platformType.desktop] : [platformType.web],
     'default': false,
     'homeScreen': {
       mode: CONSTANTS.MODE_USE_DEFAULT_HOME_SCREEN, 
@@ -28,6 +28,8 @@ const initialState: HomeScreenConfigEditorState = {
       }
     },
     'general': {
+      disableAdvancedSettings: false,
+      disablePreferences: false,
       networkTimeout: CONSTANTS.DEFAULT_NETWORK_TIMEOUT, 
       cacheClearMode: CONSTANTS.CLEAR_AUTOMATIC, 
       clearCacheOnLogout: false, 
@@ -36,7 +38,7 @@ const initialState: HomeScreenConfigEditorState = {
       updateInterval: CONSTANTS.DEFAULT_UPDATE_INTERVAL
     }
   },
-  previewDeviceType: reviewType.TABLET,
+  previewDeviceType: featureFlag.platformEnable ? reviewType.TABLET : reviewType.WEB,
 }
 
 const HomeScreenConfigEditorReducer = (state: HomeScreenConfigEditorState = initialState, action: ActionTypes) => {

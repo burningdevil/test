@@ -41,6 +41,8 @@ export interface HomeScreenEditConfigType {
         }
     },
     'general': {
+        disableAdvancedSettings: boolean,
+        disablePreferences: boolean,
         networkTimeout: number,
         cacheClearMode: number,
         clearCacheOnLogout: boolean, 
