@@ -3,6 +3,9 @@ import { DataModule, RequestHeaders } from '@mstr/workstation-types'
 declare var workstation: any
 
 class Data implements DataModule {
+  rcFetch(url: RequestInfo, options?: RequestInit): Promise<Response> {
+    throw new Error('Method not implemented.')
+  }
   fetch = (url: any, options?: any) => workstation.data.fetch(url, options)
 
   addDefaultRequestHeader =

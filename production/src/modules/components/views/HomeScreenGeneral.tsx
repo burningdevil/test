@@ -11,7 +11,7 @@ import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { selectCurrentConfig, selectPreviewDeviceType } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 const { TextArea } = Input;
-import { t } from '../../../i18n/i18next'
+import { t } from '../../../i18n/i18next';
 
 class HomeScreenGeneral extends React.Component<any, any> {
   constructor(props: any) {

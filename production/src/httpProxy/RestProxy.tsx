@@ -1,9 +1,10 @@
 import axiosStatic, { CancelToken } from 'axios'
-import serverConfig from '../../build/server.config'
+// import serverConfig from '../../build/server.config'
 import base64 from '../utils/base64'
 import { RestApiError } from '../server/RestApiError'
 import { PARSE_METHOD } from '../utils/ParseMethods'
 import axios from '../server/axios'
+const serverConfig = require('../../build/server.config')
 
 const parseJsonFunc = PARSE_METHOD.JSON
 const baseUrl = '/api'

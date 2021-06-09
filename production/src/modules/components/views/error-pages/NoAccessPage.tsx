@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import './style/NoAccessPage.scss'
 
 export const NoAccessPage: React.FunctionComponent = (props: any) => {

@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import './style/ServerIncompatiblePage.scss'
 
 export const ServerIncompatiblePage: React.FunctionComponent = (props: any) => {

@@ -31,11 +31,13 @@ export interface AppendBundleContentDocumentActionType {
 }
 
 export interface StartLoadingBundleContentList {
-    type: string
+    type: string,
+    data: string
 }
 
 export interface FinishLoadingBundleContentList {
-    type: string
+    type: string,
+    data: string
 }
 
 export type ActionTypes = UpdateCurrentConfigActionType | SetCurrentConfigActionType | LoadConfigListSuccessActionType | LoadContentBundleListSuccessActionType | AppendBundleContentDocumentActionType | AppendBundleContentDossierActionType

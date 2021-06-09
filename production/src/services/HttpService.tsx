@@ -10,7 +10,7 @@ export function get() {
 }
 
 export function del(path:string, body:string) {
-  return HttpProxy.del.apply(HttpProxy, arguments)
+  return HttpProxy.delete.apply(HttpProxy, arguments)
 }
 
 export function put(path:string, body:string) {

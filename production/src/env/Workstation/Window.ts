@@ -3,6 +3,12 @@ import { WindowModule, WindowEvent, CommandCallBack, CommandCallBackAsync } from
 declare var workstation: any
 
 class Window implements WindowModule {
+  getExtraContext(): Promise<string> {
+    throw new Error('Method not implemented.')
+  }
+  setCloseInfo(info: string): Promise<void> {
+    throw new Error('Method not implemented.')
+  }
   addHandler = (event: WindowEvent,
     callback: CommandCallBack | CommandCallBackAsync) => workstation.window.addHandler(event, callback)
 

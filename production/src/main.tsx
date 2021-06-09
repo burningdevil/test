@@ -17,7 +17,7 @@ declare var window: any
 declare var module: any
 
 export const HttpProxy = (() => (__IS_WS__ ? WorkStationProxy : RestProxy))()
-export const env = __IS_WS__ ? workstation : browser
+export const env: any = __IS_WS__ ? workstation : browser
 wsEvents.init(env)
 // Store Initialization
 // ------------------------------------

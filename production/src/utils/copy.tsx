@@ -1,8 +1,8 @@
 export const copyToClipboard = (url: string) => {
-  document.addEventListener('copy', (e: ClipboardEvent) => {
+  document.addEventListener('copy', function handler(e: ClipboardEvent) {
     e.clipboardData.setData('text/plain', url);
     e.preventDefault();
-    document.removeEventListener('copy', this);
+    document.removeEventListener('copy', handler);
   });
   document.execCommand('copy');
 }

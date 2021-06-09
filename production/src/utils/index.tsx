@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import compareVersions from 'compare-versions'
+import * as compareVersions from 'compare-versions';
 
 //TODO: replaced below config value.
 const LIBRARY_SERVER_VERSION_THRESHOLD = '11.3.0200';

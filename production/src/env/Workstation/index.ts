@@ -1,4 +1,4 @@
-import { WorkstationModule } from '@mstr/workstation-types'
+import { MessengerModule, PythonModule, WorkstationModule } from '@mstr/workstation-types'
 import dialogs from './Dialogs'
 import data from './Data'
 import environments from './Environments'
@@ -8,6 +8,8 @@ import window from './Window'
 import selectedObject from './SelectedObject'
 
 class WorkstationEnv implements WorkstationModule {
+  messenger: MessengerModule
+  python: PythonModule
   dialogs = dialogs;
 
   data = data

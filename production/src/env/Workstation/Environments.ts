@@ -3,6 +3,9 @@ import { EnvironmentsModule, EnvironmentChangeCallBack } from '@mstr/workstation
 declare var workstation: any
 
 class Environments implements EnvironmentsModule {
+  disconnect(url: string): void {
+    throw new Error('Method not implemented.')
+  }
   getCurrentEnvironment = () => workstation.environments.getCurrentEnvironment()
 
   getAvailableEnvironments = () => workstation.environments.getAvailableEnvironments()

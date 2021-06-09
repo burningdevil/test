@@ -1,3 +1,5 @@
+jest.disableAutomock();
+
 import { desc } from './desc'
 
 declare var window: any

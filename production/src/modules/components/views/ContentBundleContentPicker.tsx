@@ -65,9 +65,9 @@ class ContentBundleContentPicker extends React.Component<any, any> {
           var results: any[] = [];
           var lastRow: number = -1;
           var limit: number = 300;
-          var dossiers = selectAllDossiers(store.getState());
-          var documents = selectAllDocuments(store.getState());
-          var loadFinished = selectLoadingDossiersFinish(store.getState());
+          var dossiers = selectAllDossiers(store.getState() as RootState);
+          var documents = selectAllDocuments(store.getState() as RootState);
+          var loadFinished = selectLoadingDossiersFinish(store.getState() as RootState);
           
           var startRow = params.request.startRow;
           var endRow = params.request.endRow;
