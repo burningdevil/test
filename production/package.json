@@ -28,7 +28,7 @@
   "license": "MIT",
   "dependencies": {
     "@mstr/rc": "^1.24.22",
-    "@mstr/react-ws-grid":"^0.0.5",
+    "@mstr/react-ws-grid": "^0.0.5",
     "@mstr/workstation-types": "^1.0.7",
     "@types/bluebird": "^3.5.27",
     "@types/lodash": "^4.14.133",
@@ -44,6 +44,7 @@
     "compression": "^1.6.2",
     "cookie": "^0.3.1",
     "express": "^4.14.0",
+    "file-saver": "^1.3.3",
     "i18next": "^19.0.0",
     "jquery": "^3.4.1",
     "object-assign": "^4.1.1",
@@ -64,8 +65,7 @@
     "redux": "^4.0.0",
     "redux-saga": "^0.16.0",
     "reselect": "^3.0.1",
-    "whatwg-fetch": "^2.0.3",
-    "file-saver": "^1.3.3"
+    "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
