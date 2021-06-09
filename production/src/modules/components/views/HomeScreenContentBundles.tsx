@@ -1,7 +1,6 @@
 import * as React from 'react';
 import '../scss/HomeScreenContentBundles.scss';
 import * as _ from "lodash";
-import { WorkstationModule } from '@mstr/workstation-types';
 import ContentBundleList from './ContentBundleList';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { selectCurrentConfig, selectCurrentConfigContentBundleIds, selectSelectedSideBarIcons } from '../../../store/selectors/HomeScreenConfigEditorSelector';

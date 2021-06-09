@@ -117,8 +117,6 @@
     "duplicate": "Duplicate",
 
     "recipentsStr": "$t(groupsCount, {\"count\": {{groupsCount}} }) and $t(usersCount, {\"count\": {{usersCount}} })",
-    "recipentsStrOnlyGroups": "$t(groupsCount, {\"count\": {{groupsCount}} })",
-    "recipentsStrOnlyUsers": "$t(usersCount, {\"count\": {{usersCount}} })",
     "groupsCount": "{{count}} Group",
     "groupsCount_plural": "{{count}} Groups",
     "usersCount": "{{count}} User",
