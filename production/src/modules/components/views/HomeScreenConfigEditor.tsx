@@ -24,6 +24,7 @@ const navBar = {
   GENERAL: t('general'),
   HOME_SCREEN: t('homeScreen'),
   COMPONENTS: t('components'),
+  APPEARANCE: t('appearance'),
   CONTENT_BUNDLES: t('contentBundles'),
   MORE_SETTINGS: t('moreSettings')
 };
@@ -159,11 +160,14 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                                 <HomeScreenComponents />
                                 {this.buttonGroup()}
                             </Tabs.TabPane>
-                            <Tabs.TabPane tab={navBar.CONTENT_BUNDLES} key="4" disabled={this.props.config.homeScreen.mode === 1}>
+                            <Tabs.TabPane tab={navBar.APPEARANCE} key="4">
+                                {this.buttonGroup()}
+                            </Tabs.TabPane>
+                            <Tabs.TabPane tab={navBar.CONTENT_BUNDLES} key="5" disabled={this.props.config.homeScreen.mode === 1}>
                                 <HomeScreenContentBundles/>
                                 {this.buttonGroup()}
                             </Tabs.TabPane>
-                            <Tabs.TabPane tab={navBar.MORE_SETTINGS} key="5">
+                            <Tabs.TabPane tab={navBar.MORE_SETTINGS} key="6">
                                 <HomeScreenMoreSetting/>
                                 {this.buttonGroup()}
                             </Tabs.TabPane>
