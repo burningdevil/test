@@ -347,9 +347,9 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         />
       </div>
     ) : (!this.state.isConnected ? <DisconnectedPage/> :
-          (!this.state.isLibraryVersionMatched ? <ServerIncompatiblePage needUpgradeLibraryServer={true}/> : 
-            (!this.state.isIServerVersionMatched ? <ServerIncompatiblePage needIServerUpgrade={true}/> : 
-              (!this.state.isMDVersionMatched ? <ServerIncompatiblePage needUpgradeMD={true}/> : <NoAccessPage />)))
+          (!this.state.isLibraryVersionMatched ? <ServerIncompatiblePage needUpgradeLibraryServer={true} needIServerUpgrade={false} needUpgradeMD={false}/> : 
+            (!this.state.isIServerVersionMatched ? <ServerIncompatiblePage needUpgradeLibraryServer={false} needIServerUpgrade={true} needUpgradeMD={false}/> : 
+              (!this.state.isMDVersionMatched ? <ServerIncompatiblePage needUpgradeLibraryServer={false} needIServerUpgrade={false} needUpgradeMD={true} /> : <NoAccessPage />)))
     ) 
   }
 }

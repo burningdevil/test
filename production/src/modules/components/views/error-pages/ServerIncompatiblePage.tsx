@@ -2,7 +2,14 @@ import * as React from 'react'
 import './style/ServerIncompatiblePage.scss'
 
 const classNamePrefix = 'homeScreenConfigMainView-server-incompatible-page';
-export const ServerIncompatiblePage: React.FunctionComponent = (props: any) => {
+
+interface ServerIncompatiblePageProps {
+  needUpgradeMD: boolean,
+  needUpgradeLibraryServer: boolean,
+  needIServerUpgrade:boolean
+}
+
+export const ServerIncompatiblePage: React.FunctionComponent<ServerIncompatiblePageProps> = (props: any) => {
   return (
     <div className={`${classNamePrefix}`}>
       <div className={`${classNamePrefix}-warning-icon`} />
