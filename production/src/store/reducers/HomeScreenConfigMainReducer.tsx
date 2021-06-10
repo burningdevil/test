@@ -9,8 +9,7 @@ const initialState: HomeScreenMainViewState = {
 }
 
 const HomeScreenConfigMainReducer = (state: HomeScreenMainViewState = initialState, action: ActionTypes) => {
-  const { type } = action
-  const data = _.get(action, 'data')
+  const { type, data } = action
 
   switch (type) {
     case Actions.LOAD_CONFIG_LIST_SUCCESS:
