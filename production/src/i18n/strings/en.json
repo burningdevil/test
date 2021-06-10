@@ -122,5 +122,14 @@
     "groupsCount_plural": "{{count}} Groups",
     "usersCount": "{{count}} User",
     "usersCount_plural": "{{count}} Users",
-    "selectDossierHint": "Select dossiers or documents to add"
+    "selectDossierHint": "Select dossiers or documents to add",
+    "errAppSave": "Save application error:",
+    "invalidDossier": "Invalid Dossier",
+    "errEditorOpen": "Open object editor failed with error",
+    "errSessionOut": "401 error and disconnect",
+    "linkCopied": "The application link has been successfully copied!",
+    "errCopyLink": "Copy application link to clipboard fail: ",
+    "library": "Library",
+    "dossier": "Dossier",
+    "removeBundle": "Remove from application"
 }

@@ -4,42 +4,18 @@ import { SearchInput } from '@mstr/rc';
 import { Modal, Button, Menu } from 'antd';
 import * as _ from "lodash";
 import ContentBundleList from './ContentBundleList';
-import { t } from '../../../i18n/i18next'
+import { default as VC, localizedStrings, bundlePickerSize, selectedBundlesStr } from '../HomeScreenConfigConstant'
 
-const popoverGeneral = {
-  width: 900,
-  height: 600,
-  headerHeight: 0,
-};
-
-const EnumDSSXMLViewMedia = {
-  DssXmlViewMediaViewStatic: 0x00000001,
-  DssXmlViewMediaViewAnalysis: 0x00000800,
-  DssXmlViewMediaHTML5Dashboard: 0x00002000
-};
+const classNamePrefix = 'content-bundle-picker';
+const bundleMenuKey = 'bundles';
 
 export default class ContentBundlePicker extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
     this.state = {
-      activeTab: 'bundles',
+      activeTab: bundleMenuKey,
       selectedBundles:[ ],
       nameFilter: ''
-    }
-  }
-
-  isContentTypeDossier(viewMedia: number) {
-    const defModePosition = viewMedia >> 27;
-    let defaultViewMedia;
-    if (defModePosition == 0) {
-        defaultViewMedia = 0;
-    }
-
-    defaultViewMedia = EnumDSSXMLViewMedia.DssXmlViewMediaViewStatic << defModePosition - 1;
-    if (defaultViewMedia == EnumDSSXMLViewMedia.DssXmlViewMediaViewAnalysis || defaultViewMedia == EnumDSSXMLViewMedia.DssXmlViewMediaHTML5Dashboard) {
-        return true;
-    } else {
-        return false;
     }
   }
 
@@ -56,17 +32,17 @@ export default class ContentBundlePicker extends React.Component<any, any> {
 
   buttonGroup = () => {
     return (
-        <div className="content-bundle-picker-btn">
+        <div className={`${classNamePrefix}-btn`}>
             <Button onClick={this.handleCancelAdd}
             style={{ paddingTop: 0}}>
-                {t('cancel')}
+                {localizedStrings.CANCEL}
             </Button>
             <Button
-                type="primary"
+                type='primary'
                 style={{marginLeft: 10, paddingTop: 0}}
                 onClick={this.handleSaveAdd}
                 disabled = {this.state.selectedBundles.length === 0}>
-                {t('select')}
+                {localizedStrings.SELECT}
             </Button>
         </div>
     );
@@ -88,48 +64,47 @@ export default class ContentBundlePicker extends React.Component<any, any> {
     const bundlesCount = this.state.selectedBundles.length
     return (
       <Modal
-          className='content-bundle-picker-modal'
+          className={`${classNamePrefix}-modal`}
           destroyOnClose={true}
-          width={popoverGeneral.width}
+          width={bundlePickerSize.width}
           maskClosable = {false}
           visible = {this.props.visible}
           footer={null}
           onCancel={() => {
-            //this.props.handleDismiss(false)
           }}
       >
-        <div className="content-bundle-picker">
-          <div className="content-bundle-picker-top">
-            <div className="content-bundle-picker-header">
-              {t('selectContentBundles')}
+        <div className={`${classNamePrefix}`}>
+          <div className={`${classNamePrefix}-top`}>
+            <div className={`${classNamePrefix}-header`}>
+              {localizedStrings.SELECT_CONTENT_BUNDLES}
             </div>
-            <SearchInput className="content-bundle-picker-search" placeholder={t('search')}
+            <SearchInput className={`${classNamePrefix}-search`} placeholder={localizedStrings.SEARCH}
                 onChange={(value: string) => {
                   this.handleSearch(value);
                 }}/>
           </div>
-          <div className="content-bundle-picker-middle">
-            <div className="content-bundle-picker-grid">
-              <div className="content-bundle-picker-grid-left">
-                <Menu className="content-bundle-picker-grid-menu"
+          <div className={`${classNamePrefix}-middle`}>
+            <div className={`${classNamePrefix}-grid`}>
+              <div className={`${classNamePrefix}-grid-left`}>
+                <Menu className={`${classNamePrefix}-grid-menu`}
                   defaultSelectedKeys={[this.state.activeTab]}
-                  mode="inline"
+                  mode='inline'
                   theme={'dark'}
                 >
-                  <Menu.Item key="bundles" className="content-bundle-picker-grid-menu-tab">
-                    <div className="icon-group_groups_a"/>
-                    <div className="content-bundle-picker-grid-menu-text">
-                        {t('contentBundles')}
+                  <Menu.Item key={bundleMenuKey} className={`${classNamePrefix}-grid-menu-tab`}>
+                    <div className={VC.FONT_GROUP}/>
+                    <div className={`${classNamePrefix}-grid-menu-text`}>
+                        {localizedStrings.NAVBAR_CONTENT_BUNDLES}
                     </div>
                   </Menu.Item>
                 </Menu>
               </div>
-              <div className="content-bundle-picker-grid-right">
+              <div className={`${classNamePrefix}-grid-right`}>
                 <ContentBundleList includedIds = {[]} handleSelection = {this.handleSelectionChanged} allowDelete={false} nameFilter={this.state.nameFilter}/>
               </div>
             </div>
-            <div className="content-bundle-picker-footer">
-              {t('selectedStr', {bundlesCount})}
+            <div className={`${classNamePrefix}-footer`}>
+              {`${selectedBundlesStr(bundlesCount)}`}
             </div>
           </div>
           {this.buttonGroup()}

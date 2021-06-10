@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { default as VC, childrenIcons, iconDetail, iconTypes, platformType, reviewType, dossierIconKeys, libraryIconKeys, sidebarIconKeys, iconValidKey } from '../HomeScreenConfigConstant'
+import { default as VC, localizedStrings, childrenIcons, iconDetail, iconTypes, platformType, reviewType, dossierIconKeys, libraryIconKeys, sidebarIconKeys, iconValidKey } from '../HomeScreenConfigConstant'
 import { Layout, Radio } from 'antd'
 import { PlusCircleOutlined, DownOutlined } from '@ant-design/icons'
 import '../scss/HomeScreenPreviewer.scss'
@@ -8,22 +8,8 @@ import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
 import { connect } from 'react-redux'
 import { selectCurrentConfig, selectIsDossierAsHome, selectPreviewDeviceType, selectIsToolbarHidden, selectIsToolbarCollapsed, selectSelectedSideBarIcons, selectSelectedLibraryIcons, selectSelectedDocumentIcons } from '../../../store/selectors/HomeScreenConfigEditorSelector'
 import * as Actions from '../../../store/actions/ActionsCreator'
-import { t } from '../../../i18n/i18next'
 
-const deviceTypeText = {
-    tablet: t('tablet'),
-    phone: t('phone'),
-    web: t('web'),
-    desktop: t('desktop'),
-}
-
-const sectionTitle = {
-    preview: t('preview'),
-    libraryHome: t('libraryWindowLowerCase'),
-    dossier: t('dossierWindowLowerCase'),
-    dossierHome: t('dossierWindowHomeLowerCase'),
-    // notificationPanel: 'Notification Panel',
-}
+const classNamePrefix = 'homeScreenPreviewer';
 
 class HomeScreenPreviewer extends React.Component<any, any> {
     iconShouldShow(icon: iconDetail) {
@@ -54,19 +40,19 @@ class HomeScreenPreviewer extends React.Component<any, any> {
         const webDisabled = !platform.includes(platformType.web)
         const desktopDisabled = !platform.includes(platformType.desktop)
         
-        return <div className="homeScreenPreviewer-radio">
-            {sectionTitle.preview}
+        return <div className={`${classNamePrefix}-radio`}>
+            {localizedStrings.PREVIEW}
             <div>
                 <Radio.Group
                     onChange={this.onDeviceTypeChange}
                     value={deviceType}
                     buttonStyle='solid'
-                    size="small"
+                    size='small'
                 >
-                    <Radio.Button value={reviewType.TABLET} disabled={mobileDisabled}>{deviceTypeText.tablet}</Radio.Button>
-                    <Radio.Button value={reviewType.PHONE} disabled={mobileDisabled}>{deviceTypeText.phone}</Radio.Button>
-                    <Radio.Button value={reviewType.WEB} disabled={webDisabled}>{deviceTypeText.web}</Radio.Button>
-                    <Radio.Button value={reviewType.DESKTOP} disabled={desktopDisabled}>{deviceTypeText.desktop}</Radio.Button>
+                    <Radio.Button value={reviewType.TABLET} disabled={mobileDisabled}>{localizedStrings.TABLET}</Radio.Button>
+                    <Radio.Button value={reviewType.PHONE} disabled={mobileDisabled}>{localizedStrings.PHONE}</Radio.Button>
+                    <Radio.Button value={reviewType.WEB} disabled={webDisabled}>{localizedStrings.WEB}</Radio.Button>
+                    <Radio.Button value={reviewType.DESKTOP} disabled={desktopDisabled}>{localizedStrings.DESKTOP}</Radio.Button>
                 </Radio.Group>
             </div>
         </div>
@@ -74,7 +60,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
 
     // render of titles
     titleRender = (title: string) => {
-        return <div className="homeScreenPreviewer-title">{title}</div> 
+        return <div className={`${classNamePrefix}-title`}>{title}</div> 
     }
 
     // render arry of icons
@@ -95,23 +81,23 @@ class HomeScreenPreviewer extends React.Component<any, any> {
             const showContent = iconTypes.defaultGroup.key === element.key
             return this.iconShouldShow(element) &&
                 <div>
-                    <div className="homeScreenPreviewer-pad-overview-left-text"> <span className={element.iconName} key={index}/> 
+                    <div className={`${classNamePrefix}-pad-overview-left-text`}> <span className={element.iconName} key={index}/> 
                         <span>{element.displayText}</span> 
                         {showAddButton && <PlusCircleOutlined/>}
                         {showExpandIcon && <DownOutlined style={{fontSize: '5px', marginLeft: 'auto', marginRight: '4px'}}/>}
                     </div>
-                    {showContent && <div className="homeScreenPreviewer-pad-overview-left-blank">
-                                        <div className="homeScreenPreviewer-pad-overview-left-blank-fill"/>
+                    {showContent && <div className={`${classNamePrefix}-pad-overview-left-blank`}>
+                                        <div className={`${classNamePrefix}-pad-overview-left-blank-fill`}/>
                                     </div>}
-                    {showContent && <div className="homeScreenPreviewer-pad-overview-left-blank">
-                                        <div className="homeScreenPreviewer-pad-overview-left-blank-fill"/>
+                    {showContent && <div className={`${classNamePrefix}-pad-overview-left-blank`}>
+                                        <div className={`${classNamePrefix}-pad-overview-left-blank-fill`}/>
                                     </div>}
                 </div> 
         })
         // account for mobile
         const {deviceType} = this.props
         const accountShow = (deviceType === reviewType.PHONE || deviceType === reviewType.TABLET)
-        const accountIcon = accountShow && <div className="homeScreenPreviewer-pad-overview-left-down"> {this.toolbarIconsRender([iconTypes.previewAccountMobile])}</div>
+        const accountIcon = accountShow && <div className={`${classNamePrefix}-pad-overview-left-down`}> {this.toolbarIconsRender([iconTypes.previewAccountMobile])}</div>
         return <div className={rootClassName}> {sidebarIcons} {accountIcon} </div>
     }
 
@@ -119,8 +105,8 @@ class HomeScreenPreviewer extends React.Component<any, any> {
     overlayRender = (centered: boolean) => {
         const style = {top: '0px', right:  centered ? '86px' : '16px'}
         return <div> 
-            <div className={'homeScreenPreviewer-overlay'} style={style}> </div>
-            <div className={'homeScreenPreviewer-overlay-Icon'} style={style}> <span className={iconTypes.previewFullScreen.iconName}> </span> </div> 
+            <div className={`${classNamePrefix}-overlay`} style={style}> </div>
+            <div className={`${classNamePrefix}-overlay-icon`} style={style}> <span className={iconTypes.previewFullScreen.iconName}> </span> </div> 
             </div>
     }
 
@@ -183,10 +169,10 @@ class HomeScreenPreviewer extends React.Component<any, any> {
     previewerClassName = (deviceType: string, appender: string) => {
         switch (deviceType) {
             case reviewType.TABLET:
-                return 'homeScreenPreviewer-pad' + appender 
+                return `${classNamePrefix}-pad` + appender 
             case reviewType.WEB:
             case reviewType.DESKTOP:
-                return 'homeScreenPreviewer-web' + appender
+                return `${classNamePrefix}-web` + appender
             default:
                 return ''
         }
@@ -214,7 +200,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                         {this.deviceTypesRender(deviceType)}
 
                         {/* library toolbars */}
-                        {!isDossierHome && this.titleRender(sectionTitle.libraryHome)}
+                        {!isDossierHome && this.titleRender(localizedStrings.LIBRARYHOME)}
                         {!isDossierHome &&
                         <div style={{position: 'relative'}}>
                             <Layout className={this.previewerClassName(deviceType, '')}>
@@ -243,7 +229,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                         }
 
                         {/* dossier toolbars */}
-                        {this.titleRender( isDossierHome ? sectionTitle.dossierHome : sectionTitle.dossier )}
+                        {this.titleRender( isDossierHome ? localizedStrings.DOSSIERHOME : localizedStrings.DOSSIER_WINDOW_LOWERCASE )}
                         <div style={{position: 'relative'}}>
                             <Layout className={this.previewerClassName(deviceType, '')}>
                                 { !hideHeader &&
@@ -275,38 +261,38 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                         {this.deviceTypesRender(deviceType)}
 
                         {/* library */}
-                        {!isDossierHome && this.titleRender(sectionTitle.libraryHome)}
+                        {!isDossierHome && this.titleRender(localizedStrings.LIBRARYHOME)}
 
                         <div style={{position: 'relative'}}>
-                            <div className="homeScreenPreviewer-horcontainer">
+                            <div className={`${classNamePrefix}-horcontainer`}>
                                 {/* library sidebar */}
                                 {!isDossierHome && showSideBar &&
-                                    <Layout className="homeScreenPreviewer-phone">
+                                    <Layout className={`${classNamePrefix}-phone`}>
                                         {!hideHeader &&
                                         <Layout.Header >
                                             {this.placeHolderRender('auto', true)}
                                         </Layout.Header>
                                         }
-                                        <Layout.Content className="homeScreenPreviewer-phone-content">{this.sidebarIconsRender(childrenIcons, 'homeScreenPreviewer-phone-sidebar')}</Layout.Content>
+                                        <Layout.Content className={`${classNamePrefix}-phone-content`}>{this.sidebarIconsRender(childrenIcons, `${classNamePrefix}-phone-sidebar`)}</Layout.Content>
                                     </Layout>
                                 }
 
                                 {/* library toolbar */}
                                 {!isDossierHome && 
-                                    <Layout className="homeScreenPreviewer-phone">
+                                    <Layout className={`${classNamePrefix}-phone`}>
                                         { !hideHeader &&
                                             <Layout.Header>
                                                 {this.toolbarIconsRender(libraryHeaderIcons)}
                                                 {this.placeHolderRender(showSideBar ? '190px' : '123px', false)}
                                             </Layout.Header>
                                         }
-                                        <Layout.Content className="homeScreenPreviewer-phone-content">
-                                            <Layout className="homeScreenPreviewer-phone-container">
-                                                <div className="homeScreenPreviewer-phone-container-library" />
+                                        <Layout.Content className={`${classNamePrefix}-phone-content`}>
+                                            <Layout className={`${classNamePrefix}-phone-container`}>
+                                                <div className={`${classNamePrefix}-phone-container-library`}/>
                                             </Layout>
                                         </Layout.Content>
                                         { !hideHeader &&
-                                            <footer className="homeScreenPreviewer-phone-footer">
+                                            <footer className={`${classNamePrefix}-phone-footer`}>
                                                 <span/>
                                                 {this.toolbarIconsRender(libraryFooterIcons)}
                                                 <span/>
@@ -319,23 +305,23 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                         </div>
                         
                         {/* dossier toolbars */}
-                        {this.titleRender( isDossierHome ? sectionTitle.dossierHome : sectionTitle.dossier )}
+                        {this.titleRender( isDossierHome ? localizedStrings.DOSSIERHOME : localizedStrings.DOSSIER_WINDOW_LOWERCASE )}
                         <div style={{position: 'relative'}} >
-                            <Layout className="homeScreenPreviewer-phone">
+                            <Layout className={`${classNamePrefix}-phone`}>
                                 { !hideHeader &&
                                     <Layout.Header>
                                         {this.toolbarIconsRender(dossierHeaderIcons)}
                                         {showTocOnPhone && <span className={iconTypes.previewTocPhone.iconName}/>}
                                     </Layout.Header>
                                 }
-                                <Layout.Content className="homeScreenPreviewer-phone-content">
-                                    <Layout className="homeScreenPreviewer-phone-container">
-                                        {!hideHeader && <div className="homeScreenPreviewer-phone-container-dossier" />}
-                                        {hideHeader && <div className="homeScreenPreviewer-phone-container-dossier-nobar" />}
+                                <Layout.Content className={`${classNamePrefix}-phone-content`}>
+                                    <Layout className={`${classNamePrefix}-phone-container`}>
+                                        {!hideHeader && <div className={`${classNamePrefix}-phone-container-dossier`} />}
+                                        {hideHeader && <div className={`${classNamePrefix}-phone-container-dossier-nobar`} />}
                                     </Layout>
                                 </Layout.Content>
                                 { !hideHeader &&
-                                    <footer className="homeScreenPreviewer-phone-footer">
+                                    <footer className={`${classNamePrefix}-phone-footer`}>
                                         <span/>
                                         {this.toolbarIconsRender(dossierFooterIcons)}
                                         <span/>

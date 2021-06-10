@@ -1,6 +1,6 @@
 @import '~@mstr/rc/es/assets/scss/variables.scss';
 
-.HomeScreenConfigMainView-no-access-page {
+.homeScreenConfigMainView-no-access-page {
   text-align: center;
   position: absolute;
   top: 50%;
@@ -8,7 +8,7 @@
   transform: translate(-50%, -50%);
   max-width: 550px;
 
-  .warning-icon {
+  &-warning-icon {
     background-image: url(../../../images/no_access_bg.svg);
     display: inline-block;
     width: 261px;
@@ -17,12 +17,12 @@
     background-position: center;
   }
 
-  .warning-title {
+  &-warning-title {
     @include msdl-h1-gray();
     margin-top: 30px;
   }
 
-  .warning-detail {
+  &-warning-detail {
     @include msdl-paragraph-gray();
     margin-top: 18px;
   }

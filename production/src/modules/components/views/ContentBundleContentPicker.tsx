@@ -17,23 +17,21 @@ import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { connect } from 'react-redux';
 import { selectAllDossiers, selectAllDocuments, selectIsLoadingDossiers, selectLoadingDossiersFinish } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as api from '../../../services/api';
-import { t } from '../../../i18n/i18next';
+import { default as VC, localizedStrings, HomeScreenHomeObjectType, contentPickerSize } from '../HomeScreenConfigConstant'
+
 
 var currentOffset = 0;
-var activeTab = 'Dossier';
+var activeTab = HomeScreenHomeObjectType.DOSSIER;
 var searchNameFilter = '';
-
-const popoverGeneral = {
-  width: 909,
-  height: 617,
-  headerHeight: 0,
-};
+const classNamePrefix = 'content-bundle-content-picker';
+const rowSelectionType = 'single';
+const rowModelType = 'serverSide';
 
 class ContentBundleContentPicker extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
     this.state = {
-      activeTab: 'Dossier',
+      activeTab: HomeScreenHomeObjectType.DOSSIER,
       selectedObject: {},
     }
   }
@@ -60,7 +58,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
   bundleContentPickerServer() {
     return {
         getData: function (params: IServerSideGetRowsParams) {
-          const isDossier = activeTab === 'Dossier';
+          const isDossier = activeTab === HomeScreenHomeObjectType.DOSSIER;
           console.log(activeTab);
           var results: any[] = [];
           var lastRow: number = -1;
@@ -175,7 +173,6 @@ class ContentBundleContentPicker extends React.Component<any, any> {
   }
 
   handleSearch = (value: string) => {
-    //filter on name in allBundleList
     searchNameFilter = value;
     this.gridOptions.api.deselectAll();
     this.gridOptions.api.onFilterChanged();
@@ -191,17 +188,17 @@ class ContentBundleContentPicker extends React.Component<any, any> {
 
   buttonGroup = () => {
     return (
-        <div className="content-bundle-content-picker-btn">
+        <div className={`${classNamePrefix}-btn`}>
             <Button onClick={this.handleCancelAdd}
             style={{ paddingTop: 0}}>
-                Cancel
+                {localizedStrings.CANCEL}
             </Button>
             <Button
-                type="primary"
+                type='primary'
                 style={{marginLeft: 10, paddingTop: 0}}
                 onClick={this.handleSaveAdd}
                 disabled = {_.isEmpty(this.state.selectedObject)}>
-                Select
+                {localizedStrings.SELECT}
             </Button>
         </div>
     );
@@ -209,7 +206,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
 
   getGridContents = (contents: any[], activeTabStr: string) => {
       const newlist = contents.map((content) => {
-        return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: activeTabStr === 'Dossier'});
+        return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: activeTabStr === HomeScreenHomeObjectType.DOSSIER});
       });
       return newlist;
   }
@@ -232,7 +229,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
   renderLoadingIcon = () => {
     const bookmarksImg = require('../images/loading.gif');
     return (
-      <img className="content-bundle-content-picker-loading" src={bookmarksImg}/>);
+      <img className={`${classNamePrefix}-loading`} src={bookmarksImg}/>);
   }
 
   getContextMenuItems = (params: GetContextMenuItemsParams) => {
@@ -264,32 +261,32 @@ class ContentBundleContentPicker extends React.Component<any, any> {
       menuTabs: [] as string[]
     },
     animateRows: true,
-    rowSelection: 'single',
+    rowSelection: rowSelectionType,
     rowMultiSelectWithClick: true,
     onSelectionChanged: this.onSelectionChanged,
     onGridReady: this.onGridReady,
-    rowModelType: 'serverSide',
+    rowModelType: rowModelType,
     serverSideStoreType: ServerSideStoreType.Partial,
     
     getContextMenuItems: this.getContextMenuItems,
     columnDefs: [
-        {field: 'name', headerName: t('name'), width: 250, cellRenderer: (params: any) => {
+        {field: VC.NAME, headerName: localizedStrings.NAME, width: 250, cellRenderer: (params: any) => {
           if (params.node.data.isDossier) {
             return '<img class="content-bundle-content-picker-grid-right-name-dossier" src="../assets/images/dossier.jpg"/><span style="color: #35383a;; padding: 4px; font-size: 12px">' + params.value + '</span>';
           } else {
             return '<img class="content-bundle-content-picker-grid-right-name-document" src="../assets/images/document.png"/><span style="color: #35383a;; padding: 4px; font-size: 12px">' + params.value + '</span>';
           }
         }},
-        {field: 'certified', headerName: t('certified'), width: 90, cellRenderer: (params: any) => {
+        {field: VC.CERTIFIED, headerName: localizedStrings.CERTIFIED, width: 90, cellRenderer: (params: any) => {
           if (params.node.data.certified) {
-              return `<span class="icon-home_certified" style="color: #f08033; font-size: 14px" />`;
+              return `<span class=${VC.FONT_CERTIFIED} style='color: #f08033; font-size: 14px' />`;
           } else {
             return '';
           }}
         },
-        {field: 'ownerName', headerName: t('owner'), width: 120},
-        {field: 'dateCreatedShort', width: 116, headerName: t('dateCreated')},
-        {field: 'dateModifiedShort', width: 116, headerName: t('dateModified')}
+        {field: VC.OWNER_NAME, headerName: localizedStrings.OWNER, width: 120},
+        {field: VC.DATE_CREATED_SHORT, width: 116, headerName: localizedStrings.DATE_CREATED},
+        {field: VC.DATE_MODIFIED_SHORT, width: 116, headerName: localizedStrings.DATE_MODIFIED}
     ]
   };
 
@@ -298,51 +295,50 @@ class ContentBundleContentPicker extends React.Component<any, any> {
     
     return (
       <Modal
-          className='content-bundle-content-picker-modal'
+          className={`${classNamePrefix}-modal`}
           destroyOnClose={true}
-          width={popoverGeneral.width}
+          width={contentPickerSize.width}
           maskClosable = {false}
           visible = {this.props.visible}
           footer={null}
           onCancel={() => {
-            //this.props.handleDismiss(false)
           }}
       >
-        <div className="content-bundle-content-picker">
-          <div className="content-bundle-content-picker-top">
-            <div className="content-bundle-content-picker-header">
-              {t('selectDossierHint')}
+        <div className={`${classNamePrefix}`}>
+          <div className={`${classNamePrefix}-top`}>
+            <div className={`${classNamePrefix}-header`}>
+              {localizedStrings.SELECT_DOSSIER_HINT}
             </div>
-            <SearchInput className="content-bundle-content-picker-search" placeholder="Search"
+            <SearchInput className={`${classNamePrefix}-search`} placeholder={localizedStrings.SEARCH}
                 onChange={(value: string) => {
                   this.handleSearch(value);
                 }}/>
           </div>
-          <div className="content-bundle-content-picker-middle">
-            <div className="content-bundle-content-picker-grid">
-              <div className="content-bundle-content-picker-grid-left">
-                <Menu className="content-bundle-content-picker-grid-menu"
+          <div className={`${classNamePrefix}-middle`}>
+            <div className={`${classNamePrefix}-grid`}>
+              <div className={`${classNamePrefix}-grid-left`}>
+                <Menu className={`${classNamePrefix}-grid-menu`}
                   defaultSelectedKeys={[this.state.activeTab]}
-                  mode="inline"
+                  mode='inline'
                   theme={'dark'}
                 >
-                  <Menu.Item tabIndex={0} aria-label={t('dossiersTab')} key="Dossier" className="content-bundle-content-picker-grid-menu-tab1" onClick={this.tabBarChanged}>
-                    <div className="icon-dossier"/>
-                    <div className="content-bundle-content-picker-grid-menu-dossier">
-                      {t('dossiers')}
+                  <Menu.Item tabIndex={0} aria-label={localizedStrings.DOSSIER_TAB_TEXT} key={HomeScreenHomeObjectType.DOSSIER} className={`${classNamePrefix}-grid-menu-tab1`} onClick={this.tabBarChanged}>
+                    <div className={VC.FONT_DOSSIER}/>
+                    <div className={`${classNamePrefix}-grid-menu-dossier`}>
+                      {localizedStrings.DOSSIERS}
                     </div>
                   </Menu.Item>
-                  <Menu.Item tabIndex={0} aria-label={t('documentsTab')} key="Document" className="content-bundle-content-picker-grid-menu-tab2" onClick={this.tabBarChanged}>
-                    <div className="icon-rsd-cover"/>
-                    <div className="content-bundle-content-picker-grid-menu-document">
-                      {t('documents')}
+                  <Menu.Item tabIndex={0} aria-label={localizedStrings.DOCUMENT_TAB_TEXT} key={HomeScreenHomeObjectType.DOCUMENT} className={`${classNamePrefix}-grid-menu-tab2`} onClick={this.tabBarChanged}>
+                    <div className={VC.FONT_DOCUMENT}/>
+                    <div className={`${classNamePrefix}-grid-menu-document`}>
+                      {localizedStrings.DOCUMENTS}
                     </div>
                   </Menu.Item>
                 </Menu>
               </div>
-              <div className="content-bundle-content-picker-grid-right">
+              <div className={`${classNamePrefix}-grid-right`}>
                 <div style={{ width: '100%', height: '100%' }}>
-                <div id="myGrid" style={{ height: '100%', width: '100%'}} className="ag-theme-alpine">
+                <div id='contentPickerGrid' style={{ height: '100%', width: '100%'}} className='ag-theme-alpine'>
                     <AgGridReact gridOptions={this.gridOptions}>
                     </AgGridReact>
                 </div>

@@ -4,27 +4,18 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import '../../../../src/assets/fonts/webfonts/css/dossier.css'
 import '../scss/HomeScreenComponents.scss'
-import { default as VC, platformType, iconDetail, iconTypes, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons, iconValidKey, dossierIconKeys, libraryIconKeys, sidebarIconKeys, mobileOnlyIconKeys, webDesktopOnlyIconKeys } from '../HomeScreenConfigConstant'
+import { default as VC, localizedStrings, previewerWidth, platformType, iconDetail, iconTypes, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons, iconValidKey, dossierIconKeys, libraryIconKeys, sidebarIconKeys, mobileOnlyIconKeys, webDesktopOnlyIconKeys } from '../HomeScreenConfigConstant'
 import * as _ from 'lodash'
 import HomeScreenPreviewer from './HomeScreenPreviewer'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
 import { selectCurrentConfig, selectIsDossierAsHome, selectIsToolbarHidden, selectIsToolbarCollapsed, selectSelectedSideBarIcons, selectSelectedLibraryIcons, selectSelectedDocumentIcons, selectCurrentConfigContentBundleIds, selectDefaultGroupsName } from '../../../store/selectors/HomeScreenConfigEditorSelector'
 import * as Actions from '../../../store/actions/ActionsCreator'
-import { t } from '../../../i18n/i18next'
 
-// constatns 
-const localizedString = {
-    ENABLE_FEATURE_TITLE: t('enableFeatureTitle'),
-    ENABLE_FEATURE_DESC: t('enableFeatureDesc'),
-    DISABLE_TOOLBAR: t('disableToolbar'),
-    COLLAPSE_TOOLBAR: t('collapseToolbar'),
-
-    LIBRARY_WINDOW: t('libraryWindow'),
-    DOSSIER_WINDOW: t('dossierWindow'),
-    DOSSIER_WINDOW_HOME: t('dossierWindowHome'),
-    // PLATFORM_SPECIFIC: 'PLATFORM SPECIFIC',
-}
-const childrenKeyOffset = 1000
+const childrenKeyOffset = 1000;
+/* ClassName */
+const classNamePrefix = 'home-screen-components';
+const columnDisplayText = 'displayText';
+const columnSelected = 'selected';
 
 // helper
 function iconExpandable(iconText: string) {
@@ -58,25 +49,25 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
 
     columns = [
         {
-            title: "",
-            key: "displayText",
-            dataIndex: "displayText",
-            align: "left" as const,
+            title: '',
+            key: columnDisplayText,
+            dataIndex: columnDisplayText,
+            align: 'left' as const,
             render: (icon: [string, string]) => {
                 return (
                     !iconExpandable(icon[1]) &&
                     <span>
                         <span className={icon[0]}/>
-                        <span className="table-text">  {icon[1]}  </span> 
+                        <span className={`${classNamePrefix}-table-text`}>  {icon[1]}  </span> 
                     </span>
                 )
             }
         },
         {
-            title: "",
-            key: "selected",
-            dataIndex: "selected",
-            align: "right" as const,
+            title: '',
+            key: columnSelected,
+            dataIndex: columnSelected,
+            align: 'right' as const,
             render: (selectedInfo: [boolean, string]) => {
                 return (
                     < Switch checked={selectedInfo[0]} onChange={
@@ -124,7 +115,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
             iconExpandable(icon[1]) &&
             <span>
                 <span className={icon[0]}/>
-                <span className="table-text">  {icon[1]}  </span> 
+                <span className={`${classNamePrefix}-table-text`}>  {icon[1]}  </span> 
                 {expanded && <DownOutlined />}
                 {!expanded && <RightOutlined />}
             </span>
@@ -134,7 +125,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
     customExpandIcon = (props: any) => {
         const marginLeft = props.record.key >= childrenKeyOffset ? '10px' : '0px'
         if (props.expandable || props.record.expandable) {
-            return <span style={{marginLeft: marginLeft, cursor: 'pointer'}} onClick={e => {
+            return <span style={{marginLeft: marginLeft, cursor: VC.POINTER}} onClick={e => {
                 props.onExpand(props.record, e);
             }}>{this.renderTableExpander(props.record.displayText, props.expanded)}</span>
         } else {
@@ -143,7 +134,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
     }
 
     renderTableTitle = (title: string) => {
-        return <div className="home-screen-components-icons-title">{title}</div> 
+        return <div className={`${classNamePrefix}-icons-title`}>{title}</div> 
     }
 
     renderTable = (icons: Array<iconDetail>) => {
@@ -151,7 +142,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
             .map( (icon, index) =>  {
                 let displayText = icon.displayText
                 if(icon.key === iconTypes.defaultGroup.key) {
-                    displayText = _.isEmpty(this.props.defaultGroupsName) ? t('defaultGroups') : this.props.defaultGroupsName
+                    displayText = _.isEmpty(this.props.defaultGroupsName) ? localizedStrings.DEFAULT_GROUPS : this.props.defaultGroupsName
                 }
                 return (
                     {key: childrenKeyOffset+index, displayText: [icon.iconName, displayText], selected: this.iconSelectedInfo(icon.key)}
@@ -169,11 +160,11 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
             }
         )
         
-        return <Table className="home-screen-components-table" dataSource={data} columns={this.columns} pagination={false} showHeader={false} expandIcon={(props) => this.customExpandIcon(props)} />
+        return <Table className={`${classNamePrefix}-table`} dataSource={data} columns={this.columns} pagination={false} showHeader={false} expandIcon={(props) => this.customExpandIcon(props)} />
     }
 
     renderOptions = (checked: boolean, value: string, text: string) => {
-        return <div className = "home-screen-components-toolbar">
+        return <div className = {`${classNamePrefix}-toolbar`}>
             <Checkbox 
                 checked={checked}
                 value={value}
@@ -245,40 +236,40 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
 
     render() {
         return (
-            <Layout className="home-screen-components">
-                <Layout.Content className="home-screen-components-left"> 
-                    <div className = "home-screen-components-enable-feature">
-                        {localizedString.ENABLE_FEATURE_TITLE}
-                        <div className="home-screen-components-enable-feature-description">
-                            {localizedString.ENABLE_FEATURE_DESC}
+            <Layout className={`${classNamePrefix}`}>
+                <Layout.Content className={`${classNamePrefix}-left`}>
+                    <div className = {`${classNamePrefix}-enable-feature`}>
+                        {localizedStrings.ENABLE_FEATURE_TITLE}
+                        <div className={`${classNamePrefix}-enable-feature-description`}>
+                            {localizedStrings.ENABLE_FEATURE_DESC}
                         </div>
                     </div>
 
-                    {this.renderOptions(this.props.toolbarHidden, VC.TOOLBAR_DISABLED, localizedString.DISABLE_TOOLBAR)}
-                    {this.renderOptions(this.props.toolbarCollapsed, VC.TOOLBAR_MODE, localizedString.COLLAPSE_TOOLBAR)}
+                    {this.renderOptions(this.props.toolbarHidden, VC.TOOLBAR_DISABLED, localizedStrings.DISABLE_TOOLBAR)}
+                    {this.renderOptions(this.props.toolbarCollapsed, VC.TOOLBAR_MODE, localizedStrings.COLLAPSE_TOOLBAR)}
 
-                    <div className="home-screen-components-scrollcontainer">
+                    <div className={`${classNamePrefix}-scrollcontainer`}>
                     {
                         // dossier as home group
-                        this.props.isDossierHome && <div className="home-screen-components-icons">
-                            { this.renderTableTitle(localizedString.DOSSIER_WINDOW_HOME) }
+                        this.props.isDossierHome && <div className={`${classNamePrefix}-icons`}>
+                            { this.renderTableTitle(localizedStrings.DOSSIER_WINDOW_HOME) }
                             { this.renderTable(dossierIconsDossierHome) }
                         </div>
                     }
 
                     {
                         // library as home group
-                        !this.props.isDossierHome && <div className="home-screen-components-icons">
-                            { this.renderTableTitle(localizedString.LIBRARY_WINDOW) }
+                        !this.props.isDossierHome && <div className={`${classNamePrefix}-icons`}>
+                            { this.renderTableTitle(localizedStrings.LIBRARY_WINDOW) }
                             { this.renderTable(libraryIcons) }
-                            { this.renderTableTitle(localizedString.DOSSIER_WINDOW) }
+                            { this.renderTableTitle(localizedStrings.DOSSIER_WINDOW) }
                             { this.renderTable(dossierIcons) }
                         </div>
                     }
                     </div>
                 </Layout.Content>
                 {/* previewer */}
-                <Layout.Sider className="home-screen-components-right" width='274px'>
+                <Layout.Sider className={`${classNamePrefix}-right`} width={previewerWidth}>
                     <HomeScreenPreviewer />
                 </Layout.Sider>
             </Layout>

@@ -6,12 +6,13 @@ import { env } from '../../../main'
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import * as _ from "lodash";
 import { Input } from 'antd';
-import { platformType, reviewType } from '../HomeScreenConfigConstant';
+import { platformType, reviewType, localizedStrings } from '../HomeScreenConfigConstant';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { selectCurrentConfig, selectPreviewDeviceType } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 const { TextArea } = Input;
-import { t } from '../../../i18n/i18next';
+
+const classNamePrefix = 'home-screen-general';
 
 class HomeScreenGeneral extends React.Component<any, any> {
   constructor(props: any) {
@@ -82,58 +83,58 @@ class HomeScreenGeneral extends React.Component<any, any> {
   render() {
     const { name, description, platform} = this.props.config;
     return (
-        <div className = "home-screen-general">
-            <div className="home-screen-general-environment">
-                <div className="home-screen-general-environment-title">
-                    {t('environment')}
+        <div className = {`${classNamePrefix}`}>
+            <div className={`${classNamePrefix}-environment`}>
+                <div className={`${classNamePrefix}-environment-title`}>
+                    {localizedStrings.ENVIRONMENT}
                 </div>
-                <div className="home-screen-general-environment-name">
+                <div className={`${classNamePrefix}-environment-name`}>
                     {this.state.currentEnv.name}
                 </div>
             </div>
-            <div className="home-screen-general-name">
-                <div className="home-screen-general-name-title">
-                    {t('name')}
+            <div className={`${classNamePrefix}-name`}>
+                <div className={`${classNamePrefix}-name-title`}>
+                    {localizedStrings.NAME}
                 </div>
-                <div className="home-screen-general-name-name">
-                    <Input placeholder="" value={name} onChange={this.handleNameChange}/>
-                </div>
-            </div>
-            <div className="home-screen-general-description">
-                <div className="home-screen-general-description-title">
-                    {t('description')}
-                </div>
-                <div className="home-screen-general-description-name">
-                    <TextArea className="home-screen-general-description-name-input" placeholder="" rows={3} value={description} onChange={this.handleDescChange}/>
+                <div className={`${classNamePrefix}-name-name`}>
+                    <Input placeholder='' value={name} onChange={this.handleNameChange}/>
                 </div>
             </div>
-            <div className="home-screen-general-platform">
-                <div className="home-screen-general-platform-title">
-                    {t('platform')}
+            <div className={`${classNamePrefix}-description`}>
+                <div className={`${classNamePrefix}-description-title`}>
+                    {localizedStrings.DESCRIPTION}
                 </div>
-                <div className="home-screen-general-platform-name">
+                <div className={`${classNamePrefix}-description-name`}>
+                    <TextArea className={`${classNamePrefix}-description-name-input`} placeholder='' rows={3} value={description} onChange={this.handleDescChange}/>
+                </div>
+            </div>
+            <div className={`${classNamePrefix}-platform`}>
+                <div className={`${classNamePrefix}-platform-title`}>
+                    {localizedStrings.PLATFORM}
+                </div>
+                <div className={`${classNamePrefix}-platform-name`}>
                     {this.props.config.default && <Checkbox
                         disabled={true}
-                        label={t('mobile')}
+                        label={localizedStrings.MOBILE}
                         checked={platform.includes(platformType.mobile)}
                         onChange={(event: CheckboxChangeEvent) => {
-                          this.handlePlatformChange(event, 'Mobile')
+                          this.handlePlatformChange(event, platformType.mobile)
                         }}
                     />}
                     <Checkbox
                         disabled={true}
-                        label={t('web')}
+                        label={localizedStrings.WEB}
                         checked={platform.includes(platformType.web)}
                         onChange={(event: CheckboxChangeEvent) => {
-                          this.handlePlatformChange(event, 'Web')
+                          this.handlePlatformChange(event, platformType.web)
                         }}
                     />
                     {this.props.config.default && <Checkbox
                         disabled={true}
-                        label={t('desktop')}
+                        label={localizedStrings.DESKTOP}
                         checked={platform.includes(platformType.desktop)}
                         onChange={(event: CheckboxChangeEvent) => {
-                          this.handlePlatformChange(event, 'Desktop')
+                          this.handlePlatformChange(event, platformType.desktop)
                         }}
                     />}
                 </div>

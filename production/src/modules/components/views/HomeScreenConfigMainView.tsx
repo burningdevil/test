@@ -19,11 +19,15 @@ import ServerIncompatiblePage from './error-pages/ServerIncompatiblePage';
 import NoAccessPage from './error-pages/NoAccessPage';
 import { isLibraryServerVersionMatch, isIServerVersionMatch, isUserHasManageApplicationPrivilege, DEFAULT_CONFIG_ID } from '../../../utils';
 import classNames from 'classnames';
-import { t } from '../../../i18n/i18next';
+import { default as VC, localizedStrings, platformType } from '../HomeScreenConfigConstant';
 
 
 declare var workstation: WorkstationModule;
-const prefixMainCls = 'home-screen-main';
+const classNamePrefix = 'home-screen-main';
+const appRootPath = 'app';
+const appRootPathWithConfig = 'app/config/';
+const configSaveSuccessPath = 'Message.homeConfigSaveSuccess';
+
 class HomeScreenConfigMainView extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
@@ -69,7 +73,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
 
     workstation.window.addHandler(WindowEvent.POSTMESSAGE, (msg: any) => {
       console.log(msg);
-      if(_.get(msg, 'Message.homeConfigSaveSuccess', '')){
+      if(_.get(msg, configSaveSuccessPath, '')){
         this.loadData();
       }
       return {
@@ -115,7 +119,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
   }
 
   openConfigEditor = (objId : string = '') => {
-    const objType = 'HomeScreenConfig';
+    const objType = VC.CONFIG_EDITOR_OBJTYPE;
     let options: ObjectEditorSettings = {
       objectType: objType,
       environment: this.state.currentEnv
@@ -125,40 +129,38 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     }
     workstation.dialogs.openObjectEditor(options).catch(e =>
       workstation.dialogs.error({
-          message: 'Open object editor failed with error',
+          message: localizedStrings.ERR_EDITOR_OPEN,
           additionalInformation: JSON.stringify(e)
       })
     )
   }
 
+  processErrorResponse = (e: any) => {
+    const error = e as RestApiError;
+    if (error.statusCode === 401) {
+      workstation.environments.getCurrentEnvironment().then(currentEnv => {
+        workstation.environments.disconnect(currentEnv.url);
+        message.error(localizedStrings.ERR_SESSION_OUT);
+      });
+    }
+  }
+
   deleteConfig = (objId : string = '') => {
     if (objId) {
-      HttpProxy.delete('/mstrClients/libraryApplications/configs/' + objId, {}).then((res: any) => {
+      HttpProxy.delete(api.getApiPathForEditApplication(objId), {}).then((res: any) => {
         this.loadData();
       }).catch((e: any) => {
-        const error = e as RestApiError;
-        if (error.statusCode === 401) {
-          workstation.environments.getCurrentEnvironment().then(currentEnv => {
-            workstation.environments.disconnect(currentEnv.url);
-            message.error('401 error and disconnect');
-          });
-        }
+        this.processErrorResponse(e);
       });
     }
   }
 
   duplicateConfig = async (objId : string = '') => {
     if (objId) {
-      HttpProxy.post('/mstrClients/libraryApplications/configs?sourceId=' + objId, {}).then((res: any) => {
+      HttpProxy.post(api.getApiPathForDuplicateApplication(objId), {}).then((res: any) => {
         this.loadData();
       }).catch((e: any) => {
-        const error = e as RestApiError;
-        if (error.statusCode === 401) {
-          workstation.environments.getCurrentEnvironment().then(currentEnv => {
-            workstation.environments.disconnect(currentEnv.url);
-            message.error('401 error and disconnect');
-          });
-        }
+        this.processErrorResponse(e);
       });
     }
   }
@@ -168,18 +170,18 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     let blob = new Blob(
         [decodeURIComponent(encodeURI(JSON.stringify(configJson)))],
         { type: 'application/json;charset=utf-8;' });
-    FileSaver.saveAs(blob, configId + '.json');
+    FileSaver.saveAs(blob, configId + VC.JSONFILE_SUFFIX);
   }
 
   renderShareContextMenu = (d: Record) => {
     const handleClickCopyLink = async () => {
       try {
         const currentEnv = await workstation.environments.getCurrentEnvironment();
-        const appLink = d.default ? currentEnv.url + "app" : currentEnv.url + "app/config/" + d.id;
+        const appLink = d.default ? currentEnv.url + appRootPath : currentEnv.url + appRootPathWithConfig + d.id;
         copyToClipboard(appLink);
-        message.success('The application link has been successfully copied!');
+        message.success(localizedStrings.LINK_COPIED);
       } catch (e) {
-        message.error('Copy application link to clipboard fail: ' + e);
+        message.error(localizedStrings.ERR_LINK_COPY + e);
       }
     };
     const handleClickDownload = () => {
@@ -187,32 +189,26 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       api.downloadSingleConfig(configId).then(config => {
         this.downloadJsonFile(config, configId);
       }).catch((e) => {
-        const error = e as RestApiError;
-        if (error.statusCode === 401) {
-          workstation.environments.getCurrentEnvironment().then(currentEnv => {
-            workstation.environments.disconnect(currentEnv.url);
-            message.error('401 error and disconnect');
-          });
-        }
+        this.processErrorResponse(e);
       });
     };
     // const copyIcon = require('../images/copy.svg');
     const menu = (
       <Menu>
         <Menu.Item key="0" onClick={handleClickCopyLink}>
-          <span className="item-copy"/>
-          {t('copyLink')}
+          <span className={`${classNamePrefix}-item-copy`}/>
+          {localizedStrings.COPY_LINK}
         </Menu.Item>
         <Menu.Item key="1" onClick={handleClickDownload}>
-          <span className="item-json"/>
-          {t('downloadJson')}
+          <span className={`${classNamePrefix}-item-json`}/>
+          {localizedStrings.DOWNLOAD_JSON}
         </Menu.Item>
       </Menu>
     );
   
     return (
-      <Dropdown className={classNames(prefixMainCls, "application-share-menu-container")} overlay={menu} trigger={['click']}>
-        <span className="icon-tb_share_n"/>
+      <Dropdown className={classNames(classNamePrefix, 'application-share-menu-container')} overlay={menu} trigger={['click']}>
+        <span className={VC.FONT_SHARE}/>
       </Dropdown>
     );
   };
@@ -221,12 +217,12 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     const THIS = this;
     const configList = this.props.configList.map((config: any) => {
       let resultConfig = _.cloneDeep(config);
-      if (!_.has(resultConfig, 'platform')) {
-        _.assign(resultConfig, {platform: 'Mobile'});
+      if (!_.has(resultConfig, VC.PLATFORM)) {
+        _.assign(resultConfig, {platform: platformType.mobile});
       } else {
         _.assign(resultConfig, {platform: resultConfig.platform.join(',')});
       }
-      if (!_.has(resultConfig, 'contentBundleIds')) {
+      if (!_.has(resultConfig, VC.CONTENT_BUNDLE_IDS)) {
         _.assign(resultConfig, { contentBundles: []});
       } else {
         var arr = resultConfig.contentBundleIds.reduce(function(res: any, v: any) {
@@ -235,9 +231,9 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         _.assign(resultConfig, { contentBundles: arr });
       }
 
-      _.assign(resultConfig, {mode: resultConfig.mode == 0 ? 'Library' : 'Dossier'});
+      _.assign(resultConfig, {mode: resultConfig.mode == 0 ? localizedStrings.LIBRARY : localizedStrings.DOSSIER});
 
-      if (_.has(resultConfig, 'lastUpdate')) {
+      if (_.has(resultConfig, VC.LAST_UPDATE)) {
         _.assign(resultConfig, {lastUpdate: new Date(resultConfig.lastUpdate).toLocaleString()});
       }
 
@@ -261,76 +257,76 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
 
       return [
         {
-          "name": t('edit'),
-          "action": handleClickEdit,
+          'name': localizedStrings.EDIT,
+          'action': handleClickEdit,
         },
         {
-          "name": t('delete'),
-          "action": handleClickDelete,
+          'name': localizedStrings.DELETE,
+          'action': handleClickDelete,
         },
         {
-          "name": t('duplicate'),
-          "action": handleClickDuplicate,
+          'name': localizedStrings.DUPLICATE,
+          'action': handleClickDuplicate,
         }
       ];
     };
 
     return this.state.isEnvReady ? (
-      <div className={prefixMainCls}>
-        <div className="new-application-container">
-          <span tabIndex={0} aria-label={t('newApplicationBtn')} className="icon-pnl_add-new" onClick={this.handleAddApplication}/>
+      <div className={`${classNamePrefix}`}>
+        <div className={`${classNamePrefix}-new-application-container`}>
+          <span tabIndex={0} aria-label={localizedStrings.NEW_APP_BTN_TEXT} className={VC.FONT_ADD_NEW} onClick={this.handleAddApplication}/>
           <span>
-            {t('newApplication')}
+            {localizedStrings.NEW_APP_TEXT}
           </span>
         </div>
         <ReactWindowGrid
           columnDef={[
             {
-              field: 'name',
-              headerName: t('name'),
+              field: VC.NAME,
+              headerName: localizedStrings.NAME,
               sortable: true,
               width: '20%',
               render: (d: Record) => {
                 return (
-                  <div className='Application-Name-Container'>
-                    <span className='Application-Name-Text'>{d.name}</span>
+                  <div className={`${classNamePrefix}-application-name-container`}>
+                    <span className={`${classNamePrefix}-application-name-text`}>{d.name}</span>
                     {this.renderShareContextMenu(d)}
                   </div>
                 )
               },
             },
             {
-              field: 'platform',
-              headerName: t('platform'),
+              field: VC.PLATFORM,
+              headerName: localizedStrings.PLATFORM,
               sortable: true,
               width: '10%'
             },
             {
-              field: 'mode',
-              headerName: t('home'),
+              field: VC.MODE,
+              headerName: localizedStrings.HOME,
               width: '10%',
               sortable: true
             },
             {
-              field: 'contentBundles',
-              headerName: t('contentBundles'),
+              field: VC.CONTENT_BUNDLES,
+              headerName: localizedStrings.NAVBAR_CONTENT_BUNDLES,
               sortable: false,
               width: '30%',
               render: (d: Record) => {
                 if (d.contentBundles.length === 0) {
                   return (
-                    <div className='Config-List-Content-Bundles'>
-                      <span>{t('bundleUserHint')}</span>
+                    <div className={`${classNamePrefix}-content-bundles`}>
+                      <span>{localizedStrings.BUNDLE_USER_HINT}</span>
                     </div>
                   )
                 }
                 return (
-                  <div className='Config-List-Content-Bundles'>
+                  <div className={`${classNamePrefix}-content-bundles`}>
                     {
                       d.contentBundles.map(((bundle: {name: string, color: number}) => {
-                        return (<span className='Config-List-Content-Bundle-Item'>
-                          <span className='Config-List-Content-Bundle-Item-Icon' style={{ background: hexIntToColorStr(bundle.color) }}></span>
-                          <span className='Config-List-Content-Bundle-Item-Text'>{bundle.name}</span>
+                        return (<span className={`${classNamePrefix}-content-bundles-item`}>
+                          <span className={`${classNamePrefix}-content-bundles-item-icon`} style={{ background: hexIntToColorStr(bundle.color) }}></span>
+                          <span className={`${classNamePrefix}-content-bundles-item-text`}>{bundle.name}</span>
                         </span>)
                       }))
                     }
@@ -339,8 +335,8 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
               },
             },
             {
-              field: 'lastUpdate',
-              headerName: t('dateModified'),
+              field: VC.LAST_UPDATE,
+              headerName: localizedStrings.DATE_MODIFIED,
               sortable: true,
               width: '15%'
             }

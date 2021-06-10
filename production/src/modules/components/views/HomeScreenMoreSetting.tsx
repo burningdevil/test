@@ -1,59 +1,20 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import '../scss/HomeScreenMoreSetting.scss'
-import { default as VC } from '../HomeScreenConfigConstant'
+import { default as VC, sectionAccess, sectionCache, sectionConnectivity, sectionLogging, sectionTitle, logLevelStr, tooltipStr, metricStr } from '../HomeScreenConfigConstant'
 import { Button, Checkbox, Divider, Dropdown, Menu, Input, Tooltip} from 'antd'
 import { DownOutlined } from '@ant-design/icons'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
 import { selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEditorSelector'
 import * as Actions from '../../../store/actions/ActionsCreator'
-import { t } from '../../../i18n/i18next'
 
+const classNamePrefix = 'home-screen-moresetting';
 const MAX_UPDATE_INTERVAL = 2400;//100 days
 const MAX_TIMEOUT = 9999;
 const MAX_LOGGING_SIZE = 9999;
 const MIN_METRIC_VALUE = 0;
 const TOOLTIP_DISAPPEAR_TIME = 3000;
 const DEFAULT_INTERVAL_HOURS = 24;
-const sectionTitle = {
-    DESC: t('mobileOnlyDesc'),
-    SECURITY: t('security'),
-    ACCESS: t('access'),
-    CONNECTIVITY: t('connectivity'),
-    LOGGING: t('logging'),
-    CACHE: t('cache')
-};
-const sectionAccess = {
-    ACCESS_PREFERENCE: t('allowPreference'),
-    ACCESS_ADVANCED_SETTINGS: t('allowAdvancedSettings'),
-    CHECK_UPDATE: t('checkUpdate'),
-};
-const sectionConnectivity = {
-    NETWORK_TIMEOUT: t('networkTimeout'),
-};
-const sectionLogging = {
-    MAX_LOG_SIZE: t('maxLogSize'),
-    LOG_LEVEL: t('logLevel'),
-};
-const logLevelStr = {
-    ALL: t('logAll'),
-    INFO: t('logInfo'),
-    WARNING: t('logWarning'),
-    SEVERE: t('logServre'),
-    OFF: t('logOff'),
-};
-const sectionCache = {
-    CLEAR_CACHE_ON_CLOSE: t('clearCacheOnClose'),
-    CLEAR_CACHE_ON_LOGOUT: t('clearCacheOnLogout'),
-};
-const metricStr = {
-    HOURS: t('hours'),
-    SECONDS: t('seconds'),
-    ENTRIES: t('items'),
-};
-const tooltipStr = (min: string, max: string) => {
-    return t('tooltipStr',  {min, max}) 
-};
 
 class HomeScreenMoreSetting extends React.Component<any, any> {
     constructor(props: any) {
@@ -83,7 +44,6 @@ class HomeScreenMoreSetting extends React.Component<any, any> {
         switch (type) {
             case VC.UPDATE_INTERVAL:
                 const { updateInterval } = this.props.config.general
-                // const interval = updatein
                 const result = updateInterval === VC.UPDATE_INTERVAL_DISABLED ? DEFAULT_INTERVAL_HOURS * 60 : VC.UPDATE_INTERVAL_DISABLED;
                 update = {[type]: result}
                 break;
@@ -178,17 +138,17 @@ class HomeScreenMoreSetting extends React.Component<any, any> {
 
     inputRender = (visible: boolean, maxValue: number, suffix: string, disabled: boolean, value: number, onChange: React.ChangeEventHandler<HTMLInputElement>) => {
         return <Tooltip 
-            overlayClassName="home-screen-moresetting-tooltip-overlay"
+            overlayClassName={`${classNamePrefix}-tooltip-overlay`}
             visible={visible}
-            placement="topLeft"
+            placement='topLeft'
             title={
                 <span>
-                    <span className="icon-error"/>
+                    <span className={VC.FONT_ERROR}/>
                     {`  ${tooltipStr(MIN_METRIC_VALUE.toString(), maxValue.toString())}`}
                 </span>
             }>
             <Input 
-                className='home-screen-moresetting-cfg-advance-input' 
+                className={`${classNamePrefix}-cfg-advance-input`} 
                 suffix={suffix} 
                 disabled={disabled}
                 value={value}
@@ -207,7 +167,7 @@ class HomeScreenMoreSetting extends React.Component<any, any> {
     }
 
     sectionTitleRender = (title: string) => {
-        return <div className="home-screen-moresetting-title">{title}</div>
+        return <div className={`${classNamePrefix}-title`} >{title}</div>
     }
 
     render() {
@@ -222,8 +182,8 @@ class HomeScreenMoreSetting extends React.Component<any, any> {
             clearCacheOnLogout,
         } = this.props.config.general;
 
-        return <div className="home-screen-moresetting-cfg-advance">
-                    <div className="home-screen-moresetting-desc">
+        return <div className={`${classNamePrefix}-cfg-advance`}>
+                    <div className={`${classNamePrefix}-desc`}>
                         {sectionTitle.DESC}
                     </div>
 
@@ -235,7 +195,7 @@ class HomeScreenMoreSetting extends React.Component<any, any> {
                     <div>
                         {this.checkboxRender(!disableAdvancedSettings, VC.DISABLE_ADVANCED_SETTINGS, sectionAccess.ACCESS_ADVANCED_SETTINGS)}
                     </div>
-                    <div className="home-screen-moresetting-box">
+                    <div className={`${classNamePrefix}-box`}>
                         <span>
                             {this.checkboxRender(updateInterval !== VC.UPDATE_INTERVAL_DISABLED, VC.UPDATE_INTERVAL, sectionAccess.CHECK_UPDATE)}
                         </span>
@@ -247,7 +207,7 @@ class HomeScreenMoreSetting extends React.Component<any, any> {
                     
                     {/* Connectivity section */}
                     {this.sectionTitleRender(sectionTitle.CONNECTIVITY)}
-                    <div className="home-screen-moresetting-box">
+                    <div className={`${classNamePrefix}-box`}>
                         <span>{sectionConnectivity.NETWORK_TIMEOUT}</span>
                         {this.inputRender(!this.state.timeoutValid, MAX_TIMEOUT, metricStr.SECONDS, false, parseInt(networkTimeout), (e) => this.onInputChange(VC.NETWORK_TIMEOUT, e.target.value))}
                     </div>
@@ -255,16 +215,16 @@ class HomeScreenMoreSetting extends React.Component<any, any> {
             
                     {/* Log section */}
                     {this.sectionTitleRender(sectionTitle.LOGGING)}
-                    <div className="home-screen-moresetting-cfg-advance-padding">
-                        <div className='home-screen-moresetting-box'>
+                    <div className={`${classNamePrefix}-cfg-advance-padding`}>
+                        <div className={`${classNamePrefix}-box`}>
                             <span>{sectionLogging.MAX_LOG_SIZE}</span>
                             {this.inputRender(!this.state.loggingSizeValid, MAX_LOGGING_SIZE, metricStr.ENTRIES, false, parseInt(maxLogSize), (e) => this.onInputChange(VC.MAX_LOG_SIZE, e.target.value))}
                         </div>
                     </div>
 
-                    <div className="home-screen-moresetting-box">
+                    <div className={`${classNamePrefix}-box`}>
                         <span>{sectionLogging.LOG_LEVEL}</span>
-                        <span className='home-screen-moresetting-cfg-advance-input log-dropdown'>
+                        <span className={`${classNamePrefix}-cfg-advance-input log-dropdown`}>
                             <Dropdown overlay={this.logMenu(logLevel)}>
                                 <Button>
                                     <span>

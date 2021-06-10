@@ -6,9 +6,9 @@ import { SearchInput, Input, Tooltip } from '@mstr/rc';
 import { WorkstationModule } from '@mstr/workstation-types';
 import { HttpProxy } from '../../../main';
 import {AgGridReact} from 'ag-grid-react';
-import { BundleInfo, iconTypes } from '../HomeScreenConfigConstant'
+import { default as VC, BundleInfo, iconTypes, BundleRecipientType, localizedStrings } from '../HomeScreenConfigConstant'
 import { PlusCircleOutlined, DownOutlined, FallOutlined } from '@ant-design/icons'
-import { BundleRecipientType, HomeScreenBundleListDatasource, getHomeScreenBundleListGroupCellInnerRenderer } from './HomeScreenUtils'
+import { HomeScreenBundleListDatasource, getHomeScreenBundleListGroupCellInnerRenderer } from './HomeScreenUtils'
 import {
   GridReadyEvent,
   SelectionChangedEvent,
@@ -32,6 +32,10 @@ import { t } from '../../../i18n/i18next';
 
 declare var workstation: WorkstationModule;
 var searchName = '';
+var currentProjs: Array<string> = [];
+const classNamePrefix = 'content-bundle-list-container';
+const rowSelectionType = 'multiple';
+const rowModelType = 'serverSide';
 
 function FakeHomeScreenBundleListServer(allData: BundleInfo[]) {
   return {
@@ -59,7 +63,7 @@ function FakeHomeScreenBundleListServer(allData: BundleInfo[]) {
           };
       } else {
           var key = params.request.groupKeys[0];
-          HttpProxy.get('/contentBundles/'+ key + '/contents?projectId=B7CA92F04B9FAE8D941C3E9B7E0CD754&projectId=5FDF3E5C4CCB76AA7E3292A4C47DECB8')
+          HttpProxy.get(api.getApiPathForGetBundleContents(key, currentProjs))
           .then((response: any) => {
               let contents = response;
               if (response && response.data) {
@@ -80,7 +84,6 @@ function FakeHomeScreenBundleListServer(allData: BundleInfo[]) {
           .then (()=>{
               params.successCallback(results, lastRow);
           })
-          // .catch((e: any) => (console.log(e)));
       }
       },
   };
@@ -91,7 +94,6 @@ class ContentBundleList extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
     this.state = {
-      // allBundleList: [],
       currentBundleList: [],
       showBundlePicker: false,
       nameFilter: ''
@@ -112,10 +114,7 @@ class ContentBundleList extends React.Component<any, any> {
     api.loadContentBundleList();
     this.processBundleList(this.props.allBundleList, this.props.includedIds, this.props.excludedIds);
     const currentEnv = await workstation.environments.getCurrentEnvironment();
-    console.log("Env: " + currentEnv);
-    this.setState({
-      currentEnv: currentEnv
-    });
+    currentProjs = currentEnv.projects.map(o=>o.id);
   }
 
   processBundleList(bundles: BundleInfo[], includedIds:[], excludedIds:[]) {
@@ -210,7 +209,7 @@ class ContentBundleList extends React.Component<any, any> {
 
     var result = [
     {
-      name: 'Remove from application',
+      name: localizedStrings.REMOVE_BUNDLE,
       action: handleClickDelete
     }];
     return result;
@@ -240,10 +239,10 @@ class ContentBundleList extends React.Component<any, any> {
     autoGroupColumnDef: {
       flex: 1,
       minWidth: 280,
-      field: 'name',
-      headerName: t('content'),
+      field: VC.NAME,
+      headerName: localizedStrings.CONTENT,
       checkboxSelection: this.getCheckboxEnabled,
-      cellRenderer: "agGroupCellRenderer",
+      cellRenderer: 'agGroupCellRenderer',
       cellRendererParams: {
         innerRenderer: 'bundleGroupCellInnerRenderer',
     }},
@@ -259,11 +258,11 @@ class ContentBundleList extends React.Component<any, any> {
       return dataItem.bundleId;
     },
 
-    rowModelType: 'serverSide',
+    rowModelType: rowModelType,
     serverSideStoreType: ServerSideStoreType.Full,
     suppressAggFuncInHeader: true,
     rowMultiSelectWithClick: true,
-    rowSelection: 'multiple',
+    rowSelection: rowSelectionType,
     animateRows: true,
     onGridReady: this.onGridReady,
     getContextMenuItems: this.getContextMenuItems,
@@ -271,14 +270,14 @@ class ContentBundleList extends React.Component<any, any> {
     isRowSelectable: this.isRowSelectable,
     icons: {
       // use some strings from group
-      groupExpanded: '<span class="ag-icon ag-icon-small-down"/>',
-      groupContracted: '<span class="ag-icon ag-icon-small-right"/>'
+      groupExpanded: `<span class='ag-icon ag-icon-small-down'/>`,
+      groupContracted: `<span class='ag-icon ag-icon-small-right'/>`
     },
     pagination: false,
   
     columnDefs: [
-        {field: 'name', rowGroup: true, hide: true},
-        {field: 'recipientStr', headerName: t('recipients'), cellRenderer: (params: any) => {
+        {field: VC.NAME, rowGroup: true, hide: true},
+        {field: VC.RECIPIENT_STR, headerName: localizedStrings.RECIPIENTS, cellRenderer: (params: any) => {
           if (params.node.group) {
             if (params.node.data.recipientType === BundleRecipientType.GROUP) {
               return '<img class="content-bundle-list-container-item-group" src="../assets/images/bundleUserGroup.png"/><span style="color: #35383a;; padding: 4px; font-size: 12px">' + params.value + '</span>';
@@ -304,16 +303,12 @@ class ContentBundleList extends React.Component<any, any> {
   }
 
   handleSearch = (value: string) => {
-    //filter on name in allBundleList
     searchName = value;
     this.setState({
       nameFilter: value
     });
     this.gridOptions.api.deselectAll();
     this.gridOptions.api.onFilterChanged();
-    // this.setState({
-    //   currentBundleList: []
-    // });
   }
 
   handleClosePicker = () => {
@@ -331,7 +326,7 @@ class ContentBundleList extends React.Component<any, any> {
   }
 
   renderPopoverContent = () => {
-      const title = <div> {t('tipOfDefaultGroups')} </div>
+      const title = <div> {localizedStrings.DEFAULT_GROUPS_TIP} </div>
       const sidebarIcons = [iconTypes.all, iconTypes.favorites, iconTypes.recents, iconTypes.defaultGroup]
           .map( (element, index) => {
           const showAddButton = iconTypes.myGroup.key === element.key
@@ -339,19 +334,19 @@ class ContentBundleList extends React.Component<any, any> {
           const showContent = iconTypes.defaultGroup.key === element.key
           return (
               <div style={{display: 'relative'}}>
-                  <div className="content-bundle-list-container-popover-text"> <span className={element.iconName} key={index}/> 
+                  <div className={`${classNamePrefix}-popover-text`}> <span className={element.iconName} key={index}/> 
                       <span>{element.displayText}</span> 
                       {showAddButton && <PlusCircleOutlined/>}
                       {showExpandIcon && <DownOutlined style={{fontSize: '5px', marginLeft: 'auto', marginRight: '4px'}}/>}
                   </div>
-                  {showContent && <div className="content-bundle-list-container-popover-blank">
-                      <div className="content-bundle-list-container-popover-blank-fill"/>
+                  {showContent && <div className={`${classNamePrefix}-popover-blank`}>
+                      <div className={`${classNamePrefix}-popover-blank-fill`}/>
                   </div>}
-                  {showContent && <div className="content-bundle-list-container-popover-blank">
-                      <div className="content-bundle-list-container-popover-blank-fill"/>
+                  {showContent && <div className={`${classNamePrefix}-popover-blank`}>
+                      <div className={`${classNamePrefix}-popover-blank-fill`}/>
                   </div>}
-                  {showContent && <div className="content-bundle-list-container-popover-blank">
-                      <div className="content-bundle-list-container-popover-blank-fill"/>
+                  {showContent && <div className={`${classNamePrefix}-popover-blank`}>
+                      <div className={`${classNamePrefix}-popover-blank-fill`}/>
                   </div>}
                   <FallOutlined style={{position: 'absolute', left: '110px', top: '100px', fontSize: '30px'}}/>
               </div> 
@@ -359,10 +354,11 @@ class ContentBundleList extends React.Component<any, any> {
       })
       // account for mobile
       return (
-      <div className='content-bundle-list-container-popover'> 
+      <div className={`${classNamePrefix}-popover`}> 
           {title} 
-          <div className="content-bundle-list-container-popover-container"> 
-          {sidebarIcons} </div>
+          <div className={`${classNamePrefix}-popover-container`}> 
+            {sidebarIcons}
+          </div>
       </div>
       )
   }
@@ -370,19 +366,19 @@ class ContentBundleList extends React.Component<any, any> {
   renderChangeNameField = () => {
     const msgInfoID = 'contentBundleListMsgInfoID'
     return (
-      <div className='content-bundle-list-container-title'>
-        {t('defaultGroupsSectionTitle')}
+      <div className={`${classNamePrefix}-title`}>
+        {localizedStrings.DEFAULT_GROUPS_TITLE}
         <Tooltip 
           title={this.renderPopoverContent()}
-          placement="rightTop"
+          placement='rightTop'
           onVisibleChange={(visible) => 
             document.getElementById(msgInfoID).style.color =  visible ? '#3892ed' : 'gray'
           }
         >
-        <span className='icon-msg_info' id={msgInfoID}> </span>
+        <span className={VC.FONT_MSG_INFO} id={msgInfoID}> </span>
         </Tooltip>
         <Input 
-        placeholder={t('defaultGroups')}
+        placeholder={localizedStrings.DEFAULT_GROUPS}
         value={this.props.defaultGroupsName}
         onChange={(e: any) => this.handleChangeDefaultGroupsName(e.target.value)}
         />
@@ -392,14 +388,14 @@ class ContentBundleList extends React.Component<any, any> {
 
   renderAddContent = () => {
     return (
-      <div className = "content-bundle-list-container-add-content">
-        <span tabIndex={0} aria-label={t('addContentBundlesBtn')} className="icon-pnl_add-new"
+      <div className = {`${classNamePrefix}-add-content`}>
+        <span tabIndex={0} aria-label={localizedStrings.ADD_CONTENT_BUNDLES_TEXT} className={VC.FONT_ADD_NEW}
           onClick={() => {
             this.handleAddContent();
           }}
         />
-        <span className="content-bundle-list-container-add-text">
-          {t('addContent')} 
+        <span className={`${classNamePrefix}-add-text`}>
+          {localizedStrings.ADD_CONTENT} 
         </span>
       </div>
     );
@@ -408,15 +404,15 @@ class ContentBundleList extends React.Component<any, any> {
   renderEmptyView = () => {
     const bookmarksImg = require('../images/emptyFolder.png');
     return (
-      <div className = "content-bundle-list-container-empty">
-        <img className="content-bundle-list-container-empty-img" src={bookmarksImg}/>
-        <div className="content-bundle-list-container-empty-desc">
-          {t('addContentBundles')}
+      <div className = {`${classNamePrefix}-empty`}>
+        <img className={`${classNamePrefix}-empty-img`} src={bookmarksImg}/>
+        <div className={`${classNamePrefix}-empty-desc`}>
+          {localizedStrings.ADD_CONTENT_BUNDLES}
         </div>
-        <div className="content-bundle-list-container-empty-add">
-          <span className= "icon-pnl_add-new" onClick={this.handleAddContent}/>
-          <span className="content-bundle-list-container-empty-add-text">
-            {t('addContent')}
+        <div className={`${classNamePrefix}-empty-add`}>
+          <span className= {VC.FONT_ADD_NEW} onClick={this.handleAddContent}/>
+          <span className={`${classNamePrefix}-empty-add-text`}>
+            {localizedStrings.ADD_CONTENT}
           </span>
         </div>
       </div>
@@ -426,11 +422,11 @@ class ContentBundleList extends React.Component<any, any> {
   render() {
     const containerHeight = this.props.allowDelete ? 'calc(100% - 60px)' : '100%'
     return (
-      <div className="content-bundle-list-container" style={{ height: '100%'}}>
+      <div className={`${classNamePrefix}`} style={{ height: '100%'}}>
         {this.props.allowDelete && this.renderChangeNameField()}
         {this.props.allowDelete &&
-          <div className="content-bundle-list-container-header">
-            <SearchInput value={this.state.nameFilter} className="content-bundle-list-container-search" placeholder={t('search')}
+          <div className={`${classNamePrefix}-header`}>
+            <SearchInput value={this.state.nameFilter} className={`${classNamePrefix}-search`} placeholder={localizedStrings.SEARCH}
                 onChange={(value: string) => {
                   this.handleSearch(value);
                 }}/>
@@ -438,10 +434,9 @@ class ContentBundleList extends React.Component<any, any> {
           </div>
         }
         <div style={{ width: '100%', height: containerHeight, position: 'relative' }}>
-          <div id="myGrid" style={{ height: '100%', width: '100%'}} className="ag-theme-alpine">
+          <div id='bundleListGrid' style={{ height: '100%', width: '100%'}} className='ag-theme-alpine'>
               <AgGridReact gridOptions={this.gridOptions}>
               </AgGridReact>
-              {/* <ReactWsGrid gridOptions={gridOptions} columnDefs={gridOptions.columnDefs}/> */}
               {this.props.allowDelete && this.state.currentBundleList && this.state.currentBundleList.length === 0 && this.renderEmptyView()}
           </div>
         </div>

@@ -8,6 +8,10 @@ import * as Actions from '../../../store/actions/ActionsCreator';
 import { connect } from 'react-redux';
 import { iconTypes } from '../HomeScreenConfigConstant';
 
+const classNamePrefix = 'home-screen-bundle-content';
+const bundleIdPath = 'homeScreen.homeLibrary.contentBundleIds';
+const sidebarPath = 'homeScreen.homeLibrary.sidebars';
+
 class HomeScreenContentBundles extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
@@ -37,14 +41,14 @@ class HomeScreenContentBundles extends React.Component<any, any> {
     const currentConfig = this.props.config
     const currentBundles = this.props.contentBundleIds 
     let sideBarIcons = this.props.sidebarIcons
-    _.set(currentConfig, 'homeScreen.homeLibrary.contentBundleIds', bundles);
+    _.set(currentConfig, bundleIdPath, bundles);
     // set components options 'default groups' automaticlly 
     if (!_.isEmpty(currentBundles) && currentBundles.length > 0 && bundles.length === 0) {
         sideBarIcons = _.pull(sideBarIcons, iconTypes.defaultGroup.key)
     } else if ((_.isEmpty(currentBundles) || currentBundles.length === 0) && bundles.length > 0) {
         sideBarIcons = _.concat(sideBarIcons, iconTypes.defaultGroup.key)
     }
-    _.set(currentConfig, 'homeScreen.homeLibrary.sidebars', sideBarIcons)
+    _.set(currentConfig, sidebarPath, sideBarIcons)
     console.log('handle bundle change');
     console.log(currentConfig);
     this.props.setCurrentConfig(currentConfig);
@@ -52,7 +56,7 @@ class HomeScreenContentBundles extends React.Component<any, any> {
 
   render() {
     return (
-      <div className="home-screen-bundle-content-container">
+      <div className={`${classNamePrefix}-container`}>
         <ContentBundleList includedIds = {this.props.contentBundleIds} handleSelection = {this.handleSelection} handleDeletion = {this.handleBundleDelete} handleAdd = {this.handleBundleAdd} allowDelete={true}/>
       </div>
     )

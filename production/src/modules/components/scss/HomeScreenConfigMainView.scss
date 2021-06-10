@@ -25,7 +25,7 @@
         }
     }
 
-    .new-application-container {
+    &-new-application-container {
         display: flex;
         align-items: center;
         padding-bottom: 10px;
@@ -38,7 +38,7 @@
         cursor: pointer;
     }
 
-    .Application-Name-Text {
+    &-application-name-text {
         padding-right: 5px;
     }
 
@@ -69,20 +69,20 @@
         display: none;
     }
     
-    .Config-List-Content-Bundle-Item {
+    &-content-bundles-item {
         padding-right: 10px;
-    }
-    
-    .Config-List-Content-Bundle-Item-Icon {
-        content:'\A';
-        width:6px;
-        height:6px;
-        border-radius:50%;
-        display:inline-block;
-    }
-    
-    .Config-List-Content-Bundle-Item-Text {
-        padding-left: 4px;
+
+        &-icon {
+            content:'\A';
+            width:6px;
+            height:6px;
+            border-radius:50%;
+            display:inline-block;
+        }
+
+        &-text {
+            padding-left: 4px;
+        }
     }
 }
 
@@ -98,7 +98,7 @@
         align-items: center;
         padding: 5px 18px; 
 
-        .item-copy {
+        .home-screen-main-item-copy {
             background: url("../images/copy.svg");
             margin-right: 3px;
             display: inline-block;
@@ -106,7 +106,7 @@
             height: 10px;
             background-repeat: no-repeat;
         }
-        .item-json {
+        .home-screen-main-item-json {
             background: url("../images/json.svg");
             margin-right: 3px;
             display: inline-block;

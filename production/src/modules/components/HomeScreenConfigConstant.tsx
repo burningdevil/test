@@ -26,6 +26,7 @@ export const CONSTANTS = {
     TOOLBAR_MODE: 'toolbarMode',   // hide toolbar by default
     TOOLBAR_DISABLED: 'toolbarDisabled',
     DEFAULT_GROUPS_NAME: 'defaultGroupsName',
+    CONTENT_BUNDLES: 'contentBundles',
     //Advanced Settings
     AUTH_MODES: 'authModes',
     DISABLE_ADVANCED_SETTINGS: 'disableAdvancedSettings',
@@ -100,6 +101,12 @@ export const CONSTANTS = {
     FONT_RECENT: 'icon-group_recents',
     FONT_DEFAULT_GROUP: 'icon-group_groups',
     FONT_MY_GROUP: 'icon-group_groups',
+    FONT_ADD_NEW: 'icon-pnl_add-new',
+    FONT_GROUP: 'icon-group_groups_a',
+    FONT_DOSSIER: 'icon-dossier',
+    FONT_DOCUMENT: 'icon-rsd-cover',
+    FONT_CERTIFIED: 'icon-home_certified',
+    FONT_MSG_INFO: 'icon-msg_info',
 
     // preview use only
     FONT_HOME: 'icon-tb_home',
@@ -109,6 +116,28 @@ export const CONSTANTS = {
     FONT_PREVIEWOPTIONS: 'icon-user-profile',
     FONT_FULLSCREEN: 'icon-fullscreen',
     FONT_LIBRARY_MOBILE: 'icon-tb_appicon',
+    FONT_ERROR: 'icon-error',
+
+    //common use
+    PLATFORM: 'platform',
+    LAST_UPDATE: 'lastUpdate',
+    OWNER_NAME: 'ownerName',
+    CERTIFIED: 'certified',
+    DATE_CREATED_SHORT: 'dateCreatedShort',
+    DATE_MODIFIED_SHORT: 'dateModifiedShort',
+    RECIPIENT_STR: 'recipientStr',
+    POINTER: 'pointer',
+    RIGHT: 'right',
+    LEFT: 'left',
+    CONTENT_BUNDLE_IDS: 'contentBundleIds',
+    COMPONENTS: 'components',
+    APPEARANCE: 'appearance',
+    MORESETTINGS: 'moreSettings',
+    BACK: 'back',
+    GENERATE: 'Generate',
+    CONFIG_EDITOR_OBJTYPE: 'HomeScreenConfig',
+    JSONFILE_SUFFIX: '.json',
+    
 }
 
 export const featureFlag = {
@@ -126,6 +155,24 @@ export const platformType = {
     mobile: 'Mobile',
     web: 'Web',
     desktop: 'Desktop',
+}
+
+export const EnumDSSXMLViewMedia = {
+    DssXmlViewMediaViewStatic: 0x00000001,
+    DssXmlViewMediaViewAnalysis: 0x00000800,
+    DssXmlViewMediaHTML5Dashboard: 0x00002000
+}
+
+export enum HomeScreenHomeObjectType {
+    DOCUMENT = 'Document',
+    DOSSIER = 'Dossier'
+}
+
+export enum BundleRecipientType {
+    NONE = 'None',
+    USER = 'User',
+    GROUP = 'Group',
+    BOTH = 'Both'
 }
 
 // toolbar icon [display text, icon-name, key]
@@ -161,6 +208,153 @@ export interface BundleInfo {
   expand: boolean,
   recipientType: number
 }
+
+export const editorSize = {
+    width: 962,
+    height: 708,
+    headerHeight: 0,
+};
+
+export const bundlePickerSize = {
+    width: 900,
+    height: 600,
+    headerHeight: 0,
+};
+
+export const contentPickerSize = {
+    width: 909,
+    height: 617,
+    headerHeight: 0,
+};
+
+export const localizedStrings = {
+    ENABLE_FEATURE_TITLE: t('enableFeatureTitle'),
+    ENABLE_FEATURE_DESC: t('enableFeatureDesc'),
+    DISABLE_TOOLBAR: t('disableToolbar'),
+    COLLAPSE_TOOLBAR: t('collapseToolbar'),
+
+    LIBRARY_WINDOW: t('libraryWindow'),
+    DOSSIER_WINDOW: t('dossierWindow'),
+    DOSSIER_WINDOW_HOME: t('dossierWindowHome'),
+    DEFAULT_GROUPS: t('defaultGroups'),
+    // PLATFORM_SPECIFIC: 'PLATFORM SPECIFIC',
+    NAVBAR_GENERAL: t('general'),
+    NAVBAR_HOME_SCREEN: t('homeScreen'),
+    NAVBAR_COMPONENTS: t('components'),
+    NAVBAR_APPEARANCE: t('appearance'),
+    NAVBAR_CONTENT_BUNDLES: t('contentBundles'),
+    NAVBAR_MORE_SETTINGS: t('moreSettings'),
+    CANCEL: t('cancel'),
+    SAVE: t('save'),
+    ERR_APP_SAVE: t('errAppSave'),
+
+    ENVIRONMENT: t('environment'),
+    NAME: t('name'),
+    DESCRIPTION: t('description'),
+    PLATFORM: t('platform'),
+    MOBILE: t('mobile'),
+    WEB: t('web'),
+    DESKTOP: t('desktop'),
+    CHANGE: t('change'),
+    PICKDOSSIER: t('pickDossier'),
+    SELECT_HOMESCREEN: t('selectHomeScreen'),
+    DEFAULT_HOME: t('useDefaultHome'),
+    DOSSIER_HOME: t('useDossierHome'),
+    DOSSIER_HOME_DESC: t('useDossierHomeDesc'),
+    INVALID_DOSSIER: t('invalidDossier'),
+    TABLET: t('tablet'),
+    PHONE: t('phone'),
+    PREVIEW: t('preview'),
+    LIBRARYHOME: t('libraryWindowLowerCase'),
+    DOSSIER_WINDOW_LOWERCASE: t('dossierWindowLowerCase'),
+    DOSSIERHOME: t('dossierWindowHomeLowerCase'),
+    ERR_EDITOR_OPEN: t('errEditorOpen'),
+    ERR_SESSION_OUT: t('errSessionOut'),
+    COPY_LINK: t('copyLink'),
+    DOWNLOAD_JSON: t('downloadJson'),
+    LINK_COPIED: t('linkCopied'),
+    ERR_LINK_COPY: t('errCopyLink'),
+    EDIT: t('edit'),
+    DELETE: t('delete'),
+    DUPLICATE: t('duplicate'),
+    NEW_APP_BTN_TEXT: t('newApplicationBtn'),
+    NEW_APP_TEXT: t('newApplication'),
+    HOME: t('home'),
+    BUNDLE_USER_HINT: t('bundleUserHint'),
+    DATE_MODIFIED: t('dateModified'),
+    DATE_CREATED: t('dateCreated'),
+    LIBRARY: t('library'),
+    DOSSIER: t('dossier'),
+    SELECT: t('select'),
+    SELECT_CONTENT_BUNDLES: t('selectContentBundles'),
+    SEARCH: t('search'),
+    SELECT_DOSSIER_HINT: t('selectDossierHint'),
+    DOSSIERS: t('dossiers'),
+    DOCUMENTS: t('documents'),
+    DOSSIER_TAB_TEXT: t('dossiersTab'),
+    DOCUMENT_TAB_TEXT: t('documentsTab'),
+    CERTIFIED: t('certified'),
+    OWNER: t('owner'),
+    ADD_CONTENT: t('addContent'),
+    ADD_CONTENT_BUNDLES: t('addContentBundles'),
+    ADD_CONTENT_BUNDLES_TEXT: t('addContentBundlesBtn'),
+    DEFAULT_GROUPS_TITLE: t('defaultGroupsSectionTitle'),
+    DEFAULT_GROUPS_TIP: t('tipOfDefaultGroups'),
+    REMOVE_BUNDLE: t('removeBundle'),
+    CONTENT: t('content'),
+    RECIPIENTS: t('recipients')
+}
+
+export const sectionTitle = {
+    DESC: t('mobileOnlyDesc'),
+    SECURITY: t('security'),
+    ACCESS: t('access'),
+    CONNECTIVITY: t('connectivity'),
+    LOGGING: t('logging'),
+    CACHE: t('cache')
+};
+
+export const sectionAccess = {
+    ACCESS_PREFERENCE: t('allowPreference'),
+    ACCESS_ADVANCED_SETTINGS: t('allowAdvancedSettings'),
+    CHECK_UPDATE: t('checkUpdate'),
+};
+
+export const sectionConnectivity = {
+    NETWORK_TIMEOUT: t('networkTimeout'),
+};
+
+export const sectionLogging = {
+    MAX_LOG_SIZE: t('maxLogSize'),
+    LOG_LEVEL: t('logLevel'),
+};
+
+export const logLevelStr = {
+    ALL: t('logAll'),
+    INFO: t('logInfo'),
+    WARNING: t('logWarning'),
+    SEVERE: t('logServre'),
+    OFF: t('logOff'),
+};
+
+export const sectionCache = {
+    CLEAR_CACHE_ON_CLOSE: t('clearCacheOnClose'),
+    CLEAR_CACHE_ON_LOGOUT: t('clearCacheOnLogout'),
+};
+
+export const metricStr = {
+    HOURS: t('hours'),
+    SECONDS: t('seconds'),
+    ENTRIES: t('items'),
+};
+
+export const tooltipStr = (min: string, max: string) => {
+    return t('tooltipStr',  {min, max}) 
+};
+
+export const selectedBundlesStr = (bundlesCount: number) => {
+    return t('selectedStr', {bundlesCount})
+};
 
 export const iconTypes = {
     sidebar: {displayText: t('sidebar'), iconName: CONSTANTS.FONT_SIDEBAR, key: CONSTANTS.ICON_SIDEBAR},
@@ -236,5 +430,6 @@ export const sidebarIconKeys = childrenIcons.map((element) => element.key)
 
 export const mobileOnlyIconKeys = [iconTypes.accountMobile].map((element) => element.key)
 export const webDesktopOnlyIconKeys = [iconTypes.multiSelect, iconTypes.accountWeb].map((element) => element.key)
+export const previewerWidth = '274px';
 
 export default CONSTANTS

@@ -11,8 +11,13 @@ import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import HomeScreenPreviewer from './HomeScreenPreviewer';
-import { default as VC } from '../HomeScreenConfigConstant';
-import { t } from '../../../i18n/i18next'
+import { default as VC, localizedStrings, previewerWidth } from '../HomeScreenConfigConstant';
+import * as api from '../../../services/api';
+
+const classNamePrefixSimple = 'home-screen-home';
+const classNamePrefix = `${classNamePrefixSimple}-settings`;
+const appRootPath = 'app/';
+const dossierUrlPath = 'homeDocument.url';
 
 class HomeScreenHomeSetting extends React.Component<any, any> {
   constructor(props: any) {
@@ -29,14 +34,15 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
         currentEnv: curEnv
     })
     const { homeScreen } = this.props.config;
-    const dossierUrl = _.get(homeScreen, 'homeDocument.url', '');
+    const dossierUrl = _.get(homeScreen, dossierUrlPath, '');
     if (dossierUrl) {
-        const ids = _.split(dossierUrl, '/');
+        const spliter = '/';
+        const ids = _.split(dossierUrl, spliter);
         if (ids && ids.length > 1) {
           const projectId = ids[ids.length - 2];
           const dossierId = ids[ids.length - 1];
-          const response = await HttpProxy.get('/objects/' + dossierId + '?type=55', {'X-MSTR-ProjectID': projectId}).catch((e: any) => (this.setState({
-            dossierName: 'Invalid Dossier'
+          const response = await HttpProxy.get(api.getApiPathForGetSingleDossier(dossierId), {'X-MSTR-ProjectID': projectId}).catch((e: any) => (this.setState({
+            dossierName: localizedStrings.INVALID_DOSSIER
           })));
           
           let data = response;
@@ -76,24 +82,24 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
 
   renderPickDossier = () => {
     const { homeScreen } = this.props.config;
-    const dossierUrl = _.get(homeScreen, 'homeDocument.url', '');
+    const dossierUrl = _.get(homeScreen, dossierUrlPath, '');
     const dossierImg = require('../images/dossier.png');
     if (dossierUrl) {
         return (
-            <div className = "home-screen-home-settings-dossier-info">
-                <img className = "home-screen-home-settings-dossier-image" src={dossierImg}/>
-                <div className = "home-screen-home-settings-dossier-name">
+            <div className = {`${classNamePrefix}-dossier-info`}>
+                <img className = {`${classNamePrefix}-dossier-image`} src={dossierImg}/>
+                <div className = {`${classNamePrefix}-dossier-name`}>
                     {this.state.dossierName}
                 </div>
-                <Button type='link' className = "home-screen-home-settings-dossier-change" disabled = {homeScreen.mode == VC.MODE_USE_DEFAULT_HOME_SCREEN} onClick={this.openDossierPickerPlugin}>
-                    {t('change')}
+                <Button type='link' className = {`${classNamePrefix}-dossier-change`} disabled = {homeScreen.mode == VC.MODE_USE_DEFAULT_HOME_SCREEN} onClick={this.openDossierPickerPlugin}>
+                    {localizedStrings.CHANGE}
                 </Button>
             </div>
         );
     } else {
         return (
-            <Button type='link' className = "home-screen-home-settings-pick" disabled = {homeScreen.mode == VC.MODE_USE_DEFAULT_HOME_SCREEN} onClick={this.openDossierPickerPlugin}>
-              {t('pickDossier')}
+            <Button type='link' className = {`${classNamePrefix}-pick`} disabled = {homeScreen.mode == VC.MODE_USE_DEFAULT_HOME_SCREEN} onClick={this.openDossierPickerPlugin}>
+              {localizedStrings.PICKDOSSIER}
             </Button>
         );
     }
@@ -106,7 +112,7 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
     this.props.updateCurrentConfig({
       homeScreen: {
         homeDocument: {
-          url: this.state.currentEnv.url + 'app/' + dossierUrl
+          url: this.state.currentEnv.url + appRootPath + dossierUrl
         }
       }
     });
@@ -115,28 +121,28 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
   render() {
     const { homeScreen } = this.props.config;
     return (
-        <Layout className="home-screen-home">
-            <Layout.Content className = "home-screen-home-settings">
-                <div className="home-screen-home-settings-title">
-                    {t('selectHomeScreen')}
+        <Layout className={`${classNamePrefixSimple}`}>
+            <Layout.Content className = {`${classNamePrefix}`}>
+                <div className={`${classNamePrefix}-title`}>
+                    {localizedStrings.SELECT_HOMESCREEN}
                 </div>
-                <div className="home-screen-home-settings-option">
+                <div className={`${classNamePrefix}-option`}>
                     <Radio.Group value={ homeScreen.mode } onChange={this.handleHomeSettingChange}>
-                        <Radio className="home-screen-home-settings-library" value={VC.MODE_USE_DEFAULT_HOME_SCREEN}>
-                                {t('useDefaultHome')}
+                        <Radio className={`${classNamePrefix}-library`} value={VC.MODE_USE_DEFAULT_HOME_SCREEN}>
+                                {localizedStrings.DEFAULT_HOME}
                         </Radio>
-                        <Radio className="home-screen-home-settings-dossier" value={VC.MODE_USE_DOSSIER_AS_HOME_SCREEN}>
-                            {t('useDossierHome')}
+                        <Radio className={`${classNamePrefix}-dossier`} value={VC.MODE_USE_DOSSIER_AS_HOME_SCREEN}>
+                            {localizedStrings.DOSSIER_HOME}
                         </Radio>
                     </Radio.Group>
                 </div>
-                <div className="home-screen-home-settings-hint">
-                    {t('useDossierHomeDesc')}
+                <div className={`${classNamePrefix}-hint`}>
+                    {localizedStrings.DOSSIER_HOME_DESC}
                 </div>
                 {this.renderPickDossier()}
                 <ContentBundleContentPicker visible={this.state.showContentPicker} handleClose={this.handleDismissAdd} handleChange={this.handleDossierChange}/>
             </Layout.Content>
-            <Layout.Sider className="home-screen-home-preview" width='274px'>
+            <Layout.Sider className={`${classNamePrefixSimple}-preview`} width={previewerWidth}>
               <HomeScreenPreviewer/>
             </Layout.Sider>
         </Layout>

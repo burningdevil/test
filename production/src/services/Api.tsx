@@ -3,8 +3,30 @@ import { HttpProxy } from '../main';
 import * as ActionsCreator from '../store/actions/ActionsCreator';
 import { isContentTypeDossier } from '../modules/components/views/HomeScreenUtils'
 import * as _ from 'lodash';
+import { default as VC, platformType } from '../modules/components/HomeScreenConfigConstant';
 
 const CONFIG_ENDPOINTS = '/mstrClients/libraryApplications/configs/';
+
+export const getApiPathForNewApplication = () => {
+    return CONFIG_ENDPOINTS;
+}
+
+export const getApiPathForEditApplication = (configId: string) => {
+    return CONFIG_ENDPOINTS + configId;
+}
+
+export const getApiPathForDuplicateApplication = (configId: string) => {
+    return CONFIG_ENDPOINTS + configId + '?sourceId=' + configId;
+}
+
+export const getApiPathForGetSingleDossier = (dossierId: string) => {
+    return '/objects/' + dossierId + '?type=55';
+}
+
+export const getApiPathForGetBundleContents = (bundleId: string, projIds: Array<string>) => {
+    const projectStrs = projIds.map(o=>'projectId='+ o);
+    return '/contentBundles/'+ bundleId + '/contents?' + _.join(projectStrs, '&');
+}
 
 export const getServerStatus = async () => {
     const response = await HttpProxy.get('/status');
@@ -42,8 +64,8 @@ export const loadCurrentEditConfig = (configId: string) => {
         if (data && response.data) {
           data = response.data;
         }
-        if (!_.has(data, 'platform')) {
-            _.assign(data, {platform: ['Mobile']});
+        if (!_.has(data, VC.PLATFORM)) {
+            _.assign(data, {platform: [platformType.mobile]});
         }
     
         if (!_.has(data, 'homeScreen.homeLibrary')) {
