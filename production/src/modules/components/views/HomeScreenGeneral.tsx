@@ -18,7 +18,8 @@ class HomeScreenGeneral extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
     this.state = {
-      currentEnv: {name: '', url: ''}
+      currentEnv: {name: '', url: ''},
+      showBlankNameError: false
     };
   }
 
@@ -30,7 +31,12 @@ class HomeScreenGeneral extends React.Component<any, any> {
   }
 
   handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      this.props.updateCurrentConfig({name: event.target.value});
+      const nameStr = event.target.value;
+      this.props.updateCurrentConfig({name: nameStr});
+      const isEmptyName = !(nameStr && nameStr.trim());
+      this.setState({
+          showBlankNameError: isEmptyName
+      });
   }
 
   handleDescChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -97,15 +103,20 @@ class HomeScreenGeneral extends React.Component<any, any> {
                     {localizedStrings.NAME}
                 </div>
                 <div className={`${classNamePrefix}-name-name`}>
-                    <Input placeholder='' value={name} onChange={this.handleNameChange}/>
+                    <Input placeholder='' maxLength={250} value={name} onChange={this.handleNameChange}/>
                 </div>
             </div>
+            { this.state.showBlankNameError && <div className={`${classNamePrefix}-name-blank-error`}>
+                    <div/>
+                    <span>{localizedStrings.BLANK_APP_NAME_ERROR}</span>
+                </div>
+            }
             <div className={`${classNamePrefix}-description`}>
                 <div className={`${classNamePrefix}-description-title`}>
                     {localizedStrings.DESCRIPTION}
                 </div>
                 <div className={`${classNamePrefix}-description-name`}>
-                    <TextArea className={`${classNamePrefix}-description-name-input`} placeholder='' rows={3} value={description} onChange={this.handleDescChange}/>
+                    <TextArea className={`${classNamePrefix}-description-name-input`} placeholder='' rows={3} maxLength={250} value={description} onChange={this.handleDescChange}/>
                 </div>
             </div>
             <div className={`${classNamePrefix}-platform`}>

@@ -29,8 +29,22 @@
                 padding-left: 5px;
                 padding-right: 5px;
             }
+            &-error {
+                border: 1px solid #d0021b;
+            }
+        }
+        &-blank-error {
+            display: flex;
+            div {
+                width: 20%;
+            }
+            span {
+                color: #d0021b;
+                font-family: Helvetica, serif;
+            }
         }
     }
+    
 
     &-description {
         display: flex;

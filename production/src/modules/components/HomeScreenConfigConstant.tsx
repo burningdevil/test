@@ -302,7 +302,8 @@ export const localizedStrings = {
     DEFAULT_GROUPS_TIP: t('tipOfDefaultGroups'),
     REMOVE_BUNDLE: t('removeBundle'),
     CONTENT: t('content'),
-    RECIPIENTS: t('recipients')
+    RECIPIENTS: t('recipients'),
+    BLANK_APP_NAME_ERROR: t('blankAppNameError')
 }
 
 export const sectionTitle = {
