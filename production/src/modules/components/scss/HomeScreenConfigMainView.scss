@@ -36,6 +36,7 @@
         margin-right: 3px;
         margin-left: 15px;
         cursor: pointer;
+        outline: none;
     }
 
     &-application-name-text {
@@ -83,6 +84,14 @@
         &-text {
             padding-left: 4px;
         }
+    }
+
+    &-application-name-container {
+        display: flex;
+    }
+    &-application-name-text {
+        max-width: 80%;
+        overflow: scroll;
     }
 }
 
