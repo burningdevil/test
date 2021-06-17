@@ -220,7 +220,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       if (!_.has(resultConfig, VC.PLATFORM)) {
         _.assign(resultConfig, {platform: platformType.mobile});
       } else {
-        _.assign(resultConfig, {platform: resultConfig.platform.join(',')});
+        _.assign(resultConfig, {platform: resultConfig.platform.join(', ')});
       }
       if (!_.has(resultConfig, VC.CONTENT_BUNDLE_IDS)) {
         _.assign(resultConfig, { contentBundles: []});
@@ -235,6 +235,8 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
 
       if (_.has(resultConfig, VC.LAST_UPDATE)) {
         _.assign(resultConfig, {lastUpdate: new Date(resultConfig.lastUpdate).toLocaleString()});
+        //TODO: use dateCreated property
+        _.assign(resultConfig, {dateCreated: new Date(resultConfig.lastUpdate).toLocaleString()});
       }
 
       return resultConfig;
@@ -279,72 +281,88 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
             {localizedStrings.NEW_APP_TEXT}
           </span>
         </div>
-        <ReactWindowGrid
-          columnDef={[
-            {
-              field: VC.NAME,
-              headerName: localizedStrings.NAME,
-              sortable: true,
-              width: '20%',
-              render: (d: Record) => {
-                return (
-                  <div className={`${classNamePrefix}-application-name-container`}>
-                    <span className={`${classNamePrefix}-application-name-text`}>{d.name}</span>
-                    {this.renderShareContextMenu(d)}
-                  </div>
-                )
-              },
-            },
-            {
-              field: VC.PLATFORM,
-              headerName: localizedStrings.PLATFORM,
-              sortable: true,
-              width: '10%'
-            },
-            {
-              field: VC.MODE,
-              headerName: localizedStrings.HOME,
-              width: '10%',
-              sortable: true
-            },
-            {
-              field: VC.CONTENT_BUNDLES,
-              headerName: localizedStrings.NAVBAR_CONTENT_BUNDLES,
-              sortable: false,
-              width: '30%',
-              render: (d: Record) => {
-                if (d.contentBundles.length === 0) {
+        <div className={`${classNamePrefix}-application-list-container`}>
+          <ReactWindowGrid
+            columnDef={[
+              {
+                field: VC.NAME,
+                headerName: localizedStrings.NAME,
+                sortable: true,
+                width: '20%',
+                render: (d: Record) => {
                   return (
-                    <div className={`${classNamePrefix}-content-bundles`}>
-                      <span>{localizedStrings.BUNDLE_USER_HINT}</span>
+                    <div className={`${classNamePrefix}-application-name-container`}>
+                      <span className={`${classNamePrefix}-application-name-text`}>{d.name}</span>
+                      {this.renderShareContextMenu(d)}
                     </div>
                   )
-                }
-                return (
-                  <div className={`${classNamePrefix}-content-bundles`}>
-                    {
-                      d.contentBundles.map(((bundle: {name: string, color: number}) => {
-                        return (<span className={`${classNamePrefix}-content-bundles-item`}>
-                          <span className={`${classNamePrefix}-content-bundles-item-icon`} style={{ background: hexIntToColorStr(bundle.color) }}></span>
-                          <span className={`${classNamePrefix}-content-bundles-item-text`}>{bundle.name}</span>
-                        </span>)
-                      }))
-                    }
-                  </div>
-                )
+                },
               },
-            },
-            {
-              field: VC.LAST_UPDATE,
-              headerName: localizedStrings.DATE_MODIFIED,
-              sortable: true,
-              width: '15%'
-            }
-          ]}
-          rowData={configDisplayList}
-          getContextMenuItems={getContextMenuItems}
-          isColumnConfigurable={true}
-        />
+              {
+                field: VC.DESC,
+                headerName: localizedStrings.DESCRIPTION,
+                sortable: true,
+                width: '15%',
+                showColumn: false,
+              },
+              {
+                field: VC.PLATFORM,
+                headerName: localizedStrings.PLATFORM,
+                sortable: true,
+                width: '10%'
+              },
+              {
+                field: VC.MODE,
+                headerName: localizedStrings.HOME,
+                width: '10%',
+                sortable: true
+              },
+              {
+                field: VC.CONTENT_BUNDLES,
+                headerName: localizedStrings.NAVBAR_CONTENT_BUNDLES,
+                sortable: false,
+                width: '30%',
+                render: (d: Record) => {
+                  if (d.contentBundles.length === 0) {
+                    return (
+                      <div className={`${classNamePrefix}-content-bundles`}>
+                        <span>{localizedStrings.BUNDLE_USER_HINT}</span>
+                      </div>
+                    )
+                  }
+                  return (
+                    <div className={`${classNamePrefix}-content-bundles`}>
+                      {
+                        d.contentBundles.map(((bundle: {name: string, color: number}) => {
+                          return (<span className={`${classNamePrefix}-content-bundles-item`}>
+                            <span className={`${classNamePrefix}-content-bundles-item-icon`} style={{ background: hexIntToColorStr(bundle.color) }}></span>
+                            <span className={`${classNamePrefix}-content-bundles-item-text`}>{bundle.name}</span>
+                          </span>)
+                        }))
+                      }
+                    </div>
+                  )
+                },
+              },
+              {
+                field: VC.LAST_UPDATE,
+                headerName: localizedStrings.DATE_MODIFIED,
+                sortable: true,
+                width: '15%',
+              },
+              {
+                field: VC.DATE_CREATED,
+                headerName: localizedStrings.DATE_CREATED,
+                sortable: true,
+                width: '15%',
+                showColumn: false
+              }
+            ]}
+            rowData={configDisplayList}
+            getContextMenuItems={getContextMenuItems}
+            isColumnConfigurable={true}
+          />
+        </div>
       </div>
     ) : (!this.state.isConnected ? <DisconnectedPage/> :
           (!this.state.isLibraryVersionMatched ? <ServerIncompatiblePage needUpgradeLibraryServer={true} needIServerUpgrade={false} needUpgradeMD={false}/> : 

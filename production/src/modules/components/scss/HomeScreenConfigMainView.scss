@@ -30,6 +30,11 @@
         align-items: center;
         padding-bottom: 10px;
         padding-top: 5px;
+        height: 33px;
+    }
+
+    &-application-list-container {
+        height: calc( 100% - 33px );
     }
     
     .icon-pnl_add-new {
@@ -45,14 +50,6 @@
 
     .application-share-menu-container {
         padding: 0px;
-    }
-
-    .mstr-window-table-body {
-        min-height: 708px;
-    }
-    
-    .mstr-rc-no-data-screen {
-        min-height: 708px;
     }
     
     .mstr-rc-mstr-react-window-table-wrapper {

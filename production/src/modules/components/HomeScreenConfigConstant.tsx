@@ -12,7 +12,7 @@ export const CONSTANTS = {
     SHARE: 'Share',
     //info
     NAME: 'name',
-    DESC: 'desc',
+    DESC: 'description',
     //Home Screen
     MODE_USE_DEFAULT_HOME_SCREEN: 0,
     MODE_USE_DOSSIER_AS_HOME_SCREEN: 1,
@@ -121,6 +121,7 @@ export const CONSTANTS = {
     //common use
     PLATFORM: 'platform',
     LAST_UPDATE: 'lastUpdate',
+    DATE_CREATED: 'dateCreated',
     OWNER_NAME: 'ownerName',
     CERTIFIED: 'certified',
     DATE_CREATED_SHORT: 'dateCreatedShort',
