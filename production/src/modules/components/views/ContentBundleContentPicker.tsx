@@ -4,7 +4,6 @@ import { SearchInput } from '@mstr/rc';
 import { store } from '../../../main'
 import { Modal, Button, Menu } from 'antd';
 import * as _ from "lodash";
-import {AgGridReact} from 'ag-grid-react';
 import { ReactWsGrid } from '@mstr/react-ws-grid'
 import {
   GridReadyEvent,
@@ -352,11 +351,13 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                     {/* <AgGridReact gridOptions ={this.gridOptions}>
                     </AgGridReact> */}
                     <ReactWsGrid 
-                        rowHeight={35}
                         rowMultiSelectWithClick = {true}
                         onSelectionChanged = {this.onSelectionChanged}
                         onGridReady = {this.onGridReady}
                         rowModelType = {rowModelType}
+                        // @ts-ignore: RC Component Support error
+                        serverSideStoreType = {ServerSideStoreType.Partial}
+                        rowSelection = {rowSelectionType}
                         getRowHeight = {this.getRowHeight}
                         columnDefs = {[
                             {field: VC.NAME, sortable: true, headerName: localizedStrings.NAME, width: 250, cellRenderer: (params: any) => {
