@@ -388,11 +388,10 @@ class ContentBundleList extends React.Component<any, any> {
 
   renderAddContent = () => {
     return (
-      <div className = {`${classNamePrefix}-add-content`}>
+      <div className = {`${classNamePrefix}-add-content`} onClick={() => {
+        this.handleAddContent();
+      }}>
         <span tabIndex={0} aria-label={localizedStrings.ADD_CONTENT_BUNDLES_TEXT} className={VC.FONT_ADD_NEW}
-          onClick={() => {
-            this.handleAddContent();
-          }}
         />
         <span className={`${classNamePrefix}-add-text`}>
           {localizedStrings.ADD_CONTENT} 
@@ -409,8 +408,8 @@ class ContentBundleList extends React.Component<any, any> {
         <div className={`${classNamePrefix}-empty-desc`}>
           {localizedStrings.ADD_CONTENT_BUNDLES}
         </div>
-        <div className={`${classNamePrefix}-empty-add`}>
-          <span className= {VC.FONT_ADD_NEW} onClick={this.handleAddContent}/>
+        <div className={`${classNamePrefix}-empty-add`} onClick={this.handleAddContent}>
+          <span className= {VC.FONT_ADD_NEW}/>
           <span className={`${classNamePrefix}-empty-add-text`}>
             {localizedStrings.ADD_CONTENT}
           </span>
