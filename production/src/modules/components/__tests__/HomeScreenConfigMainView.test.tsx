@@ -1,7 +1,7 @@
 jest.mock('../../../services/Api');
 
 import * as React from 'react';
-import { render, cleanup, fireEvent, waitFor } from '@testing-library/react';
+import { render, cleanup, fireEvent, waitFor, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import createStore from '../../../store/createStore';
 import HomeScreenConfigMainView from '../views/HomeScreenConfigMainView';
@@ -27,8 +27,5 @@ describe('HomeScreenConfigMainView Component', () => {
 
     const newApplicationButton = queryByLabelText('newApplicationBtn');
     expect(newApplicationButton).toBeInTheDocument();
-
-    // Application List
-    // newApplicationButton.click();
   });
 });
