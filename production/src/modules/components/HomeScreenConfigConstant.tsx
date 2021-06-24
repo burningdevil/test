@@ -304,7 +304,8 @@ export const localizedStrings = {
     REMOVE_BUNDLE: t('removeBundle'),
     CONTENT: t('content'),
     RECIPIENTS: t('recipients'),
-    BLANK_APP_NAME_ERROR: t('blankAppNameError')
+    BLANK_APP_NAME_ERROR: t('blankAppNameError'),
+    GETINFO: t('getInfo'),
 }
 
 export const sectionTitle = {

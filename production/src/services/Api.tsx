@@ -5,7 +5,7 @@ import { isContentTypeDossier } from '../modules/components/views/HomeScreenUtil
 import * as _ from 'lodash';
 import { default as VC, platformType } from '../modules/components/HomeScreenConfigConstant';
 
-const CONFIG_ENDPOINTS = '/mstrClients/libraryApplications/configs/';
+const CONFIG_ENDPOINTS = '/libraryApplications/';
 
 export const getApiPathForNewApplication = () => {
     return CONFIG_ENDPOINTS;
@@ -44,6 +44,8 @@ export const loadConfigList = () => {
         if (data && response.data) {
           data = response.data;
         }
+        data = data.libraryApplications;
+        data = data.filter((o: any) => o.id !== undefined);
         store.dispatch(ActionsCreator.loadConfigListSuccess(data));
     });
 }

@@ -124,7 +124,7 @@ class HomeScreenGeneral extends React.Component<any, any> {
                     {localizedStrings.PLATFORM}
                 </div>
                 <div className={`${classNamePrefix}-platform-name`}>
-                    {this.props.config.default && <Checkbox
+                    {this.props.config.isDefault && <Checkbox
                         disabled={true}
                         label={localizedStrings.MOBILE}
                         checked={platform.includes(platformType.mobile)}
@@ -140,7 +140,7 @@ class HomeScreenGeneral extends React.Component<any, any> {
                           this.handlePlatformChange(event, platformType.web)
                         }}
                     />
-                    {this.props.config.default && <Checkbox
+                    {this.props.config.isDefault && <Checkbox
                         disabled={true}
                         label={localizedStrings.DESKTOP}
                         checked={platform.includes(platformType.desktop)}

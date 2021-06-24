@@ -133,5 +133,6 @@
     "dossier": "Dossier",
     "removeBundle": "Remove from application",
 
-    "blankAppNameError": "The Application Name field cannot be blank."
+    "blankAppNameError": "The Application Name field cannot be blank.",
+    "getInfo": "Get Info"
 }
