@@ -5,7 +5,7 @@ export default {
             'name': 'test application',
             'description': 'this is test application description',
             'platform': featureFlag.platformEnable ? [platformType.mobile, platformType.web, platformType.desktop] : [platformType.web],
-            'default': false,
+            'isDefault': false,
             'homeScreen': {
                 mode: CONSTANTS.MODE_USE_DEFAULT_HOME_SCREEN, 
                 homeLibrary: { 

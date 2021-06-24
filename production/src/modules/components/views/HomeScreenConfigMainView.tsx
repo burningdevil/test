@@ -6,7 +6,7 @@ import { copyToClipboard } from '../../../utils/copy';
 import { ReactWindowGrid } from '@mstr/rc';
 import { SelectionStructure, Record } from '@mstr/rc/types';
 import { ContextMenuItem } from '@mstr/rc/types/react-window-grid/type';
-import { WorkstationModule, ObjectEditorSettings, EnvironmentChangeArg, WindowEvent, EnvironmentAction, EnvironmentStatus, Environment} from '@mstr/workstation-types';
+import { WorkstationModule, ObjectEditorSettings, EnvironmentChangeArg, WindowEvent, EnvironmentAction, EnvironmentStatus, Environment, PropertiesSettings, MstrObject, Project} from '@mstr/workstation-types';
 import { HttpProxy } from '../../../main';
 import { RestApiError } from '../../../server/RestApiError';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
@@ -177,7 +177,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     const handleClickCopyLink = async () => {
       try {
         const currentEnv = await workstation.environments.getCurrentEnvironment();
-        const appLink = d.default ? currentEnv.url + appRootPath : currentEnv.url + appRootPathWithConfig + d.id;
+        const appLink = d.isDefault ? currentEnv.url + appRootPath : currentEnv.url + appRootPathWithConfig + d.id;
         copyToClipboard(appLink);
         message.success(localizedStrings.LINK_COPIED);
       } catch (e) {
@@ -257,6 +257,23 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         this.duplicateConfig(contextMenuTarget.id);
       };
 
+      const handleClickInfo = () => {
+        const selectedObjs : MstrObject[] = [{id: contextMenuTarget.id, type: 78, subType: 78}];
+        const currentProj : Project = this.state.currentEnv.projects[0];
+        let options: PropertiesSettings = {
+          objects: selectedObjs,
+          project: currentProj,
+          environment: this.state.currentEnv
+        }
+        
+        workstation.dialogs.openProperties(options).catch(e =>
+          workstation.dialogs.error({
+              message: 'Open object properties failed with error',
+              additionalInformation: JSON.stringify(e)
+          })
+        )
+      };
+
       return [
         {
           'name': localizedStrings.EDIT,
@@ -269,6 +286,10 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         {
           'name': localizedStrings.DUPLICATE,
           'action': handleClickDuplicate,
+        },
+        {
+          'name': localizedStrings.GETINFO,
+          'action': handleClickInfo,
         }
       ];
     };
