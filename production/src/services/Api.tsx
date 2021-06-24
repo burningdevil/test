@@ -56,7 +56,9 @@ export const loadContentBundleList = () => {
         if (data && response.data) {
           data = response.data;
         }
-        store.dispatch(ActionsCreator.loadContentBundleListSuccess(data.contentBundles));
+        data = data.contentBundles;
+        data = data.filter((o: any) => o.id !== undefined);
+        store.dispatch(ActionsCreator.loadContentBundleListSuccess(data));
     });
 }
 
