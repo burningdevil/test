@@ -15,7 +15,7 @@ import { PARSE_METHOD } from '../../../utils/ParseMethods';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
-import * as api from '../../../services/api';
+import * as api from '../../../services/Api';
 import { default as VC, localizedStrings, editorSize } from '../HomeScreenConfigConstant'
 
 declare var workstation: WorkstationModule;

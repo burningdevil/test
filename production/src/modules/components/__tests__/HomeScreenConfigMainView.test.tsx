@@ -13,19 +13,22 @@ describe('HomeScreenConfigMainView Component', () => {
     cleanup();
   });
 
-  it('New Application button', () => {
+  it('Main Viewer Render', () => {
     const store = createStore(rootState);
-    // Then
+    // Render
     const { queryByText, queryByLabelText } = render(
       <Provider store={store}>
         <HomeScreenConfigMainView />
       </Provider>
     );
-    // Then
+    // New Application Button
     const newApplicationText = queryByText('newApplication');
     expect(newApplicationText).toBeInTheDocument();
 
     const newApplicationButton = queryByLabelText('newApplicationBtn');
     expect(newApplicationButton).toBeInTheDocument();
+
+    // Application List
+    // newApplicationButton.click();
   });
 });

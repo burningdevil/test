@@ -27,7 +27,7 @@ import { connect } from 'react-redux';
 import { selectContentBundleList, selectDefaultGroupsName } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator'
 import Constatnt from '../HomeScreenConfigConstant'
-import * as api from '../../../services/api';
+import * as api from '../../../services/Api';
 import { t } from '../../../i18n/i18next';
 
 declare var workstation: WorkstationModule;

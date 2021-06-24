@@ -16,7 +16,7 @@ import {
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { connect } from 'react-redux';
 import { selectAllDossiers, selectAllDocuments, selectIsLoadingDossiers, selectLoadingDossiersFinish } from '../../../store/selectors/HomeScreenConfigEditorSelector';
-import * as api from '../../../services/api';
+import * as api from '../../../services/Api';
 import { default as VC, localizedStrings, HomeScreenHomeObjectType, contentPickerSize } from '../HomeScreenConfigConstant'
 
 

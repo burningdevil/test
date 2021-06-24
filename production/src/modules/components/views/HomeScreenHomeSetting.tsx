@@ -12,7 +12,7 @@ import { selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEd
 import * as Actions from '../../../store/actions/ActionsCreator';
 import HomeScreenPreviewer from './HomeScreenPreviewer';
 import { default as VC, localizedStrings, previewerWidth } from '../HomeScreenConfigConstant';
-import * as api from '../../../services/api';
+import * as api from '../../../services/Api';
 
 const classNamePrefixSimple = 'home-screen-home';
 const classNamePrefix = `${classNamePrefixSimple}-settings`;
