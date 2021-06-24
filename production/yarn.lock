@@ -1269,47 +1269,6 @@
   resolved "http://nexus.internal.microstrategy.com:8081/repository/npm-group/@mstr/eslint-config-mstr/-/eslint-config-mstr-0.1.8.tgz#5597970b2b2080ae70d2d49858e4262780f7413a"
   integrity sha512-yVwV6/yyZDRmGSdHAf+NtIJIsoGVSrsW7TwJseGr4Zc73N8nxoPf8zRbFf18uJyMzGDlA50ZCesfeB6wASH0oQ==
 
-"@mstr/rc@^1.23.19":
-  version "1.24.7"
-  resolved "http://nexus.internal.microstrategy.com:8081/repository/npm-group/@mstr/rc/-/rc-1.24.7.tgz#e4b23b11571bcc60e8c7bd6034a88f039fdad2b5"
-  integrity sha512-DsXMtY5/zC72wRNx01rN2NkX3V38RDEbvwtJ8a8FROqAakMw5NTsR7z71DdfisEcoSjjXE1qNrTj7rFQ//dv8Q==
-  dependencies:
-    "@ant-design/icons" "^4.2.1"
-    antd "^4.10.2"
-    classnames "^2.2.6"
-    focus-visible "^5.1.0"
-    i18next "^19.4.4"
-    i18next-pseudo "^2.2.0"
-    lodash "^4.17.15"
-    lru-cache "^5.1.1"
-    memoize-one "^5.1.1"
-    moment "^2.26.0"
-    moment-timezone "^0.5.33"
-    omit.js "^1.0.2"
-    prop-types "^15.7.2"
-    pure-color "1.3.0"
-    rc-calendar "^9.15.10"
-    rc-tree "^3.10.0"
-    rc-util "^4.20.5"
-    react-color "2.13.8"
-    react-contextmenu "^2.13.0"
-    react-copy-to-clipboard "^5.0.2"
-    react-csv "^2.0.3"
-    react-draggable "^4.4.3"
-    react-highlight-words "^0.16.0"
-    react-highlighter "^0.4.3"
-    react-i18next "^11.4.0"
-    react-infinite "^0.13.0"
-    react-innertext "^1.1.5"
-    react-modal "^3.11.1"
-    react-resizable "^1.10.1"
-    react-tooltip "^3.11.1"
-    react-virtualized "^9.21.2"
-    react-virtualized-auto-sizer "^1.0.2"
-    react-window "^1.8.5"
-    resize-observer-polyfill "^1.5.1"
-    use-resize-observer "^6.1.0"
-
 "@mstr/rc@^1.24.22":
   version "1.24.22"
   resolved "http://nexus.internal.microstrategy.com:8081/repository/npm-group/@mstr/rc/-/rc-1.24.22.tgz#9da24189251d53c9c6ce8af46960c963cb3908e3"
@@ -1351,24 +1310,68 @@
     resize-observer-polyfill "^1.5.1"
     use-resize-observer "^6.1.0"
 
-"@mstr/react-ws-grid@^0.0.5":
-  version "0.0.5"
-  resolved "http://nexus.internal.microstrategy.com:8081/repository/npm-group/@mstr/react-ws-grid/-/react-ws-grid-0.0.5.tgz#94c66285ea93869893026be52e8e6292ac0888ea"
-  integrity sha512-dqAlZ0Ge0P0Avyr2W89Dw7Hf7E1KwaXNKbflvLCIsuVQzBHZiTLu0oxMgefTXFVr8RchcEwpkxMDXRX1e3aKqQ==
+"@mstr/rc@^1.25.3":
+  version "1.25.4"
+  resolved "http://nexus.internal.microstrategy.com:8081/repository/npm-group/@mstr/rc/-/rc-1.25.4.tgz#a138e56ddf14baa0044c8a19b73b99bc3cc08ced"
+  integrity sha512-aTsZuwPyN178QxT1KfVmjiLYKWhteZOQwvS6jauauKxnUsh8v8uNQkFhZKJ6G4/5FqI7kMWADDD0suKJER8f4A==
   dependencies:
-    "@mstr/rc" "^1.23.19"
+    "@ant-design/icons" "^4.2.1"
+    antd "^4.10.2"
+    classnames "^2.2.6"
+    focus-visible "^5.1.0"
+    i18next "^19.4.4"
+    i18next-pseudo "^2.2.0"
+    lodash "^4.17.15"
+    lru-cache "^5.1.1"
+    memoize-one "^5.1.1"
+    moment "^2.26.0"
+    moment-timezone "^0.5.33"
+    omit.js "^1.0.2"
+    prop-types "^15.7.2"
+    pure-color "1.3.0"
+    rc-calendar "^9.15.10"
+    rc-tree "^3.10.0"
+    rc-util "^4.20.5"
+    react-color "2.13.8"
+    react-contextmenu "^2.13.0"
+    react-copy-to-clipboard "^5.0.2"
+    react-csv "^2.0.3"
+    react-draggable "^4.4.3"
+    react-highlight-words "^0.16.0"
+    react-highlighter "^0.4.3"
+    react-i18next "^11.4.0"
+    react-infinite "^0.13.0"
+    react-innertext "^1.1.5"
+    react-modal "^3.11.1"
+    react-resizable "^1.10.1"
+    react-tooltip "^3.11.1"
+    react-virtualized "^9.21.2"
+    react-virtualized-auto-sizer "^1.0.2"
+    react-window "^1.8.5"
+    resize-observer-polyfill "^1.5.1"
+    use-resize-observer "^6.1.0"
+
+"@mstr/react-ws-grid@^0.0.22":
+  version "0.0.22"
+  resolved "http://nexus.internal.microstrategy.com:8081/repository/npm-group/@mstr/react-ws-grid/-/react-ws-grid-0.0.22.tgz#ef6d6c56a51fa43ae76138e40445f3fa4a6c8ef0"
+  integrity sha512-t+ZSIrESy5pe+jcmQay4AcNGmrCL4rMZAyn+UL2hIxkw7cnfydI3cDpz19gPq1iq75E0SSXp/JQbmf/9y7zSaw==
+  dependencies:
+    "@mstr/rc" "^1.25.3"
+    "@mstr/workstation-types" "^1.0.8"
     "@types/faker" "^5.5.3"
     "@types/lodash" "^4.14.168"
+    "@types/react-router-dom" "^5.1.7"
     "@types/styled-components" "^5.1.9"
-    ag-grid-community "^25.1.0"
-    ag-grid-enterprise "^25.1.0"
-    ag-grid-react "^25.0.0"
+    ag-grid-community "~25.1.0"
+    ag-grid-enterprise "~25.1.0"
+    ag-grid-react "~25.0.0"
     antd "^4.15.3"
     classnames "^2.3.1"
     i18next "^20.2.1"
     lodash "^4.17.21"
     react-i18next "^11.8.13"
     react-redux "^7.2.3"
+    react-router-dom "^5.2.0"
     redux "^4.0.5"
     redux-thunk "^2.3.0"
     styled-components "^5.2.3"
@@ -1384,6 +1387,11 @@
   integrity sha512-xkNcLAn/wZaX14RPlwizcKicDk9G3F8m2nU3L7Ukm5zBgTwiT0wsoFAHx9Jq56fJA1z/7uKGtCRu16sOUCLIHQ==
   dependencies:
     type-detect "4.0.8"
+    
+"@mstr/workstation-types@^1.0.8":
+  version "1.0.9"
+  resolved "http://nexus.internal.microstrategy.com:8081/repository/npm-group/@mstr/workstation-types/-/workstation-types-1.0.9.tgz#bd882d4f359e87e4dbab83ae96c72af23c6a40f7"
+  integrity sha512-JO4YMYekUbnn4tcIRhfW74N15betPtw0SitOlMzhmx837VugqCnpUEmPazUIpFnbUJkQ++7T4w9vAcGT9Y1m5Q==
 
 "@testing-library/dom@^7.28.1":
   version "7.31.2"
@@ -1655,7 +1663,7 @@
     hoist-non-react-statics "^3.3.0"
     redux "^4.0.0"
 
-"@types/react-router-dom@^5.1.5":
+"@types/react-router-dom@^5.1.5", "@types/react-router-dom@^5.1.7":
   version "5.1.7"
   resolved "https://registry.yarnpkg.com/@types/react-router-dom/-/react-router-dom-5.1.7.tgz#a126d9ea76079ffbbdb0d9225073eb5797ab7271"
   integrity sha512-D5mHD6TbdV/DNHYsnwBTv+y73ei+mMjrkGrla86HthE4/PVvL1J94Bu3qABU+COXzpL23T1EZapVVpwHuBXiUg==
@@ -2085,20 +2093,20 @@ after@0.8.2:
   resolved "https://registry.yarnpkg.com/after/-/after-0.8.2.tgz#fedb394f9f0e02aa9768e702bda23b505fae7e1f"
   integrity sha1-/ts5T58OAqqXaOcCvaI7UF+ufh8=
 
-ag-grid-community@^25.1.0:
-  version "25.2.1"
-  resolved "https://registry.yarnpkg.com/ag-grid-community/-/ag-grid-community-25.2.1.tgz#abb239335a44a39c647f8776fe7c7bb8215d55f4"
-  integrity sha512-flITh0x6LRxU8VECJ1Xisbx3zGp7P5Rz4RwKgkkRk3k2C+6qv2doFgeeiQoR5Ffu9qXnSPaVcXIHGY1xVn/R7Q==
+ag-grid-community@~25.1.0:
+  version "25.1.0"
+  resolved "https://registry.yarnpkg.com/ag-grid-community/-/ag-grid-community-25.1.0.tgz#7e132835789586900e0dd24d18cb71d68e09106f"
+  integrity sha512-sKJp6SZG8J50OlOeECtrLFSp/iwdx1mcG0+BmIkHsXmWoyXv5ZaTJyVg1/hMk6s3JVTm1ipg6LepbTaigWEL2A==
 
-ag-grid-enterprise@^25.1.0:
-  version "25.2.1"
-  resolved "https://registry.yarnpkg.com/ag-grid-enterprise/-/ag-grid-enterprise-25.2.1.tgz#52197242d0af60cc9fe7637084ed059c30353d34"
-  integrity sha512-Z/YRPMsyld5PPKJSkQolBS4Jm3TOj5lMnuTdzgakjklBOF4vmN2JlGoht9twlbXMqGU1fYrtbhRyApo+kWZEMQ==
+ag-grid-enterprise@~25.1.0:
+  version "25.1.0"
+  resolved "https://registry.yarnpkg.com/ag-grid-enterprise/-/ag-grid-enterprise-25.1.0.tgz#4edac3cc7b2aee9bb285634de5d79c575dd0b007"
+  integrity sha512-Q+LO/orMGNcwTUD40ncyUMCUdY2iMmqL7R9KaUNrwZzDVecyBY4vg3UrLxCmui7qSkOizkD/uSZ6MoNMCnwXBA==
 
-ag-grid-react@^25.0.0:
-  version "25.2.0"
-  resolved "https://registry.yarnpkg.com/ag-grid-react/-/ag-grid-react-25.2.0.tgz#65bc7d3c342d13f5246424d6e84f5d4ec5e21a3c"
-  integrity sha512-ykb43Tbs6cvD+Y2jlVTO7TSvWo9cB22Fg4xZsUZgx84xGWZ4qYcXbdAAV/iGzv1N4geJe65sRMYl3kbqJ61KIA==
+ag-grid-react@~25.0.0:
+  version "25.0.1"
+  resolved "https://registry.yarnpkg.com/ag-grid-react/-/ag-grid-react-25.0.1.tgz#26f363fdf255c286a544e9a6bf0b1205beb54bec"
+  integrity sha512-o4lGsTX5PWmlzcT8gfJ1C3YuQmljQVT9UXetMhTsbOjwJbZiMyPDm8fFKotFMxbf/VhgYD4SQmcMD3Fy9r/y1g==
   dependencies:
     prop-types "^15.6.2"
 
@@ -12600,7 +12608,7 @@ react-resizable@^1.10.1:
     prop-types "15.x"
     react-draggable "^4.0.3"
 
-react-router-dom@^5.1.2:
+react-router-dom@^5.1.2, react-router-dom@^5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-5.2.0.tgz#9e65a4d0c45e13289e66c7b17c7e175d0ea15662"
   integrity sha512-gxAmfylo2QUjcwxI63RhQ5G85Qqt4voZpUXSEqCwykV0baaOTQDR1f0PmY8AELqIyVc0NEZUj0Gov5lNGcXgsA==

@@ -5,6 +5,7 @@ import { store } from '../../../main'
 import { Modal, Button, Menu } from 'antd';
 import * as _ from "lodash";
 import {AgGridReact} from 'ag-grid-react';
+import { ReactWsGrid } from '@mstr/react-ws-grid'
 import {
   GridReadyEvent,
   GetContextMenuItemsParams,
@@ -33,6 +34,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
     this.state = {
       activeTab: HomeScreenHomeObjectType.DOSSIER,
       selectedObject: {},
+      gridApi: undefined
     }
   }
 
@@ -163,7 +165,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
       activeTab: param.key
     });
     activeTab = param.key;
-    this.gridOptions.api.refreshServerSideStore({});
+    this.state.gridApi.refreshServerSideStore({});
   }
 
   handleCancelAdd = () => {
@@ -174,8 +176,8 @@ class ContentBundleContentPicker extends React.Component<any, any> {
 
   handleSearch = (value: string) => {
     searchNameFilter = value;
-    this.gridOptions.api.deselectAll();
-    this.gridOptions.api.onFilterChanged();
+    this.state.gridApi.deselectAll();
+    this.state.gridApi.onFilterChanged();
   }
 
   handleSaveAdd = () => {
@@ -234,12 +236,20 @@ class ContentBundleContentPicker extends React.Component<any, any> {
 
   getContextMenuItems = (params: GetContextMenuItemsParams) => {
     return [] as any[];
+    // return undefined;
+  }
+
+  getRowHeight = (params: any) => {
+    return 36;
   }
 
   onGridReady = (params: GridReadyEvent) => {
     if (!params || !params.api) {
       return;
     }
+    this.setState({
+      gridApi: params.api
+    });
 
     var fakeServer = this.bundleContentPickerServer();
     var datasource = this.bundleContentPickerDataSource(fakeServer);
@@ -270,23 +280,23 @@ class ContentBundleContentPicker extends React.Component<any, any> {
     
     getContextMenuItems: this.getContextMenuItems,
     columnDefs: [
-        {field: VC.NAME, headerName: localizedStrings.NAME, width: 250, cellRenderer: (params: any) => {
+        {field: VC.NAME, sortable: true, headerName: localizedStrings.NAME, width: 250, cellRenderer: (params: any) => {
           if (params.node.data.isDossier) {
             return '<img class="content-bundle-content-picker-grid-right-name-dossier" src="../assets/images/dossier.jpg"/><span style="color: #35383a;; padding: 4px; font-size: 12px">' + params.value + '</span>';
           } else {
             return '<img class="content-bundle-content-picker-grid-right-name-document" src="../assets/images/document.png"/><span style="color: #35383a;; padding: 4px; font-size: 12px">' + params.value + '</span>';
           }
         }},
-        {field: VC.CERTIFIED, headerName: localizedStrings.CERTIFIED, width: 90, cellRenderer: (params: any) => {
+        {field: VC.CERTIFIED, sortable: true, headerName: localizedStrings.CERTIFIED, width: 90, cellRenderer: (params: any) => {
           if (params.node.data.certified) {
               return `<span class=${VC.FONT_CERTIFIED} style='color: #f08033; font-size: 14px' />`;
           } else {
             return '';
           }}
         },
-        {field: VC.OWNER_NAME, headerName: localizedStrings.OWNER, width: 120},
-        {field: VC.DATE_CREATED_SHORT, width: 116, headerName: localizedStrings.DATE_CREATED},
-        {field: VC.DATE_MODIFIED_SHORT, width: 116, headerName: localizedStrings.DATE_MODIFIED}
+        {field: VC.OWNER_NAME, sortable: true, headerName: localizedStrings.OWNER, width: 120},
+        {field: VC.DATE_CREATED_SHORT, sortable: true, width: 116, headerName: localizedStrings.DATE_CREATED},
+        {field: VC.DATE_MODIFIED_SHORT, sortable: true, width: 116, headerName: localizedStrings.DATE_MODIFIED}
     ]
   };
 
@@ -338,9 +348,39 @@ class ContentBundleContentPicker extends React.Component<any, any> {
               </div>
               <div className={`${classNamePrefix}-grid-right`}>
                 <div style={{ width: '100%', height: '100%' }}>
-                <div id='contentPickerGrid' style={{ height: '100%', width: '100%'}} className='ag-theme-alpine'>
-                    <AgGridReact gridOptions={this.gridOptions}>
-                    </AgGridReact>
+                <div id='contentPickerGrid' style={{ height: '100%', width: '100%'}}>
+                    {/* <AgGridReact gridOptions ={this.gridOptions}>
+                    </AgGridReact> */}
+                    <ReactWsGrid 
+                        rowHeight={35}
+                        animateRows ={true}
+                        rowSelection = {rowSelectionType}
+                        rowMultiSelectWithClick = {true}
+                        onSelectionChanged = {this.onSelectionChanged}
+                        onGridReady = {this.onGridReady}
+                        rowModelType = {rowModelType}
+                        serverSideStoreType = {ServerSideStoreType.Partial}
+                        getRowHeight = {this.getRowHeight}
+                        columnDefs = {[
+                            {field: VC.NAME, sortable: true, headerName: localizedStrings.NAME, width: 250, cellRenderer: (params: any) => {
+                              if (params.node.data.isDossier) {
+                                return '<img class="content-bundle-content-picker-grid-right-name-dossier" src="../assets/images/dossier.jpg"/><span style="color: #35383a;; padding: 4px; font-size: 12px">' + params.value + '</span>';
+                              } else {
+                                return '<img class="content-bundle-content-picker-grid-right-name-document" src="../assets/images/document.png"/><span style="color: #35383a;; padding: 4px; font-size: 12px">' + params.value + '</span>';
+                              }
+                            }},
+                            {field: VC.CERTIFIED, sortable: true, headerName: localizedStrings.CERTIFIED, width: 90, cellRenderer: (params: any) => {
+                              if (params.node.data.certified) {
+                                  return `<span class=${VC.FONT_CERTIFIED} style='color: #f08033; font-size: 14px' />`;
+                              } else {
+                                return '';
+                              }}
+                            },
+                            {field: VC.OWNER_NAME, sortable: true, headerName: localizedStrings.OWNER, width: 120},
+                            {field: VC.DATE_CREATED_SHORT, sortable: true, width: 116, headerName: localizedStrings.DATE_CREATED},
+                            {field: VC.DATE_MODIFIED_SHORT, sortable: true, width: 116, headerName: localizedStrings.DATE_MODIFIED}
+                        ]}
+                        />
                 </div>
               </div>
               </div>
