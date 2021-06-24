@@ -353,13 +353,10 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                     </AgGridReact> */}
                     <ReactWsGrid 
                         rowHeight={35}
-                        animateRows ={true}
-                        rowSelection = {rowSelectionType}
                         rowMultiSelectWithClick = {true}
                         onSelectionChanged = {this.onSelectionChanged}
                         onGridReady = {this.onGridReady}
                         rowModelType = {rowModelType}
-                        serverSideStoreType = {ServerSideStoreType.Partial}
                         getRowHeight = {this.getRowHeight}
                         columnDefs = {[
                             {field: VC.NAME, sortable: true, headerName: localizedStrings.NAME, width: 250, cellRenderer: (params: any) => {
