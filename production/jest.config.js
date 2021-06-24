@@ -1,6 +1,5 @@
 module.exports = {
   verbose: true,
-  // automock: true,
   setupFilesAfterEnv: ['<rootDir>/enzymeSetup.js'],
   moduleNameMapper: { 
     '\\.(scss|css|less|png|gif)$': '<rootDir>/node_modules/jest-css-modules',
@@ -16,13 +15,6 @@ module.exports = {
     'node_modules/(?!.*(antd/es)/)'
   ],
   testRegex: '(__snapshot__/.*|\\.(test))\\.tsx?$',
-  testResultsProcessor: './build/scripts/jest-results-processor.js',
-  coverageReporters: ['lcov', 'text', 'json-summary'],
-  collectCoverageFrom: [
-    '**/src/**/*.{js}',
-    '!**/node_modules/**',
-    '!**/vendor/**',
-  ],
   unmockedModulePathPatterns: [
     "node_modules"
   ],

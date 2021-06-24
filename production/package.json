@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "main": "index.js",
   "scripts": {
-    "unit-test": "jest --coverage",
+    "unit-test": "jest --coverage --env=jest-environment-jsdom-sixteen",
     "update-snapshot": "jest --updateSnapshot",
     "pre-merge": "npm run unit-test",
     "clean": "rimraf dist",
@@ -21,9 +21,6 @@
     "lint:fix": "npm run lint -- --fix",
     "metrics": "node build/scripts/generateMetrics.js",
     "updateVersion": "node build/scripts/updateVersion"
-  },
-  "jest-result-processor": {
-    "outputFile": "./jest-results.json"
   },
   "license": "MIT",
   "dependencies": {
@@ -125,6 +122,7 @@
     "jest": "^24.8.0",
     "jest-config": "^24.8.0",
     "jest-css-modules": "^2.1.0",
+    "jest-environment-jsdom-sixteen": "^2.0.0",
     "jest-enzyme": "^7.0.2",
     "karma": "^1.7.0",
     "karma-coverage": "^1.1.1",

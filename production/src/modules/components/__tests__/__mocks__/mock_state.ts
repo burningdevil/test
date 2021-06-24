@@ -5,7 +5,7 @@ export default {
             'name': 'test application',
             'description': 'this is test application description',
             'platform': featureFlag.platformEnable ? [platformType.mobile, platformType.web, platformType.desktop] : [platformType.web],
-            'default': false,
+            'default': true,
             'homeScreen': {
                 mode: CONSTANTS.MODE_USE_DEFAULT_HOME_SCREEN, 
                 homeLibrary: { 
@@ -37,7 +37,98 @@ export default {
         previewDeviceType: featureFlag.platformEnable ? reviewType.TABLET : reviewType.WEB,
     },
     configMain: {
-        configList: [],
+        configList: [
+            {
+                "id": "b81bb33e872c430f955a78359700c330",
+                "name": "uuu",
+                "description": "",
+                "lastUpdate": 1623737954570,
+                "schemaVersion": 2,
+                "icons": [
+                  "TOCs",
+                  "bookmark",
+                  "reset",
+                  "filters",
+                  "comments",
+                  "share",
+                  "notifications",
+                  "options",
+                  "sidebars",
+                  "sortAndFilter",
+                  "multiSelect",
+                  "search",
+                  "notifications",
+                  "options"
+                ],
+                "mode": 0,
+                "platform": [
+                  "Web"
+                ],
+                "contentBundleIds": [
+                  
+                ]
+              },
+              {
+                "id": "6ffebaf2b758470b90f3b192bfb98932",
+                "name": "eee",
+                "description": "",
+                "lastUpdate": 1623738822369,
+                "schemaVersion": 2,
+                "icons": [
+                  "TOCs",
+                  "bookmark",
+                  "reset",
+                  "filters",
+                  "comments",
+                  "share",
+                  "notifications",
+                  "options",
+                  "sidebars",
+                  "sortAndFilter",
+                  "multiSelect",
+                  "search",
+                  "notifications",
+                  "options"
+                ],
+                "mode": 0,
+                "platform": [
+                  "Web"
+                ],
+                "contentBundleIds": [
+                  
+                ]
+              },
+              {
+                "id": "9a06fbc789c54d618207defec99114a4",
+                "name": "iii",
+                "description": "",
+                "lastUpdate": 1623738840410,
+                "schemaVersion": 2,
+                "icons": [
+                  "TOCs",
+                  "bookmark",
+                  "reset",
+                  "filters",
+                  "comments",
+                  "share",
+                  "notifications",
+                  "options",
+                  "sidebars",
+                  "sortAndFilter",
+                  "multiSelect",
+                  "search",
+                  "notifications",
+                  "options"
+                ],
+                "mode": 0,
+                "platform": [
+                  "Web"
+                ],
+                "contentBundleIds": [
+                  
+                ]
+              }
+        ],
         contentBundleList: []
     },
     bundleContent: {

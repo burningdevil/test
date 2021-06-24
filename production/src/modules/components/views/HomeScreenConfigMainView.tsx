@@ -11,7 +11,7 @@ import { HttpProxy } from '../../../main';
 import { RestApiError } from '../../../server/RestApiError';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { selectConfigList, selectContentBundleList } from '../../../store/selectors/HomeScreenConfigEditorSelector';
-import * as api from '../../../services/api';
+import * as api from '../../../services/Api';
 import * as _ from "lodash";
 import { hexIntToColorStr } from './HomeScreenUtils';
 import DisconnectedPage from './error-pages/DisconnectedPage';

@@ -1,8 +1,8 @@
-import * as React from 'react'
-import { connect } from 'react-redux'
-import '../scss/HomeScreenGeneral.scss'
+import * as React from 'react';
+import { connect } from 'react-redux';
+import '../scss/HomeScreenGeneral.scss';
 import { Checkbox } from '@mstr/rc';
-import { env } from '../../../main'
+import { env } from '../../../main';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import * as _ from "lodash";
 import { Input } from 'antd';
