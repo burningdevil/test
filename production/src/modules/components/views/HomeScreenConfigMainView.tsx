@@ -155,14 +155,13 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     }
   }
 
-  duplicateConfig = async (objId : string = '') => {
-    if (objId) {
-      HttpProxy.post(api.getApiPathForDuplicateApplication(objId), {}).then((res: any) => {
-        this.loadData();
-      }).catch((e: any) => {
-        this.processErrorResponse(e);
-      });
-    }
+  duplicateConfig = async (config: any) => {
+    let newConfig = _.pick(config, [VC.NAME, VC.DESC, VC.PLATFORM, VC.HOME_SCREEN, VC.IS_DEFAULT, VC.SCHEMA_VERSION, VC.VERSION, VC.GENERAL]);
+    HttpProxy.post(api.getApiPathForDuplicateApplication(), {newConfig}).then((res: any) => {
+      this.loadData();
+    }).catch((e: any) => {
+      this.processErrorResponse(e);
+    });
   }
 
   downloadJsonFile = async (configJson: JSON, configId: string) => {
@@ -218,9 +217,9 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     const configList = this.props.configList.map((config: any) => {
       let resultConfig = _.cloneDeep(config);
       if (!_.has(resultConfig, VC.PLATFORM)) {
-        _.assign(resultConfig, {platform: platformType.mobile});
+        _.assign(resultConfig, {platformstr: platformType.mobile});
       } else {
-        _.assign(resultConfig, {platform: resultConfig.platform.join(', ')});
+        _.assign(resultConfig, {platformstr: resultConfig.platform.join(', ')});
       }
       if (!_.has(resultConfig, VC.CONTENT_BUNDLE_IDS)) {
         _.assign(resultConfig, { contentBundles: []});
@@ -254,7 +253,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         this.deleteConfig(contextMenuTarget.id);
       };
       const handleClickDuplicate = () => {
-        this.duplicateConfig(contextMenuTarget.id);
+        this.duplicateConfig(contextMenuTarget);
       };
 
       const handleClickInfo = () => {
@@ -327,7 +326,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                 showColumn: false,
               },
               {
-                field: VC.PLATFORM,
+                field: VC.PLATFORM_STR,
                 headerName: localizedStrings.PLATFORM,
                 sortable: true,
                 width: '10%'

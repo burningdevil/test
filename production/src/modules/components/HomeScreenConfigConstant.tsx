@@ -13,6 +13,9 @@ export const CONSTANTS = {
     //info
     NAME: 'name',
     DESC: 'description',
+    VERSION: 'version',
+    SCHEMA_VERSION: 'schemaVersion',
+    IS_DEFAULT: 'isDefault',
     //Home Screen
     MODE_USE_DEFAULT_HOME_SCREEN: 0,
     MODE_USE_DOSSIER_AS_HOME_SCREEN: 1,
@@ -120,6 +123,7 @@ export const CONSTANTS = {
 
     //common use
     PLATFORM: 'platform',
+    PLATFORM_STR: 'platformstr',
     LAST_UPDATE: 'lastUpdate',
     DATE_CREATED: 'dateCreated',
     OWNER_NAME: 'ownerName',

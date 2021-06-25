@@ -15,8 +15,8 @@ export const getApiPathForEditApplication = (configId: string) => {
     return CONFIG_ENDPOINTS + configId;
 }
 
-export const getApiPathForDuplicateApplication = (configId: string) => {
-    return CONFIG_ENDPOINTS + configId + '?sourceId=' + configId;
+export const getApiPathForDuplicateApplication = () => {
+    return CONFIG_ENDPOINTS;
 }
 
 export const getApiPathForGetSingleDossier = (dossierId: string) => {
