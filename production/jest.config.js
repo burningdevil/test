@@ -1,10 +1,9 @@
 module.exports = {
   verbose: true,
+  testRegex: '__tests__/.*.test.tsx?$|\\.spec.tsx',
   setupFilesAfterEnv: ['<rootDir>/enzymeSetup.js'],
   moduleNameMapper: { 
     '\\.(scss|css|less|png|gif)$': '<rootDir>/node_modules/jest-css-modules',
-    '^react-dnd$': 'react-dnd/dist/cjs',
-    '^dnd-core$': 'dnd-core/dist/cjs',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js'],
   transform: {
@@ -14,7 +13,6 @@ module.exports = {
   transformIgnorePatterns: [
     'node_modules/(?!.*(antd/es)/)'
   ],
-  testRegex: '(__snapshot__/.*|\\.(test))\\.tsx?$',
   unmockedModulePathPatterns: [
     "node_modules"
   ],
