@@ -19,6 +19,10 @@ export const getApiPathForDuplicateApplication = () => {
     return CONFIG_ENDPOINTS;
 }
 
+export const getApiPathForDeleteApplication = (configId: string) => {
+    return '/objects/' + configId + '?type=78';
+}
+
 export const getApiPathForGetSingleDossier = (dossierId: string) => {
     return '/objects/' + dossierId + '?type=55';
 }
