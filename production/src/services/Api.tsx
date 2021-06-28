@@ -3,7 +3,7 @@ import { HttpProxy } from '../main';
 import * as ActionsCreator from '../store/actions/ActionsCreator';
 import { isContentTypeDossier } from '../modules/components/views/HomeScreenUtils'
 import * as _ from 'lodash';
-import { default as VC, platformType } from '../modules/components/HomeScreenConfigConstant';
+import { default as VC, platformType, localizedStrings } from '../modules/components/HomeScreenConfigConstant';
 
 const CONFIG_ENDPOINTS = '/libraryApplications/';
 
@@ -23,8 +23,16 @@ export const getApiPathForDeleteApplication = (configId: string) => {
     return '/objects/' + configId + '?type=78';
 }
 
-export const getApiPathForGetSingleDossier = (dossierId: string) => {
-    return '/objects/' + dossierId + '?type=55';
+export async function getSingleDossierInfo (dossierId: string, projectId: string) {
+    const response = await HttpProxy.get('/objects/' + dossierId + '?type=55', {'X-MSTR-ProjectID': projectId}).then((response: any) => {
+        return response;
+    })
+    .catch((e: any) => {
+        console.log(e);
+        return {dossierName: localizedStrings.INVALID_DOSSIER};
+    });
+
+    return response;
 }
 
 export const getApiPathForGetBundleContents = (bundleId: string, projIds: Array<string>) => {

@@ -158,7 +158,7 @@ class HomeScreenMoreSetting extends React.Component<any, any> {
     }
 
     checkboxRender = (checked: boolean, value: string, title: string) => {
-        return <Checkbox 
+        return <Checkbox id={value}
                     checked={checked}
                     onChange={(e) => this.onInputChange(value, e.target.checked)}
                 >
