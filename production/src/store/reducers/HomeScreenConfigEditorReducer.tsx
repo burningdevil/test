@@ -38,6 +38,7 @@ const initialState: HomeScreenConfigEditorState = {
       updateInterval: CONSTANTS.DEFAULT_UPDATE_INTERVAL
     }
   },
+  configInfoList: [],
   previewDeviceType: featureFlag.platformEnable ? reviewType.TABLET : reviewType.WEB,
 }
 
