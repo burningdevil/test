@@ -100,8 +100,11 @@
     "logOff": "Off",
     "clearCacheOnClose": "Clear Caches when the application closes",
     "clearCacheOnLogout": "Clear Caches on logout",
+    "hour": "hour",
     "hours": "hours",
+    "second": "second",
     "seconds": "seconds",
+    "item": "item",
     "items": "items",
     "tooltipStr": "The value must be between {{min}} and {{max}}",
 

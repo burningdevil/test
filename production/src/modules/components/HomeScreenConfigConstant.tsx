@@ -350,8 +350,11 @@ export const sectionCache = {
 };
 
 export const metricStr = {
+    HOUR: t('hour'),
     HOURS: t('hours'),
+    SECOND: t('second'),
     SECONDS: t('seconds'),
+    ENTRY: t('item'),
     ENTRIES: t('items'),
 };
 
