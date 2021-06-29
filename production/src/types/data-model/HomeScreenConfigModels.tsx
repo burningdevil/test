@@ -9,8 +9,8 @@ export interface HomeScreenConfigType {
     'description': string,
     'isDefault': boolean,
     'platform': Array<string>,
-    'dateModified': number,
-    'dateCreated': number,
+    'dateModified': string,
+    'dateCreated': string,
     'homeScreen': {
         mode: number, 
         homeLibrary: { 
