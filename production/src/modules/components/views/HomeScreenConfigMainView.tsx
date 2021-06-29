@@ -241,11 +241,11 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       _.assign(resultConfig, {mode: resultConfig.mode == 0 ? localizedStrings.LIBRARY : localizedStrings.DOSSIER});
 
       if (_.has(resultConfig, VC.DATE_MODIFIED)) {
-        _.assign(resultConfig, {dateModified: _.split(resultConfig.dateModified, /[\T.]+/, 2).join(',')});
+        _.assign(resultConfig, {dateModified: _.split(resultConfig.dateModified, /[\T.]+/, 2).join(' ')});
       }
 
       if (_.has(resultConfig, VC.DATE_CREATED)) {
-        _.assign(resultConfig, {dateCreated: _.split(resultConfig.dateCreated, /[\T.]+/, 2).join(',')});
+        _.assign(resultConfig, {dateCreated: _.split(resultConfig.dateCreated, /[\T.]+/, 2).join(' ')});
       }
 
       return resultConfig;

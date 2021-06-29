@@ -6,6 +6,7 @@ export interface MainViewContentBundleType {
 export interface HomeScreenConfigType {
     'id': string,
     'name': string,
+    'schemaVersion': number,
     'description': string,
     'isDefault': boolean,
     'platform': Array<string>,
