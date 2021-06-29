@@ -51,7 +51,6 @@ export interface HomeScreenBundleContentListItem {
     viewMedia: number,
     dateModified: string,
     owner: {name: string, id: string},
-    isCertified: boolean,
     name: string
     dateCreated: string,
     acg: number,

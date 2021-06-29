@@ -155,7 +155,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
 
   deleteConfig = (objId : string = '') => {
     if (objId) {
-      HttpProxy.delete(api.getApiPathForEditApplication(objId), {}).then((res: any) => {
+      HttpProxy.delete(api.getApiPathForDeleteApplication(objId), {}).then((res: any) => {
         this.loadData();
       }).catch((e: any) => {
         this.processErrorResponse(e);
