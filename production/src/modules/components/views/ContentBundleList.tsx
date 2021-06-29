@@ -335,7 +335,7 @@ class ContentBundleList extends React.Component<any, any> {
           return (
               <div style={{display: 'relative'}}>
                   <div className={`${classNamePrefix}-popover-text`}> <span className={element.iconName} key={index}/> 
-                      <span>{element.displayText}</span> 
+                      <span>{showExpandIcon ? this.props.defaultGroupsName : element.displayText}</span> 
                       {showAddButton && <PlusCircleOutlined/>}
                       {showExpandIcon && <DownOutlined style={{fontSize: '5px', marginLeft: 'auto', marginRight: '4px'}}/>}
                   </div>
@@ -348,7 +348,7 @@ class ContentBundleList extends React.Component<any, any> {
                   {showContent && <div className={`${classNamePrefix}-popover-blank`}>
                       <div className={`${classNamePrefix}-popover-blank-fill`}/>
                   </div>}
-                  <FallOutlined style={{position: 'absolute', left: '110px', top: '100px', fontSize: '30px'}}/>
+                  <FallOutlined style={{position: 'absolute', left: '100px', top: '80px', fontSize: '30px', transform: 'rotate(90deg)'}}/>
               </div> 
           )
       })

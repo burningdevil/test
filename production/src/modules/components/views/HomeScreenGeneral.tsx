@@ -6,7 +6,7 @@ import { env } from '../../../main';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import * as _ from "lodash";
 import { Input } from 'antd';
-import { platformType, reviewType, localizedStrings } from '../HomeScreenConfigConstant';
+import { platformType, reviewType, localizedStrings, featureFlag } from '../HomeScreenConfigConstant';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { selectConfigInfoList, selectCurrentConfig, selectPreviewDeviceType } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
@@ -135,8 +135,8 @@ class HomeScreenGeneral extends React.Component<any, any> {
                     {localizedStrings.PLATFORMS}
                 </div>
                 <div className={`${classNamePrefix}-platform-name`}>
-                    {this.props.config.isDefault && <Checkbox
-                        disabled={true}
+                    {featureFlag.platformEnable && <Checkbox
+                        disabled={this.props.config.isDefault}
                         label={localizedStrings.MOBILE}
                         checked={platform.includes(platformType.mobile)}
                         onChange={(event: CheckboxChangeEvent) => {
@@ -144,21 +144,21 @@ class HomeScreenGeneral extends React.Component<any, any> {
                         }}
                     />}
                     <Checkbox
-                        disabled={true}
+                        disabled={this.props.config.isDefault}
                         label={localizedStrings.WEB}
                         checked={platform.includes(platformType.web)}
                         onChange={(event: CheckboxChangeEvent) => {
                           this.handlePlatformChange(event, platformType.web)
                         }}
                     />
-                    {this.props.config.isDefault && <Checkbox
-                        disabled={true}
+                    <Checkbox
+                        disabled={this.props.config.isDefault}
                         label={localizedStrings.DESKTOP}
                         checked={platform.includes(platformType.desktop)}
                         onChange={(event: CheckboxChangeEvent) => {
                           this.handlePlatformChange(event, platformType.desktop)
                         }}
-                    />}
+                    />
                 </div>
             </div>
             {/* <div className="home-screen-general-url">
