@@ -13,6 +13,11 @@ export const selectCurrentConfig = createSelector(
   (configEditorRoot) => configEditorRoot.currentConfig
 )
 
+export const selectConfigInfoList = createSelector(
+  selectConfigEditorRoot,
+  (configEditorRoot) => configEditorRoot.configInfoList
+)
+
 export const selectPreviewDeviceType = createSelector(
     selectConfigEditorRoot,
   (configEditorRoot) => configEditorRoot.previewDeviceType

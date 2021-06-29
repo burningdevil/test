@@ -1,5 +1,5 @@
 import * as Actions from './ActionConstants'
-import { HomeScreenConfigType, HomeScreenEditConfigType, MainViewContentBundleType, HomeScreenBundleContentListItem } from '../../types/data-model/HomeScreenConfigModels'
+import { HomeScreenConfigType, MainViewContentBundleType, HomeScreenBundleContentListItem, HomeScreenConfigInfo } from '../../types/data-model/HomeScreenConfigModels'
 
 export const loadConfigListSuccess = (configList: Array<HomeScreenConfigType>) => ({
   type: Actions.LOAD_CONFIG_LIST_SUCCESS,
@@ -12,12 +12,12 @@ export const loadContentBundleListSuccess = (contentBundleList: Array<MainViewCo
 })
 
 /* ---------------------------- Editor Config Main ---------------------------- */
-export const setCurrentConfig = (config: HomeScreenEditConfigType) => ({
+export const setCurrentConfig = (config: HomeScreenConfigType) => ({
   type: Actions.SET_CURRENT_CONFIG,
   data: config,
 })
 
-export const updateCurrentConfig = (settings: Partial<HomeScreenEditConfigType>) => ({
+export const updateCurrentConfig = (settings: Partial<HomeScreenConfigType>) => ({
   type: Actions.UPDATE_CURRENT_CONFIG,
   data: settings,
 })
@@ -25,6 +25,11 @@ export const updateCurrentConfig = (settings: Partial<HomeScreenEditConfigType>)
 export const updatePreviewDeviceType = (type: string) => ({
   type: Actions.UPDATE_REVIEW_TYPE,
   data: type,
+})
+
+export const setConfigInfoList = (configList: Array<HomeScreenConfigInfo>) => ({
+  type: Actions.SET_CONFIG_INFO_LIST,
+  data: configList,
 })
 /* ------------------------------ Bundle content objects list ---------------------------- */
 

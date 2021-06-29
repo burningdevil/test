@@ -20,6 +20,7 @@ import NoAccessPage from './error-pages/NoAccessPage';
 import { isLibraryServerVersionMatch, isIServerVersionMatch, isUserHasManageApplicationPrivilege, DEFAULT_CONFIG_ID } from '../../../utils';
 import classNames from 'classnames';
 import { default as VC, localizedStrings, platformType } from '../HomeScreenConfigConstant';
+import { config } from 'yargs';
 
 
 declare var workstation: WorkstationModule;
@@ -120,9 +121,16 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
 
   openConfigEditor = (objId : string = '') => {
     const objType = VC.CONFIG_EDITOR_OBJTYPE;
+    const configInfoList = this.props.configList.map((config: any) => {
+      return {
+        id: config.id,
+        name: config.name
+      };
+    });
     let options: ObjectEditorSettings = {
       objectType: objType,
-      environment: this.state.currentEnv
+      environment: this.state.currentEnv,
+      extraContext: JSON.stringify(configInfoList)
     }
     if(objId) {
       options = _.merge(options, {objectId: objId});
@@ -232,10 +240,12 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
 
       _.assign(resultConfig, {mode: resultConfig.mode == 0 ? localizedStrings.LIBRARY : localizedStrings.DOSSIER});
 
-      if (_.has(resultConfig, VC.LAST_UPDATE)) {
-        _.assign(resultConfig, {lastUpdate: new Date(resultConfig.lastUpdate).toLocaleString()});
-        //TODO: use dateCreated property
-        _.assign(resultConfig, {dateCreated: new Date(resultConfig.lastUpdate).toLocaleString()});
+      if (_.has(resultConfig, VC.DATE_MODIFIED)) {
+        _.assign(resultConfig, {dateModified: new Date(resultConfig.dateModified).toLocaleString()});
+      }
+
+      if (_.has(resultConfig, VC.DATE_CREATED)) {
+        _.assign(resultConfig, {dateCreated: new Date(resultConfig.dateCreated).toLocaleString()});
       }
 
       return resultConfig;
@@ -327,7 +337,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
               },
               {
                 field: VC.PLATFORM_STR,
-                headerName: localizedStrings.PLATFORM,
+                headerName: localizedStrings.PLATFORMS,
                 sortable: true,
                 width: '10%'
               },
@@ -365,7 +375,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                 },
               },
               {
-                field: VC.LAST_UPDATE,
+                field: VC.DATE_MODIFIED,
                 headerName: localizedStrings.DATE_MODIFIED,
                 sortable: true,
                 width: '15%',

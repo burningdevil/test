@@ -1,28 +1,16 @@
-export interface HomeScreenConfigType {
-    'id': string,
-    'name': string,
-    'description': string,
-    'lastUpdate': number,
-    'schemaVersion': number,
-    'icons': Array<string>,
-    'mode': number,
-    'platform': Array<string>
-    'contentBundleIds': Array<string>
-}
-
 export interface MainViewContentBundleType {
     'id': string,
     'name': string,
     'color': number
 }
-
-export interface HomeScreenEditConfigType {
+export interface HomeScreenConfigType {
     'id': string,
     'name': string,
     'description': string,
     'isDefault': boolean,
     'platform': Array<string>,
-    'lastUpdate': number,
+    'dateModified': number,
+    'dateCreated': number,
     'homeScreen': {
         mode: number, 
         homeLibrary: { 
@@ -50,6 +38,10 @@ export interface HomeScreenEditConfigType {
         logLevel: number,
         updateInterval: number
     }
+}
+
+export interface HomeScreenConfigInfo {
+    name: string
 }
 
 export interface HomeScreenBundleContentListItem {

@@ -49,6 +49,8 @@ const HomeScreenConfigEditorReducer = (state: HomeScreenConfigEditorState = init
       return {...state, currentConfig: _.merge({}, state.currentConfig, data)}
     case Actions.SET_CURRENT_CONFIG:
       return {...state, currentConfig: data}
+    case Actions.SET_CONFIG_INFO_LIST:
+      return {...state, configInfoList: data}
     case Actions.UPDATE_REVIEW_TYPE:
       return {...state, previewDeviceType: data}
     default:

@@ -8,7 +8,7 @@ import * as _ from "lodash";
 import { Input } from 'antd';
 import { platformType, reviewType, localizedStrings } from '../HomeScreenConfigConstant';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
-import { selectCurrentConfig, selectPreviewDeviceType } from '../../../store/selectors/HomeScreenConfigEditorSelector';
+import { selectConfigInfoList, selectCurrentConfig, selectPreviewDeviceType } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 const { TextArea } = Input;
 
@@ -19,7 +19,8 @@ class HomeScreenGeneral extends React.Component<any, any> {
     super(props)
     this.state = {
       currentEnv: {name: '', url: ''},
-      showBlankNameError: false
+      showBlankNameError: false,
+      showDuplicateNameError: false
     };
   }
 
@@ -34,8 +35,13 @@ class HomeScreenGeneral extends React.Component<any, any> {
       const nameStr = event.target.value;
       this.props.updateCurrentConfig({name: nameStr});
       const isEmptyName = !(nameStr && nameStr.trim());
+      const currentConfigId = this.props.config.id;
+      const isDuplicateName = this.props.configInfoList.filter((appInfo: any ) => {
+        return appInfo.name === nameStr && currentConfigId !== appInfo.id;
+      }).length > 0;
       this.setState({
-          showBlankNameError: isEmptyName
+          showBlankNameError: isEmptyName,
+          showDuplicateNameError: isDuplicateName
       });
   }
 
@@ -106,9 +112,14 @@ class HomeScreenGeneral extends React.Component<any, any> {
                     <Input placeholder='' maxLength={250} value={name} onChange={this.handleNameChange}/>
                 </div>
             </div>
-            { this.state.showBlankNameError && <div className={`${classNamePrefix}-name-blank-error`}>
+            { this.state.showBlankNameError && <div className={`${classNamePrefix}-name-error`}>
                     <div/>
                     <span>{localizedStrings.BLANK_APP_NAME_ERROR}</span>
+                </div>
+            }
+            { this.state.showDuplicateNameError && <div className={`${classNamePrefix}-name-error`}>
+                    <div/>
+                    <span>{localizedStrings.DUPLICATE_APP_NAME_ERROR}</span>
                 </div>
             }
             <div className={`${classNamePrefix}-description`}>
@@ -121,7 +132,7 @@ class HomeScreenGeneral extends React.Component<any, any> {
             </div>
             <div className={`${classNamePrefix}-platform`}>
                 <div className={`${classNamePrefix}-platform-title`}>
-                    {localizedStrings.PLATFORM}
+                    {localizedStrings.PLATFORMS}
                 </div>
                 <div className={`${classNamePrefix}-platform-name`}>
                     {this.props.config.isDefault && <Checkbox
@@ -165,6 +176,7 @@ class HomeScreenGeneral extends React.Component<any, any> {
 
 const mapState = (state: RootState) => ({
   config: selectCurrentConfig(state),
+  configInfoList: selectConfigInfoList(state),
   previewDeviceType: selectPreviewDeviceType(state), 
 })
 

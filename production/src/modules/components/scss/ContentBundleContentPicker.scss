@@ -126,6 +126,9 @@
             font-size: 14px;
             color: #fff;
             padding-left: 16px !important;
+            &:focus {
+              outline: none;
+            }
         }
     }
     
