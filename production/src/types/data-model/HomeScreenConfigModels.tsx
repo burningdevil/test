@@ -1,28 +1,19 @@
-export interface HomeScreenConfigType {
-    'id': string,
-    'name': string,
-    'description': string,
-    'lastUpdate': number,
-    'schemaVersion': number,
-    'icons': Array<string>,
-    'mode': number,
-    'platform': Array<string>
-    'contentBundleIds': Array<string>
-}
-
 export interface MainViewContentBundleType {
     'id': string,
     'name': string,
     'color': number
 }
-
-export interface HomeScreenEditConfigType {
+export interface HomeScreenConfigType {
     'id': string,
     'name': string,
+    'schemaVersion': number,
+    'version': number,
     'description': string,
     'isDefault': boolean,
     'platform': Array<string>,
-    'lastUpdate': number,
+    'dateModified': string,
+    'dateCreated': string,
+    'objectVersion': string
     'homeScreen': {
         mode: number, 
         homeLibrary: { 
@@ -52,6 +43,10 @@ export interface HomeScreenEditConfigType {
     }
 }
 
+export interface HomeScreenConfigInfo {
+    name: string
+}
+
 export interface HomeScreenBundleContentListItem {
     id: string,
     projectId: string,
@@ -59,7 +54,6 @@ export interface HomeScreenBundleContentListItem {
     viewMedia: number,
     dateModified: string,
     owner: {name: string, id: string},
-    isCertified: boolean,
     name: string
     dateCreated: string,
     acg: number,

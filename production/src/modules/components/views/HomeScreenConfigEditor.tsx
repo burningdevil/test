@@ -42,6 +42,11 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         currentEnv: currentEnv,
         configId: configId
       });
+      const extraContext = await workstation.window.getExtraContext();
+      const configInfoList = JSON.parse(extraContext);
+      console.log('config list: ' + extraContext);
+      this.props.setConfigInfoList(configInfoList);
+
       workstation.environments.onEnvironmentChange((change: EnvironmentChangeArg) => {
         console.log('editor enviornment change: ' + change.actionTaken);
         console.log('editor enviornment change: env name : ' + change.changedEnvironment.name);
@@ -173,7 +178,8 @@ const mapState = (state: RootState) => ({
 })
 
 const connector = connect(mapState, {
-  setCurrentConfig: Actions.setCurrentConfig
+  setCurrentConfig: Actions.setCurrentConfig,
+  setConfigInfoList: Actions.setConfigInfoList
 })
 
 export default connector(HomeScreenConfigEditor)

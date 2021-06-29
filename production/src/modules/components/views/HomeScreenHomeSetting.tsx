@@ -5,7 +5,6 @@ import { Radio, Button, Layout } from 'antd';
 import { env } from '../../../main'
 import { RadioChangeEvent } from 'antd/lib/radio';
 import * as _ from "lodash";
-import { HttpProxy } from '../../../main';
 import ContentBundleContentPicker from './ContentBundleContentPicker'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEditorSelector';
@@ -41,9 +40,7 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
         if (ids && ids.length > 1) {
           const projectId = ids[ids.length - 2];
           const dossierId = ids[ids.length - 1];
-          const response = await HttpProxy.get(api.getApiPathForGetSingleDossier(dossierId), {'X-MSTR-ProjectID': projectId}).catch((e: any) => (this.setState({
-            dossierName: localizedStrings.INVALID_DOSSIER
-          })));
+          const response = await api.getSingleDossierInfo(dossierId, projectId) as any;
           
           let data = response;
           if (response.data) {
@@ -83,11 +80,11 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
   renderPickDossier = () => {
     const { homeScreen } = this.props.config;
     const dossierUrl = _.get(homeScreen, dossierUrlPath, '');
-    const dossierImg = require('../images/dossier.png');
+    // const dossierImg = require('../images/dossier.png');
     if (dossierUrl) {
         return (
             <div className = {`${classNamePrefix}-dossier-info`}>
-                <img className = {`${classNamePrefix}-dossier-image`} src={dossierImg}/>
+                <img className = {`${classNamePrefix}-dossier-image`} src={'../assets/images/dossier.png'}/>
                 <div className = {`${classNamePrefix}-dossier-name`}>
                     {this.state.dossierName}
                 </div>

@@ -1,4 +1,4 @@
-import { HomeScreenConfigType, HomeScreenEditConfigType, MainViewContentBundleType, HomeScreenBundleContentListItem } from '../../types/data-model/HomeScreenConfigModels'
+import { HomeScreenConfigType, MainViewContentBundleType, HomeScreenBundleContentListItem } from '../../types/data-model/HomeScreenConfigModels'
 
 export interface LoadConfigListSuccessActionType {
     type: string,
@@ -12,12 +12,12 @@ export interface LoadContentBundleListSuccessActionType {
 
 export interface SetCurrentConfigActionType {
     type: string,
-    data: HomeScreenEditConfigType,
+    data: HomeScreenConfigType,
 }
 
 export interface UpdateCurrentConfigActionType {
     type: string,
-    data: Partial<HomeScreenEditConfigType>,
+    data: Partial<HomeScreenConfigType>,
 }
 
 export interface AppendBundleContentDossierActionType {

@@ -124,7 +124,7 @@ export const CONSTANTS = {
     //common use
     PLATFORM: 'platform',
     PLATFORM_STR: 'platformstr',
-    LAST_UPDATE: 'lastUpdate',
+    DATE_MODIFIED: 'dateModified',
     DATE_CREATED: 'dateCreated',
     OWNER_NAME: 'ownerName',
     CERTIFIED: 'certified',
@@ -256,7 +256,7 @@ export const localizedStrings = {
     ENVIRONMENT: t('environment'),
     NAME: t('name'),
     DESCRIPTION: t('description'),
-    PLATFORM: t('platform'),
+    PLATFORMS: t('platforms'),
     MOBILE: t('mobile'),
     WEB: t('web'),
     DESKTOP: t('desktop'),
@@ -309,6 +309,7 @@ export const localizedStrings = {
     CONTENT: t('content'),
     RECIPIENTS: t('recipients'),
     BLANK_APP_NAME_ERROR: t('blankAppNameError'),
+    DUPLICATE_APP_NAME_ERROR: t('The Application Name you entered already exists.'),
     GETINFO: t('getInfo'),
 }
 

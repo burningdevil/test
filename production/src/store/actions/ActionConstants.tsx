@@ -9,6 +9,7 @@ export const LOAD_CONTENT_BUNDLE_LIST_SUCCESS = `${MAIN_VIEW_PREFIX}_LOAD_CONTEN
 export const SET_CURRENT_CONFIG = `${EDITOR_PREFIX}_SET_CURRENT_CONFIG`
 export const UPDATE_CURRENT_CONFIG = `${EDITOR_PREFIX}_UPDATE_CURRENT_CONFIG`
 export const UPDATE_REVIEW_TYPE = `${EDITOR_PREFIX}_UPDATE_REVIEW_TYPE`
+export const SET_CONFIG_INFO_LIST = `${EDITOR_PREFIX}_SET_CONFIG_INFO_LIST`
 
 /* ------------------------------ Dossier/document fetch State ---------------------------- */
 

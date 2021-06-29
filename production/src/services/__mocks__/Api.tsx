@@ -3,3 +3,7 @@ export const loadConfigList = jest.fn(() => {
 })
 
 export const loadContentBundleList = jest.fn()
+
+export async function getSingleDossierInfo (dossierId: string, projectId: string) {
+    return {dossierName: 'Dossier name for Test dossier as home'};
+}

@@ -17,7 +17,7 @@
     "environment": "Environment",
     "name": "Name",
     "description": "Description",
-    "platform": "Platform",
+    "platforms": "Platforms",
     "mobile": "Mobile",
     "tablet": "Tablet",
     "phone": "Phone",

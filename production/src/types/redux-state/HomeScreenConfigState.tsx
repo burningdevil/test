@@ -1,12 +1,13 @@
-import { HomeScreenConfigType, HomeScreenEditConfigType, MainViewContentBundleType, HomeScreenBundleContentListItem } from '../data-model/HomeScreenConfigModels'
+import { HomeScreenConfigType, MainViewContentBundleType, HomeScreenBundleContentListItem, HomeScreenConfigInfo } from '../data-model/HomeScreenConfigModels'
 
 export interface HomeScreenConfigEditorState {
-    currentConfig: Partial<HomeScreenEditConfigType>
+    currentConfig: Partial<HomeScreenConfigType>
+    configInfoList: Array<HomeScreenConfigInfo>
     previewDeviceType: string
 }
 
 export interface HomeScreenMainViewState {
-    configList: Array<HomeScreenConfigType>
+    configList: Array<Partial<HomeScreenConfigType>>
     contentBundleList: Array<MainViewContentBundleType>
 }
 
