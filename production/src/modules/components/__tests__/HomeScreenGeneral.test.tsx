@@ -53,7 +53,7 @@ describe('HomeScreenGeneral Component', () => {
     
     // CheckBox is disabled. Click event should not change the check state
     fireEvent.click(webCheckBox);
-    expect(webCheckBox).toBeChecked();
+    expect(webCheckBox).not.toBeChecked();
   });
 
   it('Application Name Limitation test', async () => {
