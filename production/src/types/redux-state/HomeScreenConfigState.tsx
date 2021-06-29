@@ -7,7 +7,7 @@ export interface HomeScreenConfigEditorState {
 }
 
 export interface HomeScreenMainViewState {
-    configList: Array<HomeScreenConfigType>
+    configList: Array<Partial<HomeScreenConfigType>>
     contentBundleList: Array<MainViewContentBundleType>
 }
 

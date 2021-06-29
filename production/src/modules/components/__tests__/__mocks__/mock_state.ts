@@ -99,201 +99,6 @@ export default {
             "dateModified": "2021-06-23T02:48:40.000+0000",
             "isDefault": true,
             "objectVersion": "19650A2E43A2CAAEF37957A4ABE4B303"
-          },
-          {
-            "id": "ED458237316F4DBC8A09C1EC9AA3A46E",
-            "name": "tesEnum",
-            "description": "test modified",
-            "schemaVersion": 0,
-            "version": 0,
-            "updateSource": {
-              "requestType": 0,
-              "host": "string",
-              "port": 0,
-              "path": "string",
-              "alias": "string"
-            },
-            "connectivity": {
-              "webServers": [
-                {
-                  "requestType": 0,
-                  "host": "string",
-                  "port": 0,
-                  "path": "string",
-                  "alias": "string"
-                }
-              ]
-            },
-            "general": {
-              "disableAdvancedSettings": true,
-              "disablePreferences": true,
-              "networkTimeout": 0,
-              "cacheClearMode": 0,
-              "clearCacheOnLogout": true,
-              "maxLogSize": 0,
-              "logLevel": 0,
-              "updateInterval": 0
-            },
-            "homeScreen": {
-              "mode": 1,
-              "homeDocument": {
-                "url": "string",
-                "icons": [
-                  "string"
-                ],
-                "toolbarMode": 0,
-                "toolbarDisabled": true
-              },
-              "homeLibrary": {
-                "contentBundleIds": [
-                  
-                ],
-                "icons": [
-                  "string"
-                ],
-                "toolbarMode": 0,
-                "sidebars": [
-                  "string"
-                ],
-                "toolbarDisabled": true,
-                "defaultGroupsName": "string"
-              }
-            },
-            "dateCreated": "2021-06-28T04:12:30.703+0000",
-            "dateModified": "2021-06-28T04:12:30.703+0000",
-            "platform": [
-              "Mobile"
-            ],
-            "isDefault": false,
-            "objectVersion": "652527A1407CC57CB2BA96B925CB1139"
-          },
-          {
-            "id": "7544EA99C531408F81AABD7015D6CDFE",
-            "name": "tesEnum1",
-            "description": "test010 des",
-            "schemaVersion": 0,
-            "version": 0,
-            "updateSource": {
-              "requestType": 0,
-              "host": "string",
-              "port": 0,
-              "path": "string",
-              "alias": "string"
-            },
-            "connectivity": {
-              "webServers": [
-                {
-                  "requestType": 0,
-                  "host": "string",
-                  "port": 0,
-                  "path": "string",
-                  "alias": "string"
-                }
-              ]
-            },
-            "general": {
-              "disableAdvancedSettings": true,
-              "disablePreferences": true,
-              "networkTimeout": 0,
-              "cacheClearMode": 0,
-              "clearCacheOnLogout": true,
-              "maxLogSize": 0,
-              "logLevel": 0,
-              "updateInterval": 0
-            },
-            "homeScreen": {
-              "mode": 0,
-              "homeDocument": {
-                "url": "string",
-                "icons": [
-                  "string"
-                ],
-                "toolbarMode": 0,
-                "toolbarDisabled": true
-              },
-              "homeLibrary": {
-                "contentBundleIds": [
-                  
-                ],
-                "icons": [
-                  "string"
-                ],
-                "toolbarMode": 0,
-                "sidebars": [
-                  "string"
-                ],
-                "toolbarDisabled": true,
-                "defaultGroupsName": "string"
-              }
-            },
-            "dateCreated": "2021-06-25T06:48:15.282+0000",
-            "dateModified": "2021-06-25T06:48:15.282+0000",
-            "isDefault": false,
-            "objectVersion": "A39631F84FB38F31AFB7A686FD167778"
-          },
-          {
-            "id": "64CAD96509964218A802D677B398A4CC",
-            "name": "tesEnum2",
-            "description": "test010 des",
-            "schemaVersion": 0,
-            "version": 0,
-            "updateSource": {
-              "requestType": 0,
-              "host": "string",
-              "port": 0,
-              "path": "string",
-              "alias": "string"
-            },
-            "connectivity": {
-              "webServers": [
-                {
-                  "requestType": 0,
-                  "host": "string",
-                  "port": 0,
-                  "path": "string",
-                  "alias": "string"
-                }
-              ]
-            },
-            "general": {
-              "disableAdvancedSettings": true,
-              "disablePreferences": true,
-              "networkTimeout": 0,
-              "cacheClearMode": 0,
-              "clearCacheOnLogout": true,
-              "maxLogSize": 0,
-              "logLevel": 0,
-              "updateInterval": 0
-            },
-            "homeScreen": {
-              "mode": 1,
-              "homeDocument": {
-                "url": "string",
-                "icons": [
-                  "string"
-                ],
-                "toolbarMode": 0,
-                "toolbarDisabled": true
-              },
-              "homeLibrary": {
-                "contentBundleIds": [
-                  
-                ],
-                "icons": [
-                  "string"
-                ],
-                "toolbarMode": 0,
-                "sidebars": [
-                  "string"
-                ],
-                "toolbarDisabled": true,
-                "defaultGroupsName": "string"
-              }
-            },
-            "dateCreated": "2021-06-25T06:50:02.296+0000",
-            "dateModified": "2021-06-25T06:50:02.296+0000",
-            "isDefault": false,
-            "objectVersion": "02C16C68488A5BB503BA4F9586C4D3D4"
           }
         ],
         contentBundleList: []
@@ -406,201 +211,6 @@ export const mockLibraryAsHome: RootState = {
           "dateModified": "2021-06-23T02:48:40.000+0000",
           "isDefault": true,
           "objectVersion": "19650A2E43A2CAAEF37957A4ABE4B303"
-        },
-        {
-          "id": "ED458237316F4DBC8A09C1EC9AA3A46E",
-          "name": "tesEnum",
-          "description": "test modified",
-          "schemaVersion": 0,
-          "version": 0,
-          "updateSource": {
-            "requestType": 0,
-            "host": "string",
-            "port": 0,
-            "path": "string",
-            "alias": "string"
-          },
-          "connectivity": {
-            "webServers": [
-              {
-                "requestType": 0,
-                "host": "string",
-                "port": 0,
-                "path": "string",
-                "alias": "string"
-              }
-            ]
-          },
-          "general": {
-            "disableAdvancedSettings": true,
-            "disablePreferences": true,
-            "networkTimeout": 0,
-            "cacheClearMode": 0,
-            "clearCacheOnLogout": true,
-            "maxLogSize": 0,
-            "logLevel": 0,
-            "updateInterval": 0
-          },
-          "homeScreen": {
-            "mode": 1,
-            "homeDocument": {
-              "url": "string",
-              "icons": [
-                "string"
-              ],
-              "toolbarMode": 0,
-              "toolbarDisabled": true
-            },
-            "homeLibrary": {
-              "contentBundleIds": [
-                
-              ],
-              "icons": [
-                "string"
-              ],
-              "toolbarMode": 0,
-              "sidebars": [
-                "string"
-              ],
-              "toolbarDisabled": true,
-              "defaultGroupsName": "string"
-            }
-          },
-          "dateCreated": "2021-06-28T04:12:30.703+0000",
-          "dateModified": "2021-06-28T04:12:30.703+0000",
-          "platform": [
-            "Mobile"
-          ],
-          "isDefault": false,
-          "objectVersion": "652527A1407CC57CB2BA96B925CB1139"
-        },
-        {
-          "id": "7544EA99C531408F81AABD7015D6CDFE",
-          "name": "tesEnum1",
-          "description": "test010 des",
-          "schemaVersion": 0,
-          "version": 0,
-          "updateSource": {
-            "requestType": 0,
-            "host": "string",
-            "port": 0,
-            "path": "string",
-            "alias": "string"
-          },
-          "connectivity": {
-            "webServers": [
-              {
-                "requestType": 0,
-                "host": "string",
-                "port": 0,
-                "path": "string",
-                "alias": "string"
-              }
-            ]
-          },
-          "general": {
-            "disableAdvancedSettings": true,
-            "disablePreferences": true,
-            "networkTimeout": 0,
-            "cacheClearMode": 0,
-            "clearCacheOnLogout": true,
-            "maxLogSize": 0,
-            "logLevel": 0,
-            "updateInterval": 0
-          },
-          "homeScreen": {
-            "mode": 0,
-            "homeDocument": {
-              "url": "string",
-              "icons": [
-                "string"
-              ],
-              "toolbarMode": 0,
-              "toolbarDisabled": true
-            },
-            "homeLibrary": {
-              "contentBundleIds": [
-                
-              ],
-              "icons": [
-                "string"
-              ],
-              "toolbarMode": 0,
-              "sidebars": [
-                "string"
-              ],
-              "toolbarDisabled": true,
-              "defaultGroupsName": "string"
-            }
-          },
-          "dateCreated": "2021-06-25T06:48:15.282+0000",
-          "dateModified": "2021-06-25T06:48:15.282+0000",
-          "isDefault": false,
-          "objectVersion": "A39631F84FB38F31AFB7A686FD167778"
-        },
-        {
-          "id": "64CAD96509964218A802D677B398A4CC",
-          "name": "tesEnum2",
-          "description": "test010 des",
-          "schemaVersion": 0,
-          "version": 0,
-          "updateSource": {
-            "requestType": 0,
-            "host": "string",
-            "port": 0,
-            "path": "string",
-            "alias": "string"
-          },
-          "connectivity": {
-            "webServers": [
-              {
-                "requestType": 0,
-                "host": "string",
-                "port": 0,
-                "path": "string",
-                "alias": "string"
-              }
-            ]
-          },
-          "general": {
-            "disableAdvancedSettings": true,
-            "disablePreferences": true,
-            "networkTimeout": 0,
-            "cacheClearMode": 0,
-            "clearCacheOnLogout": true,
-            "maxLogSize": 0,
-            "logLevel": 0,
-            "updateInterval": 0
-          },
-          "homeScreen": {
-            "mode": 1,
-            "homeDocument": {
-              "url": "string",
-              "icons": [
-                "string"
-              ],
-              "toolbarMode": 0,
-              "toolbarDisabled": true
-            },
-            "homeLibrary": {
-              "contentBundleIds": [
-                
-              ],
-              "icons": [
-                "string"
-              ],
-              "toolbarMode": 0,
-              "sidebars": [
-                "string"
-              ],
-              "toolbarDisabled": true,
-              "defaultGroupsName": "string"
-            }
-          },
-          "dateCreated": "2021-06-25T06:50:02.296+0000",
-          "dateModified": "2021-06-25T06:50:02.296+0000",
-          "isDefault": false,
-          "objectVersion": "02C16C68488A5BB503BA4F9586C4D3D4"
         }
       ],
       contentBundleList: []
@@ -720,24 +330,6 @@ export const mockDossierAsHome: RootState = {
           "description": "test modified",
           "schemaVersion": 0,
           "version": 0,
-          "updateSource": {
-            "requestType": 0,
-            "host": "string",
-            "port": 0,
-            "path": "string",
-            "alias": "string"
-          },
-          "connectivity": {
-            "webServers": [
-              {
-                "requestType": 0,
-                "host": "string",
-                "port": 0,
-                "path": "string",
-                "alias": "string"
-              }
-            ]
-          },
           "general": {
             "disableAdvancedSettings": true,
             "disablePreferences": true,
@@ -787,24 +379,6 @@ export const mockDossierAsHome: RootState = {
           "description": "test010 des",
           "schemaVersion": 0,
           "version": 0,
-          "updateSource": {
-            "requestType": 0,
-            "host": "string",
-            "port": 0,
-            "path": "string",
-            "alias": "string"
-          },
-          "connectivity": {
-            "webServers": [
-              {
-                "requestType": 0,
-                "host": "string",
-                "port": 0,
-                "path": "string",
-                "alias": "string"
-              }
-            ]
-          },
           "general": {
             "disableAdvancedSettings": true,
             "disablePreferences": true,
@@ -851,24 +425,6 @@ export const mockDossierAsHome: RootState = {
           "description": "test010 des",
           "schemaVersion": 0,
           "version": 0,
-          "updateSource": {
-            "requestType": 0,
-            "host": "string",
-            "port": 0,
-            "path": "string",
-            "alias": "string"
-          },
-          "connectivity": {
-            "webServers": [
-              {
-                "requestType": 0,
-                "host": "string",
-                "port": 0,
-                "path": "string",
-                "alias": "string"
-              }
-            ]
-          },
           "general": {
             "disableAdvancedSettings": true,
             "disablePreferences": true,
@@ -1027,24 +583,6 @@ export const mockDossierPicker: RootState = {
           "description": "test modified",
           "schemaVersion": 0,
           "version": 0,
-          "updateSource": {
-            "requestType": 0,
-            "host": "string",
-            "port": 0,
-            "path": "string",
-            "alias": "string"
-          },
-          "connectivity": {
-            "webServers": [
-              {
-                "requestType": 0,
-                "host": "string",
-                "port": 0,
-                "path": "string",
-                "alias": "string"
-              }
-            ]
-          },
           "general": {
             "disableAdvancedSettings": true,
             "disablePreferences": true,
@@ -1094,24 +632,6 @@ export const mockDossierPicker: RootState = {
           "description": "test010 des",
           "schemaVersion": 0,
           "version": 0,
-          "updateSource": {
-            "requestType": 0,
-            "host": "string",
-            "port": 0,
-            "path": "string",
-            "alias": "string"
-          },
-          "connectivity": {
-            "webServers": [
-              {
-                "requestType": 0,
-                "host": "string",
-                "port": 0,
-                "path": "string",
-                "alias": "string"
-              }
-            ]
-          },
           "general": {
             "disableAdvancedSettings": true,
             "disablePreferences": true,
@@ -1158,24 +678,6 @@ export const mockDossierPicker: RootState = {
           "description": "test010 des",
           "schemaVersion": 0,
           "version": 0,
-          "updateSource": {
-            "requestType": 0,
-            "host": "string",
-            "port": 0,
-            "path": "string",
-            "alias": "string"
-          },
-          "connectivity": {
-            "webServers": [
-              {
-                "requestType": 0,
-                "host": "string",
-                "port": 0,
-                "path": "string",
-                "alias": "string"
-              }
-            ]
-          },
           "general": {
             "disableAdvancedSettings": true,
             "disablePreferences": true,
