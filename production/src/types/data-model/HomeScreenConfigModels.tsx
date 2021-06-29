@@ -7,11 +7,13 @@ export interface HomeScreenConfigType {
     'id': string,
     'name': string,
     'schemaVersion': number,
+    'version': number,
     'description': string,
     'isDefault': boolean,
     'platform': Array<string>,
     'dateModified': string,
     'dateCreated': string,
+    'objectVersion': string
     'homeScreen': {
         mode: number, 
         homeLibrary: { 
