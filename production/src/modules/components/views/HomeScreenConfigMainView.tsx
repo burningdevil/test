@@ -230,10 +230,10 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       } else {
         _.assign(resultConfig, {platformstr: resultConfig.platform.join(', ')});
       }
-      if (!_.has(resultConfig, VC.CONTENT_BUNDLE_IDS)) {
+      if (!_.has(resultConfig, [VC.HOME_SCREEN, VC.HOME_LIBRARY, VC.CONTENT_BUNDLE_IDS])) {
         _.assign(resultConfig, { contentBundles: []});
       } else {
-        var arr = resultConfig.contentBundleIds.reduce(function(res: any, v: any) {
+        var arr = resultConfig.homeScreen.homeLibrary.contentBundleIds.reduce(function(res: any, v: any) {
           return res.concat(_.filter(THIS.props.contentBundleList, function(o) { return o.id === v; }));
           }, []);
         _.assign(resultConfig, { contentBundles: arr });
