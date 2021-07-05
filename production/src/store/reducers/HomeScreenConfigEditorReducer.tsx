@@ -8,7 +8,7 @@ const initialState: HomeScreenConfigEditorState = {
   currentConfig: {
     'name': '',
     'description': '',
-    'platform': featureFlag.platformEnable ? [platformType.mobile, platformType.web, platformType.desktop] : [platformType.web],
+    'platform': featureFlag.platformEnable ? [platformType.mobile, platformType.web, platformType.desktop] : [platformType.web, platformType.desktop],
     'isDefault': false,
     'homeScreen': {
       mode: CONSTANTS.MODE_USE_DEFAULT_HOME_SCREEN, 
@@ -16,7 +16,7 @@ const initialState: HomeScreenConfigEditorState = {
         icons: libraryIconKeys.map((key) => iconValidKey(key)), 
         sidebars: sidebarIconKeys.filter((key) => key !== iconTypes.defaultGroup.key).map((key) => iconValidKey(key)), 
         contentBundleIds: [],
-        defaultGroupsName: '',
+        defaultGroupsName: 'Default Groups',
         toolbarMode: CONSTANTS.SHOW_TOOLBAR,
         toolbarDisabled: false,
       }, 

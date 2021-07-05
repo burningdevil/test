@@ -136,7 +136,7 @@ class HomeScreenMoreSetting extends React.Component<any, any> {
         }
     };
 
-    inputRender = (visible: boolean, maxValue: number, suffix: string, disabled: boolean, value: number, onChange: React.ChangeEventHandler<HTMLInputElement>) => {
+    inputRender = (visible: boolean, maxValue: number, suffix: string, suffixPlural: string, disabled: boolean, value: number, onChange: React.ChangeEventHandler<HTMLInputElement>) => {
         return <Tooltip 
             overlayClassName={`${classNamePrefix}-tooltip-overlay`}
             visible={visible}
@@ -149,7 +149,7 @@ class HomeScreenMoreSetting extends React.Component<any, any> {
             }>
             <Input 
                 className={`${classNamePrefix}-cfg-advance-input`} 
-                suffix={suffix} 
+                suffix={value > 1 ? suffixPlural : suffix} 
                 disabled={disabled}
                 value={value}
                 onBlur={() => this.resetTooltipState(0)}
@@ -200,7 +200,7 @@ class HomeScreenMoreSetting extends React.Component<any, any> {
                             {this.checkboxRender(updateInterval !== VC.UPDATE_INTERVAL_DISABLED, VC.UPDATE_INTERVAL, sectionAccess.CHECK_UPDATE)}
                         </span>
                         <span>
-                            {this.inputRender(!this.state.intervalValid, MAX_UPDATE_INTERVAL, metricStr.HOURS, updateInterval === VC.UPDATE_INTERVAL_DISABLED, updateInterval === VC.UPDATE_INTERVAL_DISABLED ? DEFAULT_INTERVAL_HOURS : parseInt(updateInterval)/60, (e) => this.onInputChange(VC.UPDATE_INTERVAL_TEXT, e.target.value))}
+                            {this.inputRender(!this.state.intervalValid, MAX_UPDATE_INTERVAL, metricStr.HOUR, metricStr.HOURS, updateInterval === VC.UPDATE_INTERVAL_DISABLED, updateInterval === VC.UPDATE_INTERVAL_DISABLED ? DEFAULT_INTERVAL_HOURS : parseInt(updateInterval)/60, (e) => this.onInputChange(VC.UPDATE_INTERVAL_TEXT, e.target.value))}
                         </span>
                     </div>
                     <Divider/>
@@ -209,7 +209,7 @@ class HomeScreenMoreSetting extends React.Component<any, any> {
                     {this.sectionTitleRender(sectionTitle.CONNECTIVITY)}
                     <div className={`${classNamePrefix}-box`}>
                         <span>{sectionConnectivity.NETWORK_TIMEOUT}</span>
-                        {this.inputRender(!this.state.timeoutValid, MAX_TIMEOUT, metricStr.SECONDS, false, parseInt(networkTimeout), (e) => this.onInputChange(VC.NETWORK_TIMEOUT, e.target.value))}
+                        {this.inputRender(!this.state.timeoutValid, MAX_TIMEOUT, metricStr.SECOND, metricStr.SECONDS, false, parseInt(networkTimeout), (e) => this.onInputChange(VC.NETWORK_TIMEOUT, e.target.value))}
                     </div>
                     <Divider/>
             
@@ -218,7 +218,7 @@ class HomeScreenMoreSetting extends React.Component<any, any> {
                     <div className={`${classNamePrefix}-cfg-advance-padding`}>
                         <div className={`${classNamePrefix}-box`}>
                             <span>{sectionLogging.MAX_LOG_SIZE}</span>
-                            {this.inputRender(!this.state.loggingSizeValid, MAX_LOGGING_SIZE, metricStr.ENTRIES, false, parseInt(maxLogSize), (e) => this.onInputChange(VC.MAX_LOG_SIZE, e.target.value))}
+                            {this.inputRender(!this.state.loggingSizeValid, MAX_LOGGING_SIZE, metricStr.ENTRY, metricStr.ENTRIES, false, parseInt(maxLogSize), (e) => this.onInputChange(VC.MAX_LOG_SIZE, e.target.value))}
                         </div>
                     </div>
 
@@ -241,10 +241,9 @@ class HomeScreenMoreSetting extends React.Component<any, any> {
 
                     {/* Cache section */}
                     {this.sectionTitleRender(sectionTitle.CACHE)}
-                    {/* // disable clearOnClose for now. iOS client hasn't expose this feature yet.
                      <div>
                         {this.checkboxRender(cacheClearMode === VC.CLEAR_ON_CLOSE, VC.CLEAR_CACHE_ON_CLOSE, sectionCache.CLEAR_CACHE_ON_CLOSE)}
-                    </div> */} 
+                    </div>
                     <div>
                         {this.checkboxRender(clearCacheOnLogout, VC.CLEAR_CACHE_ON_LOGOUT, sectionCache.CLEAR_CACHE_ON_LOGOUT)}
                     </div>

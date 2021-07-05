@@ -49,8 +49,8 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                     buttonStyle='solid'
                     size='small'
                 >
-                    <Radio.Button value={reviewType.TABLET} disabled={mobileDisabled}>{localizedStrings.TABLET}</Radio.Button>
-                    <Radio.Button value={reviewType.PHONE} disabled={mobileDisabled}>{localizedStrings.PHONE}</Radio.Button>
+                   {!mobileDisabled && <Radio.Button value={reviewType.TABLET}>{localizedStrings.TABLET}</Radio.Button>}
+                   {!mobileDisabled && <Radio.Button value={reviewType.PHONE}>{localizedStrings.PHONE}</Radio.Button>}
                     <Radio.Button value={reviewType.WEB} disabled={webDisabled}>{localizedStrings.WEB}</Radio.Button>
                     <Radio.Button value={reviewType.DESKTOP} disabled={desktopDisabled}>{localizedStrings.DESKTOP}</Radio.Button>
                 </Radio.Group>
@@ -82,7 +82,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
             return this.iconShouldShow(element) &&
                 <div>
                     <div className={`${classNamePrefix}-pad-overview-left-text`}> <span className={element.iconName} key={index}/> 
-                        <span>{element.displayText}</span> 
+                        <span>{showContent ? this.props.config.homeScreen.homeLibrary.defaultGroupsName : element.displayText}</span> 
                         {showAddButton && <PlusCircleOutlined/>}
                         {showExpandIcon && <DownOutlined style={{fontSize: '5px', marginLeft: 'auto', marginRight: '4px'}}/>}
                     </div>

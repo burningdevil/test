@@ -89,7 +89,8 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             <Button key={VC.GENERATE}
                 type= 'primary'
                 style={{marginLeft: 10}}
-                onClick={this.handleSaveConfig}>
+                onClick={this.handleSaveConfig}
+                disabled = {_.isEmpty(this.props.config.name)}>
                 {localizedStrings.SAVE}
             </Button>
         </div>
@@ -153,9 +154,9 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                                 <HomeScreenComponents />
                                 {this.buttonGroup()}
                             </Tabs.TabPane>
-                            <Tabs.TabPane tab={localizedStrings.NAVBAR_APPEARANCE} key={VC.APPEARANCE}>
+                            {/* <Tabs.TabPane tab={localizedStrings.NAVBAR_APPEARANCE} key={VC.APPEARANCE}>
                                 {this.buttonGroup()}
-                            </Tabs.TabPane>
+                            </Tabs.TabPane> */}
                             <Tabs.TabPane tab={localizedStrings.NAVBAR_CONTENT_BUNDLES} key={VC.CONTENT_BUNDLES} disabled={this.props.config.homeScreen.mode === 1}>
                                 <HomeScreenContentBundles/>
                                 {this.buttonGroup()}

@@ -351,8 +351,11 @@ export const sectionCache = {
 };
 
 export const metricStr = {
+    HOUR: t('hour'),
     HOURS: t('hours'),
+    SECOND: t('second'),
     SECONDS: t('seconds'),
+    ENTRY: t('item'),
     ENTRIES: t('items'),
 };
 
@@ -427,7 +430,7 @@ export const extraDesktopIcons = [iconTypes.dataSearch, iconTypes.hyper]
 export const extraMobileIcons = [iconTypes.aaFont]
 
 // children icons for sidebar
-export const childrenIcons = [iconTypes.all, iconTypes.favorites, iconTypes.recents, iconTypes.defaultGroup, iconTypes.myGroup, iconTypes.accountMobile]
+export const childrenIcons = [iconTypes.all, iconTypes.favorites, iconTypes.recents, iconTypes.defaultGroup, iconTypes.myGroup]//, iconTypes.accountMobile]
 
 // for accountMobile and accountWeb to remove suffix
 export const iconValidKey = (iconKey: string) => iconKey.split('_').length > 0 ? iconKey.split('_')[0] : iconKey

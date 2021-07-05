@@ -27,6 +27,7 @@ declare var workstation: WorkstationModule;
 const classNamePrefix = 'home-screen-main';
 const appRootPath = 'app';
 const appRootPathWithConfig = 'app/config/';
+const viewNowPath = 'ViewNow?webLink=';
 const configSaveSuccessPath = 'Message.homeConfigSaveSuccess';
 
 class HomeScreenConfigMainView extends React.Component<any, any> {
@@ -184,7 +185,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     const handleClickCopyLink = async () => {
       try {
         const currentEnv = await workstation.environments.getCurrentEnvironment();
-        const appLink = d.isDefault ? currentEnv.url + appRootPath : currentEnv.url + appRootPathWithConfig + d.id;
+        const appLink = d.isDefault ? currentEnv.url + viewNowPath + encodeURIComponent(currentEnv.url + appRootPath) : currentEnv.url + viewNowPath + encodeURIComponent(currentEnv.url + appRootPathWithConfig + d.id);
         copyToClipboard(appLink);
         message.success(localizedStrings.LINK_COPIED);
       } catch (e) {
@@ -229,16 +230,16 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       } else {
         _.assign(resultConfig, {platformstr: resultConfig.platform.join(', ')});
       }
-      if (!_.has(resultConfig, VC.CONTENT_BUNDLE_IDS)) {
+      if (!_.has(resultConfig, [VC.HOME_SCREEN, VC.HOME_LIBRARY, VC.CONTENT_BUNDLE_IDS])) {
         _.assign(resultConfig, { contentBundles: []});
       } else {
-        var arr = resultConfig.contentBundleIds.reduce(function(res: any, v: any) {
+        var arr = resultConfig.homeScreen.homeLibrary.contentBundleIds.reduce(function(res: any, v: any) {
           return res.concat(_.filter(THIS.props.contentBundleList, function(o) { return o.id === v; }));
           }, []);
         _.assign(resultConfig, { contentBundles: arr });
       }
 
-      _.assign(resultConfig, {mode: resultConfig.mode == 0 ? localizedStrings.LIBRARY : localizedStrings.DOSSIER});
+      _.assign(resultConfig, {mode: resultConfig.homeScreen.mode == 0 ? localizedStrings.LIBRARY : localizedStrings.DOSSIER});
 
       if (_.has(resultConfig, VC.DATE_MODIFIED)) {
         _.assign(resultConfig, {dateModified: _.split(resultConfig.dateModified, /[\T.]+/, 2).join(' ')});
@@ -290,6 +291,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         },
         {
           'name': localizedStrings.DELETE,
+          'disabled': contextMenuTarget? contextMenuTarget.isDefault : false,
           'action': handleClickDelete,
         },
         {
