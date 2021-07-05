@@ -78,9 +78,12 @@ export default class ContentBundlePicker extends React.Component<any, any> {
             <div className={`${classNamePrefix}-header`}>
               {localizedStrings.SELECT_CONTENT_BUNDLES}
             </div>
-            <SearchInput className={`${classNamePrefix}-search`} placeholder={localizedStrings.SEARCH}
+            <SearchInput className={`${classNamePrefix}-search`} placeholder={localizedStrings.SEARCH} value={this.state.nameFilter}
                 onChange={(value: string) => {
                   this.handleSearch(value);
+                }}
+                onClear={() => {
+                  this.handleSearch('');
                 }}/>
           </div>
           <div className={`${classNamePrefix}-middle`}>

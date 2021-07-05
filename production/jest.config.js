@@ -23,17 +23,11 @@ module.exports = {
     __TEST__: true
   },
   collectCoverageFrom: [
-    'src/**/*.{js,jsx,ts,tsx}',
-    '!src/httpProxy/MockedHttpProxy.ts',
+    'src/modules/components/**/*.{js,jsx,ts,tsx}',
     '!**/__mock__/**/*.*',
-    '!src/httpProxy/MockProxy.tsx',
-    '!src/main.tsx',
-    '!src/@types/**/*.*',
-    '!src/httpProxy/mock/**/*.*',
     '!src/**/*.stories.{js,jsx,ts,tsx}',
     '!**/__mock__/**/*.*',
     '!**/mocks/**/*.*',
-    '!src/store/**/*.*',
     '!**/*.eslintrc.js',
   ],
 }

@@ -428,6 +428,9 @@ class ContentBundleList extends React.Component<any, any> {
             <SearchInput value={this.state.nameFilter} className={`${classNamePrefix}-search`} placeholder={localizedStrings.SEARCH}
                 onChange={(value: string) => {
                   this.handleSearch(value);
+                }}
+                onClear={() => {
+                  this.handleSearch('');
                 }}/>
             {this.renderAddContent()}
           </div>

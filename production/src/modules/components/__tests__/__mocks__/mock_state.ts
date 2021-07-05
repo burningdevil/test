@@ -775,7 +775,7 @@ export const mockDossierPicker: RootState = {
             },
             "projectId": "B19DEDCC11D4E0EFC000EB9495D0F44F"
         }
-    ],
+      ],
       documents: [
         {
             "name": "iPad Landscape",
@@ -828,7 +828,7 @@ export const mockDossierPicker: RootState = {
             },
             "projectId": "A13890BC11D4E0F1C000EB9495D0F44F"
         }
-    ],
+      ],
       loadingDossiers: false,
       loadingDossiersFinish: true,
   }

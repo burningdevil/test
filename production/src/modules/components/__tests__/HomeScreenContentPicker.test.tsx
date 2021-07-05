@@ -1,7 +1,7 @@
 jest.mock('../../../services/Api');
 
 import * as React from 'react';
-import { render, cleanup, fireEvent } from '@testing-library/react';
+import { render, cleanup, fireEvent, screen, queryByRole, queryAllByRole, getByDisplayValue } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import createStore from '../../../store/createStore';
 import ContentBundleContentPicker from '../views/ContentBundleContentPicker';
@@ -15,32 +15,42 @@ describe('ContentBundleContentPicker Component', () => {
   });
 
   it('Application homescreen settings: test dossier/document picker, rendering', async () => {
-    // const store = createStore(mockDossierPicker);
-    // // Render
-    // const { queryAllByRole, queryByText, getByText } = render(
-    //   <Provider store={store}>
-    //     <ContentBundleContentPicker visible={true}/>
-    //   </Provider>
-    // );
+    const store = createStore(mockDossierPicker);
+    // Render
+    const { queryByText, queryByDisplayValue } = render(
+      <Provider store={store}>
+        <ContentBundleContentPicker visible={true}/>
+      </Provider>
+    );
     
-    // // check rendering
-    // const dossiersTab = queryByText('dossiers');
-    // expect(dossiersTab).toBeInTheDocument();
+    // check rendering
+    const dossierItemGrid = queryByRole(document.body, 'grid');
+    expect(dossierItemGrid).toBeInTheDocument();
 
-    // const documentsTab = queryByText('documents');
-    // expect(documentsTab).toBeInTheDocument();
+    // List
+    const itemListRowGroups = queryAllByRole(dossierItemGrid, 'rowgroup');
+    expect(itemListRowGroups.length).toBe(2); // Header and Data List
 
-    // const dossierItem = getByText('Customer Income Analysis2');
+    // Dossier
+    // const dossiers = queryAllByRole(itemListRowGroups[1], 'row'); // Query items from data list
+    // expect(dossiers.length).toBe(3);
+    // const dossierItem = queryByDisplayValue('Customer Income Analysis2');
     // expect(dossierItem).toBeInTheDocument();
     
-    // // check tab switch
-    // const menus = queryAllByRole('menuitem');
-    // expect(menus.length).toBe(2);
+    // check tab switch
+    const dossiersTab = queryByText('dossiers');
+    expect(dossiersTab).toBeInTheDocument();
+
+    const documentsTab = queryByText('documents');
+    expect(documentsTab).toBeInTheDocument();
+
+    const menus = queryAllByRole(document.body, 'menuitem');
+    expect(menus.length).toBe(2);
 
     // const documentsMenu = menus[1];
     // fireEvent.click(documentsMenu);
 
-    // const documentItem = getByText('Colorful');
+    // const documentItem = queryByDisplayValue('Colorful');
     // expect(documentItem).toBeInTheDocument();
 
     // check selection

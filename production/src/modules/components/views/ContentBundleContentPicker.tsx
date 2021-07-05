@@ -22,7 +22,6 @@ import { default as VC, localizedStrings, HomeScreenHomeObjectType, contentPicke
 
 var currentOffset = 0;
 var activeTab = HomeScreenHomeObjectType.DOSSIER;
-var searchNameFilter = '';
 const classNamePrefix = 'content-bundle-content-picker';
 const rowSelectionType = 'single';
 const rowModelType = 'serverSide';
@@ -33,7 +32,8 @@ class ContentBundleContentPicker extends React.Component<any, any> {
     this.state = {
       activeTab: HomeScreenHomeObjectType.DOSSIER,
       selectedObject: {},
-      gridApi: undefined
+      gridApi: {},
+      searchNameFilter: ''
     }
   }
 
@@ -57,6 +57,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
   }
   
   bundleContentPickerServer() {
+    const THIS = this;
     return {
         getData: function (params: IServerSideGetRowsParams) {
           const isDossier = activeTab === HomeScreenHomeObjectType.DOSSIER;
@@ -94,8 +95,8 @@ class ContentBundleContentPicker extends React.Component<any, any> {
               });
             }
           } else {
-          if(searchNameFilter !== '') {
-            api.loadSearchedDossierDocuments(searchNameFilter).then((response: {dossiers: any, documents: any, totalCount: any}) => {
+          if(THIS.state.searchNameFilter !== '') {
+            api.loadSearchedDossierDocuments(THIS.state.searchNameFilter).then((response: {dossiers: any, documents: any, totalCount: any}) => {
               lastRow = isDossier ? response.dossiers.length : response.documents.length;
               results = isDossier ? _.slice(response.dossiers, startRow, lastRow) : _.slice(response.documents, startRow, lastRow);
               results = results.map((content: any) => {
@@ -170,11 +171,15 @@ class ContentBundleContentPicker extends React.Component<any, any> {
   handleCancelAdd = () => {
     this.props.handleClose();
     this.handleSelectionChanged({});
-    searchNameFilter = '';
+    this.setState({
+      searchNameFilter: ''
+    });
   }
 
   handleSearch = (value: string) => {
-    searchNameFilter = value;
+    this.setState({
+      searchNameFilter: value
+    });
     this.state.gridApi.deselectAll();
     this.state.gridApi.onFilterChanged();
   }
@@ -184,7 +189,9 @@ class ContentBundleContentPicker extends React.Component<any, any> {
     this.props.handleChange(name, projectId +'/' + id);
     this.props.handleClose();
     this.handleSelectionChanged({});
-    searchNameFilter = '';
+    this.setState({
+      searchNameFilter: ''
+    });
   }
 
   buttonGroup = () => {
@@ -321,6 +328,10 @@ class ContentBundleContentPicker extends React.Component<any, any> {
             <SearchInput className={`${classNamePrefix}-search`} placeholder={localizedStrings.SEARCH}
                 onChange={(value: string) => {
                   this.handleSearch(value);
+                }}
+                value={this.state.searchNameFilter}
+                onClear={() => {
+                  this.handleSearch('');
                 }}/>
           </div>
           <div className={`${classNamePrefix}-middle`}>
