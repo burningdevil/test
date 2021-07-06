@@ -41,17 +41,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
     return {
       getRows: function (params: IServerSideGetRowsParams) {
         console.log('[Datasource] - rows requested by grid: ', params.request);
-        var response = server.getData(params);
-        setTimeout(function () {
-          if (response && response.success) {
-            params.success({
-              rowData: response.rows,
-              rowCount: response.lastRow,
-            });
-          } else {
-            params.fail();
-          }
-        }, 200);
+        server.getData(params);
       },
     };
   }
@@ -65,9 +55,9 @@ class ContentBundleContentPicker extends React.Component<any, any> {
           var results: any[] = [];
           var lastRow: number = -1;
           var limit: number = 300;
-          var dossiers = THIS.props.dossiers; // selectAllDossiers(store.getState() as RootState);
-          var documents = THIS.props.documents; // selectAllDocuments(store.getState() as RootState);
-          var loadFinished = THIS.props.loadFinished; // selectLoadingDossiersFinish(store.getState() as RootState);
+          var dossiers = THIS.props.dossiers;
+          var documents = THIS.props.documents;
+          var loadFinished = THIS.props.loadFinished;
           var startRow = params.request.startRow;
           var endRow = params.request.endRow;
           if (params.request.sortModel && params.request.sortModel.length > 0) {
