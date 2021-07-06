@@ -43,7 +43,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
         console.log('[Datasource] - rows requested by grid: ', params.request);
         var response = server.getData(params);
         setTimeout(function () {
-          if (response.success) {
+          if (response && response.success) {
             params.success({
               rowData: response.rows,
               rowCount: response.lastRow,
@@ -65,10 +65,9 @@ class ContentBundleContentPicker extends React.Component<any, any> {
           var results: any[] = [];
           var lastRow: number = -1;
           var limit: number = 300;
-          var dossiers = selectAllDossiers(store.getState() as RootState);
-          var documents = selectAllDocuments(store.getState() as RootState);
-          var loadFinished = selectLoadingDossiersFinish(store.getState() as RootState);
-          
+          var dossiers = THIS.props.dossiers; // selectAllDossiers(store.getState() as RootState);
+          var documents = THIS.props.documents; // selectAllDocuments(store.getState() as RootState);
+          var loadFinished = THIS.props.loadFinished; // selectLoadingDossiersFinish(store.getState() as RootState);
           var startRow = params.request.startRow;
           var endRow = params.request.endRow;
           if (params.request.sortModel && params.request.sortModel.length > 0) {
@@ -262,6 +261,9 @@ class ContentBundleContentPicker extends React.Component<any, any> {
     params.api.setServerSideDatasource(datasource);
 
     const { selectedObject } = this.state;
+    if (!selectedObject.id) {
+      return;
+    }
     params.api.forEachNode(function (node: any) {
       node.setSelected(node.data.id === selectedObject.id);
     });
@@ -409,7 +411,8 @@ class ContentBundleContentPicker extends React.Component<any, any> {
 const mapState = (state: RootState) => ({
   dossiers: selectAllDossiers(state),
   documents: selectAllDocuments(state),
-  loadingData: selectIsLoadingDossiers(state)
+  loadingData: selectIsLoadingDossiers(state),
+  loadFinished: selectLoadingDossiersFinish(state)
 })
 
 const connector = connect(mapState, {

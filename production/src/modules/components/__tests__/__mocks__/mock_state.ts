@@ -732,7 +732,7 @@ export const mockDossierPicker: RootState = {
             "dateModified": "2018-09-04T04:02:17.000+0000",
             "acg": 255,
             "owner": {
-                "name": "Administrator",
+                "name": "Tom",
                 "id": "54F3D26011D2896560009A8E67019608"
             },
             "viewMedia": 1879072805,
@@ -749,7 +749,7 @@ export const mockDossierPicker: RootState = {
             "dateModified": "2014-11-27T00:50:27.000+0000",
             "acg": 255,
             "owner": {
-                "name": "Administrator",
+                "name": "Tester",
                 "id": "54F3D26011D2896560009A8E67019608"
             },
             "viewMedia": 1610614921,
@@ -778,23 +778,6 @@ export const mockDossierPicker: RootState = {
       ],
       documents: [
         {
-            "name": "iPad Landscape",
-            "id": "036C946741BB821F9DE3BE82C19FA45A",
-            "type": 55,
-            "dateCreated": "2010-06-12T18:55:38.000+0000",
-            "dateModified": "2015-01-12T13:53:08.000+0000",
-            "acg": 255,
-            "owner": {
-                "name": "Administrator",
-                "id": "54F3D26011D2896560009A8E67019608"
-            },
-            "viewMedia": 268435711,
-            "certifiedInfo": {
-                "certified": false
-            },
-            "projectId": "A13890BC11D4E0F1C000EB9495D0F44F"
-        },
-        {
             "name": "Colorful",
             "id": "09B362B8461C59F627122EA7685C83FA",
             "type": 55,
@@ -802,7 +785,7 @@ export const mockDossierPicker: RootState = {
             "dateModified": "2009-06-25T15:50:13.000+0000",
             "acg": 255,
             "owner": {
-                "name": "Administrator",
+                "name": "Lucy",
                 "id": "54F3D26011D2896560009A8E67019608"
             },
             "viewMedia": 268435263,
@@ -819,7 +802,7 @@ export const mockDossierPicker: RootState = {
             "dateModified": "2015-09-16T21:44:53.000+0000",
             "acg": 255,
             "owner": {
-                "name": "Administrator",
+                "name": "Jacky",
                 "id": "54F3D26011D2896560009A8E67019608"
             },
             "viewMedia": 134217845,

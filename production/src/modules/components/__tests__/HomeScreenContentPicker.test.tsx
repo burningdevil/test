@@ -1,7 +1,7 @@
 jest.mock('../../../services/Api');
 
 import * as React from 'react';
-import { render, cleanup, fireEvent, screen, queryByRole, queryAllByRole, getByDisplayValue } from '@testing-library/react';
+import { render, cleanup, fireEvent, screen, queryByRole, queryAllByRole, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import createStore from '../../../store/createStore';
 import ContentBundleContentPicker from '../views/ContentBundleContentPicker';
@@ -17,12 +17,11 @@ describe('ContentBundleContentPicker Component', () => {
   it('Application homescreen settings: test dossier/document picker, rendering', async () => {
     const store = createStore(mockDossierPicker);
     // Render
-    const { queryByText, queryByDisplayValue } = render(
+    const { queryByText, queryByPlaceholderText } = render(
       <Provider store={store}>
         <ContentBundleContentPicker visible={true}/>
       </Provider>
     );
-    
     // check rendering
     const dossierItemGrid = queryByRole(document.body, 'grid');
     expect(dossierItemGrid).toBeInTheDocument();
@@ -31,29 +30,32 @@ describe('ContentBundleContentPicker Component', () => {
     const itemListRowGroups = queryAllByRole(dossierItemGrid, 'rowgroup');
     expect(itemListRowGroups.length).toBe(2); // Header and Data List
 
+    await waitFor(() => {expect(queryAllByRole(itemListRowGroups[1], 'row').length).toBe(3);});
     // Dossier
-    // const dossiers = queryAllByRole(itemListRowGroups[1], 'row'); // Query items from data list
-    // expect(dossiers.length).toBe(3);
-    // const dossierItem = queryByDisplayValue('Customer Income Analysis2');
-    // expect(dossierItem).toBeInTheDocument();
+    const dossierItemOwner = queryByText('Administrator');
+    expect(dossierItemOwner).toBeInTheDocument();
     
     // check tab switch
-    const dossiersTab = queryByText('dossiers');
-    expect(dossiersTab).toBeInTheDocument();
-
-    const documentsTab = queryByText('documents');
-    expect(documentsTab).toBeInTheDocument();
-
     const menus = queryAllByRole(document.body, 'menuitem');
     expect(menus.length).toBe(2);
+    const documentsMenu = menus[1];
+    fireEvent.click(documentsMenu);
+    // wait after tab change
+    await waitFor(() => {expect(queryAllByRole(itemListRowGroups[1], 'row').length).toBe(2);});
 
-    // const documentsMenu = menus[1];
-    // fireEvent.click(documentsMenu);
+    const documentItemOwner = queryByText('Lucy');
+    expect(documentItemOwner).toBeInTheDocument();
 
-    // const documentItem = queryByDisplayValue('Colorful');
-    // expect(documentItem).toBeInTheDocument();
+    // check search
+    const searchInput = queryByPlaceholderText('search');
+    fireEvent.change(searchInput, { target: { value: 'Colorful'} });
+    await waitFor(() => {expect(queryAllByRole(itemListRowGroups[1], 'row').length).toBe(1);});
 
-    // check selection
+    // Clear search
+    const buttons = queryAllByRole(document.body, 'button');
+    screen.debug(buttons[1]); // Second is the Search Input clear button
+    fireEvent.click(buttons[1]);
+    await waitFor(() => {expect(queryAllByRole(itemListRowGroups[1], 'row').length).toBe(2);});
     
   });
 
