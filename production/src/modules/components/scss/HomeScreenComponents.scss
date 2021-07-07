@@ -1,6 +1,7 @@
 
 $font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';
 $text-color: #35383A;
+$font-size-large: 14px;
 $font-size: 12px;
 $font-size-mini: 11px;
 $line-height: 16px;
@@ -24,7 +25,7 @@ $right-background: rgb(224, 224, 224);
 
     &-left{
         float: left;
-        margin: 43px 20px 0px 40px;
+        margin: 16px 30px 0px 30px;
     }
 
     &-right{
@@ -58,10 +59,11 @@ $right-background: rgb(224, 224, 224);
         font-size: $font-size;
         line-height: $line-height-mini;
         margin-bottom: 3px;
+        margin-left: 16px;
     }
 
     &-icons{
-        font-size: $font-size;
+        font-size: $font-size-large;
         line-height: $line-height-mini;
         
         &-title{
@@ -78,6 +80,7 @@ $right-background: rgb(224, 224, 224);
         height: -moz-max-content;    /* Firefox/Gecko */
         height: -webkit-max-content; /* Chrome */
         margin-bottom: 23px; // ??
+        margin-left: 16px;
 
         .ant-table-tbody > tr:nth-child(n-1)  > td {
             padding: 12px 0px;
