@@ -424,7 +424,7 @@ export const iconTypes = {
 // icons may appear in both library and dossier
 // export const bothSideIcons = [iconTypes.notification, iconTypes.account]
 
-// library icons when mode is Libary as home
+// library icons when mode is Library as home
 export const libraryIcons = [iconTypes.sidebar, iconTypes.sortAndFilter, iconTypes.multiSelect, 
     iconTypes.search, iconTypes.notification, iconTypes.accountWeb]
 
