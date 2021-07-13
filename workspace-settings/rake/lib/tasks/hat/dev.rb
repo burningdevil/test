@@ -22,10 +22,10 @@ task :build do
     "docker run -v #{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}:/mnt/production -e APPLICATION_VERSION=#{Common::Version.application_version} --entrypoint '/bin/sh' node:12-alpine /mnt/production/build.sh",
     cwd: $WORKSPACE_SETTINGS[:paths][:project][:production][:home]
   )
-  shell_command!(
-    "npm run metrics",
-    cwd: $WORKSPACE_SETTINGS[:paths][:project][:production][:home]
-  )
+#   shell_command!(
+#     "npm run metrics",
+#     cwd: $WORKSPACE_SETTINGS[:paths][:project][:production][:home]
+#   )
 end
 
 desc "package project in #{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}"
