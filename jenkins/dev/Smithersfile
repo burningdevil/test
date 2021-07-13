@@ -56,11 +56,4 @@ rake post_pipeline
 
   end
 
-  publishers do
-     cobertura do
-      result_glob_path 'production/coverage/cobertura-coverage.xml'
-      html_report_dir_path 'production/coverage/lcov-report'
-    end
-  end
-
 end
