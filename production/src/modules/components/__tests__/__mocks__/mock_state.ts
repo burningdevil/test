@@ -5,8 +5,9 @@ export default {
         currentConfig: {
             'name': 'test application',
             'description': 'this is test application description',
-            'platform': featureFlag.platformEnable ? [platformType.mobile, platformType.web, platformType.desktop] : [platformType.web],
+            'platforms': featureFlag.platformEnable ? [platformType.mobile, platformType.web, platformType.desktop] : [platformType.web],
             'isDefault': false,
+            'objectNames': [],
             'homeScreen': {
                 mode: CONSTANTS.MODE_USE_DOSSIER_AS_HOME_SCREEN, 
                 homeLibrary: { 
@@ -15,13 +16,13 @@ export default {
                   contentBundleIds: [],
                   defaultGroupsName: '',
                   toolbarMode: CONSTANTS.SHOW_TOOLBAR,
-                  toolbarDisabled: false,
+                  toolbarEnabled: true,
                 },
                 homeDocument: {
                   url: "", 
                   icons: dossierIconKeys.map((key) => iconValidKey(key)), 
                   toolbarMode: CONSTANTS.SHOW_TOOLBAR,
-                  toolbarDisabled: false,
+                  toolbarEnabled: true,
                 }
             },
             'general': {
@@ -45,8 +46,8 @@ export default {
             "id": "B98E838240D2B2014F95FEA1E6001013",
             "name": "zzhouTest1013",
             "description": "zzhouTest Desc1013",
-            "schemaVersion": 1,
-            "version": 0,
+            "schemaVersion": 2,
+            "objectNames": [],
             "general": {
               "disableAdvancedSettings": false,
               "disablePreferences": false,
@@ -62,15 +63,15 @@ export default {
               "homeDocument": {
                 "url": "",
                 "icons": [
-                  "TOCs",
-                  "bookmark",
+                  "table_of_contents",
+                  "bookmarks",
                   "reset",
                   "filters",
                   "comments",
                   "share"
                 ],
                 "toolbarMode": 0,
-                "toolbarDisabled": false
+                "toolbarEnabled": true
               },
               "homeLibrary": {
                 "contentBundleIds": [
@@ -78,8 +79,8 @@ export default {
                 ],
                 "icons": [
                   "sidebars",
-                  "sortAndFilter",
-                  "multiSelect",
+                  "sort_and_filter",
+                  "multi_select",
                   "search",
                   "notifications",
                   "options"
@@ -89,11 +90,11 @@ export default {
                   "all",
                   "favorites",
                   "recents",
-                  "defaultGroups",
-                  "myGroups",
+                  "default_groups",
+                  "my_groups",
                   "options"
                 ],
-                "toolbarDisabled": false,
+                "toolbarEnabled": true,
                 "defaultGroupsName": "Default Groups"
               }
             },
@@ -118,8 +119,9 @@ export const mockLibraryAsHome: RootState = {
       currentConfig: {
           'name': 'test application',
           'description': 'this is test application description',
-          'platform': featureFlag.platformEnable ? [platformType.mobile, platformType.web, platformType.desktop] : [platformType.web],
+          'platforms': featureFlag.platformEnable ? [platformType.mobile, platformType.web, platformType.desktop] : [platformType.web],
           'isDefault': false,
+          'objectNames': [],
           'homeScreen': {
               mode: CONSTANTS.MODE_USE_DEFAULT_HOME_SCREEN, 
               homeLibrary: { 
@@ -128,13 +130,13 @@ export const mockLibraryAsHome: RootState = {
                 contentBundleIds: [],
                 defaultGroupsName: '',
                 toolbarMode: CONSTANTS.SHOW_TOOLBAR,
-                toolbarDisabled: false,
+                toolbarEnabled: true,
               },
               homeDocument: {
                 url: "", 
                 icons: dossierIconKeys.map((key) => iconValidKey(key)), 
                 toolbarMode: CONSTANTS.SHOW_TOOLBAR,
-                toolbarDisabled: false,
+                toolbarEnabled: true,
               }
           },
           'general': {
@@ -158,8 +160,8 @@ export const mockLibraryAsHome: RootState = {
           "id": "B98E838240D2B2014F95FEA1E6001013",
           "name": "zzhouTest1013",
           "description": "zzhouTest Desc1013",
-          "schemaVersion": 1,
-          "version": 0,
+          "schemaVersion": 2,
+          "objectNames": [],
           "general": {
             "disableAdvancedSettings": false,
             "disablePreferences": false,
@@ -175,15 +177,15 @@ export const mockLibraryAsHome: RootState = {
             "homeDocument": {
               "url": "",
               "icons": [
-                "TOCs",
-                "bookmark",
+                "table_of_contents",
+                "bookmarks",
                 "reset",
                 "filters",
                 "comments",
                 "share"
               ],
               "toolbarMode": 0,
-              "toolbarDisabled": false
+              "toolbarEnabled": true
             },
             "homeLibrary": {
               "contentBundleIds": [
@@ -191,8 +193,8 @@ export const mockLibraryAsHome: RootState = {
               ],
               "icons": [
                 "sidebars",
-                "sortAndFilter",
-                "multiSelect",
+                "sort_and_filter",
+                "multi_select",
                 "search",
                 "notifications",
                 "options"
@@ -202,11 +204,11 @@ export const mockLibraryAsHome: RootState = {
                 "all",
                 "favorites",
                 "recents",
-                "defaultGroups",
-                "myGroups",
+                "default_groups",
+                "my_groups",
                 "options"
               ],
-              "toolbarDisabled": false,
+              "toolbarEnabled": true,
               "defaultGroupsName": "Default Groups"
             }
           },
@@ -231,8 +233,9 @@ export const mockDossierAsHome: RootState = {
       currentConfig: {
           'name': 'test application dossier as home',
           'description': 'this is test application description for dossier as home',
-          'platform': featureFlag.platformEnable ? [platformType.mobile, platformType.web, platformType.desktop] : [platformType.web],
+          'platforms': featureFlag.platformEnable ? [platformType.mobile, platformType.web, platformType.desktop] : [platformType.web],
           'isDefault': false,
+          'objectNames': [],
           'homeScreen': {
               mode: CONSTANTS.MODE_USE_DOSSIER_AS_HOME_SCREEN, 
               homeLibrary: { 
@@ -241,13 +244,13 @@ export const mockDossierAsHome: RootState = {
                 contentBundleIds: [],
                 defaultGroupsName: '',
                 toolbarMode: CONSTANTS.SHOW_TOOLBAR,
-                toolbarDisabled: false,
+                toolbarEnabled: true
               },
               homeDocument: {
                 url: "http://localhost:8282/consume-dev/app/B7CA92F04B9FAE8D941C3E9B7E0CD754/B7CA92F04B9FAE8D941C3E9B7E0CD753", 
                 icons: dossierIconKeys.map((key) => iconValidKey(key)), 
                 toolbarMode: CONSTANTS.SHOW_TOOLBAR,
-                toolbarDisabled: false,
+                toolbarEnabled: true
               }
           },
           'general': {
@@ -271,8 +274,8 @@ export const mockDossierAsHome: RootState = {
           "id": "B98E838240D2B2014F95FEA1E6001013",
           "name": "zzhouTest1013",
           "description": "zzhouTest Desc1013",
-          "schemaVersion": 1,
-          "version": 0,
+          "schemaVersion": 2,
+          "objectNames": [],
           "general": {
             "disableAdvancedSettings": false,
             "disablePreferences": false,
@@ -288,15 +291,15 @@ export const mockDossierAsHome: RootState = {
             "homeDocument": {
               "url": "",
               "icons": [
-                "TOCs",
-                "bookmark",
+                "table_of_contents",
+                "bookmarks",
                 "reset",
                 "filters",
                 "comments",
                 "share"
               ],
               "toolbarMode": 0,
-              "toolbarDisabled": false
+              "toolbarEnabled": false
             },
             "homeLibrary": {
               "contentBundleIds": [
@@ -304,8 +307,8 @@ export const mockDossierAsHome: RootState = {
               ],
               "icons": [
                 "sidebars",
-                "sortAndFilter",
-                "multiSelect",
+                "sort_and_filter",
+                "multi_select",
                 "search",
                 "notifications",
                 "options"
@@ -315,11 +318,11 @@ export const mockDossierAsHome: RootState = {
                 "all",
                 "favorites",
                 "recents",
-                "defaultGroups",
-                "myGroups",
+                "default_groups",
+                "my_groups",
                 "options"
               ],
-              "toolbarDisabled": false,
+              "toolbarEnabled": true,
               "defaultGroupsName": "Default Groups"
             }
           },
@@ -332,8 +335,8 @@ export const mockDossierAsHome: RootState = {
           "id": "ED458237316F4DBC8A09C1EC9AA3A46E",
           "name": "tesEnum",
           "description": "test modified",
-          "schemaVersion": 0,
-          "version": 0,
+          "schemaVersion": 2,
+          "objectNames": [],
           "general": {
             "disableAdvancedSettings": true,
             "disablePreferences": true,
@@ -352,7 +355,7 @@ export const mockDossierAsHome: RootState = {
                 "string"
               ],
               "toolbarMode": 0,
-              "toolbarDisabled": true
+              "toolbarEnabled": false,
             },
             "homeLibrary": {
               "contentBundleIds": [
@@ -365,14 +368,14 @@ export const mockDossierAsHome: RootState = {
               "sidebars": [
                 "string"
               ],
-              "toolbarDisabled": true,
+              "toolbarEnabled": false,
               "defaultGroupsName": "string"
             }
           },
           "dateCreated": "2021-06-28T04:12:30.703+0000",
           "dateModified": "2021-06-28T04:12:30.703+0000",
-          "platform": [
-            "Mobile"
+          "platforms": [
+            "mobile"
           ],
           "isDefault": false,
           "objectVersion": "652527A1407CC57CB2BA96B925CB1139"
@@ -382,7 +385,7 @@ export const mockDossierAsHome: RootState = {
           "name": "tesEnum1",
           "description": "test010 des",
           "schemaVersion": 0,
-          "version": 0,
+          "objectNames": [],
           "general": {
             "disableAdvancedSettings": true,
             "disablePreferences": true,
@@ -401,7 +404,7 @@ export const mockDossierAsHome: RootState = {
                 "string"
               ],
               "toolbarMode": 0,
-              "toolbarDisabled": true
+              "toolbarEnabled": false,
             },
             "homeLibrary": {
               "contentBundleIds": [
@@ -414,7 +417,7 @@ export const mockDossierAsHome: RootState = {
               "sidebars": [
                 "string"
               ],
-              "toolbarDisabled": true,
+              "toolbarEnabled": false,
               "defaultGroupsName": "string"
             }
           },
@@ -427,8 +430,8 @@ export const mockDossierAsHome: RootState = {
           "id": "64CAD96509964218A802D677B398A4CC",
           "name": "tesEnum2",
           "description": "test010 des",
-          "schemaVersion": 0,
-          "version": 0,
+          "schemaVersion": 2,
+          "objectNames": [],
           "general": {
             "disableAdvancedSettings": true,
             "disablePreferences": true,
@@ -447,7 +450,7 @@ export const mockDossierAsHome: RootState = {
                 "string"
               ],
               "toolbarMode": 0,
-              "toolbarDisabled": true
+              "toolbarEnabled": false,
             },
             "homeLibrary": {
               "contentBundleIds": [
@@ -460,7 +463,7 @@ export const mockDossierAsHome: RootState = {
               "sidebars": [
                 "string"
               ],
-              "toolbarDisabled": true,
+              "toolbarEnabled": false,
               "defaultGroupsName": "string"
             }
           },
@@ -485,8 +488,9 @@ export const mockDossierPicker: RootState = {
       currentConfig: {
           'name': 'test application dossier as home',
           'description': 'this is test application description for dossier as home',
-          'platform': featureFlag.platformEnable ? [platformType.mobile, platformType.web, platformType.desktop] : [platformType.web],
+          'platforms': featureFlag.platformEnable ? [platformType.mobile, platformType.web, platformType.desktop] : [platformType.web],
           'isDefault': false,
+          'objectNames': [],
           'homeScreen': {
               mode: CONSTANTS.MODE_USE_DOSSIER_AS_HOME_SCREEN, 
               homeLibrary: { 
@@ -495,13 +499,13 @@ export const mockDossierPicker: RootState = {
                 contentBundleIds: [],
                 defaultGroupsName: '',
                 toolbarMode: CONSTANTS.SHOW_TOOLBAR,
-                toolbarDisabled: false,
+                toolbarEnabled: true,
               },
               homeDocument: {
                 url: "http://localhost:8282/consume-dev/app/B7CA92F04B9FAE8D941C3E9B7E0CD754/B7CA92F04B9FAE8D941C3E9B7E0CD753", 
                 icons: dossierIconKeys.map((key) => iconValidKey(key)), 
                 toolbarMode: CONSTANTS.SHOW_TOOLBAR,
-                toolbarDisabled: false,
+                toolbarEnabled: true,
               }
           },
           'general': {
@@ -525,8 +529,8 @@ export const mockDossierPicker: RootState = {
           "id": "B98E838240D2B2014F95FEA1E6001013",
           "name": "zzhouTest1013",
           "description": "zzhouTest Desc1013",
-          "schemaVersion": 1,
-          "version": 0,
+          "schemaVersion": 2,
+          "objectNames": [],
           "general": {
             "disableAdvancedSettings": false,
             "disablePreferences": false,
@@ -542,15 +546,15 @@ export const mockDossierPicker: RootState = {
             "homeDocument": {
               "url": "",
               "icons": [
-                "TOCs",
-                "bookmark",
+                "table_of_contents",
+                "bookmarks",
                 "reset",
                 "filters",
                 "comments",
                 "share"
               ],
               "toolbarMode": 0,
-              "toolbarDisabled": false
+              "toolbarEnabled": true
             },
             "homeLibrary": {
               "contentBundleIds": [
@@ -558,8 +562,8 @@ export const mockDossierPicker: RootState = {
               ],
               "icons": [
                 "sidebars",
-                "sortAndFilter",
-                "multiSelect",
+                "sort_and_filter",
+                "multi_select",
                 "search",
                 "notifications",
                 "options"
@@ -569,11 +573,11 @@ export const mockDossierPicker: RootState = {
                 "all",
                 "favorites",
                 "recents",
-                "defaultGroups",
-                "myGroups",
+                "default_groups",
+                "my_groups",
                 "options"
               ],
-              "toolbarDisabled": false,
+              "toolbarEnabled": true,
               "defaultGroupsName": "Default Groups"
             }
           },
@@ -586,8 +590,8 @@ export const mockDossierPicker: RootState = {
           "id": "ED458237316F4DBC8A09C1EC9AA3A46E",
           "name": "tesEnum",
           "description": "test modified",
-          "schemaVersion": 0,
-          "version": 0,
+          "schemaVersion": 2,
+          "objectNames": [],
           "general": {
             "disableAdvancedSettings": true,
             "disablePreferences": true,
@@ -606,7 +610,7 @@ export const mockDossierPicker: RootState = {
                 "string"
               ],
               "toolbarMode": 0,
-              "toolbarDisabled": true
+              "toolbarEnabled": true
             },
             "homeLibrary": {
               "contentBundleIds": [
@@ -619,14 +623,14 @@ export const mockDossierPicker: RootState = {
               "sidebars": [
                 "string"
               ],
-              "toolbarDisabled": true,
+              "toolbarEnabled": true,
               "defaultGroupsName": "string"
             }
           },
           "dateCreated": "2021-06-28T04:12:30.703+0000",
           "dateModified": "2021-06-28T04:12:30.703+0000",
-          "platform": [
-            "Mobile"
+          "platforms": [
+            "mobile"
           ],
           "isDefault": false,
           "objectVersion": "652527A1407CC57CB2BA96B925CB1139"
@@ -635,8 +639,8 @@ export const mockDossierPicker: RootState = {
           "id": "7544EA99C531408F81AABD7015D6CDFE",
           "name": "tesEnum1",
           "description": "test010 des",
-          "schemaVersion": 0,
-          "version": 0,
+          "schemaVersion": 2,
+          "objectNames": [],
           "general": {
             "disableAdvancedSettings": true,
             "disablePreferences": true,
@@ -655,7 +659,7 @@ export const mockDossierPicker: RootState = {
                 "string"
               ],
               "toolbarMode": 0,
-              "toolbarDisabled": true
+              "toolbarEnabled": false
             },
             "homeLibrary": {
               "contentBundleIds": [
@@ -668,7 +672,7 @@ export const mockDossierPicker: RootState = {
               "sidebars": [
                 "string"
               ],
-              "toolbarDisabled": true,
+              "toolbarEnabled": false,
               "defaultGroupsName": "string"
             }
           },
@@ -681,8 +685,8 @@ export const mockDossierPicker: RootState = {
           "id": "64CAD96509964218A802D677B398A4CC",
           "name": "tesEnum2",
           "description": "test010 des",
-          "schemaVersion": 0,
-          "version": 0,
+          "schemaVersion": 2,
+          "objectNames": [],
           "general": {
             "disableAdvancedSettings": true,
             "disablePreferences": true,
@@ -701,7 +705,7 @@ export const mockDossierPicker: RootState = {
                 "string"
               ],
               "toolbarMode": 0,
-              "toolbarDisabled": true
+              "toolbarEnabled": false,
             },
             "homeLibrary": {
               "contentBundleIds": [
@@ -714,7 +718,7 @@ export const mockDossierPicker: RootState = {
               "sidebars": [
                 "string"
               ],
-              "toolbarDisabled": true,
+              "toolbarEnabled": false,
               "defaultGroupsName": "string"
             }
           },

@@ -5,7 +5,7 @@ import { isContentTypeDossier } from '../modules/components/views/HomeScreenUtil
 import * as _ from 'lodash';
 import { default as VC, platformType, localizedStrings } from '../modules/components/HomeScreenConfigConstant';
 
-const CONFIG_ENDPOINTS = '/libraryApplications/';
+const CONFIG_ENDPOINTS = '/v2/applications/';
 
 export const getApiPathForNewApplication = () => {
     return CONFIG_ENDPOINTS;
@@ -20,7 +20,7 @@ export const getApiPathForDuplicateApplication = () => {
 }
 
 export const getApiPathForDeleteApplication = (configId: string) => {
-    return '/objects/' + configId + '?type=78';
+    return CONFIG_ENDPOINTS + configId;
 }
 
 export async function getSingleDossierInfo (dossierId: string, projectId: string) {
@@ -56,7 +56,7 @@ export const loadConfigList = () => {
         if (data && response.data) {
           data = response.data;
         }
-        data = data.libraryApplications;
+        data = data.applications;
         data = data.filter((o: any) => o.id !== undefined);
         store.dispatch(ActionsCreator.loadConfigListSuccess(data));
     });
@@ -75,13 +75,13 @@ export const loadContentBundleList = () => {
 }
 
 export const loadCurrentEditConfig = (configId: string) => {
-    HttpProxy.get(CONFIG_ENDPOINTS + configId).then((response: any) => {
+    HttpProxy.get(CONFIG_ENDPOINTS + configId + '?outputFlag=INCLUDE_LOCALE').then((response: any) => {
         let data = response;
         if (data && response.data) {
           data = response.data;
         }
         if (!_.has(data, VC.PLATFORM)) {
-            _.assign(data, {platform: [platformType.mobile]});
+            _.assign(data, {platforms: [platformType.web]});
         }
     
         if (!_.has(data, 'homeScreen.homeLibrary')) {

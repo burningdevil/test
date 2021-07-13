@@ -50,37 +50,37 @@ class HomeScreenGeneral extends React.Component<any, any> {
   }
 
   handlePlatformChange = (event: CheckboxChangeEvent, platType: string) => {
-    const { platform } = this.props.config;
+    const { platforms } = this.props.config;
     let resultedPlatform;
     if (event.target.checked) {
-        resultedPlatform = _.concat(platform, platType);
+        resultedPlatform = _.concat(platforms, platType);
     } else {
-        resultedPlatform = _.pull(platform, platType);
+        resultedPlatform = _.pull(platforms, platType);
     }
     this.handlePreViewDeviceTypeInvalid(resultedPlatform)
-    this.props.updateCurrentConfig({platform: resultedPlatform});
+    this.props.updateCurrentConfig({platforms: resultedPlatform});
   }
 
-  handlePreViewDeviceTypeInvalid = (platform: string[]) => {
+  handlePreViewDeviceTypeInvalid = (platforms: string[]) => {
     // in case previewDeviceType not valid
     let deviceType = this.props.previewDeviceType
-    const availableTypes = _.concat(platform.includes(platformType.mobile) ? [reviewType.TABLET, reviewType.PHONE] : [], platform.includes(platformType.web) ? reviewType.WEB : [], platform.includes(platformType.desktop) ? reviewType.DESKTOP : [])
+    const availableTypes = _.concat(platforms.includes(platformType.mobile) ? [reviewType.TABLET, reviewType.PHONE] : [], platforms.includes(platformType.web) ? reviewType.WEB : [], platforms.includes(platformType.desktop) ? reviewType.DESKTOP : [])
     
     let valid = true
     switch (deviceType) {
         case reviewType.TABLET:
         case reviewType.PHONE:
-            if (!platform.includes(platformType.mobile)) {
+            if (!platforms.includes(platformType.mobile)) {
                 valid = false
             }
             break;
         case reviewType.WEB:
-            if (!platform.includes(platformType.web)) {
+            if (!platforms.includes(platformType.web)) {
                 valid = false
             }
             break;
         case reviewType.DESKTOP:
-            if (!platform.includes(platformType.desktop)) {
+            if (!platforms.includes(platformType.desktop)) {
                 valid = false
             }
             break;
@@ -93,7 +93,7 @@ class HomeScreenGeneral extends React.Component<any, any> {
   }
 
   render() {
-    const { name, description, platform} = this.props.config;
+    const { name, description, platforms } = this.props.config;
     return (
         <div className = {`${classNamePrefix}`}>
             <div className={`${classNamePrefix}-environment`}>
@@ -106,7 +106,7 @@ class HomeScreenGeneral extends React.Component<any, any> {
             </div>
             <div className={`${classNamePrefix}-name`}>
                 <div className={`${classNamePrefix}-name-title`}>
-                    {localizedStrings.NAME}
+                    {localizedStrings.NAME + '*'}
                 </div>
                 <div className={`${classNamePrefix}-name-name`}>
                     <Input placeholder='' maxLength={250} value={name} onChange={this.handleNameChange}/>
@@ -138,7 +138,7 @@ class HomeScreenGeneral extends React.Component<any, any> {
                     {featureFlag.platformEnable && <Checkbox
                         disabled={this.props.config.isDefault}
                         label={localizedStrings.MOBILE}
-                        checked={platform.includes(platformType.mobile)}
+                        checked={platforms.includes(platformType.mobile)}
                         onChange={(event: CheckboxChangeEvent) => {
                           this.handlePlatformChange(event, platformType.mobile)
                         }}
@@ -146,7 +146,7 @@ class HomeScreenGeneral extends React.Component<any, any> {
                     <Checkbox
                         disabled={this.props.config.isDefault}
                         label={localizedStrings.WEB}
-                        checked={platform.includes(platformType.web)}
+                        checked={platforms.includes(platformType.web)}
                         onChange={(event: CheckboxChangeEvent) => {
                           this.handlePlatformChange(event, platformType.web)
                         }}
@@ -154,7 +154,7 @@ class HomeScreenGeneral extends React.Component<any, any> {
                     <Checkbox
                         disabled={this.props.config.isDefault}
                         label={localizedStrings.DESKTOP}
-                        checked={platform.includes(platformType.desktop)}
+                        checked={platforms.includes(platformType.desktop)}
                         onChange={(event: CheckboxChangeEvent) => {
                           this.handlePlatformChange(event, platformType.desktop)
                         }}

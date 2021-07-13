@@ -72,7 +72,7 @@ export const selectIsDossierAsHome = createSelector(
 export const selectIsToolbarHidden = createSelector(
   selectIsDossierAsHome,
   selectCurrentConfig,
-  (isDossierHome, config) => isDossierHome ? config.homeScreen.homeDocument.toolbarDisabled : config.homeScreen.homeLibrary.toolbarDisabled
+  (isDossierHome, config) => isDossierHome ? !config.homeScreen.homeDocument.toolbarEnabled : !config.homeScreen.homeLibrary.toolbarEnabled
 )
 
 export const selectIsToolbarCollapsed = createSelector(

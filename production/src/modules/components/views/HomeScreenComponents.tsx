@@ -81,14 +81,14 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         let state = {...this.state}
         
         const {contentBundleIds, config, isDossierHome} = this.props
-        const {platform} = config
+        const {platforms} = config
         if (!isDossierHome) {
             state.defaultGroupEnable = !_.isEmpty(contentBundleIds) && contentBundleIds.length > 0
-            state.mobileOptionsVisible = _.includes(platform, platformType.mobile)
-            state.webOptionsVisible = _.includes(platform, platformType.web) || _.includes(platform, platformType.desktop)
+            state.mobileOptionsVisible = _.includes(platforms, platformType.mobile)
+            state.webOptionsVisible = _.includes(platforms, platformType.web) || _.includes(platforms, platformType.desktop)
         }
    
-        const extraIcons = _.concat(platform.includes(platformType.desktop) ? extraDesktopIcons : [], platform.includes(platformType.mobile) ? extraMobileIcons : [])
+        const extraIcons = _.concat(platforms.includes(platformType.desktop) ? extraDesktopIcons : [], platforms.includes(platformType.mobile) ? extraMobileIcons : [])
         state.extraIcons = extraIcons
         return state
     }
@@ -182,8 +182,8 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
             case VC.TOOLBAR_MODE:
                 update = {[VC.TOOLBAR_MODE]: checked ? VC.COLLAPSE_TOOLBAR : VC.SHOW_TOOLBAR}
                 break;
-            case VC.TOOLBAR_DISABLED:
-                update = {[VC.TOOLBAR_DISABLED]: checked}
+            case VC.TOOLBAR_ENABLED:
+                update = {[VC.TOOLBAR_ENABLED]: !checked}
                 break;
             default:
                 break;
@@ -245,7 +245,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                         </div>
                     </div>
 
-                    {this.renderOptions(this.props.toolbarHidden, VC.TOOLBAR_DISABLED, localizedStrings.DISABLE_TOOLBAR)}
+                    {this.renderOptions(this.props.toolbarHidden, VC.TOOLBAR_ENABLED, localizedStrings.DISABLE_TOOLBAR)}
                     {this.renderOptions(this.props.toolbarCollapsed, VC.TOOLBAR_MODE, localizedStrings.COLLAPSE_TOOLBAR)}
 
                     <div className={`${classNamePrefix}-scrollcontainer`}>

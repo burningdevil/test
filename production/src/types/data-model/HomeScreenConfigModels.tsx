@@ -15,13 +15,13 @@ export interface HomeScreenConfigType {
     'id': string,
     'name': string,
     'schemaVersion': number,
-    'version': number,
     'description': string,
     'isDefault': boolean,
-    'platform': Array<string>,
+    'platforms': Array<string>,
     'dateModified': string,
     'dateCreated': string,
-    'objectVersion': string
+    'objectVersion': string,
+    'objectNames': [],
     'homeScreen': {
         mode: number, 
         homeLibrary: { 
@@ -30,13 +30,13 @@ export interface HomeScreenConfigType {
             contentBundleIds: Array<string>,
             defaultGroupsName: string,
             toolbarMode: number,
-            toolbarDisabled: boolean,
+            toolbarEnabled: boolean,
         }, 
         homeDocument: {
             url: string,
             icons: Array<string>,
             toolbarMode: number,
-            toolbarDisabled: boolean,
+            toolbarEnabled: boolean,
         }
     },
     'general': {

@@ -19,15 +19,14 @@ import ServerIncompatiblePage from './error-pages/ServerIncompatiblePage';
 import NoAccessPage from './error-pages/NoAccessPage';
 import { isLibraryServerVersionMatch, isIServerVersionMatch, isUserHasManageApplicationPrivilege, DEFAULT_CONFIG_ID } from '../../../utils';
 import classNames from 'classnames';
-import { default as VC, localizedStrings, platformType } from '../HomeScreenConfigConstant';
-import { config } from 'yargs';
+import { default as VC, localizedStrings, platformType, APPLICATION_OBJECT_TYPE, APPLICATION_OBJECT_SUBTYPE } from '../HomeScreenConfigConstant';
 
 
 declare var workstation: WorkstationModule;
 const classNamePrefix = 'home-screen-main';
 const appRootPath = 'app';
 const appRootPathWithConfig = 'app/config/';
-const viewNowPath = 'ViewNow?webLink=';
+const customAppPath = 'CustomApp?webLink=';
 const configSaveSuccessPath = 'Message.homeConfigSaveSuccess';
 
 class HomeScreenConfigMainView extends React.Component<any, any> {
@@ -185,7 +184,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     const handleClickCopyLink = async () => {
       try {
         const currentEnv = await workstation.environments.getCurrentEnvironment();
-        const appLink = d.isDefault ? currentEnv.url + viewNowPath + encodeURIComponent(currentEnv.url + appRootPath) : currentEnv.url + viewNowPath + encodeURIComponent(currentEnv.url + appRootPathWithConfig + d.id);
+        const appLink = d.isDefault ? currentEnv.url + customAppPath + encodeURIComponent(currentEnv.url + appRootPath) : currentEnv.url + customAppPath + encodeURIComponent(currentEnv.url + appRootPathWithConfig + d.id);
         copyToClipboard(appLink);
         message.success(localizedStrings.LINK_COPIED);
       } catch (e) {
@@ -226,9 +225,9 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     const configList = this.props.configList.map((config: any) => {
       let resultConfig = _.cloneDeep(config);
       if (!_.has(resultConfig, VC.PLATFORM)) {
-        _.assign(resultConfig, {platformstr: platformType.mobile});
+        _.assign(resultConfig, {platformstr: _.capitalize(platformType.web)});
       } else {
-        _.assign(resultConfig, {platformstr: resultConfig.platform.join(', ')});
+        _.assign(resultConfig, {platformstr: resultConfig.platforms.map((o: string)=>_.capitalize(o)).join(', ')});
       }
       if (!_.has(resultConfig, [VC.HOME_SCREEN, VC.HOME_LIBRARY, VC.CONTENT_BUNDLE_IDS])) {
         _.assign(resultConfig, { contentBundles: []});
@@ -268,7 +267,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       };
 
       const handleClickInfo = () => {
-        const selectedObjs : MstrObject[] = [{id: contextMenuTarget.id, type: 78, subType: 78}];
+        const selectedObjs : MstrObject[] = [{id: contextMenuTarget.id, type: APPLICATION_OBJECT_TYPE, subType: APPLICATION_OBJECT_SUBTYPE}];
         const currentProj : Project = this.state.currentEnv.projects[0];
         let options: PropertiesSettings = {
           objects: selectedObjs,

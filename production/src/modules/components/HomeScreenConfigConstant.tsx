@@ -27,7 +27,7 @@ export const CONSTANTS = {
     URL: 'url',
     ICONS: 'icons',
     TOOLBAR_MODE: 'toolbarMode',   // hide toolbar by default
-    TOOLBAR_DISABLED: 'toolbarDisabled',
+    TOOLBAR_ENABLED: 'toolbarEnabled',
     DEFAULT_GROUPS_NAME: 'defaultGroupsName',
     CONTENT_BUNDLES: 'contentBundles',
     //Advanced Settings
@@ -61,25 +61,25 @@ export const CONSTANTS = {
 
     // icons key name
     ICON_SIDEBAR: 'sidebars',
-    ICON_SORT_FILTER: 'sortAndFilter',
-    ICON_MULTI_SELECT: 'multiSelect',
+    ICON_SORT_FILTER: 'sort_and_filter',
+    ICON_MULTI_SELECT: 'multi_select',
     ICON_SEARCH: 'search',
     ICON_COMMENTS: 'comments',
     ICON_NOTIFICATIONS: 'notifications',
     ICON_OPTIONS: 'options',
-    ICON_TOCS: 'TOCs',
-    ICON_BOOKMARK: 'bookmark',
+    ICON_TOCS: 'table_of_contents',
+    ICON_BOOKMARK: 'bookmarks',
     ICON_RESET: 'reset',
     ICON_FILTER: 'filters',
     ICON_SHARE: 'share',
-    ICON_DATA_SEARCH: 'dataSearch',
-    ICON_HYPER: 'hyper',
-    ICON_AA_FONT: 'aaFont',
+    ICON_DATA_SEARCH: 'data_search',
+    ICON_HYPER: 'hyper_intelligence',
+    ICON_AA_FONT: 'font_size',
     ICON_ALL: 'all',
     ICON_FAV: 'favorites',
     ICON_RECENENT: 'recents',
-    ICON_DEFAULT_GROUP: 'defaultGroups',
-    ICON_MY_GROUP: 'myGroups',
+    ICON_DEFAULT_GROUP: 'default_groups',
+    ICON_MY_GROUP: 'my_groups',
     ICON_HOME: 'home',
     ICON_FULL_SCREEN: 'fullScreen',
 
@@ -122,7 +122,7 @@ export const CONSTANTS = {
     FONT_ERROR: 'icon-error',
 
     //common use
-    PLATFORM: 'platform',
+    PLATFORM: 'platforms',
     PLATFORM_STR: 'platformstr',
     DATE_MODIFIED: 'dateModified',
     DATE_CREATED: 'dateCreated',
@@ -158,9 +158,9 @@ export const reviewType = {
 }
 
 export const platformType = {
-    mobile: 'Mobile',
-    web: 'Web',
-    desktop: 'Desktop',
+    mobile: 'mobile',
+    web: 'web',
+    desktop: 'desktop',
 }
 
 export const EnumDSSXMLViewMedia = {
@@ -385,7 +385,7 @@ export const iconTypes = {
     search: {displayText: t('search'), iconName: CONSTANTS.FONT_SEARCH, key: CONSTANTS.ICON_SEARCH},
     notification: {displayText: t('notification'), iconName: CONSTANTS.FONT_NOTIFICATIONS, key: CONSTANTS.ICON_NOTIFICATIONS},
     account: {displayText: t('account'), iconName: CONSTANTS.FONT_OPTIONS, key: CONSTANTS.ICON_OPTIONS},
-    accountWeb: {displayText: t('accountWeb'), iconName: CONSTANTS.FONT_OPTIONS, key: CONSTANTS.ICON_OPTIONS+'_web'},
+    accountWeb: {displayText: t('accountWeb'), iconName: CONSTANTS.FONT_OPTIONS, key: CONSTANTS.ICON_OPTIONS+'__web'},
     toc: {displayText: t('toc'), iconName: CONSTANTS.FONT_TOCS, key: CONSTANTS.ICON_TOCS},
     bookmark: {displayText: t('bookmark'), iconName: CONSTANTS.FONT_BOOKMARK, key: CONSTANTS.ICON_BOOKMARK},
     reset: {displayText: t('reset'), iconName: CONSTANTS.FONT_RESET, key: CONSTANTS.ICON_RESET},
@@ -402,7 +402,7 @@ export const iconTypes = {
     recents: {displayText: t('recents'), iconName: CONSTANTS.FONT_RECENT, key: CONSTANTS.ICON_RECENENT},
     defaultGroup: {displayText: t('defaultGroups'), iconName: CONSTANTS.FONT_DEFAULT_GROUP, key: CONSTANTS.ICON_DEFAULT_GROUP},
     myGroup: {displayText: t('myGroup'), iconName: CONSTANTS.FONT_MY_GROUP, key: CONSTANTS.ICON_MY_GROUP},
-    accountMobile: {displayText: t('accountMobile'), iconName: CONSTANTS.FONT_OPTIONS, key: CONSTANTS.ICON_OPTIONS+'_mobile'},
+    accountMobile: {displayText: t('accountMobile'), iconName: CONSTANTS.FONT_OPTIONS, key: CONSTANTS.ICON_OPTIONS+'__mobile'},
     
     //// for preview. Localization not needed.
     // home button
@@ -444,7 +444,7 @@ export const extraMobileIcons = [iconTypes.aaFont]
 export const childrenIcons = [iconTypes.all, iconTypes.favorites, iconTypes.recents, iconTypes.defaultGroup, iconTypes.myGroup]//, iconTypes.accountMobile]
 
 // for accountMobile and accountWeb to remove suffix
-export const iconValidKey = (iconKey: string) => iconKey.split('_').length > 0 ? iconKey.split('_')[0] : iconKey
+export const iconValidKey = (iconKey: string) => iconKey.split('__').length > 0 ? iconKey.split('__')[0] : iconKey
 
 export const dossierIconKeys =  _.union(dossierIcons.map((element) => element.key), dossierIconsDossierHome.map((element) => element.key)) 
 export const libraryIconKeys = libraryIcons.map((element) => element.key)
@@ -453,5 +453,7 @@ export const sidebarIconKeys = childrenIcons.map((element) => element.key)
 export const mobileOnlyIconKeys = [iconTypes.accountMobile].map((element) => element.key)
 export const webDesktopOnlyIconKeys = [iconTypes.multiSelect, iconTypes.accountWeb].map((element) => element.key)
 export const previewerWidth = '274px';
+export const APPLICATION_OBJECT_TYPE = 78;
+export const APPLICATION_OBJECT_SUBTYPE = 0x4e00;
 
 export default CONSTANTS

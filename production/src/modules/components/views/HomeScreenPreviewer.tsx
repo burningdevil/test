@@ -35,10 +35,10 @@ class HomeScreenPreviewer extends React.Component<any, any> {
 
      // render device type radio buttons
     deviceTypesRender = (deviceType: string) => {
-        const { platform } = this.props.config
-        const mobileDisabled = !platform.includes(platformType.mobile)
-        const webDisabled = !platform.includes(platformType.web)
-        const desktopDisabled = !platform.includes(platformType.desktop)
+        const { platforms } = this.props.config
+        const mobileDisabled = !platforms.includes(platformType.mobile)
+        const webDisabled = !platforms.includes(platformType.web)
+        const desktopDisabled = !platforms.includes(platformType.desktop)
         
         return <div className={`${classNamePrefix}-radio`}>
             {localizedStrings.PREVIEW}

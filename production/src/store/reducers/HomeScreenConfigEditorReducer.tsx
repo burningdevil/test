@@ -8,8 +8,9 @@ const initialState: HomeScreenConfigEditorState = {
   currentConfig: {
     'name': '',
     'description': '',
-    'platform': featureFlag.platformEnable ? [platformType.mobile, platformType.web, platformType.desktop] : [platformType.web, platformType.desktop],
+    'platforms': featureFlag.platformEnable ? [platformType.mobile, platformType.web, platformType.desktop] : [platformType.web, platformType.desktop],
     'isDefault': false,
+    'objectNames': [],
     'homeScreen': {
       mode: CONSTANTS.MODE_USE_DEFAULT_HOME_SCREEN, 
       homeLibrary: { 
@@ -18,13 +19,13 @@ const initialState: HomeScreenConfigEditorState = {
         contentBundleIds: [],
         defaultGroupsName: 'Default Groups',
         toolbarMode: CONSTANTS.SHOW_TOOLBAR,
-        toolbarDisabled: false,
+        toolbarEnabled: true,
       }, 
       homeDocument: {
-        url: "", 
+        url: '', 
         icons: dossierIconKeys.map((key) => iconValidKey(key)), 
         toolbarMode: CONSTANTS.SHOW_TOOLBAR,
-        toolbarDisabled: false,
+        toolbarEnabled: true,
       }
     },
     'general': {
