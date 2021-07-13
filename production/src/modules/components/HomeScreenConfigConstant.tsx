@@ -137,6 +137,7 @@ export const CONSTANTS = {
     CONTENT_BUNDLE_IDS: 'contentBundleIds',
     COMPONENTS: 'components',
     APPEARANCE: 'appearance',
+    DOSSIERSETTINGS: 'dossierSettings',
     MORESETTINGS: 'moreSettings',
     BACK: 'back',
     GENERATE: 'Generate',
@@ -247,6 +248,7 @@ export const localizedStrings = {
     NAVBAR_HOME_SCREEN: t('homeScreen'),
     NAVBAR_COMPONENTS: t('components'),
     NAVBAR_APPEARANCE: t('appearance'),
+    NAVBAR_DOSSIERSETTINGS: t('dossierSettings'),
     NAVBAR_CONTENT_BUNDLES: t('contentBundles'),
     NAVBAR_MORE_SETTINGS: t('moreSettings'),
     CANCEL: t('cancel'),
@@ -311,6 +313,15 @@ export const localizedStrings = {
     BLANK_APP_NAME_ERROR: t('blankAppNameError'),
     DUPLICATE_APP_NAME_ERROR: t('The Application Name you entered already exists.'),
     GETINFO: t('getInfo'),
+
+    // Dossier Setting Strings
+    COLOR_PALETTE: t('colorPalette'),
+    ENABLE_MICORSTRATEGY_COLOR_PALETTE_DESC: t('enableMicroStrategyColorPaletteDesc'),
+    ENABLE_MICORSTRATEGY_COLOR_PALETTE_TOOLTIP: t('enableMicroStrategyColorPaletteTooltip'),
+    CUSTOM_COLOR_PALETTE_TITLE: t('customColorPaletteTitle'),
+    NEW_COLOE_PALETTE: t('newColorPalette'),
+    EMPTY_COLOR_PALETTE_LIST_HINT: t('emptyColorPaletteListHint')
+    
 }
 
 export const sectionTitle = {

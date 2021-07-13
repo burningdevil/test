@@ -18,6 +18,11 @@ export const selectConfigInfoList = createSelector(
   (configEditorRoot) => configEditorRoot.configInfoList
 )
 
+export const selectColorPalettes = createSelector(
+  selectConfigEditorRoot,
+(configEditorRoot) => configEditorRoot.colorPalettes
+)
+
 export const selectPreviewDeviceType = createSelector(
     selectConfigEditorRoot,
   (configEditorRoot) => configEditorRoot.previewDeviceType

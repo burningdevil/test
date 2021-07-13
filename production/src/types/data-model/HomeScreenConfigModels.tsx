@@ -3,6 +3,14 @@ export interface MainViewContentBundleType {
     'name': string,
     'color': number
 }
+
+export interface ColorPaletteType {
+    'colors': Array<string>,
+    'name': string,
+    'id': string,
+    'paletteType': number
+  }
+
 export interface HomeScreenConfigType {
     'id': string,
     'name': string,
@@ -40,7 +48,11 @@ export interface HomeScreenConfigType {
         maxLogSize: number,
         logLevel: number,
         updateInterval: number
-    }
+    },
+    // Color Palette
+    showBuiltinPalattes: boolean,
+    applicationPalettes: Array<string>,
+    applicationDefaultPalette: string
 }
 
 export interface HomeScreenConfigInfo {

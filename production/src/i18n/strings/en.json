@@ -4,6 +4,7 @@
     "homeScreen": "Home Screen",
     "components": "Components",
     "appearance": "Appearance",
+    "dossierSettings": "Dossier Settings",
     "contentBundles": "Content Bundles",
     "moreSettings": "More Settings",
 
@@ -137,5 +138,12 @@
     "removeBundle": "Remove from application",
 
     "blankAppNameError": "The Application Name field cannot be blank.",
-    "getInfo": "Get Info"
+    "getInfo": "Get Info",
+
+    "colorPalette": "COLOR PALETTE",
+    "enableMicroStrategyColorPaletteDesc": "Enable MicroStrategy Color Palettes",
+    "enableMicroStrategyColorPaletteTooltip": "You can disable the default MicroStrategy color palettes by creating your own color palettes.",
+    "customColorPaletteTitle": "Custom Color Palette",
+    "newColorPalette": "Add New",
+    "emptyColorPaletteListHint": "To create your custom color palette, click Add New. Your custom color palette will appear here."
 }

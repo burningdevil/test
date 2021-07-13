@@ -1,8 +1,9 @@
-import { HomeScreenConfigType, MainViewContentBundleType, HomeScreenBundleContentListItem, HomeScreenConfigInfo } from '../data-model/HomeScreenConfigModels'
+import { HomeScreenConfigType, MainViewContentBundleType, HomeScreenBundleContentListItem, HomeScreenConfigInfo, ColorPaletteType } from '../data-model/HomeScreenConfigModels'
 
 export interface HomeScreenConfigEditorState {
     currentConfig: Partial<HomeScreenConfigType>
     configInfoList: Array<HomeScreenConfigInfo>
+    colorPalettes: Array<ColorPaletteType>
     previewDeviceType: string
 }
 

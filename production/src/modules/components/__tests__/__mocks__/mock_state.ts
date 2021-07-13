@@ -36,6 +36,7 @@ export default {
             }
         },
         configInfoList: [],
+        colorPalettes: [],
         previewDeviceType: featureFlag.platformEnable ? reviewType.TABLET : reviewType.WEB,
     },
     configMain: {
@@ -148,6 +149,7 @@ export const mockLibraryAsHome: RootState = {
           }
       },
       configInfoList: [],
+      colorPalettes: [],
       previewDeviceType: featureFlag.platformEnable ? reviewType.TABLET : reviewType.WEB,
   },
   configMain: {
@@ -260,6 +262,7 @@ export const mockDossierAsHome: RootState = {
           }
       },
       configInfoList: [],
+      colorPalettes: [],
       previewDeviceType: featureFlag.platformEnable ? reviewType.TABLET : reviewType.WEB,
   },
   configMain: {
@@ -513,6 +516,7 @@ export const mockDossierPicker: RootState = {
           }
       },
       configInfoList: [],
+      colorPalettes: [],
       previewDeviceType: featureFlag.platformEnable ? reviewType.TABLET : reviewType.WEB,
   },
   configMain: {

@@ -39,6 +39,7 @@ const initialState: HomeScreenConfigEditorState = {
     }
   },
   configInfoList: [],
+  colorPalettes: [],
   previewDeviceType: featureFlag.platformEnable ? reviewType.TABLET : reviewType.WEB,
 }
 

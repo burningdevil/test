@@ -8,6 +8,7 @@ import HomeScreenComponents from './HomeScreenComponents';
 import HomeScreenMoreSetting from './HomeScreenMoreSetting';
 import HomeScreenHomeSetting from './HomeScreenHomeSetting';
 import HomeScreenContentBundles from './HomeScreenContentBundles';
+import HomeScreenDossierSetting from './HomeScreenDossierSetting';
 import * as _ from "lodash";
 import { HttpProxy } from '../../../main';
 import { RestApiError } from '../../../server/RestApiError';
@@ -155,6 +156,10 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                                 {this.buttonGroup()}
                             </Tabs.TabPane>
                             {/* <Tabs.TabPane tab={localizedStrings.NAVBAR_APPEARANCE} key={VC.APPEARANCE}>
+                                {this.buttonGroup()}
+                            </Tabs.TabPane> */}
+                            {/* <Tabs.TabPane tab={localizedStrings.NAVBAR_DOSSIERSETTINGS} key={VC.DOSSIERSETTINGS}>
+                                <HomeScreenDossierSetting />
                                 {this.buttonGroup()}
                             </Tabs.TabPane> */}
                             <Tabs.TabPane tab={localizedStrings.NAVBAR_CONTENT_BUNDLES} key={VC.CONTENT_BUNDLES} disabled={this.props.config.homeScreen.mode === 1}>
