@@ -40,7 +40,7 @@ describe('HomeScreenConfigEditor Component: render and interaction', () => {
     );
     // Check tabs and change selection
     const tabs = queryAllByRole('tab');
-    expect(tabs.length).toBe(5);
+    expect(tabs.length).toBe(3);
 
     const generalTabView = queryByText('environment');
     expect(generalTabView).toBeInTheDocument();
@@ -53,18 +53,18 @@ describe('HomeScreenConfigEditor Component: render and interaction', () => {
     const componentsTabView = queryByText('enableFeatureTitle');
     expect(componentsTabView).toBeInTheDocument();
 
-    fireEvent.click(tabs[3]);
+    // fireEvent.click(tabs[3]);
     // screen.debug(null, 10000000);
     // await screen.findByText('addContent');
     // const bundlesTabView = queryByText('addContent');
     // expect(bundlesTabView).toBeInTheDocument();
 
-    fireEvent.click(tabs[4]);
-    const moreSettingsTabView = queryByText('mobileOnlyDesc');
-    expect(moreSettingsTabView).toBeInTheDocument();
+    // fireEvent.click(tabs[4]);
+    // const moreSettingsTabView = queryByText('mobileOnlyDesc');
+    // expect(moreSettingsTabView).toBeInTheDocument();
 
-    var buttons = queryAllByRole('button');
-    expect(buttons.length).toBe(3);
+    // var buttons = queryAllByRole('button');
+    // expect(buttons.length).toBe(3);
   });
 
   it('HomeScreenConfigEditor: test edit application editor', async () => {
