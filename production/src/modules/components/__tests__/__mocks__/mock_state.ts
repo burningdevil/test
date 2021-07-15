@@ -36,6 +36,8 @@ export default {
                 updateInterval: CONSTANTS.DEFAULT_UPDATE_INTERVAL
             }
         },
+        isConfigNameError: false,
+        isDuplicateConfig: false,
         configInfoList: [],
         colorPalettes: [],
         previewDeviceType: featureFlag.platformEnable ? reviewType.TABLET : reviewType.WEB,
@@ -150,6 +152,8 @@ export const mockLibraryAsHome: RootState = {
               updateInterval: CONSTANTS.DEFAULT_UPDATE_INTERVAL
           }
       },
+      isConfigNameError: false,
+      isDuplicateConfig: false,
       configInfoList: [],
       colorPalettes: [],
       previewDeviceType: featureFlag.platformEnable ? reviewType.TABLET : reviewType.WEB,
@@ -264,6 +268,8 @@ export const mockDossierAsHome: RootState = {
               updateInterval: CONSTANTS.DEFAULT_UPDATE_INTERVAL
           }
       },
+      isConfigNameError: false,
+      isDuplicateConfig: false,
       configInfoList: [],
       colorPalettes: [],
       previewDeviceType: featureFlag.platformEnable ? reviewType.TABLET : reviewType.WEB,
@@ -519,6 +525,8 @@ export const mockDossierPicker: RootState = {
               updateInterval: CONSTANTS.DEFAULT_UPDATE_INTERVAL
           }
       },
+      isConfigNameError: false,
+      isDuplicateConfig: false,
       configInfoList: [],
       colorPalettes: [],
       previewDeviceType: featureFlag.platformEnable ? reviewType.TABLET : reviewType.WEB,
