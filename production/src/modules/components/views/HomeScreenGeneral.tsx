@@ -1,34 +1,50 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import '../scss/HomeScreenGeneral.scss';
-import { Checkbox } from '@mstr/rc';
 import { env } from '../../../main';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import * as _ from "lodash";
 import { Input } from 'antd';
 import { platformType, reviewType, localizedStrings, featureFlag } from '../HomeScreenConfigConstant';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
-import { selectConfigInfoList, selectCurrentConfig, selectPreviewDeviceType } from '../../../store/selectors/HomeScreenConfigEditorSelector';
+import { selectConfigInfoList, selectCurrentConfig, selectIsConfigNameError, selectIsDuplicateConfig, selectPreviewDeviceType } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 const { TextArea } = Input;
 
 const classNamePrefix = 'home-screen-general';
-
 class HomeScreenGeneral extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
     this.state = {
       currentEnv: {name: '', url: ''},
       showBlankNameError: false,
-      showDuplicateNameError: false
+      showDuplicateNameError: false,
+      isDefaultNameFocused: false,  // auto focus default name for only once
     };
   }
+  private nameInputRef = React.createRef<Input>();
 
   async componentDidMount() {
     const curEnv = await env.environments.getCurrentEnvironment();
     this.setState({
         currentEnv: curEnv
-    })
+    });
+  }
+
+  componentDidUpdate(prevProps: any) {
+    if (!this.state.isDefaultNameFocused && (!this.props.config.id || this.props.isDuplicateConfig) && prevProps.config.name !== this.props.config.name){
+        if (this.nameInputRef && this.nameInputRef.current) {
+            this.nameInputRef.current.select();
+            this.setState({
+                isDefaultNameFocused: true,  // auto focus default name for only once
+            });
+        }
+      return;
+    }
+  }
+
+  componentWillReceiveProps(nextProps: any) {
+    
   }
 
   handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,12 +53,14 @@ class HomeScreenGeneral extends React.Component<any, any> {
       const isEmptyName = !(nameStr && nameStr.trim());
       const currentConfigId = this.props.config.id;
       const isDuplicateName = this.props.configInfoList.filter((appInfo: any ) => {
-        return appInfo.name === nameStr && currentConfigId !== appInfo.id;
+        // When same name with different config id OR same name with same id and when duplicate config
+        return appInfo.name.toLowerCase() === nameStr.toLowerCase() && (currentConfigId !== appInfo.id || (currentConfigId === appInfo.id && this.props.isDuplicateConfig));
       }).length > 0;
       this.setState({
           showBlankNameError: isEmptyName,
           showDuplicateNameError: isDuplicateName
       });
+      this.props.setConfigNameError(isEmptyName || isDuplicateName);
   }
 
   handleDescChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -108,16 +126,16 @@ class HomeScreenGeneral extends React.Component<any, any> {
                 <div className={`${classNamePrefix}-name-title`}>
                     {localizedStrings.NAME + '*'}
                 </div>
-                <div className={`${classNamePrefix}-name-name`}>
-                    <Input placeholder='' maxLength={250} value={name} onChange={this.handleNameChange}/>
+                <div className={this.props.isConfigNameError ? `${classNamePrefix}-name-error` : `${classNamePrefix}-name-name`}>
+                    <Input ref={this.nameInputRef} placeholder='' maxLength={250} value={name} onChange={this.handleNameChange}/>
                 </div>
             </div>
-            { this.state.showBlankNameError && <div className={`${classNamePrefix}-name-error`}>
+            { this.state.showBlankNameError && <div className={`${classNamePrefix}-name-hint-error`}>
                     <div/>
                     <span>{localizedStrings.BLANK_APP_NAME_ERROR}</span>
                 </div>
             }
-            { this.state.showDuplicateNameError && <div className={`${classNamePrefix}-name-error`}>
+            { this.state.showDuplicateNameError && <div className={`${classNamePrefix}-name-hint-error`}>
                     <div/>
                     <span>{localizedStrings.DUPLICATE_APP_NAME_ERROR}</span>
                 </div>
@@ -130,7 +148,7 @@ class HomeScreenGeneral extends React.Component<any, any> {
                     <TextArea className={`${classNamePrefix}-description-name-input`} placeholder='' rows={3} maxLength={250} value={description} onChange={this.handleDescChange}/>
                 </div>
             </div>
-            <div className={`${classNamePrefix}-platform`}>
+            {/* <div className={`${classNamePrefix}-platform`}>
                 <div className={`${classNamePrefix}-platform-title`}>
                     {localizedStrings.PLATFORMS}
                 </div>
@@ -160,7 +178,7 @@ class HomeScreenGeneral extends React.Component<any, any> {
                         }}
                     />
                 </div>
-            </div>
+            </div> */}
             {/* <div className="home-screen-general-url">
               <div className="home-screen-general-url-title">
                   {t('appUrl')}
@@ -177,12 +195,15 @@ class HomeScreenGeneral extends React.Component<any, any> {
 const mapState = (state: RootState) => ({
   config: selectCurrentConfig(state),
   configInfoList: selectConfigInfoList(state),
+  isDuplicateConfig: selectIsDuplicateConfig(state),
+  isConfigNameError: selectIsConfigNameError(state),
   previewDeviceType: selectPreviewDeviceType(state), 
 })
 
 const connector = connect(mapState, {
   updateCurrentConfig: Actions.updateCurrentConfig,
   updateDeviceType: Actions.updatePreviewDeviceType,
+  setConfigNameError: Actions.setConfigNameError,
 })
 
 export default connector(HomeScreenGeneral)

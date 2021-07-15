@@ -13,6 +13,16 @@ export const selectCurrentConfig = createSelector(
   (configEditorRoot) => configEditorRoot.currentConfig
 )
 
+export const selectIsDuplicateConfig = createSelector(
+  selectConfigEditorRoot,
+  (configEditorRoot) => configEditorRoot.isDuplicateConfig
+)
+
+export const selectIsConfigNameError = createSelector(
+  selectConfigEditorRoot,
+  (configEditorRoot) => configEditorRoot.isConfigNameError
+)
+
 export const selectConfigInfoList = createSelector(
   selectConfigEditorRoot,
   (configEditorRoot) => configEditorRoot.configInfoList

@@ -29,11 +29,19 @@
                 padding-left: 5px;
                 padding-right: 5px;
             }
-            &-error {
+            
+        }
+        &-error {
+            flex: auto;
+            padding-right: 50px;
+    
+            .ant-input {
+                padding-left: 5px;
+                padding-right: 5px;
                 border: 1px solid #d0021b;
             }
         }
-        &-error {
+        &-hint-error {
             display: flex;
             div {
                 width: 20%;
@@ -42,11 +50,13 @@
                 color: #d0021b;
                 font-family: Helvetica, serif;
             }
+            margin-top: -15px;
         }
     }
     
 
     &-description {
+        padding-top: 5px;
         display: flex;
         &-title {
             width: 20%;

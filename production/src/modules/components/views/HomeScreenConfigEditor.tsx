@@ -14,7 +14,7 @@ import { HttpProxy } from '../../../main';
 import { RestApiError } from '../../../server/RestApiError';
 import { PARSE_METHOD } from '../../../utils/ParseMethods';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
-import { selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEditorSelector';
+import { selectCurrentConfig, selectIsDuplicateConfig, selectIsConfigNameError } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import * as api from '../../../services/Api';
 import { default as VC, localizedStrings, editorSize } from '../HomeScreenConfigConstant'
@@ -29,24 +29,40 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
     this.state = {
       activeKey: VC.GENERAL,
       configId: undefined,
+      isNameCopyed: false,  // Copy of Name for duplicate config operation should only be handled one time.
       currentEnv: {}
     }
   }
 
   async componentDidMount() {
+      // Set Duplicate Config Flag
+      const extraContext = await workstation.window.getExtraContext();
+      const extraContextJson = JSON.parse(extraContext);
+      const isDuplicate = extraContextJson.isDuplicate;
+      this.props.setDuplicateConfig(isDuplicate);
+      this.props.setConfigInfoList(extraContextJson.configInfoList);
+
+      // Handle Edit config
       const configId = this.parseConfigId(_.get(this.props, 'location.search', undefined));
       if (configId) {
         api.loadCurrentEditConfig(configId);
+      } else {
+        console.log('set default app name');
+        const newApplicationName = this.generateDefaultAppName(extraContextJson.configInfoList);
+        this.props.updateCurrentConfig({name: newApplicationName});
       }
+
       const currentEnv = await workstation.environments.getCurrentEnvironment();
+      let isNameCopyed = false;
+      if (isDuplicate && this.props.config.name && this.props.config.name.length > 0) {
+        this.props.updateCurrentConfig({name: 'copy of ' + this.props.config.name});
+        isNameCopyed = true;
+      }
       this.setState({
         currentEnv: currentEnv,
-        configId: configId
+        configId: configId,
+        isNameCopyed: isNameCopyed
       });
-      const extraContext = await workstation.window.getExtraContext();
-      const configInfoList = JSON.parse(extraContext);
-      console.log('config list: ' + extraContext);
-      this.props.setConfigInfoList(configInfoList);
 
       workstation.environments.onEnvironmentChange((change: EnvironmentChangeArg) => {
         console.log('editor enviornment change: ' + change.actionTaken);
@@ -60,6 +76,34 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
       })
   }
 
+  componentWillReceiveProps(nextProps: any) {
+    if (this.props.isDuplicateConfig && !this.state.isNameCopyed && nextProps.config.name !== this.props.config.name){
+      this.props.updateCurrentConfig({name: 'copy of ' + nextProps.config.name});
+      this.setState({
+        isNameCopyed: true
+      });
+      return;
+    }
+  }
+
+  generateDefaultAppName = (configInfoList: any) => {
+    const defaultAppName = localizedStrings.DEFAULT_APP_NAME;
+    if (configInfoList.filter((appInfo: any ) => {
+      return appInfo.name.toLowerCase() === defaultAppName.toLowerCase();
+    }).length === 0) {
+      return defaultAppName;
+    }
+    for (let i = 1; i < 1000; i++) {
+      const newAppName = `${defaultAppName} ${i}`;
+      if (configInfoList.filter((appInfo: any ) => {
+        return appInfo.name.toLowerCase() === newAppName.toLowerCase();
+      }).length === 0) {
+        return newAppName;
+      }
+    }
+    return '';  // Return empty name if Default App name count is larger than 1000.
+  }
+
   parseConfigId = (querystr: string) => {
       const spliter = '=';
       const matchKey = 'id';
@@ -69,10 +113,8 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
               let [key,] = query.split('=');
               return key === matchKey;
           });
-
           return queryFound && queryFound.split(spliter)[1];
       }
-      
   };
 
   tabBarChanged = (key: string) => {
@@ -91,7 +133,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 type= 'primary'
                 style={{marginLeft: 10}}
                 onClick={this.handleSaveConfig}
-                disabled = {_.isEmpty(this.props.config.name)}>
+                disabled = {this.props.isConfigNameError}>
                 {localizedStrings.SAVE}
             </Button>
         </div>
@@ -100,7 +142,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
 
   handleSaveConfig = () => {
       const configId = this.state.configId;
-      if (configId) {
+      if (configId && !this.props.isDuplicateConfig) {
         HttpProxy.put(api.getApiPathForEditApplication(configId), this.props.config, {}, PARSE_METHOD.BLOB).then(() => {
           // trigger load config list and close window
           workstation.window.postMessage({homeConfigSaveSuccess: true}).then(() => {workstation.window.close();});
@@ -109,7 +151,12 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
           this.processErrorResponse(e);
         });
       } else {
-        HttpProxy.post(api.getApiPathForNewApplication(), this.props.config, {}, PARSE_METHOD.BLOB).then(() => {
+        let config = this.props.config;
+        if (this.props.isDuplicateConfig) {
+          config = _.omit(config, ['id', 'dateModified', 'dateCreated', 'objectVersion']);
+          config.objectNames = [];
+        }
+        HttpProxy.post(api.getApiPathForNewApplication(), config, {}, PARSE_METHOD.BLOB).then(() => {
           workstation.window.postMessage({homeConfigSaveSuccess: true}).then(() => {workstation.window.close();});
         }).catch((err: any) => {
           this.processErrorResponse(err);
@@ -162,14 +209,14 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                                 <HomeScreenDossierSetting />
                                 {this.buttonGroup()}
                             </Tabs.TabPane> */}
-                            <Tabs.TabPane tab={localizedStrings.NAVBAR_CONTENT_BUNDLES} key={VC.CONTENT_BUNDLES} disabled={this.props.config.homeScreen.mode === 1}>
+                            {/* <Tabs.TabPane tab={localizedStrings.NAVBAR_CONTENT_BUNDLES} key={VC.CONTENT_BUNDLES} disabled={this.props.config.homeScreen.mode === 1}>
                                 <HomeScreenContentBundles/>
                                 {this.buttonGroup()}
                             </Tabs.TabPane>
                             <Tabs.TabPane tab={localizedStrings.NAVBAR_MORE_SETTINGS} key={VC.MORESETTINGS}>
                                 <HomeScreenMoreSetting/>
                                 {this.buttonGroup()}
-                            </Tabs.TabPane>
+                            </Tabs.TabPane> */}
                         </Tabs>
                     </div>
                 </Layout>
@@ -180,10 +227,14 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
 }
 
 const mapState = (state: RootState) => ({
-  config: selectCurrentConfig(state)
+  config: selectCurrentConfig(state),
+  isDuplicateConfig: selectIsDuplicateConfig(state),
+  isConfigNameError: selectIsConfigNameError(state)
 })
 
 const connector = connect(mapState, {
+  updateCurrentConfig: Actions.updateCurrentConfig,
+  setDuplicateConfig: Actions.setDuplicateConfig,
   setCurrentConfig: Actions.setCurrentConfig,
   setConfigInfoList: Actions.setConfigInfoList
 })

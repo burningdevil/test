@@ -13,6 +13,7 @@
     "dossiersTab": "Dossiers Tab",
     "documentsTab": "Documents Tab",
 
+    "defaultApplicationName": "New Application",
     "newApplication": "New Application",
     "newApplicationBtn": "Create Application Button",
     "environment": "Environment",

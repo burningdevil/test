@@ -119,7 +119,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     this.openConfigEditor();
   }
 
-  openConfigEditor = (objId : string = '') => {
+  openConfigEditor = (objId : string = '', isDuplicate: boolean = false) => {
     const objType = VC.CONFIG_EDITOR_OBJTYPE;
     const configInfoList = this.props.configList.map((config: any) => {
       return {
@@ -127,10 +127,14 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         name: config.name
       };
     });
+    const extraContext = {
+      configInfoList: configInfoList,
+      isDuplicate: isDuplicate
+    }
     let options: ObjectEditorSettings = {
       objectType: objType,
       environment: this.state.currentEnv,
-      extraContext: JSON.stringify(configInfoList)
+      extraContext: JSON.stringify(extraContext)
     }
     if(objId) {
       options = _.merge(options, {objectId: objId});
@@ -206,10 +210,10 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
           <span className={`${classNamePrefix}-item-copy`}/>
           {localizedStrings.COPY_LINK}
         </Menu.Item>
-        <Menu.Item key="1" onClick={handleClickDownload}>
+        {/* <Menu.Item key="1" onClick={handleClickDownload}>
           <span className={`${classNamePrefix}-item-json`}/>
           {localizedStrings.DOWNLOAD_JSON}
-        </Menu.Item>
+        </Menu.Item> */}
       </Menu>
     );
   
@@ -263,7 +267,8 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         this.deleteConfig(contextMenuTarget.id);
       };
       const handleClickDuplicate = () => {
-        this.duplicateConfig(contextMenuTarget);
+        // this.duplicateConfig(contextMenuTarget);
+        this.openConfigEditor(contextMenuTarget.id, true);
       };
 
       const handleClickInfo = () => {
@@ -336,12 +341,12 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                 width: '15%',
                 showColumn: false,
               },
-              {
-                field: VC.PLATFORM_STR,
-                headerName: localizedStrings.PLATFORMS,
-                sortable: true,
-                width: '10%'
-              },
+              // {
+              //   field: VC.PLATFORM_STR,
+              //   headerName: localizedStrings.PLATFORMS,
+              //   sortable: true,
+              //   width: '10%'
+              // },
               {
                 field: VC.MODE,
                 headerName: localizedStrings.HOME,

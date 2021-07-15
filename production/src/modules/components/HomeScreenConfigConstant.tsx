@@ -286,6 +286,7 @@ export const localizedStrings = {
     DUPLICATE: t('duplicate'),
     NEW_APP_BTN_TEXT: t('newApplicationBtn'),
     NEW_APP_TEXT: t('newApplication'),
+    DEFAULT_APP_NAME: t('defaultApplicationName'),
     HOME: t('home'),
     BUNDLE_USER_HINT: t('bundleUserHint'),
     DATE_MODIFIED: t('dateModified'),

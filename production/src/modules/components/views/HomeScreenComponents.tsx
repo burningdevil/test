@@ -168,6 +168,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
             <Checkbox 
                 checked={checked}
                 value={value}
+                disabled={value === VC.TOOLBAR_MODE ? this.props.toolbarHidden : false}
                 onChange = {(e) => this.onToolbarStateChange(e.target.value, e.target.checked)}>
                 {text}
             </Checkbox>

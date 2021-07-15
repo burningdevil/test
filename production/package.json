@@ -10,6 +10,8 @@
     "compile": "yarn build-msg && node build/scripts/compile",
     "build": "npm run clean && cross-env NODE_ENV=production npm run compile",
     "buildWS": "npm run clean && cross-env NODE_ENV=production CONTAINER=WS npm run compile",
+    "buildWS:mac": "npm run buildWS && npm run deploy:mac",
+    "deploy:mac": "sudo cp -R dist '/Applications/MicroStrategy Workstation.app/Contents/Resources/Plugins'",
     "build-msg": "node ./build/scripts/languageFileGenerator.js",
     "start": "yarn build-msg && cross-env NODE_ENV=development webpack-dev-server --config build/webpack.config.js",
     "start:dependency": "sh ./geti18ndependency.sh && yarn start",

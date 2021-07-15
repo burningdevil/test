@@ -155,6 +155,8 @@
       .ag-theme-alpine .ag-cell  {
         padding-left: 10px;
         padding-right: 10px;
+        display: flex;
+        align-items: center;
       }
       
       .ag-theme-alpine .ag-ltr .ag-header-select-all {
@@ -169,7 +171,6 @@
       
       .ag-cell:focus{
         border:none !important;
-        // border: 1px solid transparent;
         outline: none;
       }
       
@@ -184,7 +185,6 @@
       
       .ag-theme-alpine .ag-ltr .ag-has-focus .ag-cell-focus:not(.ag-cell-range-selected) {
         border:none !important;
-        // border: 1px solid transparent;
         outline: none;
       }
       
@@ -219,12 +219,11 @@
       }
   
       .ag-theme-alpine .ag-row-hover {
-        background-color: rgba(33, 150, 243, 0.1);
+        background-color: rgba(14,111,249,0.09);
       }
   
       .ag-theme-alpine .ag-row-selected {
-        background-color: rgba(33, 150, 243, 0.1);
-        outline: 1px solid rgba(33, 150, 243, 0.3);
+        background-color: rgba(14,111,249,0.09);
       }
   
       .ag-theme-alpine .ag-root-wrapper-body .ag-checkbox-input-wrapper {

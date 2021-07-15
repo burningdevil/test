@@ -4,6 +4,8 @@ export interface HomeScreenConfigEditorState {
     currentConfig: Partial<HomeScreenConfigType>
     configInfoList: Array<HomeScreenConfigInfo>
     colorPalettes: Array<ColorPaletteType>
+    isDuplicateConfig: boolean
+    isConfigNameError: boolean
     previewDeviceType: string
 }
 

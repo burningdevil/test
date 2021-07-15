@@ -31,6 +31,14 @@ export const setConfigInfoList = (configList: Array<HomeScreenConfigInfo>) => ({
   type: Actions.SET_CONFIG_INFO_LIST,
   data: configList,
 })
+export const setDuplicateConfig = (isDuplicateConfig: boolean) => ({
+  type: Actions.SET_DUPLICATE_CONFIG,
+  data: isDuplicateConfig,
+})
+export const setConfigNameError = (isNameError: boolean) => ({
+  type: Actions.SET_CONFIG_NAME_ERROR,
+  data: isNameError,
+})
 /* ------------------------------ Bundle content objects list ---------------------------- */
 
 export const appendContentDossiers = (list: HomeScreenBundleContentListItem[]) => ({

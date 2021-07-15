@@ -39,6 +39,8 @@ const initialState: HomeScreenConfigEditorState = {
       updateInterval: CONSTANTS.DEFAULT_UPDATE_INTERVAL
     }
   },
+  isDuplicateConfig: false,
+  isConfigNameError: false,
   configInfoList: [],
   colorPalettes: [],
   previewDeviceType: featureFlag.platformEnable ? reviewType.TABLET : reviewType.WEB,
@@ -54,6 +56,10 @@ const HomeScreenConfigEditorReducer = (state: HomeScreenConfigEditorState = init
       return {...state, currentConfig: data}
     case Actions.SET_CONFIG_INFO_LIST:
       return {...state, configInfoList: data}
+    case Actions.SET_DUPLICATE_CONFIG:
+      return {...state, isDuplicateConfig: data}
+    case Actions.SET_CONFIG_NAME_ERROR:
+      return {...state, isConfigNameError: data}
     case Actions.UPDATE_REVIEW_TYPE:
       return {...state, previewDeviceType: data}
     default:

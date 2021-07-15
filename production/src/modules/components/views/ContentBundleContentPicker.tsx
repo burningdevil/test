@@ -335,16 +335,16 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                   theme={'dark'}
                 >
                   <Menu.Item tabIndex={0} aria-label={localizedStrings.DOSSIER_TAB_TEXT} key={HomeScreenHomeObjectType.DOSSIER} className={`${classNamePrefix}-grid-menu-tab1`} onClick={this.tabBarChanged}>
-                    <div className={VC.FONT_DOSSIER}/>
-                    <div className={`${classNamePrefix}-grid-menu-dossier`}>
+                    <span className={VC.FONT_DOSSIER}/>
+                    <span className={`${classNamePrefix}-grid-menu-dossier`}>
                       {localizedStrings.DOSSIERS}
-                    </div>
+                    </span>
                   </Menu.Item>
                   <Menu.Item tabIndex={0} aria-label={localizedStrings.DOCUMENT_TAB_TEXT} key={HomeScreenHomeObjectType.DOCUMENT} className={`${classNamePrefix}-grid-menu-tab2`} onClick={this.tabBarChanged}>
-                    <div className={VC.FONT_DOCUMENT}/>
-                    <div className={`${classNamePrefix}-grid-menu-document`}>
+                    <span className={VC.FONT_DOCUMENT}/>
+                    <span className={`${classNamePrefix}-grid-menu-document`}>
                       {localizedStrings.DOCUMENTS}
-                    </div>
+                    </span>
                   </Menu.Item>
                 </Menu>
               </div>
