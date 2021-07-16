@@ -6,6 +6,14 @@ export const loadConfigListSuccess = (configList: Array<HomeScreenConfigType>) =
   data: configList,
 })
 
+export const loadConfigListFail = () => ({
+  type: Actions.LOAD_CONFIG_LIST_FAIL
+})
+
+export const loadConfigList = () => ({
+  type: Actions.LOAD_CONFIG_LIST
+})
+
 export const loadContentBundleListSuccess = (contentBundleList: Array<MainViewContentBundleType>) => ({
   type: Actions.LOAD_CONTENT_BUNDLE_LIST_SUCCESS,
   data: contentBundleList,

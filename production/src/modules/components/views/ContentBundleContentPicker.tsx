@@ -4,7 +4,7 @@ import { SearchInput } from '@mstr/rc';
 import { store } from '../../../main'
 import { Modal, Button, Menu } from 'antd';
 import * as _ from "lodash";
-import { ReactWsGrid } from '@mstr/react-ws-grid'
+import { ReactWsGrid } from '@mstr/react-ws-grid';
 import {
   GridReadyEvent,
   GetContextMenuItemsParams,

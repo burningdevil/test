@@ -3,14 +3,14 @@ import { connect } from 'react-redux'
 import '../scss/HomeScreenConfigMainView.scss';
 import { message, Menu, Dropdown } from 'antd';
 import { copyToClipboard } from '../../../utils/copy';
-import { ReactWindowGrid } from '@mstr/rc';
-import { SelectionStructure, Record } from '@mstr/rc/types';
-import { ContextMenuItem } from '@mstr/rc/types/react-window-grid/type';
+import { ReactWsGrid, ColumnDef } from '@mstr/react-ws-grid';
+import type { CellContextMenuEvent } from 'ag-grid-community/';
+import { Record } from '@mstr/rc/types';
 import { WorkstationModule, ObjectEditorSettings, EnvironmentChangeArg, WindowEvent, EnvironmentAction, EnvironmentStatus, Environment, PropertiesSettings, MstrObject, Project} from '@mstr/workstation-types';
 import { HttpProxy } from '../../../main';
 import { RestApiError } from '../../../server/RestApiError';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
-import { selectConfigList, selectContentBundleList } from '../../../store/selectors/HomeScreenConfigEditorSelector';
+import { selectConfigList, selectContentBundleList, selectIsConfigLoading } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as api from '../../../services/Api';
 import * as _ from "lodash";
 import { hexIntToColorStr } from './HomeScreenUtils';
@@ -39,7 +39,8 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       isLibraryVersionMatched: true,
       isIServerVersionMatched: true,
       isMDVersionMatched: true,
-      isUserHasAccess: true
+      isUserHasAccess: true,
+      isInitialLoading: true
     }
   }
 
@@ -54,6 +55,9 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       console.log('enviornment change: env status : ' + change.changedEnvironment.status);
       if (change.actionTaken === EnvironmentAction.ChangeEnvironmentSelection && change.changedEnvironment.url !== this.state.currentEnv.url) {
         if (change.changedEnvironment.status === EnvironmentStatus.Connected) {
+          this.setState({
+            isInitialLoading: true
+          });
           this.loadData();
         }
         this.checkServerAndUserPrivilege(change.changedEnvironment);
@@ -61,6 +65,9 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       if (change.actionTaken === EnvironmentAction.Connect && change.changedEnvironment.url === this.state.currentEnv.url) {
         this.setState({
           isEnvReady: true
+        });
+        this.setState({
+          isInitialLoading: true
         });
         this.loadData();
       }
@@ -73,8 +80,10 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     })
 
     workstation.window.addHandler(WindowEvent.POSTMESSAGE, (msg: any) => {
-      console.log(msg);
       if(_.get(msg, configSaveSuccessPath, '')){
+        this.setState({
+          isInitialLoading: false
+        });
         this.loadData();
       }
       return {
@@ -85,7 +94,6 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
 
   checkServerAndUserPrivilege = async (env: Environment) => {
     const status: any = await api.getServerStatus();
-    console.log('server status: ' + JSON.stringify(status));
     const isMDVersionMatched = await this.loadDefaultConfig();
     const isConnected = env.status === EnvironmentStatus.Connected;
     const isLibraryVersionMatched = isLibraryServerVersionMatch(status.webVersion);
@@ -160,20 +168,14 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
   deleteConfig = (objId : string = '') => {
     if (objId) {
       HttpProxy.delete(api.getApiPathForDeleteApplication(objId), {}).then((res: any) => {
+        this.setState({
+          isInitialLoading: false
+        });
         this.loadData();
       }).catch((e: any) => {
         this.processErrorResponse(e);
       });
     }
-  }
-
-  duplicateConfig = async (config: any) => {
-    let newConfig = _.pick(config, [VC.NAME, VC.DESC, VC.PLATFORM, VC.HOME_SCREEN, VC.IS_DEFAULT, VC.SCHEMA_VERSION, VC.VERSION, VC.GENERAL]);
-    HttpProxy.post(api.getApiPathForDuplicateApplication(), {newConfig}).then((res: any) => {
-      this.loadData();
-    }).catch((e: any) => {
-      this.processErrorResponse(e);
-    });
   }
 
   downloadJsonFile = async (configJson: JSON, configId: string) => {
@@ -257,9 +259,86 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     return configList;
   }
 
+  getColumnDef = () => {
+    return [
+      {
+        field: VC.NAME,
+        headerName: localizedStrings.NAME,
+        lockVisible: true,
+        cellRendererFramework: (rendererParam: any) => {
+          const d = rendererParam.data;
+          return (
+            <div className={`${classNamePrefix}-application-name-container`}>
+              <span className={`${classNamePrefix}-application-name-text`}>{d.name}</span>
+              {this.renderShareContextMenu(d)}
+            </div>
+          )
+        },
+      },
+      {
+        field: VC.DESC,
+        headerName: localizedStrings.DESCRIPTION,
+        sortable: false,
+        initialHide: true
+      },
+      // {
+      //   field: VC.PLATFORM_STR,
+      //   headerName: localizedStrings.PLATFORMS,
+      // },
+      {
+        field: VC.MODE,
+        headerName: localizedStrings.HOME,
+        width: 100,
+        resizable: false,
+      },
+      {
+        field: VC.CONTENT_BUNDLES,
+        headerName: localizedStrings.NAVBAR_CONTENT_BUNDLES,
+        sortable: false,
+        cellRendererFramework: (rendererParam: any) => {
+          const d = rendererParam.data;
+          if (d.contentBundles.length === 0) {
+            return (
+              <div className={`${classNamePrefix}-content-bundles`}>
+                <span>{localizedStrings.BUNDLE_USER_HINT}</span>
+              </div>
+            )
+          }
+          return (
+            <div className={`${classNamePrefix}-content-bundles`}>
+              {
+                d.contentBundles.map(((bundle: {name: string, color: number}) => {
+                  return (<span className={`${classNamePrefix}-content-bundles-item`}>
+                    <span className={`${classNamePrefix}-content-bundles-item-icon`} style={{ background: hexIntToColorStr(bundle.color) }}></span>
+                    <span className={`${classNamePrefix}-content-bundles-item-text`}>{bundle.name}</span>
+                  </span>)
+                }))
+              }
+            </div>
+          )
+        },
+      },
+      {
+        field: VC.DATE_MODIFIED,
+        headerName: localizedStrings.DATE_MODIFIED,
+        width: 175,
+        resizable: false
+      },
+      {
+        field: VC.DATE_CREATED,
+        headerName: localizedStrings.DATE_CREATED,
+        width: 175,
+        resizable: false,
+        initialHide: true
+      }
+    ] as ColumnDef[]
+  }
+
   render() {
-    const configDisplayList = this.generateConfigDisplayList();
-    const getContextMenuItems = (selection: SelectionStructure, contextMenuTarget: Record): ContextMenuItem[] => {
+    const configDataSource = this.generateConfigDisplayList();
+    const getContextMenuItems = (event: CellContextMenuEvent) => {
+      const contextMenuTarget: Record = event.data;
+
       const handleClickEdit = () => {
         this.openConfigEditor(contextMenuTarget.id);
       };
@@ -267,10 +346,8 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         this.deleteConfig(contextMenuTarget.id);
       };
       const handleClickDuplicate = () => {
-        // this.duplicateConfig(contextMenuTarget);
         this.openConfigEditor(contextMenuTarget.id, true);
       };
-
       const handleClickInfo = () => {
         const selectedObjs : MstrObject[] = [{id: contextMenuTarget.id, type: APPLICATION_OBJECT_TYPE, subType: APPLICATION_OBJECT_SUBTYPE}];
         const currentProj : Project = this.state.currentEnv.projects[0];
@@ -288,25 +365,32 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         )
       };
 
-      return [
-        {
-          'name': localizedStrings.EDIT,
-          'action': handleClickEdit,
-        },
-        {
-          'name': localizedStrings.DELETE,
-          'disabled': contextMenuTarget? contextMenuTarget.isDefault : false,
-          'action': handleClickDelete,
-        },
-        {
-          'name': localizedStrings.DUPLICATE,
-          'action': handleClickDuplicate,
-        },
-        {
-          'name': localizedStrings.GETINFO,
-          'action': handleClickInfo,
-        }
-      ];
+      /* ********************************************* */
+      // Context Menu Formation
+      /* ********************************************* */
+      const contextMenuItems = [];
+      contextMenuItems.push({
+        name: localizedStrings.EDIT,
+        action: handleClickEdit
+      });
+
+      contextMenuItems.push({
+        name: localizedStrings.DELETE,
+        action: handleClickDelete,
+        disabled: contextMenuTarget? contextMenuTarget.isDefault : false
+      })
+
+      contextMenuItems.push({
+        name: localizedStrings.DUPLICATE,
+        action: handleClickDuplicate
+      })
+
+      contextMenuItems.push({
+        name: localizedStrings.GETINFO,
+        action: handleClickInfo
+      })
+
+      return contextMenuItems
     };
 
     return this.state.isEnvReady ? (
@@ -318,85 +402,22 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
           </span>
         </div>
         <div className={`${classNamePrefix}-application-list-container`}>
-          <ReactWindowGrid
-            columnDef={[
-              {
-                field: VC.NAME,
-                headerName: localizedStrings.NAME,
-                sortable: true,
-                width: '20%',
-                render: (d: Record) => {
-                  return (
-                    <div className={`${classNamePrefix}-application-name-container`}>
-                      <span className={`${classNamePrefix}-application-name-text`}>{d.name}</span>
-                      {this.renderShareContextMenu(d)}
-                    </div>
-                  )
-                },
-              },
-              {
-                field: VC.DESC,
-                headerName: localizedStrings.DESCRIPTION,
-                sortable: false,
-                width: '15%',
-                showColumn: false,
-              },
-              // {
-              //   field: VC.PLATFORM_STR,
-              //   headerName: localizedStrings.PLATFORMS,
-              //   sortable: true,
-              //   width: '10%'
-              // },
-              {
-                field: VC.MODE,
-                headerName: localizedStrings.HOME,
-                width: '10%',
-                sortable: true
-              },
-              {
-                field: VC.CONTENT_BUNDLES,
-                headerName: localizedStrings.NAVBAR_CONTENT_BUNDLES,
-                sortable: false,
-                width: '30%',
-                render: (d: Record) => {
-                  if (d.contentBundles.length === 0) {
-                    return (
-                      <div className={`${classNamePrefix}-content-bundles`}>
-                        <span>{localizedStrings.BUNDLE_USER_HINT}</span>
-                      </div>
-                    )
-                  }
-                  return (
-                    <div className={`${classNamePrefix}-content-bundles`}>
-                      {
-                        d.contentBundles.map(((bundle: {name: string, color: number}) => {
-                          return (<span className={`${classNamePrefix}-content-bundles-item`}>
-                            <span className={`${classNamePrefix}-content-bundles-item-icon`} style={{ background: hexIntToColorStr(bundle.color) }}></span>
-                            <span className={`${classNamePrefix}-content-bundles-item-text`}>{bundle.name}</span>
-                          </span>)
-                        }))
-                      }
-                    </div>
-                  )
-                },
-              },
-              {
-                field: VC.DATE_MODIFIED,
-                headerName: localizedStrings.DATE_MODIFIED,
-                sortable: true,
-                width: '15%',
-              },
-              {
-                field: VC.DATE_CREATED,
-                headerName: localizedStrings.DATE_CREATED,
-                sortable: true,
-                width: '15%',
-                showColumn: false
-              }
-            ]}
-            rowData={configDisplayList}
+          <ReactWsGrid
+            rowSelectable={true}
+            rowMultiSelectWithClick={false}
+            getRowHeight={() => 32}
+            showCheckbox={false}
+            useToolbar={true}
+            // @ts-ignore: RC Component Support error
+            rowSelection='single'
             getContextMenuItems={getContextMenuItems}
-            isColumnConfigurable={true}
+            isLoading={this.props.configLoading && this.state.isInitialLoading}
+            columnDefs={this.getColumnDef()}
+            defaultColDef={{
+              resizable: true,
+              sortable: true,
+            }}
+            rowData={configDataSource}
           />
         </div>
       </div>
@@ -410,6 +431,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
 
 const mapState = (state: RootState) => ({
   configList: selectConfigList(state),
+  configLoading: selectIsConfigLoading(state),
   contentBundleList: selectContentBundleList(state)
 })
 

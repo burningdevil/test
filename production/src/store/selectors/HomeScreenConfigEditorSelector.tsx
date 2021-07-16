@@ -48,6 +48,11 @@ export const selectConfigList = createSelector(
   (configMainRoot) => configMainRoot.configList
 )
 
+export const selectIsConfigLoading = createSelector(
+  selectConfigMainRoot,
+  (configMainRoot) => configMainRoot.configLoading
+)
+
 export const selectContentBundleList = createSelector(
     selectConfigMainRoot,
   (configMainRoot) => configMainRoot.contentBundleList

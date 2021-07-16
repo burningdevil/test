@@ -1,4 +1,5 @@
 @import '~@mstr/rc/es/assets/scss/variables.scss';
+@import '~@mstr/react-ws-grid/lib/styles.scss';
 
 .home-screen-main {
     height: 100%;
@@ -6,7 +7,7 @@
     color: #35383A;
     font-size: 12px;
 
-    .mstr-window-table-row {
+    .ag-row {
         .icon-tb_share_n {
             cursor: pointer;
             display: none;
@@ -16,13 +17,18 @@
                 color: #0E6FF9;
             }
         }
+        background-color: white !important;
     }
 
-    .mstr-window-table-row:hover {
+    .ag-row:hover {
         .icon-tb_share_n {
             cursor: pointer;
             display: inline-block;
         }
+    }
+
+    .ag-cell-wrapper {
+        line-height: 32px;
     }
 
     &-new-application-container {
@@ -85,10 +91,6 @@
 
     &-application-name-container {
         display: flex;
-    }
-    &-application-name-text {
-        max-width: 80%;
-        overflow: scroll;
     }
 }
 

@@ -11,6 +11,7 @@ export interface HomeScreenConfigEditorState {
 
 export interface HomeScreenMainViewState {
     configList: Array<Partial<HomeScreenConfigType>>
+    configLoading: boolean
     contentBundleList: Array<MainViewContentBundleType>
 }
 

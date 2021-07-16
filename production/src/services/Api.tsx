@@ -51,6 +51,7 @@ export const downloadSingleConfig = async (configID: string) => {
 }
 
 export const loadConfigList = () => {
+    store.dispatch(ActionsCreator.loadConfigList());
     HttpProxy.get(CONFIG_ENDPOINTS).then((response: any) => {
         let data = response;
         if (data && response.data) {
@@ -59,7 +60,10 @@ export const loadConfigList = () => {
         data = data.applications;
         data = data.filter((o: any) => o.id !== undefined);
         store.dispatch(ActionsCreator.loadConfigListSuccess(data));
-    });
+    }).catch((e: any) => {
+        console.log(e);
+        store.dispatch(ActionsCreator.loadConfigListFail());
+    });;
 }
 
 export const loadContentBundleList = () => {
