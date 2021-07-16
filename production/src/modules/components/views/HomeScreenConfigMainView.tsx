@@ -337,7 +337,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
               {
                 field: VC.DESC,
                 headerName: localizedStrings.DESCRIPTION,
-                sortable: true,
+                sortable: false,
                 width: '15%',
                 showColumn: false,
               },

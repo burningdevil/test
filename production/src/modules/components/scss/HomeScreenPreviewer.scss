@@ -234,6 +234,13 @@ $line-height-side: 18px;
         @include padOrWebSetting($font-color)
     }
 
+    &-web {
+        .icon-filter {
+            float: left !important;
+            padding-left: 5px;
+        }
+    }
+
     &-phone {
         width: $container-width-phone;
         height: $preview-height;
