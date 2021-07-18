@@ -353,8 +353,8 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                 <div id='contentPickerGrid' style={{ height: '100%', width: '100%'}}>
                     {/* <AgGridReact gridOptions ={this.gridOptions}>
                     </AgGridReact> */}
-                    <ReactWsGrid 
-                        rowMultiSelectWithClick = {true}
+                    <ReactWsGrid
+                        rowMultiSelectWithClick={true}
                         onSelectionChanged = {this.onSelectionChanged}
                         onGridReady = {this.onGridReady}
                         rowModelType = {rowModelType}
