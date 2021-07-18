@@ -1,6 +1,9 @@
+@import '~@mstr/rc/es/assets/scss/variables.scss';
+@import './variables.scss';
+
 .content-bundle-list-container {
     height: 89%;
-    font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';
+    font-family: $font-family;
     font-size: 12px;
 
     .icon-pnl_add-new {
@@ -15,7 +18,7 @@
       width: 184px;
       height: auto;
       font-size: 12px;
-      font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';;
+      font-family: $font-family;
 
       &-text {
         display: flex;
@@ -33,7 +36,7 @@
         border-style: inset;
         border-width: 1px;
         border-radius: 2px;
-        border-color: rgba($color: #35383a, $alpha: 0.1);
+        border-color: $msdl-divider-gray;
       }
 
       &-blank {
@@ -48,7 +51,7 @@
             margin-right: 5px;
             flex: auto;
             height: 8px;
-            background-color: rgb(224, 224, 224);
+            background-color: $right-background;
         }
       }
     }
@@ -104,7 +107,7 @@
       padding-left: 10px;
       padding-right: 10px;
       text-align: right;
-      color: #35383a;
+      color: $msdl-black;
     }
 
     &-add-icon {
@@ -122,7 +125,7 @@
       top: 45px;
       left: 10px;
       padding: 200px 100px;
-      border: 1px dashed rgba($color: #35383a, $alpha: 0.2) ;
+      border: 1px dashed $msdl-border-gray;
       // left: 460px;
       width: calc(100% - 20px);
       height: calc(100% - 55px);
@@ -141,7 +144,7 @@
       }
     
       &-add {
-        color: #3492ed;
+        color: $msdl-blue;
         cursor: pointer;
       }
     }
@@ -149,7 +152,7 @@
     .ag-theme-alpine .ag-row {
       font-size: 11px;
       border-color: #f3f4f5;
-      font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';
+      font-family: $font-family;
     }
     
     .ag-theme-alpine .ag-header {
@@ -161,8 +164,8 @@
       border-left: 1px solid #eaeaea;
       padding-left: 10px;
       padding-right: 10px;
-      color: #35383a;
-      font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';
+      color: $msdl-black;
+      font-family: $font-family;
     }
     
     .ag-theme-alpine .ag-cell  {
@@ -300,132 +303,3 @@
     background-position: -234px -18px;
   }
 }
-
-// div.ag-theme-alpine .ag-row {
-//   font-size: 11px;
-//   border-color: #f3f4f5;
-//   font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';
-// }
-
-// div.ag-theme-alpine .ag-header {
-//   border-bottom: none;
-//   font-size: 11px;
-// }
-// div.ag-theme-alpine .ag-header-cell {
-//   border-left: 1px solid #eaeaea;
-//   padding-left: 10px;
-//   padding-right: 10px;
-//   color: #35383a;
-//   font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';
-// }
-
-// div.ag-theme-alpine .ag-cell  {
-//   padding-left: 10px;
-//   padding-right: 10px;
-// }
-
-// div.ag-theme-alpine .ag-ltr .ag-header-select-all {
-//   margin-top: 10px;
-//   margin-bottom: 10px;
-// }
-
-// .ag-overlay-no-rows-center {
-//   display: none;
-// }
-
-
-// div.ag-cell:focus{
-//   border:none !important;
-//   // border: 1px solid transparent;
-//   outline: none;
-// }
-
-// div.ag-theme-alpine div.ag-root-wrapper {
-//   border-color: #eaeaea;
-// }
-
-// div.ag-theme-alpine div.ag-ltr div.ag-context-menu-open div.ag-cell-focus:not(.ag-cell-range-selected) {
-//   border: 1px solid transparent;
-//   outline: none;
-// }
-
-// div.ag-theme-alpine div.ag-ltr div.ag-has-focus div.ag-cell-focus:not(.ag-cell-range-selected) {
-//   border:none !important;
-//   // border: 1px solid transparent;
-//   outline: none;
-// }
-
-// div.ag-has-focus{
-//   border:none !important;
-//   // border: 1px solid transparent;
-//   outline: none;
-// }
-
-// .ag-sort-ascending-icon{
-//   display: none;
-// }
-
-// .ag-sort-descending-icon{
-//   display: none;
-// }
-
-// div[aria-sort=none]::after{
-//   padding: 10px 0px;
-// }
-
-// div[aria-sort=descending]:after {
-//   padding: 10px 0px;
-// }
-
-// div[aria-sort=ascending]:after {
-//   padding: 10px 0px;
-// }
-
-// div.ag-theme-alpine .ag-row-odd {
-//   background-color: #fff;
-// }
-
-// div.ag-theme-alpine .ag-row-hover {
-//   background-color: rgba(33, 150, 243, 0.1);
-// }
-
-// div.ag-theme-alpine .ag-row-selected {
-//   background-color: rgba(33, 150, 243, 0.1);
-//   outline: 1px solid rgba(33, 150, 243, 0.3);
-// }
-
-// div.ag-theme-alpine .ag-root-wrapper-body .ag-checkbox-input-wrapper {
-//   background: none;
-//   font-size: 1px;
-// }
-
-// .ag-theme-alpine .ag-checkbox-input-wrapper.ag-checked:after {
-//   font-size: 1px;
-// }
-
-// div.ag-theme-alpine .ag-root-wrapper-body .ag-checkbox-input-wrapper::after {
-//   // background: none;
-//   background: url("../images/ws-icons-18_18.svg");
-//   margin-right: 3px;
-//   cursor: pointer;
-//   display: inline-block;
-//   width: 18px;
-//   height: 18px;
-//   background-repeat: no-repeat;
-//   background-position: -360px 0;
-// }
-
-// .ag-theme-alpine .ag-checkbox-input-wrapper:after {
-//   background: none;
-// }
-
-// div.ag-theme-alpine .ag-root-wrapper-body .ag-checkbox-input-wrapper.ag-checked::after {
-//     background: url("../images/ws-icons-18_18.svg");
-//     margin-right: 3px;
-//     cursor: pointer;
-//     display: inline-block;
-//     width: 18px;
-//     height: 18px;
-//     background-repeat: no-repeat;
-//     background-position: -324px 0;
-// }

@@ -1,6 +1,8 @@
+@import './variables.scss';
+
 .home-screen-general {
     text-align: right;
-    font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';
+    font-family: $font-family;
     color: #444649;
     font-size: 12px;
     line-height: 350%;

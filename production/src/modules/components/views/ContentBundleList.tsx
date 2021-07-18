@@ -372,7 +372,7 @@ class ContentBundleList extends React.Component<any, any> {
           title={this.renderPopoverContent()}
           placement='rightTop'
           onVisibleChange={(visible) => 
-            document.getElementById(msgInfoID).style.color =  visible ? '#3892ed' : 'gray'
+            document.getElementById(msgInfoID).style.color =  visible ? '#3492ed' : 'gray'
           }
         >
         <span className={VC.FONT_MSG_INFO} id={msgInfoID}> </span>

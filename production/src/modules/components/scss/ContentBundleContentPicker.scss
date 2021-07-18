@@ -1,8 +1,10 @@
+@import '~@mstr/rc/es/assets/scss/variables.scss';
 @import './common.scss';
+@import './variables.scss';
 
 .content-bundle-content-picker {
-    font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';
-    color: #35383a;
+    font-family: $font-family;
+    color: $msdl-black;
 
     .icon-certified {
         color: #ff6214;
@@ -135,7 +137,7 @@
     .ag-theme-alpine .ag-row {
         font-size: 11px;
         border-color: #f3f4f5;
-        font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';
+        font-family: $font-family;
       }
       
       .ag-theme-alpine .ag-header {
@@ -148,8 +150,8 @@
         border-left: 1px solid #eaeaea;
         padding-left: 10px;
         padding-right: 10px;
-        color: #35383a;
-        font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';
+        color: $msdl-black;
+        font-family: $font-family;
       }
       
       .ag-theme-alpine .ag-cell  {

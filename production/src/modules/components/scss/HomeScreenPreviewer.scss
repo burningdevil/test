@@ -1,7 +1,7 @@
+@import '~@mstr/rc/es/assets/scss/variables.scss';
+@import './variables.scss';
 
-$primary-blue: #3892ED;
 $background-color: rgba(255, 255, 255, .7);
-$fill-color: rgb(224, 224, 224);
 $container-width: 274px;
 $container-width-phone: 103px;
 $preview-width: 241px;
@@ -10,11 +10,6 @@ $preview-width-phone: 121px;
 $preview-header-height: 19px;
 $sidebar-width: 91px;
 
-$font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';
-$font-color: #35383A;
-$font-size: 12px;
-$line-height: 14px;
-$font-size-mini: 11px;
 $font-size-side: 7px;
 $line-height-side: 18px;
 
@@ -32,7 +27,7 @@ $line-height-side: 18px;
     .icon-library{
         float: left;
         margin-left: 4.5px;
-        color: $primary-blue;
+        color: $msdl-blue;
     }
     .icon-backarrow,
     .icon-tb_hamburger,
@@ -126,7 +121,7 @@ $line-height-side: 18px;
                 &-fill {
                     width: 70%;
                     height: 7px;
-                    background-color: $fill-color;
+                    background-color: $right-background;
                 }
             }
             &-down {
@@ -174,7 +169,7 @@ $line-height-side: 18px;
 .homeScreenPreviewer {
     font-family: $font-family;
     font-size: $font-size;
-    color: $font-color;
+    color: $msdl-black;
     width: $container-width;
 
     &-overlay {
@@ -227,14 +222,16 @@ $line-height-side: 18px;
     }
 
     &-pad {
-        @include padOrWebSetting($primary-blue)
+        @include padOrWebSetting($mobile-primary-blue);
+        .icon-tb_home,
+        .icon-tb_appicon,
+        .icon-library {
+            color: $mobile-primary-blue !important;
+        }
     }
 
     &-web {
-        @include padOrWebSetting($font-color)
-    }
-
-    &-web {
+        @include padOrWebSetting($msdl-black);
         .icon-filter {
             float: left !important;
             padding-left: 5px;
@@ -275,7 +272,7 @@ $line-height-side: 18px;
             line-height: 24px;
             background-color: rgba(255, 255, 255, .7);
             font-size: $font-size-mini;
-            @include iconFeatures($primary-blue) 
+            @include iconFeatures($mobile-primary-blue) 
         }
         &-content {
             flex: auto;
@@ -323,7 +320,7 @@ $line-height-side: 18px;
             justify-content: space-between;
             span {
                 font-size: 10px;
-                color: $primary-blue;
+                color: $mobile-primary-blue;
             }
         }
     }

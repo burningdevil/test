@@ -1,11 +1,12 @@
-$right-background: rgb(224, 224, 224);
+@import '~@mstr/rc/es/assets/scss/variables.scss';
+@import './variables.scss';
 
 .home-screen-home {
     padding: 0px 0px 0 34px;
     background-color: white;
     height: 660px;
-    color: #35383a;
-    font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';
+    color: $msdl-black;
+    font-family: $font-family;
 
     .ant-radio-button-wrapper {
         font-size: 13px;
@@ -27,21 +28,19 @@ $right-background: rgb(224, 224, 224);
         &-library {
             font-size: 12px;
             display: block;
-            color: #35383a;
-            // line-height:200%;
+            color: $msdl-black;
         }
 
         &-dossier {
             font-size: 12px;
             display: block;
-            color: #35383a;
-            // line-height:200%;
+            color: $msdl-black;
         }
 
         &-hint {
             font-size: 12px;
             padding-top: 4px;
-            color: rgba($color:#35383a, $alpha: 0.5);
+            color: $msdl-fill-dark-gray;
             padding-left: 24px;
             // line-height: 160%;
         }
@@ -49,7 +48,7 @@ $right-background: rgb(224, 224, 224);
         &-pick {
             margin-left: 10px;
             padding-top: 8px;
-            color: #3492ed;
+            color: $msdl-blue;
             border-style: none;
             box-shadow: none;
             font-size: 12px;
@@ -75,7 +74,7 @@ $right-background: rgb(224, 224, 224);
         }
 
         &-dossier-change {
-            color: #3492ed;
+            color: $msdl-blue;
             border-style: none;
             box-shadow: none;
             background-color:  #f2f3f5;

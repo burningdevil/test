@@ -1,10 +1,11 @@
+@import '~@mstr/rc/es/assets/scss/variables.scss';
 @import './common.scss';
 
 .home-screen-editor{
     padding-bottom: 0;
     border: 1px solid #fff;
     border-radius: 3px;
-    box-shadow: 0 1px 8px 3px rgba(68, 70, 73, .2);
+    box-shadow: 0 1px 8px 3px $mbde-box-shadow;
 
     &-layout {
         //popover content style
@@ -27,7 +28,7 @@
                     }
                     .ant-tabs-tab-active {
                         color: #fff;
-                        background-color: #3492ed;
+                        background-color: $msdl-blue;
 
                         .ant-tabs-tab-btn {
                             color: #fff;

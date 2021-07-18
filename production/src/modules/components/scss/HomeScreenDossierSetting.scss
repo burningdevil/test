@@ -1,11 +1,5 @@
-
-$primary-blue: #0e6ff9;
-$font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';
-$font-color: #35383A;
-$font-size: 12px;
-$line-height: 14px;
-$font-size-mini: 11px;
-$line-height-mini: 13px;
+@import '~@mstr/rc/es/assets/scss/variables.scss';
+@import './variables.scss';
 
 .home-screen-dossiersetting {
     &-container {
@@ -15,7 +9,7 @@ $line-height-mini: 13px;
 
         font-family: $font-family;
         font-size: $font-size;
-        color: $font-color;
+        color: $msdl-black;
         line-height: $line-height;
 
         .ant-divider-horizontal {
@@ -29,11 +23,11 @@ $line-height-mini: 13px;
         }
 
         .default-col {
-            color: $primary-blue;
+            color: $mobile-primary-blue;
         }
 
         .set-default-col {
-            color: $primary-blue;
+            color: $mobile-primary-blue;
             display: none;
         }
 
@@ -103,7 +97,7 @@ $line-height-mini: 13px;
 
         .ant-checkbox-wrapper {
             font-size: $font-size;
-            color: $font-color;
+            color: $msdl-black;
             line-height: 24px;
             transform: scale(0.75);
         }
@@ -111,7 +105,7 @@ $line-height-mini: 13px;
         .icon-msg_info {
             color: lightgray;
             &:hover {
-                color: $primary-blue;
+                color: $mobile-primary-blue;
             }
         }
     }
@@ -129,7 +123,7 @@ $line-height-mini: 13px;
     }
 
     &-custom-color-palette-new {
-        color: $primary-blue;
+        color: $msdl-blue;
         cursor: pointer;
         &-text {
             margin-left: 3px;
