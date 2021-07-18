@@ -147,7 +147,7 @@ export const CONSTANTS = {
 }
 
 export const featureFlag = {
-    platformEnable: true,
+    platformEnable: false,
 }
 
 export const reviewType = {

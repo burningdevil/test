@@ -39,15 +39,6 @@
           "windowKey": "homescreenConfigEditor",
           "isVisible": "isHomeScreenConfigEnabled",
           "canExecute": "isHomeScreenConfigEnabled"
-        },
-        {
-          "key": "selectHomeScreenContentBundle",
-          "displayName": "Select Content Bundle",
-          "command": "openContentBundlePicker",
-          "icon": "Applications.png",
-          "windowKey": "homeScreenContentBundlePicker",
-          "isVisible": "isHomeScreenConfigEnabled",
-          "canExecute": "isHomeScreenConfigEnabled"
         }
       ]
     },
@@ -61,11 +52,6 @@
         "objectType": "HomeScreenConfig",
         "item": "newHomeScreenConfig",
         "editorTypes": ["Create"]
-      },
-      {
-        "objectType": "ContentBundleObject",
-        "item": "selectHomeScreenContentBundle",
-        "editorTypes": ["Create"]
       }
     ],
     "windows": [
@@ -74,16 +60,6 @@
         "showMenus": false,
         "size": {
           "allowResize": false,
-          "minimumHeight": 708,
-          "minimumWidth": 962,
-          "initialHeight": 708,
-          "initialWidth": 962
-        }
-      },
-      {
-        "key": "homeScreenContentBundlePicker",
-        "showMenus": false,
-        "size": {
           "minimumHeight": 708,
           "minimumWidth": 962,
           "initialHeight": 708,
