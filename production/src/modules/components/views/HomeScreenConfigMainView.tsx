@@ -244,7 +244,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         _.assign(resultConfig, { contentBundles: arr });
       }
 
-      _.assign(resultConfig, {mode: resultConfig.homeScreen.mode == 0 ? localizedStrings.LIBRARY : localizedStrings.DOSSIER});
+      _.assign(resultConfig, {mode: resultConfig.homeScreen && resultConfig.homeScreen.mode == 1 ? localizedStrings.DOSSIER : localizedStrings.LIBRARY});
 
       if (_.has(resultConfig, VC.DATE_MODIFIED)) {
         _.assign(resultConfig, {dateModified: _.split(resultConfig.dateModified, /[\T.]+/, 2).join(' ')});

@@ -138,7 +138,7 @@
     "dossier": "Dossier",
     "removeBundle": "Remove from application",
 
-    "blankAppNameError": "The Application Name field cannot be blank.",
+    "blankAppNameError": "The field cannot be blank.",
     "getInfo": "Get Info",
 
     "colorPalette": "COLOR PALETTE",
