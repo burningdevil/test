@@ -1,4 +1,4 @@
-import { DeploymentType, Environment } from "@mstr/workstation-types";
+import { DeploymentType, Environment, MCIType } from "@mstr/workstation-types";
 
 export const env: Environment = {
   id: '2D357C22-2AF2-494A-B8AF-7F077BBF8733',
@@ -10,6 +10,7 @@ export const env: Environment = {
   webVersion: '11.2.0200.130358J',
   privileges: [],
   projects: [],
+  mciType: MCIType.NotMCI,
   deploymentType: DeploymentType.OnPrem
 }
 

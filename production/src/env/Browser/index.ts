@@ -1,4 +1,4 @@
-import { MessengerModule, PythonModule, WorkstationModule } from '@mstr/workstation-types'
+import { MessengerModule, PythonModule, StorageModule, WorkstationModule } from '@mstr/workstation-types'
 import dialogs from './Dialogs'
 import data from './Data'
 import environments from './Environments'
@@ -8,6 +8,7 @@ import window from './Window'
 import selectedObject from './SelectedObject'
 
 class BrowserEnv implements WorkstationModule {
+  storage: StorageModule
   messenger: MessengerModule
   python: PythonModule
   dialogs = dialogs;

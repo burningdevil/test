@@ -106,7 +106,8 @@ export default {
             "objectVersion": "19650A2E43A2CAAEF37957A4ABE4B303"
           }
         ],
-        contentBundleList: []
+        contentBundleList: [],
+        configLoading: false
     },
     bundleContent: {
         dossiers: [],
@@ -222,7 +223,8 @@ export const mockLibraryAsHome: RootState = {
           "objectVersion": "19650A2E43A2CAAEF37957A4ABE4B303"
         }
       ],
-      contentBundleList: []
+      contentBundleList: [],
+      configLoading: false
   },
   bundleContent: {
       dossiers: [],
@@ -479,7 +481,8 @@ export const mockDossierAsHome: RootState = {
           "objectVersion": "02C16C68488A5BB503BA4F9586C4D3D4"
         }
       ],
-      contentBundleList: []
+      contentBundleList: [],
+      configLoading: false
   },
   bundleContent: {
       dossiers: [],
@@ -736,7 +739,8 @@ export const mockDossierPicker: RootState = {
           "objectVersion": "02C16C68488A5BB503BA4F9586C4D3D4"
         }
       ],
-      contentBundleList: []
+      contentBundleList: [],
+      configLoading: false
   },
   bundleContent: {
       dossiers: [

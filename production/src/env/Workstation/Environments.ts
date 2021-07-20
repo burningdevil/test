@@ -1,8 +1,11 @@
-import { EnvironmentsModule, EnvironmentChangeCallBack } from '@mstr/workstation-types'
+import { EnvironmentsModule, EnvironmentChangeCallBack, ConnectionSettings, Environment } from '@mstr/workstation-types'
 
 declare var workstation: any
 
 class Environments implements EnvironmentsModule {
+  connect(url: string, options?: ConnectionSettings): Promise<Environment> {
+    throw new Error('Method not implemented.')
+  }
   disconnect(url: string): void {
     throw new Error('Method not implemented.')
   }
