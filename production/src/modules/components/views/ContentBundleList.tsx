@@ -153,7 +153,6 @@ class ContentBundleList extends React.Component<any, any> {
       return _.assign(bundle, {recipientType: mode, expand: true, recipientStr: recipientsStr});
     });
 
-    console.log(bundles);
     this.setState({
       currentBundleList: bundles
     });
@@ -170,14 +169,12 @@ class ContentBundleList extends React.Component<any, any> {
       this.processBundleList(nextProps.allBundleList, nextProps.includedIds, nextProps.excludedIds);
       return;
     }
-    console.log('bundle list receive props');
     if (nextProps.includedIds == this.props.includedIds){
       return;
     }
     if (nextProps.includedIds && this.props.includedIds && nextProps.includedIds.length === this.props.includedIds.length){
       return;
     }
-    console.log('bundle list process');
     // if (nextProps.includedIds && nextProps.includedIds.length !== this.props.includedIds.length) {
       this.processBundleList(this.props.allBundleList, nextProps.includedIds, nextProps.excludedIds);
     // }
@@ -189,14 +186,12 @@ class ContentBundleList extends React.Component<any, any> {
   }
 
   onSelectionChanged = (event: SelectionChangedEvent) => {
-    console.log(event.api.getSelectedNodes());
     var selections = event.api.getSelectedNodes();
     selections = selections.map(o=>o.data);
     this.props.handleSelection(selections);
   }
 
   getContextMenuItems = (params: GetContextMenuItemsParams) => {
-    console.log(params);
     if (!this.props.allowDelete || params.api.getSelectedNodes().length === 0) {
       return [];
     }
@@ -220,7 +215,6 @@ class ContentBundleList extends React.Component<any, any> {
   }
 
   getCheckboxEnabled(params: CheckboxSelectionCallbackParams) {
-    console.log(params);
     return params.node.group === true;
   }
 

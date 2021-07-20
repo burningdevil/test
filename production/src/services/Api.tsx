@@ -28,7 +28,6 @@ export async function getSingleDossierInfo (dossierId: string, projectId: string
         return response;
     })
     .catch((e: any) => {
-        console.log(e);
         return {dossierName: localizedStrings.INVALID_DOSSIER};
     });
 
@@ -61,7 +60,6 @@ export const loadConfigList = () => {
         data = data.filter((o: any) => o.id !== undefined);
         store.dispatch(ActionsCreator.loadConfigListSuccess(data));
     }).catch((e: any) => {
-        console.log(e);
         store.dispatch(ActionsCreator.loadConfigListFail());
     });;
 }

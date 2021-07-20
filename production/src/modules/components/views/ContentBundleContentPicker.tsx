@@ -40,7 +40,6 @@ class ContentBundleContentPicker extends React.Component<any, any> {
   bundleContentPickerDataSource(server: any) {
     return {
       getRows: function (params: IServerSideGetRowsParams) {
-        console.log('[Datasource] - rows requested by grid: ', params.request);
         server.getData(params);
       },
     };
@@ -51,7 +50,6 @@ class ContentBundleContentPicker extends React.Component<any, any> {
     return {
         getData: function (params: IServerSideGetRowsParams) {
           const isDossier = activeTab === HomeScreenHomeObjectType.DOSSIER;
-          console.log(activeTab);
           var results: any[] = [];
           var lastRow: number = -1;
           var limit: number = 300;
@@ -94,7 +92,6 @@ class ContentBundleContentPicker extends React.Component<any, any> {
               params.successCallback(results, lastRow);
             });
           } else {
-            console.log(dossiers);
             if (loadFinished) {
               lastRow = isDossier ? dossiers.length : documents.length;
               results = isDossier ? _.slice(dossiers, startRow, lastRow) : _.slice(documents, startRow, lastRow);

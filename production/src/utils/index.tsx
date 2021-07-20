@@ -13,7 +13,6 @@ export const DEFAULT_CONFIG_ID = 'xxxxxxxxxxxxxxxxx';
  * @param {string} threshold the minimum version required
  */
 export const isLibraryServerVersionMatch = (version: string) => {
-  console.log(version);
   const filteredVersionNums = version.split('.')
   filteredVersionNums.pop()
   return compareVersions(filteredVersionNums.join('.'), LIBRARY_SERVER_VERSION_THRESHOLD) >= 0

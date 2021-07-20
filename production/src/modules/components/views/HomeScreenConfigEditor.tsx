@@ -47,7 +47,6 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
       if (configId) {
         api.loadCurrentEditConfig(configId);
       } else {
-        console.log('set default app name');
         const newApplicationName = this.generateDefaultAppName(extraContextJson.configInfoList);
         this.props.updateCurrentConfig({name: newApplicationName});
       }
@@ -55,7 +54,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
       const currentEnv = await workstation.environments.getCurrentEnvironment();
       let isNameCopyed = false;
       if (isDuplicate && this.props.config.name && this.props.config.name.length > 0) {
-        this.props.updateCurrentConfig({name: 'copy of ' + this.props.config.name});
+        this.props.updateCurrentConfig({name: 'Copy of ' + this.props.config.name});
         isNameCopyed = true;
       }
       this.setState({
@@ -78,7 +77,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
 
   componentWillReceiveProps(nextProps: any) {
     if (this.props.isDuplicateConfig && !this.state.isNameCopyed && nextProps.config.name !== this.props.config.name){
-      this.props.updateCurrentConfig({name: 'copy of ' + nextProps.config.name});
+      this.props.updateCurrentConfig({name: 'Copy of ' + nextProps.config.name});
       this.setState({
         isNameCopyed: true
       });

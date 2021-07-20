@@ -49,8 +49,6 @@ class HomeScreenContentBundles extends React.Component<any, any> {
         sideBarIcons = _.concat(sideBarIcons, iconTypes.defaultGroup.key)
     }
     _.set(currentConfig, sidebarPath, sideBarIcons)
-    console.log('handle bundle change');
-    console.log(currentConfig);
     this.props.setCurrentConfig(currentConfig);
   }
 
