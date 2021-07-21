@@ -205,7 +205,6 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         this.processErrorResponse(e);
       });
     };
-    // const copyIcon = require('../images/copy.svg');
     const menu = (
       <Menu>
         <Menu.Item key="0" onClick={handleClickCopyLink}>

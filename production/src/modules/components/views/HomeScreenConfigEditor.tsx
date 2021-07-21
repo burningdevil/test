@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import '../scss/HomeScreenConfigEditor.scss'
+import '../../../assets/fonts/webfonts/css/dossier.css'
 import { Tabs, Layout, Button, message} from 'antd';
 import { WorkstationModule, EnvironmentChangeArg, EnvironmentAction, EnvironmentStatus} from '@mstr/workstation-types';
 import HomeScreenGeneral from './HomeScreenGeneral';

@@ -12,6 +12,10 @@ import * as Actions from '../../../store/actions/ActionsCreator';
 import HomeScreenPreviewer from './HomeScreenPreviewer';
 import { default as VC, localizedStrings, previewerWidth } from '../HomeScreenConfigConstant';
 import * as api from '../../../services/Api';
+// @ts-ignore: RC Component Support error
+import selectedDossierIcon from '../images/icon_select_dossier.png';
+// @ts-ignore: RC Component Support error
+import selectedDocumentIcon from '../images/icon_select_document.png';
 
 const classNamePrefixSimple = 'home-screen-home';
 const classNamePrefix = `${classNamePrefixSimple}-settings`;
@@ -23,7 +27,8 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
     super(props)
     this.state = {
       showContentPicker: false,
-      dossierName: ''
+      dossierName: '',
+      isDossierSelected: true
     };
   }
 
@@ -80,11 +85,11 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
   renderPickDossier = () => {
     const { homeScreen } = this.props.config;
     const dossierUrl = _.get(homeScreen, dossierUrlPath, '');
-    // const dossierImg = require('../images/dossier.png');
     if (dossierUrl) {
         return (
             <div className = {`${classNamePrefix}-dossier-info`}>
-                <img className = {`${classNamePrefix}-dossier-image`} src={'../assets/images/dossier.png'}/>
+                {this.state.isDossierSelected ? <img className = {`${classNamePrefix}-dossier-image`} src={selectedDossierIcon}/> 
+                                              : <img className = {`${classNamePrefix}-dossier-image`} src={selectedDocumentIcon}/>}
                 <div className = {`${classNamePrefix}-dossier-name`}>
                     {this.state.dossierName}
                 </div>
@@ -102,9 +107,10 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
     }
   }
 
-  handleDossierChange = (dossierName: string, dossierUrl: string) => {
+  handleDossierChange = (dossierName: string, dossierUrl: string, isDossier: boolean) => {
     this.setState({
-        dossierName: dossierName
+        dossierName: dossierName,
+        isDossierSelected: isDossier
     })
     this.props.updateCurrentConfig({
       homeScreen: {

@@ -172,7 +172,8 @@ class ContentBundleContentPicker extends React.Component<any, any> {
 
   handleSaveAdd = () => {
     const {id, projectId, name} = this.state.selectedObject;
-    this.props.handleChange(name, projectId +'/' + id);
+    const isDossier = this.state.activeTab === HomeScreenHomeObjectType.DOSSIER;
+    this.props.handleChange(name, projectId +'/' + id, isDossier);
     this.props.handleClose();
     this.handleSelectionChanged({});
     this.setState({
