@@ -205,13 +205,21 @@ $line-height-side: 18px;
         font-size: $font-size;
         font-family: $font-family;
     }
-    &-radio {
+    &-preview-title {
         text-align: center;
         align-content: center;
         font-weight: bold;
         font-size: $font-size;
         font-family: $font-family;
         line-height: $line-height;
+    }
+
+    &-device-type-container {
+        text-align: center;
+        margin: 0 16px;
+    }
+    &-device-type-group {
+        width: 100%;
     }
     
     &-horcontainer {

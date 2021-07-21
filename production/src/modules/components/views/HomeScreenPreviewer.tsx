@@ -40,10 +40,9 @@ class HomeScreenPreviewer extends React.Component<any, any> {
         const webDisabled = !platforms.includes(platformType.web)
         const desktopDisabled = !platforms.includes(platformType.desktop)
         
-        return <div className={`${classNamePrefix}-radio`}>
-            {localizedStrings.PREVIEW}
-            <div>
+        return <div className={`${classNamePrefix}-device-type-container`}>
                 <Radio.Group
+                    className={`${classNamePrefix}-device-type-group`}
                     onChange={this.onDeviceTypeChange}
                     value={deviceType}
                     buttonStyle='solid'
@@ -51,11 +50,10 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                 >
                    {!mobileDisabled && <Radio.Button value={reviewType.TABLET}>{localizedStrings.TABLET}</Radio.Button>}
                    {!mobileDisabled && <Radio.Button value={reviewType.PHONE}>{localizedStrings.PHONE}</Radio.Button>}
-                    <Radio.Button value={reviewType.WEB} disabled={webDisabled}>{localizedStrings.WEB}</Radio.Button>
-                    <Radio.Button value={reviewType.DESKTOP} disabled={desktopDisabled}>{localizedStrings.DESKTOP}</Radio.Button>
+                    <Radio.Button style={{width: '50%'}} value={reviewType.WEB} disabled={webDisabled}>{localizedStrings.WEB}</Radio.Button>
+                    <Radio.Button style={{width: '50%'}} value={reviewType.DESKTOP} disabled={desktopDisabled}>{localizedStrings.DESKTOP}</Radio.Button>
                 </Radio.Group>
             </div>
-        </div>
     }
 
     // render of titles
@@ -197,6 +195,9 @@ class HomeScreenPreviewer extends React.Component<any, any> {
             case reviewType.DESKTOP:
                 return (
                     <div>
+                        <div className={`${classNamePrefix}-preview-title`}>
+                            {localizedStrings.PREVIEW}
+                        </div>
                         {this.deviceTypesRender(deviceType)}
 
                         {/* library toolbars */}

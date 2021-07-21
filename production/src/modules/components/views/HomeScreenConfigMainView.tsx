@@ -380,7 +380,8 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
 
       contextMenuItems.push({
         name: localizedStrings.DUPLICATE,
-        action: handleClickDuplicate
+        action: handleClickDuplicate,
+        disabled: contextMenuTarget? contextMenuTarget.isDefault : false
       })
 
       contextMenuItems.push({
