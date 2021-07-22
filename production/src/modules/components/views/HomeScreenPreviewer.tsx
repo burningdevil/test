@@ -48,10 +48,10 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                     buttonStyle='solid'
                     size='small'
                 >
-                   {!mobileDisabled && <Radio.Button value={reviewType.TABLET}>{localizedStrings.TABLET}</Radio.Button>}
-                   {!mobileDisabled && <Radio.Button value={reviewType.PHONE}>{localizedStrings.PHONE}</Radio.Button>}
-                    <Radio.Button style={{width: '50%'}} value={reviewType.WEB} disabled={webDisabled}>{localizedStrings.WEB}</Radio.Button>
-                    <Radio.Button style={{width: '50%'}} value={reviewType.DESKTOP} disabled={desktopDisabled}>{localizedStrings.DESKTOP}</Radio.Button>
+                   {!mobileDisabled && <Radio.Button style={{width: '25%'}} value={reviewType.TABLET}>{localizedStrings.TABLET}</Radio.Button>}
+                   {!mobileDisabled && <Radio.Button style={{width: '25%'}} value={reviewType.PHONE}>{localizedStrings.PHONE}</Radio.Button>}
+                    <Radio.Button style={!mobileDisabled ? {width: '25%'} : {width: '50%'}} value={reviewType.WEB} disabled={webDisabled}>{localizedStrings.WEB}</Radio.Button>
+                    <Radio.Button style={!mobileDisabled ? {width: '25%'} : {width: '50%'}} value={reviewType.DESKTOP} disabled={desktopDisabled}>{localizedStrings.DESKTOP}</Radio.Button>
                 </Radio.Group>
             </div>
     }
@@ -79,7 +79,8 @@ class HomeScreenPreviewer extends React.Component<any, any> {
             const showContent = iconTypes.defaultGroup.key === element.key
             return this.iconShouldShow(element) &&
                 <div>
-                    <div className={`${classNamePrefix}-pad-overview-left-text`}> <span className={element.iconName} key={index}/> 
+                    <div className={`${classNamePrefix}-pad-overview-left-text`}>
+                        <span className={element.iconName} key={index}/> 
                         <span>{showContent ? this.props.config.homeScreen.homeLibrary.defaultGroupsName : element.displayText}</span> 
                         {showAddButton && <PlusCircleOutlined/>}
                         {showExpandIcon && <DownOutlined style={{fontSize: '5px', marginLeft: 'auto', marginRight: '4px'}}/>}
@@ -259,6 +260,9 @@ class HomeScreenPreviewer extends React.Component<any, any> {
             case reviewType.PHONE:
                 return (
                     <div>
+                        <div className={`${classNamePrefix}-preview-title`}>
+                            {localizedStrings.PREVIEW}
+                        </div>
                         {this.deviceTypesRender(deviceType)}
 
                         {/* library */}
