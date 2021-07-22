@@ -19,6 +19,10 @@ export const loadContentBundleListSuccess = (contentBundleList: Array<MainViewCo
   data: contentBundleList,
 })
 
+export const loadContentBundleListFail = () => ({
+  type: Actions.LOAD_CONTENT_BUNDLE_LIST_FAIL,
+})
+
 /* ---------------------------- Editor Config Main ---------------------------- */
 export const setCurrentConfig = (config: HomeScreenConfigType) => ({
   type: Actions.SET_CURRENT_CONFIG,

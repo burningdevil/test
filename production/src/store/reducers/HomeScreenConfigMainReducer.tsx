@@ -21,6 +21,8 @@ const HomeScreenConfigMainReducer = (state: HomeScreenMainViewState = initialSta
       return {...state, configList: [], configLoading: false}
     case Actions.LOAD_CONTENT_BUNDLE_LIST_SUCCESS:
       return {...state, contentBundleList: data}
+    case Actions.LOAD_CONTENT_BUNDLE_LIST_SUCCESS:
+      return {...state, contentBundleList: []}
     default:
       return state
   }

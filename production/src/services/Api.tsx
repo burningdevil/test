@@ -61,7 +61,7 @@ export const loadConfigList = () => {
         store.dispatch(ActionsCreator.loadConfigListSuccess(data));
     }).catch((e: any) => {
         store.dispatch(ActionsCreator.loadConfigListFail());
-    });;
+    });
 }
 
 export const loadContentBundleList = () => {
@@ -73,6 +73,8 @@ export const loadContentBundleList = () => {
         data = data.contentBundles;
         data = data.filter((o: any) => o.id !== undefined);
         store.dispatch(ActionsCreator.loadContentBundleListSuccess(data));
+    }).catch((e: any) => {
+        store.dispatch(ActionsCreator.loadContentBundleListFail());
     });
 }
 

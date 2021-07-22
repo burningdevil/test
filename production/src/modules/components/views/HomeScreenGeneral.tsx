@@ -17,8 +17,8 @@ class HomeScreenGeneral extends React.Component<any, any> {
     super(props)
     this.state = {
       currentEnv: {name: '', url: ''},
-      showBlankNameError: false,
-      showDuplicateNameError: false,
+      showNameError: false,
+      nameErrorMsg: '',
       isDefaultNameFocused: false,  // auto focus default name for only once
     };
   }
@@ -47,20 +47,38 @@ class HomeScreenGeneral extends React.Component<any, any> {
     
   }
 
+  validateName(name: string) {
+    const isEmptyName = !(name && name.trim());
+    const currentConfigId = this.props.config.id;
+    const isDuplicateName = this.props.configInfoList.filter((appInfo: any ) => {
+        // When same name with different config id OR same name with same id and when duplicate config
+        return appInfo.name.toLowerCase() === name.toLowerCase() && (currentConfigId !== appInfo.id || (currentConfigId === appInfo.id && this.props.isDuplicateConfig));
+    }).length > 0;
+
+    //cannot contain any of the following characters: \"[]
+    const pattern = /[\\\[\]\"]/;
+    const isInvalidCharacter = pattern.test(name);
+    const showNameError = isEmptyName || isDuplicateName || isInvalidCharacter;
+    let nameErrorMsg = '';
+    if (isEmptyName) {
+        nameErrorMsg = localizedStrings.BLANK_APP_NAME_ERROR;
+    } else if (isDuplicateName) {
+        nameErrorMsg = localizedStrings.DUPLICATE_APP_NAME_ERROR;
+    } else if (isInvalidCharacter) {
+        nameErrorMsg = localizedStrings.INVALID_CHARACTER_APP_NAME_ERROR;
+    }
+    return {showNameError, nameErrorMsg};
+  }
+
   handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const nameStr = event.target.value;
       this.props.updateCurrentConfig({name: nameStr});
-      const isEmptyName = !(nameStr && nameStr.trim());
-      const currentConfigId = this.props.config.id;
-      const isDuplicateName = this.props.configInfoList.filter((appInfo: any ) => {
-        // When same name with different config id OR same name with same id and when duplicate config
-        return appInfo.name.toLowerCase() === nameStr.toLowerCase() && (currentConfigId !== appInfo.id || (currentConfigId === appInfo.id && this.props.isDuplicateConfig));
-      }).length > 0;
+      const { showNameError, nameErrorMsg } = this.validateName(nameStr);
       this.setState({
-          showBlankNameError: isEmptyName,
-          showDuplicateNameError: isDuplicateName
+        showNameError: showNameError,
+        nameErrorMsg: nameErrorMsg
       });
-      this.props.setConfigNameError(isEmptyName || isDuplicateName);
+      this.props.setConfigNameError(showNameError);
   }
 
   handleDescChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -130,14 +148,9 @@ class HomeScreenGeneral extends React.Component<any, any> {
                     <Input ref={this.nameInputRef} placeholder='' maxLength={250} value={name} onChange={this.handleNameChange}/>
                 </div>
             </div>
-            { this.state.showBlankNameError && <div className={`${classNamePrefix}-name-hint-error`}>
+            { this.state.showNameError && <div className={`${classNamePrefix}-name-hint-error`}>
                     <div/>
-                    <span>{localizedStrings.BLANK_APP_NAME_ERROR}</span>
-                </div>
-            }
-            { this.state.showDuplicateNameError && <div className={`${classNamePrefix}-name-hint-error`}>
-                    <div/>
-                    <span>{localizedStrings.DUPLICATE_APP_NAME_ERROR}</span>
+                    <span>{this.state.nameErrorMsg}</span>
                 </div>
             }
             <div className={`${classNamePrefix}-description`}>

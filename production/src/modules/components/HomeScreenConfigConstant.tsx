@@ -312,7 +312,8 @@ export const localizedStrings = {
     CONTENT: t('content'),
     RECIPIENTS: t('recipients'),
     BLANK_APP_NAME_ERROR: t('blankAppNameError'),
-    DUPLICATE_APP_NAME_ERROR: t('The Application Name you entered already exists.'),
+    DUPLICATE_APP_NAME_ERROR: t('duplicateAppNameError'),
+    INVALID_CHARACTER_APP_NAME_ERROR: t('invalidCharacterAppNameError'),
     GETINFO: t('getInfo'),
 
     // Dossier Setting Strings

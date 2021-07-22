@@ -62,7 +62,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         }
         this.checkServerAndUserPrivilege(change.changedEnvironment);
       }
-      if (change.actionTaken === EnvironmentAction.Connect && change.changedEnvironment.url === this.state.currentEnv.url) {
+      if (change.actionTaken === EnvironmentAction.Update && change.changedEnvironment.status === EnvironmentStatus.Connected && change.changedEnvironment.url === this.state.currentEnv.url) {
         this.setState({
           isEnvReady: true
         });
