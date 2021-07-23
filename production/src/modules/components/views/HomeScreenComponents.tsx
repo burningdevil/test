@@ -42,6 +42,8 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
             disabled = true
         } else if (iconKey === iconTypes.defaultGroup.key && !this.state.defaultGroupEnable) {
             disabled = true
+        } else if (iconKey === iconTypes.all.key) { // disable all switch button by default.
+            disabled = true
         }
         return disabled || toolbarHidden || sidebarDisabled
     }
