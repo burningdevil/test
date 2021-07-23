@@ -139,7 +139,7 @@
     "removeBundle": "Remove from application",
 
     "blankAppNameError": "The field cannot be blank.",
-    "duplicateAppNameError": "The field cannot be blank.",
+    "duplicateAppNameError": "The name is already taken.",
     "invalidCharacterAppNameError": "The name cannot contain the following characters \\ \" [ ].",
     "getInfo": "Get Info",
 
