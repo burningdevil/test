@@ -8,7 +8,6 @@ import './styles/main.scss'
 import WorkStationProxy from './httpProxy/WorkStationProxy'
 import browser from './env/Browser'
 import workstation from './env/Workstation'
-import './i18n/i18n'
 import wsEvents from './env/WSEvents'
 
 declare var __IS_WS__: any
@@ -18,11 +17,11 @@ declare var window: any
 declare var module: any
 
 export const HttpProxy = (() => (__IS_WS__ ? WorkStationProxy : RestProxy))()
-export const env = __IS_WS__ ? workstation : browser
+export const env: any = __IS_WS__ ? workstation : browser
 wsEvents.init(env)
 // Store Initialization
 // ------------------------------------
-const store = createStore(window.__INITIAL_STATE__)
+export const store = createStore(window.__INITIAL_STATE__)
 
 // Render Setup
 // ------------------------------------

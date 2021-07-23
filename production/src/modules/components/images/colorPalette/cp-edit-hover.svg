@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="19px" viewBox="0 0 18 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon/18*18/script/msdl-editor-panel-A</title>
+    <g id="Specs-Copy-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-18.000000, 0.000000)">
+            <g id="icon/18*18/script/msdl-editor-panel-A" transform="translate(18.000000, 0.000000)">
+                <rect id="Rectangle-14-Copy-8" fill="#00FFA0" opacity="0" x="0" y="0" width="18" height="18"></rect>
+                <g id="Group-Copy-6" transform="translate(9.323714, 10.065805) rotate(40.000000) translate(-9.323714, -10.065805) translate(7.323714, 3.013501)" fill="#3492ED" stroke="#FFFFFF">
+                    <path d="M4.5,2.52241594 L4.5,11.2326437 L2,15.0106637 L-0.5,11.2326437 L-0.5,2.52241594 L4.5,2.52241594 Z" id="Combined-Shape"></path>
+                    <path d="M2.9906311,-0.5 C3.40798678,-0.5 3.78548641,-0.331845654 4.05853454,-0.0593106578 C4.33103116,0.212673854 4.5,0.588851471 4.5,1.00747198 L4.5,1.00747198 L4.5,2.51494396 L-0.5,2.51494396 L-0.5,1.00747198 C-0.5,0.592277983 -0.330113834,0.215808132 -0.0567030256,-0.0570888528 C0.217975359,-0.331251032 0.596687956,-0.5 1.0093689,-0.5 L1.0093689,-0.5 Z" id="Rectangle-428"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

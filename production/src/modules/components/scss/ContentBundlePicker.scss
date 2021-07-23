@@ -1,0 +1,109 @@
+@import '~@mstr/rc/es/assets/scss/variables.scss';
+@import './common.scss';
+@import './variables.scss';
+
+.content-bundle-picker {
+    font-family: $font-family;
+    
+    &-modal {
+        top: 0px;
+    }
+    
+    &-top {
+        padding: 10px;
+        display: flex;
+        align-items: center;
+    }
+
+    &-header {
+        flex-grow: 1;
+        font-size: 12px;
+        color: $msdl-black;
+    }
+
+    &-search {
+        flex-grow: 0;
+        width: 290px;
+        height: 28px;
+    }
+
+    &-middle {
+        height: 500px;
+        // border: 1px solid #e0e0e0;
+    }
+
+    &-grid {
+        display: flex;
+        height: 475px;
+
+        &-left {
+            width: 20%;
+            display: flex;
+            flex-direction: column;
+            background-color: #363b5a;
+        }
+
+        &-right {
+            width: 80%;
+            height: 475px;
+        }
+
+        &-menu {
+            font-size: 14px;
+
+            &-tab {
+                display: flex;
+            }
+
+            &-text {
+                padding-left: 6px;
+            }
+        }
+
+        
+    }
+
+    &-name {
+        display: flex;
+        align-items: center;
+        width: 200px;
+    }
+
+    &-footer {
+        padding-left: 10px;
+        font-size: 11px;
+        height: 24px;
+        color: #787878;
+        background-color: #f4f4f4;
+    }
+
+    &-btn {
+        padding: 10px;
+        text-align: right;
+        .ant-btn {
+            height: 22px;
+        }
+    }
+
+    &-loading {
+        position: absolute;
+        left: 450px;
+        top: 200px;
+        width: 150px;
+        background: #fff;
+    }
+    
+    &-grid-menu {
+        //background-color: rgba(0, 0, 0, 0.0);
+        color: #fff;
+    }
+    
+    .ant-checkbox-inner {
+        width: 14px;
+        height: 14px;
+    }
+    
+    .mstr-ws-icons-copy {
+        margin-right: 3px;
+    }
+}

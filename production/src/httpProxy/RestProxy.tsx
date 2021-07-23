@@ -1,9 +1,10 @@
 import axiosStatic, { CancelToken } from 'axios'
-import serverConfig from '../../build/server.config'
+// import serverConfig from '../../build/server.config'
 import base64 from '../utils/base64'
 import { RestApiError } from '../server/RestApiError'
 import { PARSE_METHOD } from '../utils/ParseMethods'
 import axios from '../server/axios'
+const serverConfig = require('../../build/server.config')
 
 const parseJsonFunc = PARSE_METHOD.JSON
 const baseUrl = '/api'
@@ -141,7 +142,7 @@ export default {
   },
 
   delete: function (path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: CancelToken) {
-    return request.call(this, 'del', path, body, headers, parseFunc, signal)
+    return request.call(this, 'delete', path, body, headers, parseFunc, signal)
   },
 
   put: function put(path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: CancelToken) {

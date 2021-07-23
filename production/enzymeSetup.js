@@ -1,9 +1,9 @@
-import { configure } from 'enzyme';
-import * as Adapter from 'enzyme-adapter-react-16';
-import { cleanUpEnzymeAfterEachTest } from './enzymeSaveMount'
+/* eslint-disable import/no-extraneous-dependencies */
+import { configure } from 'enzyme'
+import * as Adapter from 'enzyme-adapter-react-16'
+import 'core-js'
+import 'isomorphic-fetch'
 
-configure({ adapter: new Adapter() });
+import '@testing-library/jest-dom'
 
-afterEach(() => {
-  cleanUpEnzymeAfterEachTest();
-})
+configure({ adapter: new Adapter() })

@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "name": "HomeScreen Admin",
-  "isEnabled": true,
+  "isEnabled": false,
   "contributions": {
     "smartFolders": {
       "items": [
@@ -59,10 +59,11 @@
         "key": "homescreenConfigEditor",
         "showMenus": false,
         "size": {
-          "minimumHeight": 700,
-          "minimumWidth": 1045,
-          "initialHeight": 700,
-          "initialWidth": 1045
+          "allowResize": false,
+          "minimumHeight": 708,
+          "minimumWidth": 962,
+          "initialHeight": 708,
+          "initialWidth": 962
         }
       }
     ]

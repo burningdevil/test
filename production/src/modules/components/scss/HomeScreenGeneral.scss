@@ -1,0 +1,96 @@
+@import './variables.scss';
+
+.home-screen-general {
+    text-align: right;
+    font-family: $font-family;
+    color: #444649;
+    font-size: 12px;
+    line-height: 350%;
+
+    &-environment {
+        display: flex;
+        padding-top: 12px;
+        &-title {
+            width: 20%;
+            padding-right: 20px;
+        }
+    }
+
+    &-name {
+        display: flex;
+        &-title {
+            width: 20%;
+            padding-right: 20px;
+        }
+    
+        &-name {
+            flex: auto;
+            padding-right: 50px;
+    
+            .ant-input {
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+            
+        }
+        &-error {
+            flex: auto;
+            padding-right: 50px;
+    
+            .ant-input {
+                padding-left: 5px;
+                padding-right: 5px;
+                border: 1px solid #d0021b;
+            }
+        }
+        &-hint-error {
+            display: flex;
+            div {
+                width: 20%;
+            }
+            span {
+                color: #d0021b;
+                font-family: Helvetica, serif;
+            }
+            margin-top: -15px;
+        }
+    }
+    
+
+    &-description {
+        padding-top: 5px;
+        display: flex;
+        &-title {
+            width: 20%;
+            padding-right: 20px;
+        }
+        &-name {
+            flex: auto;
+            padding-right: 50px;
+            &-input {
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+        }
+    }
+
+    &-platform {
+        display: flex;
+        &-title {
+            width: 20%;
+            padding-right: 20px;
+        }
+    }
+
+    &-url {
+        display: flex;
+        &-title {
+            width: 20%;
+            padding-right: 20px;
+        }
+    
+        &-name {
+            text-align: left;
+        }
+    }
+}

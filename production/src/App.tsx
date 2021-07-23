@@ -2,8 +2,6 @@ import * as React from 'react'
 import { HashRouter, Route } from 'react-router-dom';
 import HomeScreenConfigMainView from './modules/components/views/HomeScreenConfigMainView';
 import HomeScreenConfigEditor from './modules/components/views/HomeScreenConfigEditor';
-import HomeScreenDossierPicker from './modules/components/views/HomeScreenDossierPicker';
-
 export default class App extends React.Component<any, any> {  
   // Pages Setup
   routes = (
@@ -17,8 +15,8 @@ export default class App extends React.Component<any, any> {
         component={HomeScreenConfigEditor}
       />
       <Route
-        path="/homeScreenDossierPicker"
-        component={HomeScreenDossierPicker}
+        path="/homescreenConfigEditor?id="
+        component={HomeScreenConfigEditor}
       />
     </>
   )

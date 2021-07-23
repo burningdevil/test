@@ -1,6 +1,6 @@
 #!/bin/sh
 cd /mnt/production
-npm ci
-npm run unit-test
-npm run buildWS
-npm run updateVersion -- --env.APPLICATION_VERSION $APPLICATION_VERSION
+export NODE_OPTIONS="--max-old-space-size=2048"
+yarn install --fronzen-lockfile
+yarn buildWS
+yarn updateVersion --env.APPLICATION_VERSION $APPLICATION_VERSION

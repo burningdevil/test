@@ -93,21 +93,15 @@ config.module.rules.push({
 // ------------------------------------
 if (__PROD__) {
   config.plugins.push(
-    new MiniCssExtractPlugin({
-      filename: `[name].[chunkhash].css`
-    })
+    new MiniCssExtractPlugin({ filename: `[name].[chunkhash].css` })
   )
 }
 
 config.module.rules.push({
   test: /\.(css|sass|scss)/,
   use: [
-    __PROD__ ? MiniCssExtractPlugin.loader : {
-      loader: 'style-loader'
-    },
-    {
-      loader: 'css-loader'
-    },
+    __PROD__ ? MiniCssExtractPlugin.loader : { loader: 'style-loader' },
+    { loader: 'css-loader' },
     {
       loader: 'postcss-loader',
       options: {
@@ -191,9 +185,7 @@ if (__DEV__) {
     overlay: true,
     historyApiFallback: true,
     contentBase: path.resolve(project.basePath, 'public'),
-    headers: {
-      'Access-Control-Allow-Origin': '*'
-    },
+    headers: { 'Access-Control-Allow-Origin': '*' },
     proxy: {
       context: '/api',
       target: serverConfig.host + serverConfig.path,

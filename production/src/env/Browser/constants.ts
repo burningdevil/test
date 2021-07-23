@@ -1,11 +1,17 @@
-export const env = {
+import { DeploymentType, Environment, MCIType } from "@mstr/workstation-types";
+
+export const env: Environment = {
   id: '2D357C22-2AF2-494A-B8AF-7F077BBF8733',
   name: 'Test Env',
   status: 2,
   subType: -1,
   type: -1,
-  url: new URL('http://tec-w-009714.labs.microstrategy.com:8100/MicroStrategyLibrary/'),
-  webVersion: '11.2.0200.130358J'
+  url: 'http://tec-w-009714.labs.microstrategy.com:8100/MicroStrategyLibrary/',
+  webVersion: '11.2.0200.130358J',
+  privileges: [],
+  projects: [],
+  mciType: MCIType.NotMCI,
+  deploymentType: DeploymentType.OnPrem
 }
 
 export const project = { id: 'B19DEDCC11D4E0EFC000EB9495D0F44F', name: 'MicroStrategy Tutorial', type: 32, subType: 8192 }

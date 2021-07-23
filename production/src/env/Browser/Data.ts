@@ -2,6 +2,9 @@ import { DataModule, RequestHeaders } from '@mstr/workstation-types'
 import { apiResp } from './constants'
 
 class Data implements DataModule {
+  rcFetch(url: RequestInfo, options?: RequestInit): Promise<Response> {
+    throw new Error('Method not implemented.')
+  }
   fetch = async (url: any, options?: any) => apiResp
 
   addDefaultRequestHeader =

@@ -1,0 +1,89 @@
+@import '~@mstr/rc/es/assets/scss/variables.scss';
+@import './variables.scss';
+
+.home-screen-home {
+    padding: 0px 0px 0 34px;
+    background-color: white;
+    height: 660px;
+    color: $msdl-black;
+    font-family: $font-family;
+
+    .ant-radio-button-wrapper {
+        font-size: 13px;
+        font-weight: 400;
+    }
+
+    .ant-radio-group {
+        padding-top: 10px;
+    }
+
+    &-settings{
+        &-title {
+            font-size: 14px;
+            font-weight: 600;
+            padding-top: 28px;
+            // line-height: 300%;
+        }
+
+        &-library {
+            font-size: 12px;
+            display: block;
+            color: $msdl-black;
+        }
+
+        &-dossier {
+            font-size: 12px;
+            display: block;
+            color: $msdl-black;
+        }
+
+        &-hint {
+            font-size: 12px;
+            padding-top: 4px;
+            color: $msdl-fill-dark-gray;
+            padding-left: 24px;
+            // line-height: 160%;
+        }
+
+        &-pick {
+            margin-left: 10px;
+            padding-top: 8px;
+            color: $msdl-blue;
+            border-style: none;
+            box-shadow: none;
+            font-size: 12px;
+        }
+
+        &-dossier-info {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-top: 10px;
+            margin-right: 10px;
+            margin-left: 22px;
+            background-color: #f2f3f5;
+            border-radius: 3px;
+        }
+
+        &-dossier-image {
+            height: 48px;
+        }
+
+        &-dossier-name {
+            flex-grow: 1;
+        }
+
+        &-dossier-change {
+            color: $msdl-blue;
+            border-style: none;
+            box-shadow: none;
+            background-color:  #f2f3f5;
+            flex-grow: 0;
+            font-size: 12px;
+        }
+    }
+    &-preview {
+        padding: 43px 0 0 0;
+        background-color: $right-background;
+    }
+}
