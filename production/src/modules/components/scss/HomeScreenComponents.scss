@@ -42,6 +42,8 @@ $line-height-small: 13px;
             font-size: $font-size;
             line-height: $line-height-mini;
             margin-bottom: 16px;
+            margin-top: 2px;
+            opacity: 0.7;
         }
     }
 
@@ -64,9 +66,10 @@ $line-height-small: 13px;
         line-height: $line-height-mini;
         
         &-title{
-            font-size: $font-size-mini;
+            font-size: $font-size;
             line-height: $line-height-small;
             margin-bottom: 2px;
+            font-weight: 700;
         }
     }
 

@@ -9,7 +9,7 @@ export interface ColorPaletteType {
     'name': string,
     'id': string,
     'paletteType': number
-  }
+}
 
 export interface HomeScreenConfigType {
     'id': string,

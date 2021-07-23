@@ -54,13 +54,13 @@
     "myGroup": "My Groups",
     "accountMobile": "Account (Mobile only)",
 
-    "enableFeatureTitle": "Enable Features",
+    "enableFeatureTitle": "ENABLE FEATURES",
     "enableFeatureDesc": "Set toolbar behaviors and enable or disable the functions below",
     "disableToolbar": "Disable toolbar",
     "collapseToolbar": "Collapse toolbar by default",
-    "libraryWindow": "LIBRARY WINDOW (HOME)",
-    "dossierWindow": "DOSSIER WINDOW",
-    "dossierWindowHome": "DOSSIER WINDOW (HOME)",
+    "libraryWindow": "Library Window (home)",
+    "dossierWindow": "Dossier Window",
+    "dossierWindowHome": "Dossier Window (home)",
 
     "content": "Content",
     "recipients": "Recipients",
