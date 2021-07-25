@@ -10,5 +10,5 @@ MENU_STRING_BUNDLE_FILE=$(find ./lib -name WORKSTATION_PLUGIN_INTEGRATION*.zip)
 rm -rf locale
 mdkir locale
 
-unzip -o -j $MENU_STRING_BUNDLE_FILE -d public/assets/i18N
+unzip -o -j $MENU_STRING_BUNDLE_FILE -d public/assets/i18n
 unzip -o -j $APP_STRING_BUNDLE_FILE -d locale
