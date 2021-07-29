@@ -100,11 +100,21 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         if (sidebarIconKeys.includes(iconKey)) {
             selected = this.props.selectedSidebarIcons.includes(validKey)
         } else {
-            if (libraryIconKeys.includes(iconKey)) {
-                selected = this.props.selectedLibraryIcons.includes(validKey)
-            }
-            if (dossierIconKeys.includes(iconKey)) {
-                selected = this.props.selectedDocumentIcons.includes(validKey) 
+            if (this.props.isDossierHome) {
+                const dossierToolbarIcons = dossierIconsDossierHome.map((element) => element.key);
+                if (dossierToolbarIcons.includes(iconKey)) {
+                    selected = this.props.selectedDocumentIcons.includes(validKey) 
+                }
+            } else {
+                // Library Icon
+                if (libraryIconKeys.includes(iconKey)) {
+                    selected = this.props.selectedLibraryIcons.includes(validKey)
+                }
+                // Dossier Icon
+                const dossierToolbarIcons = dossierIcons.map((element) => element.key);
+                if (dossierToolbarIcons.includes(iconKey)) {
+                    selected = this.props.selectedDocumentIcons.includes(validKey) 
+                }
             }
         }
         return [selected, iconKey]
@@ -161,7 +171,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
             }
         )
         
-        return <Table className={`${classNamePrefix}-table`} dataSource={data} columns={this.columns} pagination={false} showHeader={false} expandIcon={(props) => this.customExpandIcon(props)} />
+        return <Table className={`${classNamePrefix}-table`} style={this.props.toolbarHidden ? {opacity: 0.5} : {opacity : 1.0}} dataSource={data} columns={this.columns} pagination={false} showHeader={false} expandIcon={(props) => this.customExpandIcon(props)} />
     }
 
     renderOptions = (checked: boolean, value: string, text: string) => {

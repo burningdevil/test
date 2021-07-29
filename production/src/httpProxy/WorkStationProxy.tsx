@@ -67,7 +67,6 @@ function requestToNative(path: string, body: any = null, headers: any = {}, meth
   return workstation.data.fetch(`api${path}`, options)
     .then(checkResponseStatus, checkResponseStatus)
     .then((res: any) => parseResponse(res))
-    .catch((err: any) => console.error(err))
 }
 
 export default {

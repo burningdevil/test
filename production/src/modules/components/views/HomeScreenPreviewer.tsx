@@ -135,7 +135,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                 break
             case reviewType.WEB:
             case reviewType.DESKTOP:
-                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.account, iconTypes.notification, iconTypes.share, iconTypes.comment, iconTypes.filter] : [iconTypes.previewLibraryWeb, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.accountWeb, iconTypes.share, iconTypes.filter, iconTypes.comment]
+                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.account, iconTypes.notification, iconTypes.share, iconTypes.comment, iconTypes.filter] : [iconTypes.previewLibraryWeb, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.accountWeb, iconTypes.share, iconTypes.comment, iconTypes.filter]
                 break
             default:
                 break
@@ -207,7 +207,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                         <div style={{position: 'relative'}}>
                             <Layout className={this.previewerClassName(deviceType, '')}>
                                 { !hideHeader &&
-                                    <Layout.Header>
+                                    <Layout.Header className='library-header'>
                                         {this.toolbarIconsRender(libraryHeaderIcons)}
                                     </Layout.Header>
                                 }
@@ -235,7 +235,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                         <div style={{position: 'relative'}}>
                             <Layout className={this.previewerClassName(deviceType, '')}>
                                 { !hideHeader &&
-                                    <Layout.Header>
+                                    <Layout.Header className='dossier-header'>
                                         {this.toolbarIconsRender(dossierHeaderIcons)}
                                     </Layout.Header>
                                 }

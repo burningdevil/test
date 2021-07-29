@@ -31,20 +31,19 @@ $line-height-side: 18px;
     }
     .icon-backarrow,
     .icon-tb_hamburger,
-    .icon-toc,
+    .icon-tb_toc_n,
     .icon-tb_bookmarks_n,
-    .icon-resetfile {
+    .icon-tb_reset {
         float: left;
         margin-left: 4.5px;
         color: $color;
     }
-    .icon-search,
-    .icon-tb_select_a,
+    .icon-search_tb_box,
+    .icon-tb_select_n,
     .icon-user-profile,
     .icon-tb_profile_n,
-    .icon-bell,
-    .icon-comments,
-    .icon-filter,
+    .icon-tb_notif_n,
+    .icon-tb_comments_n,
     .icon-tb_filter_n,
     .icon-tb_share_n {
         float: right;
@@ -240,9 +239,12 @@ $line-height-side: 18px;
 
     &-web {
         @include padOrWebSetting($msdl-black);
-        .icon-filter {
+        .library-header .icon-tb_filter_n {
             float: left !important;
             padding-left: 5px;
+        }
+        .icon-search_tb_box {
+            color: #575a5d !important;
         }
     }
 
@@ -278,7 +280,7 @@ $line-height-side: 18px;
             border-radius: 4px 4px 0 0;
             border-bottom-width: .01rem;
             line-height: 24px;
-            background-color: rgba(255, 255, 255, .7);
+            background-color: $background-color;
             font-size: $font-size-mini;
             @include iconFeatures($mobile-primary-blue) 
         }

@@ -85,15 +85,15 @@ export const CONSTANTS = {
 
     // icon font code
     FONT_SIDEBAR: 'icon-tb_hamburger',
-    FONT_SORT_FILTER: 'icon-filter',
-    FONT_MULTI_SELECT: 'icon-tb_select_a',
-    FONT_SEARCH: 'icon-search',
-    FONT_COMMENTS: 'icon-comments',
-    FONT_NOTIFICATIONS: 'icon-bell',
+    FONT_SORT_FILTER: 'icon-tb_filter_n',
+    FONT_MULTI_SELECT: 'icon-tb_select_n',
+    FONT_SEARCH: 'icon-search_tb_box',
+    FONT_COMMENTS: 'icon-tb_comments_n',
+    FONT_NOTIFICATIONS: 'icon-tb_notif_n',
     FONT_OPTIONS: 'icon-tb_profile_n',
-    FONT_TOCS: 'icon-toc',
+    FONT_TOCS: 'icon-tb_toc_n',
     FONT_BOOKMARK: 'icon-tb_bookmarks_n',
-    FONT_RESET: 'icon-resetfile',
+    FONT_RESET: 'icon-tb_reset',
     FONT_FILTER: 'icon-tb_filter_n',
     FONT_SHARE: 'icon-tb_share_n',
     FONT_DATA_SEARCH: 'icon-searchfilter',
@@ -264,6 +264,7 @@ export const localizedStrings = {
     DESKTOP: t('desktop'),
     CHANGE: t('change'),
     PICKDOSSIER: t('pickDossier'),
+    PICKDOSSIER_ERROR_MSG: t('pickDossierErrorMsg'),
     SELECT_HOMESCREEN: t('selectHomeScreen'),
     DEFAULT_HOME: t('useDefaultHome'),
     DOSSIER_HOME: t('useDossierHome'),
@@ -443,7 +444,8 @@ export const extraDesktopIcons = [iconTypes.dataSearch, iconTypes.hyper]
 export const extraMobileIcons = [iconTypes.aaFont]
 
 // children icons for sidebar
-export const childrenIcons = [iconTypes.all, iconTypes.favorites, iconTypes.recents, iconTypes.defaultGroup, iconTypes.myGroup]//, iconTypes.accountMobile]
+// export const childrenIcons = [iconTypes.all, iconTypes.favorites, iconTypes.recents, iconTypes.defaultGroup, iconTypes.myGroup, iconTypes.accountMobile]
+export const childrenIcons = [iconTypes.all, iconTypes.favorites, iconTypes.recents, iconTypes.myGroup] // Hide default group, as content bundle is not enabled in Q3
 
 // for accountMobile and accountWeb to remove suffix
 export const iconValidKey = (iconKey: string) => iconKey.split('__').length > 0 ? iconKey.split('__')[0] : iconKey

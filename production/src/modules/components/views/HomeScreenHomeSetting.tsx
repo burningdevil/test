@@ -1,13 +1,13 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import '../scss/HomeScreenHomeSetting.scss'
-import { Radio, Button, Layout } from 'antd';
+import { Radio, Button, Layout, Space } from 'antd';
 import { env } from '../../../main'
 import { RadioChangeEvent } from 'antd/lib/radio';
 import * as _ from "lodash";
 import ContentBundleContentPicker from './ContentBundleContentPicker'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
-import { selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEditorSelector';
+import { selectCurrentConfig, selectIsDossierAsHome } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import HomeScreenPreviewer from './HomeScreenPreviewer';
 import { default as VC, localizedStrings, previewerWidth } from '../HomeScreenConfigConstant';
@@ -87,7 +87,7 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
     const dossierUrl = _.get(homeScreen, dossierUrlPath, '');
     if (dossierUrl) {
         return (
-            <div className = {`${classNamePrefix}-dossier-info`}>
+            <div className = {`${classNamePrefix}-dossier-info`} style={this.props.isDossierHome ? {opacity: 1.0} : {opacity : 0.5}}>
                 {this.state.isDossierSelected ? <img className = {`${classNamePrefix}-dossier-image`} src={selectedDossierIcon}/> 
                                               : <img className = {`${classNamePrefix}-dossier-image`} src={selectedDocumentIcon}/>}
                 <div className = {`${classNamePrefix}-dossier-name`}>
@@ -104,6 +104,17 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
               {localizedStrings.PICKDOSSIER}
             </Button>
         );
+    }
+  }
+
+  renderPickDossierErrorMsg = () => {
+    const { isDossierHome, config, visitCount } = this.props;
+    const dossierUrlPath = 'homeScreen.homeDocument.url';
+    const dossierUrl = _.get(config, dossierUrlPath, '');
+    if (isDossierHome && _.isEmpty(dossierUrl) && visitCount > 0) {
+      return <div className={`${classNamePrefix}-choose-dossier-error_msg`}>
+        {localizedStrings.PICKDOSSIER_ERROR_MSG}
+      </div>
     }
   }
 
@@ -131,18 +142,21 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
                 </div>
                 <div className={`${classNamePrefix}-option`}>
                     <Radio.Group value={ homeScreen.mode } onChange={this.handleHomeSettingChange}>
+                      <Space direction='vertical'>
                         <Radio className={`${classNamePrefix}-library`} value={VC.MODE_USE_DEFAULT_HOME_SCREEN}>
                                 {localizedStrings.DEFAULT_HOME}
                         </Radio>
                         <Radio className={`${classNamePrefix}-dossier`} value={VC.MODE_USE_DOSSIER_AS_HOME_SCREEN}>
                             {localizedStrings.DOSSIER_HOME}
                         </Radio>
+                      </Space>
                     </Radio.Group>
                 </div>
                 <div className={`${classNamePrefix}-hint`}>
                     {localizedStrings.DOSSIER_HOME_DESC}
                 </div>
                 {this.renderPickDossier()}
+                {this.renderPickDossierErrorMsg()}
                 <ContentBundleContentPicker visible={this.state.showContentPicker} handleClose={this.handleDismissAdd} handleChange={this.handleDossierChange}/>
             </Layout.Content>
             <Layout.Sider className={`${classNamePrefixSimple}-preview`} width={previewerWidth}>
@@ -154,7 +168,8 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
 }
 
 const mapState = (state: RootState) => ({
-  config: selectCurrentConfig(state)
+  config: selectCurrentConfig(state),
+  isDossierHome: selectIsDossierAsHome(state)
 })
 
 const connector = connect(mapState, {
