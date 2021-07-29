@@ -101,12 +101,9 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
 
   loadDefaultConfig = async () => {
     let hasDefault = true;
-    console.log('start load default config');
     await HttpProxy.get('/v2/applications/' + DEFAULT_CONFIG_ID).catch(() => {
       hasDefault = false
     });
-    console.log('end load default config');
-    console.log(hasDefault);
     return hasDefault;
   }
 

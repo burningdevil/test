@@ -323,8 +323,15 @@ export const localizedStrings = {
     ENABLE_MICORSTRATEGY_COLOR_PALETTE_TOOLTIP: t('enableMicroStrategyColorPaletteTooltip'),
     CUSTOM_COLOR_PALETTE_TITLE: t('customColorPaletteTitle'),
     NEW_COLOE_PALETTE: t('newColorPalette'),
-    EMPTY_COLOR_PALETTE_LIST_HINT: t('emptyColorPaletteListHint')
-    
+    EMPTY_COLOR_PALETTE_LIST_HINT: t('emptyColorPaletteListHint'),
+
+    // Error Message Strings
+    ENVIRONTMENT_DISCONNECT_ERROR_TITLE_MSG: t('environmentDisconnectErrorTitleMsg'),
+    ENVIRONTMENT_DISCONNECT_ERROR_DETAIL_MSG: t('environmentDisconnectErrorDetailMsg'),
+    USER_PRIVILEGE_ERROR_MSG: t('userPrivilegeErrorMsg'),
+    MD_VERSION_ERROR_MSG: t('mdVersionErrorMsg'),
+    SERVER_VERSION_ERROR_TITLE_MSG: t('serverVersionErrorTitleMsg'),
+    SERVER_VERSION_ERROR_DETAIL_MSG: t('serverVersionErrorDetailMsg')
 }
 
 export const sectionTitle = {

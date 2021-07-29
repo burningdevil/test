@@ -150,5 +150,13 @@
     "enableMicroStrategyColorPaletteTooltip": "You can disable the default MicroStrategy color palettes by creating your own color palettes.",
     "customColorPaletteTitle": "Custom Color Palette",
     "newColorPalette": "Add New",
-    "emptyColorPaletteListHint": "To create your custom color palette, click Add New. Your custom color palette will appear here."
+    "emptyColorPaletteListHint": "To create your custom color palette, click Add New. Your custom color palette will appear here.",
+
+    "environmentDisconnectErrorTitleMsg": "The selected environment is disconnected",
+    "environmentDisconnectErrorDetailMsg": "Please check your environment connection and try again.",
+    "userPrivilegeErrorMsg": "You don’t have access to Applications",
+    "mdVersionErrorMsg": "You need a newer Metadata version to use this feature",
+    "serverVersionErrorTitleMsg": "You need a newer enviornment version to use this feature",
+    "serverVersionErrorDetailMsg": "You are connecting to an older version of Library Server, some features may not work as expected."
+
 }
