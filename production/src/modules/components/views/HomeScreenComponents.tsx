@@ -3,7 +3,7 @@ import { RightOutlined, DownOutlined } from '@ant-design/icons'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import '../scss/HomeScreenComponents.scss'
-import { default as VC, localizedStrings, previewerWidth, platformType, iconDetail, iconTypes, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons, iconValidKey, dossierIconKeys, libraryIconKeys, sidebarIconKeys, mobileOnlyIconKeys, webDesktopOnlyIconKeys } from '../HomeScreenConfigConstant'
+import { default as VC, localizedStrings, previewerWidth, platformType, iconDetail, iconTypes, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons, iconValidKey, libraryIconKeys, sidebarIconKeys, mobileOnlyIconKeys, webDesktopOnlyIconKeys } from '../HomeScreenConfigConstant'
 import * as _ from 'lodash'
 import HomeScreenPreviewer from './HomeScreenPreviewer'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
@@ -207,25 +207,41 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
     }
 
     onIconStateChange = (value: boolean, iconKey: string) => {
+        const { isDossierHome } = this.props
         let update = {}
         // check side bar icons
         const validKey = iconValidKey(iconKey) 
         if (sidebarIconKeys.includes(iconKey)) {
-            const icons = value ? _.concat(this.props.selectedSidebarIcons, validKey) : _.pull(this.props.selectedSidebarIcons, validKey)
+            const icons = value ? _.concat([], this.props.selectedSidebarIcons, validKey) : _.pull(_.concat([], this.props.selectedSidebarIcons), validKey)
             update = {[VC.ICON_SIDEBAR]: icons}
             update = {[VC.HOME_LIBRARY]: update}
         } else {
             let updateDocument = {}
             let updateLibrary = {}
-            if (dossierIconKeys.includes(iconKey)) {
-                const icons = value ? _.concat(this.props.selectedDocumentIcons, validKey) : _.pull(this.props.selectedDocumentIcons, validKey)
-                update = {[VC.ICONS]: icons}
-                updateDocument = {[VC.HOME_DOCUMENT]: update} 
-            }
-            if (libraryIconKeys.includes(iconKey)) {
-                const icons = value ? _.concat(this.props.selectedLibraryIcons, validKey) : _.pull(this.props.selectedLibraryIcons, validKey)
-                update = {[VC.ICONS] : icons}
-                updateLibrary = {[VC.HOME_LIBRARY]: update}
+            const selectedLibraryIcons = _.concat([], this.props.selectedLibraryIcons)
+            const selectedDocumentIcons = _.concat([], this.props.selectedDocumentIcons)
+            // Library Home
+            if (isDossierHome) {
+                const dossierToolbarIcons = dossierIconsDossierHome.map((element) => element.key);
+                if (dossierToolbarIcons.includes(iconKey)) {
+                    const icons = value ? _.concat(selectedDocumentIcons, validKey) : _.pull(selectedDocumentIcons, validKey)
+                    update = {[VC.ICONS]: icons}
+                    updateDocument = {[VC.HOME_DOCUMENT]: update} 
+                }
+            } else {
+                // Library Icon
+                if (libraryIconKeys.includes(iconKey)) {
+                    const icons = value ? _.concat(selectedLibraryIcons, validKey) : _.pull(selectedLibraryIcons, validKey)
+                    update = {[VC.ICONS] : icons}
+                    updateLibrary = {[VC.HOME_LIBRARY]: update}
+                }
+                // Dossier Icon
+                const dossierToolbarIcons = dossierIcons.map((element) => element.key);
+                if (dossierToolbarIcons.includes(iconKey)) {
+                    const icons = value ? _.concat(selectedDocumentIcons, validKey) : _.pull(selectedDocumentIcons, validKey)
+                    update = {[VC.ICONS]: icons}
+                    updateDocument = {[VC.HOME_DOCUMENT]: update} 
+                }
             }
             update = _.merge(updateDocument, updateLibrary)
         }

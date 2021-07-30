@@ -51,7 +51,14 @@ const HomeScreenConfigEditorReducer = (state: HomeScreenConfigEditorState = init
 
   switch (type) {
     case Actions.UPDATE_CURRENT_CONFIG:
-      return {...state, currentConfig: _.merge({}, state.currentConfig, data)}
+      return {
+        ...state, 
+        currentConfig : _.mergeWith({}, state.currentConfig, data, (target, source) => {
+          if (_.isArray(target)) {
+            return source
+          }
+        })
+      }
     case Actions.SET_CURRENT_CONFIG:
       return {...state, currentConfig: data}
     case Actions.SET_CONFIG_INFO_LIST:

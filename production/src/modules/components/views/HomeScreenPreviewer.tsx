@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { default as VC, localizedStrings, childrenIcons, iconDetail, iconTypes, platformType, reviewType, dossierIconKeys, libraryIconKeys, sidebarIconKeys, iconValidKey } from '../HomeScreenConfigConstant'
+import { default as VC, localizedStrings, childrenIcons, iconDetail, iconTypes, platformType, reviewType, dossierIcons, dossierIconsDossierHome, libraryIconKeys, sidebarIconKeys, iconValidKey } from '../HomeScreenConfigConstant'
 import { Layout, Radio } from 'antd'
 import { PlusCircleOutlined, DownOutlined } from '@ant-design/icons'
 import '../scss/HomeScreenPreviewer.scss'
@@ -13,16 +13,26 @@ const classNamePrefix = 'homeScreenPreviewer';
 
 class HomeScreenPreviewer extends React.Component<any, any> {
     iconShouldShow(icon: iconDetail) {
-        const {libraryIcons, documentIcons, sidebarIcons} = this.props
+        const {libraryIcons, documentIcons, sidebarIcons, isDossierHome} = this.props
         const validKey = iconValidKey(icon.key)
         if (sidebarIconKeys.includes(icon.key)) {
             return sidebarIcons.includes(validKey)
         } else {
-            if (libraryIconKeys.includes(icon.key)) {
-                return libraryIcons.includes(validKey)
-            }
-            if (dossierIconKeys.includes(icon.key)) {
-                return documentIcons.includes(validKey)
+            if (isDossierHome) {
+                const dossierToolbarIcons = dossierIconsDossierHome.map((element) => element.key);
+                if (dossierToolbarIcons.includes(icon.key)) {
+                    return documentIcons.includes(validKey)
+                }
+            } else {
+                // Library Icon
+                if (libraryIconKeys.includes(icon.key)) {
+                    return libraryIcons.includes(validKey)
+                }
+                // Dossier Icon
+                const dossierToolbarIcons = dossierIcons.map((element) => element.key);
+                if (dossierToolbarIcons.includes(icon.key)) {
+                    return documentIcons.includes(validKey)
+                }
             }
         }
         return icon.key === iconTypes.home.key

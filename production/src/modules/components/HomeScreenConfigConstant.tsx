@@ -442,7 +442,7 @@ export const libraryIcons = [iconTypes.sidebar, iconTypes.sortAndFilter, iconTyp
 export const dossierIcons = [iconTypes.toc, iconTypes.bookmark, iconTypes.reset, 
     iconTypes.filter, iconTypes.comment, iconTypes.share]
 
-// dossier icons when mode is dossier as home, should append 
+// dossier icons when mode is dossier as home
 export const dossierIconsDossierHome = [iconTypes.toc, 
     iconTypes.filter, iconTypes.comment, iconTypes.share, iconTypes.notification, iconTypes.account]
 
@@ -457,7 +457,7 @@ export const childrenIcons = [iconTypes.all, iconTypes.favorites, iconTypes.rece
 // for accountMobile and accountWeb to remove suffix
 export const iconValidKey = (iconKey: string) => iconKey.split('__').length > 0 ? iconKey.split('__')[0] : iconKey
 
-export const dossierIconKeys =  _.union(dossierIcons.map((element) => element.key), dossierIconsDossierHome.map((element) => element.key)) 
+export const dossierIconKeys =  dossierIcons.map((element) => element.key)
 export const libraryIconKeys = libraryIcons.map((element) => element.key)
 export const sidebarIconKeys = childrenIcons.map((element) => element.key)
 
