@@ -28,6 +28,10 @@
         }
     }
 
+    .name-column .ag-react-container {
+        width: 100%;
+    }
+
     .ag-cell-wrapper {
         line-height: 32px;
     }
@@ -53,6 +57,7 @@
 
     &-application-name-text {
         padding-right: 5px;
+        overflow: hidden;
     }
 
     .application-share-menu-container {
