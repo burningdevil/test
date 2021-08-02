@@ -1,16 +1,16 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import '../scss/HomeScreenHomeSetting.scss'
-import { Radio, Button, Layout } from 'antd';
+import { Radio, Button, Layout, Space } from 'antd';
 import { env } from '../../../main'
 import { RadioChangeEvent } from 'antd/lib/radio';
 import * as _ from "lodash";
 import ContentBundleContentPicker from './ContentBundleContentPicker'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
-import { selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEditorSelector';
+import { selectCurrentConfig, selectIsDossierAsHome, selectSelectedDocumentIcons, selectSelectedLibraryIcons } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import HomeScreenPreviewer from './HomeScreenPreviewer';
-import { default as VC, localizedStrings, previewerWidth } from '../HomeScreenConfigConstant';
+import { default as VC, localizedStrings, previewerWidth, iconValidKey } from '../HomeScreenConfigConstant';
 import * as api from '../../../services/Api';
 // @ts-ignore: RC Component Support error
 import selectedDossierIcon from '../images/icon_select_dossier.png';
@@ -74,11 +74,70 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
     });
   }
 
-  handleHomeSettingChange = (event: RadioChangeEvent) => {
-    this.props.updateCurrentConfig({
-      homeScreen: {
-        mode: event.target.value
+  // When switch mode between Library/Dossier Home, shared notification/account settings should be sync between library/document icon list
+  adjustIconStatus = (mode: number) => {
+    let libraryIcons = _.concat([], this.props.selectedLibraryIcons)
+    let documentIcons = _.concat([], this.props.selectedDocumentIcons)
+    if (mode === VC.MODE_USE_DEFAULT_HOME_SCREEN) {
+      // Switch to Library Home, move notification/accound from document list to library list
+      if (documentIcons.includes(VC.ICON_NOTIFICATIONS)) {
+        if (!libraryIcons.includes(VC.ICON_NOTIFICATIONS)) {
+          libraryIcons = _.concat(libraryIcons, VC.ICON_NOTIFICATIONS)
+        }
+        _.pull(documentIcons, VC.ICON_NOTIFICATIONS)
+      } else {
+        if (libraryIcons.includes(VC.ICON_NOTIFICATIONS)) {
+          _.pull(libraryIcons, VC.ICON_NOTIFICATIONS)
+        }
       }
+      if (documentIcons.includes(VC.ICON_OPTIONS)) {
+        if (!libraryIcons.includes(VC.ICON_OPTIONS)) {
+          libraryIcons = _.concat(libraryIcons, VC.ICON_OPTIONS)
+        }
+        _.pull(documentIcons, VC.ICON_OPTIONS)
+      } else {
+        if (libraryIcons.includes(VC.ICON_OPTIONS)) {
+          _.pull(libraryIcons, VC.ICON_OPTIONS)
+        }
+      }
+    } else {
+      // Switch to Dossier Home, try to move notification/accound from library list to document list
+      if (libraryIcons.includes(VC.ICON_NOTIFICATIONS)) {
+        if (!documentIcons.includes(VC.ICON_NOTIFICATIONS)) {
+          documentIcons = _.concat(documentIcons, VC.ICON_NOTIFICATIONS)
+        }
+        _.pull(libraryIcons, VC.ICON_NOTIFICATIONS)
+      } else {
+        if (documentIcons.includes(VC.ICON_NOTIFICATIONS)) {
+          _.pull(documentIcons, VC.ICON_NOTIFICATIONS)
+        }
+      }
+      if (libraryIcons.includes(VC.ICON_OPTIONS)) {
+        if (!documentIcons.includes(VC.ICON_OPTIONS)) {
+          documentIcons = _.concat(documentIcons, VC.ICON_OPTIONS)
+        }
+        _.pull(libraryIcons, VC.ICON_OPTIONS)
+      } else {
+        if (documentIcons.includes(VC.ICON_OPTIONS)) {
+          _.pull(documentIcons, VC.ICON_OPTIONS)
+        }
+      }
+    }
+    const update = {
+      [VC.HOME_LIBRARY]: {
+        [VC.ICONS]: libraryIcons
+      },
+      [VC.HOME_DOCUMENT]: {
+        [VC.ICONS]: documentIcons
+      }
+    }
+    return update
+  }
+
+  handleHomeSettingChange = (event: RadioChangeEvent) => {
+    const updateHomeScreenIcons = this.adjustIconStatus(event.target.value)
+    this.props.updateCurrentConfig({
+      homeScreen: _.merge(updateHomeScreenIcons, {[VC.MODE]: event.target.value})
     });
   }
 
@@ -87,7 +146,7 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
     const dossierUrl = _.get(homeScreen, dossierUrlPath, '');
     if (dossierUrl) {
         return (
-            <div className = {`${classNamePrefix}-dossier-info`}>
+            <div className = {`${classNamePrefix}-dossier-info`} style={this.props.isDossierHome ? {opacity: 1.0} : {opacity : 0.5}}>
                 {this.state.isDossierSelected ? <img className = {`${classNamePrefix}-dossier-image`} src={selectedDossierIcon}/> 
                                               : <img className = {`${classNamePrefix}-dossier-image`} src={selectedDocumentIcon}/>}
                 <div className = {`${classNamePrefix}-dossier-name`}>
@@ -104,6 +163,17 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
               {localizedStrings.PICKDOSSIER}
             </Button>
         );
+    }
+  }
+
+  renderPickDossierErrorMsg = () => {
+    const { isDossierHome, config, visitCount } = this.props;
+    const dossierUrlPath = 'homeScreen.homeDocument.url';
+    const dossierUrl = _.get(config, dossierUrlPath, '');
+    if (isDossierHome && _.isEmpty(dossierUrl) && visitCount > 0) {
+      return <div className={`${classNamePrefix}-choose-dossier-error_msg`}>
+        {localizedStrings.PICKDOSSIER_ERROR_MSG}
+      </div>
     }
   }
 
@@ -131,18 +201,21 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
                 </div>
                 <div className={`${classNamePrefix}-option`}>
                     <Radio.Group value={ homeScreen.mode } onChange={this.handleHomeSettingChange}>
+                      <Space direction='vertical' className={`${classNamePrefix}-option-group`}>
                         <Radio className={`${classNamePrefix}-library`} value={VC.MODE_USE_DEFAULT_HOME_SCREEN}>
                                 {localizedStrings.DEFAULT_HOME}
                         </Radio>
                         <Radio className={`${classNamePrefix}-dossier`} value={VC.MODE_USE_DOSSIER_AS_HOME_SCREEN}>
                             {localizedStrings.DOSSIER_HOME}
                         </Radio>
+                      </Space>
                     </Radio.Group>
                 </div>
                 <div className={`${classNamePrefix}-hint`}>
                     {localizedStrings.DOSSIER_HOME_DESC}
                 </div>
                 {this.renderPickDossier()}
+                {this.renderPickDossierErrorMsg()}
                 <ContentBundleContentPicker visible={this.state.showContentPicker} handleClose={this.handleDismissAdd} handleChange={this.handleDossierChange}/>
             </Layout.Content>
             <Layout.Sider className={`${classNamePrefixSimple}-preview`} width={previewerWidth}>
@@ -154,7 +227,10 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
 }
 
 const mapState = (state: RootState) => ({
-  config: selectCurrentConfig(state)
+  config: selectCurrentConfig(state),
+  isDossierHome: selectIsDossierAsHome(state),
+  selectedLibraryIcons: selectSelectedLibraryIcons(state),
+  selectedDocumentIcons: selectSelectedDocumentIcons(state), 
 })
 
 const connector = connect(mapState, {

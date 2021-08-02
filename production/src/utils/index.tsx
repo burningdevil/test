@@ -2,10 +2,10 @@
 import * as compareVersions from 'compare-versions';
 
 //TODO: replaced below config value.
-const LIBRARY_SERVER_VERSION_THRESHOLD = '11.3.0200';
-const ISERVER_VERSION_THRESHOLD = '11.3.0200';
-const USER_MANAGE_APPLICATIONS_PRIVILEGE = 1; //to do 0708: need to change to 298
-export const DEFAULT_CONFIG_ID = 'xxxxxxxxxxxxxxxxx';
+const LIBRARY_SERVER_VERSION_THRESHOLD = '11.3.0300';
+const ISERVER_VERSION_THRESHOLD = '11.3.0300';
+const USER_MANAGE_APPLICATIONS_PRIVILEGE = 298;
+export const DEFAULT_CONFIG_ID = 'C2B2023642F6753A2EF159A75E0CFF29';
 
 /**
  * a function to judge whether the version is matched requirement

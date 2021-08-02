@@ -15,7 +15,7 @@ import { HttpProxy } from '../../../main';
 import { RestApiError } from '../../../server/RestApiError';
 import { PARSE_METHOD } from '../../../utils/ParseMethods';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
-import { selectCurrentConfig, selectIsDuplicateConfig, selectIsConfigNameError } from '../../../store/selectors/HomeScreenConfigEditorSelector';
+import { selectCurrentConfig, selectIsDuplicateConfig, selectIsConfigNameError, selectIsDossierAsHome } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import * as api from '../../../services/Api';
 import { default as VC, localizedStrings, editorSize } from '../HomeScreenConfigConstant'
@@ -29,6 +29,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
     super(props)
     this.state = {
       activeKey: VC.GENERAL,
+      homeSettingTabVisitCount: 0,
       configId: undefined,
       isNameCopyed: false,  // Copy of Name for duplicate config operation should only be handled one time.
       currentEnv: {}
@@ -93,7 +94,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
     }).length === 0) {
       return defaultAppName;
     }
-    for (let i = 1; i < 1000; i++) {
+    for (let i = 1; i < 10000; i++) {
       const newAppName = `${defaultAppName} ${i}`;
       if (configInfoList.filter((appInfo: any ) => {
         return appInfo.name.toLowerCase() === newAppName.toLowerCase();
@@ -101,7 +102,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         return newAppName;
       }
     }
-    return '';  // Return empty name if Default App name count is larger than 1000.
+    return '';  // Return empty name if Default App name count is larger than 10000.
   }
 
   parseConfigId = (querystr: string) => {
@@ -118,12 +119,18 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
   };
 
   tabBarChanged = (key: string) => {
+    const { isDossierHome } = this.props;
+    const homeSettingTabVisitCount = (key === VC.HOME_SCREEN && isDossierHome) ? this.state.homeSettingTabVisitCount + 1 : this.state.homeSettingTabVisitCount;
     this.setState({
-        activeKey: key
+        activeKey: key,
+        homeSettingTabVisitCount: homeSettingTabVisitCount
     });
   }
 
   buttonGroup = () => {
+    const { isDossierHome, config } = this.props;
+    const dossierUrlPath = 'homeScreen.homeDocument.url';
+    const dossierUrl = _.get(config, dossierUrlPath, '');
     return (
         <div className={`${classNamePrefix}-layout-btn`}>
             <Button key={VC.BACK} onClick={this.handleCancel}>
@@ -133,7 +140,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 type= 'primary'
                 style={{marginLeft: 10}}
                 onClick={this.handleSaveConfig}
-                disabled = {this.props.isConfigNameError}>
+                disabled = {this.props.isConfigNameError || (isDossierHome && _.isEmpty(dossierUrl))}>
                 {localizedStrings.SAVE}
             </Button>
         </div>
@@ -195,7 +202,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                                 {this.buttonGroup()}
                             </Tabs.TabPane>
                             <Tabs.TabPane tab={localizedStrings.NAVBAR_HOME_SCREEN} key={VC.HOME_SCREEN}>
-                                <HomeScreenHomeSetting />
+                                <HomeScreenHomeSetting visitCount={this.state.homeSettingTabVisitCount}/>
                                 {this.buttonGroup()}
                             </Tabs.TabPane>
                             <Tabs.TabPane tab={localizedStrings.NAVBAR_COMPONENTS} key={VC.COMPONENTS}>
@@ -228,6 +235,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
 
 const mapState = (state: RootState) => ({
   config: selectCurrentConfig(state),
+  isDossierHome: selectIsDossierAsHome(state),
   isDuplicateConfig: selectIsDuplicateConfig(state),
   isConfigNameError: selectIsConfigNameError(state)
 })

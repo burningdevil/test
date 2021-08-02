@@ -6,8 +6,7 @@
     "smartFolders": {
       "items": [
         {
-          "key": "homescreenAdminFolder",
-          "displayName": "Applications",
+          "key": "applicationSmartFolderKey",
           "command": "openConfigMain",
           "ribbonColor": "#1C8DD4",
           "location": {
@@ -23,8 +22,7 @@
     "menus": {
       "items": [
         {
-          "key": "newHomeScreenConfig",
-          "displayName": "New Application",
+          "key": "newApplication",
           "command": "openNewConfig",
           "icon": "Applications.png",
           "windowKey": "homescreenConfigEditor",
@@ -32,8 +30,7 @@
           "canExecute": "isHomeScreenConfigEnabled"
         },
         {
-          "key": "editHomeScreenConfig",
-          "displayName": "Edit Application",
+          "key": "editApplication",
           "command": "openEditConfig",
           "icon": "Applications.png",
           "windowKey": "homescreenConfigEditor",

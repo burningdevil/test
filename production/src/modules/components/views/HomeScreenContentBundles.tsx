@@ -40,7 +40,7 @@ class HomeScreenContentBundles extends React.Component<any, any> {
   handleContentBundleChange = (bundles: any[]) => {
     const currentConfig = this.props.config
     const currentBundles = this.props.contentBundleIds 
-    let sideBarIcons = this.props.sidebarIcons
+    let sideBarIcons = _.concat([], this.props.sidebarIcons)
     _.set(currentConfig, bundleIdPath, bundles);
     // set components options 'default groups' automaticlly 
     if (!_.isEmpty(currentBundles) && currentBundles.length > 0 && bundles.length === 0) {

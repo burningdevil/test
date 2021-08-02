@@ -89,9 +89,9 @@ class HomeScreenGeneral extends React.Component<any, any> {
     const { platforms } = this.props.config;
     let resultedPlatform;
     if (event.target.checked) {
-        resultedPlatform = _.concat(platforms, platType);
+        resultedPlatform = _.concat([], platforms, platType);
     } else {
-        resultedPlatform = _.pull(platforms, platType);
+        resultedPlatform = _.pull(_.concat([], platforms), platType);
     }
     this.handlePreViewDeviceTypeInvalid(resultedPlatform)
     this.props.updateCurrentConfig({platforms: resultedPlatform});

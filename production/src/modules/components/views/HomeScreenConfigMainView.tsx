@@ -53,23 +53,12 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       console.log('enviornment change: ' + change.actionTaken);
       console.log('enviornment change: env name : ' + change.changedEnvironment.name);
       console.log('enviornment change: env status : ' + change.changedEnvironment.status);
-      if (change.actionTaken === EnvironmentAction.ChangeEnvironmentSelection && change.changedEnvironment.url !== this.state.currentEnv.url) {
-        if (change.changedEnvironment.status === EnvironmentStatus.Connected) {
-          this.setState({
-            isInitialLoading: true
-          });
-          this.loadData();
-        }
-        this.checkServerAndUserPrivilege(change.changedEnvironment);
-      }
-      if (change.actionTaken === EnvironmentAction.Update && change.changedEnvironment.status === EnvironmentStatus.Connected && change.changedEnvironment.url === this.state.currentEnv.url) {
-        this.setState({
-          isEnvReady: true
-        });
+      if (change.actionTaken === EnvironmentAction.ChangeEnvironmentSelection && change.changedEnvironment.status === EnvironmentStatus.Connected) {
         this.setState({
           isInitialLoading: true
         });
         this.loadData();
+        this.checkServerAndUserPrivilege(change.changedEnvironment);
       }
       if (change.actionTaken === EnvironmentAction.Disconnect && change.changedEnvironment.status === EnvironmentStatus.Disconnected && change.changedEnvironment.url === this.state.currentEnv.url) {
         this.setState({
@@ -111,11 +100,11 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
   }
 
   loadDefaultConfig = async () => {
-    return true;
-    // TOBE Enabled.
-    // let hasDefault = true;
-    // await HttpProxy.get('/mstrClients/libraryApplications/configs/' + DEFAULT_CONFIG_ID).catch(() => { hasDefault = false });
-    // return hasDefault;
+    let hasDefault = true;
+    await HttpProxy.get('/v2/applications/' + DEFAULT_CONFIG_ID).catch(() => {
+      hasDefault = false
+    });
+    return hasDefault;
   }
 
   loadData = () => {
@@ -243,7 +232,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         _.assign(resultConfig, { contentBundles: arr });
       }
 
-      _.assign(resultConfig, {mode: resultConfig.homeScreen && resultConfig.homeScreen.mode == 1 ? localizedStrings.DOSSIER : localizedStrings.LIBRARY});
+      _.assign(resultConfig, {mode: resultConfig.homeScreen && resultConfig.homeScreen.mode === 1 ? localizedStrings.DOSSIER : localizedStrings.LIBRARY});
 
       if (_.has(resultConfig, VC.DATE_MODIFIED)) {
         _.assign(resultConfig, {dateModified: _.split(resultConfig.dateModified, /[\T.]+/, 2).join(' ')});
@@ -277,7 +266,6 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       {
         field: VC.DESC,
         headerName: localizedStrings.DESCRIPTION,
-        sortable: false
       },
       // {
       //   field: VC.PLATFORM_STR,
@@ -320,13 +308,13 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         field: VC.DATE_MODIFIED,
         headerName: localizedStrings.DATE_MODIFIED,
         width: 175,
-        resizable: false
+        resizable: true // DE209336; make date column resizable.
       },
       {
         field: VC.DATE_CREATED,
         headerName: localizedStrings.DATE_CREATED,
         width: 175,
-        resizable: false,
+        resizable: true,
         initialHide: true
       }
     ] as ColumnDef[]
