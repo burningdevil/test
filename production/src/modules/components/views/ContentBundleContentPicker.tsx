@@ -164,15 +164,21 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                         rowSelection = {rowSelectionType}
                         getRowHeight = {this.getRowHeight}
                         columnDefs = {[
-                            {field: VC.NAME, sortable: true, headerName: localizedStrings.NAME, width: 250, cellRenderer: (params: any) => {
-                              if (params.node.data.isDossier) {
-                                return '<img class="content-bundle-content-picker-grid-right-name-dossier" src="../assets/images/dossier.jpg"/><span style="color: #35383a;; padding: 4px; font-size: 12px">' + params.value + '</span>';
+                            {field: VC.NAME, sortable: true, headerName: localizedStrings.NAME, width: 250, cellRendererFramework: (params: any) => {
+                              const data = params.data;
+                              if (data.isDossier) {
+                                return <>
+                                        <img className="content-bundle-content-picker-grid-right-name-dossier" src="../assets/images/dossier.jpg"/><span style={{color: '#35383a', padding: '4px', fontSize: '12px'}}>{data.name}</span>
+                                      </>
                               } else {
-                                return '<img class="content-bundle-content-picker-grid-right-name-document" src="../assets/images/document.png"/><span style="color: #35383a;; padding: 4px; font-size: 12px">' + params.value + '</span>';
+                                return <>
+                                        <img className="content-bundle-content-picker-grid-right-name-document" src="../assets/images/document.png"/><span style={{color: '#35383a', padding: '4px', fontSize: '12px'}}>{data.name}</span>
+                                      </>
                               }
                             }},
-                            {field: VC.CERTIFIED, sortable: true, headerName: localizedStrings.CERTIFIED, width: 90, cellRenderer: (params: any) => {
-                              if (params.node.data.certified) {
+                            {field: VC.CERTIFIED, sortable: true, headerName: localizedStrings.CERTIFIED, width: 90, cellRendererFramework: (params: any) => {
+                              const data = params.data;
+                              if (data.certified) {
                                   return `<span class=${VC.FONT_CERTIFIED} style='color: #f08033; font-size: 14px' />`;
                               } else {
                                 return '';
