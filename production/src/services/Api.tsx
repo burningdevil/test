@@ -111,7 +111,7 @@ export const loadSearchedDossierDocuments = (name: string) => {
 }
 
 export const loadBatchDossierDocuments = (offset: number, limit: number) => {
-    return HttpProxy.get('/searches/results?pattern=4&type=14081&offset='+ offset +'&getAncestors=false&limit='+ limit + '&certifiedStatus=OFF').then((response: any) => {
+    return HttpProxy.get('/searches/results?name=' + 'test' + '&pattern=4&type=14081&offset='+ offset +'&getAncestors=false&limit='+ limit + '&certifiedStatus=OFF').then((response: any) => {
         let data = response;
         let totalCount = response.totalItems;
         if (data && response.data) {
@@ -134,7 +134,7 @@ export const loadAllDossierDocuments = () => {
     //for now we fetch all dossiers in one request, need to evaluate whether need to load for multiple times
     const firstLoad = 1000;
     store.dispatch(ActionsCreator.startLoadingDossierList());
-    HttpProxy.get('/searches/results?pattern=4&type=14081&offset=0&getAncestors=false&limit='+ firstLoad + '&certifiedStatus=ALL').then((response: any) => {
+    HttpProxy.get('/searches/results?name=' + 'test' + '&pattern=4&type=14081&offset=0&getAncestors=false&limit='+ firstLoad + '&certifiedStatus=ALL').then((response: any) => {
         let data = response;
         let totalCount = response.totalItems;
         if (data && response.data) {
