@@ -216,7 +216,7 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
                 </div>
                 {this.renderPickDossier()}
                 {this.renderPickDossierErrorMsg()}
-                <ContentBundleContentPicker visible={this.state.showContentPicker} dossierName={this.state.dossierName} handleClose={this.handleDismissAdd} handleChange={this.handleDossierChange}/>
+                <ContentBundleContentPicker visible={this.state.showContentPicker} handleClose={this.handleDismissAdd} handleChange={this.handleDossierChange}/>
             </Layout.Content>
             <Layout.Sider className={`${classNamePrefixSimple}-preview`} width={previewerWidth}>
               <HomeScreenPreviewer/>
