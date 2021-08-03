@@ -6,15 +6,18 @@ import * as _ from "lodash";
 import { ReactWsGrid } from '@mstr/react-ws-grid';
 import {
   SelectionChangedEvent,
+  GridReadyEvent
 } from 'ag-grid-community';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { connect } from 'react-redux';
 import { selectAllDossiers, selectAllDocuments, selectIsLoadingDossiers, selectLoadingDossiersFinish } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import { default as VC, localizedStrings, HomeScreenHomeObjectType, contentPickerSize } from '../HomeScreenConfigConstant'
 import * as api from '../../../services/Api'
+// @ts-ignore: RC Component Support error
+import documentIcon from '../images/document.png';
+// @ts-ignore: RC Component Support error
+import dossierIcon from '../images/dossier.jpg';
 
-
-var activeTab = HomeScreenHomeObjectType.DOSSIER;
 const classNamePrefix = 'content-bundle-content-picker';
 const rowSelectionType = 'single';
 
@@ -32,11 +35,14 @@ class ContentBundleContentPicker extends React.Component<any, any> {
     api.loadAllDossierDocuments();
   }
 
+  onGridReady = (params: GridReadyEvent) => {
+    console.log(params);
+  };
+
   tabBarChanged = (param: any) => {
     this.setState({
       activeTab: param.key
     });
-    activeTab = param.key;
   }
 
   handleCancelAdd = () => {
@@ -102,7 +108,11 @@ class ContentBundleContentPicker extends React.Component<any, any> {
   }
 
   generateDisplayList = () => {
-    return this.state.activeTab === HomeScreenHomeObjectType.DOSSIER ? this.props.dossiers : this.props.documents
+    const isDossier = this.state.activeTab === HomeScreenHomeObjectType.DOSSIER;
+    const dataList = isDossier ? this.props.dossiers : this.props.documents
+    return dataList.map((content: any) => {
+      return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});
+    });
   }
 
   render() {
@@ -168,18 +178,20 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                               const data = params.data;
                               if (data.isDossier) {
                                 return <>
-                                        <img className="content-bundle-content-picker-grid-right-name-dossier" src="../assets/images/dossier.jpg"/><span style={{color: '#35383a', padding: '4px', fontSize: '12px'}}>{data.name}</span>
+                                        <img className={`${classNamePrefix}-grid-right-name-icon`} src={dossierIcon}/>
+                                        <span className={`${classNamePrefix}-grid-right-name-text`}>{data.name}</span>
                                       </>
                               } else {
                                 return <>
-                                        <img className="content-bundle-content-picker-grid-right-name-document" src="../assets/images/document.png"/><span style={{color: '#35383a', padding: '4px', fontSize: '12px'}}>{data.name}</span>
+                                        <img className={`${classNamePrefix}-grid-right-name-icon`} src={documentIcon}/>
+                                        <span className={`${classNamePrefix}-grid-right-name-text`}>{data.name}</span>
                                       </>
                               }
                             }},
                             {field: VC.CERTIFIED, sortable: true, headerName: localizedStrings.CERTIFIED, width: 90, cellRendererFramework: (params: any) => {
                               const data = params.data;
                               if (data.certified) {
-                                  return `<span class=${VC.FONT_CERTIFIED} style='color: #f08033; font-size: 14px' />`;
+                                  return <span className={VC.FONT_CERTIFIED} style={{color: '#f08033', fontSize: '14px'}} />
                               } else {
                                 return '';
                               }}
@@ -193,6 +205,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                           resizable: true
                         }}
                         rowData={dataSource}
+                        onGridReady={this.onGridReady}
                     />
                 </div>
               </div>

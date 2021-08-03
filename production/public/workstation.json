@@ -42,12 +42,12 @@
     "objectEditors": [
       {
         "objectType": "HomeScreenConfig",
-        "item": "editHomeScreenConfig",
+        "item": "editApplication",
         "editorTypes": ["Edit"]
       },
       {
         "objectType": "HomeScreenConfig",
-        "item": "newHomeScreenConfig",
+        "item": "newApplication",
         "editorTypes": ["Create"]
       }
     ],

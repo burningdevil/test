@@ -20,7 +20,8 @@ const HomeScreenBundleContentReducer = (state: HomeScreenBundleContentState = in
       return {...state, dossiers: state.dossiers.concat(data as HomeScreenBundleContentListItem[])}
     case Actions.START_LOADING_DOSSIER_LIST:
       return {...state, loadingDossiers: true}
-    case Actions.LOADING_DOSSIER_LIST_FINISHED:
+    case Actions.FINISH_LOADING_DOSSIER_LIST_SUCCESS:
+    case Actions.FINISH_LOADING_DOSSIER_LIST_FAILURE:
       return {...state, loadingDossiersFinish: true, loadingDossiers: false}
     default:
       return state
