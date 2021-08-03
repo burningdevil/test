@@ -150,9 +150,23 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
   };
 
   handleSaveConfig = () => {
+      let config =_.merge({}, this.props.config);
       const configId = this.state.configId;
+      // Remove dossier url when mode is Library As Home. Before saving object.
+      const { homeScreen } = this.props.config;
+      const dossierUrlPath = 'homeDocument.url';
+      const dossierUrl = _.get(homeScreen, dossierUrlPath, '');
+      if (dossierUrl && homeScreen.mode === VC.MODE_USE_DEFAULT_HOME_SCREEN) {
+        config = _.merge(config, {
+          homeScreen: {
+            homeDocument: {
+              url: ''
+            }
+          }
+        });
+      }
       if (configId && !this.props.isDuplicateConfig) {
-        HttpProxy.put(api.getApiPathForEditApplication(configId), this.props.config, {}, PARSE_METHOD.BLOB).then(() => {
+        HttpProxy.put(api.getApiPathForEditApplication(configId), config, {}, PARSE_METHOD.BLOB).then(() => {
           // trigger load config list and close window
           workstation.window.postMessage({homeConfigSaveSuccess: true}).then(() => {workstation.window.close();});
         }).catch((e: any) => {
@@ -160,7 +174,6 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
           this.processErrorResponse(e, localizedStrings.ERR_APP_SAVE);
         });
       } else {
-        let config = this.props.config;
         if (this.props.isDuplicateConfig) {
           config = _.omit(config, ['id', 'dateModified', 'dateCreated', 'objectVersion']);
           config.objectNames = [];
