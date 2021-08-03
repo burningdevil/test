@@ -6,7 +6,8 @@ import * as _ from "lodash";
 import { ReactWsGrid } from '@mstr/react-ws-grid';
 import {
   SelectionChangedEvent,
-  GridReadyEvent
+  GridReadyEvent,
+  GridApi
 } from 'ag-grid-community';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { connect } from 'react-redux';
@@ -14,12 +15,13 @@ import { selectAllDossiers, selectAllDocuments, selectIsLoadingDossiers, selectL
 import { default as VC, localizedStrings, HomeScreenHomeObjectType, contentPickerSize } from '../HomeScreenConfigConstant'
 import * as api from '../../../services/Api'
 // @ts-ignore: RC Component Support error
-import documentIcon from '../images/document.png';
+import documentIcon from '../images/document.png'
 // @ts-ignore: RC Component Support error
-import dossierIcon from '../images/dossier.jpg';
+import dossierIcon from '../images/dossier.jpg'
 
 const classNamePrefix = 'content-bundle-content-picker';
 const rowSelectionType = 'single';
+let gridApi: GridApi;
 
 class ContentBundleContentPicker extends React.Component<any, any> {
   constructor(props: any) {
@@ -36,13 +38,18 @@ class ContentBundleContentPicker extends React.Component<any, any> {
   }
 
   onGridReady = (params: GridReadyEvent) => {
-    console.log(params);
+    gridApi = params.api;
   };
 
   tabBarChanged = (param: any) => {
     this.setState({
       activeTab: param.key
     });
+    this.handleSelectionChanged({});
+    if (gridApi) {
+      gridApi.deselectAll();
+      gridApi.clearFocusedCell();
+    }
   }
 
   handleCancelAdd = () => {
@@ -110,7 +117,12 @@ class ContentBundleContentPicker extends React.Component<any, any> {
   generateDisplayList = () => {
     const isDossier = this.state.activeTab === HomeScreenHomeObjectType.DOSSIER;
     const dataList = isDossier ? this.props.dossiers : this.props.documents
-    return dataList.map((content: any) => {
+    return dataList.filter((content: any) => {
+      if (_.isEmpty(this.state.searchNameFilter)) {
+        return true;
+      }
+      return content.name.toLowerCase().indexOf(this.state.searchNameFilter.toLowerCase()) !== -1;
+    }).map((content: any) => {
       return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});
     });
   }

@@ -3,7 +3,7 @@ module.exports = {
   testRegex: '__tests__/.*.test.tsx?$|\\.spec.tsx',
   setupFilesAfterEnv: ['<rootDir>/enzymeSetup.js'],
   moduleNameMapper: { 
-    '\\.(scss|css|less|png|gif)$': '<rootDir>/node_modules/jest-css-modules',
+    '\\.(scss|css|less|png|jpg|gif)$': '<rootDir>/node_modules/jest-css-modules',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js'],
   transform: {

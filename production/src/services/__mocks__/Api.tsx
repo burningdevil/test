@@ -7,6 +7,8 @@ export const loadContentBundleList = jest.fn()
 
 export const loadCurrentEditConfig = jest.fn()
 
+export const loadAllDossierDocuments = jest.fn()
+
 export async function getSingleDossierInfo (dossierId: string, projectId: string) {
     return {dossierName: 'Dossier name for Test dossier as home'};
 }
