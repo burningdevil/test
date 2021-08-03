@@ -464,7 +464,7 @@ export const iconValidKey = (iconKey: string) => iconKey.split('__').length > 0 
 export const dossierIconKeys =  dossierIcons.map((element) => element.key)
 export const libraryIconKeys = libraryIcons.map((element) => element.key)
 export const sidebarIconKeys = childrenIcons.map((element) => element.key)
-export const LibraryCustomizedIconKeys = [iconTypes.myContent].map((element) => element.key)
+export const libraryCustomizedIconKeys = [iconTypes.myContent].map((element) => element.key)
 
 export const mobileOnlyIconKeys = [iconTypes.accountMobile].map((element) => element.key)
 export const webDesktopOnlyIconKeys = [iconTypes.multiSelect, iconTypes.accountWeb].map((element) => element.key)

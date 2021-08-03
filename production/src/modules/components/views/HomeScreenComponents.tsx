@@ -3,7 +3,7 @@ import { RightOutlined, DownOutlined } from '@ant-design/icons'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import '../scss/HomeScreenComponents.scss'
-import { default as VC, localizedStrings, previewerWidth, platformType, iconDetail, iconTypes, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons, iconValidKey, libraryIconKeys, sidebarIconKeys, LibraryCustomizedIconKeys, mobileOnlyIconKeys, webDesktopOnlyIconKeys } from '../HomeScreenConfigConstant'
+import { default as VC, localizedStrings, previewerWidth, platformType, iconDetail, iconTypes, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons, iconValidKey, libraryIconKeys, sidebarIconKeys, libraryCustomizedIconKeys, mobileOnlyIconKeys, webDesktopOnlyIconKeys } from '../HomeScreenConfigConstant'
 import * as _ from 'lodash'
 import HomeScreenPreviewer from './HomeScreenPreviewer'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
@@ -99,7 +99,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         let selected = false
         if (sidebarIconKeys.includes(iconKey)) {
             selected = this.props.selectedSidebarIcons.includes(validKey)
-            if (LibraryCustomizedIconKeys.includes(iconKey)) {
+            if (libraryCustomizedIconKeys.includes(iconKey)) {
                 selected = _.get(this.props.selectedLibraryCustomizedItems, iconKey, true);
             }
         } else {
@@ -217,7 +217,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         if (sidebarIconKeys.includes(iconKey)) {
             const icons = value ? _.concat([], this.props.selectedSidebarIcons, validKey) : _.pull(_.concat([], this.props.selectedSidebarIcons), validKey)
             update = {[VC.ICON_SIDEBAR]: icons}
-            if (LibraryCustomizedIconKeys.includes(iconKey)) {
+            if (libraryCustomizedIconKeys.includes(iconKey)) {
                 const customizedItems = _.assign({}, this.props.selectedLibraryCustomizedItems, {[VC.ICON_MY_CONTENT]: value});
                 update = {[VC.CUSTOMIZED_ITEMS]: customizedItems}
             }

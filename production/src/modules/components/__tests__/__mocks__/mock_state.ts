@@ -1,6 +1,6 @@
 import { RootState } from '../../../../types/redux-state/HomeScreenConfigState';
 import * as _ from "lodash";
-import { CONSTANTS, iconTypes, reviewType, iconValidKey, platformType, dossierIconKeys, libraryIconKeys, sidebarIconKeys, LibraryCustomizedIconKeys, featureFlag } from '../../HomeScreenConfigConstant';
+import { CONSTANTS, iconTypes, reviewType, iconValidKey, platformType, dossierIconKeys, libraryIconKeys, sidebarIconKeys, libraryCustomizedIconKeys, featureFlag } from '../../HomeScreenConfigConstant';
 export default {
     configEditor: {
         currentConfig: {
