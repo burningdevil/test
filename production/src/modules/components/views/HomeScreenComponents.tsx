@@ -3,11 +3,11 @@ import { RightOutlined, DownOutlined } from '@ant-design/icons'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import '../scss/HomeScreenComponents.scss'
-import { default as VC, localizedStrings, previewerWidth, platformType, iconDetail, iconTypes, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons, iconValidKey, libraryIconKeys, sidebarIconKeys, mobileOnlyIconKeys, webDesktopOnlyIconKeys } from '../HomeScreenConfigConstant'
+import { default as VC, localizedStrings, previewerWidth, platformType, iconDetail, iconTypes, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons, iconValidKey, libraryIconKeys, sidebarIconKeys, LibraryCustomizedIconKeys, mobileOnlyIconKeys, webDesktopOnlyIconKeys } from '../HomeScreenConfigConstant'
 import * as _ from 'lodash'
 import HomeScreenPreviewer from './HomeScreenPreviewer'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
-import { selectCurrentConfig, selectIsDossierAsHome, selectIsToolbarHidden, selectIsToolbarCollapsed, selectSelectedSideBarIcons, selectSelectedLibraryIcons, selectSelectedDocumentIcons, selectCurrentConfigContentBundleIds, selectDefaultGroupsName } from '../../../store/selectors/HomeScreenConfigEditorSelector'
+import { selectCurrentConfig, selectIsDossierAsHome, selectIsToolbarHidden, selectIsToolbarCollapsed, selectSelectedSideBarIcons, selectSelectedLibraryCustomizedItems, selectSelectedLibraryIcons, selectSelectedDocumentIcons, selectCurrentConfigContentBundleIds, selectDefaultGroupsName } from '../../../store/selectors/HomeScreenConfigEditorSelector'
 import * as Actions from '../../../store/actions/ActionsCreator'
 
 const childrenKeyOffset = 1000;
@@ -99,6 +99,9 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         let selected = false
         if (sidebarIconKeys.includes(iconKey)) {
             selected = this.props.selectedSidebarIcons.includes(validKey)
+            if (LibraryCustomizedIconKeys.includes(iconKey)) {
+                selected = _.get(this.props.selectedLibraryCustomizedItems, iconKey, true);
+            }
         } else {
             if (this.props.isDossierHome) {
                 const dossierToolbarIcons = dossierIconsDossierHome.map((element) => element.key);
@@ -214,6 +217,10 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         if (sidebarIconKeys.includes(iconKey)) {
             const icons = value ? _.concat([], this.props.selectedSidebarIcons, validKey) : _.pull(_.concat([], this.props.selectedSidebarIcons), validKey)
             update = {[VC.ICON_SIDEBAR]: icons}
+            if (LibraryCustomizedIconKeys.includes(iconKey)) {
+                const customizedItems = _.assign({}, this.props.selectedLibraryCustomizedItems, {[VC.ICON_MY_CONTENT]: value});
+                update = {[VC.CUSTOMIZED_ITEMS]: customizedItems}
+            }
             update = {[VC.HOME_LIBRARY]: update}
         } else {
             let updateDocument = {}
@@ -310,6 +317,7 @@ const mapState = (state: RootState) => ({
     isDossierHome: selectIsDossierAsHome(state),
     toolbarHidden: selectIsToolbarHidden(state),
     toolbarCollapsed: selectIsToolbarCollapsed(state),
+    selectedLibraryCustomizedItems: selectSelectedLibraryCustomizedItems(state),
     selectedSidebarIcons: selectSelectedSideBarIcons(state),
     selectedLibraryIcons: selectSelectedLibraryIcons(state),
     selectedDocumentIcons: selectSelectedDocumentIcons(state), 

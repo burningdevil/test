@@ -1,12 +1,12 @@
 import * as React from 'react'
-import { default as VC, localizedStrings, childrenIcons, iconDetail, iconTypes, platformType, reviewType, dossierIcons, dossierIconsDossierHome, libraryIconKeys, sidebarIconKeys, iconValidKey } from '../HomeScreenConfigConstant'
+import { default as VC, localizedStrings, childrenIcons, iconDetail, iconTypes, platformType, reviewType, dossierIcons, dossierIconsDossierHome, libraryIconKeys, sidebarIconKeys, LibraryCustomizedIconKeys, iconValidKey } from '../HomeScreenConfigConstant'
 import { Layout, Radio } from 'antd'
 import { PlusCircleOutlined, DownOutlined } from '@ant-design/icons'
 import '../scss/HomeScreenPreviewer.scss'
 import * as _ from 'lodash'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
 import { connect } from 'react-redux'
-import { selectCurrentConfig, selectIsDossierAsHome, selectPreviewDeviceType, selectIsToolbarHidden, selectIsToolbarCollapsed, selectSelectedSideBarIcons, selectSelectedLibraryIcons, selectSelectedDocumentIcons } from '../../../store/selectors/HomeScreenConfigEditorSelector'
+import { selectCurrentConfig, selectIsDossierAsHome, selectPreviewDeviceType, selectIsToolbarHidden, selectIsToolbarCollapsed, selectSelectedSideBarIcons, selectSelectedLibraryCustomizedItems, selectSelectedLibraryIcons, selectSelectedDocumentIcons } from '../../../store/selectors/HomeScreenConfigEditorSelector'
 import * as Actions from '../../../store/actions/ActionsCreator'
 
 const classNamePrefix = 'homeScreenPreviewer';
@@ -16,7 +16,11 @@ class HomeScreenPreviewer extends React.Component<any, any> {
         const {libraryIcons, documentIcons, sidebarIcons, isDossierHome} = this.props
         const validKey = iconValidKey(icon.key)
         if (sidebarIconKeys.includes(icon.key)) {
-            return sidebarIcons.includes(validKey)
+            if (LibraryCustomizedIconKeys.includes(icon.key)) {
+                return _.get(this.props.libraryCustomizedItems, icon.key, true);
+            } else {
+                return sidebarIcons.includes(validKey)
+            }
         } else {
             if (isDossierHome) {
                 const dossierToolbarIcons = dossierIconsDossierHome.map((element) => element.key);
@@ -80,14 +84,15 @@ class HomeScreenPreviewer extends React.Component<any, any> {
     }
 
     // render array of side bar icons
-    sidebarIconsRender = (iconsToRender: iconDetail[], rootClassName: string) => {
+    sidebarIconsRender = (iconsToRender: iconDetail[], rootClassName: string, previewType: any) => {
         const sidebarIcons = iconsToRender
             .filter ( (element) => element.key !== iconTypes.accountMobile.key )
             .map( (element, index) => {
             const showAddButton = iconTypes.myGroup.key === element.key
             const showExpandIcon = iconTypes.myGroup.key === element.key || iconTypes.defaultGroup.key === element.key
             const showContent = iconTypes.defaultGroup.key === element.key
-            return this.iconShouldShow(element) &&
+            const hideMyContent = iconTypes.myContent.key === element.key && (previewType === reviewType.TABLET || previewType === reviewType.PHONE)
+            return this.iconShouldShow(element) && !hideMyContent &&
                 <div>
                     <div className={`${classNamePrefix}-pad-overview-left-text`}>
                         <span className={element.iconName} key={index}/> 
@@ -225,7 +230,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                                     <Layout.Content className={this.previewerClassName(deviceType, '-content')}>
                                         <Layout className={this.previewerClassName(deviceType, '-container')}>
                                             <div className={this.previewerClassName(deviceType, '-overview')}>
-                                                { showSideBar && this.sidebarIconsRender(childrenIcons, padLeftClassName) }
+                                                { showSideBar && this.sidebarIconsRender(childrenIcons, padLeftClassName, deviceType) }
                                                 <div className={this.previewerClassName(deviceType, '-overview-right')}>
                                                     { <div className={padRightClassName}> </div> }
                                                     { <div className={padRightClassName}> </div> }
@@ -288,7 +293,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                                             {this.placeHolderRender('auto', true)}
                                         </Layout.Header>
                                         }
-                                        <Layout.Content className={`${classNamePrefix}-phone-content`}>{this.sidebarIconsRender(childrenIcons, `${classNamePrefix}-phone-sidebar`)}</Layout.Content>
+                                        <Layout.Content className={`${classNamePrefix}-phone-content`}>{this.sidebarIconsRender(childrenIcons, `${classNamePrefix}-phone-sidebar`, deviceType)}</Layout.Content>
                                     </Layout>
                                 }
 
@@ -361,6 +366,7 @@ const mapState = (state: RootState) => ({
     isDossierHome: selectIsDossierAsHome(state),
     toolbarHidden: selectIsToolbarHidden(state),
     toolbarCollapsed: selectIsToolbarCollapsed(state),
+    libraryCustomizedItems: selectSelectedLibraryCustomizedItems(state),
     sidebarIcons: selectSelectedSideBarIcons(state),
     libraryIcons: selectSelectedLibraryIcons(state),
     documentIcons: selectSelectedDocumentIcons(state), 
