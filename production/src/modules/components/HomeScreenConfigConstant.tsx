@@ -254,6 +254,7 @@ export const localizedStrings = {
     CANCEL: t('cancel'),
     SAVE: t('save'),
     ERR_APP_SAVE: t('errAppSave'),
+    ERR_APP_LOAD: t('errAppLoad'),
 
     ENVIRONMENT: t('environment'),
     NAME: t('name'),
