@@ -6,7 +6,7 @@ import { copyToClipboard } from '../../../utils/copy';
 import { ReactWsGrid, ColumnDef } from '@mstr/react-ws-grid';
 import type { CellContextMenuEvent } from 'ag-grid-community/';
 import { Record } from '@mstr/rc/types';
-import { WorkstationModule, ObjectEditorSettings, EnvironmentChangeArg, WindowEvent, EnvironmentAction, EnvironmentStatus, Environment, PropertiesSettings, MstrObject, Project, data} from '@mstr/workstation-types';
+import { WorkstationModule, ObjectEditorSettings, EnvironmentChangeArg, WindowEvent, EnvironmentAction, EnvironmentStatus, Environment, PropertiesSettings, MstrObject, Project} from '@mstr/workstation-types';
 import { HttpProxy } from '../../../main';
 import { RestApiError } from '../../../server/RestApiError';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
