@@ -286,7 +286,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       //     if (d.contentBundles.length === 0) {
       //       return (
       //         <div className={`${classNamePrefix}-content-bundles`}>
-      //           <span>{localizedStrings.BUNDLE_USER_HINT}</span>
+      //           <span>{d.mode === localizedStrings.LIBRARY ? localizedStrings.BUNDLE_USER_HINT : ''}</span>
       //         </div>
       //       )
       //     }
