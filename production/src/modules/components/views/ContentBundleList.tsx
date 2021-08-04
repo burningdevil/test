@@ -274,11 +274,11 @@ class ContentBundleList extends React.Component<any, any> {
         {field: VC.RECIPIENT_STR, headerName: localizedStrings.RECIPIENTS, cellRenderer: (params: any) => {
           if (params.node.group) {
             if (params.node.data.recipientType === BundleRecipientType.GROUP) {
-              return '<img class="content-bundle-list-container-item-group" src="../assets/images/bundleUserGroup.png"/><span style="color: #35383a;; padding: 4px; font-size: 12px; font-weight: 400">' + params.value + '</span>';
+              return '<img class="content-bundle-list-container-item-group" src="../assets/images/bundleUserGroup.png"/><span style="color: #35383a;; padding: 4px; font-size: 12px">' + params.value + '</span>';
             } else if (params.node.data.recipientType === BundleRecipientType.USER) {
-              return '<img class="content-bundle-list-container-item-user" src="../assets/images/bundleUser.png"/><span style="color: #35383a; padding: 4px; font-size: 12px; font-weight: 400">' + params.value + '</span>';
+              return '<img class="content-bundle-list-container-item-user" src="../assets/images/bundleUser.png"/><span style="color: #35383a; padding: 4px; font-size: 12px">' + params.value + '</span>';
             } else if (params.node.data.recipientType === BundleRecipientType.BOTH) {
-              return '<img class="content-bundle-list-container-item-user" src="../assets/images/bundleUser.png"/><img class="content-bundle-list-container-item-group2" src="../assets/images/bundleUserGroup.png"/><span style="color: #35383a; padding: 4px; font-size: 12px; font-weight: 400">' + params.value + '</span>';
+              return '<img class="content-bundle-list-container-item-user" src="../assets/images/bundleUser.png"/><img class="content-bundle-list-container-item-group2" src="../assets/images/bundleUserGroup.png"/><span style="color: #35383a; padding: 4px; font-size: 12px">' + params.value + '</span>';
             } else {
               return '';
             }
