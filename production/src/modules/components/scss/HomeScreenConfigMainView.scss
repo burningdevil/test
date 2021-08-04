@@ -54,6 +54,11 @@
         outline: none;
     }
 
+    &-default-application-text {
+        color: $msdl-blue;
+        padding-right: 2px;
+    }
+
     &-application-name-text {
         padding-right: 5px;
         overflow: hidden;

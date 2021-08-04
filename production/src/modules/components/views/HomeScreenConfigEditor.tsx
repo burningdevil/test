@@ -156,7 +156,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
       const { homeScreen } = this.props.config;
       const dossierUrlPath = 'homeDocument.url';
       const dossierUrl = _.get(homeScreen, dossierUrlPath, '');
-      if (dossierUrl && homeScreen.mode === VC.MODE_USE_DEFAULT_HOME_SCREEN) {
+      if (dossierUrl && this.props.isDossierHome) {
         config = _.merge(config, {
           homeScreen: {
             homeDocument: {

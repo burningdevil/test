@@ -17,6 +17,7 @@
     "newApplication": "New Application",
     "newApplicationBtn": "Create Application Button",
     "environment": "Environment",
+    "default": "Default",
     "name": "Name",
     "description": "Description",
     "platforms": "Platforms",
@@ -53,7 +54,7 @@
     "recents": "Recents",
     "defaultGroups": "Default Groups",
     "myGroup": "My Groups",
-    "myContent": "My Content",
+    "myContent": "My Content (Web and Desktop)",
     "accountMobile": "Account (Mobile only)",
 
     "enableFeatureTitle": "ENABLE FEATURES",

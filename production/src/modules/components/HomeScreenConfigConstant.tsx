@@ -289,6 +289,7 @@ export const localizedStrings = {
     EDIT: t('edit'),
     DELETE: t('delete'),
     DUPLICATE: t('duplicate'),
+    DEFAULT: t('default'),
     NEW_APP_BTN_TEXT: t('newApplicationBtn'),
     NEW_APP_TEXT: t('newApplication'),
     DEFAULT_APP_NAME: t('defaultApplicationName'),
