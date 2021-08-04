@@ -101,6 +101,11 @@ export const selectSelectedSideBarIcons = createSelector(
   (config) => config.homeScreen.homeLibrary.sidebars
 )
 
+export const selectSelectedLibraryCustomizedItems = createSelector(
+  selectCurrentConfig,
+  (config) => _.get(config, 'homeScreen.homeLibrary.customizedItems', {})
+)
+
 export const selectSelectedLibraryIcons = createSelector(
   selectCurrentConfig,
   (config) => config.homeScreen.homeLibrary.icons

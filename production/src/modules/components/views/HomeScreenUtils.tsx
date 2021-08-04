@@ -57,7 +57,7 @@ export function getHomeScreenBundleListGroupCellInnerRenderer() {
       if (params.node.group) {
         const color = hexIntToColorStr(params.node.data.color);
         tempDiv.innerHTML =
-          '<span class="icon-group_groups_a" style="color:'+ color + '"/><span style="color: #35383a; padding: 6px;">' +
+          '<span class="icon-group_groups_a" style="color:'+ color + '"/><span style="color: #35383a; padding: 6px">' +
           params.value +
           '</span>';
       } else {

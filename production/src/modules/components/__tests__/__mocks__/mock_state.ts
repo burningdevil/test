@@ -1,5 +1,6 @@
 import { RootState } from '../../../../types/redux-state/HomeScreenConfigState';
-import { CONSTANTS, iconTypes, reviewType, iconValidKey, platformType, dossierIconKeys, libraryIconKeys, sidebarIconKeys, featureFlag } from '../../HomeScreenConfigConstant';
+import * as _ from "lodash";
+import { CONSTANTS, iconTypes, reviewType, iconValidKey, platformType, dossierIconKeys, libraryIconKeys, sidebarIconKeys, libraryCustomizedIconKeys, featureFlag } from '../../HomeScreenConfigConstant';
 export default {
     configEditor: {
         currentConfig: {
@@ -12,7 +13,8 @@ export default {
                 mode: CONSTANTS.MODE_USE_DOSSIER_AS_HOME_SCREEN, 
                 homeLibrary: { 
                   icons: libraryIconKeys.map((key) => iconValidKey(key)), 
-                  sidebars: sidebarIconKeys.filter((key) => key !== iconTypes.defaultGroup.key).map((key) => iconValidKey(key)), 
+                  sidebars: sidebarIconKeys.filter((key) => !_.includes([iconTypes.defaultGroup.key, iconTypes.myContent.key], key)).map((key) => iconValidKey(key)),
+                  customizedItems: {},
                   contentBundleIds: [],
                   defaultGroupsName: '',
                   toolbarMode: CONSTANTS.SHOW_TOOLBAR,
@@ -87,6 +89,7 @@ export default {
                   "notifications",
                   "options"
                 ],
+                "customizedItems": {},
                 "toolbarMode": 0,
                 "sidebars": [
                   "all",
@@ -129,7 +132,8 @@ export const mockLibraryAsHome: RootState = {
               mode: CONSTANTS.MODE_USE_DEFAULT_HOME_SCREEN, 
               homeLibrary: { 
                 icons: libraryIconKeys.map((key) => iconValidKey(key)), 
-                sidebars: sidebarIconKeys.filter((key) => key !== iconTypes.defaultGroup.key).map((key) => iconValidKey(key)), 
+                sidebars: sidebarIconKeys.filter((key) => !_.includes([iconTypes.defaultGroup.key, iconTypes.myContent.key], key)).map((key) => iconValidKey(key)),
+                customizedItems: {},
                 contentBundleIds: [],
                 defaultGroupsName: '',
                 toolbarMode: CONSTANTS.SHOW_TOOLBAR,
@@ -193,9 +197,7 @@ export const mockLibraryAsHome: RootState = {
               "toolbarEnabled": true
             },
             "homeLibrary": {
-              "contentBundleIds": [
-                
-              ],
+              "contentBundleIds": [],
               "icons": [
                 "sidebars",
                 "sort_and_filter",
@@ -213,6 +215,7 @@ export const mockLibraryAsHome: RootState = {
                 "my_groups",
                 "options"
               ],
+              "customizedItems": {},
               "toolbarEnabled": true,
               "defaultGroupsName": "Default Groups"
             }
@@ -246,7 +249,8 @@ export const mockDossierAsHome: RootState = {
               mode: CONSTANTS.MODE_USE_DOSSIER_AS_HOME_SCREEN, 
               homeLibrary: { 
                 icons: libraryIconKeys.map((key) => iconValidKey(key)), 
-                sidebars: sidebarIconKeys.filter((key) => key !== iconTypes.defaultGroup.key).map((key) => iconValidKey(key)), 
+                sidebars: sidebarIconKeys.filter((key) => !_.includes([iconTypes.defaultGroup.key, iconTypes.myContent.key], key)).map((key) => iconValidKey(key)),
+                customizedItems: {},
                 contentBundleIds: [],
                 defaultGroupsName: '',
                 toolbarMode: CONSTANTS.SHOW_TOOLBAR,
@@ -313,6 +317,7 @@ export const mockDossierAsHome: RootState = {
               "contentBundleIds": [
                 
               ],
+              "customizedItems": {},
               "icons": [
                 "sidebars",
                 "sort_and_filter",
@@ -369,6 +374,7 @@ export const mockDossierAsHome: RootState = {
               "contentBundleIds": [
                 
               ],
+              "customizedItems": {},
               "icons": [
                 "string"
               ],
@@ -418,6 +424,7 @@ export const mockDossierAsHome: RootState = {
               "contentBundleIds": [
                 
               ],
+              "customizedItems": {},
               "icons": [
                 "string"
               ],
@@ -467,6 +474,7 @@ export const mockDossierAsHome: RootState = {
               "icons": [
                 "string"
               ],
+              "customizedItems": {},
               "toolbarMode": 0,
               "sidebars": [
                 "string"
@@ -504,7 +512,8 @@ export const mockDossierPicker: RootState = {
               mode: CONSTANTS.MODE_USE_DOSSIER_AS_HOME_SCREEN, 
               homeLibrary: { 
                 icons: libraryIconKeys.map((key) => iconValidKey(key)), 
-                sidebars: sidebarIconKeys.filter((key) => key !== iconTypes.defaultGroup.key).map((key) => iconValidKey(key)), 
+                sidebars: sidebarIconKeys.filter((key) => !_.includes([iconTypes.defaultGroup.key, iconTypes.myContent.key], key)).map((key) => iconValidKey(key)),
+                customizedItems: {},
                 contentBundleIds: [],
                 defaultGroupsName: '',
                 toolbarMode: CONSTANTS.SHOW_TOOLBAR,
@@ -571,6 +580,7 @@ export const mockDossierPicker: RootState = {
               "contentBundleIds": [
                 
               ],
+              "customizedItems": {},
               "icons": [
                 "sidebars",
                 "sort_and_filter",
@@ -634,6 +644,7 @@ export const mockDossierPicker: RootState = {
               "sidebars": [
                 "string"
               ],
+              "customizedItems": {},
               "toolbarEnabled": true,
               "defaultGroupsName": "string"
             }
@@ -683,6 +694,7 @@ export const mockDossierPicker: RootState = {
               "sidebars": [
                 "string"
               ],
+              "customizedItems": {},
               "toolbarEnabled": false,
               "defaultGroupsName": "string"
             }
@@ -719,9 +731,7 @@ export const mockDossierPicker: RootState = {
               "toolbarEnabled": false,
             },
             "homeLibrary": {
-              "contentBundleIds": [
-                
-              ],
+              "contentBundleIds": [],
               "icons": [
                 "string"
               ],
@@ -729,6 +739,7 @@ export const mockDossierPicker: RootState = {
               "sidebars": [
                 "string"
               ],
+              "customizedItems": {},
               "toolbarEnabled": false,
               "defaultGroupsName": "string"
             }

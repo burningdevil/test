@@ -27,6 +27,7 @@ export interface HomeScreenConfigType {
         homeLibrary: { 
             icons: Array<string>,
             sidebars: Array<string>,
+            customizedItems: any,
             contentBundleIds: Array<string>,
             defaultGroupsName: string,
             toolbarMode: number,
