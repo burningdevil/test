@@ -87,6 +87,7 @@ $line-height-small: 13px;
         height: -webkit-max-content; /* Chrome */
         margin-bottom: 12px;
         margin-left: 16px;
+        user-select: none;
 
         .ant-table-tbody > tr:nth-child(n-1)  > td {
             padding: 12px 0px;
