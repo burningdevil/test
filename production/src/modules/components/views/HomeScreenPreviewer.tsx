@@ -217,7 +217,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                         {this.deviceTypesRender(deviceType)}
 
                         {/* library toolbars */}
-                        {!isDossierHome && this.titleRender(localizedStrings.LIBRARYHOME)}
+                        {!isDossierHome && this.titleRender(localizedStrings.LIBRARY_WINDOW)}
                         {!isDossierHome &&
                         <div style={{position: 'relative'}}>
                             <Layout className={this.previewerClassName(deviceType, '')}>
@@ -281,7 +281,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                         {this.deviceTypesRender(deviceType)}
 
                         {/* library */}
-                        {!isDossierHome && this.titleRender(localizedStrings.LIBRARYHOME)}
+                        {!isDossierHome && this.titleRender(localizedStrings.LIBRARY_WINDOW)}
 
                         <div style={{position: 'relative'}}>
                             <div className={`${classNamePrefix}-horcontainer`}>
