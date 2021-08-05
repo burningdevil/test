@@ -156,7 +156,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
       const { homeScreen } = this.props.config;
       const dossierUrlPath = 'homeDocument.url';
       const dossierUrl = _.get(homeScreen, dossierUrlPath, '');
-      if (dossierUrl && this.props.isDossierHome) {
+      if (dossierUrl && !this.props.isDossierHome) {
         config = _.merge(config, {
           homeScreen: {
             homeDocument: {
