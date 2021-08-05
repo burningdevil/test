@@ -63,7 +63,7 @@ $line-height-side: 18px;
         text-align: center;
         border: .07rem solid lightgrey;
         border-radius: 4px 4px 0 0;
-        border-bottom-width: .0rem;
+        border-bottom: none;
         line-height: $preview-header-height;
         background-color: $background-color;
         span {
@@ -278,7 +278,7 @@ $line-height-side: 18px;
             text-align: center;
             border: .07rem solid lightgrey;
             border-radius: 4px 4px 0 0;
-            border-bottom: none;
+            border-bottom-width: .01rem;
             line-height: 24px;
             background-color: $background-color;
             font-size: $font-size-mini;
