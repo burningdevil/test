@@ -47,7 +47,9 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
       // Handle Edit config
       const configId = this.parseConfigId(_.get(this.props, 'location.search', undefined));
       if (configId) {
-        api.loadCurrentEditConfig(configId);
+        api.loadCurrentEditConfig(configId).catch((e: any) => {
+          this.processErrorResponse(e, localizedStrings.ERR_APP_LOAD);
+        });
       } else {
         const newApplicationName = this.generateDefaultAppName(extraContextJson.configInfoList);
         this.props.updateCurrentConfig({name: newApplicationName});
@@ -148,17 +150,30 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
   };
 
   handleSaveConfig = () => {
+      let config =_.merge({}, this.props.config);
       const configId = this.state.configId;
+      // Remove dossier url when mode is Library As Home. Before saving object.
+      const { homeScreen } = this.props.config;
+      const dossierUrlPath = 'homeDocument.url';
+      const dossierUrl = _.get(homeScreen, dossierUrlPath, '');
+      if (dossierUrl && this.props.isDossierHome) {
+        config = _.merge(config, {
+          homeScreen: {
+            homeDocument: {
+              url: ''
+            }
+          }
+        });
+      }
       if (configId && !this.props.isDuplicateConfig) {
-        HttpProxy.put(api.getApiPathForEditApplication(configId), this.props.config, {}, PARSE_METHOD.BLOB).then(() => {
+        HttpProxy.put(api.getApiPathForEditApplication(configId), config, {}, PARSE_METHOD.BLOB).then(() => {
           // trigger load config list and close window
           workstation.window.postMessage({homeConfigSaveSuccess: true}).then(() => {workstation.window.close();});
         }).catch((e: any) => {
           // request error handle, if 401, need re-authrioze, disconnect current environment and close current sub-window. Else, show error message
-          this.processErrorResponse(e);
+          this.processErrorResponse(e, localizedStrings.ERR_APP_SAVE);
         });
       } else {
-        let config = this.props.config;
         if (this.props.isDuplicateConfig) {
           config = _.omit(config, ['id', 'dateModified', 'dateCreated', 'objectVersion']);
           config.objectNames = [];
@@ -166,19 +181,19 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         HttpProxy.post(api.getApiPathForNewApplication(), config, {}, PARSE_METHOD.BLOB).then(() => {
           workstation.window.postMessage({homeConfigSaveSuccess: true}).then(() => {workstation.window.close();});
         }).catch((err: any) => {
-          this.processErrorResponse(err);
+          this.processErrorResponse(err, localizedStrings.ERR_APP_SAVE);
         });
       }
   }
 
-  processErrorResponse = (e: any) => {
+  processErrorResponse = (e: any, errorMsg: string) => {
     const error = e as RestApiError;
     if (error.statusCode === 401) {
       workstation.environments.disconnect(this.state.currentEnv.url);
       workstation.window.close();
       return;
     }
-    message.error(localizedStrings.ERR_APP_SAVE + error.errorMsg);
+    message.error(errorMsg + error.errorMsg);
   }
 
   handleCancel = () => {

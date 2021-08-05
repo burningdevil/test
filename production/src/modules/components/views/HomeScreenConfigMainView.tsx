@@ -257,6 +257,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
           const d = rendererParam.data;
           return (
             <div className={`${classNamePrefix}-application-name-container`}>
+              {d.isDefault && <span className={`${classNamePrefix}-default-application-text`}>{'(' + localizedStrings.DEFAULT + ')'}</span>}
               <span className={`${classNamePrefix}-application-name-text`}>{d.name}</span>
               {this.renderShareContextMenu(d)}
             </div>

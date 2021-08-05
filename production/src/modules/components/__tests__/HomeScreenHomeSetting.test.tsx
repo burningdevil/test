@@ -34,7 +34,7 @@ describe('HomeScreenHomeSetting Component', () => {
     expect(dossierCheckBox).not.toBeChecked();
 
     // check previewer
-    const libraryPreview = queryByText('libraryWindowLowerCase');
+    const libraryPreview = queryByText('libraryWindow');
     expect(libraryPreview).toBeInTheDocument();
 
     const dossierPreview = queryByText('dossierWindowLowerCase');
@@ -45,7 +45,7 @@ describe('HomeScreenHomeSetting Component', () => {
     expect(libraryCheckBox).not.toBeChecked();
 
     // check previewer
-    const libraryNewPreview = queryByText('libraryWindowLowerCase');
+    const libraryNewPreview = queryByText('libraryWindow');
     expect(libraryNewPreview).not.toBeInTheDocument();
 
     const dossierNewPreview = queryByText('dossierWindowHomeLowerCase');
@@ -72,7 +72,7 @@ describe('HomeScreenHomeSetting Component', () => {
     expect(dossierCheckBox).toBeChecked();
 
     // check previewer
-    const libraryNewPreview = queryByText('libraryWindowLowerCase');
+    const libraryNewPreview = queryByText('libraryWindow');
     expect(libraryNewPreview).not.toBeInTheDocument();
 
     const dossierNewPreview = queryByText('dossierWindowHomeLowerCase');
@@ -83,7 +83,7 @@ describe('HomeScreenHomeSetting Component', () => {
     expect(libraryCheckBox).toBeChecked();
 
     // check previewer
-    const libraryPreview = queryByText('libraryWindowLowerCase');
+    const libraryPreview = queryByText('libraryWindow');
     expect(libraryPreview).toBeInTheDocument();
 
     const dossierPreview = queryByText('dossierWindowLowerCase');

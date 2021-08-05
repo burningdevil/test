@@ -53,18 +53,17 @@
             width: 689px;
             height: 514px;
 
-            &-name-dossier {
+            &-name-icon {
                 width: 36px;
                 height: 20px;
                 margin-right: 14px;
                 margin-left: 2px;
             }
 
-            &-name-document {
-                width: 36px;
-                height: 20px;
-                margin-right: 14px;
-                margin-left: 2px;
+            &-name-text {
+                color: $msdl-black;
+                padding: 4px;
+                font-size: $font-size;
             }
         }
     }

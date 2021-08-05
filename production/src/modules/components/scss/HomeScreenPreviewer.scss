@@ -63,7 +63,7 @@ $line-height-side: 18px;
         text-align: center;
         border: .07rem solid lightgrey;
         border-radius: 4px 4px 0 0;
-        border-bottom-width: .01rem;
+        border-bottom: none;
         line-height: $preview-header-height;
         background-color: $background-color;
         span {
@@ -199,8 +199,8 @@ $line-height-side: 18px;
 
     &-title {
         text-align: center;
-        margin-top: 12px;
-        margin-bottom: 8px;
+        margin-top: 20px;
+        margin-bottom: 6px;
         font-size: $font-size;
         font-family: $font-family;
     }

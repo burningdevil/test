@@ -18,7 +18,6 @@
                 color: $mobile-primary-blue;
             }
         }
-        background-color: white !important;
     }
 
     .ag-row:hover {
@@ -53,6 +52,11 @@
         margin-left: 15px;
         cursor: pointer;
         outline: none;
+    }
+
+    &-default-application-text {
+        color: $msdl-blue;
+        padding-right: 2px;
     }
 
     &-application-name-text {

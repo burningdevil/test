@@ -257,6 +257,7 @@ export const localizedStrings = {
     CANCEL: t('cancel'),
     SAVE: t('save'),
     ERR_APP_SAVE: t('errAppSave'),
+    ERR_APP_LOAD: t('errAppLoad'),
 
     ENVIRONMENT: t('environment'),
     NAME: t('name'),
@@ -276,7 +277,6 @@ export const localizedStrings = {
     TABLET: t('tablet'),
     PHONE: t('phone'),
     PREVIEW: t('preview'),
-    LIBRARYHOME: t('libraryWindowLowerCase'),
     DOSSIER_WINDOW_LOWERCASE: t('dossierWindowLowerCase'),
     DOSSIERHOME: t('dossierWindowHomeLowerCase'),
     ERR_EDITOR_OPEN: t('errEditorOpen'),
@@ -288,6 +288,7 @@ export const localizedStrings = {
     EDIT: t('edit'),
     DELETE: t('delete'),
     DUPLICATE: t('duplicate'),
+    DEFAULT: t('default'),
     NEW_APP_BTN_TEXT: t('newApplicationBtn'),
     NEW_APP_TEXT: t('newApplication'),
     DEFAULT_APP_NAME: t('defaultApplicationName'),
