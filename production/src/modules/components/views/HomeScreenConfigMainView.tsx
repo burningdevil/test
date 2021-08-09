@@ -46,8 +46,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
 
   async componentDidMount() {
     this.loadData();
-    const currentEnv = await workstation.environments.getCurrentEnvironment();
-    this.checkServerAndUserPrivilege(currentEnv);
+    this.checkServerAndUserPrivilege();
 
     workstation.environments.onEnvironmentChange((change: EnvironmentChangeArg) => {
       console.log('enviornment change: ' + change.actionTaken);
@@ -58,7 +57,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
           isInitialLoading: true
         });
         this.loadData();
-        this.checkServerAndUserPrivilege(change.changedEnvironment);
+        this.checkServerAndUserPrivilege();
       }
       if (change.actionTaken === EnvironmentAction.Disconnect && change.changedEnvironment.status === EnvironmentStatus.Disconnected && change.changedEnvironment.url === this.state.currentEnv.url) {
         this.setState({
@@ -81,15 +80,16 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     });
   }
 
-  checkServerAndUserPrivilege = async (env: Environment) => {
+  checkServerAndUserPrivilege = async () => {
+    const currentEnv = await workstation.environments.getCurrentEnvironment();
     const status: any = await api.getServerStatus();
     const isMDVersionMatched = await this.loadDefaultConfig();
-    const isConnected = env.status === EnvironmentStatus.Connected;
+    const isConnected = currentEnv.status === EnvironmentStatus.Connected;
     const isLibraryVersionMatched = isLibraryServerVersionMatch(status.webVersion);
     const isIServerVersionMatched = isIServerVersionMatch(status.iServerVersion);
-    const isUserHasAccess = isUserHasManageApplicationPrivilege(env.privileges);
+    const isUserHasAccess = isUserHasManageApplicationPrivilege(currentEnv.privileges);
     this.setState({
-      currentEnv: env,
+      currentEnv: currentEnv,
       isConnected: isConnected,
       isLibraryVersionMatched: isLibraryVersionMatched,
       isIServerVersionMatched: isIServerVersionMatched,
