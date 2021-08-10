@@ -79,7 +79,7 @@ export const loadContentBundleList = () => {
 }
 
 export const loadCurrentEditConfig = (configId: string) => {
-    return HttpProxy.get(CONFIG_ENDPOINTS + configId + '?outputFlag=INCLUDE_LOCALE&outputFlag=INCLUDE_ACL').then((response: any) => {
+    return HttpProxy.get(CONFIG_ENDPOINTS + configId + '?outputFlag=INCLUDE_LOCALE').then((response: any) => {
         let data = response;
         if (data && response.data) {
           data = response.data;

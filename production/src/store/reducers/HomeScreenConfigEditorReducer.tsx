@@ -11,7 +11,6 @@ const initialState: HomeScreenConfigEditorState = {
     'platforms': featureFlag.platformEnable ? [platformType.mobile, platformType.web, platformType.desktop] : [platformType.web, platformType.desktop],
     'isDefault': false,
     'objectNames': [],
-    'objectAcl': [],
     'homeScreen': {
       mode: CONSTANTS.MODE_USE_DEFAULT_HOME_SCREEN, 
       homeLibrary: { 
