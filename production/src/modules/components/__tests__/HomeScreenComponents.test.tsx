@@ -42,10 +42,6 @@ describe('HomeScreenComponents Component', () => {
       </Provider>
     );
 
-    // Find Dossier Window Label
-    const dossierWindow = queryByText('dossierWindow');
-    expect(dossierWindow).toBeInTheDocument();
-
     // Library As Home
     expect(selectIsDossierAsHome(store.getState() as RootState)).toBe(false);
 
