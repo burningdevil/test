@@ -259,6 +259,8 @@ export const localizedStrings = {
     ERR_APP_SAVE: t('errAppSave'),
     ERR_APP_LOAD: t('errAppLoad'),
 
+    AND: t('andStr'),
+
     ENVIRONMENT: t('environment'),
     NAME: t('name'),
     DESCRIPTION: t('description'),

@@ -139,16 +139,17 @@ class ContentBundleList extends React.Component<any, any> {
       let mode = BundleRecipientType.BOTH;
       const groupsCount = groups.length
       const usersCount = totalCount - groupsCount
-      let recipientsStr = t('recipentsStr', {groupsCount, usersCount});
+      let recipientsStr = '';
       if (groups.length === 0 && totalCount - groups.length === 0) {
-         recipientsStr = '';
          mode = BundleRecipientType.NONE;
       } else if (groups.length === 0 && totalCount - groups.length > 0) {
-        recipientsStr = t('usersCount', {usersCount});
+        recipientsStr = t('usersCount', {count: usersCount});
         mode = BundleRecipientType.USER;
       } else if (groups.length > 0 && totalCount - groups.length === 0) {
-        recipientsStr = t('groupsCount', {groupsCount});
+        recipientsStr = t('groupsCount', {count: groupsCount});
         mode = BundleRecipientType.GROUP;
+      } else {
+        recipientsStr = `${t('groupsCount', {count: groupsCount})} ${localizedStrings.AND} ${t('usersCount', {count: usersCount})}` 
       }
       return _.assign(bundle, {recipientType: mode, expand: true, recipientStr: recipientsStr});
     });
