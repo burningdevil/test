@@ -277,8 +277,6 @@ export const localizedStrings = {
     TABLET: t('tablet'),
     PHONE: t('phone'),
     PREVIEW: t('preview'),
-    DOSSIER_WINDOW_LOWERCASE: t('dossierWindowLowerCase'),
-    DOSSIERHOME: t('dossierWindowHomeLowerCase'),
     ERR_EDITOR_OPEN: t('errEditorOpen'),
     ERR_SESSION_OUT: t('errSessionOut'),
     COPY_LINK: t('copyLink'),

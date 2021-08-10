@@ -37,7 +37,7 @@ describe('HomeScreenHomeSetting Component', () => {
     const libraryPreview = queryByText('libraryWindow');
     expect(libraryPreview).toBeInTheDocument();
 
-    const dossierPreview = queryByText('dossierWindowLowerCase');
+    const dossierPreview = queryByText('dossierWindow');
     expect(dossierPreview).toBeInTheDocument();
     
     fireEvent.click(dossierCheckBox);
@@ -48,7 +48,7 @@ describe('HomeScreenHomeSetting Component', () => {
     const libraryNewPreview = queryByText('libraryWindow');
     expect(libraryNewPreview).not.toBeInTheDocument();
 
-    const dossierNewPreview = queryByText('dossierWindowHomeLowerCase');
+    const dossierNewPreview = queryByText('dossierWindowHome');
     expect(dossierNewPreview).toBeInTheDocument();
   });
 
@@ -75,7 +75,7 @@ describe('HomeScreenHomeSetting Component', () => {
     const libraryNewPreview = queryByText('libraryWindow');
     expect(libraryNewPreview).not.toBeInTheDocument();
 
-    const dossierNewPreview = queryByText('dossierWindowHomeLowerCase');
+    const dossierNewPreview = queryByText('dossierWindowHome');
     expect(dossierNewPreview).toBeInTheDocument();
     
     fireEvent.click(libraryCheckBox);
@@ -86,7 +86,7 @@ describe('HomeScreenHomeSetting Component', () => {
     const libraryPreview = queryByText('libraryWindow');
     expect(libraryPreview).toBeInTheDocument();
 
-    const dossierPreview = queryByText('dossierWindowLowerCase');
+    const dossierPreview = queryByText('dossierWindow');
     expect(dossierPreview).toBeInTheDocument();
   });
 });

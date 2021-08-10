@@ -79,12 +79,8 @@
     "dateCreated": "Date Created",
     "dateModified": "Date Modified",
     "home": "Home",
-    "application": "Application",
 
     "preview": "Preview",
-    "dossierWindowLowerCase": "Dossier Window",
-    "dossierWindowHomeLowerCase": "Dossier Window (Home)",
-
     "mobileOnlyDesc": "SPECIFIC TO MOBILE SETTINGS",
     "security": "Security",
     "access": "Access",

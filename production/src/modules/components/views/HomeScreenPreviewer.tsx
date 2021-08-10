@@ -246,7 +246,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                         }
 
                         {/* dossier toolbars */}
-                        {this.titleRender( isDossierHome ? localizedStrings.DOSSIERHOME : localizedStrings.DOSSIER_WINDOW_LOWERCASE )}
+                        {this.titleRender( isDossierHome ? localizedStrings.DOSSIER_WINDOW_HOME : localizedStrings.DOSSIER_WINDOW )}
                         <div style={{position: 'relative'}}>
                             <Layout className={this.previewerClassName(deviceType, '')}>
                                 { !hideHeader &&
@@ -325,7 +325,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                         </div>
                         
                         {/* dossier toolbars */}
-                        {this.titleRender( isDossierHome ? localizedStrings.DOSSIERHOME : localizedStrings.DOSSIER_WINDOW_LOWERCASE )}
+                        {this.titleRender( isDossierHome ? localizedStrings.DOSSIER_WINDOW_HOME : localizedStrings.DOSSIER_WINDOW )}
                         <div style={{position: 'relative'}} >
                             <Layout className={`${classNamePrefix}-phone`}>
                                 { !hideHeader &&
