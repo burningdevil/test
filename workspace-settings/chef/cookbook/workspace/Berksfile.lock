@@ -1,10 +1,10 @@
 DEPENDENCIES
-  ark
+  ark (= 5.0.0)
   build-essential
   chef_commons
     git: https://github.microstrategy.com/ecosystem-cookbooks/chef_commons.git
-    revision: 6ea6d618a12352593f5c19716c06814a36665afc
-    tag: 1.1.22
+    revision: 6302a61b03249234be41e55c9254871adb3bf41c
+    tag: 1.1.11
   docker
     git: https://github.microstrategy.com/ecosystem-cookbooks/docker.git
     revision: 713f3ad8e7e49c5c090e0977dcfbf48f8aeafe7f
@@ -15,8 +15,8 @@ DEPENDENCIES
     tag: 0.1.61
   helm
     git: https://github.microstrategy.com/ecosystem-cookbooks/helm.git
-    revision: 6a7ec0e3d99181e4bd352251d673a641430be29d
-    tag: 0.1.31
+    revision: fe35d6ca7ddf647a0379558f0836de876e5ae70c
+    tag: 0.1.32
   kube-config
     git: https://github.microstrategy.com/ecosystem-cookbooks/kube-config.git
     revision: c9e732d3383bf404dfa7f1838e4d6ceb6c6feecc
@@ -33,8 +33,8 @@ GRAPH
   build-essential (8.2.1)
     mingw (>= 1.1)
     seven_zip (>= 0.0.0)
-  chef_commons (1.1.22)
-    ark (<= 5.0.0)
+  chef_commons (1.1.11)
+    ark (>= 0.0.0)
   dmg (4.1.1)
   docker (0.1.31)
   extras (0.1.61)
