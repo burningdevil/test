@@ -1,6 +1,6 @@
 @import '~@mstr/rc/es/assets/scss/variables.scss';
 @import './variables.scss';
-
+@import '../../../styles/base';
 .home-screen-home {
     padding: 0px 0px 0 30px;
     background-color: white;
@@ -85,6 +85,7 @@
         }
 
         &-dossier-name {
+            @extend .overflow;
             flex-grow: 1;
         }
 
