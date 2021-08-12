@@ -177,6 +177,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         if (this.props.isDuplicateConfig) {
           config = _.omit(config, ['id', 'dateModified', 'dateCreated', 'objectVersion']);
           config.objectNames = [];
+          config.objectAcl = [];
         }
         HttpProxy.post(api.getApiPathForNewApplication(), config, {}, PARSE_METHOD.BLOB).then(() => {
           workstation.window.postMessage({homeConfigSaveSuccess: true}).then(() => {workstation.window.close();});
