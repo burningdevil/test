@@ -1,0 +1,56 @@
+@import '~@mstr/rc/es/assets/scss/variables.scss';
+
+$prefix: confirmation-dialog;
+
+.#{$prefix} {
+  width: 500px !important;
+
+  .mstr-rc-dialog-title {
+    @include msdl-h3;
+    background-color: $msdl-white;
+  }
+
+  border: 1px solid $msdl-border-gray;
+  box-shadow: 0 1px 4px 0 $msdl-shadow-gray;
+  border-radius: $msdl-border-radius;
+
+  .#{$prefix}-dialog-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    background-color: $msdl-fill-gray;
+
+    .#{$prefix}-warning-icon {
+      padding: 25px 25px 25px 25px;
+    }
+
+    .#{$prefix}-content-container {
+      padding: 30px 15px 30px 0px;
+      max-height: 320px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      @include msdl-paragraph;
+
+      .#{$prefix}-summary {
+        padding-bottom: 5px;
+        font-weight: bold;
+      }
+
+      .#{$prefix}-details {
+        overflow: scroll;
+
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .mstr-rc-dialog-footer {
+    padding-bottom: 15px;
+    padding-right: 10px;
+    background-color: $msdl-fill-gray;
+  }
+}

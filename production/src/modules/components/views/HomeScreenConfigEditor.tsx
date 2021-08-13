@@ -19,6 +19,7 @@ import { selectCurrentConfig, selectIsDuplicateConfig, selectIsConfigNameError, 
 import * as Actions from '../../../store/actions/ActionsCreator';
 import * as api from '../../../services/Api';
 import { default as VC, localizedStrings, editorSize } from '../HomeScreenConfigConstant'
+import { ConfirmationDialog, ConfirmationDialogWordings } from '../common-components/confirmation-dialog';
 
 declare var workstation: WorkstationModule;
 
@@ -128,14 +129,35 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         homeSettingTabVisitCount: homeSettingTabVisitCount
     });
   }
-
+  // confirm dialog related.
+  handleCloseDialog = () => {
+      this.setState({
+        isConfirmationDialogOpen: false
+      })
+  }
+  confirmCancel = () => {
+      this.setState({
+        isConfirmationDialogOpen: true
+      })
+  }
+  /* Confirmation dialog wordings */
+  wordings: ConfirmationDialogWordings = {
+      title: localizedStrings.CANCEL,
+      actionButtonText:
+        localizedStrings.YES,
+      cancelButtonText: localizedStrings.NO,
+      summaryText:
+        localizedStrings.CONFIRM_CANCEL_DIALOG_MSG_TITLE,
+      detailText:
+        localizedStrings.CONFIRM_CANCEL_DIALOG_MSG_DETAIL
+  }
   buttonGroup = () => {
     const { isDossierHome, config } = this.props;
     const dossierUrlPath = 'homeScreen.homeDocument.url';
     const dossierUrl = _.get(config, dossierUrlPath, '');
     return (
         <div className={`${classNamePrefix}-layout-btn`}>
-            <Button key={VC.BACK} onClick={this.handleCancel}>
+            <Button key={VC.BACK} onClick={this.confirmCancel}>
                 {localizedStrings.CANCEL}
             </Button>
             <Button key={VC.GENERATE}
@@ -145,6 +167,13 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 disabled = {this.props.isConfigNameError || (isDossierHome && _.isEmpty(dossierUrl))}>
                 {localizedStrings.SAVE}
             </Button>
+            {/* confirmmation dialog of cancel */}
+            <ConfirmationDialog
+                isConfirmationDialogDisplayed={this.state.isConfirmationDialogOpen}
+                closeDialog={this.handleCloseDialog}
+                triggerAction={this.handleCancel}
+                wordings={this.wordings}
+            />
         </div>
     );
   };
@@ -198,6 +227,9 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
   }
 
   handleCancel = () => {
+    this.setState({
+      isConfirmationDialogOpen: false
+    })
     workstation.window.close();
   }
 
