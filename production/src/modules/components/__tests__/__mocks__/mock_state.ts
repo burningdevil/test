@@ -9,6 +9,7 @@ export default {
             'platforms': featureFlag.platformEnable ? [platformType.mobile, platformType.web, platformType.desktop] : [platformType.web],
             'isDefault': false,
             'objectNames': [],
+            'objectAcl': [],
             'homeScreen': {
                 mode: CONSTANTS.MODE_USE_DOSSIER_AS_HOME_SCREEN, 
                 homeLibrary: { 
@@ -52,6 +53,7 @@ export default {
             "description": "zzhouTest Desc1013",
             "schemaVersion": 2,
             "objectNames": [],
+            'objectAcl': [],
             "general": {
               "disableAdvancedSettings": false,
               "disablePreferences": false,
@@ -128,6 +130,7 @@ export const mockLibraryAsHome: RootState = {
           'platforms': featureFlag.platformEnable ? [platformType.mobile, platformType.web, platformType.desktop] : [platformType.web],
           'isDefault': false,
           'objectNames': [],
+          'objectAcl': [],
           'homeScreen': {
               mode: CONSTANTS.MODE_USE_DEFAULT_HOME_SCREEN, 
               homeLibrary: { 
@@ -171,6 +174,7 @@ export const mockLibraryAsHome: RootState = {
           "description": "zzhouTest Desc1013",
           "schemaVersion": 2,
           "objectNames": [],
+          'objectAcl': [],
           "general": {
             "disableAdvancedSettings": false,
             "disablePreferences": false,
@@ -245,6 +249,7 @@ export const mockDossierAsHome: RootState = {
           'platforms': featureFlag.platformEnable ? [platformType.mobile, platformType.web, platformType.desktop] : [platformType.web],
           'isDefault': false,
           'objectNames': [],
+          'objectAcl': [],
           'homeScreen': {
               mode: CONSTANTS.MODE_USE_DOSSIER_AS_HOME_SCREEN, 
               homeLibrary: { 
@@ -288,6 +293,7 @@ export const mockDossierAsHome: RootState = {
           "description": "zzhouTest Desc1013",
           "schemaVersion": 2,
           "objectNames": [],
+          'objectAcl': [],
           "general": {
             "disableAdvancedSettings": false,
             "disablePreferences": false,
@@ -350,6 +356,7 @@ export const mockDossierAsHome: RootState = {
           "description": "test modified",
           "schemaVersion": 2,
           "objectNames": [],
+          'objectAcl': [],
           "general": {
             "disableAdvancedSettings": true,
             "disablePreferences": true,
@@ -400,6 +407,7 @@ export const mockDossierAsHome: RootState = {
           "description": "test010 des",
           "schemaVersion": 0,
           "objectNames": [],
+          'objectAcl': [],
           "general": {
             "disableAdvancedSettings": true,
             "disablePreferences": true,
@@ -447,6 +455,7 @@ export const mockDossierAsHome: RootState = {
           "description": "test010 des",
           "schemaVersion": 2,
           "objectNames": [],
+          'objectAcl': [],
           "general": {
             "disableAdvancedSettings": true,
             "disablePreferences": true,
@@ -508,6 +517,7 @@ export const mockDossierPicker: RootState = {
           'platforms': featureFlag.platformEnable ? [platformType.mobile, platformType.web, platformType.desktop] : [platformType.web],
           'isDefault': false,
           'objectNames': [],
+          'objectAcl': [],
           'homeScreen': {
               mode: CONSTANTS.MODE_USE_DOSSIER_AS_HOME_SCREEN, 
               homeLibrary: { 
@@ -551,6 +561,7 @@ export const mockDossierPicker: RootState = {
           "description": "zzhouTest Desc1013",
           "schemaVersion": 2,
           "objectNames": [],
+          'objectAcl': [],
           "general": {
             "disableAdvancedSettings": false,
             "disablePreferences": false,
@@ -613,6 +624,7 @@ export const mockDossierPicker: RootState = {
           "description": "test modified",
           "schemaVersion": 2,
           "objectNames": [],
+          'objectAcl': [],
           "general": {
             "disableAdvancedSettings": true,
             "disablePreferences": true,
@@ -663,6 +675,7 @@ export const mockDossierPicker: RootState = {
           "description": "test010 des",
           "schemaVersion": 2,
           "objectNames": [],
+          'objectAcl': [],
           "general": {
             "disableAdvancedSettings": true,
             "disablePreferences": true,
@@ -710,6 +723,7 @@ export const mockDossierPicker: RootState = {
           "description": "test010 des",
           "schemaVersion": 2,
           "objectNames": [],
+          'objectAcl': [],
           "general": {
             "disableAdvancedSettings": true,
             "disablePreferences": true,

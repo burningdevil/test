@@ -22,6 +22,7 @@ export interface HomeScreenConfigType {
     'dateCreated': string,
     'objectVersion': string,
     'objectNames': [],
+    'objectAcl': [],
     'homeScreen': {
         mode: number, 
         homeLibrary: { 
