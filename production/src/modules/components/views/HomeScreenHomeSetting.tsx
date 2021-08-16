@@ -28,6 +28,7 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
     super(props)
     this.state = {
       showContentPicker: false,
+      showToolTip: false,
       dossierName: '',
       isDossierSelected: true
     };
@@ -141,7 +142,22 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
       homeScreen: _.merge(updateHomeScreenIcons, {[VC.MODE]: event.target.value})
     });
   }
-
+  handleTooltip = (event: any) => {
+    if(event.target?.offsetWidth < event.target?.scrollWidth){
+      this.setState({
+        showToolTip: true
+      })
+    }else {
+      this.setState({
+        showToolTip: false
+      })
+    }
+  }
+  hideTooltip = () => {
+    this.setState({
+      showToolTip: false
+    })
+  }
   renderPickDossier = () => {
     const { homeScreen } = this.props.config;
     const dossierUrl = _.get(homeScreen, dossierUrlPath, '');
@@ -151,13 +167,14 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
                 {this.state.isDossierSelected ? <img className = {`${classNamePrefix}-dossier-image`} src={selectedDossierIcon}/> 
                                               : <img className = {`${classNamePrefix}-dossier-image`} src={selectedDocumentIcon}/>}
                 <Tooltip
-                    title={<span>{this.state.dossierName}</span>}
-                    placement='bottom'
-                    triggerMode='hover'>
-                      <div className = {`${classNamePrefix}-dossier-name`}>
-                        {this.state.dossierName}
-                      </div>
-                </Tooltip>
+                      title={<span>{this.state.dossierName}</span>}
+                      placement='bottom'
+                      visible = {this.state.showToolTip}
+                      triggerMode='hover'>
+                        <div onMouseEnter={this.handleTooltip} onMouseLeave={this.hideTooltip} className = {`${classNamePrefix}-dossier-name`}>
+                          {this.state.dossierName}
+                        </div>
+                  </Tooltip>
                 <Button type='link' className = {`${classNamePrefix}-dossier-change`} disabled = {homeScreen.mode == VC.MODE_USE_DEFAULT_HOME_SCREEN} onClick={this.openDossierPickerPlugin}>
                     {localizedStrings.CHANGE}
                 </Button>
