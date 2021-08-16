@@ -264,11 +264,11 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                                 <HomeScreenDossierSetting />
                                 {this.buttonGroup()}
                             </Tabs.TabPane> */}
-                            {/* <Tabs.TabPane tab={localizedStrings.NAVBAR_CONTENT_BUNDLES} key={VC.CONTENT_BUNDLES} disabled={this.props.config.homeScreen.mode === 1}>
+                            { <Tabs.TabPane tab={localizedStrings.NAVBAR_CONTENT_BUNDLES} key={VC.CONTENT_BUNDLES} disabled={this.props.config.homeScreen.mode === 1}>
                                 <HomeScreenContentBundles/>
                                 {this.buttonGroup()}
-                            </Tabs.TabPane>
-                            <Tabs.TabPane tab={localizedStrings.NAVBAR_MORE_SETTINGS} key={VC.MORESETTINGS}>
+                            </Tabs.TabPane> }
+                            {/*} <Tabs.TabPane tab={localizedStrings.NAVBAR_MORE_SETTINGS} key={VC.MORESETTINGS}>
                                 <HomeScreenMoreSetting/>
                                 {this.buttonGroup()}
                             </Tabs.TabPane> */}

@@ -329,33 +329,33 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         width: 100,
         resizable: false,
       },
-      // {
-      //   field: VC.CONTENT_BUNDLES,
-      //   headerName: localizedStrings.NAVBAR_CONTENT_BUNDLES,
-      //   sortable: false,
-      //   cellRendererFramework: (rendererParam: any) => {
-      //     const d = rendererParam.data;
-      //     if (d.contentBundles.length === 0) {
-      //       return (
-      //         <div className={`${classNamePrefix}-content-bundles`}>
-      //           <span>{d.mode === localizedStrings.LIBRARY ? localizedStrings.BUNDLE_USER_HINT : ''}</span>
-      //         </div>
-      //       )
-      //     }
-      //     return (
-      //       <div className={`${classNamePrefix}-content-bundles`}>
-      //         {
-      //           d.contentBundles.map(((bundle: {name: string, color: number}) => {
-      //             return (<span className={`${classNamePrefix}-content-bundles-item`}>
-      //               <span className={`${classNamePrefix}-content-bundles-item-icon`} style={{ background: hexIntToColorStr(bundle.color) }}></span>
-      //               <span className={`${classNamePrefix}-content-bundles-item-text`}>{bundle.name}</span>
-      //             </span>)
-      //           }))
-      //         }
-      //       </div>
-      //     )
-      //   },
-      // },
+      {
+        field: VC.CONTENT_BUNDLES,
+        headerName: localizedStrings.NAVBAR_CONTENT_BUNDLES,
+        sortable: false,
+        cellRendererFramework: (rendererParam: any) => {
+          const d = rendererParam.data;
+          if (d.contentBundles.length === 0) {
+            return (
+              <div className={`${classNamePrefix}-content-bundles`}>
+                <span>{d.mode === localizedStrings.LIBRARY ? localizedStrings.BUNDLE_USER_HINT : ''}</span>
+              </div>
+            )
+          }
+          return (
+            <div className={`${classNamePrefix}-content-bundles`}>
+              {
+                d.contentBundles.map(((bundle: {name: string, color: number}) => {
+                  return (<span className={`${classNamePrefix}-content-bundles-item`}>
+                    <span className={`${classNamePrefix}-content-bundles-item-icon`} style={{ background: hexIntToColorStr(bundle.color) }}></span>
+                    <span className={`${classNamePrefix}-content-bundles-item-text`}>{bundle.name}</span>
+                  </span>)
+                }))
+              }
+            </div>
+          )
+        },
+      },
       {
         field: VC.DATE_MODIFIED,
         headerName: localizedStrings.DATE_MODIFIED,
