@@ -53,7 +53,7 @@ export const downloadSingleConfig = async (configID: string) => {
 export const loadConfigList = () => {
     store.dispatch(ActionsCreator.loadConfigList());
     HttpProxy.get(CONFIG_ENDPOINTS).then((response: ConfigListModel) => {
-        let data: HomeScreenConfigType[] = response?.data?.applications ?? [];
+        let data: HomeScreenConfigType[] = response?.data?.applications ?? response?.applications;
         data = data
             .filter((o: HomeScreenConfigType) => o.id !== undefined)
             .sort((a:HomeScreenConfigType,b: HomeScreenConfigType) => {
@@ -74,7 +74,7 @@ export const loadConfigList = () => {
 
 export const loadContentBundleList = () => {
     HttpProxy.get('/contentBundles').then((response: any) => {
-        let data = response?.data?.contentBundles ?? [];
+        let data = response?.data?.contentBundles ?? response?.contentBundles;
         data = data.filter((o: any) => o.id !== undefined);
         store.dispatch(ActionsCreator.loadContentBundleListSuccess(data));
     }).catch((e: any) => {
@@ -84,7 +84,7 @@ export const loadContentBundleList = () => {
 
 export const loadCurrentEditConfig = (configId: string) => {
     return HttpProxy.get(CONFIG_ENDPOINTS + configId + '?outputFlag=INCLUDE_LOCALE&outputFlag=INCLUDE_ACL').then((response: any) => {
-        let data = response?.data ?? [];
+        let data = response?.data ?? response;
         if (!_.has(data, VC.PLATFORM)) {
             _.assign(data, {platforms: [platformType.web]});
         }
