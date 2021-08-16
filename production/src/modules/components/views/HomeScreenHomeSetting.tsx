@@ -2,6 +2,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import '../scss/HomeScreenHomeSetting.scss'
 import { Radio, Button, Layout, Space } from 'antd';
+import { Tooltip } from '@mstr/rc';
 import { env } from '../../../main'
 import { RadioChangeEvent } from 'antd/lib/radio';
 import * as _ from "lodash";
@@ -149,9 +150,14 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
             <div className = {`${classNamePrefix}-dossier-info`} style={this.props.isDossierHome ? {opacity: 1.0} : {opacity : 0.5}}>
                 {this.state.isDossierSelected ? <img className = {`${classNamePrefix}-dossier-image`} src={selectedDossierIcon}/> 
                                               : <img className = {`${classNamePrefix}-dossier-image`} src={selectedDocumentIcon}/>}
-                <div className = {`${classNamePrefix}-dossier-name`}>
-                    {this.state.dossierName}
-                </div>
+                <Tooltip
+                    title={<span>{this.state.dossierName}</span>}
+                    placement='bottom'
+                    triggerMode='hover'>
+                      <div className = {`${classNamePrefix}-dossier-name`}>
+                        {this.state.dossierName}
+                      </div>
+                </Tooltip>
                 <Button type='link' className = {`${classNamePrefix}-dossier-change`} disabled = {homeScreen.mode == VC.MODE_USE_DEFAULT_HOME_SCREEN} onClick={this.openDossierPickerPlugin}>
                     {localizedStrings.CHANGE}
                 </Button>
