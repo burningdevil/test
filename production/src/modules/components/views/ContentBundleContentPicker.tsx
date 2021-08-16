@@ -65,7 +65,6 @@ class ContentBundleContentPicker extends React.Component<any, any> {
       searchNameFilter: value
     });
       gridApi.deselectAll();
-      gridApi.onFilterChanged();
       gridApi.clearFocusedCell();
     
   }
