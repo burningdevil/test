@@ -47,16 +47,6 @@ export const ConfirmationDialog = (props: ConfirmationDialogProps) => {
   ]
 
   /* Sub-Components */
-  function createSummary() {
-    return {
-      __html: wordings.summaryText,
-    }
-  }
-  function createDetail() {
-    return {
-      __html: wordings.detailText,
-    }
-  }
 
   const content = (
     <div className={`${prefix}-dialog-container`}>
@@ -65,10 +55,10 @@ export const ConfirmationDialog = (props: ConfirmationDialogProps) => {
       </div>
       <div className={`${prefix}-content-container`}>
         <div tabIndex={0} className={`${prefix}-summary`}>
-          <span dangerouslySetInnerHTML={createSummary()} />
+          <span>{wordings.summaryText}</span>
         </div>
         <div tabIndex={0} className={`${prefix}-details`}>
-          <span dangerouslySetInnerHTML={createDetail()} />
+        <span>{wordings.detailText}</span>
         </div>
       </div>
     </div>
