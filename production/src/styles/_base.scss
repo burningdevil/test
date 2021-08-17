@@ -15,3 +15,9 @@ For example:
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+.unselectable {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }

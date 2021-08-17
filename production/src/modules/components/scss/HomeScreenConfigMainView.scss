@@ -1,6 +1,7 @@
 @import '~@mstr/rc/es/assets/scss/variables.scss';
 @import '~@mstr/react-ws-grid/lib/styles.scss';
 @import './variables.scss';
+@import '../../../styles//base';
 
 .home-screen-main {
     height: 100%;
@@ -90,6 +91,7 @@
 }
 
 .ant-dropdown-menu {
+    @extend .unselectable;
     padding: 5px 0px !important;
     .ant-dropdown-menu-item {
         width: 165px !important;
@@ -137,6 +139,11 @@
 .context-menu-item-wrapper {
     width: 160px !important;
     background-color: white !important;
+    @extend .unselectable;
+}
+.context-menu-item-wrapper:focus {
+    outline: none;
+    color: #35383a !important;
 }
 
 .context-menu-item-wrapper:hover {
