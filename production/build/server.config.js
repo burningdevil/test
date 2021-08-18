@@ -2,7 +2,7 @@
 module.exports = {
   // host: 'http://10.199.56.57:8080',
   host:'http://10.27.69.38:8080',
-  path: '/MicroStrategyLibrary0813',
+  path: '/MicroStrategyLibrary0818',
   username: 'administrator',
   password: '',
   projectId: '',

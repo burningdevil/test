@@ -82,6 +82,7 @@ export const CONSTANTS = {
     ICON_DEFAULT_GROUP: 'default_groups',
     ICON_MY_GROUP: 'my_groups',
     ICON_MY_CONTENT: 'my_content',
+    ICON_MY_SUBSCRIBE: 'subscriptions',
     ICON_HOME: 'home',
     ICON_FULL_SCREEN: 'fullScreen',
 
@@ -103,10 +104,11 @@ export const CONSTANTS = {
     FONT_AA_FONT: 'icon-pnl_shared',
     FONT_ALL: 'icon-group_all',
     FONT_FAV: 'icon-home_favorite_i',
-    FONT_RECENT: 'icon-group_recents',
+    FONT_RECENT: 'icon-clock-lines',
     FONT_DEFAULT_GROUP: 'icon-group_groups',
     FONT_MY_GROUP: 'icon-group_groups',
-    FONT_MY_CONTENT: 'icon-tb_profile_n',
+    FONT_MY_CONTENT: 'icon-group_my-content',
+    FONT_MY_SUBSCRIBE: 'icon-group_recents',
     FONT_ADD_NEW: 'icon-pnl_add-new',
     FONT_GROUP: 'icon-group_groups_a',
     FONT_DOSSIER: 'icon-dossier',
@@ -423,6 +425,7 @@ export const iconTypes = {
     defaultGroup: {displayText: t('defaultGroups'), iconName: CONSTANTS.FONT_DEFAULT_GROUP, key: CONSTANTS.ICON_DEFAULT_GROUP},
     myGroup: {displayText: t('myGroup'), iconName: CONSTANTS.FONT_MY_GROUP, key: CONSTANTS.ICON_MY_GROUP},
     myContent: {displayText: t('myContent'), iconName: CONSTANTS.FONT_MY_CONTENT, key: CONSTANTS.ICON_MY_CONTENT},
+    mySubscribe: {displayText: t('mySubscribe'), iconName: CONSTANTS.FONT_MY_SUBSCRIBE, key: CONSTANTS.ICON_MY_SUBSCRIBE},
     accountMobile: {displayText: t('accountMobile'), iconName: CONSTANTS.FONT_OPTIONS, key: CONSTANTS.ICON_OPTIONS+'__mobile'},
     
     //// for preview. Localization not needed.
@@ -463,7 +466,7 @@ export const extraMobileIcons = [iconTypes.aaFont]
 
 // children icons for sidebar
 // export const childrenIcons = [iconTypes.all, iconTypes.favorites, iconTypes.recents, iconTypes.defaultGroup, iconTypes.myGroup, iconTypes.accountMobile]
-export const childrenIcons = [iconTypes.all, iconTypes.myContent, iconTypes.favorites, iconTypes.recents, iconTypes.myGroup] // Hide default group, as content bundle is not enabled in Q3
+export const childrenIcons = [iconTypes.all, iconTypes.myContent, iconTypes.favorites, iconTypes.recents, iconTypes.mySubscribe,iconTypes.myGroup] // Hide default group, as content bundle is not enabled in Q3
 
 // for accountMobile and accountWeb to remove suffix
 export const iconValidKey = (iconKey: string) => iconKey.split('__').length > 0 ? iconKey.split('__')[0] : iconKey
@@ -471,8 +474,11 @@ export const iconValidKey = (iconKey: string) => iconKey.split('__').length > 0 
 export const dossierIconKeys =  dossierIcons.map((element) => element.key)
 export const libraryIconKeys = libraryIcons.map((element) => element.key)
 export const sidebarIconKeys = childrenIcons.map((element) => element.key)
-export const libraryCustomizedIconKeys = [iconTypes.myContent].map((element) => element.key)
-
+export const libraryCustomizedIconKeys = [iconTypes.myContent, iconTypes.mySubscribe].map((element) => element.key)
+export const libraryCustomizedIconAttrsMap = {
+    [iconTypes.myContent.key]:  CONSTANTS.ICON_MY_CONTENT,
+    [iconTypes.mySubscribe.key]: CONSTANTS.ICON_MY_SUBSCRIBE
+};
 export const mobileOnlyIconKeys = [iconTypes.accountMobile].map((element) => element.key)
 export const webDesktopOnlyIconKeys = [iconTypes.multiSelect, iconTypes.accountWeb].map((element) => element.key)
 export const previewerWidth = '274px';
