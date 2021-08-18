@@ -335,7 +335,13 @@ export const localizedStrings = {
     USER_PRIVILEGE_ERROR_MSG: t('userPrivilegeErrorMsg'),
     MD_VERSION_ERROR_MSG: t('mdVersionErrorMsg'),
     SERVER_VERSION_ERROR_TITLE_MSG: t('serverVersionErrorTitleMsg'),
-    SERVER_VERSION_ERROR_DETAIL_MSG: t('serverVersionErrorDetailMsg')
+    SERVER_VERSION_ERROR_DETAIL_MSG: t('serverVersionErrorDetailMsg'),
+    CONFIRM_DELETE_DIALOG_MSG_TITLE: t('confirmDeleteDialogMsgTitle'),
+    CONFIRM_DELETE_DIALOG_MSG_DETAIL: t('confirmDeleteDialogMsgDetail'),
+    CONFIRM_CANCEL_DIALOG_MSG_TITLE: t('confirmCancelDialogMsgTitle'),
+    CONFIRM_CANCEL_DIALOG_MSG_DETAIL: t('confirmCancelDialogMsgDetail'),
+    YES: t('yes'),
+    NO: t('no')
 }
 
 export const sectionTitle = {

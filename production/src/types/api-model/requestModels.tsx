@@ -4,6 +4,6 @@ export interface ConfigListBodyModel {
     applications: HomeScreenConfigType[];
 }
 export interface ConfigListModel {
-    applications?: HomeScreenConfigType[];
     data: ConfigListBodyModel;
+    applications?: HomeScreenConfigType[];
 }

@@ -20,6 +20,7 @@ import NoAccessPage from './error-pages/NoAccessPage';
 import { isLibraryServerVersionMatch, isIServerVersionMatch, isUserHasManageApplicationPrivilege, DEFAULT_CONFIG_ID } from '../../../utils';
 import classNames from 'classnames';
 import { default as VC, localizedStrings, platformType, APPLICATION_OBJECT_TYPE, APPLICATION_OBJECT_SUBTYPE } from '../HomeScreenConfigConstant';
+import { ConfirmationDialog, ConfirmationDialogWordings } from '../common-components/confirmation-dialog';
 
 
 declare var workstation: WorkstationModule;
@@ -38,9 +39,11 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       isConnected: true,
       isLibraryVersionMatched: true,
       isIServerVersionMatched: true,
+      isConfirmationDialogOpen: false,
       isMDVersionMatched: true,
       isUserHasAccess: true,
-      isInitialLoading: true
+      isInitialLoading: true,
+      deleteApplicationsToBeConfirmed: []
     }
   }
 
@@ -115,6 +118,23 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
   handleAddApplication = () => {
     this.openConfigEditor();
   }
+  // confirm dialog related.
+  handleCloseDialog = () => {
+    this.setState({
+      isConfirmationDialogOpen: false
+    })
+  }
+  /* Confirmation dialog wordings */
+  wordings: ConfirmationDialogWordings = {
+    title: localizedStrings.DELETE,
+    actionButtonText:
+      localizedStrings.DELETE,
+    cancelButtonText: localizedStrings.CANCEL,
+    summaryText:
+      localizedStrings.CONFIRM_DELETE_DIALOG_MSG_TITLE,
+    detailText:
+      localizedStrings.CONFIRM_DELETE_DIALOG_MSG_DETAIL
+  }
 
   openConfigEditor = (objId : string = '', isDuplicate: boolean = false) => {
     const objType = VC.CONFIG_EDITOR_OBJTYPE;
@@ -166,7 +186,12 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       });
     }
   }
-
+  confirmDelete = () => {
+    // waiting for the another pr is merged, the null protect should be added by the optional chain.
+    this.state.deleteApplicationsToBeConfirmed.forEach((id: string) =>{
+      this.deleteConfig(id)
+    })
+  }
   downloadJsonFile = async (configJson: JSON, configId: string) => {
     var FileSaver = require('file-saver');
     let blob = new Blob(
@@ -330,7 +355,11 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         this.openConfigEditor(contextMenuTarget.id);
       };
       const handleClickDelete = () => {
-        this.deleteConfig(contextMenuTarget.id);
+        // this.deleteConfig(contextMenuTarget.id);
+        this.setState({
+          isConfirmationDialogOpen: true,
+          deleteApplicationsToBeConfirmed: [contextMenuTarget.id]
+        })
       };
       const handleClickDuplicate = () => {
         this.openConfigEditor(contextMenuTarget.id, true);
@@ -406,6 +435,12 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
               sortable: true,
             }}
             rowData={configDataSource}
+          />
+          <ConfirmationDialog
+              isConfirmationDialogDisplayed={this.state.isConfirmationDialogOpen}
+              closeDialog={this.handleCloseDialog}
+              triggerAction={this.confirmDelete}
+              wordings={this.wordings}
           />
         </div>
       </div>
