@@ -14,14 +14,7 @@ import { connect } from 'react-redux';
 import { selectAllDossiers, selectAllDocuments, selectIsLoadingDossiers, selectLoadingDossiersFinish } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import { default as VC, localizedStrings, HomeScreenHomeObjectType, contentPickerSize } from '../HomeScreenConfigConstant'
 import * as api from '../../../services/Api'
-// @ts-ignore: RC Component Support error
-import documentIcon from '../images/document.png'
-// @ts-ignore: RC Component Support error
-import dossierIcon from '../images/dossier.jpg'
-// @ts-ignore: RC Component Support error
-import selectedDossierIcon from '../images/icon_select_dossier.png';
-// @ts-ignore: RC Component Support error
-import selectedDocumentIcon from '../images/icon_select_document.png';
+
 
 const classNamePrefix = 'content-bundle-content-picker';
 const rowSelectionType = 'single';
@@ -197,7 +190,6 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                               const data = params.data;
                               if (data.isDossier) {
                                 return <>
-                                        {/* <img className={`${classNamePrefix}-grid-right-name-icon`} src={selectedDossierIcon}/> */}
                                         <span className={`${classNamePrefix}-grid-right-dossier-icon`} ></span>
                                         <span className={`${classNamePrefix}-grid-right-name-text`}>{data.name}</span>
                                       </>

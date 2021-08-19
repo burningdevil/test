@@ -6,7 +6,7 @@
     "smartFolders": {
       "items": [
         {
-          "key": "Applications",
+          "key": "applicationSmartFolderKey",
           "command": "openConfigMain",
           "ribbonColor": "#1C8DD4",
           "location": {

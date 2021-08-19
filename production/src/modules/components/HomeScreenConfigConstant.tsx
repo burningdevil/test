@@ -466,7 +466,7 @@ export const extraMobileIcons = [iconTypes.aaFont]
 
 // children icons for sidebar
 // export const childrenIcons = [iconTypes.all, iconTypes.favorites, iconTypes.recents, iconTypes.defaultGroup, iconTypes.myGroup, iconTypes.accountMobile]
-export const childrenIcons = [iconTypes.all, iconTypes.myContent, iconTypes.favorites, iconTypes.recents, iconTypes.mySubscribe,iconTypes.myGroup] // Hide default group, as content bundle is not enabled in Q3
+export const childrenIcons = [iconTypes.all, iconTypes.myContent, iconTypes.favorites, iconTypes.recents, iconTypes.mySubscribe, iconTypes.myGroup] // Hide default group, as content bundle is not enabled in Q3
 
 // for accountMobile and accountWeb to remove suffix
 export const iconValidKey = (iconKey: string) => iconKey.split('__').length > 0 ? iconKey.split('__')[0] : iconKey
