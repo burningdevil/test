@@ -17,6 +17,7 @@ import * as api from '../../../services/Api';
 import selectedDossierIcon from '../images/icon_select_dossier.png';
 // @ts-ignore: RC Component Support error
 import selectedDocumentIcon from '../images/icon_select_document.png';
+import { isContentTypeDossier } from './HomeScreenUtils';
 
 const classNamePrefixSimple = 'home-screen-home';
 const classNamePrefix = `${classNamePrefixSimple}-settings`;
@@ -30,7 +31,7 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
       showContentPicker: false,
       showToolTip: false,
       dossierName: '',
-      isDossierSelected: true
+      isDossier: false
     };
   }
 
@@ -53,8 +54,10 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
           if (response.data) {
             data = response.data;
           }
+          const isTypeDossier: boolean = isContentTypeDossier(data.viewMedia);
           this.setState({
-              dossierName: data.name
+              dossierName: data.name,
+              isDossier: isTypeDossier
           });
         }
     }
@@ -158,14 +161,24 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
       showToolTip: false
     })
   }
+  createDossierClass() {
+    if(!this.state.dossierName){
+      return null;
+    }
+    if(this.state.isDossier){
+      return <img className = {`${classNamePrefix}-dossier-image`} src={selectedDossierIcon}/>; 
+    }
+    if(!this.state.isDossier){
+      return <img className = {`${classNamePrefix}-dossier-image`} src={selectedDocumentIcon}/>;
+    }
+  }
   renderPickDossier = () => {
     const { homeScreen } = this.props.config;
     const dossierUrl = _.get(homeScreen, dossierUrlPath, '');
     if (dossierUrl) {
         return (
             <div className = {`${classNamePrefix}-dossier-info`} style={this.props.isDossierHome ? {opacity: 1.0} : {opacity : 0.5}}>
-                {this.state.isDossierSelected ? <img className = {`${classNamePrefix}-dossier-image`} src={selectedDossierIcon}/> 
-                                              : <img className = {`${classNamePrefix}-dossier-image`} src={selectedDocumentIcon}/>}
+                {this.createDossierClass()}
                 <Tooltip
                       title={<span>{this.state.dossierName}</span>}
                       placement='bottom'
@@ -203,7 +216,7 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
   handleDossierChange = (dossierName: string, dossierUrl: string, isDossier: boolean) => {
     this.setState({
         dossierName: dossierName,
-        isDossierSelected: isDossier
+        isDossier: isDossier
     })
     this.props.updateCurrentConfig({
       homeScreen: {

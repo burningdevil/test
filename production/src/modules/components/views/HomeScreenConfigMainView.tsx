@@ -23,8 +23,8 @@ import ServerIncompatiblePage from './error-pages/ServerIncompatiblePage';
 import NoAccessPage from './error-pages/NoAccessPage';
 import { isLibraryServerVersionMatch, isIServerVersionMatch, isUserHasManageApplicationPrivilege, DEFAULT_CONFIG_ID } from '../../../utils';
 import classNames from 'classnames';
-import { default as VC, localizedStrings, platformType, APPLICATION_OBJECT_TYPE, APPLICATION_OBJECT_SUBTYPE } from '../HomeScreenConfigConstant';
 import { ConfirmationDialog, ConfirmationDialogWordings } from '../common-components/confirmation-dialog';
+import CONSTANTS, { default as VC, localizedStrings, platformType, APPLICATION_OBJECT_TYPE, APPLICATION_OBJECT_SUBTYPE } from '../HomeScreenConfigConstant';
 
 
 declare var workstation: WorkstationModule;
@@ -376,7 +376,12 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       };
       const handleClickInfo = () => {
         const selectedObjs : MstrObject[] = [{id: contextMenuTarget.id, type: APPLICATION_OBJECT_TYPE, subType: APPLICATION_OBJECT_SUBTYPE}];
-        const currentProj : Project = this.state.currentEnv.projects[0];
+        // const currentProj : Project = this.state.currentEnv.projects[0];
+        const currentProj: Project = {
+          id: CONSTANTS.CONFIG_PROJECT,
+          type: 32,
+          subType: 8192
+        } as Project;
         let options: PropertiesSettings = {
           objects: selectedObjs,
           project: currentProj,

@@ -148,7 +148,7 @@ export const CONSTANTS = {
     GENERATE: 'Generate',
     CONFIG_EDITOR_OBJTYPE: 'HomeScreenConfig',
     JSONFILE_SUFFIX: '.json',
-    
+    CONFIG_PROJECT: '38A062302D4411D28E71006008960167'
 }
 
 export const featureFlag = {
