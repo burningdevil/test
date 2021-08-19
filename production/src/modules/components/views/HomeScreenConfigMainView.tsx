@@ -4,7 +4,11 @@ import '../scss/HomeScreenConfigMainView.scss';
 import { message, Menu, Dropdown } from 'antd';
 import { copyToClipboard } from '../../../utils/copy';
 import { ReactWsGrid, ColumnDef } from '@mstr/react-ws-grid';
-import type { CellContextMenuEvent } from 'ag-grid-community/';
+import {
+  CellContextMenuEvent,
+  GridReadyEvent,
+  GridApi
+} from 'ag-grid-community';
 import { Record } from '@mstr/rc/types';
 import { WorkstationModule, ObjectEditorSettings, EnvironmentChangeArg, WindowEvent, EnvironmentAction, EnvironmentStatus, Environment, PropertiesSettings, MstrObject, Project} from '@mstr/workstation-types';
 import { HttpProxy } from '../../../main';
@@ -29,7 +33,7 @@ const appRootPath = 'app';
 const appRootPathWithConfig = 'app/config/';
 const customAppPath = 'CustomApp?webLink=';
 const configSaveSuccessPath = 'Message.homeConfigSaveSuccess';
-
+let gridApi: GridApi;
 class HomeScreenConfigMainView extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
@@ -136,6 +140,12 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       localizedStrings.CONFIRM_DELETE_DIALOG_MSG_DETAIL
   }
 
+  onGridReady = (params: GridReadyEvent) => {
+    gridApi = params.api;
+  };
+  onSortChange = () => {
+    gridApi.clearFocusedCell();
+  }
   openConfigEditor = (objId : string = '', isDuplicate: boolean = false) => {
     const objType = VC.CONFIG_EDITOR_OBJTYPE;
     const configInfoList = this.props.configList.map((config: any) => {
@@ -422,6 +432,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
           <ReactWsGrid
             rowSelectable={true}
             rowMultiSelectWithClick={false}
+            onSortChanged={this.onSortChange}
             getRowHeight={() => 32}
             showCheckbox={false}
             useToolbar={true}
@@ -435,6 +446,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
               sortable: true,
             }}
             rowData={configDataSource}
+            onGridReady={this.onGridReady}
           />
           <ConfirmationDialog
               isConfirmationDialogDisplayed={this.state.isConfirmationDialogOpen}

@@ -7,7 +7,8 @@ import { ReactWsGrid } from '@mstr/react-ws-grid';
 import {
   SelectionChangedEvent,
   GridReadyEvent,
-  GridApi
+  GridApi,
+  SortChangedEvent
 } from 'ag-grid-community';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { connect } from 'react-redux';
@@ -112,7 +113,9 @@ class ContentBundleContentPicker extends React.Component<any, any> {
       selectedObject: selection
     });
   }
-
+  onSortChanged = (event: SortChangedEvent) => {
+    gridApi.clearFocusedCell();
+  }
   getRowHeight = (params: any) => {
     return 36;
   }
@@ -185,6 +188,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                     <ReactWsGrid
                         rowMultiSelectWithClick={true}
                         onSelectionChanged = {this.onSelectionChanged}
+                        onSortChanged = {this.onSortChanged}
                         // @ts-ignore: RC Component Support error
                         rowSelection = {rowSelectionType}
                         getRowHeight = {this.getRowHeight}
