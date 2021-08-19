@@ -2,7 +2,16 @@
 @import '~@mstr/react-ws-grid/lib/styles.scss';
 @import './common.scss';
 @import './variables.scss';
-
+.base-right-icon {
+    background: url("../images/icons_18_18.svg");
+    margin-right: 3px;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+    width: 18px;
+    height: 18px;
+    background-repeat: no-repeat;
+}
 .content-bundle-content-picker {
     font-family: $font-family;
     color: $msdl-black;
@@ -118,7 +127,14 @@
             padding-left: 6px;
         }
     }
-
+    &-grid-right-dossier-icon {
+        @extend .base-right-icon;
+        background-position: -216px -72px;
+    }
+    &-grid-right-doc-icon {
+        @extend .base-right-icon;
+        background-position: -396px -72px;
+    }
     .ant-menu-dark.ant-menu-inline {
         padding-top: 22px;
 
@@ -167,6 +183,7 @@
         background-repeat: no-repeat;
         background-position: -324px 0;
     }
+    
 }
 
 

@@ -31,7 +31,7 @@ declare var workstation: WorkstationModule;
 const classNamePrefix = 'home-screen-main';
 const appRootPath = 'app';
 const appRootPathWithConfig = 'app/config/';
-const customAppPath = 'CustomApp?webLink=';
+const customAppPath = 'CustomApp?id=';
 const configSaveSuccessPath = 'Message.homeConfigSaveSuccess';
 let gridApi: GridApi;
 class HomeScreenConfigMainView extends React.Component<any, any> {
@@ -214,7 +214,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     const handleClickCopyLink = async () => {
       try {
         const currentEnv = await workstation.environments.getCurrentEnvironment();
-        const appLink = d.isDefault ? currentEnv.url + customAppPath + encodeURIComponent(currentEnv.url + appRootPath) : currentEnv.url + customAppPath + encodeURIComponent(currentEnv.url + appRootPathWithConfig + d.id);
+        const appLink = d.isDefault ? currentEnv.url + 'CustomApp' : currentEnv.url + customAppPath + d.id;
         copyToClipboard(appLink);
         message.success(localizedStrings.LINK_COPIED);
       } catch (e) {

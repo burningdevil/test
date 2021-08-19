@@ -54,7 +54,8 @@
     "recents": "Recents",
     "defaultGroups": "Default Groups",
     "myGroup": "My Groups",
-    "myContent": "My Content (Web and Desktop)",
+    "myContent": "My Content",
+    "mySubscribe": "Subscriptions",
     "accountMobile": "Account (Mobile only)",
 
     "enableFeatureTitle": "ENABLE FEATURES",
