@@ -31,8 +31,7 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
       showContentPicker: false,
       showToolTip: false,
       dossierName: '',
-      isDossier: false,
-      isDossierSelected: false
+      isDossier: false
     };
   }
 
@@ -166,10 +165,10 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
     if(!this.state.dossierName){
       return null;
     }
-    if(this.state.isDossierSelected || this.state.isDossier){
+    if(this.state.isDossier){
       return <img className = {`${classNamePrefix}-dossier-image`} src={selectedDossierIcon}/>; 
     }
-    if(!this.state.isDossierSelected || !this.state.isDossier){
+    if(!this.state.isDossier){
       return <img className = {`${classNamePrefix}-dossier-image`} src={selectedDocumentIcon}/>;
     }
   }
@@ -217,7 +216,6 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
   handleDossierChange = (dossierName: string, dossierUrl: string, isDossier: boolean) => {
     this.setState({
         dossierName: dossierName,
-        isDossierSelected: isDossier,
         isDossier: isDossier
     })
     this.props.updateCurrentConfig({
