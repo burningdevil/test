@@ -29,6 +29,11 @@ $line-height-side: 18px;
         margin-left: 4.5px;
         color: $msdl-blue;
     }
+    .icon-listview{
+        float: left;
+        margin-left: 4.5px;
+        color: $mbde-primary-black;
+    }
     .icon-backarrow,
     .icon-tb_hamburger,
     .icon-tb_toc_n,
@@ -38,6 +43,10 @@ $line-height-side: 18px;
         margin-left: 4.5px;
         color: $color;
     }
+    .icon-hyper,
+    .icon-info_edit,
+    .icon-tb_create_dossier,
+    .icon-searchfilter,
     .icon-search_tb_box,
     .icon-tb_select_n,
     .icon-user-profile,

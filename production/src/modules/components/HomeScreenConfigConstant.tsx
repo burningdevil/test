@@ -84,7 +84,10 @@ export const CONSTANTS = {
     ICON_MY_CONTENT: 'my_content',
     ICON_MY_SUBSCRIBE: 'subscriptions',
     ICON_HOME: 'home',
+    ICON_DESK_HOME: 'home',
     ICON_FULL_SCREEN: 'fullScreen',
+    ICON_NEW_DOSSIER: 'new_dossier',
+    ICON_EDIT_DOSSIER: 'edit_dossier',
 
     // icon font code
     FONT_SIDEBAR: 'icon-tb_hamburger',
@@ -100,7 +103,7 @@ export const CONSTANTS = {
     FONT_FILTER: 'icon-tb_filter_n',
     FONT_SHARE: 'icon-tb_share_n',
     FONT_DATA_SEARCH: 'icon-searchfilter',
-    FONT_HYPER: 'icon-checkmark2',
+    FONT_HYPER: 'icon-hyper',
     FONT_AA_FONT: 'icon-pnl_shared',
     FONT_ALL: 'icon-group_all',
     FONT_FAV: 'icon-home_favorite_i',
@@ -115,9 +118,12 @@ export const CONSTANTS = {
     FONT_DOCUMENT: 'icon-rsd-cover',
     FONT_CERTIFIED: 'icon-home_certified',
     FONT_MSG_INFO: 'icon-msg_info',
+    FONT_NEW_DOSSIER: 'icon-tb_create_dossier',
+    FONT_EDIT_DOSSIER: 'icon-info_edit',
 
     // preview use only
     FONT_HOME: 'icon-tb_home',
+    FONT_DESK_HOME: 'icon-listview',
     FONT_PREVIEWSIDEBAR: 'icon-library',
     FONT_PREVIEWSIDEBAR_MOBILE: 'icon-backarrow',
     FONT_PREVIEWTOC: 'icon-tb_undoarrow',
@@ -428,10 +434,12 @@ export const iconTypes = {
     myContent: {displayText: t('myContent'), iconName: CONSTANTS.FONT_MY_CONTENT, key: CONSTANTS.ICON_MY_CONTENT},
     mySubscribe: {displayText: t('mySubscribe'), iconName: CONSTANTS.FONT_MY_SUBSCRIBE, key: CONSTANTS.ICON_MY_SUBSCRIBE},
     accountMobile: {displayText: t('accountMobile'), iconName: CONSTANTS.FONT_OPTIONS, key: CONSTANTS.ICON_OPTIONS+'__mobile'},
-    
+    newDossier: {displayText: t('newDossier'), iconName: CONSTANTS.FONT_NEW_DOSSIER, key: CONSTANTS.ICON_NEW_DOSSIER},
+    editDossier: {displayText: t('editDossier'), iconName: CONSTANTS.FONT_EDIT_DOSSIER, key: CONSTANTS.ICON_EDIT_DOSSIER},
     //// for preview. Localization not needed.
     // home button
     home: {displayText: t('home'), iconName: CONSTANTS.FONT_HOME, key: CONSTANTS.ICON_HOME},
+    deskHome: {displayText: t('home'), iconName: CONSTANTS.FONT_DESK_HOME, key: CONSTANTS.ICON_DESK_HOME},
     // stands for 'sidebar' in library
     previewSidebar: {displayText: t('sidebar'), iconName: CONSTANTS.FONT_PREVIEWSIDEBAR, key: CONSTANTS.ICON_SIDEBAR},
     // stands for 'library' in dossier
@@ -442,6 +450,8 @@ export const iconTypes = {
     previewAccountMobile: {displayText: t('account'), iconName: CONSTANTS.FONT_PREVIEWOPTIONS, key: CONSTANTS.ICON_OPTIONS+'_mobile'},
     previewTocPhone: {displayText: t('toc'), iconName: CONSTANTS.FONT_PREVIEWTOC, key: CONSTANTS.ICON_TOCS},
     previewFullScreen: {displayText: 'Full Screen', iconName: CONSTANTS.FONT_FULLSCREEN, key: CONSTANTS.ICON_FULL_SCREEN},
+    // preview of desktop related.
+    previewHyper: {}
 }
 
 
@@ -450,12 +460,12 @@ export const iconTypes = {
 // export const bothSideIcons = [iconTypes.notification, iconTypes.account]
 
 // library icons when mode is Library as home
-export const libraryIcons = [iconTypes.sidebar, iconTypes.sortAndFilter, iconTypes.multiSelect, 
-    iconTypes.search, iconTypes.notification, iconTypes.accountWeb]
+export const libraryIcons = [iconTypes.sidebar, iconTypes.sortAndFilter,  
+    iconTypes.search, iconTypes.newDossier, iconTypes.notification, iconTypes.multiSelect, iconTypes.accountWeb]
 
 // dossier icons when mode is Library as home
 export const dossierIcons = [iconTypes.toc, iconTypes.bookmark, iconTypes.reset, 
-    iconTypes.filter, iconTypes.comment, iconTypes.share]
+    iconTypes.filter, iconTypes.comment, iconTypes.share, iconTypes.editDossier]
 
 // dossier icons when mode is dossier as home
 export const dossierIconsDossierHome = [iconTypes.toc, 
@@ -475,10 +485,12 @@ export const iconValidKey = (iconKey: string) => iconKey.split('__').length > 0 
 export const dossierIconKeys =  dossierIcons.map((element) => element.key)
 export const libraryIconKeys = libraryIcons.map((element) => element.key)
 export const sidebarIconKeys = childrenIcons.map((element) => element.key)
-export const libraryCustomizedIconKeys = [iconTypes.myContent, iconTypes.mySubscribe].map((element) => element.key)
+export const libraryCustomizedIconKeys = [iconTypes.myContent, iconTypes.mySubscribe, iconTypes.newDossier, iconTypes.editDossier].map((element) => element.key)
 export const libraryCustomizedIconAttrsMap = {
     [iconTypes.myContent.key]:  CONSTANTS.ICON_MY_CONTENT,
-    [iconTypes.mySubscribe.key]: CONSTANTS.ICON_MY_SUBSCRIBE
+    [iconTypes.mySubscribe.key]: CONSTANTS.ICON_MY_SUBSCRIBE,
+    [iconTypes.newDossier.key]:  CONSTANTS.ICON_NEW_DOSSIER,
+    [iconTypes.editDossier.key]: CONSTANTS.ICON_EDIT_DOSSIER
 };
 export const mobileOnlyIconKeys = [iconTypes.accountMobile].map((element) => element.key)
 export const webDesktopOnlyIconKeys = [iconTypes.multiSelect, iconTypes.accountWeb].map((element) => element.key)

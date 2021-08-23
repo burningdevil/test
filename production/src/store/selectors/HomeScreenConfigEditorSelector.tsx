@@ -1,6 +1,7 @@
 import * as _ from 'lodash'
 import { createSelector } from 'reselect'
-import CONSTANTS from '../../modules/components/HomeScreenConfigConstant'
+import { HomeScreenConfigType } from '../../../src/types/data-model/HomeScreenConfigModels'
+import CONSTANTS, { default as VC, dossierIcons, libraryCustomizedIconKeys, libraryIcons } from '../../modules/components/HomeScreenConfigConstant'
 
 import { RootState } from '../../types/redux-state/HomeScreenConfigState'
 
@@ -108,12 +109,30 @@ export const selectSelectedLibraryCustomizedItems = createSelector(
 
 export const selectSelectedLibraryIcons = createSelector(
   selectCurrentConfig,
-  (config) => config.homeScreen.homeLibrary.icons
+  (config) => {
+    // concat the customized icons into the icons.
+    let customIcons = Object.keys(config.homeScreen.homeLibrary.customizedItems).filter(key => config.homeScreen.homeLibrary.customizedItems?.[key] && libraryIcons.map(icon => icon.key).includes(key) && !config.homeScreen.homeLibrary?.icons?.includes(key));
+    return config.homeScreen.homeLibrary.icons.concat(customIcons);
+  }
 )
 
 export const selectSelectedDocumentIcons = createSelector(
   selectCurrentConfig,
-  (config) => config.homeScreen.homeDocument.icons
+  (config) => {
+    let customIcons = Object.keys(config.homeScreen.homeLibrary.customizedItems).filter(key => config.homeScreen.homeLibrary.customizedItems?.[key] && dossierIcons.map(icon => icon.key).includes(key)&& !config.homeScreen.homeDocument?.icons?.includes(key));
+    return config.homeScreen.homeDocument.icons.concat(customIcons);
+  }
+)
+export const removeCustomisedIcons = createSelector(
+  selectCurrentConfig,
+  (config) => {
+    // extra handle to the customized icons.
+    const libraryIcons: string[] = config.homeScreen?.homeLibrary?.icons ?? [];
+    const dossierIcons: string[] = config.homeScreen?.homeDocument?.icons ?? [];
+    config.homeScreen.homeLibrary.icons = libraryIcons.filter(icon => !libraryCustomizedIconKeys.includes(icon));
+    config.homeScreen.homeDocument.icons = dossierIcons.filter(icon => !libraryCustomizedIconKeys.includes(icon));
+    return config;
+  }
 )
 
 export const selectDefaultGroupsName = createSelector(

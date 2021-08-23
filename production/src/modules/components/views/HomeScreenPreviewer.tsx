@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { default as VC, localizedStrings, childrenIcons, iconDetail, iconTypes, platformType, reviewType, dossierIcons, dossierIconsDossierHome, libraryIconKeys, sidebarIconKeys, libraryCustomizedIconKeys, iconValidKey } from '../HomeScreenConfigConstant'
+import { default as VC, localizedStrings, childrenIcons, iconDetail, iconTypes, platformType, reviewType, dossierIcons, dossierIconsDossierHome, libraryIconKeys, sidebarIconKeys, libraryCustomizedIconKeys, iconValidKey, extraDesktopIcons, extraMobileIcons } from '../HomeScreenConfigConstant'
 import { Layout, Radio } from 'antd'
 import { PlusCircleOutlined, DownOutlined } from '@ant-design/icons'
 import '../scss/HomeScreenPreviewer.scss'
@@ -14,6 +14,7 @@ const classNamePrefix = 'homeScreenPreviewer';
 class HomeScreenPreviewer extends React.Component<any, any> {
     iconShouldShow(icon: iconDetail) {
         const {libraryIcons, documentIcons, sidebarIcons, isDossierHome} = this.props
+        const notSupportControlKeys = [iconTypes.hyper.key, iconTypes.dataSearch.key]; // to match the ux's requiremenet, display the uncontrol icons.
         const validKey = iconValidKey(icon.key)
         if (sidebarIconKeys.includes(icon.key)) {
             if (libraryCustomizedIconKeys.includes(icon.key)) {
@@ -23,19 +24,20 @@ class HomeScreenPreviewer extends React.Component<any, any> {
             }
         } else {
             if (isDossierHome) {
-                const dossierToolbarIcons = dossierIconsDossierHome.map((element) => element.key);
+                const dossierToolbarIcons = dossierIconsDossierHome.concat(extraDesktopIcons).concat(extraMobileIcons).map((element) => element.key);
                 if (dossierToolbarIcons.includes(icon.key)) {
-                    return documentIcons.includes(validKey)
+                    return documentIcons.includes(validKey) || notSupportControlKeys.includes(icon.key)
                 }
             } else {
                 // Library Icon
-                if (libraryIconKeys.includes(icon.key)) {
-                    return libraryIcons.includes(validKey)
+                const extraKeys = extraDesktopIcons.concat(extraMobileIcons).map(v => v.key);
+                if (libraryIconKeys.concat(extraKeys).includes(icon.key)) {
+                    return libraryIcons.includes(validKey)|| notSupportControlKeys.includes(icon.key)
                 }
                 // Dossier Icon
-                const dossierToolbarIcons = dossierIcons.map((element) => element.key);
+                const dossierToolbarIcons = dossierIcons.concat(extraDesktopIcons).concat(extraMobileIcons).map((element) => element.key);
                 if (dossierToolbarIcons.includes(icon.key)) {
-                    return documentIcons.includes(validKey)
+                    return documentIcons.includes(validKey)|| notSupportControlKeys.includes(icon.key)
                 }
             }
         }
@@ -149,8 +151,10 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                 footerIcons = isDossierHome ? [iconTypes.comment, iconTypes.filter, iconTypes.notification, iconTypes.account] : [iconTypes.comment, iconTypes.bookmark, iconTypes.reset, iconTypes.filter]
                 break
             case reviewType.WEB:
+                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.account, iconTypes.notification, iconTypes.share, iconTypes.comment, iconTypes.filter] : [iconTypes.previewLibraryWeb, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.editDossier, iconTypes.accountWeb, iconTypes.share, iconTypes.comment, iconTypes.filter]
+                break;
             case reviewType.DESKTOP:
-                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.account, iconTypes.notification, iconTypes.share, iconTypes.comment, iconTypes.filter] : [iconTypes.previewLibraryWeb, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.accountWeb, iconTypes.share, iconTypes.comment, iconTypes.filter]
+                headerIcons = isDossierHome ? [iconTypes.toc, iconTypes.notification, iconTypes.share, iconTypes.comment, iconTypes.hyper, iconTypes.filter, iconTypes.dataSearch] : [iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.share, iconTypes.comment, iconTypes.hyper, iconTypes.filter, iconTypes.dataSearch]
                 break
             default:
                 break
@@ -167,8 +171,10 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                 headerIcons = [iconTypes.previewSidebarMobile, iconTypes.notification, iconTypes.sortAndFilter, iconTypes.search]
                 break
             case reviewType.WEB:
+                headerIcons = [iconTypes.previewSidebar, iconTypes.accountWeb, iconTypes.multiSelect, iconTypes.notification, iconTypes.sortAndFilter, iconTypes.newDossier ,iconTypes.search];
+                break;
             case reviewType.DESKTOP:
-                headerIcons = [iconTypes.previewSidebar, iconTypes.accountWeb, iconTypes.multiSelect, iconTypes.notification, iconTypes.sortAndFilter, iconTypes.search]
+                headerIcons = [iconTypes.deskHome, iconTypes.multiSelect, iconTypes.notification, iconTypes.hyper, iconTypes.sortAndFilter, iconTypes.newDossier, iconTypes.dataSearch]
                 break
             case reviewType.PHONE:
                 headerIcons = [iconTypes.previewSidebarMobile]

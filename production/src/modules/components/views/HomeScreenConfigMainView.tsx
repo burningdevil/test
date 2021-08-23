@@ -301,6 +301,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         field: VC.NAME,
         headerName: localizedStrings.NAME,
         lockVisible: true,
+        width: 300,
         cellRendererFramework: (rendererParam: any) => {
           const d = rendererParam.data;
           return (
