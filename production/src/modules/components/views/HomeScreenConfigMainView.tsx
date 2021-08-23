@@ -39,7 +39,6 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     super(props)
     this.state = {
       currentEnv: {},
-      isEnvReady: true,
       isConnected: true,
       isLibraryVersionMatched: true,
       isIServerVersionMatched: true,
@@ -67,9 +66,13 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         this.checkServerAndUserPrivilege();
       }
       if (change.actionTaken === EnvironmentAction.Disconnect && change.changedEnvironment.status === EnvironmentStatus.Disconnected && change.changedEnvironment.url === this.state.currentEnv.url) {
+        // Except isConnected state, restore all other status.
         this.setState({
-          isEnvReady: false,
-          isConnected: false
+          isConnected: false,
+          isLibraryVersionMatched: true,
+          isIServerVersionMatched: true,
+          isMDVersionMatched: true,
+          isUserHasAccess: true
         });
       }
     })
@@ -89,27 +92,37 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
 
   checkServerAndUserPrivilege = async () => {
     const currentEnv = await workstation.environments.getCurrentEnvironment();
-    const status: any = await api.getServerStatus();
-    const isMDVersionMatched = await this.loadDefaultConfig();
     const isConnected = currentEnv.status === EnvironmentStatus.Connected;
-    const isLibraryVersionMatched = isLibraryServerVersionMatch(status.webVersion);
-    const isIServerVersionMatched = isIServerVersionMatch(status.iServerVersion);
-    const isUserHasAccess = isUserHasManageApplicationPrivilege(currentEnv.privileges);
+    // connection status first
     this.setState({
       currentEnv: currentEnv,
-      isConnected: isConnected,
-      isLibraryVersionMatched: isLibraryVersionMatched,
-      isIServerVersionMatched: isIServerVersionMatched,
-      isMDVersionMatched: isMDVersionMatched,
-      isUserHasAccess: isUserHasAccess,
-      isEnvReady: isConnected && isLibraryVersionMatched && isIServerVersionMatched && isMDVersionMatched && isUserHasAccess
+      isConnected: isConnected
     });
+    if (isConnected) {
+      const status: any = await api.getServerStatus();
+      const isLibraryVersionMatched = !!status.webVersion && isLibraryServerVersionMatch(status.webVersion);
+      const isIServerVersionMatched = !!status.iServerVersion && isIServerVersionMatch(status.iServerVersion);
+      const isUserHasAccess = isUserHasManageApplicationPrivilege(currentEnv.privileges);
+      // Server version and User privilige
+      this.setState({
+        isLibraryVersionMatched: isLibraryVersionMatched,
+        isIServerVersionMatched: isIServerVersionMatched,
+        isUserHasAccess: isUserHasAccess
+      });
+      const isMDVersionMatched = await this.loadDefaultConfig();
+      // MD version
+      this.setState({
+        isMDVersionMatched: isMDVersionMatched
+      });
+    }
   }
 
   loadDefaultConfig = async () => {
     let hasDefault = true;
-    await HttpProxy.get('/v2/applications/' + DEFAULT_CONFIG_ID).catch(() => {
-      hasDefault = false
+    await HttpProxy.get('/v2/applications/' + DEFAULT_CONFIG_ID).catch((e: any) => {
+      if (e.errorCode === 'ERR001' && e.statusCode === 500) {
+        hasDefault = false
+      }
     });
     return hasDefault;
   }
@@ -425,47 +438,66 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       return contextMenuItems
     };
 
-    return this.state.isEnvReady ? (
-      <div className={`${classNamePrefix}`}>
-        <div className={`${classNamePrefix}-new-application-container`}>
-          <span tabIndex={0} aria-label={localizedStrings.NEW_APP_BTN_TEXT} className={VC.FONT_ADD_NEW} onClick={this.handleAddApplication}/>
-          <span>
-            {localizedStrings.NEW_APP_TEXT}
-          </span>
-        </div>
-        <div className={`${classNamePrefix}-application-list-container`}>
-          <ReactWsGrid
-            rowSelectable={true}
-            rowMultiSelectWithClick={false}
-            onSortChanged={this.onSortChange}
-            getRowHeight={() => 32}
-            showCheckbox={false}
-            useToolbar={true}
-            // @ts-ignore: RC Component Support error
-            rowSelection='single'
-            getContextMenuItems={getContextMenuItems}
-            isLoading={this.props.configLoading && this.state.isInitialLoading}
-            columnDefs={this.getColumnDef()}
-            defaultColDef={{
-              resizable: true,
-              sortable: true,
-            }}
-            rowData={configDataSource}
-            onGridReady={this.onGridReady}
-          />
-          <ConfirmationDialog
-              isConfirmationDialogDisplayed={this.state.isConfirmationDialogOpen}
-              closeDialog={this.handleCloseDialog}
-              triggerAction={this.confirmDelete}
-              wordings={this.wordings}
-          />
-        </div>
-      </div>
-    ) : (!this.state.isConnected ? <DisconnectedPage/> :
-          (!this.state.isLibraryVersionMatched ? <ServerIncompatiblePage needUpgradeLibraryServer={true} needIServerUpgrade={false} needUpgradeMD={false}/> : 
-            (!this.state.isIServerVersionMatched ? <ServerIncompatiblePage needUpgradeLibraryServer={false} needIServerUpgrade={true} needUpgradeMD={false}/> : 
-              (!this.state.isMDVersionMatched ? <ServerIncompatiblePage needUpgradeLibraryServer={false} needIServerUpgrade={false} needUpgradeMD={true} /> : <NoAccessPage />)))
-    ) 
+    if (!this.state.isConnected) {
+      return <DisconnectedPage/>;
+    }
+
+    if (!this.state.isLibraryVersionMatched) {
+      const errorMsgTitle = localizedStrings.SERVER_VERSION_ERROR_TITLE_MSG;
+      const errorMsgDtail = localizedStrings.SERVER_VERSION_ERROR_DETAIL_MSG;
+      return <ServerIncompatiblePage titleMsg={errorMsgTitle} detailMsg={errorMsgDtail} />
+    }
+
+    if (!this.state.isIServerVersionMatched) {
+      const errorMsgTitle = localizedStrings.SERVER_VERSION_ERROR_TITLE_MSG;
+      const errorMsgDtail = localizedStrings.ISERVER_VERSION_ERROR_DETAIL_MSG;
+      return <ServerIncompatiblePage titleMsg={errorMsgTitle} detailMsg={errorMsgDtail} />
+    }
+
+    if (!this.state.isUserHasAccess) {
+      return <NoAccessPage />
+    }
+
+    if (!this.state.isMDVersionMatched) {
+      const errorMsgTitle = localizedStrings.MD_VERSION_ERROR_MSG;
+      return <ServerIncompatiblePage titleMsg={errorMsgTitle} />
+    }
+
+    return <div className={`${classNamePrefix}`}>
+            <div className={`${classNamePrefix}-new-application-container`}>
+              <span tabIndex={0} aria-label={localizedStrings.NEW_APP_BTN_TEXT} className={VC.FONT_ADD_NEW} onClick={this.handleAddApplication}/>
+              <span>
+                {localizedStrings.NEW_APP_TEXT}
+              </span>
+            </div>
+            <div className={`${classNamePrefix}-application-list-container`}>
+              <ReactWsGrid
+                rowSelectable={true}
+                rowMultiSelectWithClick={false}
+                onSortChanged={this.onSortChange}
+                getRowHeight={() => 32}
+                showCheckbox={false}
+                useToolbar={true}
+                // @ts-ignore: RC Component Support error
+                rowSelection='single'
+                getContextMenuItems={getContextMenuItems}
+                isLoading={this.props.configLoading && this.state.isInitialLoading}
+                columnDefs={this.getColumnDef()}
+                defaultColDef={{
+                  resizable: true,
+                  sortable: true,
+                }}
+                rowData={configDataSource}
+                onGridReady={this.onGridReady}
+              />
+              <ConfirmationDialog
+                  isConfirmationDialogDisplayed={this.state.isConfirmationDialogOpen}
+                  closeDialog={this.handleCloseDialog}
+                  triggerAction={this.confirmDelete}
+                  wordings={this.wordings}
+              />
+            </div>
+          </div>
   }
 }
 

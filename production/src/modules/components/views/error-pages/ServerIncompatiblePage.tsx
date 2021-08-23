@@ -1,28 +1,18 @@
 import * as React from 'react'
 import './style/ServerIncompatiblePage.scss'
-import { localizedStrings } from '../../HomeScreenConfigConstant'
 
 const classNamePrefix = 'homeScreenConfigMainView-server-incompatible-page';
-
 interface ServerIncompatiblePageProps {
-  needUpgradeMD: boolean,
-  needUpgradeLibraryServer: boolean,
-  needIServerUpgrade:boolean
+  titleMsg: string,
+  detailMsg?: string
 }
 
-export const ServerIncompatiblePage: React.FunctionComponent<ServerIncompatiblePageProps> = (props: any) => {
+export const ServerIncompatiblePage: React.FunctionComponent<ServerIncompatiblePageProps> = (props: ServerIncompatiblePageProps) => {
   return (
     <div className={`${classNamePrefix}`}>
       <div className={`${classNamePrefix}-warning-icon`} />
-      { props.needUpgradeMD && <div className={`${classNamePrefix}-warning-title`}>{localizedStrings.MD_VERSION_ERROR_MSG}</div> }
-      { props.needUpgradeLibraryServer && (<>
-          <div className={`${classNamePrefix}-warning-title`}>{localizedStrings.SERVER_VERSION_ERROR_TITLE_MSG}</div>
-          <div className={`${classNamePrefix}-warning-detail`}>{localizedStrings.SERVER_VERSION_ERROR_DETAIL_MSG}</div>
-        </>)}
-      { props.needIServerUpgrade && (<>
-        <div className={`${classNamePrefix}-warning-title`}>{localizedStrings.SERVER_VERSION_ERROR_TITLE_MSG}</div>
-        <div className={`${classNamePrefix}-warning-detail`}>{localizedStrings.SERVER_VERSION_ERROR_DETAIL_MSG}</div>
-      </>)}
+      {props.titleMsg && <div className={`${classNamePrefix}-warning-title`}>{props.titleMsg}</div>}
+      {props.detailMsg && <div className={`${classNamePrefix}-warning-detail`}>{props.detailMsg}</div>}
     </div>
   )
 }

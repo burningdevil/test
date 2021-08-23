@@ -157,6 +157,7 @@
     "mdVersionErrorMsg": "You need a newer Metadata version to use this feature.",
     "serverVersionErrorTitleMsg": "You need a newer enviornment version to use this feature.",
     "serverVersionErrorDetailMsg": "You are connecting to an older version of Library Server, some features may not work as expected.",
+    "iServerVersionErrorDetailMsg": "You are connecting to an older version of Intelligence Server, some features may not work as expected.",
     "confirmDeleteDialogMsgTitle": "Are you sure you want to delete this application?",
     "confirmDeleteDialogMsgDetail": "All application settings will be lost. This cannot be undone.",
     "confirmCancelDialogMsgTitle": "Are you sure you want to cancel?",
