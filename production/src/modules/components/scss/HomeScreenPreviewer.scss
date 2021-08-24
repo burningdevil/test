@@ -219,6 +219,9 @@ $line-height-side: 18px;
     }
     &-device-type-group {
         width: 100%;
+        .ant-radio-button-wrapper {
+            box-shadow: none !important;
+        }
     }
     
     &-horcontainer {

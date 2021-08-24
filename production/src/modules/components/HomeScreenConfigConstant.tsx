@@ -338,6 +338,7 @@ export const localizedStrings = {
     MD_VERSION_ERROR_MSG: t('mdVersionErrorMsg'),
     SERVER_VERSION_ERROR_TITLE_MSG: t('serverVersionErrorTitleMsg'),
     SERVER_VERSION_ERROR_DETAIL_MSG: t('serverVersionErrorDetailMsg'),
+    ISERVER_VERSION_ERROR_DETAIL_MSG: t('iServerVersionErrorDetailMsg'),
     CONFIRM_DELETE_DIALOG_MSG_TITLE: t('confirmDeleteDialogMsgTitle'),
     CONFIRM_DELETE_DIALOG_MSG_DETAIL: t('confirmDeleteDialogMsgDetail'),
     CONFIRM_CANCEL_DIALOG_MSG_TITLE: t('confirmCancelDialogMsgTitle'),
