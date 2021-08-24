@@ -467,7 +467,7 @@ export const dossierIcons = [iconTypes.toc, iconTypes.bookmark, iconTypes.reset,
 
 // dossier icons when mode is dossier as home
 export const dossierIconsDossierHome = [iconTypes.toc, 
-    iconTypes.filter, iconTypes.comment, iconTypes.share, iconTypes.notification, iconTypes.account]
+    iconTypes.filter, iconTypes.comment, iconTypes.share, iconTypes.notification, iconTypes.account, iconTypes.editDossier]
 
 // extra icons for specified platforms
 export const extraDesktopIcons = [iconTypes.dataSearch, iconTypes.hyper]
