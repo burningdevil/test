@@ -5,7 +5,8 @@ import * as compareVersions from 'compare-versions';
 const LIBRARY_SERVER_VERSION_THRESHOLD = '11.3.0300';
 const ISERVER_VERSION_THRESHOLD = '11.3.0300';
 const USER_MANAGE_APPLICATIONS_PRIVILEGE = 298;
-export const DEFAULT_CONFIG_ID = 'C2B2023642F6753A2EF159A75E0CFF29';
+export const APPLICATIONS_FOLDER_ID = '4B979645463C14EF5A32EF8A032C9AC1';
+export const APPLICATIONS_FOLDER_TYPE = 8;
 
 /**
  * a function to judge whether the version is matched requirement

@@ -21,7 +21,7 @@ import { hexIntToColorStr } from './HomeScreenUtils';
 import DisconnectedPage from './error-pages/DisconnectedPage';
 import ServerIncompatiblePage from './error-pages/ServerIncompatiblePage';
 import NoAccessPage from './error-pages/NoAccessPage';
-import { isLibraryServerVersionMatch, isIServerVersionMatch, isUserHasManageApplicationPrivilege, DEFAULT_CONFIG_ID } from '../../../utils';
+import { isLibraryServerVersionMatch, isIServerVersionMatch, isUserHasManageApplicationPrivilege, APPLICATIONS_FOLDER_ID, APPLICATIONS_FOLDER_TYPE } from '../../../utils';
 import classNames from 'classnames';
 import { ConfirmationDialog, ConfirmationDialogWordings } from '../common-components/confirmation-dialog';
 import CONSTANTS, { default as VC, localizedStrings, platformType, APPLICATION_OBJECT_TYPE, APPLICATION_OBJECT_SUBTYPE } from '../HomeScreenConfigConstant';
@@ -109,7 +109,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         isIServerVersionMatched: isIServerVersionMatched,
         isUserHasAccess: isUserHasAccess
       });
-      const isMDVersionMatched = await this.loadDefaultConfig();
+      const isMDVersionMatched = await this.loadApplicationsFolder();
       // MD version
       this.setState({
         isMDVersionMatched: isMDVersionMatched
@@ -117,9 +117,9 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     }
   }
 
-  loadDefaultConfig = async () => {
+  loadApplicationsFolder = async () => {
     let hasDefault = true;
-    await HttpProxy.get('/v2/applications/' + DEFAULT_CONFIG_ID).catch((e: any) => {
+    await HttpProxy.get('/objects/' + APPLICATIONS_FOLDER_ID + '?type=' + APPLICATIONS_FOLDER_TYPE).catch((e: any) => {
       if (e.errorCode === 'ERR001' && e.statusCode === 500) {
         hasDefault = false
       }
@@ -466,7 +466,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     return <div className={`${classNamePrefix}`}>
             <div className={`${classNamePrefix}-new-application-container`}>
               <span tabIndex={0} aria-label={localizedStrings.NEW_APP_BTN_TEXT} className={VC.FONT_ADD_NEW} onClick={this.handleAddApplication}/>
-              <span>
+              <span className={`${classNamePrefix}-new-application-text`} onClick={this.handleAddApplication}>
                 {localizedStrings.NEW_APP_TEXT}
               </span>
             </div>
