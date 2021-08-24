@@ -120,7 +120,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
   loadApplicationsFolder = async () => {
     let hasDefault = true;
     await HttpProxy.get('/objects/' + APPLICATIONS_FOLDER_ID + '?type=' + APPLICATIONS_FOLDER_TYPE).catch((e: any) => {
-      if (e.errorCode === 'ERR001' && e.statusCode === 500) {
+      if (e.errorCode === 'ERR004') { // Object Not Found Error
         hasDefault = false
       }
     });
