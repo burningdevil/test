@@ -154,7 +154,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                 headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.account, iconTypes.notification, iconTypes.share, iconTypes.comment, iconTypes.filter] : [iconTypes.previewLibraryWeb, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.editDossier, iconTypes.accountWeb, iconTypes.share, iconTypes.comment, iconTypes.filter]
                 break;
             case reviewType.DESKTOP:
-                headerIcons = isDossierHome ? [iconTypes.toc, iconTypes.notification, iconTypes.share, iconTypes.comment, iconTypes.hyper, iconTypes.filter, iconTypes.dataSearch] : [iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.share, iconTypes.comment, iconTypes.hyper, iconTypes.filter, iconTypes.dataSearch]
+                headerIcons = isDossierHome ? [iconTypes.toc, iconTypes.notification, iconTypes.share, iconTypes.comment, iconTypes.hyper, iconTypes.filter, iconTypes.dataSearch] : [iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.editDossier, iconTypes.share, iconTypes.comment, iconTypes.hyper, iconTypes.filter, iconTypes.dataSearch]
                 break
             default:
                 break

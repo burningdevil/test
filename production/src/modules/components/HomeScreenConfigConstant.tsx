@@ -450,8 +450,6 @@ export const iconTypes = {
     previewAccountMobile: {displayText: t('account'), iconName: CONSTANTS.FONT_PREVIEWOPTIONS, key: CONSTANTS.ICON_OPTIONS+'_mobile'},
     previewTocPhone: {displayText: t('toc'), iconName: CONSTANTS.FONT_PREVIEWTOC, key: CONSTANTS.ICON_TOCS},
     previewFullScreen: {displayText: 'Full Screen', iconName: CONSTANTS.FONT_FULLSCREEN, key: CONSTANTS.ICON_FULL_SCREEN},
-    // preview of desktop related.
-    previewHyper: {}
 }
 
 
