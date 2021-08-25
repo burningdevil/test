@@ -90,9 +90,9 @@ class HomeScreenPreviewer extends React.Component<any, any> {
             .filter ( (element) => element.key !== iconTypes.accountMobile.key )
             .map( (element, index) => {
             const showAddButton = iconTypes.myGroup.key === element.key
-            const showExpandIcon = iconTypes.myGroup.key === element.key || iconTypes.defaultGroup.key === element.key
             const showContent = iconTypes.defaultGroup.key === element.key
-            return this.iconShouldShow(element) &&
+            const hideMyContent = iconTypes.myContent.key === element.key && (previewType === reviewType.TABLET || previewType === reviewType.PHONE)
+            return this.iconShouldShow(element) && !hideMyContent &&
                 <div>
                     <div className={`${classNamePrefix}-pad-overview-left-text`}>
                         <span className={element.iconName} key={index}/> 
@@ -168,10 +168,10 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                 headerIcons = [iconTypes.previewSidebarMobile, iconTypes.notification, iconTypes.sortAndFilter, iconTypes.search]
                 break
             case reviewType.WEB:
-                headerIcons = [iconTypes.previewSidebar, iconTypes.accountWeb, iconTypes.multiSelect, iconTypes.notification, iconTypes.sortAndFilter, iconTypes.newDossier ,iconTypes.search];
+                headerIcons = [iconTypes.previewSidebar, iconTypes.accountWeb, iconTypes.multiSelect, iconTypes.notification, iconTypes.sortAndFilter, iconTypes.newDossier, iconTypes.search];
                 break;
             case reviewType.DESKTOP:
-                headerIcons = [iconTypes.deskHome, iconTypes.accountWeb, iconTypes.multiSelect, iconTypes.notification, iconTypes.sortAndFilter, iconTypes.newDossier]
+                headerIcons = [iconTypes.deskHome, iconTypes.accountWeb, iconTypes.multiSelect, iconTypes.notification, iconTypes.sortAndFilter, iconTypes.newDossier, iconTypes.search]
                 break
             case reviewType.PHONE:
                 headerIcons = [iconTypes.previewSidebarMobile]

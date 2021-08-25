@@ -1,6 +1,5 @@
 import * as _ from 'lodash'
 import { createSelector } from 'reselect'
-import { HomeScreenConfigType } from '../../../src/types/data-model/HomeScreenConfigModels'
 import CONSTANTS, { default as VC, dossierIcons, libraryCustomizedIconKeys, libraryIcons } from '../../modules/components/HomeScreenConfigConstant'
 
 import { RootState } from '../../types/redux-state/HomeScreenConfigState'

@@ -306,7 +306,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                         // library as home group
                         !this.props.isDossierHome && <div className={`${classNamePrefix}-icons`}>
                             { this.renderTableTitle(localizedStrings.LIBRARY_WINDOW) }
-                            { this.props.previewDeviceType === reviewType.DESKTOP? this.renderTable(libraryIcons.filter(v => v.key !== iconTypes.search.key)): this.renderTable(libraryIcons) }
+                            { this.renderTable(libraryIcons) }
                             { this.renderTableTitle(localizedStrings.DOSSIER_WINDOW) }
                             { this.renderTable(dossierIcons) }
                         </div>
