@@ -29,6 +29,9 @@ $line-height-side: 18px;
         margin-left: 4.5px;
         color: $msdl-blue;
     }
+    .icon-tb_hamburger {
+        transform: scale(0.88); // the icon is bigger than others.
+    }
     .icon-backarrow,
     .icon-tb_hamburger,
     .icon-tb_toc_n,

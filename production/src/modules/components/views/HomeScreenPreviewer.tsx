@@ -97,8 +97,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                     <div className={`${classNamePrefix}-pad-overview-left-text`}>
                         <span className={element.iconName} key={index}/> 
                         <span>{showContent ? this.props.config.homeScreen.homeLibrary.defaultGroupsName : element.displayText}</span> 
-                        {showAddButton && <PlusCircleOutlined/>}
-                        {showExpandIcon && <DownOutlined style={{fontSize: '5px', marginLeft: 'auto', marginRight: '4px'}}/>}
+                        {showAddButton && <span className='icon-pnl_add-new' style={{fontSize: '5px', marginLeft: 'auto', marginRight: '4px'}}/>}
                     </div>
                     {showContent && <div className={`${classNamePrefix}-pad-overview-left-blank`}>
                                         <div className={`${classNamePrefix}-pad-overview-left-blank-fill`}/>
@@ -172,7 +171,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                 headerIcons = [iconTypes.previewSidebar, iconTypes.accountWeb, iconTypes.multiSelect, iconTypes.notification, iconTypes.sortAndFilter, iconTypes.newDossier ,iconTypes.search];
                 break;
             case reviewType.DESKTOP:
-                headerIcons = [iconTypes.deskHome, iconTypes.multiSelect, iconTypes.notification, iconTypes.hyper, iconTypes.sortAndFilter, iconTypes.newDossier, iconTypes.dataSearch]
+                headerIcons = [iconTypes.deskHome, iconTypes.accountWeb, iconTypes.multiSelect, iconTypes.notification, iconTypes.sortAndFilter, iconTypes.newDossier]
                 break
             case reviewType.PHONE:
                 headerIcons = [iconTypes.previewSidebarMobile]
