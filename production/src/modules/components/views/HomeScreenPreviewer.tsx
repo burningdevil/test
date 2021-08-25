@@ -16,6 +16,9 @@ class HomeScreenPreviewer extends React.Component<any, any> {
         const {libraryIcons, documentIcons, sidebarIcons, isDossierHome} = this.props
         const notSupportControlKeys = [iconTypes.hyper.key, iconTypes.dataSearch.key]; // to match the ux's requiremenet, display the uncontrol icons.
         const validKey = iconValidKey(icon.key);
+        if(notSupportControlKeys.includes(icon.key)){
+            return true;
+        }
         if (libraryCustomizedIconKeys.includes(icon.key)) {
             return _.get(this.props.libraryCustomizedItems, icon.key, true);
         }
@@ -25,18 +28,18 @@ class HomeScreenPreviewer extends React.Component<any, any> {
             if (isDossierHome) {
                 const dossierToolbarIcons = dossierIconsDossierHome.concat(extraDesktopIcons).concat(extraMobileIcons).map((element) => element.key);
                 if (dossierToolbarIcons.includes(icon.key)) {
-                    return documentIcons.includes(validKey) || notSupportControlKeys.includes(icon.key)
+                    return documentIcons.includes(validKey)
                 }
             } else {
                 // Library Icon
                 const extraKeys = extraDesktopIcons.concat(extraMobileIcons).map(v => v.key);
                 if (libraryIconKeys.concat(extraKeys).includes(icon.key)) {
-                    return libraryIcons.includes(validKey)|| notSupportControlKeys.includes(icon.key)
+                    return libraryIcons.includes(validKey)
                 }
                 // Dossier Icon
                 const dossierToolbarIcons = dossierIcons.concat(extraDesktopIcons).concat(extraMobileIcons).map((element) => element.key);
                 if (dossierToolbarIcons.includes(icon.key)) {
-                    return documentIcons.includes(validKey)|| notSupportControlKeys.includes(icon.key)
+                    return documentIcons.includes(validKey)
                 }
             }
         }
