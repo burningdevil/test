@@ -15,10 +15,10 @@ import { HttpProxy } from '../../../main';
 import { RestApiError } from '../../../server/RestApiError';
 import { PARSE_METHOD } from '../../../utils/ParseMethods';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
-import { selectCurrentConfig, selectIsDuplicateConfig, selectIsConfigNameError, selectIsDossierAsHome, removeCustomisedIcons } from '../../../store/selectors/HomeScreenConfigEditorSelector';
+import { selectCurrentConfig, selectIsDuplicateConfig, selectIsConfigNameError, selectIsDossierAsHome, removeCustomizedIcons } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import * as api from '../../../services/Api';
-import { default as VC, localizedStrings, editorSize, libraryCustomizedIconAttrsMap, libraryCustomizedIconKeys } from '../HomeScreenConfigConstant'
+import { default as VC, localizedStrings, editorSize } from '../HomeScreenConfigConstant'
 import { ConfirmationDialog, ConfirmationDialogWordings } from '../common-components/confirmation-dialog';
 
 declare var workstation: WorkstationModule;
@@ -287,7 +287,7 @@ const mapState = (state: RootState) => ({
   isDossierHome: selectIsDossierAsHome(state),
   isDuplicateConfig: selectIsDuplicateConfig(state),
   isConfigNameError: selectIsConfigNameError(state),
-  pickCustomizedIcon: removeCustomisedIcons(state),
+  pickCustomizedIcon: removeCustomizedIcons(state),
 })
 
 const connector = connect(mapState, {

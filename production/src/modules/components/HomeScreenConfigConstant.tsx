@@ -84,7 +84,6 @@ export const CONSTANTS = {
     ICON_MY_CONTENT: 'my_content',
     ICON_MY_SUBSCRIBE: 'subscriptions',
     ICON_HOME: 'home',
-    ICON_DESK_HOME: 'home',
     ICON_FULL_SCREEN: 'fullScreen',
     ICON_NEW_DOSSIER: 'new_dossier',
     ICON_EDIT_DOSSIER: 'edit_dossier',
@@ -102,7 +101,7 @@ export const CONSTANTS = {
     FONT_RESET: 'icon-tb_reset',
     FONT_FILTER: 'icon-tb_filter_n',
     FONT_SHARE: 'icon-tb_share_n',
-    FONT_DATA_SEARCH: 'icon-searchfilter',
+    FONT_DATA_SEARCH: 'icon-search_tb_box',
     FONT_HYPER: 'icon-hyper',
     FONT_AA_FONT: 'icon-pnl_shared',
     FONT_ALL: 'icon-group_all',
@@ -123,7 +122,7 @@ export const CONSTANTS = {
 
     // preview use only
     FONT_HOME: 'icon-tb_home',
-    FONT_DESK_HOME: 'icon-listview',
+    FONT_DESK_HOME: 'icon-tb_hamburger',
     FONT_PREVIEWSIDEBAR: 'icon-library',
     FONT_PREVIEWSIDEBAR_MOBILE: 'icon-backarrow',
     FONT_PREVIEWTOC: 'icon-tb_undoarrow',
@@ -266,6 +265,7 @@ export const localizedStrings = {
     SAVE: t('save'),
     ERR_APP_SAVE: t('errAppSave'),
     ERR_APP_LOAD: t('errAppLoad'),
+    ERR_APP_DELETE: t('errAppDelete'),
 
     AND: t('andStr'),
 
@@ -439,7 +439,7 @@ export const iconTypes = {
     //// for preview. Localization not needed.
     // home button
     home: {displayText: t('home'), iconName: CONSTANTS.FONT_HOME, key: CONSTANTS.ICON_HOME},
-    deskHome: {displayText: t('home'), iconName: CONSTANTS.FONT_DESK_HOME, key: CONSTANTS.ICON_DESK_HOME},
+    deskHome: {displayText: t('home'), iconName: CONSTANTS.FONT_DESK_HOME, key: CONSTANTS.ICON_HOME},
     // stands for 'sidebar' in library
     previewSidebar: {displayText: t('sidebar'), iconName: CONSTANTS.FONT_PREVIEWSIDEBAR, key: CONSTANTS.ICON_SIDEBAR},
     // stands for 'library' in dossier

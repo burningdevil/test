@@ -130,6 +130,7 @@
     "selectDossierHint": "Choose a dossier or document to be used as the home screen",
     "errAppSave": "Save application error:",
     "errAppLoad": "Load application error:",
+    "errAppDelete": "Delete application error:",
     "invalidDossier": "Invalid Dossier",
     "errEditorOpen": "Open object editor failed with error",
     "errSessionOut": "401 error and disconnect",
@@ -162,6 +163,6 @@
     "confirmDeleteDialogMsgDetail": "All application settings will be lost. This cannot be undone.",
     "confirmCancelDialogMsgTitle": "Are you sure you want to cancel?",
     "confirmCancelDialogMsgDetail": "All changes will be lost. This cannot be undone.",
-    "newDossier": " New Dossier",
-    "editDossier": "Edit Dossier"
+    "newDossier": " New Dossier (Web and Desktop)",
+    "editDossier": "Edit Dossier (Web and Desktop)"
 }

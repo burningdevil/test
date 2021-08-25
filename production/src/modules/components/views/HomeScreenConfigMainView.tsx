@@ -187,7 +187,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     )
   }
 
-  processErrorResponse = (e: any) => {
+  processErrorResponse = (e: any, errMsg: string = '') => {
     const error = e as RestApiError;
     if (error.statusCode === 401) {
       workstation.environments.getCurrentEnvironment().then(currentEnv => {
@@ -195,6 +195,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         message.error(localizedStrings.ERR_SESSION_OUT);
       });
     }
+    message.error(errMsg + error.errorMsg);
   }
 
   deleteConfig = (objId : string = '') => {
@@ -205,7 +206,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         });
         this.loadData();
       }).catch((e: any) => {
-        this.processErrorResponse(e);
+        this.processErrorResponse(e, localizedStrings.ERR_APP_DELETE);
       });
     }
   }

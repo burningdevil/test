@@ -111,7 +111,7 @@ export const selectSelectedLibraryIcons = createSelector(
   selectCurrentConfig,
   (config) => {
     // concat the customized icons into the icons.
-    let customIcons = Object.keys(config.homeScreen.homeLibrary.customizedItems).filter(key => config.homeScreen.homeLibrary.customizedItems?.[key] && libraryIcons.map(icon => icon.key).includes(key) && !config.homeScreen.homeLibrary?.icons?.includes(key));
+    let customIcons = Object.keys(config.homeScreen?.homeLibrary?.customizedItems ?? {}).filter(key => config.homeScreen.homeLibrary.customizedItems?.[key] && libraryIcons.map(icon => icon.key).includes(key) && !config.homeScreen.homeLibrary?.icons?.includes(key));
     return config.homeScreen.homeLibrary.icons.concat(customIcons);
   }
 )
@@ -119,11 +119,11 @@ export const selectSelectedLibraryIcons = createSelector(
 export const selectSelectedDocumentIcons = createSelector(
   selectCurrentConfig,
   (config) => {
-    let customIcons = Object.keys(config.homeScreen.homeLibrary.customizedItems).filter(key => config.homeScreen.homeLibrary.customizedItems?.[key] && dossierIcons.map(icon => icon.key).includes(key)&& !config.homeScreen.homeDocument?.icons?.includes(key));
+    let customIcons = Object.keys(config.homeScreen?.homeLibrary?.customizedItems ?? {}).filter(key => config.homeScreen.homeLibrary.customizedItems?.[key] && dossierIcons.map(icon => icon.key).includes(key)&& !config.homeScreen.homeDocument?.icons?.includes(key));
     return config.homeScreen.homeDocument.icons.concat(customIcons);
   }
 )
-export const removeCustomisedIcons = createSelector(
+export const removeCustomizedIcons = createSelector(
   selectCurrentConfig,
   (config) => {
     // extra handle to the customized icons.

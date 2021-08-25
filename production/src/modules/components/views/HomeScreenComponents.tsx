@@ -98,7 +98,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         const validKey = iconValidKey(iconKey) // trasnfrom 'account_web', 'account_mobile', to 'account'
         let selected = false;
         if (libraryCustomizedIconKeys.includes(iconKey)) {
-            selected = !!this.props.selectedLibraryCustomizedItems[iconKey];
+            selected = _.get(this.props.selectedLibraryCustomizedItems, iconKey, true);
                 return [selected, iconKey];
         }
         if (sidebarIconKeys.includes(iconKey)) {

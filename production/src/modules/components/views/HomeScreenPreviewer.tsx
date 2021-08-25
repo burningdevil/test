@@ -15,13 +15,12 @@ class HomeScreenPreviewer extends React.Component<any, any> {
     iconShouldShow(icon: iconDetail) {
         const {libraryIcons, documentIcons, sidebarIcons, isDossierHome} = this.props
         const notSupportControlKeys = [iconTypes.hyper.key, iconTypes.dataSearch.key]; // to match the ux's requiremenet, display the uncontrol icons.
-        const validKey = iconValidKey(icon.key)
+        const validKey = iconValidKey(icon.key);
+        if (libraryCustomizedIconKeys.includes(icon.key)) {
+            return _.get(this.props.libraryCustomizedItems, icon.key, true);
+        }
         if (sidebarIconKeys.includes(icon.key)) {
-            if (libraryCustomizedIconKeys.includes(icon.key)) {
-                return _.get(this.props.libraryCustomizedItems, icon.key, true);
-            } else {
-                return sidebarIcons.includes(validKey)
-            }
+            return sidebarIcons.includes(validKey);
         } else {
             if (isDossierHome) {
                 const dossierToolbarIcons = dossierIconsDossierHome.concat(extraDesktopIcons).concat(extraMobileIcons).map((element) => element.key);
@@ -93,8 +92,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
             const showAddButton = iconTypes.myGroup.key === element.key
             const showExpandIcon = iconTypes.myGroup.key === element.key || iconTypes.defaultGroup.key === element.key
             const showContent = iconTypes.defaultGroup.key === element.key
-            const hideMyContent = iconTypes.myContent.key === element.key && (previewType === reviewType.TABLET || previewType === reviewType.PHONE)
-            return this.iconShouldShow(element) && !hideMyContent &&
+            return this.iconShouldShow(element) &&
                 <div>
                     <div className={`${classNamePrefix}-pad-overview-left-text`}>
                         <span className={element.iconName} key={index}/> 
@@ -144,11 +142,11 @@ class HomeScreenPreviewer extends React.Component<any, any> {
         let footerIcons: iconDetail[] = []
         switch (deviceType) {
             case reviewType.TABLET:
-                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.account, iconTypes.share, iconTypes.filter, iconTypes.comment, iconTypes.notification] : [iconTypes.previewLibraryMobile, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.share, iconTypes.filter, iconTypes.comment]
+                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.account, iconTypes.notification, iconTypes.share, iconTypes.comment, iconTypes.filter] : [iconTypes.previewLibraryMobile, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.share, iconTypes.filter, iconTypes.comment]
                 break
             case reviewType.PHONE:
                 headerIcons = isDossierHome ? [iconTypes.home, iconTypes.share] : [iconTypes.previewLibraryMobile, iconTypes.share]
-                footerIcons = isDossierHome ? [iconTypes.comment, iconTypes.filter, iconTypes.notification, iconTypes.account] : [iconTypes.comment, iconTypes.bookmark, iconTypes.reset, iconTypes.filter]
+                footerIcons = isDossierHome ? [iconTypes.filter, iconTypes.comment, iconTypes.notification, iconTypes.account] : [iconTypes.bookmark, iconTypes.reset, iconTypes.filter, iconTypes.comment]
                 break
             case reviewType.WEB:
                 headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.editDossier, iconTypes.account, iconTypes.notification, iconTypes.share, iconTypes.comment, iconTypes.filter] : [iconTypes.previewLibraryWeb, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.editDossier, iconTypes.accountWeb, iconTypes.share, iconTypes.comment, iconTypes.filter]
