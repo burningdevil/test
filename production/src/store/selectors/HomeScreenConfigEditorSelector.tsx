@@ -1,6 +1,6 @@
 import * as _ from 'lodash'
 import { createSelector } from 'reselect'
-import CONSTANTS, { default as VC, dossierIcons, libraryCustomizedIconKeys, libraryIcons } from '../../modules/components/HomeScreenConfigConstant'
+import CONSTANTS, { default as VC, dossierIcons, iconTypes, libraryCustomizedIconKeys, libraryIcons } from '../../modules/components/HomeScreenConfigConstant'
 
 import { RootState } from '../../types/redux-state/HomeScreenConfigState'
 
@@ -122,17 +122,17 @@ export const selectSelectedDocumentIcons = createSelector(
     return config.homeScreen.homeDocument.icons.concat(customIcons);
   }
 )
-export const removeCustomizedIcons = createSelector(
-  selectCurrentConfig,
-  (config) => {
-    // extra handle to the customized icons.
-    const libraryIcons: string[] = config.homeScreen?.homeLibrary?.icons ?? [];
-    const dossierIcons: string[] = config.homeScreen?.homeDocument?.icons ?? [];
-    config.homeScreen.homeLibrary.icons = libraryIcons.filter(icon => !libraryCustomizedIconKeys.includes(icon));
-    config.homeScreen.homeDocument.icons = dossierIcons.filter(icon => !libraryCustomizedIconKeys.includes(icon));
-    return config;
-  }
-)
+// export const excludeCustomizedIcons = createSelector(
+//   selectCurrentConfig,
+//   (config) => {
+//     // extra handle to the customized icons.
+//     const libraryIcons: string[] = config.homeScreen?.homeLibrary?.icons ?? [];
+//     const dossierIcons: string[] = config.homeScreen?.homeDocument?.icons ?? [];
+//     config.homeScreen.homeLibrary.icons = libraryIcons.filter(icon => !libraryCustomizedIconKeys.includes(icon));
+//     config.homeScreen.homeDocument.icons = dossierIcons.filter(icon => !libraryCustomizedIconKeys.includes(icon));
+//     return config;
+//   }
+// )
 
 export const selectDefaultGroupsName = createSelector(
   selectCurrentConfig,

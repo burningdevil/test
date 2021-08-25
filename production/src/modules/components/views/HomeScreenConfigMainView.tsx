@@ -194,6 +194,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         workstation.environments.disconnect(currentEnv.url);
         message.error(localizedStrings.ERR_SESSION_OUT);
       });
+      return;
     }
     message.error(errMsg + error.errorMsg);
   }

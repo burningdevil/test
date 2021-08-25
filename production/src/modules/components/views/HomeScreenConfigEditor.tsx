@@ -15,11 +15,12 @@ import { HttpProxy } from '../../../main';
 import { RestApiError } from '../../../server/RestApiError';
 import { PARSE_METHOD } from '../../../utils/ParseMethods';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
-import { selectCurrentConfig, selectIsDuplicateConfig, selectIsConfigNameError, selectIsDossierAsHome, removeCustomizedIcons } from '../../../store/selectors/HomeScreenConfigEditorSelector';
+import { selectCurrentConfig, selectIsDuplicateConfig, selectIsConfigNameError, selectIsDossierAsHome } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import * as api from '../../../services/Api';
-import { default as VC, localizedStrings, editorSize } from '../HomeScreenConfigConstant'
+import { default as VC, localizedStrings, editorSize, iconTypes, libraryCustomizedIconKeys } from '../HomeScreenConfigConstant'
 import { ConfirmationDialog, ConfirmationDialogWordings } from '../common-components/confirmation-dialog';
+import { HomeScreenConfigType } from '../../../../src/types/data-model/HomeScreenConfigModels';
 
 declare var workstation: WorkstationModule;
 
@@ -177,11 +178,20 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         </div>
     );
   };
-
+  preSaveHandle  = (config: HomeScreenConfigType) => {
+    const selectIconsExcludeCustomizedIcons = (config: HomeScreenConfigType) => {
+        // extra handle to the customized icons.
+        const libraryIcons: string[] = config.homeScreen?.homeLibrary?.icons ?? [];
+        const dossierIcons: string[] = config.homeScreen?.homeDocument?.icons ?? [];
+        config.homeScreen.homeLibrary.icons = libraryIcons.filter(icon => !libraryCustomizedIconKeys.includes(icon));
+        config.homeScreen.homeDocument.icons = dossierIcons.filter(icon => !libraryCustomizedIconKeys.includes(icon));
+    }
+    selectIconsExcludeCustomizedIcons(config);
+  }
   handleSaveConfig = () => {
       let config =_.merge({}, this.props.config);
       const configId = this.state.configId;
-      config = this.props.pickCustomizedIcon;
+      this.preSaveHandle(config);
       // Remove dossier url when mode is Library As Home. Before saving object.
       const { homeScreen } = this.props.config;
       const dossierUrlPath = 'homeDocument.url';
@@ -287,7 +297,6 @@ const mapState = (state: RootState) => ({
   isDossierHome: selectIsDossierAsHome(state),
   isDuplicateConfig: selectIsDuplicateConfig(state),
   isConfigNameError: selectIsConfigNameError(state),
-  pickCustomizedIcon: removeCustomizedIcons(state),
 })
 
 const connector = connect(mapState, {

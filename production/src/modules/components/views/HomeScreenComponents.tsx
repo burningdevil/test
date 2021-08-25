@@ -3,11 +3,11 @@ import { RightOutlined, DownOutlined } from '@ant-design/icons'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import '../scss/HomeScreenComponents.scss'
-import { default as VC, localizedStrings, previewerWidth, platformType, iconDetail, iconTypes, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons, iconValidKey, libraryIconKeys, sidebarIconKeys, libraryCustomizedIconKeys, mobileOnlyIconKeys, webDesktopOnlyIconKeys, libraryCustomizedIconAttrsMap, reviewType } from '../HomeScreenConfigConstant'
+import { default as VC, localizedStrings, previewerWidth, platformType, iconDetail, iconTypes, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons, iconValidKey, libraryIconKeys, sidebarIconKeys, libraryCustomizedIconKeys, mobileOnlyIconKeys, webDesktopOnlyIconKeys, libraryCustomizedIconAttrsMap } from '../HomeScreenConfigConstant'
 import * as _ from 'lodash'
 import HomeScreenPreviewer from './HomeScreenPreviewer'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
-import { selectCurrentConfig, selectIsDossierAsHome, selectIsToolbarHidden, selectIsToolbarCollapsed, selectSelectedSideBarIcons, selectSelectedLibraryCustomizedItems, selectSelectedLibraryIcons, selectSelectedDocumentIcons, selectCurrentConfigContentBundleIds, selectDefaultGroupsName, selectPreviewDeviceType } from '../../../store/selectors/HomeScreenConfigEditorSelector'
+import { selectCurrentConfig, selectIsDossierAsHome, selectIsToolbarHidden, selectIsToolbarCollapsed, selectSelectedSideBarIcons, selectSelectedLibraryCustomizedItems, selectSelectedLibraryIcons, selectSelectedDocumentIcons, selectCurrentConfigContentBundleIds, selectDefaultGroupsName } from '../../../store/selectors/HomeScreenConfigEditorSelector'
 import * as Actions from '../../../store/actions/ActionsCreator'
 
 const childrenKeyOffset = 1000;
@@ -333,7 +333,6 @@ const mapState = (state: RootState) => ({
     selectedDocumentIcons: selectSelectedDocumentIcons(state), 
     contentBundleIds: selectCurrentConfigContentBundleIds(state),
     defaultGroupsName: selectDefaultGroupsName(state),
-    previewDeviceType: selectPreviewDeviceType(state), 
 })
   
 const connector = connect(mapState, {
