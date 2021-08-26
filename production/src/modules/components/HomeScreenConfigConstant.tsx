@@ -472,7 +472,6 @@ export const dossierIconsDossierHome = [iconTypes.toc,
 // extra icons for specified platforms
 export const extraDesktopIcons = [iconTypes.dataSearch, iconTypes.hyper]
 export const extraMobileIcons = [iconTypes.aaFont]
-
 // children icons for sidebar
 // export const childrenIcons = [iconTypes.all, iconTypes.favorites, iconTypes.recents, iconTypes.defaultGroup, iconTypes.myGroup, iconTypes.accountMobile]
 export const childrenIcons = [iconTypes.all, iconTypes.myContent, iconTypes.favorites, iconTypes.recents, iconTypes.mySubscribe, iconTypes.myGroup] // Hide default group, as content bundle is not enabled in Q3
@@ -483,13 +482,9 @@ export const iconValidKey = (iconKey: string) => iconKey.split('__').length > 0 
 export const dossierIconKeys =  dossierIcons.map((element) => element.key)
 export const libraryIconKeys = libraryIcons.map((element) => element.key)
 export const sidebarIconKeys = childrenIcons.map((element) => element.key)
-export const libraryCustomizedIconKeys = [iconTypes.myContent, iconTypes.mySubscribe, iconTypes.newDossier, iconTypes.editDossier].map((element) => element.key)
-export const libraryCustomizedIconAttrsMap = {
-    [iconTypes.myContent.key]:  CONSTANTS.ICON_MY_CONTENT,
-    [iconTypes.mySubscribe.key]: CONSTANTS.ICON_MY_SUBSCRIBE,
-    [iconTypes.newDossier.key]:  CONSTANTS.ICON_NEW_DOSSIER,
-    [iconTypes.editDossier.key]: CONSTANTS.ICON_EDIT_DOSSIER
-};
+
+export const libraryCustomizedIcons = [iconTypes.myContent, iconTypes.mySubscribe, iconTypes.newDossier, iconTypes.editDossier];
+export const libraryCustomizedIconKeys = libraryCustomizedIcons.map((element) => element.key);
 export const mobileOnlyIconKeys = [iconTypes.accountMobile].map((element) => element.key)
 export const webDesktopOnlyIconKeys = [iconTypes.multiSelect, iconTypes.accountWeb].map((element) => element.key)
 export const previewerWidth = '274px';

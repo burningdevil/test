@@ -3,7 +3,7 @@ import { RightOutlined, DownOutlined } from '@ant-design/icons'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import '../scss/HomeScreenComponents.scss'
-import { default as VC, localizedStrings, previewerWidth, platformType, iconDetail, iconTypes, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons, iconValidKey, libraryIconKeys, sidebarIconKeys, libraryCustomizedIconKeys, mobileOnlyIconKeys, webDesktopOnlyIconKeys, libraryCustomizedIconAttrsMap } from '../HomeScreenConfigConstant'
+import { default as VC, localizedStrings, previewerWidth, platformType, iconDetail, iconTypes, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons, iconValidKey, libraryIconKeys, sidebarIconKeys, libraryCustomizedIconKeys, mobileOnlyIconKeys, webDesktopOnlyIconKeys } from '../HomeScreenConfigConstant'
 import * as _ from 'lodash'
 import HomeScreenPreviewer from './HomeScreenPreviewer'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
@@ -215,9 +215,8 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         let update = {}
         const getCustomized = (iconKey: string, value: boolean, config: any) => {
             if (libraryCustomizedIconKeys.includes(iconKey)) {
-                const attrName: string = libraryCustomizedIconAttrsMap[iconKey];
                 const libraryConfig = config[VC.HOME_SCREEN]?.[VC.HOME_LIBRARY] ?? null;
-                const customizedItems = _.assign({}, this.props.selectedLibraryCustomizedItems, {[attrName]: value});
+                const customizedItems = _.assign({}, this.props.selectedLibraryCustomizedItems, {[iconKey]: value});
                 if(!libraryConfig){
                     config[VC.HOME_SCREEN][VC.HOME_LIBRARY] = {};
                 }
