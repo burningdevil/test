@@ -122,17 +122,6 @@ export const selectSelectedDocumentIcons = createSelector(
     return config.homeScreen.homeDocument.icons.concat(customIcons);
   }
 )
-// export const excludeCustomizedIcons = createSelector(
-//   selectCurrentConfig,
-//   (config) => {
-//     // extra handle to the customized icons.
-//     const libraryIcons: string[] = config.homeScreen?.homeLibrary?.icons ?? [];
-//     const dossierIcons: string[] = config.homeScreen?.homeDocument?.icons ?? [];
-//     config.homeScreen.homeLibrary.icons = libraryIcons.filter(icon => !libraryCustomizedIconKeys.includes(icon));
-//     config.homeScreen.homeDocument.icons = dossierIcons.filter(icon => !libraryCustomizedIconKeys.includes(icon));
-//     return config;
-//   }
-// )
 
 export const selectDefaultGroupsName = createSelector(
   selectCurrentConfig,
