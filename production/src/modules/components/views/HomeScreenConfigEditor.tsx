@@ -168,7 +168,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 disabled = {this.props.isConfigNameError || (isDossierHome && _.isEmpty(dossierUrl))}>
                 {localizedStrings.SAVE}
             </Button>
-            {/* confirmmation dialog of cancel */}
+            {/* confirmation dialog of cancel */}
             <ConfirmationDialog
                 isConfirmationDialogDisplayed={this.state.isConfirmationDialogOpen}
                 closeDialog={this.handleCloseDialog}
@@ -178,22 +178,9 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         </div>
     );
   };
-  preSaveHandle  = (config: HomeScreenConfigType) => {
-    const selectIconsExcludeCustomizedIcons = (config: HomeScreenConfigType) => {
-        // extra handle to the customized icons.
-        const libraryIcons: string[] = config.homeScreen?.homeLibrary?.icons ?? [];
-        const dossierIcons: string[] = config.homeScreen?.homeDocument?.icons ?? [];
-        const sidebarIcons: string[] = config.homeScreen?.homeLibrary.sidebars ?? [];
-        config.homeScreen.homeLibrary.icons = libraryIcons.filter(icon => !libraryCustomizedIconKeys.includes(icon));
-        config.homeScreen.homeDocument.icons = dossierIcons.filter(icon => !libraryCustomizedIconKeys.includes(icon));
-        config.homeScreen.homeLibrary.sidebars = sidebarIcons.filter(icon => !libraryCustomizedIconKeys.includes(icon));
-      }
-    selectIconsExcludeCustomizedIcons(config);
-  }
   handleSaveConfig = () => {
       let config =_.merge({}, this.props.config);
       const configId = this.state.configId;
-      this.preSaveHandle(config);
       // Remove dossier url when mode is Library As Home. Before saving object.
       const { homeScreen } = this.props.config;
       const dossierUrlPath = 'homeDocument.url';
