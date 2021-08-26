@@ -8,7 +8,7 @@ import * as _ from 'lodash'
 import HomeScreenPreviewer from './HomeScreenPreviewer'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
 import { selectCurrentConfig, selectIsDossierAsHome, selectIsToolbarHidden, selectIsToolbarCollapsed, selectSelectedSideBarIcons, selectSelectedLibraryCustomizedItems, selectSelectedLibraryIcons, selectSelectedDocumentIcons, selectCurrentConfigContentBundleIds, selectDefaultGroupsName } from '../../../store/selectors/HomeScreenConfigEditorSelector'
-import * as Actions from '../../../store/actions/ActionsCreator'
+import * as Actions from '../../../store/actions/ActionsCreator';
 
 const childrenKeyOffset = 1000;
 /* ClassName */
@@ -212,23 +212,30 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
 
     onIconStateChange = (value: boolean, iconKey: string) => {
         const { isDossierHome } = this.props
-        let update = {}
-        const getCustomized = (iconKey: string, value: boolean, config: any) => {
+        const handleCustomizedIcon = (iconKey: string, value: boolean) => {
             if (libraryCustomizedIconKeys.includes(iconKey)) {
-                const libraryConfig = config[VC.HOME_SCREEN]?.[VC.HOME_LIBRARY] ?? null;
                 const customizedItems = _.assign({}, this.props.selectedLibraryCustomizedItems, {[iconKey]: value});
-                if(!libraryConfig){
-                    config[VC.HOME_SCREEN][VC.HOME_LIBRARY] = {};
+                let customizedConfig = {
+                    [VC.HOME_SCREEN]: {
+                        [VC.HOME_LIBRARY]: {
+                            [VC.CUSTOMIZED_ITEMS]: customizedItems
+                        }
+                    }
                 }
-                Object.assign(config[VC.HOME_SCREEN][VC.HOME_LIBRARY], {[VC.CUSTOMIZED_ITEMS]: customizedItems});
+                this.props.updateCurrentConfig(customizedConfig);
+                return true;
             };
+            return false;
         }
+        if(handleCustomizedIcon(iconKey, value)) return;
+
+        let update = {};
         // check side bar icons
         const validKey = iconValidKey(iconKey) 
         if (sidebarIconKeys.includes(iconKey)) {
             const icons = value ? _.concat([], this.props.selectedSidebarIcons, validKey) : _.pull(_.concat([], this.props.selectedSidebarIcons), validKey)
-            update = {[VC.ICON_SIDEBAR]: icons}
-            update = {[VC.HOME_LIBRARY]: update}
+            let config = {[VC.ICON_SIDEBAR]: icons}
+            update = {[VC.HOME_LIBRARY]: config}
         } else {
             let updateDocument = {}
             let updateLibrary = {}
@@ -260,8 +267,6 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
             update = _.merge(updateDocument, updateLibrary);
         }
         update = {[VC.HOME_SCREEN]: update};
-        // because the customized icons are always in the same attribute homeLibrary, and not in the sidebar alone. So handle it here individually. 
-        getCustomized(iconKey, value, update);
         this.props.updateCurrentConfig(update) 
     }
 
