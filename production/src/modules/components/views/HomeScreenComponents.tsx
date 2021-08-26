@@ -3,7 +3,7 @@ import { RightOutlined, DownOutlined } from '@ant-design/icons'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import '../scss/HomeScreenComponents.scss'
-import { default as VC, localizedStrings, previewerWidth, platformType, iconDetail, iconTypes, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons, iconValidKey, libraryIconKeys, sidebarIconKeys, libraryCustomizedIconKeys, mobileOnlyIconKeys, webDesktopOnlyIconKeys, libraryCustomizedIconAttrsMap } from '../HomeScreenConfigConstant'
+import { default as VC, localizedStrings, previewerWidth, platformType, iconDetail, iconTypes, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons, iconValidKey, libraryIconKeys, sidebarIconKeys, libraryCustomizedIconKeys, mobileOnlyIconKeys, webDesktopOnlyIconKeys } from '../HomeScreenConfigConstant'
 import * as _ from 'lodash'
 import HomeScreenPreviewer from './HomeScreenPreviewer'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
@@ -96,12 +96,13 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
 
     iconSelectedInfo = (iconKey: string) => {
         const validKey = iconValidKey(iconKey) // trasnfrom 'account_web', 'account_mobile', to 'account'
-        let selected = false
+        let selected = false;
+        if (libraryCustomizedIconKeys.includes(iconKey)) {
+            selected = _.get(this.props.selectedLibraryCustomizedItems, iconKey, true);
+                return [selected, iconKey];
+        }
         if (sidebarIconKeys.includes(iconKey)) {
             selected = this.props.selectedSidebarIcons.includes(validKey)
-            if (libraryCustomizedIconKeys.includes(iconKey)) {
-                selected = _.get(this.props.selectedLibraryCustomizedItems, iconKey, true);
-            }
         } else {
             if (this.props.isDossierHome) {
                 const dossierToolbarIcons = dossierIconsDossierHome.map((element) => element.key);
@@ -212,16 +213,21 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
     onIconStateChange = (value: boolean, iconKey: string) => {
         const { isDossierHome } = this.props
         let update = {}
+        const getCustomized = (iconKey: string, value: boolean, config: any) => {
+            if (libraryCustomizedIconKeys.includes(iconKey)) {
+                const libraryConfig = config[VC.HOME_SCREEN]?.[VC.HOME_LIBRARY] ?? null;
+                const customizedItems = _.assign({}, this.props.selectedLibraryCustomizedItems, {[iconKey]: value});
+                if(!libraryConfig){
+                    config[VC.HOME_SCREEN][VC.HOME_LIBRARY] = {};
+                }
+                Object.assign(config[VC.HOME_SCREEN][VC.HOME_LIBRARY], {[VC.CUSTOMIZED_ITEMS]: customizedItems});
+            };
+        }
         // check side bar icons
         const validKey = iconValidKey(iconKey) 
         if (sidebarIconKeys.includes(iconKey)) {
             const icons = value ? _.concat([], this.props.selectedSidebarIcons, validKey) : _.pull(_.concat([], this.props.selectedSidebarIcons), validKey)
             update = {[VC.ICON_SIDEBAR]: icons}
-            if (libraryCustomizedIconKeys.includes(iconKey)) {
-                const attrName: string = libraryCustomizedIconAttrsMap[iconKey];
-                const customizedItems = _.assign({}, this.props.selectedLibraryCustomizedItems, {[attrName]: value});
-                update = {[VC.CUSTOMIZED_ITEMS]: customizedItems}
-            }
             update = {[VC.HOME_LIBRARY]: update}
         } else {
             let updateDocument = {}
@@ -251,16 +257,18 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                     updateDocument = {[VC.HOME_DOCUMENT]: update} 
                 }
             }
-            update = _.merge(updateDocument, updateLibrary)
+            update = _.merge(updateDocument, updateLibrary);
         }
-        update = {[VC.HOME_SCREEN]: update}
+        update = {[VC.HOME_SCREEN]: update};
+        // because the customized icons are always in the same attribute homeLibrary, and not in the sidebar alone. So handle it here individually. 
+        getCustomized(iconKey, value, update);
         this.props.updateCurrentConfig(update) 
     }
 
     // Life cycle
     constructor(props: any) {
         super(props)
-        this.state = this.getNewState()
+        this.state = this.getNewState();
     }
 
     componentDidUpdate() {
