@@ -260,7 +260,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
             update = _.merge(updateDocument, updateLibrary);
         }
         update = {[VC.HOME_SCREEN]: update};
-        // because the customised icons are always in the same attribute homelibrary, and not in the sidebar alone. So handle it here individually. 
+        // because the customized icons are always in the same attribute homeLibrary, and not in the sidebar alone. So handle it here individually. 
         getCustomized(iconKey, value, update);
         this.props.updateCurrentConfig(update) 
     }
