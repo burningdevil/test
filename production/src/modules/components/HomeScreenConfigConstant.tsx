@@ -350,7 +350,9 @@ export const localizedStrings = {
     CONFIRM_CANCEL_DIALOG_MSG_TITLE: t('confirmCancelDialogMsgTitle'),
     CONFIRM_CANCEL_DIALOG_MSG_DETAIL: t('confirmCancelDialogMsgDetail'),
     YES: t('yes'),
-    NO: t('no')
+    NO: t('no'),
+    NO_DATA_MESSAGE: t('noDataMessage'),
+    NO_DATA_SEARCHED: t('noDataSearched'),
 }
 
 export const sectionTitle = {
