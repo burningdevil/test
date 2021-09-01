@@ -189,19 +189,19 @@ class HomeScreenMoreSetting extends React.Component<any, any> {
 
                     {/* Access section */}
                     {this.sectionTitleRender(sectionTitle.ACCESS)}
-                    <div>
+                    <div className={`${classNamePrefix}-box`}>
                         {this.checkboxRender(!disablePreferences, VC.DISABLE_PREFERENCES, sectionAccess.ACCESS_PREFERENCE)}
                     </div> 
-                    <div>
+                    <div className={`${classNamePrefix}-box`}>
                         {this.checkboxRender(!disableAdvancedSettings, VC.DISABLE_ADVANCED_SETTINGS, sectionAccess.ACCESS_ADVANCED_SETTINGS)}
                     </div>
                     <div className={`${classNamePrefix}-box`}>
                         <span>
                             {this.checkboxRender(updateInterval !== VC.UPDATE_INTERVAL_DISABLED, VC.UPDATE_INTERVAL, sectionAccess.CHECK_UPDATE)}
                         </span>
-                        <span>
+                        
                             {this.inputRender(!this.state.intervalValid, MAX_UPDATE_INTERVAL, metricStr.HOUR, metricStr.HOURS, updateInterval === VC.UPDATE_INTERVAL_DISABLED, updateInterval === VC.UPDATE_INTERVAL_DISABLED ? DEFAULT_INTERVAL_HOURS : parseInt(updateInterval)/60, (e) => this.onInputChange(VC.UPDATE_INTERVAL_TEXT, e.target.value))}
-                        </span>
+                        
                     </div>
                     <Divider/>
                     
@@ -241,10 +241,10 @@ class HomeScreenMoreSetting extends React.Component<any, any> {
 
                     {/* Cache section */}
                     {this.sectionTitleRender(sectionTitle.CACHE)}
-                     <div>
+                     {/* <div className={`${classNamePrefix}-box`}>
                         {this.checkboxRender(cacheClearMode === VC.CLEAR_ON_CLOSE, VC.CLEAR_CACHE_ON_CLOSE, sectionCache.CLEAR_CACHE_ON_CLOSE)}
-                    </div>
-                    <div>
+                    </div> */}
+                    <div className={`${classNamePrefix}-box`}>
                         {this.checkboxRender(clearCacheOnLogout, VC.CLEAR_CACHE_ON_LOGOUT, sectionCache.CLEAR_CACHE_ON_LOGOUT)}
                     </div>
                 </div>

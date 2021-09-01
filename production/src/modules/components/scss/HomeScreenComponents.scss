@@ -54,6 +54,12 @@ $line-height-small: 13px;
         margin-top: 16px;
         height: 512px;
     }
+    .icon-msg_info {
+        color: lightgray;
+        &:hover {
+            color: $mobile-primary-blue;
+        }
+    }
 
     &-toolbar{
         font-size: $font-size;
@@ -64,6 +70,12 @@ $line-height-small: 13px;
         .ant-checkbox-wrapper {
             color: $msdl-black;
             font-size: 12px;
+        }
+        .icon-msg_info {
+            color: lightgray;
+            &:hover {
+                color: $mobile-primary-blue;
+            }
         }
     }
 

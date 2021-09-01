@@ -41,7 +41,7 @@ function FakeHomeScreenBundleListServer(allData: BundleInfo[]) {
   return {
       getData: function (params: IServerSideGetRowsParams) {
       var results: any[] = [];
-      var filterData = searchName === '' ? allData : _.filter(allData, function(o) { return o.name.includes(searchName); });
+      var filterData = searchName === '' ? allData : _.filter(allData, function(o) { return o.name.toLocaleLowerCase?.().includes(searchName?.toLocaleLowerCase?.()); });
       var lastRow: number = allData.length;
       if (params.request.groupKeys.length === 0) {
           results = filterData.map(function (d) {
@@ -235,6 +235,7 @@ class ContentBundleList extends React.Component<any, any> {
       flex: 1,
       minWidth: 280,
       field: VC.NAME,
+      resizable: true,
       headerName: localizedStrings.CONTENT,
       checkboxSelection: this.getCheckboxEnabled,
       cellRenderer: 'agGroupCellRenderer',

@@ -166,5 +166,9 @@
     "newDossier": "New Dossier (Web and Desktop)",
     "editDossier": "Edit Dossier (Web and Desktop)",
     "noDataMessage": "No Data Returned",
-    "noDataSearched": "No Data Searched"
+    "disableToolbarTooltip": "Disable toolbar will disable switching to other applications from this application to your Mobile and Web library users.",
+    "disableSidebarTooltip": "Disable sidebar will disable switching to other applications from this application for your Mobile library users.",
+    "disableAccountTooltip": "Disable sidebar and account at the same time will disable switching to other applications from this application for your Mobile and Web library users.",
+    "platformSpecific": "Platform Specific",
+    "addContentBundleTipMsg": "After adding content bundles, this application will only show content inside content bundles."
 }

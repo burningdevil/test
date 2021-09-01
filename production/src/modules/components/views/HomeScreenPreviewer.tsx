@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { default as VC, localizedStrings, childrenIcons, iconDetail, iconTypes, platformType, reviewType, dossierIcons, dossierIconsDossierHome, libraryIconKeys, sidebarIconKeys, libraryCustomizedIconKeys, iconValidKey, extraDesktopIcons, extraMobileIcons } from '../HomeScreenConfigConstant'
+import { default as VC, localizedStrings, childrenIcons, iconDetail, iconTypes, platformType, reviewType, dossierIcons, dossierIconsDossierHome, libraryIconKeys, sidebarIconKeys, libraryCustomizedIconKeys, iconValidKey, extraDesktopIcons, extraMobileIcons, platformSpecificIconKeys } from '../HomeScreenConfigConstant'
 import { Layout, Radio } from 'antd'
 import { PlusCircleOutlined, DownOutlined } from '@ant-design/icons'
 import '../scss/HomeScreenPreviewer.scss'
@@ -16,15 +16,18 @@ class HomeScreenPreviewer extends React.Component<any, any> {
         const {libraryIcons, documentIcons, sidebarIcons, isDossierHome} = this.props
         const notSupportControlKeys = [iconTypes.hyper.key, iconTypes.dataSearch.key]; // to match the ux's requiremenet, display the uncontrol icons.
         const validKey = iconValidKey(icon.key);
-        if(notSupportControlKeys.includes(icon.key)){
-            return true;
-        }
+        // if(notSupportControlKeys.includes(icon.key)){
+        //     return true;
+        // }
         if (libraryCustomizedIconKeys.includes(icon.key)) {
             return _.get(this.props.libraryCustomizedItems, icon.key, true);
         }
         if (sidebarIconKeys.includes(icon.key)) {
             return sidebarIcons.includes(validKey);
         } else {
+            if(platformSpecificIconKeys.includes(icon.key)){
+                return documentIcons.includes(validKey);
+            }
             if (isDossierHome) {
                 const dossierToolbarIcons = dossierIconsDossierHome.concat(extraDesktopIcons).concat(extraMobileIcons).map((element) => element.key);
                 if (dossierToolbarIcons.includes(icon.key)) {
@@ -54,9 +57,12 @@ class HomeScreenPreviewer extends React.Component<any, any> {
      // render device type radio buttons
     deviceTypesRender = (deviceType: string) => {
         const { platforms } = this.props.config
-        const mobileDisabled = !platforms.includes(platformType.mobile)
-        const webDisabled = !platforms.includes(platformType.web)
-        const desktopDisabled = !platforms.includes(platformType.desktop)
+        // const mobileDisabled = !platforms.includes(platformType.mobile)
+        // const webDisabled = !platforms.includes(platformType.web)
+        // const desktopDisabled = !platforms.includes(platformType.desktop)
+        const mobileDisabled = false;
+        const webDisabled = false;
+        const desktopDisabled = false;
         
         return <div className={`${classNamePrefix}-device-type-container`}>
                 <Radio.Group
@@ -90,16 +96,17 @@ class HomeScreenPreviewer extends React.Component<any, any> {
     // render array of side bar icons
     sidebarIconsRender = (iconsToRender: iconDetail[], rootClassName: string, previewType: any) => {
         const sidebarIcons = iconsToRender
-            .filter ( (element) => element.key !== iconTypes.accountMobile.key )
+            .filter ( (element) => previewType === reviewType.PHONE || element.key !== iconTypes.accountMobile.key )
             .map( (element, index) => {
             const showAddButton = iconTypes.myGroup.key === element.key
             const showContent = iconTypes.defaultGroup.key === element.key
             const hideMyContent = iconTypes.myContent.key === element.key && (previewType === reviewType.TABLET || previewType === reviewType.PHONE)
+            // element.displayText = element.displayText.replace(/\(.*?\)/g, ''); // replace the (Mobile only) => ''
             return this.iconShouldShow(element) && !hideMyContent &&
                 <div>
                     <div className={`${classNamePrefix}-pad-overview-left-text`}>
                         <span className={element.iconName} key={index}/> 
-                        <span>{showContent ? this.props.config.homeScreen.homeLibrary.defaultGroupsName : element.displayText}</span> 
+                        <span>{showContent ? this.props.config.homeScreen.homeLibrary.defaultGroupsName : element.displayText.replace(/\(.*?\)/g, '' )}</span> 
                         {showAddButton && <span className='icon-pnl_add-new' style={{fontSize: '5px', marginLeft: 'auto', marginRight: '4px'}}/>}
                     </div>
                     {showContent && <div className={`${classNamePrefix}-pad-overview-left-blank`}>
@@ -147,7 +154,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                 headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.account, iconTypes.notification, iconTypes.share, iconTypes.comment, iconTypes.filter] : [iconTypes.previewLibraryMobile, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.share, iconTypes.comment, iconTypes.filter]
                 break
             case reviewType.PHONE:
-                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.share] : [iconTypes.previewLibraryMobile, iconTypes.share]
+                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.share, iconTypes.aaFont] : [iconTypes.previewLibraryMobile, iconTypes.share, iconTypes.aaFont]
                 footerIcons = isDossierHome ? [iconTypes.filter, iconTypes.comment, iconTypes.notification, iconTypes.account] : [iconTypes.bookmark, iconTypes.reset, iconTypes.filter, iconTypes.comment]
                 break
             case reviewType.WEB:
@@ -210,7 +217,6 @@ class HomeScreenPreviewer extends React.Component<any, any> {
 
         const padLeftClassName = this.previewerClassName(deviceType, '-overview-left')
         const padRightClassName = showSideBar ?  this.previewerClassName(deviceType, '-overview-right-library') : this.previewerClassName(deviceType, '-overview-right-library-nosidebar')
-
         switch (deviceType) {
             case reviewType.TABLET:
             case reviewType.WEB:

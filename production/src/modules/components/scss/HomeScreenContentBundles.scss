@@ -1,6 +1,17 @@
+@import './variables.scss';
+
 .home-screen-bundle-content-container {
     height: 620px;
     padding: 35px 10px 10px 10px;
+
+    .home-screen-bundle-content-message-tip {
+      position: relative;
+      margin-top: 55px;
+      font-size: $font-size;
+      .icon-msg_info {
+        color: $mobile-primary-blue;
+    }
+    }
 }
   
 .home-screen-add-content-container {

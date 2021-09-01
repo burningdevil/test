@@ -3,12 +3,13 @@ import { RightOutlined, DownOutlined } from '@ant-design/icons'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import '../scss/HomeScreenComponents.scss'
-import { default as VC, localizedStrings, previewerWidth, platformType, iconDetail, iconTypes, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons, iconValidKey, libraryIconKeys, sidebarIconKeys, libraryCustomizedIconKeys, mobileOnlyIconKeys, webDesktopOnlyIconKeys } from '../HomeScreenConfigConstant'
+import { default as VC, localizedStrings, previewerWidth, platformType, iconDetail, iconTypes, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons, iconValidKey, libraryIconKeys, sidebarIconKeys, libraryCustomizedIconKeys, mobileOnlyIconKeys, webDesktopOnlyIconKeys, REVERSE, platformSpecificIcons, platformSpecificIconKeys } from '../HomeScreenConfigConstant'
 import * as _ from 'lodash'
 import HomeScreenPreviewer from './HomeScreenPreviewer'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
 import { selectCurrentConfig, selectIsDossierAsHome, selectIsToolbarHidden, selectIsToolbarCollapsed, selectSelectedSideBarIcons, selectSelectedLibraryCustomizedItems, selectSelectedLibraryIcons, selectSelectedDocumentIcons, selectCurrentConfigContentBundleIds, selectDefaultGroupsName } from '../../../store/selectors/HomeScreenConfigEditorSelector'
 import * as Actions from '../../../store/actions/ActionsCreator';
+import { Tooltip } from '@mstr/rc'
 
 const childrenKeyOffset = 1000;
 /* ClassName */
@@ -47,7 +48,44 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         }
         return disabled || toolbarHidden || sidebarDisabled
     }
+    /**
+     * 
+     * @param iconKey 
+     * if the icon has the attribute such as deps: ['!sidebar', '!account']
+     * the return result is dependent on the sidebar icon is off and account icon is off.
+     * @returns boolean
+     */
+    isHelpTipShow = (iconKey: string) => {
+        const allIcons = Object.keys(iconTypes).filter(v => iconTypes[v].supportTip);
+        const allIconKeys = allIcons.map(v => iconTypes[v].key);
+        const validKey = iconValidKey(iconKey);
+        if(allIconKeys.includes(iconKey)){
+            const targetItem = iconTypes[allIcons[allIconKeys.indexOf(iconKey)]];
+            if(!targetItem.deps?.length){
+                return true;
+            }
+            const deps = targetItem.deps;
+            let validResult = true;
+            for(let dep of deps){
+                let validReverse = dep.includes(REVERSE);
+                let key = dep;
+                if(validReverse){
+                    key = dep.split(REVERSE)[1];
+                };
+                key = iconValidKey(key);
+                // check all related props one time.
+                const check = ['selectedDocumentIcons', 'selectedLibraryIcons'];
+                const temp = check.some(v => this.props[v].includes(key));
+                validResult = (!validReverse && temp) ||  (validReverse && !temp);
+                if(!validResult){
+                    return false;
+                }
+            };
+            return true;
 
+        }
+        return false;
+    }
     columns = [
         {
             title: '',
@@ -71,13 +109,23 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
             align: 'right' as const,
             render: (selectedInfo: [boolean, string]) => {
                 return (
-                    < Switch checked={selectedInfo[0]} onChange={
+                    
+                    <div>
+                        {
+                            !this.props.toolbarHidden && this.isHelpTipShow(selectedInfo[1]) && <Tooltip 
+                                title={Object.values(iconTypes).find(v => v.key === selectedInfo[1]).tipMsg}
+                                placement='right'>
+                                <span className={VC.FONT_MSG_INFO}> </span>
+                                </Tooltip>
+                        }
+                        < Switch checked={selectedInfo[0]} onChange={
                     (e) => this.onIconStateChange(e, selectedInfo[1])} disabled={this.isIconDisabled(selectedInfo[1])} size={'small'} />
+                    </div>
+                    
                 )
             }
         }
     ];
-
     getNewState = () => {
         let state = {...this.state}
         
@@ -85,8 +133,8 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         const {platforms} = config
         if (!isDossierHome) {
             state.defaultGroupEnable = !_.isEmpty(contentBundleIds) && contentBundleIds.length > 0
-            state.mobileOptionsVisible = _.includes(platforms, platformType.mobile)
-            state.webOptionsVisible = _.includes(platforms, platformType.web) || _.includes(platforms, platformType.desktop)
+            state.mobileOptionsVisible = true;
+            state.webOptionsVisible = true;
         }
    
         const extraIcons = _.concat(platforms.includes(platformType.desktop) ? extraDesktopIcons : [], platforms.includes(platformType.mobile) ? extraMobileIcons : [])
@@ -95,14 +143,14 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
     }
 
     iconSelectedInfo = (iconKey: string) => {
-        const validKey = iconValidKey(iconKey) // trasnfrom 'account_web', 'account_mobile', to 'account'
+        const validKey = iconValidKey(iconKey) // transform 'account_web', 'account_mobile', to 'account'
         let selected = false;
         if (libraryCustomizedIconKeys.includes(iconKey)) {
             selected = _.get(this.props.selectedLibraryCustomizedItems, iconKey, true);
                 return [selected, iconKey];
         }
         if (sidebarIconKeys.includes(iconKey)) {
-            selected = this.props.selectedSidebarIcons.includes(validKey)
+            selected = this.props.selectedSidebarIcons.includes(validKey);
         } else {
             if (this.props.isDossierHome) {
                 const dossierToolbarIcons = dossierIconsDossierHome.map((element) => element.key);
@@ -119,6 +167,9 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                 if (dossierToolbarIcons.includes(iconKey)) {
                     selected = this.props.selectedDocumentIcons.includes(validKey) 
                 }
+            }
+            if (platformSpecificIconKeys.includes(iconKey)) {
+                selected = this.props.selectedDocumentIcons.includes(validKey) 
             }
         }
         return [selected, iconKey]
@@ -178,7 +229,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         return <Table className={`${classNamePrefix}-table`} style={this.props.toolbarHidden ? {opacity: 0.5} : {opacity : 1.0}} dataSource={data} columns={this.columns} pagination={false} showHeader={false} expandIcon={(props) => this.customExpandIcon(props)} />
     }
 
-    renderOptions = (checked: boolean, value: string, text: string) => {
+    renderOptions = (checked: boolean, value: string, text: string, tip?: boolean) => {
         return <div className = {`${classNamePrefix}-toolbar`}>
             <Checkbox 
                 checked={checked}
@@ -187,6 +238,14 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                 onChange = {(e) => this.onToolbarStateChange(e.target.value, e.target.checked)}>
                 {text}
             </Checkbox>
+            {
+                this.props.toolbarHidden && tip && <Tooltip 
+                    title={localizedStrings.DISABLE_TOOLBAR_TOOLTIP}
+                    placement='right'>
+                    <span className={VC.FONT_MSG_INFO}> </span>
+                </Tooltip>
+            }
+            
         </div>
     }
 
@@ -211,7 +270,8 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
     }
 
     onIconStateChange = (value: boolean, iconKey: string) => {
-        const { isDossierHome } = this.props
+        const { isDossierHome } = this.props;
+        const validKey = iconValidKey(iconKey);
         const handleCustomizedIcon = (iconKey: string, value: boolean) => {
             if (libraryCustomizedIconKeys.includes(iconKey)) {
                 const customizedItems = _.assign({}, this.props.selectedLibraryCustomizedItems, {[iconKey]: value});
@@ -227,13 +287,28 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
             };
             return false;
         }
+        // const handleAccountMobile = (iconKey: string, value: boolean) => {
+        //     // special case, accountMobile
+        //     if(sidebarIconKeys.includes(iconKey) && iconKey === iconTypes.accountMobile?.key){
+        //         let icons = value ? _.concat([], this.props.selectedLibraryIcons, validKey) : _.pull(_.concat([], this.props.selectedLibraryIcons), validKey)
+        //         let config = {
+        //             [VC.HOME_SCREEN]: {
+        //                 [VC.HOME_LIBRARY]: {
+        //                     [VC.ICONS]: icons
+        //                 }
+        //             }
+        //         }
+        //         this.props.updateCurrentConfig(config);
+        //         return true;
+        //     }
+        //     return false;
+        // }
         if(handleCustomizedIcon(iconKey, value)) return;
-
+        // if(handleAccountMobile(iconKey, value)) return;
         let update = {};
         // check side bar icons
-        const validKey = iconValidKey(iconKey) 
         if (sidebarIconKeys.includes(iconKey)) {
-            const icons = value ? _.concat([], this.props.selectedSidebarIcons, validKey) : _.pull(_.concat([], this.props.selectedSidebarIcons), validKey)
+            let icons = value ? _.concat([], this.props.selectedSidebarIcons, validKey) : _.pull(_.concat([], this.props.selectedSidebarIcons), validKey)
             let config = {[VC.ICON_SIDEBAR]: icons}
             update = {[VC.HOME_LIBRARY]: config}
         } else {
@@ -263,6 +338,12 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                     update = {[VC.ICONS]: icons}
                     updateDocument = {[VC.HOME_DOCUMENT]: update} 
                 }
+            }
+            // platform specific icons.
+            if(platformSpecificIconKeys.includes(iconKey)){
+                const icons = value ? _.concat(selectedDocumentIcons, validKey) : _.pull(selectedDocumentIcons, validKey)
+                update = {[VC.ICONS]: icons}
+                updateDocument = {[VC.HOME_DOCUMENT]: update} 
             }
             update = _.merge(updateDocument, updateLibrary);
         }
@@ -294,7 +375,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                         </div>
                     </div>
 
-                    {this.renderOptions(this.props.toolbarHidden, VC.TOOLBAR_ENABLED, localizedStrings.DISABLE_TOOLBAR)}
+                    {this.renderOptions(this.props.toolbarHidden, VC.TOOLBAR_ENABLED, localizedStrings.DISABLE_TOOLBAR, true)}
                     {this.renderOptions(this.props.toolbarCollapsed, VC.TOOLBAR_MODE, localizedStrings.COLLAPSE_TOOLBAR)}
 
                     <div className={`${classNamePrefix}-scrollcontainer`}>
@@ -303,6 +384,8 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                         this.props.isDossierHome && <div className={`${classNamePrefix}-icons`}>
                             { this.renderTableTitle(localizedStrings.DOSSIER_WINDOW_HOME) }
                             { this.renderTable(dossierIconsDossierHome) }
+                            { this.renderTableTitle(localizedStrings.PLATFORM_SPECIFIC) }
+                            { this.renderTable(platformSpecificIcons) }
                         </div>
                     }
 
@@ -313,6 +396,8 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                             { this.renderTable(libraryIcons) }
                             { this.renderTableTitle(localizedStrings.DOSSIER_WINDOW) }
                             { this.renderTable(dossierIcons) }
+                            { this.renderTableTitle(localizedStrings.PLATFORM_SPECIFIC) }
+                            { this.renderTable(platformSpecificIcons) }
                         </div>
                     }
                     </div>
