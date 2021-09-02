@@ -94,3 +94,21 @@ TBD for plugin infrastructure
 ```sh
 npm run metrics
 ```
+
+
+## Mock Server
+
+### Prepare
+
+yarn add mockjs
+yarn add express
+yarn global add babel-cli
+yarn add --dev babel-preset-env
+
+### Start Script
+
+yarn serve
+
+### Mock Data Dir
+
+mock
