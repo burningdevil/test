@@ -221,7 +221,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                           resizable: true
                         }}
                         rowData={dataSource}
-                        noDataMessage={this.state.searchNameFilter ? localizedStrings.NO_DATA_SEARCHED: localizedStrings.NO_DATA_MESSAGE}
+                        noDataMessage={localizedStrings.NO_DATA_MESSAGE}
                         onGridReady={this.onGridReady}
                     />
                 </div>
