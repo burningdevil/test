@@ -491,6 +491,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                   sortable: true,
                 }}
                 rowData={configDataSource}
+                noDataMessage={localizedStrings.NO_DATA_MESSAGE}
                 onGridReady={this.onGridReady}
               />
               <ConfirmationDialog
