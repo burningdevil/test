@@ -195,14 +195,6 @@ class HomeScreenMoreSetting extends React.Component<any, any> {
                     <div className={`${classNamePrefix}-box`}>
                         {this.checkboxRender(!disableAdvancedSettings, VC.DISABLE_ADVANCED_SETTINGS, sectionAccess.ACCESS_ADVANCED_SETTINGS)}
                     </div>
-                    <div className={`${classNamePrefix}-box`}>
-                        <span>
-                            {this.checkboxRender(updateInterval !== VC.UPDATE_INTERVAL_DISABLED, VC.UPDATE_INTERVAL, sectionAccess.CHECK_UPDATE)}
-                        </span>
-                        
-                            {this.inputRender(!this.state.intervalValid, MAX_UPDATE_INTERVAL, metricStr.HOUR, metricStr.HOURS, updateInterval === VC.UPDATE_INTERVAL_DISABLED, updateInterval === VC.UPDATE_INTERVAL_DISABLED ? DEFAULT_INTERVAL_HOURS : parseInt(updateInterval)/60, (e) => this.onInputChange(VC.UPDATE_INTERVAL_TEXT, e.target.value))}
-                        
-                    </div>
                     <Divider/>
                     
                     {/* Connectivity section */}
@@ -215,7 +207,7 @@ class HomeScreenMoreSetting extends React.Component<any, any> {
             
                     {/* Log section */}
                     {this.sectionTitleRender(sectionTitle.LOGGING)}
-                    <div className={`${classNamePrefix}-cfg-advance-padding`}>
+                    <div className={`${classNamePrefix}-cfg-advance-paddingmini`}>
                         <div className={`${classNamePrefix}-box`}>
                             <span>{sectionLogging.MAX_LOG_SIZE}</span>
                             {this.inputRender(!this.state.loggingSizeValid, MAX_LOGGING_SIZE, metricStr.ENTRY, metricStr.ENTRIES, false, parseInt(maxLogSize), (e) => this.onInputChange(VC.MAX_LOG_SIZE, e.target.value))}

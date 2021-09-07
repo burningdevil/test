@@ -244,121 +244,128 @@ export const contentPickerSize = {
 };
 
 export const localizedStrings = {
-    ENABLE_FEATURE_TITLE: t('enableFeatureTitle'),
-    ENABLE_FEATURE_DESC: t('enableFeatureDesc'),
-    DISABLE_TOOLBAR: t('disableToolbar'),
-    COLLAPSE_TOOLBAR: t('collapseToolbar'),
+  ENABLE_FEATURE_TITLE: t("enableFeatureTitle"),
+  ENABLE_FEATURE_DESC: t("enableFeatureDesc"),
+  DISABLE_TOOLBAR: t("disableToolbar"),
+  COLLAPSE_TOOLBAR: t("collapseToolbar"),
 
-    LIBRARY_WINDOW: t('libraryWindow'),
-    DOSSIER_WINDOW: t('dossierWindow'),
-    DOSSIER_WINDOW_HOME: t('dossierWindowHome'),
-    DEFAULT_GROUPS: t('defaultGroups'),
-    // PLATFORM_SPECIFIC: 'PLATFORM SPECIFIC',
-    NAVBAR_GENERAL: t('general'),
-    NAVBAR_HOME_SCREEN: t('homeScreen'),
-    NAVBAR_COMPONENTS: t('components'),
-    NAVBAR_APPEARANCE: t('appearance'),
-    NAVBAR_DOSSIERSETTINGS: t('dossierSettings'),
-    NAVBAR_CONTENT_BUNDLES: t('contentBundles'),
-    NAVBAR_MORE_SETTINGS: t('moreSettings'),
-    CANCEL: t('cancel'),
-    SAVE: t('save'),
-    ERR_APP_SAVE: t('errAppSave'),
-    ERR_APP_LOAD: t('errAppLoad'),
-    ERR_APP_DELETE: t('errAppDelete'),
+  LIBRARY_WINDOW: t("libraryWindow"),
+  DOSSIER_WINDOW: t("dossierWindow"),
+  DOSSIER_WINDOW_HOME: t("dossierWindowHome"),
+  DEFAULT_GROUPS: t("defaultGroups"),
+  // PLATFORM_SPECIFIC: 'PLATFORM SPECIFIC',
+  NAVBAR_GENERAL: t("general"),
+  NAVBAR_HOME_SCREEN: t("homeScreen"),
+  NAVBAR_COMPONENTS: t("components"),
+  NAVBAR_APPEARANCE: t("appearance"),
+  NAVBAR_DOSSIERSETTINGS: t("dossierSettings"),
+  NAVBAR_CONTENT_BUNDLES: t("content"),
+  NAVBAR_MORE_SETTINGS: t("moreSettings"),
+  CANCEL: t("cancel"),
+  SAVE: t("save"),
+  ERR_APP_SAVE: t("errAppSave"),
+  ERR_APP_LOAD: t("errAppLoad"),
+  ERR_APP_DELETE: t("errAppDelete"),
 
-    AND: t('andStr'),
+  AND: t("andStr"),
 
-    ENVIRONMENT: t('environment'),
-    NAME: t('name'),
-    DESCRIPTION: t('description'),
-    PLATFORMS: t('platforms'),
-    MOBILE: t('mobile'),
-    WEB: t('web'),
-    DESKTOP: t('desktop'),
-    CHANGE: t('change'),
-    PICKDOSSIER: t('pickDossier'),
-    PICKDOSSIER_ERROR_MSG: t('pickDossierErrorMsg'),
-    SELECT_HOMESCREEN: t('selectHomeScreen'),
-    DEFAULT_HOME: t('useDefaultHome'),
-    DOSSIER_HOME: t('useDossierHome'),
-    DOSSIER_HOME_DESC: t('useDossierHomeDesc'),
-    INVALID_DOSSIER: t('invalidDossier'),
-    TABLET: t('tablet'),
-    PHONE: t('phone'),
-    PREVIEW: t('preview'),
-    ERR_EDITOR_OPEN: t('errEditorOpen'),
-    ERR_SESSION_OUT: t('errSessionOut'),
-    COPY_LINK: t('copyLink'),
-    DOWNLOAD_JSON: t('downloadJson'),
-    LINK_COPIED: t('linkCopied'),
-    ERR_LINK_COPY: t('errCopyLink'),
-    EDIT: t('edit'),
-    DELETE: t('delete'),
-    DUPLICATE: t('duplicate'),
-    DEFAULT: t('default'),
-    NEW_APP_BTN_TEXT: t('newApplicationBtn'),
-    NEW_APP_TEXT: t('newApplication'),
-    DEFAULT_APP_NAME: t('defaultApplicationName'),
-    HOME: t('home'),
-    BUNDLE_USER_HINT: t('bundleUserHint'),
-    DATE_MODIFIED: t('dateModified'),
-    DATE_CREATED: t('dateCreated'),
-    LIBRARY: t('library'),
-    DOSSIER: t('dossier'),
-    SELECT: t('select'),
-    SELECT_CONTENT_BUNDLES: t('selectContentBundles'),
-    SEARCH: t('search'),
-    SELECT_DOSSIER_HINT: t('selectDossierHint'),
-    DOSSIERS: t('dossiers'),
-    DOCUMENTS: t('documents'),
-    DOSSIER_TAB_TEXT: t('dossiersTab'),
-    DOCUMENT_TAB_TEXT: t('documentsTab'),
-    CERTIFIED: t('certified'),
-    OWNER: t('owner'),
-    ADD_CONTENT: t('addContent'),
-    ADD_CONTENT_BUNDLES: t('addContentBundles'),
-    ADD_CONTENT_BUNDLES_TEXT: t('addContentBundlesBtn'),
-    DEFAULT_GROUPS_TITLE: t('defaultGroupsSectionTitle'),
-    DEFAULT_GROUPS_TIP: t('tipOfDefaultGroups'),
-    REMOVE_BUNDLE: t('removeBundle'),
-    CONTENT: t('content'),
-    RECIPIENTS: t('recipients'),
-    BLANK_APP_NAME_ERROR: t('blankAppNameError'),
-    DUPLICATE_APP_NAME_ERROR: t('duplicateAppNameError'),
-    INVALID_CHARACTER_APP_NAME_ERROR: t('invalidCharacterAppNameError'),
-    GETINFO: t('getInfo'),
+  ENVIRONMENT: t("environment"),
+  NAME: t("name"),
+  DESCRIPTION: t("description"),
+  PLATFORMS: t("platforms"),
+  MOBILE: t("mobile"),
+  WEB: t("web"),
+  DESKTOP: t("desktop"),
+  CHANGE: t("change"),
+  PICKDOSSIER: t("pickDossier"),
+  PICKDOSSIER_ERROR_MSG: t("pickDossierErrorMsg"),
+  SELECT_HOMESCREEN: t("selectHomeScreen"),
+  DEFAULT_HOME: t("useDefaultHome"),
+  DOSSIER_HOME: t("useDossierHome"),
+  DOSSIER_HOME_DESC: t("useDossierHomeDesc"),
+  INVALID_DOSSIER: t("invalidDossier"),
+  TABLET: t("tablet"),
+  PHONE: t("phone"),
+  PREVIEW: t("preview"),
+  ERR_EDITOR_OPEN: t("errEditorOpen"),
+  ERR_SESSION_OUT: t("errSessionOut"),
+  COPY_LINK: t("copyLink"),
+  DOWNLOAD_JSON: t("downloadJson"),
+  LINK_COPIED: t("linkCopied"),
+  ERR_LINK_COPY: t("errCopyLink"),
+  EDIT: t("edit"),
+  DELETE: t("delete"),
+  DUPLICATE: t("duplicate"),
+  DEFAULT: t("default"),
+  NEW_APP_BTN_TEXT: t("newApplicationBtn"),
+  NEW_APP_TEXT: t("newApplication"),
+  DEFAULT_APP_NAME: t("defaultApplicationName"),
+  HOME: t("home"),
+  BUNDLE_USER_HINT: t("bundleUserHint"),
+  DATE_MODIFIED: t("dateModified"),
+  DATE_CREATED: t("dateCreated"),
+  LIBRARY: t("library"),
+  DOSSIER: t("dossier"),
+  SELECT: t("select"),
+  SELECT_CONTENT_BUNDLES: t("selectContentBundles"),
+  SEARCH: t("search"),
+  SELECT_DOSSIER_HINT: t("selectDossierHint"),
+  DOSSIERS: t("dossiers"),
+  DOCUMENTS: t("documents"),
+  DOSSIER_TAB_TEXT: t("dossiersTab"),
+  DOCUMENT_TAB_TEXT: t("documentsTab"),
+  CERTIFIED: t("certified"),
+  OWNER: t("owner"),
+  ADD_CONTENT: t("addContent"),
+  ADD_CONTENT_BUNDLES: t("addContentBundles"),
+  ADD_CONTENT_BUNDLES_TEXT: t("addContentBundlesBtn"),
+  DEFAULT_GROUPS_TITLE: t("defaultGroupsSectionTitle"),
+  DEFAULT_GROUPS_TIP: t("tipOfDefaultGroups"),
+  REMOVE_BUNDLE: t("removeBundle"),
+  CONTENT: t("content"),
+  RECIPIENTS: t("recipients"),
+  BLANK_APP_NAME_ERROR: t("blankAppNameError"),
+  DUPLICATE_APP_NAME_ERROR: t("duplicateAppNameError"),
+  INVALID_CHARACTER_APP_NAME_ERROR: t("invalidCharacterAppNameError"),
+  GETINFO: t("getInfo"),
 
-    // Dossier Setting Strings
-    COLOR_PALETTE: t('colorPalette'),
-    ENABLE_MICORSTRATEGY_COLOR_PALETTE_DESC: t('enableMicroStrategyColorPaletteDesc'),
-    ENABLE_MICORSTRATEGY_COLOR_PALETTE_TOOLTIP: t('enableMicroStrategyColorPaletteTooltip'),
-    CUSTOM_COLOR_PALETTE_TITLE: t('customColorPaletteTitle'),
-    NEW_COLOE_PALETTE: t('newColorPalette'),
-    EMPTY_COLOR_PALETTE_LIST_HINT: t('emptyColorPaletteListHint'),
+  // Dossier Setting Strings
+  COLOR_PALETTE: t("colorPalette"),
+  ENABLE_MICORSTRATEGY_COLOR_PALETTE_DESC: t(
+    "enableMicroStrategyColorPaletteDesc"
+  ),
+  ENABLE_MICORSTRATEGY_COLOR_PALETTE_TOOLTIP: t(
+    "enableMicroStrategyColorPaletteTooltip"
+  ),
+  CUSTOM_COLOR_PALETTE_TITLE: t("customColorPaletteTitle"),
+  NEW_COLOE_PALETTE: t("newColorPalette"),
+  EMPTY_COLOR_PALETTE_LIST_HINT: t("emptyColorPaletteListHint"),
 
-    // Error Message Strings
-    ENVIRONTMENT_DISCONNECT_ERROR_TITLE_MSG: t('environmentDisconnectErrorTitleMsg'),
-    ENVIRONTMENT_DISCONNECT_ERROR_DETAIL_MSG: t('environmentDisconnectErrorDetailMsg'),
-    USER_PRIVILEGE_ERROR_MSG: t('userPrivilegeErrorMsg'),
-    MD_VERSION_ERROR_MSG: t('mdVersionErrorMsg'),
-    SERVER_VERSION_ERROR_TITLE_MSG: t('serverVersionErrorTitleMsg'),
-    SERVER_VERSION_ERROR_DETAIL_MSG: t('serverVersionErrorDetailMsg'),
-    ISERVER_VERSION_ERROR_DETAIL_MSG: t('iServerVersionErrorDetailMsg'),
-    CONFIRM_DELETE_DIALOG_MSG_TITLE: t('confirmDeleteDialogMsgTitle'),
-    CONFIRM_DELETE_DIALOG_MSG_DETAIL: t('confirmDeleteDialogMsgDetail'),
-    CONFIRM_CANCEL_DIALOG_MSG_TITLE: t('confirmCancelDialogMsgTitle'),
-    CONFIRM_CANCEL_DIALOG_MSG_DETAIL: t('confirmCancelDialogMsgDetail'),
-    YES: t('yes'),
-    NO: t('no'),
-    NO_DATA_MESSAGE: t('noDataMessage'),
-    NO_DATA_SEARCHED: t('noDataSearched'),
-    DISABLE_TOOLBAR_TOOLTIP: t('disableToolbarTooltip'),
-    DISABLE_SIDEBAR_TOOLTIP: t('disableSidebarTooltip'),
-    DISABLE_ACCOUNT_TOOLTIP: t('disableAccountTooltip'),
-    PLATFORM_SPECIFIC: t('platformSpecific'),
-    ADD_CONTENT_BUNDLE_TIP_MSG: t('addContentBundleTipMsg'),
-}
+  // Error Message Strings
+  ENVIRONTMENT_DISCONNECT_ERROR_TITLE_MSG: t(
+    "environmentDisconnectErrorTitleMsg"
+  ),
+  ENVIRONTMENT_DISCONNECT_ERROR_DETAIL_MSG: t(
+    "environmentDisconnectErrorDetailMsg"
+  ),
+  USER_PRIVILEGE_ERROR_MSG: t("userPrivilegeErrorMsg"),
+  MD_VERSION_ERROR_MSG: t("mdVersionErrorMsg"),
+  SERVER_VERSION_ERROR_TITLE_MSG: t("serverVersionErrorTitleMsg"),
+  SERVER_VERSION_ERROR_DETAIL_MSG: t("serverVersionErrorDetailMsg"),
+  ISERVER_VERSION_ERROR_DETAIL_MSG: t("iServerVersionErrorDetailMsg"),
+  CONFIRM_DELETE_DIALOG_MSG_TITLE: t("confirmDeleteDialogMsgTitle"),
+  CONFIRM_DELETE_DIALOG_MSG_DETAIL: t("confirmDeleteDialogMsgDetail"),
+  CONFIRM_CANCEL_DIALOG_MSG_TITLE: t("confirmCancelDialogMsgTitle"),
+  CONFIRM_CANCEL_DIALOG_MSG_DETAIL: t("confirmCancelDialogMsgDetail"),
+  YES: t("yes"),
+  NO: t("no"),
+  NO_DATA_MESSAGE: t("noDataMessage"),
+  DISABLE_TOOLBAR_TOOLTIP: t("disableToolbarTooltip"),
+  DISABLE_SIDEBAR_TOOLTIP: t("disableSidebarTooltip"),
+  DISABLE_ACCOUNT_TOOLTIP: t("disableAccountTooltip"),
+  PLATFORM_SPECIFIC: t("platformSpecific"),
+  ADD_CONTENT_BUNDLE_TIP_MSG: t("addContentBundleTipMsg")
+};
 
 export const sectionTitle = {
   DESC: t("mobileOnlyDesc"),
@@ -424,7 +431,7 @@ export interface IconType {
 export interface IconTypes {
   [props: string]: IconType;
 }
-export const REVERSE = '!';
+export const REVERSE = "!";
 export const iconTypes: IconTypes = {
   sidebar: {
     displayText: t("sidebar"),
@@ -464,7 +471,10 @@ export const iconTypes: IconTypes = {
     iconName: CONSTANTS.FONT_OPTIONS,
     key: CONSTANTS.ICON_OPTIONS + "__web",
     supportTip: true,
-    deps: [REVERSE + CONSTANTS.ICON_SIDEBAR, REVERSE + CONSTANTS.ICON_OPTIONS + "__web"],
+    deps: [
+      REVERSE + CONSTANTS.ICON_SIDEBAR,
+      REVERSE + CONSTANTS.ICON_OPTIONS + "__web"
+    ],
     tipMsg: localizedStrings.DISABLE_ACCOUNT_TOOLTIP
   },
   toc: {
@@ -504,12 +514,12 @@ export const iconTypes: IconTypes = {
     key: CONSTANTS.ICON_DATA_SEARCH
   },
   hyper: {
-    displayText: "Hyper Intelligence (Desktop Only)",
+    displayText: "HyperIntelligence (Desktop Only)",
     iconName: CONSTANTS.FONT_HYPER,
     key: CONSTANTS.ICON_HYPER
   },
   aaFont: {
-    displayText: "Font Size in Grid (Mobile Only)",
+    displayText: "Font Size in Grid (iOS Only)",
     iconName: CONSTANTS.FONT_AA_FONT,
     key: CONSTANTS.ICON_AA_FONT
   },
@@ -654,10 +664,10 @@ export const dossierIconsDossierHome = [
 ];
 // platform specific
 export const platformSpecificIcons = [
-    iconTypes.dataSearch,
-    iconTypes.hyper,
-    iconTypes.aaFont
-]
+  iconTypes.dataSearch,
+  iconTypes.hyper,
+  iconTypes.aaFont
+];
 // extra icons for specified platforms
 export const extraDesktopIcons = [iconTypes.dataSearch, iconTypes.hyper];
 export const extraMobileIcons = [iconTypes.aaFont];
@@ -669,9 +679,10 @@ export const childrenIcons = [
   iconTypes.favorites,
   iconTypes.recents,
   iconTypes.mySubscribe,
+  iconTypes.defaultGroup,
   iconTypes.myGroup,
   iconTypes.accountMobile
-]; // Hide default group, as content bundle is not enabled in Q3
+];
 
 // for accountMobile and accountWeb to remove suffix
 export const iconValidKey = (iconKey: string) =>
@@ -680,7 +691,9 @@ export const iconValidKey = (iconKey: string) =>
 export const dossierIconKeys = dossierIcons.map(element => element.key);
 export const libraryIconKeys = libraryIcons.map(element => element.key);
 export const sidebarIconKeys = childrenIcons.map(element => element.key);
-export const platformSpecificIconKeys = platformSpecificIcons.map(element => element.key);
+export const platformSpecificIconKeys = platformSpecificIcons.map(
+  element => element.key
+);
 export const libraryCustomizedIcons = [
   iconTypes.myContent,
   iconTypes.mySubscribe,

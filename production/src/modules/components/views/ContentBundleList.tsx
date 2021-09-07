@@ -5,9 +5,9 @@ import * as _ from "lodash";
 import { SearchInput, Input, Tooltip } from '@mstr/rc';
 import { WorkstationModule } from '@mstr/workstation-types';
 import { HttpProxy } from '../../../main';
-import {AgGridReact} from 'ag-grid-react';
+import { AgGridReact } from 'ag-grid-react';
 import { default as VC, BundleInfo, iconTypes, BundleRecipientType, localizedStrings } from '../HomeScreenConfigConstant'
-import { PlusCircleOutlined, DownOutlined, FallOutlined } from '@ant-design/icons'
+import { PlusCircleOutlined, DownOutlined, EnterOutlined } from '@ant-design/icons'
 import { HomeScreenBundleListDatasource, getHomeScreenBundleListGroupCellInnerRenderer } from './HomeScreenUtils'
 import {
   GridReadyEvent,
@@ -29,6 +29,7 @@ import * as Actions from '../../../store/actions/ActionsCreator'
 import Constatnt from '../HomeScreenConfigConstant'
 import * as api from '../../../services/Api';
 import { t } from '../../../i18n/i18next';
+import CustomHeader from '../common-components/ag-grid-components/custom-header/custom-header';
 
 declare var workstation: WorkstationModule;
 var searchName = '';
@@ -39,53 +40,53 @@ const rowModelType = 'serverSide';
 
 function FakeHomeScreenBundleListServer(allData: BundleInfo[]) {
   return {
-      getData: function (params: IServerSideGetRowsParams) {
+    getData: function (params: IServerSideGetRowsParams) {
       var results: any[] = [];
-      var filterData = searchName === '' ? allData : _.filter(allData, function(o) { return o.name.toLocaleLowerCase?.().includes(searchName?.toLocaleLowerCase?.()); });
+      var filterData = searchName === '' ? allData : _.filter(allData, function (o) { return o.name.toLocaleLowerCase?.().includes(searchName?.toLocaleLowerCase?.()); });
       var lastRow: number = allData.length;
       if (params.request.groupKeys.length === 0) {
-          results = filterData.map(function (d) {
+        results = filterData.map(function (d) {
           return {
-              name: d.name,
-              recipientStr: d.recipientStr,
-              bundleId: d.id,
-              color: d.color,
-              id: d.id,
-              expand: d.expand,
-              recipientType: d.recipientType
+            name: d.name,
+            recipientStr: d.recipientStr,
+            bundleId: d.id,
+            color: d.color,
+            id: d.id,
+            expand: d.expand,
+            recipientType: d.recipientType
           };
-          });
+        });
 
-          return {
+        return {
           success: true,
           rows: results,
           lastRow: lastRow
-          };
+        };
       } else {
-          var key = params.request.groupKeys[0];
-          HttpProxy.get(api.getApiPathForGetBundleContents(key, currentProjs))
+        var key = params.request.groupKeys[0];
+        HttpProxy.get(api.getApiPathForGetBundleContents(key, currentProjs))
           .then((response: any) => {
-              let contents = response;
-              if (response && response.data) {
+            let contents = response;
+            if (response && response.data) {
               contents = response.data;
-              }
-              var arr = Object.keys(contents).reduce(function(res, v) {
+            }
+            var arr = Object.keys(contents).reduce(function (res, v) {
               return res.concat(contents[v]);
-              }, []);
-              results = arr.map(function (d) {
+            }, []);
+            results = arr.map(function (d) {
               return {
-                  name: d.name,
-                  expand: false,
-                  viewMedia: d.viewMedia
+                name: d.name,
+                expand: false,
+                viewMedia: d.viewMedia
               };
-              });
-              lastRow = arr.length;
+            });
+            lastRow = arr.length;
           })
-          .then (()=>{
-              params.successCallback(results, lastRow);
+          .then(() => {
+            params.successCallback(results, lastRow);
           })
       }
-      },
+    },
   };
 }
 
@@ -114,22 +115,20 @@ class ContentBundleList extends React.Component<any, any> {
     api.loadContentBundleList();
     this.processBundleList(this.props.allBundleList, this.props.includedIds, this.props.excludedIds);
     const currentEnv = await workstation.environments.getCurrentEnvironment();
-    currentProjs = currentEnv.projects.map(o=>o.id);
+    currentProjs = currentEnv.projects.map(o => o.id);
   }
 
-  processBundleList(bundles: BundleInfo[], includedIds:[], excludedIds:[]) {
+  processBundleList(bundles: BundleInfo[], includedIds: string[], excludedIds: string[]) {
     if (includedIds && this.props.allowDelete) {
-      bundles = bundles.filter((bundle)=>{
-        if(_.indexOf(includedIds, bundle.id) >= 0 ) {
+      bundles = bundles.filter((bundle) => {
+        if (_.indexOf(includedIds, bundle.id) >= 0) {
           return bundle;
-        }});
+        }
+      });
     }
 
-    if (excludedIds) {
-      bundles = bundles.filter((bundle)=>{
-        if(_.indexOf(excludedIds, bundle.id) >= 0 ) {
-          return bundle;
-        }});
+    if (excludedIds?.length) {
+      bundles = bundles.filter(bundle => !excludedIds.includes(bundle.id));
     }
 
     bundles = bundles.map((bundle) => {
@@ -141,17 +140,17 @@ class ContentBundleList extends React.Component<any, any> {
       const usersCount = totalCount - groupsCount
       let recipientsStr = '';
       if (groups.length === 0 && totalCount - groups.length === 0) {
-         mode = BundleRecipientType.NONE;
+        mode = BundleRecipientType.NONE;
       } else if (groups.length === 0 && totalCount - groups.length > 0) {
-        recipientsStr = t('usersCount', {count: usersCount});
+        recipientsStr = t('usersCount', { count: usersCount });
         mode = BundleRecipientType.USER;
       } else if (groups.length > 0 && totalCount - groups.length === 0) {
-        recipientsStr = t('groupsCount', {count: groupsCount});
+        recipientsStr = t('groupsCount', { count: groupsCount });
         mode = BundleRecipientType.GROUP;
       } else {
-        recipientsStr = `${t('groupsCount', {count: groupsCount})} ${localizedStrings.AND} ${t('usersCount', {count: usersCount})}` 
+        recipientsStr = `${t('groupsCount', { count: groupsCount })} ${localizedStrings.AND} ${t('usersCount', { count: usersCount })}`
       }
-      return _.assign(bundle, {recipientType: mode, expand: true, recipientStr: recipientsStr});
+      return _.assign(bundle, { recipientType: mode, expand: true, recipientStr: recipientsStr });
     });
 
     this.setState({
@@ -162,33 +161,33 @@ class ContentBundleList extends React.Component<any, any> {
   }
 
   componentWillReceiveProps(nextProps: any) {
-    if (nextProps.nameFilter !== this.props.nameFilter){
+    if (nextProps.nameFilter !== this.props.nameFilter) {
       this.handleSearch(nextProps.nameFilter);
       return;
     }
-    if (nextProps.allBundleList && this.props.allBundleList && nextProps.allBundleList.length !== this.props.allBundleList.length){
+    if (nextProps.allBundleList && this.props.allBundleList && nextProps.allBundleList.length !== this.props.allBundleList.length) {
       this.processBundleList(nextProps.allBundleList, nextProps.includedIds, nextProps.excludedIds);
       return;
     }
-    if (nextProps.includedIds == this.props.includedIds){
+    if (nextProps.includedIds == this.props.includedIds) {
       return;
     }
-    if (nextProps.includedIds && this.props.includedIds && nextProps.includedIds.length === this.props.includedIds.length){
+    if (nextProps.includedIds && this.props.includedIds && nextProps.includedIds.length === this.props.includedIds.length) {
       return;
     }
     // if (nextProps.includedIds && nextProps.includedIds.length !== this.props.includedIds.length) {
-      this.processBundleList(this.props.allBundleList, nextProps.includedIds, nextProps.excludedIds);
+    this.processBundleList(this.props.allBundleList, nextProps.includedIds, nextProps.excludedIds);
     // }
   }
 
-  handleNewBundlesAdded = (selections:[]) => {
+  handleNewBundlesAdded = (selections: []) => {
     this.props.handleAdd(selections);
     this.handleSearch('');
   }
 
   onSelectionChanged = (event: SelectionChangedEvent) => {
     var selections = event.api.getSelectedNodes();
-    selections = selections.map(o=>o.data);
+    selections = selections.map(o => o.data);
     this.props.handleSelection(selections);
   }
 
@@ -199,15 +198,17 @@ class ContentBundleList extends React.Component<any, any> {
 
     const handleClickDelete = () => {
       var selections = params.api.getSelectedNodes();
-      selections = selections.map(o=>o.data);
+      selections = selections.map(o => o.data);
       this.props.handleDeletion(selections);
+      params.api.deselectAll();
+      params.api.clearFocusedCell();
     };
 
     var result = [
-    {
-      name: localizedStrings.REMOVE_BUNDLE,
-      action: handleClickDelete
-    }];
+      {
+        name: localizedStrings.REMOVE_BUNDLE,
+        action: handleClickDelete
+      }];
     return result;
   }
 
@@ -220,9 +221,10 @@ class ContentBundleList extends React.Component<any, any> {
   }
 
   gridOptions: GridOptions = {
-    components: { bundleGroupCellInnerRenderer: getHomeScreenBundleListGroupCellInnerRenderer()},
+    components: { bundleGroupCellInnerRenderer: getHomeScreenBundleListGroupCellInnerRenderer() },
+    frameworkComponents: {agColumnHeader: CustomHeader},
     rowHeight: 35,
-    headerHeight:35,
+    headerHeight: 35,
     defaultColDef: {
       flex: 1,
       minWidth: 120,
@@ -238,10 +240,12 @@ class ContentBundleList extends React.Component<any, any> {
       resizable: true,
       headerName: localizedStrings.CONTENT,
       checkboxSelection: this.getCheckboxEnabled,
+      headerComponentParams: { enableCheck: true },
       cellRenderer: 'agGroupCellRenderer',
       cellRendererParams: {
         innerRenderer: 'bundleGroupCellInnerRenderer',
-    }},
+      }
+    },
     treeData: true,
 
     isServerSideGroup: function (dataItem: any) {
@@ -270,10 +274,11 @@ class ContentBundleList extends React.Component<any, any> {
       groupContracted: `<span class='ag-icon ag-icon-small-right'/>`
     },
     pagination: false,
-  
+
     columnDefs: [
-        {field: VC.NAME, rowGroup: true, hide: true},
-        {field: VC.RECIPIENT_STR, headerName: localizedStrings.RECIPIENTS, cellRenderer: (params: any) => {
+      { field: VC.NAME, rowGroup: true, hide: true },
+      {
+        field: VC.RECIPIENT_STR, headerName: localizedStrings.RECIPIENTS, cellRenderer: (params: any) => {
           if (params.node.group) {
             if (params.node.data.recipientType === BundleRecipientType.GROUP) {
               return '<img class="content-bundle-list-container-item-group" src="../assets/images/bundleUserGroup.png"/><span style="color: #35383a;; padding: 4px; font-size: 12px">' + params.value + '</span>';
@@ -286,8 +291,9 @@ class ContentBundleList extends React.Component<any, any> {
             }
           } else {
             return '    - -';
-          }}
+          }
         }
+      }
     ]
   };
 
@@ -315,48 +321,48 @@ class ContentBundleList extends React.Component<any, any> {
 
   handleChangeDefaultGroupsName = (name: string) => {
     let update = {}
-    update = {[Constatnt.DEFAULT_GROUPS_NAME]: name} 
-    update = {[Constatnt.HOME_LIBRARY]: update}
-    update = {[Constatnt.HOME_SCREEN]: update}
+    update = { [Constatnt.DEFAULT_GROUPS_NAME]: name }
+    update = { [Constatnt.HOME_LIBRARY]: update }
+    update = { [Constatnt.HOME_SCREEN]: update }
     this.props.updateCurrentConfig(update)
   }
 
   renderPopoverContent = () => {
-      const title = <div> {localizedStrings.DEFAULT_GROUPS_TIP} </div>
-      const sidebarIcons = [iconTypes.all, iconTypes.favorites, iconTypes.recents, iconTypes.defaultGroup]
-          .map( (element, index) => {
-          const showAddButton = iconTypes.myGroup.key === element.key
-          const showExpandIcon = iconTypes.myGroup.key === element.key || iconTypes.defaultGroup.key === element.key
-          const showContent = iconTypes.defaultGroup.key === element.key
-          return (
-              <div style={{display: 'relative'}}>
-                  <div className={`${classNamePrefix}-popover-text`}> <span className={element.iconName} key={index}/> 
-                      <span>{showExpandIcon ? this.props.defaultGroupsName : element.displayText}</span> 
-                      {showAddButton && <PlusCircleOutlined/>}
-                      {showExpandIcon && <DownOutlined style={{fontSize: '5px', marginLeft: 'auto', marginRight: '4px'}}/>}
-                  </div>
-                  {showContent && <div className={`${classNamePrefix}-popover-blank`}>
-                      <div className={`${classNamePrefix}-popover-blank-fill`}/>
-                  </div>}
-                  {showContent && <div className={`${classNamePrefix}-popover-blank`}>
-                      <div className={`${classNamePrefix}-popover-blank-fill`}/>
-                  </div>}
-                  {showContent && <div className={`${classNamePrefix}-popover-blank`}>
-                      <div className={`${classNamePrefix}-popover-blank-fill`}/>
-                  </div>}
-                  <FallOutlined style={{position: 'absolute', left: '100px', top: '80px', fontSize: '30px', transform: 'rotate(90deg)'}}/>
-              </div> 
-          )
-      })
-      // account for mobile
-      return (
-      <div className={`${classNamePrefix}-popover`}> 
-          {title} 
-          <div className={`${classNamePrefix}-popover-container`}> 
-            {sidebarIcons}
+    const title = <div> {localizedStrings.DEFAULT_GROUPS_TIP} </div>
+    const sidebarIcons = [iconTypes.all, iconTypes.favorites, iconTypes.recents, iconTypes.mySubscribe, iconTypes.defaultGroup]
+      .map((element, index) => {
+        const showAddButton = iconTypes.myGroup.key === element.key
+        const showExpandIcon = iconTypes.myGroup.key === element.key || iconTypes.defaultGroup.key === element.key
+        const showContent = iconTypes.defaultGroup.key === element.key
+        return (
+          <div style={{ display: 'relative' }}>
+            <div className={`${classNamePrefix}-popover-text`}> <span className={element.iconName} key={index} />
+              <span>{showExpandIcon ? this.props.defaultGroupsName : element.displayText}</span>
+              {showAddButton && <PlusCircleOutlined />}
+              {showExpandIcon && <DownOutlined style={{ fontSize: '5px', marginLeft: 'auto', marginRight: '4px' }} />}
+            </div>
+            {showContent && <div className={`${classNamePrefix}-popover-blank`}>
+              <div className={`${classNamePrefix}-popover-blank-fill`} />
+            </div>}
+            {showContent && <div className={`${classNamePrefix}-popover-blank`}>
+              <div className={`${classNamePrefix}-popover-blank-fill`} />
+            </div>}
+            {showContent && <div className={`${classNamePrefix}-popover-blank`}>
+              <div className={`${classNamePrefix}-popover-blank-fill`} />
+            </div>}
+            <EnterOutlined style={{ position: 'absolute', left: '120px', top: '110px', fontSize: '30px', color: 'gray' }} />
           </div>
+        )
+      })
+    // account for mobile
+    return (
+      <div className={`${classNamePrefix}-popover`}>
+        {title}
+        <div className={`${classNamePrefix}-popover-container`}>
+          {sidebarIcons}
+        </div>
       </div>
-      )
+    )
   }
 
   renderChangeNameField = () => {
@@ -364,19 +370,19 @@ class ContentBundleList extends React.Component<any, any> {
     return (
       <div className={`${classNamePrefix}-title`}>
         {localizedStrings.DEFAULT_GROUPS_TITLE}
-        <Tooltip 
+        <Tooltip
           title={this.renderPopoverContent()}
           placement='rightTop'
-          onVisibleChange={(visible) => 
-            document.getElementById(msgInfoID).style.color =  visible ? '#3492ed' : 'gray'
+          onVisibleChange={(visible) =>
+            document.getElementById(msgInfoID).style.color = visible ? '#3492ed' : 'gray'
           }
         >
-        <span className={VC.FONT_MSG_INFO} id={msgInfoID}> </span>
+          <span className={VC.FONT_MSG_INFO} id={msgInfoID}> </span>
         </Tooltip>
-        <Input 
-        placeholder={localizedStrings.DEFAULT_GROUPS}
-        value={this.props.defaultGroupsName}
-        onChange={(e: any) => this.handleChangeDefaultGroupsName(e.target.value)}
+        <Input
+          placeholder={localizedStrings.DEFAULT_GROUPS}
+          value={this.props.defaultGroupsName}
+          onChange={(e: any) => this.handleChangeDefaultGroupsName(e.target.value)}
         />
       </div>
     )
@@ -384,13 +390,13 @@ class ContentBundleList extends React.Component<any, any> {
 
   renderAddContent = () => {
     return (
-      <div className = {`${classNamePrefix}-add-content`} onClick={() => {
+      <div className={`${classNamePrefix}-add-content`} onClick={() => {
         this.handleAddContent();
       }}>
         <span tabIndex={0} aria-label={localizedStrings.ADD_CONTENT_BUNDLES_TEXT} className={VC.FONT_ADD_NEW}
         />
         <span className={`${classNamePrefix}-add-text`}>
-          {localizedStrings.ADD_CONTENT} 
+          {localizedStrings.ADD_CONTENT}
         </span>
       </div>
     );
@@ -399,13 +405,13 @@ class ContentBundleList extends React.Component<any, any> {
   renderEmptyView = () => {
     const bookmarksImg = require('../images/emptyFolder.png');
     return (
-      <div className = {`${classNamePrefix}-empty`}>
-        <img className={`${classNamePrefix}-empty-img`} src={bookmarksImg}/>
+      <div className={`${classNamePrefix}-empty`}>
+        <img className={`${classNamePrefix}-empty-img`} src={bookmarksImg} />
         <div className={`${classNamePrefix}-empty-desc`}>
           {localizedStrings.ADD_CONTENT_BUNDLES}
         </div>
         <div className={`${classNamePrefix}-empty-add`} onClick={this.handleAddContent}>
-          <span className= {VC.FONT_ADD_NEW}/>
+          <span className={VC.FONT_ADD_NEW} />
           <span className={`${classNamePrefix}-empty-add-text`}>
             {localizedStrings.ADD_CONTENT}
           </span>
@@ -417,28 +423,28 @@ class ContentBundleList extends React.Component<any, any> {
   render() {
     const containerHeight = this.props.allowDelete ? 'calc(100% - 60px)' : '100%'
     return (
-      <div className={`${classNamePrefix}`} style={{ height: '100%'}}>
+      <div className={`${classNamePrefix}`} style={{ height: '100%' }}>
         {this.props.allowDelete && this.renderChangeNameField()}
         {this.props.allowDelete &&
           <div className={`${classNamePrefix}-header`}>
             <SearchInput value={this.state.nameFilter} className={`${classNamePrefix}-search`} placeholder={localizedStrings.SEARCH}
-                onChange={(value: string) => {
-                  this.handleSearch(value);
-                }}
-                onClear={() => {
-                  this.handleSearch('');
-                }}/>
+              onChange={(value: string) => {
+                this.handleSearch(value);
+              }}
+              onClear={() => {
+                this.handleSearch('');
+              }} />
             {this.renderAddContent()}
           </div>
         }
         <div style={{ width: '100%', height: containerHeight, position: 'relative' }}>
-          <div id='bundleListGrid' style={{ height: '100%', width: '100%'}} className='ag-theme-alpine'>
-              <AgGridReact gridOptions={this.gridOptions}>
-              </AgGridReact>
-              {this.props.allowDelete && this.state.currentBundleList && this.state.currentBundleList.length === 0 && this.renderEmptyView()}
+          <div id='bundleListGrid' style={{ height: '100%', width: '100%' }} className='ag-theme-alpine'>
+            <AgGridReact gridOptions={this.gridOptions}>
+            </AgGridReact>
+            {this.props.allowDelete && this.state.currentBundleList && this.state.currentBundleList.length === 0 && this.renderEmptyView()}
           </div>
         </div>
-        <ContentBundlePicker handleClose={this.handleClosePicker} visible={this.state.showBundlePicker} handleBundlesAdd={this.handleNewBundlesAdded}/>
+        <ContentBundlePicker handleClose={this.handleClosePicker} visible={this.state.showBundlePicker} handleBundlesAdd={this.handleNewBundlesAdded} />
       </div>
     )
   }

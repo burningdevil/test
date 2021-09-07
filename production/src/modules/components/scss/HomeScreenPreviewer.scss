@@ -120,14 +120,14 @@ $line-height-side: 18px;
             }
             &-blank {
                 background-color: transparent;
-                height: 12px;
+                height: 6px;
                 display: flex;
                 justify-content: flex-end;
                 align-items: center;
                 padding-right: 5px;
                 &-fill {
                     width: 70%;
-                    height: 7px;
+                    height: 4px;
                     background-color: $right-background;
                 }
             }

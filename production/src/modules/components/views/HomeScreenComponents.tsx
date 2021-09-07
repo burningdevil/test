@@ -1,5 +1,5 @@
 import { Checkbox, Switch, Table, Layout } from 'antd'
-import { RightOutlined, DownOutlined } from '@ant-design/icons'
+import { CaretDownOutlined, CaretRightOutlined } from '@ant-design/icons'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import '../scss/HomeScreenComponents.scss'
@@ -180,10 +180,13 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         return (
             iconExpandable(icon[1]) &&
             <span>
+                <span className={`${classNamePrefix}-sidebar-caret`}>
+                    {expanded && <CaretDownOutlined/>}
+                    {!expanded && <CaretRightOutlined/>}
+                </span>
+                
                 <span className={icon[0]}/>
                 <span className={`${classNamePrefix}-table-text`}>  {icon[1]}  </span> 
-                {expanded && <DownOutlined />}
-                {!expanded && <RightOutlined />}
             </span>
         )
     }
@@ -287,24 +290,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
             };
             return false;
         }
-        // const handleAccountMobile = (iconKey: string, value: boolean) => {
-        //     // special case, accountMobile
-        //     if(sidebarIconKeys.includes(iconKey) && iconKey === iconTypes.accountMobile?.key){
-        //         let icons = value ? _.concat([], this.props.selectedLibraryIcons, validKey) : _.pull(_.concat([], this.props.selectedLibraryIcons), validKey)
-        //         let config = {
-        //             [VC.HOME_SCREEN]: {
-        //                 [VC.HOME_LIBRARY]: {
-        //                     [VC.ICONS]: icons
-        //                 }
-        //             }
-        //         }
-        //         this.props.updateCurrentConfig(config);
-        //         return true;
-        //     }
-        //     return false;
-        // }
         if(handleCustomizedIcon(iconKey, value)) return;
-        // if(handleAccountMobile(iconKey, value)) return;
         let update = {};
         // check side bar icons
         if (sidebarIconKeys.includes(iconKey)) {

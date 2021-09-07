@@ -5,11 +5,14 @@ import { Modal, Button, Menu } from 'antd';
 import * as _ from "lodash";
 import ContentBundleList from './ContentBundleList';
 import { default as VC, localizedStrings, bundlePickerSize, selectedBundlesStr } from '../HomeScreenConfigConstant'
+import { connect } from 'react-redux';
+import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
+import { selectCurrentConfigContentBundleIds } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 
 const classNamePrefix = 'content-bundle-picker';
 const bundleMenuKey = 'bundles';
 
-export default class ContentBundlePicker extends React.Component<any, any> {
+class ContentBundlePicker extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
     this.state = {
@@ -103,7 +106,7 @@ export default class ContentBundlePicker extends React.Component<any, any> {
                 </Menu>
               </div>
               <div className={`${classNamePrefix}-grid-right`}>
-                <ContentBundleList includedIds = {[]} handleSelection = {this.handleSelectionChanged} allowDelete={false} nameFilter={this.state.nameFilter}/>
+                <ContentBundleList excludedIds = {this.props.contentBundleIds} handleSelection = {this.handleSelectionChanged} allowDelete={false} nameFilter={this.state.nameFilter}/>
               </div>
             </div>
             <div className={`${classNamePrefix}-footer`}>
@@ -116,3 +119,12 @@ export default class ContentBundlePicker extends React.Component<any, any> {
      );
   }
 }
+
+const mapState = (state: RootState) => ({
+    contentBundleIds: selectCurrentConfigContentBundleIds(state),
+})
+
+const connector = connect(mapState, {
+})
+
+export default connector(ContentBundlePicker)

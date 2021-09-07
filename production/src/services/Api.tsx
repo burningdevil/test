@@ -47,7 +47,7 @@ export const getServerStatus = async () => {
 }
 
 export const downloadSingleConfig = async (configID: string) => {
-    const response = await HttpProxy.get(CONFIG_ENDPOINTS + configID).then((res: { data: JSON }) => res.data);
+    const response = await HttpProxy.get(CONFIG_ENDPOINTS + configID)// .then((res: { data: JSON }) => res.data);
     return response
 }
 export const loadConfigList = () => {

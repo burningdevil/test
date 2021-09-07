@@ -13,12 +13,8 @@ const classNamePrefix = 'homeScreenPreviewer';
 
 class HomeScreenPreviewer extends React.Component<any, any> {
     iconShouldShow(icon: iconDetail) {
-        const {libraryIcons, documentIcons, sidebarIcons, isDossierHome} = this.props
-        const notSupportControlKeys = [iconTypes.hyper.key, iconTypes.dataSearch.key]; // to match the ux's requiremenet, display the uncontrol icons.
+        const {libraryIcons, documentIcons, sidebarIcons, isDossierHome} = this.props;
         const validKey = iconValidKey(icon.key);
-        // if(notSupportControlKeys.includes(icon.key)){
-        //     return true;
-        // }
         if (libraryCustomizedIconKeys.includes(icon.key)) {
             return _.get(this.props.libraryCustomizedItems, icon.key, true);
         }
@@ -101,12 +97,13 @@ class HomeScreenPreviewer extends React.Component<any, any> {
             const showAddButton = iconTypes.myGroup.key === element.key
             const showContent = iconTypes.defaultGroup.key === element.key
             const hideMyContent = iconTypes.myContent.key === element.key && (previewType === reviewType.TABLET || previewType === reviewType.PHONE)
-            // element.displayText = element.displayText.replace(/\(.*?\)/g, ''); // replace the (Mobile only) => ''
             return this.iconShouldShow(element) && !hideMyContent &&
                 <div>
                     <div className={`${classNamePrefix}-pad-overview-left-text`}>
                         <span className={element.iconName} key={index}/> 
-                        <span>{showContent ? this.props.config.homeScreen.homeLibrary.defaultGroupsName : element.displayText.replace(/\(.*?\)/g, '' )}</span> 
+                        <span>{
+                            showContent ? this.props.config.homeScreen.homeLibrary.defaultGroupsName : element.displayText.replace(/\(.*?\)/g, '' )// replace the (Mobile only) => ''
+                        }</span>
                         {showAddButton && <span className='icon-pnl_add-new' style={{fontSize: '5px', marginLeft: 'auto', marginRight: '4px'}}/>}
                     </div>
                     {showContent && <div className={`${classNamePrefix}-pad-overview-left-blank`}>
@@ -161,7 +158,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                 headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.editDossier, iconTypes.account, iconTypes.notification, iconTypes.share, iconTypes.comment, iconTypes.filter] : [iconTypes.previewLibraryWeb, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.editDossier, iconTypes.accountWeb, iconTypes.share, iconTypes.comment, iconTypes.filter]
                 break;
             case reviewType.DESKTOP:
-                headerIcons = isDossierHome ? [iconTypes.toc, iconTypes.editDossier, iconTypes.notification, iconTypes.share, iconTypes.comment, iconTypes.hyper, iconTypes.filter, iconTypes.dataSearch] : [iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.editDossier, iconTypes.share, iconTypes.comment, iconTypes.hyper, iconTypes.filter, iconTypes.dataSearch]
+                headerIcons = isDossierHome ? [iconTypes.toc, iconTypes.editDossier, iconTypes.account, iconTypes.notification, iconTypes.share, iconTypes.comment, iconTypes.hyper, iconTypes.filter, iconTypes.dataSearch] : [iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.editDossier, iconTypes.share, iconTypes.comment, iconTypes.hyper, iconTypes.filter, iconTypes.dataSearch]
                 break
             default:
                 break

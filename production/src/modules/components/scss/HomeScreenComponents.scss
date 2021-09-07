@@ -123,6 +123,10 @@ $line-height-small: 13px;
             }
         }
     }
+    &-sidebar-caret {
+        margin-left: -15px;
+        margin-right: 5px;
+    }
     .ant-table {
         font-size: 13px;
     }
