@@ -224,7 +224,7 @@ class ContentBundleList extends React.Component<any, any> {
     rowHeight: 35,
     headerHeight:35,
     defaultColDef: {
-      flex: 0,
+      flex: 1,
       minWidth: 120,
       resizable: false,
       sortable: true,
@@ -232,7 +232,7 @@ class ContentBundleList extends React.Component<any, any> {
     },
 
     autoGroupColumnDef: {
-      flex: 1,
+      flex: 3,
       minWidth: 280,
       field: VC.NAME,
       resizable: true,
