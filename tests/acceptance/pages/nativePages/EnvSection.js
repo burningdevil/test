@@ -118,7 +118,7 @@ export default class EnvSection extends RootApp {
     return this.getNativeElement({
       windows: {
         locators: [
-          { method: 'Name', value: 'Select Applications' },
+          { method: 'Name', value: 'Select Projects' },
           { method: 'ClassName', value: 'ListBox' }
         ]
       },
@@ -130,7 +130,7 @@ export default class EnvSection extends RootApp {
     return this.getNativeElement({
       windows: {
         locators: [
-          { method: 'Name', value: 'Select Applications' },
+          { method: 'Name', value: 'Select Projects' },
           { method: 'Name', value: applicationName }
         ]
       },
@@ -143,7 +143,7 @@ export default class EnvSection extends RootApp {
     return this.getNativeElement({
       windows: {
         locators: [
-          { method: 'Name', value: 'Select Applications' },
+          { method: 'Name', value: 'Select Projects' },
           { method: 'Name', value: 'OK' }
         ]
       },
@@ -211,7 +211,7 @@ export default class EnvSection extends RootApp {
     return this.getNativeElement({
       windows: {
         locators: [
-          { method: 'Name', value: 'Remember Selected Applications' }
+          { method: 'Name', value: 'Remember Selected Projects' }
         ]
       },
       mac: { xpath: mainCanvas.env.rememberSelectedApplications }

@@ -1,6 +1,6 @@
 const { Given, When } = require('cucumber')
 const { Return } = require('wd/lib/special-keys')
-const { mainWindow } = workstationApp.pageObj
+const { mainWindow } = pageObj
 const { registerNewWindow, switchToWindow} = require('../utils/wsUtils/windowHelper')
 
 /**

@@ -9,7 +9,7 @@ Feature: Create applications
     Scenario: create application with custom name, libray as home
         When I select tab "Applications"
         When I click the application create entry
-        When I input the "Auto_DossierAsHome"
+        #When I input the "Auto_DossierAsHome"
         When I input application description "1234"
         Then I switch to menu "Home Screen"
         Then I choose "Use a dossier or document in the current server as the home screen" as home

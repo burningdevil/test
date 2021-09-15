@@ -4,7 +4,7 @@ import SettingPage from '../../pages/webPages/customApp/SettingPage'
 const { Given, When, Then, setDefaultTimeout } = require('cucumber')
 const applicationPage = new ApplicationPage()
 const settingPage = new SettingPage()
-const { mainWindow } = workstationApp.pageObj
+const { mainWindow } = pageObj
 
 
 
