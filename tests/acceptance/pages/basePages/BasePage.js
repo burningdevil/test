@@ -61,4 +61,11 @@ export default class BasePage {
     await this.brwsr.actions().mouseMove(elem).perform()
     return this.brwsr.actions().mouseMove(offset).perform()
   }
+
+  async rightClick({ elem, offset = { x: 0, y: 0 } }) {
+    await this.brwsr.actions().mouseMove(elem).perform()
+    await this.brwsr.actions().mouseMove(offset).perform()
+    return this.brwsr.actions().click(protractor.Button.RIGHT).perform()
+  }
+  
 }
