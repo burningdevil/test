@@ -18,12 +18,14 @@ export default class SettingPage extends BasePage {
   }
 
   // currently, platform can be web, desktop
+  /*
   getPlatformCheckbox(platform) {
     return this.$$('.ant-checkbox').filter(async (elem) => {
       const filterName = await elem(by.xpath('following-sibling::span')).getText()
       return filterName === platform
     })
   }
+  */
 
   //Home Screen Page
   getHomeScreenOption(mode) {
@@ -41,18 +43,23 @@ export default class SettingPage extends BasePage {
     }).first()
   }
 
+  /*
   getDossierDocumentTable() {
     return this.$('.content-bundle-content-picker-grid-right')
   }
+  */
 
-
+  /*
   getDossierListPage() {
     return this.$(".ag-center-cols-container")
   }
+  */
 
+  /*
   getDossierDocumentItemByName(name) {
     return this.getDocumentTable().$$('.ag-row').element(by.cssContainingText('.content-bundle-content-picker-grid-right-name-text', name))
   }
+  */
 
   getGridCellInDossierListView(gridCellValue) {
     return this.$$('.content-bundle-content-picker-grid-right-name-text').filter(async (elem) => {
@@ -112,12 +119,14 @@ export default class SettingPage extends BasePage {
     await this.getMenuTab(menu).click()
   }
 
+  /*
   async choosePlatforms(platform) {
     await this.click({ elem: this.getMenuTab('General') })
     for (const item of platform) {
       await this.click({ elem: this.getPlatformCheckbox(item) })
     }
   }
+  */
 
   async inputName(name) {
     await this.getNameInpuBox().click()
@@ -134,9 +143,11 @@ export default class SettingPage extends BasePage {
     await browser.sleep(3000)
   }
 
+  /*
   async waitForDossierListWindow() {
     await this.wait(this.EC.visibilityOf(this.getDossierListPage()), 60000, 'Dossier list window was not displayed');
   }
+  */
 
   async chooseToolbarMode(toolbarmode) {
     await this.click({ elem: this.getMenuTab('Components') })
@@ -152,7 +163,6 @@ export default class SettingPage extends BasePage {
   }
 
   async pickDossierByName(name) {
-    //await this.waitForDossierListWindow()
     await browser.sleep(60000)
     const dossierItem = await this.getGridCellInDossierListView(name)
     await this.click({ elem: dossierItem })

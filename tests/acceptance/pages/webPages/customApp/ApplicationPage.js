@@ -8,19 +8,22 @@ export default class ApplicationPage extends BasePage {
   getAddnewButton() {
     return this.$('.icon-pnl_add-new')
   }
-
+  
+  /*
   getApplicationTable() {
     return this.$('.mstr-window-table-body')
   }
+  */
 
   getCustomAppHomePage() {
     return this.$(".home-screen-main-new-application-container")
   }
 
-  //need to fix
+  /*
   getApplicationItemByName(name) {
     return this.getApplicationTable().$$('.mstr-window-table-row').all(by.cssContainingText('.home-screen-main-application-name-text', name)).first()
   }
+  */
 
   getGridCellInCustomAppListView(gridCellValue) {
     return this.$$('.home-screen-main-application-name-text').filter(async (elem) => {
@@ -29,10 +32,11 @@ export default class ApplicationPage extends BasePage {
     }).first()
   }
 
+  /*
   getColumnHeader() {
-    //return this.$$('.ag-header-cell').all(by.cssContainingText('.col-id', column)).first()
     return this.$('ag-header-row').$$('.ag-header-cell').first()
   }
+  */
 
   getColumnCell(columnname) {
     return this.$$('.ag-header-cell-text').filter(async (elem) => {
@@ -43,14 +47,14 @@ export default class ApplicationPage extends BasePage {
 
 
   // return: none, ascending, descending
+  /*
   getColumnSortStatus(column) {
     return this.getColumnHeader(column).getAttribute('aria-sort')
   }
+  */
 
   getShareButton(name) {
-    //return this.getApplicationItemByName(name).$('.ant-dropdown-trigger.icon-tb_share_n')
     return this.getGridCellInCustomAppListView(name).$('.ant-dropdown-trigger.icon-tb_share_n')
-    //return this.$('.ant-dropdown-trigger.icon-tb_share_n')
   }
 
   getCopyLinkButton() {
@@ -178,28 +182,6 @@ export default class ApplicationPage extends BasePage {
     await this.waitForCustomAppMainWindow()
     const columnItem = await this.getColumnCell(columnname)
     await this.click({ elem: columnItem})
-    await browser.sleep(5000)
-  }
-
-  async deselectColumn(option) {
-    await this.getGearButton().click()
-    //const columnOption = await this.getGearOption(option)
-    //await this.click({ elem: columnOption})
-    await this.getGearOption(option).click()
-    await this.getGearButton().click()
-    await browser.sleep(2000)
-  }
-
-
-  async shareLink(name) {
-    await this.waitForCustomAppMainWindow()
-    //const appItem = await this.getGridCellInCustomAppListView(name)
-    //await this.brwsr.actions().mouseMove(appItem).perform()
-    //await this.brwsr.actions().click().perform()
-    //await this.brwsr.actions().mouseMove({ x: 5, y: 0 }).perform()
-    //return this.brwsr.actions().click().perform()
-    await this.getShareButton(name).click()
-    await this.getCopyLinkButton().click()
     await browser.sleep(5000)
   }
 
