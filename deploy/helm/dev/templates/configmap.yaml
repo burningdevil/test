@@ -74,32 +74,15 @@ data:
     RESTPort=34962
 
   configOverride.properties: |-
-    iserver.default.hostname=iserver-{{ .Release.Name }}
+  iserver.default.hostname=iserver-{{ .Release.Name }}
     iserver.default.port={{ .Values.iserver.service.port }}
-    services.collaboration.enabled=false
-    trustStore.path=/WEB-INF/truststore.pfx
-    services.collaboration.tlsEnabled=false
-    auth.modes.available=1,16,1048576
+    auth.modes.available=1,16
     iserver.tlsEnabled = false
     iserver.maxPoolSize = 100
     session.searchWorkingSet = 3
     iserver.initialPoolSize = 10
     session.workingSet = 10
     iserver.requestTimeout = 120000
-    services.MicroStrategy-Modeling-Service.tlsEnabled=false
-    services.MicroStrategy-Modeling-Service.baseURL=http://{{ index .Values "architect-service" "ingress" "host" }}:80
-    services.MicroStrategy-Modeling-Service.scheduleEnabled=true
-    identityToken.secretKey=elOY73zE8O4ANVrjpRiTe5UEKke8fA
-    auth.cors.origins=
-    security.allowAllOrigins=true
-    security.allowedOrigins=
-
-  modelservice.conf: |-
-    modelservice.feature_flag.enabled true
-    modelservice.debug.enabled true
-    iserver.hostname iserver-{{ .Release.Name }}
-    iserver.port 34952
-    iserver.project Duplicated New Project For Fact
-    iserver.username administrator
-    iserver.password
-    modelservice.identity_token.secret_key elOY73zE8O4ANVrjpRiTe5UEKke8fA
+    services.collaboration.enabled = false
+    services.collaboration.tlsEnabled = false
+    identityToken.secretKey=tDiLgBAWoqERnkCLngcG
