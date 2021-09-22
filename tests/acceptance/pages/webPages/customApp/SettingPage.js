@@ -49,11 +49,11 @@ export default class SettingPage extends BasePage {
   }
   */
 
-  /*
+
   getDossierListPage() {
     return this.$(".ag-center-cols-container")
   }
-  */
+
 
   /*
   getDossierDocumentItemByName(name) {
@@ -78,13 +78,15 @@ export default class SettingPage extends BasePage {
   }
 
 
-  getToolbarOptionSwitcher(text){
+  getToolbarOptionSwitcher(text) {
     return this.element(by.xpath(`//span[@class='home-screen-components-table-text' and text()='${text}']//ancestor::tr//button`));
   }
 
   getSaveButton() {
-    //return this.$('.ant-btn.ant-btn-primary')
-    return this.$('.home-screen-editor-layout-btn').element(by.cssContainingText('.ant-btn.ant-btn-primary', 'Save'))
+    return this.$$('.ant-btn.ant-btn-primary').filter(async (elem) => {
+      return elem.isDisplayed()
+    }).first()
+    // return this.$('.home-screen-editor-layout-btn').element(by.cssContainingText('.ant-btn.ant-btn-primary', 'Save'))
   }
 
   getCancelButton() {
@@ -130,6 +132,7 @@ export default class SettingPage extends BasePage {
 
   async inputName(name) {
     await this.getNameInpuBox().click()
+    await this.getNameInpuBox().clear()
     await this.input(name)
   }
 
@@ -143,18 +146,18 @@ export default class SettingPage extends BasePage {
     await browser.sleep(3000)
   }
 
-  /*
+
   async waitForDossierListWindow() {
     await this.wait(this.EC.visibilityOf(this.getDossierListPage()), 60000, 'Dossier list window was not displayed');
   }
-  */
+
 
   async chooseToolbarMode(toolbarmode) {
     await this.click({ elem: this.getMenuTab('Components') })
     await this.click({ elem: this.getToolbarMode(toolbarmode) })
   }
 
- 
+
   async switchDossierDocumentTab(menu) {
     await this.getDossierPickbutton().click()
     await this.waitForDossierListWindow()

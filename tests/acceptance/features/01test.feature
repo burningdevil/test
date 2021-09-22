@@ -7,18 +7,19 @@ Feature: Create applications
         Given configure workstation engine test environment
 
     Scenario: create application with custom name, libray as home
+        When I select tab "ANALYSIS"
         When I select tab "Applications"
         When I click the application create entry
-        #When I input the "Auto_DossierAsHome"
+        When I input application name "Auto_DossierAsHome"
         When I input application description "1234"
         Then I switch to menu "Home Screen"
-        Then I choose "Use a dossier or document in the current server as the home screen" as home
-        Then I choose "Documents" menu and pick document "BubbleMarker_Si"
+        #Then I choose "Use a dossier or document in the current server as the home screen" as home
+        #Then I choose "Documents" menu and pick document "BubbleMarker_Si"
         Then I switch to menu "Components"
         Then I hide toolbar icon "Filter"
         Then I hide toolbar icon "Share"
         Then I click "Save" button
+        Then I delete the application "Auto_DossierAsHome"
         #Then I sort the application list by "Name"
         #Then I deselect column "Home" display
         #When I copy link of the application "Auto_LibraryAsHome"
-        
