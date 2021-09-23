@@ -5,12 +5,26 @@ require('regenerator-runtime')
 const chai = require('chai')
 const chaiAsPromised = require('chai-as-promised')
 chai.use(chaiAsPromised)
+const { join } = require('path');
 
 const parseArguments = require('./utils/envUtils/parseArguments')
 const { sleep } = require('./utils/generalUtils')
 const customArgObj = parseArguments()
 
 exports.config = {
+  plugins: [
+    {
+      package: 'protractor-image-comparison',
+      options: {
+        baselineFolder: join(process.cwd(), './results/baseline/'),
+        formatImageName: `{tag}`,
+        screenshotPath: join(process.cwd(), './results/'),
+        savePerInstance: true,
+        autoSaveBaseline: true,
+      },
+    },
+  ],
+
   directConnect: true,
   // use custom chrome driver
   chromeDriver: process.platform === 'win32' ? '3rdParty/windows/chromedriver.exe' : '3rdParty/mac/chromedriver',

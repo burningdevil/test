@@ -116,6 +116,16 @@ Then('I hide toolbar icon {string}', async function (text) {
 }
 );
 
+Then('check the screenshot by comparing {string}', async function (screenshot) {
+    await applicationPage.takeScreenshotOnPage(screenshot)
+    return mainWindow.app.sleep(500)
+})
+
+
+Then('check the screenshot on element {string} by comparing {string}', async function (element, text) {
+    await applicationPage.takeScreenshotOnElement(element, text)
+    return mainWindow.app.sleep(500)
+})
 
 
 
