@@ -153,8 +153,8 @@ export default class SettingPage extends BasePage {
 
 
   async chooseToolbarMode(toolbarmode) {
-    await this.click({ elem: this.getMenuTab('Components') })
     await this.click({ elem: this.getToolbarMode(toolbarmode) })
+    await browser.sleep(2000)
   }
 
 

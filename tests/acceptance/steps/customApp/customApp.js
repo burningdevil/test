@@ -28,7 +28,6 @@ Then('I deselect column {string} display', async function (option) {
 );
 
 
-
 When('I copy link of the application {string}', async function (name) {
     await applicationPage.shareLink(name)
     return mainWindow.app.sleep(500)
@@ -53,10 +52,6 @@ When('I input application description {string}', async function (description) {
 }
 );
 
-When('I choose the home screen mode {string}', async function (homescreen) {
-    await settingPage.chooseHomescreen(homescreen)
-}
-);
 
 
 Then('I edit the application {string}', async function (name) {
@@ -104,9 +99,9 @@ Then('I choose {string} menu and pick document {string}', async function (menu, 
 );
 
 
-
-When('I choose the toolbar mode {string}', async function (toolbarmode) {
+Then('I choose the toolbar mode {string}', async function (toolbarmode) {
     await settingPage.chooseToolbarMode(toolbarmode)
+    return mainWindow.app.sleep(500)
 }
 );
 
@@ -115,6 +110,7 @@ Then('I hide toolbar icon {string}', async function (text) {
     return mainWindow.app.sleep(500)
 }
 );
+
 
 
 

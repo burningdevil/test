@@ -331,6 +331,32 @@ export default class EnvSection extends RootApp {
     await this.moveToAndClick(await this.getRemoveEnvOption())
   }
 
+  //Please note: in windows, the first env object is "Add New Environment Connection"; in mac, all return elm are existing env. Besides, in mac, the locator will change, always delete the first env.
+  async removeAllEnv(){
+    let elm = await this.app
+    if (OSType === 'windows') {
+        elm = await elm.elementByClassName(`EnvIconBrowsingUserControl`)
+        elm = await elm.elementsByClassName(`ListBoxItem`)   
+        for (let i=1; i<elm.length; i++)
+        {
+          await this.moveToAndClick(elm[i])
+          await this.rightClick()
+          await this.moveToAndClick(await this.getRemoveEnvOption())
+          this.app.sleep(1000)
+        }
+    }
+    else{
+      elm = await elm.elementsByXPath(MAC_XPATH.iconView.mainCanvas.env.existingEnvList)
+      for (let i=0; i<elm.length; i++)
+      {
+        await this.moveToAndClick(elm[0])
+        await this.rightClick()
+        await this.moveToAndClick(await this.getRemoveEnvOption())
+        this.app.sleep(1000)
+      }
+    }
+  }
+
   async disconnectEnv(name) {
     const existingEnv = await this.getExistingEnv(name)
     await this.moveToAndClick(existingEnv)
