@@ -41,13 +41,19 @@ task :install_workstation_windows do |t,args|
   shell_command! "git clean -dxf",cwd: $WORKSPACE_SETTINGS[:paths][:project][:home]
   close_apps
 
-  info "====== downloading workstation windows #{product['version']} ======"
-  download_artifact(product['artifact_name'], product['version'])
+  #info "====== downloading workstation windows #{product['version']} ======"
+  #download_artifact(product['artifact_name'], product['version'])
+  FileUtils.remove_entry_secure(@artifact_info[:output_dir], force: true )
+  FileUtils.mkdir_p(@artifact_info[:output_dir])
+  FileUtils.rm(@workstation_zip_path) if File.exist?(@workstation_zip_path)
+  Nexus.download_latest_artifact(file_path: @workstation_zip_path, artifact_id: "workstation-windows-ent", group_id: Common::Version.dependency_group_id, extra_coordinates: {e: 'zip'})
 
   shell_command! "7z.exe x workstation-windows.zip -aoa", cwd: @artifact_info[:output_dir]
 
   # Install
-  base_path = (@artifact_info[:output_dir] + '/' + product['name'] + ' ' + product['version'].split('.')[0..2].map(&:to_i).join('.')).gsub('/','\\')
+  workstation_folder_name = shell_output! "ls #{@artifact_info[:output_dir]} | grep 'MicroStrategy Workstation'"
+  workstation_folder_name = workstation_folder_name.strip
+  base_path = (@artifact_info[:output_dir] + '/' + workstation_folder_name).gsub('/','\\')
   template_path = $WORKSPACE_SETTINGS[:paths][:project][:workspace][:settings][:rake][:lib][:templates][:home].gsub('/','\\')
 
   command = <<-EOH
