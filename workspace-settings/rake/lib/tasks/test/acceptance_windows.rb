@@ -5,6 +5,7 @@ require 'pry'
 
 @artifact_info = Compiler::Maven.artifact_info
 @wkstn_branch  = ENV['ghprbTargetBranch'] || Common::Version.application_branch
+@workstation_zip_path = "#{@artifact_info[:output_dir]}/workstation-windows.zip"
 
 def download_artifact(art_name, art_version)
   FileUtils.remove_entry_secure(@artifact_info[:output_dir], force: true )
