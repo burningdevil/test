@@ -8,7 +8,7 @@ export default class ApplicationPage extends BasePage {
   getAddnewButton() {
     return this.$('.icon-pnl_add-new')
   }
-  
+
   /*
   getApplicationTable() {
     return this.$('.mstr-window-table-body')
@@ -181,10 +181,34 @@ export default class ApplicationPage extends BasePage {
   async sortColumn(columnname) {
     await this.waitForCustomAppMainWindow()
     const columnItem = await this.getColumnCell(columnname)
-    await this.click({ elem: columnItem})
+    await this.click({ elem: columnItem })
     await browser.sleep(5000)
   }
 
   // assertions
+  async takeScreenshotOnElement(webElement, screenshot) {
+    await this.switchToCustomAppWindow()
+    await browser.actions().mouseMove({ x: 0, y: 10000 }).perform()
+    let elementLocator;
+    switch (webElement) {
+      case 'detailGrid':
+        await this.waitForCustomAppMainWindow()
+        elementLocator = this.$('.ag-root')
+        break;
+    }
+    expect(await browser.imageComparison.checkElement(elementLocator, screenshot)).to.below(0.02);
+  }
+
+  async takeScreenshotOnPage(screenshot) {
+    await browser.sleep(1000)
+    // Ensure the mouse stay the same location
+    await browser
+      .actions()
+      .mouseMove({ x: 0, y: 10000 })
+      .perform()
+    expect(await browser.imageComparison.checkScreen(screenshot)).to.below(0.02);
+  }
+
+
 
 }
