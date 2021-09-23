@@ -47,7 +47,7 @@ task :install_workstation_windows do |t,args|
   FileUtils.remove_entry_secure(@artifact_info[:output_dir], force: true )
   FileUtils.mkdir_p(@artifact_info[:output_dir])
   FileUtils.rm(@workstation_zip_path) if File.exist?(@workstation_zip_path)
-  Nexus.download_latest_artifact(file_path: @workstation_zip_path, artifact_id: "workstation-windows-ent", group_id: Common::Version.dependency_group_id, extra_coordinates: {e: 'zip'})
+  Nexus.download_latest_artifact(file_path: @workstation_zip_path, artifact_id: "workstation-windows-ent", group_id: "com.microstrategy.m2021", extra_coordinates: {e: 'zip'})
 
   shell_command! "7z.exe x workstation-windows.zip -aoa", cwd: @artifact_info[:output_dir]
 
