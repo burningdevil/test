@@ -39,7 +39,7 @@ end
 @cef_remote_debug_port = 54213
 
 def plugin_name_mapping(plugin_repo: $WORKSPACE_SETTINGS[:project][:name])
-  plugin_minifest = OctokitGithub.client.contents("Kiai/workstation-mac", {:path => "production/macOS/manifest", :ref => @wkstn_branch })
+  plugin_minifest = OctokitGithub.client.contents("Kiai/workstation-mac", {:path => "production/macOS/manifest", :ref => 'm2021' })
   plugin_minifest_content = Base64.decode64(plugin_minifest["content"])
   manifest_hash = YAML.load(plugin_minifest_content)
   manifest_hash.each do |key,value|
