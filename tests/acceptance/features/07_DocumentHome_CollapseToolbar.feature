@@ -1,4 +1,4 @@
-@TC78812 @Regression
+@TC78812
 Feature: Create applications WSAuto_DocumentHome_CollapseToolbar
     1. add environment
     2. create application: WSAuto_DocumentHome_CollapseToolbar

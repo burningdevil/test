@@ -1,4 +1,4 @@
-@TC78812 @Regression
+@TC78812
 Feature: Create applications WSAuto_DossierHome_DisableToolbar
     1. add environment
     2. create application: WSAuto_DossierHome_DisableToolbar

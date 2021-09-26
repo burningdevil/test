@@ -10,21 +10,21 @@ const { registerNewWindow, switchToWindow} = require('../utils/wsUtils/windowHel
 Given('configure workstation engine test environment', async function() {
   const { envName, envUrl, loginMode, userName, userPwd, projects } = browser.params.envInfo[0]
 
-  var viewflag = false
-  try{
-    await mainWindow.smartTab.getTab("Datasets");
-  }catch(err){
-    console.log('currently it is desktop view')
-    viewflag = true
-  }
-  
+  var viewflag = true
+  // try{
+  //   await mainWindow.smartTab.getTab("Datasets");
+  // }catch(err){
+  //   console.log('currently it is desktop view')
+  //   viewflag = true
+  // }
+
   if (viewflag){
     await mainWindow.smartTab.selectTab('Environments')
   }
 
   try {
     if(OSType === 'windows' || MAC_VIEWMODE === 'iconView')
-      await mainWindow.mainCanvas.envSection.removeAllEnv() 
+      await mainWindow.mainCanvas.envSection.removeAllEnv()
     else
     {
       await mainWindow.toolbar.switchToIconView()
@@ -32,7 +32,7 @@ Given('configure workstation engine test environment', async function() {
       await mainWindow.mainCanvas.envSection.removeAllEnv()
       await mainWindow.toolbar.switchToListView()
       MAC_VIEWMODE = 'listView'
-    }     
+    }
   } catch (err) {
    console.log('[INFO] [Remove ENV] Remove all env with error.')
   }
@@ -42,7 +42,7 @@ Given('configure workstation engine test environment', async function() {
   console.log('[INFO] [Add Env] With mstr user')
 
   await browser.sleep(5000)
-  
+
   if (viewflag){
     await registerNewWindow('Workstation Main Window2')
     await switchToWindow('Workstation Main Window2')
