@@ -113,7 +113,7 @@ export default class SettingPage extends BasePage {
     } else if (text === 'Cancel') {
       await this.getCancelButton().click()
     }
-    await browser.sleep(4000)
+    await browser.sleep(6000)
     await this.switchToNewWebView()
   }
 

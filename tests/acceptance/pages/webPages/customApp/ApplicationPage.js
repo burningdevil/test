@@ -123,15 +123,15 @@ export default class ApplicationPage extends BasePage {
 
   async switchToNewApplicationWindow() {
     await browser.sleep(1000)
-    await registerNewWindow('New Application')
-    await switchToWindow('New Application')
+    // await registerNewWindow('New Application')
+    // await switchToWindow('New Application')
     await this.switchToNewWebView()
   }
 
   async switchToEditApplicationWindow() {
     await browser.sleep(1000)
-    await registerNewWindow('Edit Application')
-    await switchToWindow('Edit Application')
+    // await registerNewWindow('Edit Application')
+    // await switchToWindow('Edit Application')
     await this.switchToNewWebView()
   }
 
@@ -189,7 +189,7 @@ export default class ApplicationPage extends BasePage {
   async takeScreenshotOnElement(webElement, screenshot) {
     await this.switchToCustomAppWindow()
     await browser.actions().mouseMove({ x: 0, y: 10000 }).perform()
-    let elementLocator;
+    let elementLocator
     switch (webElement) {
       case 'detailGrid':
         await this.waitForCustomAppMainWindow()

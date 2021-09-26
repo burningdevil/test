@@ -58,7 +58,7 @@ exports.config = {
     format: ['json:reports/rallyReport/execReport.json', 'rerun:./reports/reruns/@rerun.txt'], // <string[]> (type[:path]) specify the output format, optionally supply PATH to redirect formatter output (repeatable)
     // tags: ['@sanity'],
     profile: false,
-    'fail-fast': true,
+    'fail-fast': false,
     'no-source': true
   },
 
