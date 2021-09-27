@@ -54,7 +54,7 @@ end
 def download_latest_workstation_mac_os_x
   info "====== Dowloading workstation mac ======"
   FileUtils.rm(@workstation_dmg_path) if File.exist?(@workstation_dmg_path)
-  Nexus.download_latest_artifact(file_path: @workstation_dmg_path, artifact_id: "#{@workstation_artifact_name}", group_id: "com.microstrategy.#{@wkstn_branch}", extra_coordinates: {e: 'dmg'})
+  Nexus.download_latest_artifact(file_path: @workstation_dmg_path, artifact_id: "#{@workstation_artifact_name}", group_id: "com.microstrategy.m2021", extra_coordinates: {e: 'dmg'})
 end
 
 def stop_workstation_app_mac
