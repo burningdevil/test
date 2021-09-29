@@ -35,3 +35,5 @@ else
   export PATH=~/.npm-global/bin:$PATH
 fi
 
+
+export BRANCH_OFF_COMMIT=8505e6c30021e0b0aaa5ab942d3ffcd6f324a9da
