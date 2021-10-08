@@ -127,8 +127,8 @@ def uninstall_winappdriver
 end
 
 task :acceptance_test_win do |t,args|
-  stop_winappdriver
-  uninstall_winappdriver
+  #stop_winappdriver
+  #uninstall_winappdriver
   map_I
   workstation_path = "C:\\Program Files\\MicroStrategy\\Workstation\\Workstation.exe"
   close_apps
