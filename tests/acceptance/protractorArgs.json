@@ -3,7 +3,7 @@
         "envInfo": [
             {
                 "envName": "shared",
-                "envUrl": "http://tec-w-005136.labs.microstrategy.com:8080/MicroStrategyLibrary/",
+                "envUrl": "http://10.199.56.57:8080/MicroStrategyLibrary",
                 "loginMode": "Standard",
                 "userName": "administrator",
                 "userPwd": "",
@@ -15,7 +15,7 @@
     },
     "args": {
         "launchWS": true,
-        "connectEnv": true,
+        "connectEnv": false,
         "removeEnv": true,
         "quitWS": true,
         "appPath": {
