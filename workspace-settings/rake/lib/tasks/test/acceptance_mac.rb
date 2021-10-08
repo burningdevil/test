@@ -39,7 +39,7 @@ end
 @cef_remote_debug_port = 54213
 
 def plugin_name_mapping(plugin_repo: $WORKSPACE_SETTINGS[:project][:name])
-  plugin_minifest = OctokitGithub.client.contents("Kiai/workstation-mac", {:path => "production/macOS/manifest", :ref => @wkstn_branch })
+  plugin_minifest = OctokitGithub.client.contents("Kiai/workstation-mac", {:path => "production/macOS/manifest", :ref => 'm2021' })
   plugin_minifest_content = Base64.decode64(plugin_minifest["content"])
   manifest_hash = YAML.load(plugin_minifest_content)
   manifest_hash.each do |key,value|
@@ -54,7 +54,7 @@ end
 def download_latest_workstation_mac_os_x
   info "====== Dowloading workstation mac ======"
   FileUtils.rm(@workstation_dmg_path) if File.exist?(@workstation_dmg_path)
-  Nexus.download_latest_artifact(file_path: @workstation_dmg_path, artifact_id: "#{@workstation_artifact_name}", group_id: "com.microstrategy.#{@wkstn_branch}", extra_coordinates: {e: 'dmg'})
+  Nexus.download_latest_artifact(file_path: @workstation_dmg_path, artifact_id: "#{@workstation_artifact_name}", group_id: "com.microstrategy.m2021", extra_coordinates: {e: 'dmg'})
 end
 
 def stop_workstation_app_mac

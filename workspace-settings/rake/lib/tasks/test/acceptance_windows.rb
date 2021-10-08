@@ -140,10 +140,10 @@ task :acceptance_test_win do |t,args|
   info "====== yarn install starting ======"
   shell_command! "yarn install --frozen-lockfile", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
   shell_command! 'yarn config set script-shell "C:/usr/bin/bash"', environment: {'MSYS' => 'winsymlinks:nativestrict'}
-  
+
   info "====== starting test ======"
   begin
-    shell_command! "node trigger_test.js  \"#{workstation_path}\"  \"http://#{library_service_fqdn}/MicroStrategyLibrary/\" \"@PREMERGE\" 54213", cwd: "I:/tests/acceptance"
+    shell_command! "node trigger_test.js  \"#{workstation_path}\"  \"http://#{library_service_fqdn}/MicroStrategyLibrary/\" \"@Regression\" 54213", cwd: "I:/tests/acceptance"
   ensure
     close_apps
     Helm.delete_release(workstation_setting_release_name)
