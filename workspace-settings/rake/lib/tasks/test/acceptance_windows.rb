@@ -127,8 +127,8 @@ def uninstall_winappdriver
 end
 
 task :acceptance_test_win do |t,args|
-  stop_winappdriver
-  uninstall_winappdriver
+  #stop_winappdriver
+  #uninstall_winappdriver
   map_I
   workstation_path = "C:\\Program Files\\MicroStrategy\\Workstation\\Workstation.exe"
   close_apps
@@ -138,7 +138,7 @@ task :acceptance_test_win do |t,args|
   shell_command! "powershell -command 'Get-DisplayResolution'"
 
   info "====== yarn install starting ======"
-  shell_command! "yarn install --frozen-lockfile", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
+  shell_command! "yarn install", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
   shell_command! 'yarn config set script-shell "C:/usr/bin/bash"', environment: {'MSYS' => 'winsymlinks:nativestrict'}
 
   info "====== starting test ======"
