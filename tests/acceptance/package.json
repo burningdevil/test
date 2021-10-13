@@ -22,7 +22,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.4.3",
     "@babel/register": "^7.4.0",
-    "appium": "1.15.1",
+    "appium": "^1.18",
     "babel-eslint": "^10.0.3",
     "babel-plugin-dynamic-import-node": "^2.2.0",
     "babel-preset-env": "^1.7.0",
@@ -51,5 +51,8 @@
     "screenshot-desktop": "^1.10.0",
     "wd": "^1.11.1",
     "yargs": "^13.2.4"
+  },
+  "dependencies": {
+    "yarn": "^1.22.15"
   }
 }
