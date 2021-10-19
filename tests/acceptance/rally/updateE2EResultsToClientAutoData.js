@@ -3,7 +3,7 @@ const request = require('request')
 const fs = require('fs')
 const path = require('path')
 const cmd = process.argv[2]
-let build
+let build, buildUrl
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
@@ -11,7 +11,9 @@ function sleep(ms) {
 
 if (cmd === '-c' && process.argv[3]) {
   build = process.argv[3]
+  buildUrl = process.argv[4]
   console.log(`build: ${build}`)
+
 } else {
   console.info(helpMsg)
   process.exit()
@@ -90,6 +92,13 @@ async function sendSlackMessage(resultData) {
               "text": "*Pass:* " + totalPass + ";   *Fail:* `" + totalFail + "`;    Total: " + (totalPass + totalFail)
             }
           ]
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "<"+buildUrl+"|View on CI>"
+          }
         },
         {
           "type": "section",
