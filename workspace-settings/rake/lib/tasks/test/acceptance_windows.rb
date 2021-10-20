@@ -2,6 +2,7 @@ require_relative 'acceptance_mac'
 require 'nexus'
 require 'fileutils'
 require 'pry'
+require 'json'
 
 @artifact_info = Compiler::Maven.artifact_info
 @wkstn_branch  = ENV['ghprbTargetBranch'] || Common::Version.application_branch
@@ -85,6 +86,13 @@ task :install_workstation_windows do |t,args|
   end
 end
 
+def enable_feature_flag(plugin_path)
+  config_file = "#{plugin_path}/workstation.json"
+  data_hash = JSON.parse(File.read(config_file))
+  data_hash['isEnabled'] = true
+  File.write(config_file, JSON.pretty_generate(data_hash))
+end
+
 task :replace_plugin_windows, [:plugin_version] do |t,args|
   info "====== replacing plugin ======"
   # replace plugin
@@ -104,6 +112,7 @@ task :replace_plugin_windows, [:plugin_version] do |t,args|
     FileUtils.mv("#{@artifact_info[:output_dir]}/dist", plugin_path)
   end
 
+  enable_feature_flag(plugin_path)
 end
 
 def stop_winappdriver()
