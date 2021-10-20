@@ -16,7 +16,7 @@ const initialState: HomeScreenConfigEditorState = {
       mode: CONSTANTS.MODE_USE_DEFAULT_HOME_SCREEN, 
       homeLibrary: { 
         icons: libraryIconKeys.filter(key => !libraryCustomizedIconKeys.includes(key)).map((key) => iconValidKey(key)), 
-        sidebars: sidebarIconKeys.filter((key) => !_.includes([iconTypes.defaultGroup.key].concat(libraryCustomizedIconKeys), key)).map((key) => iconValidKey(key)),
+        sidebars: sidebarIconKeys.filter((key) => !_.includes(libraryCustomizedIconKeys, key)).map((key) => iconValidKey(key)),
         customizedItems: {},
         contentBundleIds: [],
         defaultGroupsName: localizedStrings.DEFAULT_GROUPS,

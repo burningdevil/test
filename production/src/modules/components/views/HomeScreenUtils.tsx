@@ -1,6 +1,7 @@
 import * as _ from "lodash";
 import { IServerSideGetRowsParams } from 'ag-grid-community'
 import { EnumDSSXMLViewMedia, HomeScreenHomeObjectType } from '../HomeScreenConfigConstant'
+import { Environment } from "@mstr/workstation-types";
 
 export function getContentType (viewMedia: number) {
     const defModePosition = viewMedia >> 27;
@@ -37,14 +38,15 @@ export function HomeScreenBundleListDatasource(server: any) {
         console.log('[Datasource] - rows requested by grid: ', params.request);
         var response = server.getData(params);
         setTimeout(function () {
-          if (response.success) {
+          if (response?.success) {
             params.success({
               rowData: response.rows,
               rowCount: response.lastRow,
             });
-          } else {
-            params.fail();
-          }
+          } 
+          // else {
+          //   params.fail();
+          // }
         }, 500);
       },
     };
@@ -82,3 +84,10 @@ export function getHomeScreenBundleListGroupCellInnerRenderer() {
     };
     return HomeScreenBundleListGroupCellInnerRenderer;
   }
+
+export function getFeatureFlag(key: string, env: any){
+  if(!env?.preferences){
+      return false;
+    }
+    return env.preferences?.[key];
+}

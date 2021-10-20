@@ -11,8 +11,10 @@ $preview-header-height: 19px;
 $sidebar-width: 91px;
 
 $font-size-side: 7px;
-$line-height-side: 18px;
+$line-height-side: 16px;
 
+$phone-scale: 0.85;
+$tablet-scale: 0.85;
 // put all icons here
 @mixin iconFeatures($color) {
     .icon-tb_undoarrow {
@@ -29,6 +31,10 @@ $line-height-side: 18px;
         margin-left: 4.5px;
         color: $msdl-blue;
     }
+    .icon-lib-login{
+        float: left;
+        color: $mobile-primary-blue;
+    }
     .icon-tb_hamburger {
         transform: scale(0.88); // the icon is bigger than others.
     }
@@ -41,6 +47,19 @@ $line-height-side: 18px;
         margin-left: 4.5px;
         color: $color;
     }
+    .icon-aa_font {
+        float: right;
+        margin: 3px 4.5px 0 0;
+        vertical-align: middle;
+        cursor: pointer;
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        transform: scale(0.75);
+        background: url("../images/18_18.svg");
+        background-repeat: no-repeat;
+        background-position: -324px -144px;
+    }
     .icon-hyper,
     .icon-info_edit,
     .icon-tb_create_dossier,
@@ -49,7 +68,7 @@ $line-height-side: 18px;
     .icon-pnl_shared,
     .icon-tb_select_n,
     .icon-user-profile,
-    .icon-tb_profile_n,
+    
     .icon-tb_notif_n,
     .icon-tb_comments_n,
     .icon-tb_filter_n,
@@ -76,7 +95,6 @@ $line-height-side: 18px;
         background-color: $background-color;
         span {
             float: right;
-            color: #3e96e9;
             font-size: 10px;
         }
         @include iconFeatures($color)
@@ -89,7 +107,7 @@ $line-height-side: 18px;
     &-container {
         height: 100%;
         padding: 0;
-        border: .07rem solid lightgrey;
+        border: 1px solid lightgrey;
         border-radius: 0 0 4px 4px;
         align-self: center;
     }
@@ -114,6 +132,7 @@ $line-height-side: 18px;
             &-text {        
                 display: flex;
                 align-items: center;
+                max-width: 97px;
                 span {
                     margin-left: 4px;
                 }
@@ -134,6 +153,12 @@ $line-height-side: 18px;
             &-down {
                 margin-left: 4px;
                 margin-top: auto;
+                margin-bottom: 4px;
+                color: $mobile-primary-blue;
+                .icon-tb_profile_n {
+                    display: inline-block;
+                    transform: scale(1.5) !important;
+                }
             }
         }
         &-right {
@@ -238,14 +263,24 @@ $line-height-side: 18px;
         align-items: center;
         justify-content: space-evenly;
     }
+    &-tablet-horcontainer {
+        margin-left: 16px;
+        margin-right: 16px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-evenly;
+    }
 
     &-pad {
         @include padOrWebSetting($mobile-primary-blue);
         .icon-tb_home,
         .icon-tb_appicon,
+        .icon-tb_profile_n,
         .icon-library {
             color: $mobile-primary-blue !important;
         }
+
     }
 
     &-web {
@@ -293,7 +328,14 @@ $line-height-side: 18px;
             line-height: 24px;
             background-color: $background-color;
             font-size: $font-size-mini;
-            @include iconFeatures($mobile-primary-blue) 
+            @include iconFeatures($mobile-primary-blue);
+            span {
+                transform: scale($phone-scale);
+            }
+            .icon-tb_share_n,
+            .icon-aa_font {
+                margin-right: -2.5px;
+            }
         }
         &-content {
             flex: auto;
@@ -304,7 +346,8 @@ $line-height-side: 18px;
             flex: auto;
             height: 100%;
             padding: 4px;
-            border: .07rem solid lightgrey;
+            border: 1px solid lightgrey;
+            // border-left: 0;
             background-color: $background-color;
              
             &-library {
@@ -342,7 +385,162 @@ $line-height-side: 18px;
             span {
                 font-size: 10px;
                 color: $mobile-primary-blue;
+                transform: scale($phone-scale);
             }
         }
     }
+    &-tablet-sidebar {
+        width: $sidebar-width;
+        height: $preview-height;
+        // flex: none;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: $font-size-side;
+        line-height: $line-height-side;
+        font-family: $font-family;
+
+        &-sidebar {
+            border-radius: 2px;
+            padding-left: 3px;
+            background-color: $background-color;
+            border: 1px solid lightgrey !important;
+            display: flex;
+            flex: auto;
+            height: 100%;
+            flex-direction: column;
+            justify-items: flex-start;
+            .icon-tb_create_dossier {
+                margin-right: 0px !important;
+            }
+        }
+
+        .ant-layout-header {
+            flex: auto;
+            height: 24px;
+            padding: 0 5px;
+            text-align: center;
+            border: 1px solid lightgrey;
+            border-radius: 4px 0 0 0;
+            // border-left: 0;
+            line-height: 24px;
+            background-color: $background-color;
+            font-size: $font-size-mini;
+            @include iconFeatures($mobile-primary-blue);
+            span {
+                transform: scale($tablet-scale);
+            }
+            .icon-tb_create_dossier {
+                margin-right: 0px !important;
+            }
+        }
+        &-content {
+            flex: auto;
+            height: 100%;
+            padding: 0;
+        }
+        &-container {
+            flex: auto;
+            height: 100%;
+            padding: 4px;
+            // border: 1px solid lightgrey;
+            border-left: 0 !important;
+            background-color: $background-color;
+             
+            &-library {
+                width: 100%;
+                height: 100%;
+                background: url('../images/dossier-list-on-phone.svg') repeat-y;
+            }
+
+            &-dossier {
+                width: 100%;
+                height: 100%;
+                margin: 10px 0;
+                background: url('../images/dossier-vis-on-phone.svg') no-repeat;
+            }
+
+            &-dossier-nobar {
+                width: 100%;
+                height: 100%;
+                margin: 10px 0;
+                background: url('../images/dossier-vis-on-phone.svg') repeat-y;
+            }
+        }
+        
+        
+    }
+    &-tablet-content {
+        width: $container-width - $sidebar-width;
+        height: $preview-height;
+        // flex: none;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: $font-size-side;
+        line-height: $line-height-side;
+        font-family: $font-family;
+
+        &-sidebar {
+            border-radius: 2px;
+            padding-left: 3px;
+            background-color: $background-color;
+            border: 1px solid lightgrey !important;
+            border-left:0;
+            display: flex;
+            flex: auto;
+            height: 100%;
+            flex-direction: column;
+            justify-items: flex-start;
+        }
+
+        .ant-layout-header {
+            flex: auto;
+            height: 24px;
+            padding: 0 5px;
+            text-align: center;
+            border: 1px solid lightgrey !important;
+            border-radius: 0 4px 0 0;
+            border-bottom-width: .01rem;
+            border-left: 0;
+            line-height: 24px;
+            background-color: $background-color;
+            font-size: $font-size-mini;
+            @include iconFeatures($mobile-primary-blue) 
+        }
+        &-content {
+            flex: auto;
+            height: 100%;
+            padding: 0;
+        }
+        &-container {
+            flex: auto;
+            height: 100%;
+            padding: 4px;
+            border: 1px solid lightgrey;
+            border-top: 0;
+            background-color: $background-color;
+             
+            &-library {
+                width: 100%;
+                height: 100%;
+                background: url('../images/dossier-list-on-phone.svg') repeat-y;
+            }
+
+            &-dossier {
+                width: 100%;
+                height: 100%;
+                margin: 10px 0;
+                background: url('../images/dossier-vis-on-phone.svg') no-repeat;
+            }
+
+            &-dossier-nobar {
+                width: 100%;
+                height: 100%;
+                margin: 10px 0;
+                background: url('../images/dossier-vis-on-phone.svg') repeat-y;
+            }
+        }
+        
+        
+    }
+
 }

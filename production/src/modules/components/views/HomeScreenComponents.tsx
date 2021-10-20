@@ -3,13 +3,15 @@ import { CaretDownOutlined, CaretRightOutlined } from '@ant-design/icons'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import '../scss/HomeScreenComponents.scss'
-import { default as VC, localizedStrings, previewerWidth, platformType, iconDetail, iconTypes, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons, iconValidKey, libraryIconKeys, sidebarIconKeys, libraryCustomizedIconKeys, mobileOnlyIconKeys, webDesktopOnlyIconKeys, REVERSE, platformSpecificIcons, platformSpecificIconKeys } from '../HomeScreenConfigConstant'
+import { default as VC, localizedStrings, previewerWidth, platformType, iconDetail, iconTypes, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons, iconValidKey, libraryIconKeys, sidebarIconKeys, libraryCustomizedIconKeys, mobileOnlyIconKeys, webDesktopOnlyIconKeys, REVERSE, platformSpecificIcons, platformSpecificIconKeys, CONTENT_BUNDLE_FEATURE_FLAG } from '../HomeScreenConfigConstant'
 import * as _ from 'lodash'
 import HomeScreenPreviewer from './HomeScreenPreviewer'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
 import { selectCurrentConfig, selectIsDossierAsHome, selectIsToolbarHidden, selectIsToolbarCollapsed, selectSelectedSideBarIcons, selectSelectedLibraryCustomizedItems, selectSelectedLibraryIcons, selectSelectedDocumentIcons, selectCurrentConfigContentBundleIds, selectDefaultGroupsName } from '../../../store/selectors/HomeScreenConfigEditorSelector'
 import * as Actions from '../../../store/actions/ActionsCreator';
 import { Tooltip } from '@mstr/rc'
+import { getFeatureFlag } from './HomeScreenUtils'
+import { env } from '../../../main'
 
 const childrenKeyOffset = 1000;
 /* ClassName */
@@ -24,6 +26,7 @@ function iconExpandable(iconText: string) {
 
 interface HomeScreenComponentsState {
     extraIcons: iconDetail[],
+    contentBundleFeatureEnable: boolean;
     defaultGroupEnable: boolean,
     mobileOptionsVisible: boolean,
     webOptionsVisible: boolean,
@@ -35,15 +38,21 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         const {toolbarHidden} = this.props
         // side bar hidden
         const sidebarDisabled = sidebarIconKeys.includes(iconKey) && !(this.iconSelectedInfo(iconTypes.sidebar.key)[0])
-
+        // special case: new dossier will be disabled when the edit dossier is disabled or content bundle length > 0.
+        if(iconKey === iconTypes.newDossier.key){
+            if(this.props.contentBundleIds?.length > 0){
+                return true;
+            }
+            if(this.props.selectedLibraryCustomizedItems[iconTypes.editDossier.key] === false){
+                return true;
+            }
+        }
         let disabled = false
         if (mobileOnlyIconKeys.includes(iconKey) && !this.state.mobileOptionsVisible) {
             disabled = true
         } else if (webDesktopOnlyIconKeys.includes(iconKey) && !this.state.webOptionsVisible && !this.props.isDossierHome) {
             disabled = true
-        } else if (iconKey === iconTypes.defaultGroup.key && !this.state.defaultGroupEnable) {
-            disabled = true
-        } else if (iconKey === iconTypes.all.key) { // disable all switch button by default.
+        }else if (iconKey === iconTypes.all.key) { // disable all switch button by default.
             disabled = true
         }
         return disabled || toolbarHidden || sidebarDisabled
@@ -61,6 +70,19 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         const validKey = iconValidKey(iconKey);
         if(allIconKeys.includes(iconKey)){
             const targetItem = iconTypes[allIcons[allIconKeys.indexOf(iconKey)]];
+            if(iconKey === iconTypes.newDossier.key){
+                if(this.props.contentBundleIds?.length > 0){
+                    return false;
+                }else{
+                    targetItem.tipMsg = localizedStrings.DISABLE_NEW_DOSSIER_TOOLTIP;
+                }
+            }
+            if(iconKey === iconTypes.editDossier.key){
+                if(this.props.isDossierHome){
+                    return false;
+                }
+            }
+            
             if(!targetItem.deps?.length){
                 return true;
             }
@@ -80,12 +102,19 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                 if(!validResult){
                     return false;
                 }
+                // check for the customized item.
+                const check_customized = Object.keys(this.props.selectedLibraryCustomizedItems).includes(key);
+                if(!check_customized || (validReverse && this.props.selectedLibraryCustomizedItems[key] === true) || (!validReverse && this.props.selectedLibraryCustomizedItems[key] === false)){
+                    return false;
+                }
+
             };
             return true;
 
         }
         return false;
     }
+    
     columns = [
         {
             title: '',
@@ -130,9 +159,10 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         let state = {...this.state}
         
         const {contentBundleIds, config, isDossierHome} = this.props
-        const {platforms} = config
+        const {platforms} = config;
+
         if (!isDossierHome) {
-            state.defaultGroupEnable = !_.isEmpty(contentBundleIds) && contentBundleIds.length > 0
+            state.defaultGroupEnable = !_.isEmpty(contentBundleIds) && contentBundleIds.length > 0 && state.contentBundleFeatureEnable === true;
             state.mobileOptionsVisible = true;
             state.webOptionsVisible = true;
         }
@@ -147,6 +177,15 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         let selected = false;
         if (libraryCustomizedIconKeys.includes(iconKey)) {
             selected = _.get(this.props.selectedLibraryCustomizedItems, iconKey, true);
+            // special case for the edit dossier and new dossier.
+            if(iconKey === iconTypes.newDossier.key){
+                if(_.get(this.props.selectedLibraryCustomizedItems, iconTypes.editDossier.key) === false){
+                    selected = false;
+                }
+                if(this.props.contentBundleIds?.length > 0){
+                    selected = false;
+                }
+            }
                 return [selected, iconKey];
         }
         if (sidebarIconKeys.includes(iconKey)) {
@@ -207,7 +246,11 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
     }
 
     renderTable = (icons: Array<iconDetail>) => {
-        const expandChildren = childrenIcons
+        let tarChildIcons = childrenIcons;
+        if (!this.state.contentBundleFeatureEnable){
+            tarChildIcons = childrenIcons.filter(item => item.key !== iconTypes.defaultGroup.key);
+        }
+        const expandChildren = tarChildIcons
             .map( (icon, index) =>  {
                 let displayText = icon.displayText
                 if(icon.key === iconTypes.defaultGroup.key) {
@@ -218,7 +261,6 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                 )
             }
         )
-
         const data = icons
             .map( (icon, index) => {
                 const hasChildren = iconExpandable(icon.displayText)
@@ -278,6 +320,10 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         const handleCustomizedIcon = (iconKey: string, value: boolean) => {
             if (libraryCustomizedIconKeys.includes(iconKey)) {
                 const customizedItems = _.assign({}, this.props.selectedLibraryCustomizedItems, {[iconKey]: value});
+                // special case for the disable edit dossier, the new dossier should be forbidden subsequently.
+                if(iconKey === iconTypes.editDossier.key && value === false){
+                    customizedItems[iconTypes.newDossier.key] = false;
+                }
                 let customizedConfig = {
                     [VC.HOME_SCREEN]: {
                         [VC.HOME_LIBRARY]: {
@@ -349,7 +395,13 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
             this.setState(newState)
         }
     }
-
+    async componentDidMount() {
+        const curEnv = await env.environments.getCurrentEnvironment();
+        const contentBundleEnable = !!getFeatureFlag(CONTENT_BUNDLE_FEATURE_FLAG, curEnv);
+        this.setState({
+            contentBundleFeatureEnable: contentBundleEnable
+        })
+      }
     render() {
         return (
             <Layout className={`${classNamePrefix}`}>
@@ -390,7 +442,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                 </Layout.Content>
                 {/* previewer */}
                 <Layout.Sider className={`${classNamePrefix}-right`} width={previewerWidth}>
-                    <HomeScreenPreviewer />
+                    <HomeScreenPreviewer contentBundleFeatureEnable = {this.state.contentBundleFeatureEnable} hasContent = {this.state.defaultGroupEnable}/>
                 </Layout.Sider>
             </Layout>
         )

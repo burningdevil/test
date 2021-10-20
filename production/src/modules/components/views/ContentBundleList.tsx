@@ -6,7 +6,7 @@ import { SearchInput, Input, Tooltip } from '@mstr/rc';
 import { WorkstationModule } from '@mstr/workstation-types';
 import { HttpProxy } from '../../../main';
 import { AgGridReact } from 'ag-grid-react';
-import { default as VC, BundleInfo, iconTypes, BundleRecipientType, localizedStrings } from '../HomeScreenConfigConstant'
+import { default as VC, BundleInfo, iconTypes, BundleRecipientType, localizedStrings, SPECIAL_CHARACTER_REGEX } from '../HomeScreenConfigConstant'
 import { PlusCircleOutlined, DownOutlined, EnterOutlined } from '@ant-design/icons'
 import { HomeScreenBundleListDatasource, getHomeScreenBundleListGroupCellInnerRenderer } from './HomeScreenUtils'
 import {
@@ -43,7 +43,7 @@ function FakeHomeScreenBundleListServer(allData: BundleInfo[]) {
     getData: function (params: IServerSideGetRowsParams) {
       var results: any[] = [];
       var filterData = searchName === '' ? allData : _.filter(allData, function (o) { return o.name.toLocaleLowerCase?.().includes(searchName?.toLocaleLowerCase?.()); });
-      var lastRow: number = allData.length;
+      var lastRow: number = filterData.length;
       if (params.request.groupKeys.length === 0) {
         results = filterData.map(function (d) {
           return {
@@ -229,7 +229,7 @@ class ContentBundleList extends React.Component<any, any> {
       flex: 1,
       minWidth: 120,
       resizable: false,
-      sortable: true,
+      sortable: false,
       menuTabs: [] as string[]
     },
 
@@ -240,7 +240,7 @@ class ContentBundleList extends React.Component<any, any> {
       resizable: true,
       headerName: localizedStrings.CONTENT,
       checkboxSelection: this.getCheckboxEnabled,
-      headerComponentParams: { enableCheck: true },
+      headerComponentParams: { enableCheck: false },
       cellRenderer: 'agGroupCellRenderer',
       cellRendererParams: {
         innerRenderer: 'bundleGroupCellInnerRenderer',
@@ -259,7 +259,7 @@ class ContentBundleList extends React.Component<any, any> {
     },
 
     rowModelType: rowModelType,
-    serverSideStoreType: ServerSideStoreType.Full,
+    serverSideStoreType: ServerSideStoreType.Partial,
     suppressAggFuncInHeader: true,
     rowMultiSelectWithClick: true,
     rowSelection: rowSelectionType,
@@ -320,7 +320,7 @@ class ContentBundleList extends React.Component<any, any> {
   }
 
   handleChangeDefaultGroupsName = (name: string) => {
-    let update = {}
+    let update = {};
     update = { [Constatnt.DEFAULT_GROUPS_NAME]: name }
     update = { [Constatnt.HOME_LIBRARY]: update }
     update = { [Constatnt.HOME_SCREEN]: update }
@@ -382,12 +382,23 @@ class ContentBundleList extends React.Component<any, any> {
         <Input
           placeholder={localizedStrings.DEFAULT_GROUPS}
           value={this.props.defaultGroupsName}
+          onValidate = {(e: string) => {
+            return this.validName(e);
+          }}
+          maxLength={80}
+          errorMessage = {localizedStrings.INVALID_CHARACTER_APP_NAME_ERROR}
+          isErrorDisplayed = 'true'
           onChange={(e: any) => this.handleChangeDefaultGroupsName(e.target.value)}
         />
       </div>
     )
   }
-
+  validName(name: string) {
+    //cannot contain any of the following characters: \"[]
+    const pattern = SPECIAL_CHARACTER_REGEX;
+    const isInvalidCharacter = pattern.test(name);
+    return !isInvalidCharacter;
+  }
   renderAddContent = () => {
     return (
       <div className={`${classNamePrefix}-add-content`} onClick={() => {

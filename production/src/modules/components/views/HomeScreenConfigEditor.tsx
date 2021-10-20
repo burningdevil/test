@@ -18,9 +18,10 @@ import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { selectCurrentConfig, selectIsDuplicateConfig, selectIsConfigNameError, selectIsDossierAsHome } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import * as api from '../../../services/Api';
-import { default as VC, localizedStrings, editorSize, iconTypes, libraryCustomizedIconKeys } from '../HomeScreenConfigConstant'
+import { default as VC, localizedStrings, editorSize, iconTypes, libraryCustomizedIconKeys ,CONTENT_BUNDLE_FEATURE_FLAG} from '../HomeScreenConfigConstant'
 import { ConfirmationDialog, ConfirmationDialogWordings } from '../common-components/confirmation-dialog';
 import { HomeScreenConfigType } from '../../../../src/types/data-model/HomeScreenConfigModels';
+import { getFeatureFlag } from './HomeScreenUtils';
 
 declare var workstation: WorkstationModule;
 
@@ -185,6 +186,10 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
       const { homeScreen } = this.props.config;
       const dossierUrlPath = 'homeDocument.url';
       const dossierUrl = _.get(homeScreen, dossierUrlPath, '');
+      //special case for the default group , when the name is empty.
+      if(!config.homeScreen.homeLibrary.defaultGroupsName){
+        config.homeScreen.homeLibrary.defaultGroupsName = localizedStrings.DEFAULT_GROUPS;
+      }
       if (dossierUrl && !this.props.isDossierHome) {
         config = _.merge(config, {
           homeScreen: {
@@ -260,11 +265,11 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                             {/* <Tabs.TabPane tab={localizedStrings.NAVBAR_APPEARANCE} key={VC.APPEARANCE}>
                                 {this.buttonGroup()}
                             </Tabs.TabPane> */}
-                            <Tabs.TabPane tab={localizedStrings.NAVBAR_DOSSIERSETTINGS} key={VC.DOSSIERSETTINGS}>
+                            {/* <Tabs.TabPane tab={localizedStrings.NAVBAR_DOSSIERSETTINGS} key={VC.DOSSIERSETTINGS}>
                                 <HomeScreenDossierSetting />
                                 {this.buttonGroup()}
-                            </Tabs.TabPane>
-                            { <Tabs.TabPane tab={localizedStrings.NAVBAR_CONTENT_BUNDLES} key={VC.CONTENT_BUNDLES} disabled={this.props.config.homeScreen.mode === 1}>
+                            </Tabs.TabPane> */}
+                            {getFeatureFlag(CONTENT_BUNDLE_FEATURE_FLAG, this.state.currentEnv) &&   <Tabs.TabPane tab={localizedStrings.NAVBAR_CONTENT_BUNDLES} key={VC.CONTENT_BUNDLES} disabled={this.props.config.homeScreen.mode === 1}>
                                 <HomeScreenContentBundles/>
                                 {this.buttonGroup()}
                             </Tabs.TabPane> }

@@ -40,7 +40,7 @@ describe('HomeScreenConfigEditor Component: render and interaction', () => {
     );
     // Check tabs and change selection
     const tabs = queryAllByRole('tab');
-    expect(tabs.length).toBe(6);
+    expect(tabs.length).toBe(4);
 
     const generalTabView = queryByText('environment');
     expect(generalTabView).toBeInTheDocument();

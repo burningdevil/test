@@ -47,7 +47,7 @@ export const CONSTANTS = {
   DEFAULT_NETWORK_TIMEOUT: 180,
   UPDATE_INTERVAL_DISABLED: -1,
   DEFAULT_MAX_LOG_SIZE: 500,
-  DEFAULT_UPDATE_INTERVAL: 1440,
+  DEFAULT_UPDATE_INTERVAL: 30,
   LOG_LEVEL_ALL: 0,
   LOG_LEVEL_INFO: 10,
   LOG_LEVEL_WARNING: 12,
@@ -87,6 +87,7 @@ export const CONSTANTS = {
   ICON_FULL_SCREEN: "fullScreen",
   ICON_NEW_DOSSIER: "new_dossier",
   ICON_EDIT_DOSSIER: "edit_dossier",
+  ICON_ADD_LIBRARY: "add_library_server",
 
   // icon font code
   FONT_SIDEBAR: "icon-tb_hamburger",
@@ -103,7 +104,7 @@ export const CONSTANTS = {
   FONT_SHARE: "icon-tb_share_n",
   FONT_DATA_SEARCH: "icon-search_tb_box",
   FONT_HYPER: "icon-hyper",
-  FONT_AA_FONT: "icon-pnl_shared",
+  FONT_AA_FONT: "icon-aa_font",
   FONT_ALL: "icon-group_all",
   FONT_FAV: "icon-home_favorite_i",
   FONT_RECENT: "icon-clock-lines",
@@ -119,12 +120,14 @@ export const CONSTANTS = {
   FONT_MSG_INFO: "icon-msg_info",
   FONT_NEW_DOSSIER: "icon-tb_create_dossier",
   FONT_EDIT_DOSSIER: "icon-info_edit",
+  FONT_ADD_LIBRARY: "icon-tb_create_dossier",
 
   // preview use only
   FONT_HOME: "icon-tb_home",
   FONT_DESK_HOME: "icon-tb_hamburger",
   FONT_PREVIEWSIDEBAR: "icon-library",
   FONT_PREVIEWSIDEBAR_MOBILE: "icon-backarrow",
+  FONT_PREVIEWSIDEBAR_TABLET: "icon-lib-login",
   FONT_PREVIEWTOC: "icon-tb_undoarrow",
   FONT_PREVIEWOPTIONS: "icon-user-profile",
   FONT_FULLSCREEN: "icon-fullscreen",
@@ -364,7 +367,10 @@ export const localizedStrings = {
   DISABLE_SIDEBAR_TOOLTIP: t("disableSidebarTooltip"),
   DISABLE_ACCOUNT_TOOLTIP: t("disableAccountTooltip"),
   PLATFORM_SPECIFIC: t("platformSpecific"),
-  ADD_CONTENT_BUNDLE_TIP_MSG: t("addContentBundleTipMsg")
+  ADD_CONTENT_BUNDLE_TIP_MSG: t("addContentBundleTipMsg"),
+  DISABLE_NEW_DOSSIER_TOOLTIP: t("disableNewDossierTooltip"),
+  DISABLE_EDIT_DOSSIER_TOOLTIP: t("disableEditDossierTooltip"),
+  DISABLE_NEW_DOSSIER_TOOLTIP_CONTENT: t("disableNewDossierTooltipContent")
 };
 
 export const sectionTitle = {
@@ -470,7 +476,7 @@ export const iconTypes: IconTypes = {
     displayText: t("accountWeb"),
     iconName: CONSTANTS.FONT_OPTIONS,
     key: CONSTANTS.ICON_OPTIONS + "__web",
-    supportTip: true,
+    supportTip: false, // maybe enabled in the future.
     deps: [
       REVERSE + CONSTANTS.ICON_SIDEBAR,
       REVERSE + CONSTANTS.ICON_OPTIONS + "__web"
@@ -567,12 +573,23 @@ export const iconTypes: IconTypes = {
   newDossier: {
     displayText: t("newDossier"),
     iconName: CONSTANTS.FONT_NEW_DOSSIER,
-    key: CONSTANTS.ICON_NEW_DOSSIER
+    key: CONSTANTS.ICON_NEW_DOSSIER,
+    supportTip: true,
+    deps: [REVERSE + CONSTANTS.ICON_NEW_DOSSIER],
+    tipMsg: localizedStrings.DISABLE_NEW_DOSSIER_TOOLTIP
   },
   editDossier: {
     displayText: t("editDossier"),
     iconName: CONSTANTS.FONT_EDIT_DOSSIER,
-    key: CONSTANTS.ICON_EDIT_DOSSIER
+    key: CONSTANTS.ICON_EDIT_DOSSIER,
+    supportTip: true,
+    deps: [REVERSE + CONSTANTS.ICON_EDIT_DOSSIER],
+    tipMsg: localizedStrings.DISABLE_EDIT_DOSSIER_TOOLTIP
+  },
+  addLibrary: {
+    displayText: t("addLibrary"),
+    iconName: CONSTANTS.FONT_ADD_LIBRARY,
+    key: CONSTANTS.ICON_ADD_LIBRARY
   },
   //// for preview. Localization not needed.
   // home button
@@ -603,10 +620,16 @@ export const iconTypes: IconTypes = {
     iconName: CONSTANTS.FONT_LIBRARY_MOBILE,
     key: CONSTANTS.ICON_HOME
   },
-  // mobile sidebar
+  // phone sidebar
   previewSidebarMobile: {
     displayText: t("sidebar"),
     iconName: CONSTANTS.FONT_PREVIEWSIDEBAR_MOBILE,
+    key: CONSTANTS.ICON_SIDEBAR
+  },
+  // tablet sidebar
+  previewSidebarTablet: {
+    displayText: t("sidebar"),
+    iconName: CONSTANTS.FONT_PREVIEWSIDEBAR_TABLET,
     key: CONSTANTS.ICON_SIDEBAR
   },
   previewAccountMobile: {
@@ -681,7 +704,8 @@ export const childrenIcons = [
   iconTypes.mySubscribe,
   iconTypes.defaultGroup,
   iconTypes.myGroup,
-  iconTypes.accountMobile
+  iconTypes.accountMobile,
+  iconTypes.addLibrary,
 ];
 
 // for accountMobile and accountWeb to remove suffix
@@ -698,12 +722,13 @@ export const libraryCustomizedIcons = [
   iconTypes.myContent,
   iconTypes.mySubscribe,
   iconTypes.newDossier,
-  iconTypes.editDossier
+  iconTypes.editDossier,
+  iconTypes.addLibrary
 ];
 export const libraryCustomizedIconKeys = libraryCustomizedIcons.map(
   element => element.key
 );
-export const mobileOnlyIconKeys = [iconTypes.accountMobile].map(
+export const mobileOnlyIconKeys = [iconTypes.accountMobile, iconTypes.addLibrary].map(
   element => element.key
 );
 export const webDesktopOnlyIconKeys = [
@@ -715,3 +740,5 @@ export const APPLICATION_OBJECT_TYPE = 78;
 export const APPLICATION_OBJECT_SUBTYPE = 0x4e00;
 
 export default CONSTANTS;
+export const CONTENT_BUNDLE_FEATURE_FLAG = 'use-microchart';
+export const SPECIAL_CHARACTER_REGEX = /[\\\[\]\"]/;

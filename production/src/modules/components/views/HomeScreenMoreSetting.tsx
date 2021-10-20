@@ -196,7 +196,7 @@ class HomeScreenMoreSetting extends React.Component<any, any> {
                         {this.checkboxRender(!disableAdvancedSettings, VC.DISABLE_ADVANCED_SETTINGS, sectionAccess.ACCESS_ADVANCED_SETTINGS)}
                     </div>
                     <Divider/>
-                    
+        
                     {/* Connectivity section */}
                     {this.sectionTitleRender(sectionTitle.CONNECTIVITY)}
                     <div className={`${classNamePrefix}-box`}>

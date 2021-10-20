@@ -1,5 +1,6 @@
 @import '~@mstr/rc/es/assets/scss/variables.scss';
 @import './variables.scss';
+@import '../../../styles/base';
 
 $font-size-large: 14px;
 $line-height: 16px;
@@ -109,6 +110,10 @@ $line-height-small: 13px;
                 color: $msdl-black;
                 margin-left: 10px;
                 margin-right: 7px;
+                display: inline-block;
+                vertical-align: middle;
+                @extend .overflow;
+                max-width: 200px;
             }
         }
         .ant-table-tbody > tr:nth-last-child(1)  > td {
@@ -120,6 +125,8 @@ $line-height-small: 13px;
                 color: $msdl-black;
                 margin-left: 10px;
                 margin-right: 7px;
+                
+
             }
         }
     }
@@ -136,7 +143,7 @@ $line-height-small: 13px;
     }
 
     .ant-radio-button-wrapper {
-        font-size: 13px;
+        font-size: 12px;
         font-weight: 400;
     }
 
