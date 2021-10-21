@@ -19,7 +19,7 @@
         "removeEnv": true,
         "quitWS": true,
         "appPath": {
-            "mac": "MicroStrategy Workstation.app",
+            "mac": "MicroStrategy Workstation",
             "windows": "C:\\Program Files\\MicroStrategy\\Workstation\\Workstation.exe"
         },
         "ubConf": {

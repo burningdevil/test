@@ -157,7 +157,8 @@ export default class ApplicationPage extends BasePage {
     await this.rightClick({ elem: appItem })
     await this.getContentMenuInCustomAppListView('Delete').click()
     await this.getConfirmDeleteButton().click()
-    await browser.sleep(5000)
+    await this.wait(this.EC.stalenessOf(this.getGridCellInCustomAppListView(name)), 10000, `Custom app ${name} was still displayed after deletion`)
+    await browser.sleep(1000)
   }
 
   async duplicateCustomAppFromCustomAppListPageByName(name) {

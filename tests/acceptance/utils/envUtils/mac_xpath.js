@@ -114,7 +114,7 @@ const macXPath = {
         continueToConnect: `${dialog}/AXButton[@AXTitle='Continue']`,
         projectList: `${dialog}`,
         selectProject: `${dialog}/AXScrollArea[0]/AXTable[0]/AXRow[@AXSubrole='AXTableRow']/AXCell[0]/AXCheckBox[@AXTitle='ReplaceProjectName']`,
-        rememberSelectedApplications: `${dialog}/AXCheckBox[@AXTitle='Remember Selected Applications']`,
+        rememberSelectedApplications: `${dialog}/AXCheckBox[@AXTitle='Remember Selected Projects']`,
         OKToConnect: `${dialog}/AXButton[@AXTitle='OK']`,
         cancelConnectionButton: `${dialog}/AXButton[@AXTitle='Cancel']`
       },
