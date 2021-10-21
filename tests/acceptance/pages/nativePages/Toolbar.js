@@ -110,6 +110,15 @@ export default class Toolbar extends RootApp {
   }
 
   // Actions
+  async switchToIconView() {
+    await this.moveToAndClick(await this.getIconView())
+    return this.app.sleep(2000)
+  }
+
+  async switchToListView() {
+    await this.moveToAndClick(await this.getListView())
+    return this.app.sleep(2000)
+  }
   async refresh() {
     await this.moveToAndClick(await this.getRefresh())
     return this.app.sleep(3000)

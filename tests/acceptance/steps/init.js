@@ -9,7 +9,7 @@ const { registerNewWindow, switchToWindow} = require('../utils/wsUtils/windowHel
  */
 Given('configure workstation engine test environment', async function() {
   const { envName, envUrl, loginMode, userName, userPwd, projects } = browser.params.envInfo[0]
-
+  console.log("OSType="+OSType+" ,MAC_VIEWMODE="+MAC_VIEWMODE)
   var viewflag = true
   // try{
   //   await mainWindow.smartTab.getTab("Datasets");
