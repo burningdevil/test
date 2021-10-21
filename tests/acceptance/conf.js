@@ -105,7 +105,7 @@ exports.config = {
       // if (OSType === 'windows') {
       const { registerWindow, maximizeWindowByWindowName } = require('./utils/wsUtils/windowHelper')
       await registerWindow('Workstation Main Window')
-      if (OSType === 'windows') await maximizeWindowByWindowName('Workstation Main Window')
+      // if (OSType === 'windows') await maximizeWindowByWindowName('Workstation Main Window')
       // Initialize a CEF webview for Windows
       // For Mac, as long as the Main Window is launched, there will be Quick Search WebView
       const initializeWebView = require('./utils/wsUtils/initializeWebView')
