@@ -28,7 +28,7 @@ task :eks_deploy do
 
   eks_deploy(namespace: 'ci', release_name:workstation_setting_release_name, value_overrides: override_values, update_helm: false)
   helm_install_ready?(apps: "iserver mysql-md library", release: workstation_setting_release_name)
-  info "Please access the swagger page of web-dossier from url: http://#{library_service_fqdn}/MicroStrategyLibrary/"
+  info "Please access the swagger page of web-dossier from url: https://#{library_service_fqdn}/MicroStrategyLibrary/"
 end
 
 @workstation_folder = "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/.workstation"
@@ -191,7 +191,7 @@ task :acceptance_test_mac do
     info "====== Executing tests ======"
     app_path = "\'MicroStrategy Workstation\'"
     shell_command! "yarn install --frozen-lockfile", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
-    shell_command! "node #{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance/trigger_test.js #{app_path} \'http://#{library_service_fqdn}/MicroStrategyLibrary/\' \'@PREMERGE\' #{@cef_remote_debug_port}", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
+    shell_command! "node #{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance/trigger_test.js #{app_path} \'https://#{library_service_fqdn}/MicroStrategyLibrary/\' \'@PREMERGE\' #{@cef_remote_debug_port}", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
   ensure
     stop_workstation_app_mac
     Helm.delete_release(workstation_setting_release_name)
