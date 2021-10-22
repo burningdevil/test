@@ -19,6 +19,7 @@ const macXPath = {
       env: {
         addNewEnv: `${envSection}/AXGroup[@AXIdentifier='connectEnvItemPrototype']/AXGroup[@AXIdentifier='Add New Environment Connection']/AXImage[0]`,
         existingEnv: `${envSection}/AXGroup[@AXIdentifier='environmentItemPrototype']/AXGroup[0]/AXStaticText[@AXValue='ReplaceEnvName']`,
+        existingEnvList: `${envSection}/AXGroup[@AXIdentifier='environmentItemPrototype']`,
       },
       // item Type 1: dossiers, environment, rsd
       dossierItem: `${mainCanvasIconView}/AXList[@AXSubrole='AXSectionList']/AXGroup[@AXIdentifier='WSCollectionViewCardItemPrototype']/AXGroup[0]/AXStaticText[@AXValue='ReplaceItemName\n']`,
