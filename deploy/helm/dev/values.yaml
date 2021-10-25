@@ -6,7 +6,7 @@ mysql-md:
   image:
     repository: nexus.internal.microstrategy.com:49080/mysql-tutorial
     version: MySQL5.7
-  database_url: http://nexus.internal.microstrategy.com/repositories/DBBackup/com/microstrategy/dbbackup/mysql56/workstation-settings/metadata/11.3.004/metadata-11.3.004.sql
+  database_url: https://nexus.internal.microstrategy.com/repository/DBBackup/com/microstrategy/dbbackup/mysql56/workstation-homescreen-admin/metadata/11.3.003/metadata-11.3.003.sql
   database_name: poc_metadata
   mysql_root_password: mstr1234
 mysql-wh:
