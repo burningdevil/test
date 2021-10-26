@@ -152,7 +152,7 @@ task :acceptance_test_win do |t,args|
 
   info "====== starting test ======"
   begin
-    shell_command! "node trigger_test.js  \"#{workstation_path}\"  \"https://#{library_service_fqdn}/MicroStrategyLibrary/\" \"@Regression\" 54213", cwd: "I:/tests/acceptance"
+    shell_command! "node trigger_test.js  \"#{workstation_path}\"  \"https://#{library_service_fqdn}/MicroStrategyLibrary/\" \"@Regression\" 54213 \"#{ENV['APPLICATION_VERSION']}\"", cwd: "I:/tests/acceptance"
   ensure
     close_apps
     Helm.delete_release(workstation_setting_release_name)

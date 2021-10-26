@@ -110,6 +110,17 @@ exports.config = {
       // For Mac, as long as the Main Window is launched, there will be Quick Search WebView
       const initializeWebView = require('./utils/wsUtils/initializeWebView')
       await initializeWebView()
+
+      global.enableUplodaVideo = true;
+      const { isVideoRecorderAvailable } = require('./utils/ciUtils/video-helper')
+      global.videoRecord = customArgObj.videoRecord  && isVideoRecorderAvailable()
+
+        // init video recorder
+      const { initVideoRecorder, recordVideo } = require('./utils/ciUtils/video-helper')
+      if (global.videoRecord) {
+            await initVideoRecorder()
+            global.uploadVideoPath = customArgObj.uploadVideoPath
+        }
       // }
     }
   },
