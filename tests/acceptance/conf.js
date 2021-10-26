@@ -111,17 +111,17 @@ exports.config = {
       const initializeWebView = require('./utils/wsUtils/initializeWebView')
       await initializeWebView()
 
-      global.enableUplodaVideo = true;
+      global.enableUplodaVideo = false
       const { isVideoRecorderAvailable } = require('./utils/ciUtils/video-helper')
-      global.videoRecord = customArgObj.videoRecord  && isVideoRecorderAvailable()
+      global.videoRecord = customArgObj.videoRecord && isVideoRecorderAvailable()
 
-        // init video recorder
+      // init video recorder
       const { initVideoRecorder, recordVideo } = require('./utils/ciUtils/video-helper')
       if (global.videoRecord) {
-            await initVideoRecorder()
-            global.uploadVideoPath = customArgObj.uploadVideoPath
-        }
-      // }
+        await initVideoRecorder()
+        global.uploadVideoPath = customArgObj.uploadVideoPath
+        if (global.uploadVideoPath !== undefined) global.enableUplodaVideo = true
+      }
     }
   },
 
