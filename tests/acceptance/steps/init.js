@@ -10,14 +10,7 @@ const { registerNewWindow, switchToWindow } = require('../utils/wsUtils/windowHe
 Given('configure workstation engine test environment', async function () {
   const { envName, envUrl, loginMode, userName, userPwd, projects } = browser.params.envInfo[0]
 
-  var viewflag = false
-  try {
-    await mainWindow.smartTab.getTab("Datasets");
-  } catch (err) {
-    console.log('currently it is desktop view')
-    viewflag = true
-  }
-
+  await mainWindow.smartTab.scrollOnSmartTab('up');
   await mainWindow.smartTab.selectTab('Environments')
 
   try {
@@ -32,17 +25,14 @@ Given('configure workstation engine test environment', async function () {
 
   await browser.sleep(5000)
 
-  if (viewflag) {
-    await registerNewWindow('Workstation Main Window2')
-    await switchToWindow('Workstation Main Window2')
-  }
-
-
   //comment out the choose project since all rhe project will be auto choosed now.
   for (let projectIndex = 0; projectIndex < projects.length; projectIndex++) {
     await mainWindow.mainCanvas.envSection.chooseProject(projects[projectIndex])
   }
   await mainWindow.mainCanvas.envSection.clickOkToConnect()
+
   await workstationApp.sleep(2000)
   await browser.sleep(5000)
+
+
 })

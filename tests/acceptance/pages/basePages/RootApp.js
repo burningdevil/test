@@ -111,6 +111,19 @@ export default class RootApp {
     return this.app.buttonUp()
   }
 
+  async scrollUpOrDown(referenceObject,direction){
+    //await this.moveToAndClick(referenceObject)
+    if(direction === 'up') {
+      //await referenceObject.sendKeys('\uE00E') //PAGE_UP
+      await this.moveToAndSendKey(referenceObject,'\uE013');
+    }else{
+      //await referenceObject.sendKeys('\uE00F') //PAGE_DOWN
+      await this.moveToAndSendKey(referenceObject,'\uE015');
+    }
+    return this.app.sleep(100)
+
+  }
+
   async moveToAndClickAtPosition(referenceObject) {
     await referenceObject.moveTo(5, 5)
     await this.app.sleep(100)

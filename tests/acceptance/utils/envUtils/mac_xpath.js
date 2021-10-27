@@ -65,6 +65,7 @@ const macXPath = {
       clearSearchInput: `${toolbar}/AXGroup[4]/AXTextField[@AXSubrole='AXSearchField']/AXButton[1]`
     },
     smartTab: {
+      smartTabContainer: `${smartTabGroup}`,
       tab: `${smartTabGroup}/AXStaticText[@AXValue='ReplaceMe']`,
       createNewItem: `${smartTabGroup}/AXButton[@AXHelp='ReplaceMe']`,
       // The "+" button for creating a new Document. Currently the only way to locate this button is to use the index. Developer from Mac Workstation team says adding other locator helpers needs some code structure refact and may happen in the future.
