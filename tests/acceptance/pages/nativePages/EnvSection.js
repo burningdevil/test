@@ -53,7 +53,7 @@ export default class EnvSection extends RootApp {
   }
 
   async getLoginMode(mode) {
-    return this.getNativeElement({
+    const locator = {
       windows: {
         locators: [
           { method: 'Name', value: 'Connection' },
@@ -61,7 +61,10 @@ export default class EnvSection extends RootApp {
         ]
       },
       mac: { xpath: mainCanvas.env.loginMode.replace(/ReplaceLoginMode/g, mode) }
-    })
+    }
+
+    await this.nativeWaitFor(locator,15000,'Dynamic waiting for getting auth mode failed')
+    return this.getNativeElement(locator)
   }
 
   // continue to connect after providing environment information and selecting login mode
@@ -336,7 +339,7 @@ export default class EnvSection extends RootApp {
     let elm = await this.app
     if (OSType === 'windows') {
         elm = await elm.elementByClassName(`EnvIconBrowsingUserControl`)
-        elm = await elm.elementsByClassName(`ListBoxItem`)   
+        elm = await elm.elementsByClassName(`ListBoxItem`)
         for (let i=1; i<elm.length; i++)
         {
           await this.moveToAndClick(elm[i])
