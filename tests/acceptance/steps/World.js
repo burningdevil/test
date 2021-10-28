@@ -2,6 +2,8 @@ const { setWorldConstructor } = require('cucumber')
 const { After, Before } = require('cucumber')
 const { setDefinitionFunctionWrapper } = require('cucumber')
 const screenshot = require('screenshot-desktop')
+const fs = require('fs')
+const { join } = require('path')
 
 const UB_INTERVAL = customArgObj.args.ubConf.ubInterval
 const { enableUB } = customArgObj.args.ubConf
@@ -128,6 +130,9 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
     } catch (e) {
       const imgBuffer = await screenshot({ format:'png' })
       this.attach(imgBuffer, 'image/png')
+      await attachImages('base',arguments[0],this)
+      await attachImages('actual',arguments[0],this)
+      await attachImages('diff',arguments[0],this)
       throw new Error(`Error happened in the function wrapper: ${e.stack}`)
     } finally {
       if (enableUB) {
@@ -142,6 +147,24 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
     }
   }
 })
+
+async function attachImages(type,name,step){
+  let fileName;
+  if(type==='base'){
+    fileName = join(process.cwd(), './results/baseline/desktop_chrome/',name+'.png')
+  }else if(type==='actual'){
+    fileName = join(process.cwd(), './results/actual/desktop_chrome/',name+'.png')
+  }else{
+    fileName = join(process.cwd(), './results/diff/desktop_chrome/',name+'.png')
+  }
+
+  if(fs.existsSync(fileName)){
+    //screenshot action and screenshot file exists
+    const baseImgBuff = await fs.readFileSync(fileName)
+    step.attach(baseImgBuff, 'image/png')
+  }
+
+}
 
 function CustomWorld({ attach, parameters }) {
   this.ubInterval = UB_INTERVAL

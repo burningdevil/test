@@ -1,4 +1,4 @@
-@TC78810 @Regression
+@TC78810 @Sanity @Regression
 Feature: Create applications
     1. add environment
     2. create application
