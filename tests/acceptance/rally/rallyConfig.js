@@ -10,12 +10,12 @@ module.exports = {
     // warehouse: 'MySQL',
     // appServer: 'Tomcat9',
     // jdkjvm: 'Oracle JDK 8',
-    clientOS: 'Mac OS 10.14 Mojave',
+    clientOS:  process.platform === 'win32' ? 'Mac OS 10.15 Catalina' : 'Microsoft Windows 10',
     // browserType: 'Chrome',
     language: 'English',
     // The reference URL to the user as a tester in Rally
     // Reference Rally API documentation:       https://rally1.rallydev.com/slm/doc/webservice/
-    tester: 'https://rally1.rallydev.com/slm/webservice/v2.x/user/{testerID}' // Repalce the testerID with your own or team member's ID
+    tester: 'https://rally1.rallydev.com/slm/webservice/v2.x/user/146183252292' // Repalce the testerID with your own or team member's ID
   },
   // Create Defect Info
   defectInfo: {

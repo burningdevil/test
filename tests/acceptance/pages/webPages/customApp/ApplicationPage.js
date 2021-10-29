@@ -153,6 +153,7 @@ export default class ApplicationPage extends BasePage {
 
   async deleteCustomAppFromCustomAppListPageByName(name) {
     await this.waitForCustomAppMainWindow();
+    await this.wait(this.EC.visibilityOf(this.getGridCellInCustomAppListView(name)), 30000, `Waiting for custom app '${name}' timeout, it still doesn't show in main grid after 30s!`);
     const appItem = await this.getGridCellInCustomAppListView(name)
     await this.rightClick({ elem: appItem })
     await this.getContentMenuInCustomAppListView('Delete').click()

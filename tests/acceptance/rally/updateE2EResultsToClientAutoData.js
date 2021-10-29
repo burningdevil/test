@@ -3,6 +3,7 @@ const request = require('request')
 const fs = require('fs')
 const path = require('path')
 const cmd = process.argv[2]
+const ostype = process.platform === 'win32' ? 'Windows' : 'Mac'
 let build, buildUrl
 
 function sleep(ms) {
@@ -68,7 +69,7 @@ async function sendSlackMessage(resultData) {
           "type": "header",
           "text": {
             "type": "plain_text",
-            "text": "Workstation Custom App Automation Summary",
+            "text": "Workstation Custom App Automation Summary on " + ostype,
             "emoji": true
           }
         },
@@ -97,7 +98,7 @@ async function sendSlackMessage(resultData) {
           "type": "section",
           "text": {
             "type": "mrkdwn",
-            "text": "<"+buildUrl+"|View on CI>"
+            "text": "<" + buildUrl + "|View jobs on CI>"
           }
         },
         {
