@@ -6,20 +6,21 @@ const fs = require('fs')
 const path = require('path')
 const cmd = process.argv[2]
 let build
-let release
+let release = '21.11'
+let note = ''
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 const helpMsg = 'Cannot accept the parameters. Usage: \n\n' +
-    'node rally/updateE2EResultsToRally.js -c <production_release> <build#> \n' +
-    'e.g. node rally/updateE2EResultsToRally.js -c 11.2_EA_[2019-Jun-21] 11.2.0000.0073'
+    'node rally/updateE2EResultsToRally.js -c <build#> <build url>\n' +
+    'e.g. node rally/updateE2EResultsToRally.js -c 11.2.0000.0073 http://jenkins.com'
 
-if (cmd === '-c' && process.argv[3] && process.argv[4]) {
-  release = process.argv[3].replace(/_/g, ' ')
+if (cmd === '-c' && process.argv[3]) {
   console.log(`release: ${release}`)
-  build = process.argv[4]
+  build = process.argv[3]
+  note = process.argv[4]
   console.log(`build: ${build}`)
 } else {
   console.info(helpMsg)
@@ -35,10 +36,10 @@ async function updateRally() {
 
       const tcUrl = await getRallyTCUrl(testCaseId)
 
-      if (verdict === 'Fail') {
-        await createDefect({ tcUrl, description, details, release, build })
-      }
-      await updateRallyTCResult({ testCaseId, tcUrl, verdict, duration, release, build })
+      // if (verdict === 'Fail') {
+      //   await createDefect({ tcUrl, description, details, release, build })
+      // }
+      await updateRallyTCResult({ testCaseId, tcUrl, verdict, duration, release, build, note })
       await sleep(2000)
     }
   } catch (err) {
