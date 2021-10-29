@@ -92,6 +92,18 @@ exports.config = {
 
       global.MAC_VIEWMODE = 'iconView'
 
+      global.enableUplodaVideo = false
+      const { isVideoRecorderAvailable } = require('./utils/ciUtils/video-helper')
+      global.videoRecord = customArgObj.videoRecord && isVideoRecorderAvailable()
+
+      // init video recorder
+      const { initVideoRecorder, recordVideo } = require('./utils/ciUtils/video-helper')
+      if (global.videoRecord) {
+        await initVideoRecorder()
+        global.uploadVideoPath = customArgObj.uploadVideoPath
+        if (global.uploadVideoPath !== undefined) global.enableUplodaVideo = true
+      }
+
       // //Reset Environment
       if (customArgObj.args.removeEnv) {
         RESET_ENV()
@@ -110,18 +122,6 @@ exports.config = {
       // For Mac, as long as the Main Window is launched, there will be Quick Search WebView
       const initializeWebView = require('./utils/wsUtils/initializeWebView')
       await initializeWebView()
-
-      global.enableUplodaVideo = false
-      const { isVideoRecorderAvailable } = require('./utils/ciUtils/video-helper')
-      global.videoRecord = customArgObj.videoRecord && isVideoRecorderAvailable()
-
-      // init video recorder
-      const { initVideoRecorder, recordVideo } = require('./utils/ciUtils/video-helper')
-      if (global.videoRecord) {
-        await initVideoRecorder()
-        global.uploadVideoPath = customArgObj.uploadVideoPath
-        if (global.uploadVideoPath !== undefined) global.enableUplodaVideo = true
-      }
     }
   },
 

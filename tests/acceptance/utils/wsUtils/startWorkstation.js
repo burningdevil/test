@@ -14,14 +14,25 @@ async function startWorkstation() {
     // try to resolve the WAD splash screen problem in Windows
     try {
       await workstationApp.init(APP_CAPABILITIES)
+      try{
+        const envDialog = await workstationApp.elementByName('Connection')
+        const closeEnvDialog = await envDialog.elementByAccessibilityId('WindowCloseButton')
+        await closeEnvDialog.click()
+        } catch(e){
+
+        }
     } catch (e) {
       console.log('First application initialization failed. Trying the second time...')
       await sleep(5000)
       await workstationApp.init(APP_CAPABILITIES)
-      // the second initialization somehow will bring up the connect to env dialog, we need to close it
-      const envDialog = await workstationApp.elementByName('Connection')
-      const closeEnvDialog = await envDialog.elementByAccessibilityId('WindowCloseButton')
-      await closeEnvDialog.click()
+      try{
+        // the second initialization somehow will bring up the connect to env dialog, we need to close it
+        const envDialog = await workstationApp.elementByName('Connection')
+        const closeEnvDialog = await envDialog.elementByAccessibilityId('WindowCloseButton')
+        await closeEnvDialog.click()
+        } catch(e){
+
+        }
     }
   } else {
     await workstationApp.init(APP_CAPABILITIES)
