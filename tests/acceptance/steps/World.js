@@ -127,6 +127,7 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
 
     try {
       await fn.apply(this, arguments)
+      await attachImages('base',arguments[0],this)
     } catch (e) {
       const imgBuffer = await screenshot({ format:'png' })
       this.attach(imgBuffer, 'image/png')
