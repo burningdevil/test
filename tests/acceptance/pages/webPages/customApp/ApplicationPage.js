@@ -158,7 +158,7 @@ export default class ApplicationPage extends BasePage {
     await this.rightClick({ elem: appItem })
     await this.getContentMenuInCustomAppListView('Delete').click()
     await this.getConfirmDeleteButton().click()
-    //await this.wait(this.EC.stalenessOf(this.getGridCellInCustomAppListView(name)), 10000, `Custom app ${name} was still displayed after deletion`)
+    await this.wait(this.EC.stalenessOf(this.element(by.xpath(`//span[@class='home-screen-main-application-name-text' and text()='${name}']`))), 10000, `Custom app ${name} was still displayed after deletion`)
     await browser.sleep(1000)
   }
 
