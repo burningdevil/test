@@ -143,8 +143,8 @@ task :acceptance_test_win do |t,args|
   close_apps
 
   shell_command! "powershell -command 'Get-DisplayResolution'"
-  shell_command! "powershell -command 'Set-DisplayResolution -Width 1920 -Height 1080 -Force'"
-  shell_command! "powershell -command 'Get-DisplayResolution'"
+  #shell_command! "powershell -command 'Set-DisplayResolution -Width 1920 -Height 1080 -Force'"
+  #shell_command! "powershell -command 'Get-DisplayResolution'"
 
   info "====== yarn install starting ======"
   shell_command! "yarn install", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"

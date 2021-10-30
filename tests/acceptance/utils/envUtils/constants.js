@@ -73,3 +73,4 @@ export const MAC_XPATH_GENERAL = macXPath.general
 export const OSType = setValuePerPlatform('windows', 'mac')
 export const APP_CAPABILITIES = setValuePerPlatform(WIN_CAPABILITIES, MAC_CAPABILITIES)
 export const RESET_ENV = setValuePerPlatform(resetWinEnv, resetMacEnv)
+export const IMPLICIT_TIMEOUT = 20000
