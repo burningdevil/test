@@ -277,6 +277,12 @@ export default class EnvSection extends RootApp {
   async connectEnv(envName, envUrl) {
     // bring up 'add new environment' dialog
     await this.moveToAndClick(await this.getAddNewEnv())
+    try{
+      const envDialog = await workstationApp.elementByName('Connection')
+      } catch(e){
+        console.log('[INFO] Add new env dialog was not show, try to click add new environment connection button again!')
+        await this.moveToAndClick(await this.getAddNewEnv())
+      }
 
     // input environment name
     await this.moveToAndSendKey(await this.getInputEnvName(), envName)
