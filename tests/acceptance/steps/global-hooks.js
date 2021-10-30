@@ -23,8 +23,7 @@ After(async function (scenario) {
     console.log('Hook: Global after hook applied')
     console.log(`the scenarios '${scenario.pickle.name}' is ${scenario.result.status}`)
     if (global.videoRecord) {
-       // if (scenario.result.status === Status.PASSED) {
-        if (false) {
+        if (scenario.result.status === Status.PASSED) {
             await stopRecord(this.process)
             await removeVideo(scenario)
         } else {
