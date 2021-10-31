@@ -156,10 +156,10 @@ export default class ApplicationPage extends BasePage {
     await this.wait(this.EC.visibilityOf(this.getGridCellInCustomAppListView(name)), 30000, `Waiting for custom app '${name}' timeout, it still doesn't show in main grid after 30s!`);
     const appItem = await this.getGridCellInCustomAppListView(name)
     await this.rightClick({ elem: appItem })
+    await this.wait(this.EC.visibilityOf(this.element(by.xpath(`//div[@class='item-title-wrapper' and text()='Delete']`))), 1000, 'Waiting for delete button in context menu int timeout.')
     await this.getContentMenuInCustomAppListView('Delete').click()
     await this.getConfirmDeleteButton().click()
     await this.wait(this.EC.stalenessOf(this.element(by.xpath(`//span[@class='home-screen-main-application-name-text' and text()='${name}']`))), 10000, `Custom app ${name} was still displayed after deletion`)
-    await browser.sleep(1000)
   }
 
   async duplicateCustomAppFromCustomAppListPageByName(name) {
@@ -168,7 +168,6 @@ export default class ApplicationPage extends BasePage {
     await this.rightClick({ elem: appItem })
     await this.getContentMenuInCustomAppListView('Duplicate').click()
     await this.switchToEditApplicationWindow()
-    await browser.sleep(5000)
   }
 
   async editCustomAppFromCustomAppListPageByName(name) {
@@ -177,14 +176,12 @@ export default class ApplicationPage extends BasePage {
     await this.rightClick({ elem: appItem })
     await this.getContentMenuInCustomAppListView('Edit').click()
     await this.switchToEditApplicationWindow()
-    await browser.sleep(5000)
   }
 
   async sortColumn(columnname) {
     await this.waitForCustomAppMainWindow()
     const columnItem = await this.getColumnCell(columnname)
     await this.click({ elem: columnItem })
-    await browser.sleep(5000)
   }
 
   // assertions
