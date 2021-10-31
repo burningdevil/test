@@ -71,7 +71,7 @@ export default class SmartTab extends RootApp {
 
   async scrollOnSmartTab(direction){
     if (OSType === 'windows') await this.scrollUpOrDown(await this.getSmartTab(),direction)
-    return this.app.sleep(200)
+    return this.app.sleep(1000)
   }
 
   async createNewItem(itemName) {
