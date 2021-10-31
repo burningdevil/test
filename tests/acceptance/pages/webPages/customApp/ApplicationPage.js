@@ -144,6 +144,10 @@ export default class ApplicationPage extends BasePage {
     await this.wait(this.EC.visibilityOf(this.getCustomAppHomePage()), 30000, 'Custom app main window was not displayed');
   }
 
+  async waitForContentMenu(text){
+    await this.wait(this.EC.visibilityOf(this.element(by.xpath(`//div[@class='item-title-wrapper' and text()='${text}']`))), 10000, 'Waiting for delete button in context menu int timeout.')
+  }
+
   async createNewCustomApp() {
     await this.switchToCustomAppWindow()
     await this.waitForCustomAppMainWindow();
@@ -156,7 +160,7 @@ export default class ApplicationPage extends BasePage {
     await this.wait(this.EC.visibilityOf(this.getGridCellInCustomAppListView(name)), 30000, `Waiting for custom app '${name}' timeout, it still doesn't show in main grid after 30s!`);
     const appItem = await this.getGridCellInCustomAppListView(name)
     await this.rightClick({ elem: appItem })
-    await this.wait(this.EC.visibilityOf(this.element(by.xpath(`//div[@class='item-title-wrapper' and text()='Delete']`))), 1000, 'Waiting for delete button in context menu int timeout.')
+    await this.waitForContentMenu('Delete')
     await this.getContentMenuInCustomAppListView('Delete').click()
     await this.getConfirmDeleteButton().click()
     await this.wait(this.EC.stalenessOf(this.element(by.xpath(`//span[@class='home-screen-main-application-name-text' and text()='${name}']`))), 10000, `Custom app ${name} was still displayed after deletion`)
@@ -166,6 +170,7 @@ export default class ApplicationPage extends BasePage {
     await this.waitForCustomAppMainWindow();
     const appItem = await this.getGridCellInCustomAppListView(name)
     await this.rightClick({ elem: appItem })
+    await this.waitForContentMenu('Duplicate')
     await this.getContentMenuInCustomAppListView('Duplicate').click()
     await this.switchToEditApplicationWindow()
   }
@@ -174,6 +179,7 @@ export default class ApplicationPage extends BasePage {
     await this.waitForCustomAppMainWindow();
     const appItem = await this.getGridCellInCustomAppListView(name)
     await this.rightClick({ elem: appItem })
+    await this.waitForContentMenu('Edit')
     await this.getContentMenuInCustomAppListView('Edit').click()
     await this.switchToEditApplicationWindow()
   }
