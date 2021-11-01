@@ -97,20 +97,20 @@ task :replace_plugin_windows, [:plugin_version] do |t,args|
   info "====== replacing plugin ======"
   # replace plugin
   plugin = { 'name' => plugin_name_mapping || @artifact_info[:artifact_base_file_name] }
-  plugin['version'] =  args[:plugin_version] || ENV['APPLICATION_VERSION']
-  plugin_path = "C:/Program Files/MicroStrategy/Workstation/Plugins/#{plugin['name']}"
-  FileUtils.mkdir_p(plugin_path) unless File.exists?(plugin_path)
+  # plugin['version'] =  args[:plugin_version] || ENV['APPLICATION_VERSION']
+  # plugin_path = "C:/Program Files/MicroStrategy/Workstation/Plugins/#{plugin['name']}"
+  # FileUtils.mkdir_p(plugin_path) unless File.exists?(plugin_path)
 
-  if ENV['JENKINS_STAGE'] == 'premerge'
-    info "====== PREMERGE Job, no need to download plugin... ======"
-    FileUtils.rm_rf(plugin_path, secure: true)
-    FileUtils.mv("#{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}/dist", plugin_path)
-  else
-    download_snapshot_artifact(@artifact_info[:artifact_base_file_name], plugin['version'])
-    FileUtils.rm_rf(plugin_path, secure: true)
-    shell_command! "7z x #{@artifact_info[:artifact_base_file_name]}.zip -aoa",cwd: @artifact_info[:output_dir]
-    FileUtils.mv("#{@artifact_info[:output_dir]}/dist", plugin_path)
-  end
+  # if ENV['JENKINS_STAGE'] == 'premerge'
+    # info "====== PREMERGE Job, no need to download plugin... ======"
+    # FileUtils.rm_rf(plugin_path, secure: true)
+    # FileUtils.mv("#{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}/dist", plugin_path)
+  # else
+    # download_snapshot_artifact(@artifact_info[:artifact_base_file_name], plugin['version'])
+    # FileUtils.rm_rf(plugin_path, secure: true)
+    # shell_command! "7z x #{@artifact_info[:artifact_base_file_name]}.zip -aoa",cwd: @artifact_info[:output_dir]
+    # FileUtils.mv("#{@artifact_info[:output_dir]}/dist", plugin_path)
+  # end
 
   enable_feature_flag(plugin_path)
 end
