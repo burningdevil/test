@@ -748,5 +748,5 @@ export const APPLICATION_OBJECT_TYPE = 78;
 export const APPLICATION_OBJECT_SUBTYPE = 0x4e00;
 
 export default CONSTANTS;
-export const CONTENT_BUNDLE_FEATURE_FLAG = 'use-microchart';
+export const CONTENT_BUNDLE_FEATURE_FLAG = 'use-contentbundle';
 export const SPECIAL_CHARACTER_REGEX = /[\\\[\]\"]/;

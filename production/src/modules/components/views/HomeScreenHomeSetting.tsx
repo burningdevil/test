@@ -21,7 +21,7 @@ import { isContentTypeDossier } from './HomeScreenUtils';
 
 const classNamePrefixSimple = 'home-screen-home';
 const classNamePrefix = `${classNamePrefixSimple}-settings`;
-const relativePath = '/';
+const relativePath = 'app/';
 const dossierUrlPath = 'homeDocument.url';
 
 class HomeScreenHomeSetting extends React.Component<any, any> {
