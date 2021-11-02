@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { default as VC, localizedStrings, childrenIcons, iconDetail, iconTypes, platformType, reviewType, dossierIcons, dossierIconsDossierHome, libraryIconKeys, sidebarIconKeys, libraryCustomizedIconKeys, iconValidKey, extraDesktopIcons, extraMobileIcons, platformSpecificIconKeys } from '../HomeScreenConfigConstant'
+import { default as VC, localizedStrings, childrenIcons, iconDetail, iconTypes, platformType, reviewType, dossierIcons, dossierIconsDossierHome, libraryIconKeys, sidebarIconKeys, libraryCustomizedIconKeys, iconValidKey, extraDesktopIcons, extraMobileIcons, platformSpecificIconKeys, libraryCustomizedIconDefaultValues } from '../HomeScreenConfigConstant'
 import { Layout, Radio } from 'antd'
 import { PlusCircleOutlined, DownOutlined } from '@ant-design/icons'
 import '../scss/HomeScreenPreviewer.scss'
@@ -18,7 +18,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
         const {libraryIcons, documentIcons, sidebarIcons, isDossierHome} = this.props;
         const validKey = iconValidKey(icon.key);
         if (libraryCustomizedIconKeys.includes(icon.key)) {
-            return _.get(this.props.libraryCustomizedItems, icon.key, true);
+            return _.get(this.props.libraryCustomizedItems, icon.key, libraryCustomizedIconDefaultValues[icon.key]);
         }
         if (sidebarIconKeys.includes(icon.key)) {
             return sidebarIcons.includes(validKey);

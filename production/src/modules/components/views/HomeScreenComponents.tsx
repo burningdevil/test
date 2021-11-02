@@ -3,7 +3,7 @@ import { CaretDownOutlined, CaretRightOutlined } from '@ant-design/icons'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import '../scss/HomeScreenComponents.scss'
-import { default as VC, localizedStrings, previewerWidth, platformType, iconDetail, iconTypes, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons, iconValidKey, libraryIconKeys, sidebarIconKeys, libraryCustomizedIconKeys, mobileOnlyIconKeys, webDesktopOnlyIconKeys, REVERSE, platformSpecificIcons, platformSpecificIconKeys, CONTENT_BUNDLE_FEATURE_FLAG } from '../HomeScreenConfigConstant'
+import { default as VC, localizedStrings, previewerWidth, platformType, iconDetail, iconTypes, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons, iconValidKey, libraryIconKeys, sidebarIconKeys, libraryCustomizedIconKeys, mobileOnlyIconKeys, webDesktopOnlyIconKeys, REVERSE, platformSpecificIcons, platformSpecificIconKeys, CONTENT_BUNDLE_FEATURE_FLAG, libraryCustomizedIconDefaultValues } from '../HomeScreenConfigConstant'
 import * as _ from 'lodash'
 import HomeScreenPreviewer from './HomeScreenPreviewer'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
@@ -176,7 +176,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         const validKey = iconValidKey(iconKey) // transform 'account_web', 'account_mobile', to 'account'
         let selected = false;
         if (libraryCustomizedIconKeys.includes(iconKey)) {
-            selected = _.get(this.props.selectedLibraryCustomizedItems, iconKey, true);
+            selected = _.get(this.props.selectedLibraryCustomizedItems, iconKey, libraryCustomizedIconDefaultValues[iconKey]);
             // special case for the edit dossier and new dossier.
             if(iconKey === iconTypes.newDossier.key){
                 if(_.get(this.props.selectedLibraryCustomizedItems, iconTypes.editDossier.key) === false){

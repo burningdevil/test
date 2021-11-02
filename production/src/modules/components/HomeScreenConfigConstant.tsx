@@ -728,6 +728,14 @@ export const libraryCustomizedIcons = [
 export const libraryCustomizedIconKeys = libraryCustomizedIcons.map(
   element => element.key
 );
+export const libraryCustomizedIconDefaultValues = Object.freeze({
+  [iconTypes.myContent.key]: true,
+  [iconTypes.mySubscribe.key]: true,
+  [iconTypes.newDossier.key]: true,
+  [iconTypes.editDossier.key]: true,
+  [iconTypes.addLibrary.key]: true
+})
+
 export const mobileOnlyIconKeys = [iconTypes.accountMobile, iconTypes.addLibrary].map(
   element => element.key
 );
