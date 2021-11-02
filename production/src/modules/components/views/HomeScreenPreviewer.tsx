@@ -258,7 +258,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                                 {!isDossierHome && showSideBar &&
                                     <Layout className={`${classNamePrefix}-tablet-sidebar`}>
                                         {!hideHeader &&
-                                        <Layout.Header style={{height: '45px'}}>
+                                        <Layout.Header style={{height: '40px'}}>
                                             {this.toolbarIconsRender(sidebarHeaderIcons)}
                                             {this.placeHolderRender('auto', true, '22px')}
 
