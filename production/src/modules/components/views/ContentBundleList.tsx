@@ -240,7 +240,7 @@ class ContentBundleList extends React.Component<any, any> {
       resizable: true,
       headerName: localizedStrings.CONTENT,
       checkboxSelection: this.getCheckboxEnabled,
-      headerComponentParams: { enableCheck: false },
+      headerComponentParams: { enableCheck: true },
       cellRenderer: 'agGroupCellRenderer',
       cellRendererParams: {
         innerRenderer: 'bundleGroupCellInnerRenderer',

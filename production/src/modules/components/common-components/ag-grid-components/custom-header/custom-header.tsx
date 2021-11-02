@@ -99,7 +99,7 @@ export default (props: any) => {
     // setCheckedList(e.target.checked ? [] : []);
     setIndeterminate(false);
     setCheckAll(e.target.checked);
-    props.api.getRenderedNodes().forEach(function(node: any) {
+    props.api.forEachNode(function(node: any) {
         node.setSelected(e.target.checked);
      });
   };
