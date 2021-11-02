@@ -21,7 +21,7 @@ import { isContentTypeDossier } from './HomeScreenUtils';
 
 const classNamePrefixSimple = 'home-screen-home';
 const classNamePrefix = `${classNamePrefixSimple}-settings`;
-const appRootPath = 'app/';
+const relativePath = '/';
 const dossierUrlPath = 'homeDocument.url';
 
 class HomeScreenHomeSetting extends React.Component<any, any> {
@@ -221,7 +221,7 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
     this.props.updateCurrentConfig({
       homeScreen: {
         homeDocument: {
-          url: this.state.currentEnv.url + appRootPath + dossierUrl
+          url: relativePath + dossierUrl
         }
       }
     });
