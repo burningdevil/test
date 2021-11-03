@@ -322,7 +322,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                 const customizedItems = _.assign({}, this.props.selectedLibraryCustomizedItems, {[iconKey]: value});
                 // special case for the disable edit dossier, the new dossier should be forbidden subsequently.
                 if(iconKey === iconTypes.editDossier.key && value === false){
-                    customizedItems[iconTypes.newDossier.key] = false;
+                    customizedItems[iconTypes.newDossier.key] = value;
                 }
                 let customizedConfig = {
                     [VC.HOME_SCREEN]: {

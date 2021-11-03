@@ -728,6 +728,7 @@ export const libraryCustomizedIcons = [
 export const libraryCustomizedIconKeys = libraryCustomizedIcons.map(
   element => element.key
 );
+// the default value is freezed once setup， pls don't change in the reference forcefully.
 export const libraryCustomizedIconDefaultValues = Object.freeze({
   [iconTypes.myContent.key]: true,
   [iconTypes.mySubscribe.key]: true,
@@ -749,4 +750,6 @@ export const APPLICATION_OBJECT_SUBTYPE = 0x4e00;
 
 export default CONSTANTS;
 export const CONTENT_BUNDLE_FEATURE_FLAG = 'use-contentbundle';
+export const CONTENT_BUNDLE_DEFAULT_GROUP_NAME = 'Default Groups';
 export const SPECIAL_CHARACTER_REGEX = /[\\\[\]\"]/;
+

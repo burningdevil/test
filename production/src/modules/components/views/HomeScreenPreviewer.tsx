@@ -54,13 +54,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
 
      // render device type radio buttons
     deviceTypesRender = (deviceType: string) => {
-        const { platforms } = this.props.config
-        // const mobileDisabled = !platforms.includes(platformType.mobile)
-        // const webDisabled = !platforms.includes(platformType.web)
-        // const desktopDisabled = !platforms.includes(platformType.desktop)
-        const mobileDisabled = false;
-        const webDisabled = false;
-        const desktopDisabled = false;
+        
         
         return <div className={`${classNamePrefix}-device-type-container`}>
                 <Radio.Group
@@ -70,10 +64,10 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                     buttonStyle='solid'
                     size='small'
                 >
-                   {!mobileDisabled && <Radio.Button style={{width: '25%'}} value={reviewType.TABLET}>{localizedStrings.TABLET}</Radio.Button>}
-                   {!mobileDisabled && <Radio.Button style={{width: '25%'}} value={reviewType.PHONE}>{localizedStrings.PHONE}</Radio.Button>}
-                    <Radio.Button style={!mobileDisabled ? {width: '25%'} : {width: '50%'}} value={reviewType.WEB} disabled={webDisabled}>{localizedStrings.WEB}</Radio.Button>
-                    <Radio.Button style={!mobileDisabled ? {width: '25%'} : {width: '50%'}} value={reviewType.DESKTOP} disabled={desktopDisabled}>{localizedStrings.DESKTOP}</Radio.Button>
+                   {<Radio.Button style={{width: '25%'}} value={reviewType.TABLET}>{localizedStrings.TABLET}</Radio.Button>}
+                   {<Radio.Button style={{width: '25%'}} value={reviewType.PHONE}>{localizedStrings.PHONE}</Radio.Button>}
+                    <Radio.Button style={{width: '25%'}} value={reviewType.WEB} disabled={false}>{localizedStrings.WEB}</Radio.Button>
+                    <Radio.Button style={{width: '25%'}} value={reviewType.DESKTOP} disabled={false}>{localizedStrings.DESKTOP}</Radio.Button>
                 </Radio.Group>
             </div>
     }
@@ -98,14 +92,13 @@ class HomeScreenPreviewer extends React.Component<any, any> {
         }
         iconsToRender = iconsToRender.filter(v => ![iconTypes.addLibrary.key, iconTypes.accountMobile.key].includes(v.key));
         const sidebarIcons = iconsToRender
-            .filter ( (element) => [reviewType.PHONE, reviewType.TABLET].includes(previewType) || element.key !== iconTypes.accountMobile.key )
+            .filter ( (element) => [reviewType.PHONE, reviewType.TABLET].includes(previewType))
             .map( (element, index) => {
             const showAddButton = iconTypes.myGroup.key === element.key;
             const showContent = iconTypes.defaultGroup.key === element.key;
             const defaultGroupName = this.props.config.homeScreen.homeLibrary.defaultGroupsName ? this.props.config.homeScreen.homeLibrary.defaultGroupsName : localizedStrings.DEFAULT_GROUPS;
-            // const hideMyContent = iconTypes.myContent.key === element.key && (previewType === reviewType.TABLET || previewType === reviewType.PHONE)
-            const hideMyContent = false;
-            return this.iconShouldShow(element) && !hideMyContent &&
+            
+            return this.iconShouldShow(element) &&
                 <div>
                     <div className={`${classNamePrefix}-pad-overview-left-text`}>
                         <span className={element.iconName} key={index}/> 

@@ -9,7 +9,6 @@ import { platformType, reviewType, localizedStrings, featureFlag } from '../Home
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { selectConfigInfoList, selectCurrentConfig, selectIsConfigNameError, selectIsDuplicateConfig, selectPreviewDeviceType } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
-import { Checkbox} from '@mstr/rc';
 const { TextArea } = Input;
 
 const classNamePrefix = 'home-screen-general';

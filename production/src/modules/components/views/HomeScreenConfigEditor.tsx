@@ -18,7 +18,7 @@ import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { selectCurrentConfig, selectIsDuplicateConfig, selectIsConfigNameError, selectIsDossierAsHome } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import * as api from '../../../services/Api';
-import { default as VC, localizedStrings, editorSize, iconTypes, libraryCustomizedIconKeys ,CONTENT_BUNDLE_FEATURE_FLAG, libraryCustomizedIconDefaultValues} from '../HomeScreenConfigConstant'
+import { default as VC, localizedStrings, editorSize, iconTypes, libraryCustomizedIconKeys ,CONTENT_BUNDLE_FEATURE_FLAG, libraryCustomizedIconDefaultValues, CONTENT_BUNDLE_DEFAULT_GROUP_NAME} from '../HomeScreenConfigConstant'
 import { ConfirmationDialog, ConfirmationDialogWordings } from '../common-components/confirmation-dialog';
 import { HomeScreenConfigType } from '../../../../src/types/data-model/HomeScreenConfigModels';
 import { getFeatureFlag } from './HomeScreenUtils';
@@ -197,7 +197,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
       const dossierUrl = _.get(homeScreen, dossierUrlPath, '');
       //special case for the default group , when the name is empty.
       if(!config.homeScreen.homeLibrary.defaultGroupsName){
-        config.homeScreen.homeLibrary.defaultGroupsName = localizedStrings.DEFAULT_GROUPS;
+        config.homeScreen.homeLibrary.defaultGroupsName = CONTENT_BUNDLE_DEFAULT_GROUP_NAME;
       }
       if (dossierUrl && !this.props.isDossierHome) {
         config = _.merge(config, {

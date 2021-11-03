@@ -8,16 +8,16 @@ import { RadioChangeEvent } from 'antd/lib/radio';
 import * as _ from "lodash";
 import ContentBundleContentPicker from './ContentBundleContentPicker'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
-import { selectCurrentConfig, selectIsDossierAsHome, selectSelectedDocumentIcons, selectSelectedLibraryIcons } from '../../../store/selectors/HomeScreenConfigEditorSelector';
+import { selectCurrentConfig, selectCurrentConfigContentBundleIds, selectIsDossierAsHome, selectSelectedDocumentIcons, selectSelectedLibraryIcons } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import HomeScreenPreviewer from './HomeScreenPreviewer';
-import { default as VC, localizedStrings, previewerWidth, iconValidKey } from '../HomeScreenConfigConstant';
+import { default as VC, localizedStrings, previewerWidth, iconValidKey, CONTENT_BUNDLE_FEATURE_FLAG } from '../HomeScreenConfigConstant';
 import * as api from '../../../services/Api';
 // @ts-ignore: RC Component Support error
 import selectedDossierIcon from '../images/icon_select_dossier.png';
 // @ts-ignore: RC Component Support error
 import selectedDocumentIcon from '../images/icon_select_document.png';
-import { isContentTypeDossier } from './HomeScreenUtils';
+import { getFeatureFlag, isContentTypeDossier } from './HomeScreenUtils';
 
 const classNamePrefixSimple = 'home-screen-home';
 const classNamePrefix = `${classNamePrefixSimple}-settings`;
@@ -31,14 +31,23 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
       showContentPicker: false,
       showToolTip: false,
       dossierName: '',
-      isDossier: false
+      isDossier: false,
+      contentBundleFeatureEnable: false,
+      defaultGroupEnable: false
     };
   }
 
   loadData = async () => {
-    const curEnv = await env.environments.getCurrentEnvironment()
+    const curEnv = await env.environments.getCurrentEnvironment();
+    const contentBundleEnable = !!getFeatureFlag(CONTENT_BUNDLE_FEATURE_FLAG, curEnv);
+    const {contentBundleIds, isDossierHome} = this.props;
+    let defaultGroupEnable = false;
+    if (!isDossierHome) {
+        defaultGroupEnable = !_.isEmpty(contentBundleIds) && contentBundleIds.length > 0 && contentBundleEnable === true;
+    }
     this.setState({
-        currentEnv: curEnv
+        currentEnv: curEnv,
+        contentBundleFeatureEnable: contentBundleEnable
     })
     const { homeScreen } = this.props.config;
     const dossierUrl = _.get(homeScreen, dossierUrlPath, '');
@@ -255,7 +264,7 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
                 <ContentBundleContentPicker visible={this.state.showContentPicker} handleClose={this.handleDismissAdd} handleChange={this.handleDossierChange}/>
             </Layout.Content>
             <Layout.Sider className={`${classNamePrefixSimple}-preview`} width={previewerWidth}>
-              <HomeScreenPreviewer/>
+              <HomeScreenPreviewer contentBundleFeatureEnable = {this.state.contentBundleFeatureEnable} hasContent = {this.state.defaultGroupEnable}/>
             </Layout.Sider>
         </Layout>
     );
@@ -267,6 +276,7 @@ const mapState = (state: RootState) => ({
   isDossierHome: selectIsDossierAsHome(state),
   selectedLibraryIcons: selectSelectedLibraryIcons(state),
   selectedDocumentIcons: selectSelectedDocumentIcons(state), 
+  contentBundleIds: selectCurrentConfigContentBundleIds(state),
 })
 
 const connector = connect(mapState, {
