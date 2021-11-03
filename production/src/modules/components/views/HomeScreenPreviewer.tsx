@@ -92,7 +92,6 @@ class HomeScreenPreviewer extends React.Component<any, any> {
         }
         iconsToRender = iconsToRender.filter(v => ![iconTypes.addLibrary.key, iconTypes.accountMobile.key].includes(v.key));
         const sidebarIcons = iconsToRender
-            .filter ( (element) => [reviewType.PHONE, reviewType.TABLET].includes(previewType))
             .map( (element, index) => {
             const showAddButton = iconTypes.myGroup.key === element.key;
             const showContent = iconTypes.defaultGroup.key === element.key;
