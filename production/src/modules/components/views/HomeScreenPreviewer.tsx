@@ -191,7 +191,6 @@ class HomeScreenPreviewer extends React.Component<any, any> {
     sidebarHeaderIconsToRender = () => {
         const {deviceType} = this.props
         let headerIcons: iconDetail[] = []
-        let footerIcons: iconDetail[] = []
         switch (deviceType) {
             case reviewType.TABLET:
                 headerIcons = [iconTypes.previewSidebarTablet, iconTypes.addLibrary];
