@@ -515,17 +515,17 @@ export const iconTypes: IconTypes = {
   },
   // platform specified
   dataSearch: {
-    displayText: "Data Search (Desktop Only)",
+    displayText: t("dataSearchText"),
     iconName: CONSTANTS.FONT_DATA_SEARCH,
     key: CONSTANTS.ICON_DATA_SEARCH
   },
   hyper: {
-    displayText: "HyperIntelligence (Desktop Only)",
+    displayText: t("hyperIconText"),
     iconName: CONSTANTS.FONT_HYPER,
     key: CONSTANTS.ICON_HYPER
   },
   aaFont: {
-    displayText: "Font Size in Grid (iOS Only)",
+    displayText: t("fontIconText"),
     iconName: CONSTANTS.FONT_AA_FONT,
     key: CONSTANTS.ICON_AA_FONT
   },

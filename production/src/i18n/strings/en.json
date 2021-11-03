@@ -174,5 +174,9 @@
     "addLibrary": "Add Library (Mobile only)",
     "disableNewDossierTooltip": "Disabling this entry point still allows users to edit existing dossiers.",
     "disableEditDossierTooltip": "Disabling this entry point also remove the option to create new dossiers.",
-    "disableNewDossierTooltipContent": "You cannot create new dossier after adding content."
+    "disableNewDossierTooltipContent": "You cannot create new dossier after adding content.",
+    "dataSearchText": "Data Search (Desktop Only)",
+    "hyperIconText": "HyperIntelligence (Desktop Only)",
+    "fontIconText": "Font Size in Grid (iOS Only)"
+
 }
