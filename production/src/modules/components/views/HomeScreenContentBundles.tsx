@@ -6,7 +6,8 @@ import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { selectCurrentConfig, selectCurrentConfigContentBundleIds, selectSelectedSideBarIcons } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import { connect } from 'react-redux';
-import { iconTypes } from '../HomeScreenConfigConstant';
+import { iconTypes, localizedStrings } from '../HomeScreenConfigConstant';
+import { default as VC } from '../HomeScreenConfigConstant'
 
 const classNamePrefix = 'home-screen-bundle-content';
 const bundleIdPath = 'homeScreen.homeLibrary.contentBundleIds';
@@ -56,6 +57,11 @@ class HomeScreenContentBundles extends React.Component<any, any> {
     return (
       <div className={`${classNamePrefix}-container`}>
         <ContentBundleList includedIds = {this.props.contentBundleIds} handleSelection = {this.handleSelection} handleDeletion = {this.handleBundleDelete} handleAdd = {this.handleBundleAdd} allowDelete={true}/>
+        <div className= {`${classNamePrefix}-message-tip`}>
+          <span className={VC.FONT_MSG_INFO}> </span>
+          <span >{localizedStrings.ADD_CONTENT_BUNDLE_TIP_MSG}</span>
+        </div>
+        
       </div>
     )
   }

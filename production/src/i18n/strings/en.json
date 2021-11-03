@@ -40,7 +40,7 @@
     "librarySortFilter": "Library Sort and Filter",
     "multiSelect": "Multi-Select (Web and Desktop)",
     "search": "Search",
-    "notification": "Notification",
+    "notification": "Notifications",
     "account": "Account",
     "accountWeb": "Account (Web and Desktop)",
     "toc": "Table of Contents",
@@ -70,7 +70,7 @@
     "recipients": "Recipients",
     "addContent": "Add Content",
     "addContentBundlesBtn": "Add Content Bundles Button",
-    "addContentBundles": "Add content bundles to this application",
+    "addContentBundles": "Add content to your application",
     "selectContentBundles": "Select content bundles",
     "defaultGroupsSectionTitle": "Default Groups Section Title",
     "tipOfDefaultGroups": "Where it appears in Library",
@@ -166,5 +166,17 @@
     "newDossier": "New Dossier (Web and Desktop)",
     "editDossier": "Edit Dossier (Web and Desktop)",
     "noDataMessage": "No Data Returned",
-    "noDataSearched": "No Data Searched"
+    "disableToolbarTooltip": "Disable toolbar will disable switching to other applications from this application to your Mobile and Web library users.",
+    "disableSidebarTooltip": "Disable sidebar will disable switching to other applications from this application for your Mobile library users.",
+    "disableAccountTooltip": "Disable sidebar and account at the same time will disable switching to other applications from this application for your Mobile and Web library users.",
+    "platformSpecific": "Platform Specific",
+    "addContentBundleTipMsg": "After adding content, this application will only show the specific content added.",
+    "addLibrary": "Add Library (Mobile only)",
+    "disableNewDossierTooltip": "Disabling this entry point still allows users to edit existing dossiers.",
+    "disableEditDossierTooltip": "Disabling this entry point also remove the option to create new dossiers.",
+    "disableNewDossierTooltipContent": "You cannot create new dossier after adding content.",
+    "dataSearchText": "Data Search (Desktop Only)",
+    "hyperIconText": "HyperIntelligence (Desktop Only)",
+    "fontIconText": "Font Size in Grid (iOS Only)"
+
 }

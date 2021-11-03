@@ -1,6 +1,6 @@
 import * as _ from 'lodash'
 import { createSelector } from 'reselect'
-import CONSTANTS, { default as VC, dossierIcons, iconTypes, libraryCustomizedIconKeys, libraryIcons } from '../../modules/components/HomeScreenConfigConstant'
+import CONSTANTS, { CONTENT_BUNDLE_DEFAULT_GROUP_NAME, default as VC, dossierIcons, iconTypes, libraryCustomizedIconKeys, libraryIcons, localizedStrings } from '../../modules/components/HomeScreenConfigConstant'
 
 import { RootState } from '../../types/redux-state/HomeScreenConfigState'
 
@@ -122,5 +122,8 @@ export const selectSelectedDocumentIcons = createSelector(
 
 export const selectDefaultGroupsName = createSelector(
   selectCurrentConfig,
-  (config) =>  config.homeScreen.homeLibrary.defaultGroupsName
+  (config) =>  { 
+    // special handling when encounter with default groups.
+    return config.homeScreen.homeLibrary.defaultGroupsName === localizedStrings.DEFAULT_GROUPS ? CONTENT_BUNDLE_DEFAULT_GROUP_NAME : config.homeScreen.homeLibrary.defaultGroupsName
+  }
 )

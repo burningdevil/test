@@ -36,18 +36,6 @@ describe('HomeScreenMoreSetting Component', () => {
     
     fireEvent.click(advSettingsCheckBox);
     expect(advSettingsCheckBox).not.toBeChecked();
-
-    // Check `Allow users to advanced settings` check box
-    const updateConfigCheckBox = checkboxes[2];
-    expect(updateConfigCheckBox).toBeInTheDocument();
-    expect(updateConfigCheckBox).toBeChecked();
-    
-    fireEvent.click(updateConfigCheckBox);
-    expect(updateConfigCheckBox).not.toBeChecked();
-
-     // interval for update config not enabled
-     const intervalInputBox = queryByDisplayValue('24');
-     expect(intervalInputBox).not.toBeEnabled();
   });
 
   it('Application more settings: test section Connectivity', async () => {
@@ -98,7 +86,7 @@ describe('HomeScreenMoreSetting Component', () => {
     );
 
     const checkboxes = queryAllByRole('checkbox');
-    const cacheCheckBox = checkboxes[3];
+    const cacheCheckBox = checkboxes[2];
     expect(cacheCheckBox).toBeInTheDocument();
     expect(cacheCheckBox).not.toBeChecked();
     

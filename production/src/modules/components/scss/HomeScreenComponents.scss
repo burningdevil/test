@@ -1,5 +1,6 @@
 @import '~@mstr/rc/es/assets/scss/variables.scss';
 @import './variables.scss';
+@import '../../../styles/base';
 
 $font-size-large: 14px;
 $line-height: 16px;
@@ -54,6 +55,12 @@ $line-height-small: 13px;
         margin-top: 16px;
         height: 512px;
     }
+    .icon-msg_info {
+        color: lightgray;
+        &:hover {
+            color: $mobile-primary-blue;
+        }
+    }
 
     &-toolbar{
         font-size: $font-size;
@@ -64,6 +71,12 @@ $line-height-small: 13px;
         .ant-checkbox-wrapper {
             color: $msdl-black;
             font-size: 12px;
+        }
+        .icon-msg_info {
+            color: lightgray;
+            &:hover {
+                color: $mobile-primary-blue;
+            }
         }
     }
 
@@ -97,6 +110,10 @@ $line-height-small: 13px;
                 color: $msdl-black;
                 margin-left: 10px;
                 margin-right: 7px;
+                display: inline-block;
+                vertical-align: middle;
+                @extend .overflow;
+                max-width: 200px;
             }
         }
         .ant-table-tbody > tr:nth-last-child(1)  > td {
@@ -108,8 +125,14 @@ $line-height-small: 13px;
                 color: $msdl-black;
                 margin-left: 10px;
                 margin-right: 7px;
+                
+
             }
         }
+    }
+    &-sidebar-caret {
+        margin-left: -15px;
+        margin-right: 5px;
     }
     .ant-table {
         font-size: 13px;
@@ -120,7 +143,7 @@ $line-height-small: 13px;
     }
 
     .ant-radio-button-wrapper {
-        font-size: 13px;
+        font-size: 12px;
         font-weight: 400;
     }
 

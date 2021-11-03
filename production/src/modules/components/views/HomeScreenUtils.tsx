@@ -1,6 +1,7 @@
 import * as _ from "lodash";
 import { IServerSideGetRowsParams } from 'ag-grid-community'
 import { EnumDSSXMLViewMedia, HomeScreenHomeObjectType } from '../HomeScreenConfigConstant'
+import { Environment } from "@mstr/workstation-types";
 
 export function getContentType (viewMedia: number) {
     const defModePosition = viewMedia >> 27;
@@ -37,12 +38,13 @@ export function HomeScreenBundleListDatasource(server: any) {
         console.log('[Datasource] - rows requested by grid: ', params.request);
         var response = server.getData(params);
         setTimeout(function () {
-          if (response.success) {
+          if (response?.success) {
             params.success({
               rowData: response.rows,
               rowCount: response.lastRow,
             });
-          } else {
+          } 
+          else {
             params.fail();
           }
         }, 500);
@@ -57,7 +59,7 @@ export function getHomeScreenBundleListGroupCellInnerRenderer() {
       if (params.node.group) {
         const color = hexIntToColorStr(params.node.data.color);
         tempDiv.innerHTML =
-          '<span class="icon-group_groups_a" style="color:'+ color + '"/><span style="color: #35383a; padding: 6px">' +
+          '<span class="icon-group_groups_a" style="color:'+ color + '"/><span style="color: #35383a; padding: 6px; font-weight: 400">' +
           params.value +
           '</span>';
       } else {
@@ -65,12 +67,12 @@ export function getHomeScreenBundleListGroupCellInnerRenderer() {
         const type: HomeScreenHomeObjectType = getContentType(viewMedia);
         if (type === HomeScreenHomeObjectType.DOSSIER) {
             tempDiv.innerHTML =
-            '<span class="icon-dossier" style="color: #3492ed"/><span style="color: #35383a; padding: 6px">' +
+            '<span class="icon-dossier" style="color: #3492ed"/><span style="color: #35383a; padding: 6px; font-weight: 400">' +
             params.value +
             '</span>';
         } else {
             tempDiv.innerHTML =
-            '<span class="icon-rsd-cover" style="color: #ff4000"/><span style="color: #35383a; padding: 6px">' +
+            '<span class="icon-rsd-cover" style="color: #ff4000"/><span style="color: #35383a; padding: 6px; font-weight: 400">' +
             params.value +
             '</span>';
         }
@@ -82,3 +84,10 @@ export function getHomeScreenBundleListGroupCellInnerRenderer() {
     };
     return HomeScreenBundleListGroupCellInnerRenderer;
   }
+
+export function getFeatureFlag(key: string, env: any){
+  if(!env?.preferences){
+      return false;
+    }
+    return env.preferences?.[key];
+}

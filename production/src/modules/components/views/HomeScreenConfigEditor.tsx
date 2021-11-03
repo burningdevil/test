@@ -18,9 +18,10 @@ import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { selectCurrentConfig, selectIsDuplicateConfig, selectIsConfigNameError, selectIsDossierAsHome } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import * as api from '../../../services/Api';
-import { default as VC, localizedStrings, editorSize, iconTypes, libraryCustomizedIconKeys } from '../HomeScreenConfigConstant'
+import { default as VC, localizedStrings, editorSize, iconTypes, libraryCustomizedIconKeys ,CONTENT_BUNDLE_FEATURE_FLAG, libraryCustomizedIconDefaultValues, CONTENT_BUNDLE_DEFAULT_GROUP_NAME} from '../HomeScreenConfigConstant'
 import { ConfirmationDialog, ConfirmationDialogWordings } from '../common-components/confirmation-dialog';
 import { HomeScreenConfigType } from '../../../../src/types/data-model/HomeScreenConfigModels';
+import { getFeatureFlag } from './HomeScreenUtils';
 
 declare var workstation: WorkstationModule;
 
@@ -54,7 +55,16 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         });
       } else {
         const newApplicationName = this.generateDefaultAppName(extraContextJson.configInfoList);
-        this.props.updateCurrentConfig({name: newApplicationName});
+        // init the customized icon when create new application.
+        let config = {
+          name: newApplicationName,
+          [VC.HOME_SCREEN]: {
+              [VC.HOME_LIBRARY]: {
+                  [VC.CUSTOMIZED_ITEMS]: libraryCustomizedIconDefaultValues
+              }
+          }
+        }
+        this.props.updateCurrentConfig(config);
       }
 
       const currentEnv = await workstation.environments.getCurrentEnvironment();
@@ -185,6 +195,10 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
       const { homeScreen } = this.props.config;
       const dossierUrlPath = 'homeDocument.url';
       const dossierUrl = _.get(homeScreen, dossierUrlPath, '');
+      //special case for the default group , when the name is empty.
+      if(!config.homeScreen.homeLibrary.defaultGroupsName){
+        config.homeScreen.homeLibrary.defaultGroupsName = CONTENT_BUNDLE_DEFAULT_GROUP_NAME;
+      }
       if (dossierUrl && !this.props.isDossierHome) {
         config = _.merge(config, {
           homeScreen: {
@@ -208,6 +222,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
           config.objectNames = [];
           config.objectAcl = [];
         }
+
         HttpProxy.post(api.getApiPathForNewApplication(), config, {}, PARSE_METHOD.BLOB).then(() => {
           workstation.window.postMessage({homeConfigSaveSuccess: true}).then(() => {workstation.window.close();});
         }).catch((err: any) => {
@@ -264,14 +279,14 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                                 <HomeScreenDossierSetting />
                                 {this.buttonGroup()}
                             </Tabs.TabPane> */}
-                            {/* <Tabs.TabPane tab={localizedStrings.NAVBAR_CONTENT_BUNDLES} key={VC.CONTENT_BUNDLES} disabled={this.props.config.homeScreen.mode === 1}>
+                            {getFeatureFlag(CONTENT_BUNDLE_FEATURE_FLAG, this.state.currentEnv) &&   <Tabs.TabPane tab={localizedStrings.NAVBAR_CONTENT_BUNDLES} key={VC.CONTENT_BUNDLES} disabled={this.props.config.homeScreen.mode === 1}>
                                 <HomeScreenContentBundles/>
                                 {this.buttonGroup()}
-                            </Tabs.TabPane>
+                            </Tabs.TabPane> }
                             <Tabs.TabPane tab={localizedStrings.NAVBAR_MORE_SETTINGS} key={VC.MORESETTINGS}>
                                 <HomeScreenMoreSetting/>
                                 {this.buttonGroup()}
-                            </Tabs.TabPane> */}
+                            </Tabs.TabPane>
                         </Tabs>
                     </div>
                 </Layout>
