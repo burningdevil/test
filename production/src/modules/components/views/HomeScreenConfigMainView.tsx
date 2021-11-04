@@ -308,7 +308,8 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         field: VC.NAME,
         headerName: localizedStrings.NAME,
         lockVisible: true,
-        width: 300,
+        // width: 300,
+        flex: 3,
         cellRendererFramework: (rendererParam: any) => {
           const d = rendererParam.data;
           return (
@@ -322,12 +323,15 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       },
       {
         field: VC.DESC,
+        flex: 2,
         headerName: localizedStrings.DESCRIPTION,
+
       },
       {
         field: VC.MODE,
         headerName: localizedStrings.HOME,
-        width: 100,
+        // width: 100,
+        flex: 1,
         resizable: false,
       },
       // {
@@ -337,13 +341,13 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       {
         field: VC.DATE_MODIFIED,
         headerName: localizedStrings.DATE_MODIFIED,
-        width: 175,
+        flex: 1.75,
         resizable: true // DE209336; make date column resizable.
       },
       {
         field: VC.DATE_CREATED,
         headerName: localizedStrings.DATE_CREATED,
-        width: 175,
+        flex: 1.75,
         resizable: true,
         initialHide: true
       }
@@ -353,6 +357,8 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         field: VC.CONTENT_BUNDLES,
         headerName: localizedStrings.NAVBAR_CONTENT_BUNDLES,
         sortable: false,
+        resizable: true,
+        flex: 2.5,
         cellRendererFramework: (rendererParam: any) => {
           const d = rendererParam.data;
           if (d.contentBundles.length === 0) {
@@ -376,7 +382,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
           )
         },
       };
-      cols.splice(2, 0,contentItem);
+      cols.splice(3, 0,contentItem);
     };
     return cols;
   }
