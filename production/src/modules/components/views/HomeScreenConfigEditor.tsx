@@ -220,7 +220,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         }).catch((e: any) => {
           // request error handle, if 401, need re-authrioze, disconnect current environment and close current sub-window. Else, show error message
           this.processErrorResponse(e, localizedStrings.ERR_APP_SAVE);
-        }).final(() => {
+        }).finally(() => {
           this.setState({
             handleSaving: false
           })
@@ -236,7 +236,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
           workstation.window.postMessage({homeConfigSaveSuccess: true}).then(() => {workstation.window.close();});
         }).catch((err: any) => {
           this.processErrorResponse(err, localizedStrings.ERR_APP_SAVE);
-        }).final(() => {
+        }).finally(() => {
           this.setState({
             handleSaving: false
           })
@@ -246,9 +246,9 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
 
   processErrorResponse = (e: any, errorMsg: string) => {
     const error = e as RestApiError;
-    this.setState({
-      handleSaving: false
-    })
+    // this.setState({
+    //   handleSaving: false
+    // })
     if (error.statusCode === 401) {
       workstation.environments.disconnect(this.state.currentEnv.url);
       workstation.window.close();
