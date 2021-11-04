@@ -14,6 +14,7 @@
     "documentsTab": "Documents Tab",
 
     "defaultApplicationName": "New Application",
+    "copyApplicationName": "Copy Of {{name}}",
     "newApplication": "New Application",
     "newApplicationBtn": "Create Application Button",
     "environment": "Environment",
@@ -173,7 +174,7 @@
     "addContentBundleTipMsg": "After adding content, this application will only show the specific content added.",
     "addLibrary": "Add Library (Mobile only)",
     "disableNewDossierTooltip": "Disabling this entry point still allows users to edit existing dossiers.",
-    "disableEditDossierTooltip": "Disabling this entry point also remove the option to create new dossiers.",
+    "disableEditDossierTooltip": "Disabling this entry point also removes the option to create new dossiers.",
     "disableNewDossierTooltipContent": "You cannot create new dossier after adding content.",
     "dataSearchText": "Data Search (Desktop Only)",
     "hyperIconText": "HyperIntelligence (Desktop Only)",

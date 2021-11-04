@@ -40,7 +40,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         const sidebarDisabled = sidebarIconKeys.includes(iconKey) && !(this.iconSelectedInfo(iconTypes.sidebar.key)[0])
         // special case: new dossier will be disabled when the edit dossier is disabled or content bundle length > 0.
         if(iconKey === iconTypes.newDossier.key){
-            if(this.props.contentBundleIds?.length > 0){
+            if(this.state.contentBundleFeatureEnable && this.props.contentBundleIds?.length > 0){
                 return true;
             }
             if(this.props.selectedLibraryCustomizedItems[iconTypes.editDossier.key] === false){
@@ -71,7 +71,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         if(allIconKeys.includes(iconKey)){
             const targetItem = iconTypes[allIcons[allIconKeys.indexOf(iconKey)]];
             if(iconKey === iconTypes.newDossier.key){
-                if(this.props.contentBundleIds?.length > 0){
+                if(this.state.contentBundleFeatureEnable && this.props.contentBundleIds?.length > 0){
                     return false;
                 }else{
                     targetItem.tipMsg = localizedStrings.DISABLE_NEW_DOSSIER_TOOLTIP;
@@ -182,7 +182,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                 if(_.get(this.props.selectedLibraryCustomizedItems, iconTypes.editDossier.key) === false){
                     selected = false;
                 }
-                if(this.props.contentBundleIds?.length > 0){
+                if(this.state.contentBundleFeatureEnable && this.props.contentBundleIds?.length > 0){
                     selected = false;
                 }
             }
@@ -206,9 +206,6 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                 if (dossierToolbarIcons.includes(iconKey)) {
                     selected = this.props.selectedDocumentIcons.includes(validKey) 
                 }
-            }
-            if (platformSpecificIconKeys.includes(iconKey)) {
-                selected = this.props.selectedDocumentIcons.includes(validKey) 
             }
         }
         return [selected, iconKey]
@@ -371,12 +368,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                     updateDocument = {[VC.HOME_DOCUMENT]: update} 
                 }
             }
-            // platform specific icons.
-            if(platformSpecificIconKeys.includes(iconKey)){
-                const icons = value ? _.concat(selectedDocumentIcons, validKey) : _.pull(selectedDocumentIcons, validKey)
-                update = {[VC.ICONS]: icons}
-                updateDocument = {[VC.HOME_DOCUMENT]: update} 
-            }
+            
             update = _.merge(updateDocument, updateLibrary);
         }
         update = {[VC.HOME_SCREEN]: update};
