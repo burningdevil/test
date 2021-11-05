@@ -97,7 +97,7 @@ export const loadCurrentEditConfig = (configId: string) => {
 }
 
 export const loadSearchedDossierDocuments = (name: string) => {
-    return HttpProxy.get('/searches/results?name=' + name + '&pattern=4&type=14081&getAncestors=false&limit=-1&certifiedStatus=OFF').then((response: any) => {
+    return HttpProxy.get('/searches/results?name=' + name + '&pattern=4&type=14081&getAncestors=false&limit=1000&certifiedStatus=OFF').then((response: any) => {
         let data = response;
         let totalCount = response.totalItems;
         if (data && response.data) {
