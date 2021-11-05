@@ -62,7 +62,7 @@ export const loadConfigList = () => {
                 }else if(b.isDefault){
                     return 1;
                 }else {
-                    return a.dateCreated > b.dateCreated ? -1 : 1
+                    return a.dateModified > b.dateModified ? -1 : 1
                 }
                 
             })

@@ -330,8 +330,8 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       {
         field: VC.MODE,
         headerName: localizedStrings.HOME,
-        // width: 100,
-        flex: 1,
+        width: 100,
+        // flex: 1,
         resizable: false,
       },
       // {
