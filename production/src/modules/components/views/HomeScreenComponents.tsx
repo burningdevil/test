@@ -40,7 +40,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         const sidebarDisabled = sidebarIconKeys.includes(iconKey) && !(this.iconSelectedInfo(iconTypes.sidebar.key)[0])
         // special case: new dossier will be disabled when the edit dossier is disabled or content bundle length > 0.
         if(iconKey === iconTypes.newDossier.key){
-            if(this.state.contentBundleFeatureEnable && this.props.contentBundleIds?.length > 0){
+            if(this.props.contentBundleIds?.length > 0){
                 return true;
             }
             if(this.props.selectedLibraryCustomizedItems[iconTypes.editDossier.key] === false){
@@ -71,7 +71,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         if(allIconKeys.includes(iconKey)){
             const targetItem = iconTypes[allIcons[allIconKeys.indexOf(iconKey)]];
             if(iconKey === iconTypes.newDossier.key){
-                if(this.state.contentBundleFeatureEnable && this.props.contentBundleIds?.length > 0){
+                if(this.props.contentBundleIds?.length > 0){
                     return false;
                 }else{
                     targetItem.tipMsg = localizedStrings.DISABLE_NEW_DOSSIER_TOOLTIP;
@@ -182,7 +182,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                 if(_.get(this.props.selectedLibraryCustomizedItems, iconTypes.editDossier.key) === false){
                     selected = false;
                 }
-                if(this.state.contentBundleFeatureEnable && this.props.contentBundleIds?.length > 0){
+                if(this.props.contentBundleIds?.length > 0){
                     selected = false;
                 }
             }
