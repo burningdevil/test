@@ -44,9 +44,7 @@ export function HomeScreenBundleListDatasource(server: any) {
               rowCount: response.lastRow,
             });
           } 
-          else {
-            params.fail();
-          }
+          
         }, 500);
       },
     };

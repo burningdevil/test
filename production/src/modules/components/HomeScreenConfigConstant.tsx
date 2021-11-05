@@ -426,6 +426,9 @@ export const tooltipStr = (min: string, max: string) => {
 export const selectedBundlesStr = (bundlesCount: number) => {
   return t("selectedStr", { bundlesCount });
 };
+export const copyApplicationName = (name: string) => {
+  return t("copyApplicationName", {name});
+}
 export interface IconType {
   displayText: string;
   iconName: string;
@@ -723,7 +726,10 @@ export const libraryCustomizedIcons = [
   iconTypes.mySubscribe,
   iconTypes.newDossier,
   iconTypes.editDossier,
-  iconTypes.addLibrary
+  iconTypes.addLibrary,
+  iconTypes.dataSearch,
+  iconTypes.hyper,
+  iconTypes.aaFont
 ];
 export const libraryCustomizedIconKeys = libraryCustomizedIcons.map(
   element => element.key
@@ -734,7 +740,10 @@ export const libraryCustomizedIconDefaultValues = Object.freeze({
   [iconTypes.mySubscribe.key]: true,
   [iconTypes.newDossier.key]: true,
   [iconTypes.editDossier.key]: true,
-  [iconTypes.addLibrary.key]: true
+  [iconTypes.addLibrary.key]: true,
+  [iconTypes.dataSearch.key]: true,
+  [iconTypes.hyper.key]: true,
+  [iconTypes.aaFont.key]: true
 })
 
 export const mobileOnlyIconKeys = [iconTypes.accountMobile, iconTypes.addLibrary].map(

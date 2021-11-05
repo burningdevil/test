@@ -23,9 +23,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
         if (sidebarIconKeys.includes(icon.key)) {
             return sidebarIcons.includes(validKey);
         } else {
-            if(platformSpecificIconKeys.includes(icon.key)){
-                return documentIcons.includes(validKey);
-            }
+            
             if (isDossierHome) {
                 const dossierToolbarIcons = dossierIconsDossierHome.concat(extraDesktopIcons).concat(extraMobileIcons).map((element) => element.key);
                 if (dossierToolbarIcons.includes(icon.key)) {
@@ -152,7 +150,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                 headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.editDossier, iconTypes.account, iconTypes.notification, iconTypes.share, iconTypes.comment, iconTypes.filter] : [iconTypes.previewLibraryWeb, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.editDossier, iconTypes.accountWeb, iconTypes.share, iconTypes.comment, iconTypes.filter]
                 break;
             case reviewType.DESKTOP:
-                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.editDossier, iconTypes.account, iconTypes.notification, iconTypes.share, iconTypes.comment, iconTypes.hyper, iconTypes.filter, iconTypes.dataSearch] : [iconTypes.home, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.editDossier, iconTypes.share, iconTypes.comment, iconTypes.hyper, iconTypes.filter, iconTypes.dataSearch]
+                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.editDossier, iconTypes.account, iconTypes.notification, iconTypes.share, iconTypes.comment, iconTypes.hyper, iconTypes.filter, iconTypes.dataSearch] : [iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.editDossier, iconTypes.share, iconTypes.comment, iconTypes.hyper, iconTypes.filter, iconTypes.dataSearch]
                 break
             default:
                 break

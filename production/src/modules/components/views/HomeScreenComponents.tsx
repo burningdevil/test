@@ -207,9 +207,6 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                     selected = this.props.selectedDocumentIcons.includes(validKey) 
                 }
             }
-            if (platformSpecificIconKeys.includes(iconKey)) {
-                selected = this.props.selectedDocumentIcons.includes(validKey) 
-            }
         }
         return [selected, iconKey]
     }
@@ -371,12 +368,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                     updateDocument = {[VC.HOME_DOCUMENT]: update} 
                 }
             }
-            // platform specific icons.
-            if(platformSpecificIconKeys.includes(iconKey)){
-                const icons = value ? _.concat(selectedDocumentIcons, validKey) : _.pull(selectedDocumentIcons, validKey)
-                update = {[VC.ICONS]: icons}
-                updateDocument = {[VC.HOME_DOCUMENT]: update} 
-            }
+            
             update = _.merge(updateDocument, updateLibrary);
         }
         update = {[VC.HOME_SCREEN]: update};

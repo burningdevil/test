@@ -18,7 +18,7 @@ import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { selectCurrentConfig, selectIsDuplicateConfig, selectIsConfigNameError, selectIsDossierAsHome } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import * as api from '../../../services/Api';
-import { default as VC, localizedStrings, editorSize, iconTypes, libraryCustomizedIconKeys ,CONTENT_BUNDLE_FEATURE_FLAG, libraryCustomizedIconDefaultValues, CONTENT_BUNDLE_DEFAULT_GROUP_NAME} from '../HomeScreenConfigConstant'
+import { default as VC, localizedStrings, editorSize, iconTypes, libraryCustomizedIconKeys ,CONTENT_BUNDLE_FEATURE_FLAG, libraryCustomizedIconDefaultValues, CONTENT_BUNDLE_DEFAULT_GROUP_NAME, copyApplicationName} from '../HomeScreenConfigConstant'
 import { ConfirmationDialog, ConfirmationDialogWordings } from '../common-components/confirmation-dialog';
 import { HomeScreenConfigType } from '../../../../src/types/data-model/HomeScreenConfigModels';
 import { getFeatureFlag } from './HomeScreenUtils';
@@ -35,7 +35,8 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
       homeSettingTabVisitCount: 0,
       configId: undefined,
       isNameCopyed: false,  // Copy of Name for duplicate config operation should only be handled one time.
-      currentEnv: {}
+      currentEnv: {},
+      handleSaving: false
     }
   }
 
@@ -70,7 +71,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
       const currentEnv = await workstation.environments.getCurrentEnvironment();
       let isNameCopyed = false;
       if (isDuplicate && this.props.config.name && this.props.config.name.length > 0) {
-        this.props.updateCurrentConfig({name: 'Copy of ' + this.props.config.name});
+        this.props.updateCurrentConfig({name: copyApplicationName(this.props.config.name)});
         isNameCopyed = true;
       }
       this.setState({
@@ -175,6 +176,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 type= 'primary'
                 style={{marginLeft: 10}}
                 onClick={this.handleSaveConfig}
+                loading = {this.state.handleSaving}
                 disabled = {this.props.isConfigNameError || (isDossierHome && _.isEmpty(dossierUrl))}>
                 {localizedStrings.SAVE}
             </Button>
@@ -189,6 +191,9 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
     );
   };
   handleSaveConfig = () => {
+      this.setState({
+        handleSaving: true
+      })
       let config =_.merge({}, this.props.config);
       const configId = this.state.configId;
       // Remove dossier url when mode is Library As Home. Before saving object.
@@ -215,6 +220,10 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         }).catch((e: any) => {
           // request error handle, if 401, need re-authrioze, disconnect current environment and close current sub-window. Else, show error message
           this.processErrorResponse(e, localizedStrings.ERR_APP_SAVE);
+        }).finally(() => {
+          this.setState({
+            handleSaving: false
+          })
         });
       } else {
         if (this.props.isDuplicateConfig) {
@@ -227,18 +236,26 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
           workstation.window.postMessage({homeConfigSaveSuccess: true}).then(() => {workstation.window.close();});
         }).catch((err: any) => {
           this.processErrorResponse(err, localizedStrings.ERR_APP_SAVE);
+        }).finally(() => {
+          this.setState({
+            handleSaving: false
+          })
         });
       }
   }
 
   processErrorResponse = (e: any, errorMsg: string) => {
     const error = e as RestApiError;
+    // this.setState({
+    //   handleSaving: false
+    // })
     if (error.statusCode === 401) {
       workstation.environments.disconnect(this.state.currentEnv.url);
       workstation.window.close();
       return;
     }
     message.error(errorMsg + error.errorMsg);
+
   }
 
   handleCancel = () => {

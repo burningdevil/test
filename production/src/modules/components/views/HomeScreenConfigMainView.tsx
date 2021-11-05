@@ -35,6 +35,7 @@ const customAppPath = 'CustomApp?id=';
 const configSaveSuccessPath = 'Message.homeConfigSaveSuccess';
 let gridApi: GridApi;
 class HomeScreenConfigMainView extends React.Component<any, any> {
+  columnDef: ColumnDef[];
   constructor(props: any) {
     super(props)
     this.state = {
@@ -47,7 +48,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       isUserHasAccess: true,
       isInitialLoading: true,
       deleteApplicationsToBeConfirmed: []
-    }
+    };
   }
 
   async componentDidMount() {
@@ -114,7 +115,9 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       this.setState({
         isMDVersionMatched: isMDVersionMatched
       });
+      this.initOption();
     }
+
   }
 
   loadApplicationsFolder = async () => {
@@ -131,7 +134,9 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     api.loadConfigList();
     api.loadContentBundleList();
   }
-
+  initOption = () => {
+    this.columnDef = this.getColumnDef();
+  }
   handleAddApplication = () => {
     this.openConfigEditor();
   }
@@ -298,12 +303,13 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
   }
 
   getColumnDef = () => {
-    return [
+    let cols = [
       {
         field: VC.NAME,
         headerName: localizedStrings.NAME,
         lockVisible: true,
-        width: 300,
+        // width: 300,
+        flex: 3,
         cellRendererFramework: (rendererParam: any) => {
           const d = rendererParam.data;
           return (
@@ -317,23 +323,42 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       },
       {
         field: VC.DESC,
+        flex: 2,
         headerName: localizedStrings.DESCRIPTION,
+
+      },
+      {
+        field: VC.MODE,
+        headerName: localizedStrings.HOME,
+        width: 100,
+        // flex: 1,
+        resizable: false,
       },
       // {
       //   field: VC.PLATFORM_STR,
       //   headerName: localizedStrings.PLATFORMS,
       // },
       {
-        field: VC.MODE,
-        headerName: localizedStrings.HOME,
-        width: 100,
-        resizable: false,
+        field: VC.DATE_MODIFIED,
+        headerName: localizedStrings.DATE_MODIFIED,
+        flex: 1.75,
+        resizable: true // DE209336; make date column resizable.
       },
       {
+        field: VC.DATE_CREATED,
+        headerName: localizedStrings.DATE_CREATED,
+        flex: 1.75,
+        resizable: true,
+        initialHide: true
+      }
+    ] as ColumnDef[];
+    if(getFeatureFlag(CONTENT_BUNDLE_FEATURE_FLAG, this.state.currentEnv)){
+      let contentItem = {
         field: VC.CONTENT_BUNDLES,
         headerName: localizedStrings.NAVBAR_CONTENT_BUNDLES,
-        hide: !getFeatureFlag(CONTENT_BUNDLE_FEATURE_FLAG, this.state.currentEnv),
         sortable: false,
+        resizable: true,
+        flex: 2.5,
         cellRendererFramework: (rendererParam: any) => {
           const d = rendererParam.data;
           if (d.contentBundles.length === 0) {
@@ -356,21 +381,10 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
             </div>
           )
         },
-      },
-      {
-        field: VC.DATE_MODIFIED,
-        headerName: localizedStrings.DATE_MODIFIED,
-        width: 175,
-        resizable: true // DE209336; make date column resizable.
-      },
-      {
-        field: VC.DATE_CREATED,
-        headerName: localizedStrings.DATE_CREATED,
-        width: 175,
-        resizable: true,
-        initialHide: true
-      }
-    ] as ColumnDef[]
+      };
+      cols.splice(3, 0,contentItem);
+    };
+    return cols;
   }
 
   render() {
@@ -476,7 +490,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
             </div>
             <div className={`${classNamePrefix}-application-list-container`}>
               <ReactWsGrid
-                rowSelectable={true}
+                rowSelectable={false}
                 rowMultiSelectWithClick={false}
                 onSortChanged={this.onSortChange}
                 getRowHeight={() => 32}
@@ -486,7 +500,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                 rowSelection='single'
                 getContextMenuItems={getContextMenuItems}
                 isLoading={this.props.configLoading && this.state.isInitialLoading}
-                columnDefs={this.getColumnDef()}
+                columnDefs={this.columnDef}
                 defaultColDef={{
                   resizable: true,
                   sortable: true,

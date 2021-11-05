@@ -19,3 +19,9 @@ export const loadSearchedDossierDocuments = (name: string) => {
     const totalCount = dossiers.length + documents.length;
     return Promise.resolve({dossiers, documents, totalCount});
 }
+export const loadBatchDossierDocuments = () => {
+    const dossiers = mockDossierPicker.bundleContent.dossiers;
+    const documents = mockDossierPicker.bundleContent.documents;
+    const totalCount = dossiers.length + documents.length;
+    return Promise.resolve({dossiers, documents, totalCount});
+}

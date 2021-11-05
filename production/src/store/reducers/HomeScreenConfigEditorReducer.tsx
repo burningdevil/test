@@ -45,7 +45,7 @@ const initialState: HomeScreenConfigEditorState = {
   isConfigNameError: false,
   configInfoList: [],
   colorPalettes: [],
-  previewDeviceType: featureFlag.platformEnable ? reviewType.TABLET : reviewType.WEB,
+  previewDeviceType: reviewType.WEB,
 }
 
 const HomeScreenConfigEditorReducer = (state: HomeScreenConfigEditorState = initialState, action: ActionTypes) => {
