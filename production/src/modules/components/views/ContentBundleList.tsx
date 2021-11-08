@@ -8,7 +8,7 @@ import { HttpProxy } from '../../../main';
 import { AgGridReact } from 'ag-grid-react';
 import { default as VC, BundleInfo, iconTypes, BundleRecipientType, localizedStrings, SPECIAL_CHARACTER_REGEX } from '../HomeScreenConfigConstant'
 import { PlusCircleOutlined, DownOutlined, EnterOutlined } from '@ant-design/icons'
-import { HomeScreenBundleListDatasource, getHomeScreenBundleListGroupCellInnerRenderer } from './HomeScreenUtils'
+import { HomeScreenBundleListDatasource, getHomeScreenBundleListGroupCellInnerRenderer, validName } from './HomeScreenUtils'
 import {
   GridReadyEvent,
   SelectionChangedEvent,
@@ -30,6 +30,7 @@ import Constatnt from '../HomeScreenConfigConstant'
 import * as api from '../../../services/Api';
 import { t } from '../../../i18n/i18next';
 import CustomHeader from '../common-components/ag-grid-components/custom-header/custom-header';
+import { ReactWsGrid } from '@mstr/react-ws-grid';
 
 declare var workstation: WorkstationModule;
 var searchName = '';
@@ -98,7 +99,7 @@ class ContentBundleList extends React.Component<any, any> {
       currentBundleList: [],
       showBundlePicker: false,
       nameFilter: ''
-    }
+    };
   }
 
   updateData = (data: BundleInfo[], params: any) => {
@@ -109,6 +110,11 @@ class ContentBundleList extends React.Component<any, any> {
 
   onGridReady = (params: GridReadyEvent) => {
     this.updateData(this.state.currentBundleList, params);
+    window.addEventListener('scroll', () => {
+      if(this.gridOptions?.api){
+        this.gridOptions.api.hidePopupMenu();
+      }
+    })
   };
 
   async componentDidMount() {
@@ -268,6 +274,7 @@ class ContentBundleList extends React.Component<any, any> {
     getContextMenuItems: this.getContextMenuItems,
     onSelectionChanged: this.onSelectionChanged,
     isRowSelectable: this.isRowSelectable,
+    onBodyScroll: () => {this.gridOptions.api.hidePopupMenu()},
     icons: {
       // use some strings from group
       groupExpanded: `<span class='ag-icon ag-icon-small-down'/>`,
@@ -383,7 +390,7 @@ class ContentBundleList extends React.Component<any, any> {
           placeholder={localizedStrings.DEFAULT_GROUPS}
           value={this.props.defaultGroupsName}
           onValidate = {(e: string) => {
-            return this.validName(e);
+            return validName(e);
           }}
           maxLength={80}
           errorMessage = {localizedStrings.INVALID_CHARACTER_APP_NAME_ERROR}
@@ -392,12 +399,6 @@ class ContentBundleList extends React.Component<any, any> {
         />
       </div>
     )
-  }
-  validName(name: string) {
-    //cannot contain any of the following characters: \"[]
-    const pattern = SPECIAL_CHARACTER_REGEX;
-    const isInvalidCharacter = pattern.test(name);
-    return !isInvalidCharacter;
   }
   renderAddContent = () => {
     return (

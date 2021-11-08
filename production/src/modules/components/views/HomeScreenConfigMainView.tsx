@@ -89,6 +89,13 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
           ResponseValue: true
       };
     });
+    // waiting for the @mstr/workstation type's interface.
+
+    (workstation.utils as any).addHandler('OnPreferencesChange', (msg: any) => {
+      console.log(msg);
+      this.loadData();
+      this.checkServerAndUserPrivilege();
+    });
   }
 
   checkServerAndUserPrivilege = async () => {
@@ -163,6 +170,9 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
   };
   onSortChange = () => {
     gridApi.clearFocusedCell();
+  }
+  onRowClick  = (event: any) => {
+    gridApi.deselectAll();
   }
   openConfigEditor = (objId : string = '', isDuplicate: boolean = false) => {
     const objType = VC.CONFIG_EDITOR_OBJTYPE;
@@ -250,7 +260,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       });
     };
     const menu = (
-      <Menu>
+      <Menu style={{top: '-10px', left: '10px'}}>
         <Menu.Item key="0" onClick={handleClickCopyLink}>
           <span className={`${classNamePrefix}-item-copy`}/>
           {localizedStrings.COPY_LINK}
@@ -490,14 +500,14 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
             </div>
             <div className={`${classNamePrefix}-application-list-container`}>
               <ReactWsGrid
-                rowSelectable={false}
-                rowMultiSelectWithClick={false}
+                rowSelectable={true}
                 onSortChanged={this.onSortChange}
+                onRowClicked = {this.onRowClick}
                 getRowHeight={() => 32}
                 showCheckbox={false}
                 useToolbar={true}
                 // @ts-ignore: RC Component Support error
-                rowSelection='single'
+                rowSelection={'single'}
                 getContextMenuItems={getContextMenuItems}
                 isLoading={this.props.configLoading && this.state.isInitialLoading}
                 columnDefs={this.columnDef}

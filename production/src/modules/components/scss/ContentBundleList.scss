@@ -189,6 +189,9 @@
       // border: 1px solid transparent;
       outline: none;
     }
+    .ag-row-focus:not(.ag-row-selected) {
+      background-color: #fff !important;
+    }
     
     .ag-theme-alpine .ag-root-wrapper {
       border-color: #eaeaea;

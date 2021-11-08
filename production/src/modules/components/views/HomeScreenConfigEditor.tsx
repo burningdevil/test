@@ -15,13 +15,13 @@ import { HttpProxy } from '../../../main';
 import { RestApiError } from '../../../server/RestApiError';
 import { PARSE_METHOD } from '../../../utils/ParseMethods';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
-import { selectCurrentConfig, selectIsDuplicateConfig, selectIsConfigNameError, selectIsDossierAsHome } from '../../../store/selectors/HomeScreenConfigEditorSelector';
+import { selectCurrentConfig, selectIsDuplicateConfig, selectIsConfigNameError, selectIsDossierAsHome, selectDefaultGroupsName } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import * as api from '../../../services/Api';
 import { default as VC, localizedStrings, editorSize, iconTypes, libraryCustomizedIconKeys ,CONTENT_BUNDLE_FEATURE_FLAG, libraryCustomizedIconDefaultValues, CONTENT_BUNDLE_DEFAULT_GROUP_NAME, copyApplicationName} from '../HomeScreenConfigConstant'
 import { ConfirmationDialog, ConfirmationDialogWordings } from '../common-components/confirmation-dialog';
 import { HomeScreenConfigType } from '../../../../src/types/data-model/HomeScreenConfigModels';
-import { getFeatureFlag } from './HomeScreenUtils';
+import { getFeatureFlag, validName } from './HomeScreenUtils';
 
 declare var workstation: WorkstationModule;
 
@@ -36,7 +36,8 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
       configId: undefined,
       isNameCopyed: false,  // Copy of Name for duplicate config operation should only be handled one time.
       currentEnv: {},
-      handleSaving: false
+      handleSaving: false,
+      contentBundleFeatureEnable: false
     }
   }
 
@@ -79,7 +80,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         configId: configId,
         isNameCopyed: isNameCopyed
       });
-
+      this.loadPreference();
       workstation.environments.onEnvironmentChange((change: EnvironmentChangeArg) => {
         console.log('editor enviornment change: ' + change.actionTaken);
         console.log('editor enviornment change: env name : ' + change.changedEnvironment.name);
@@ -89,12 +90,27 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
           workstation.environments.disconnect(this.state.currentEnv.url);
           workstation.window.close();  
         }
-      })
+      });
+      (workstation.utils as any).addHandler('OnPreferencesChange', (msg: any) => {
+        // let newPrence = JSON.parse(msg.Response);
+        // this.loadPreference(newPrence);
+        workstation.window.close()
+      });
   }
-
+  loadPreference = (pref?: any) => {
+    if(pref){
+      this.setState({
+        contentBundleFeatureEnable: pref.workstation[CONTENT_BUNDLE_FEATURE_FLAG]
+      });
+      return;
+    }
+    this.setState({
+      contentBundleFeatureEnable: getFeatureFlag(CONTENT_BUNDLE_FEATURE_FLAG, this.state.currentEnv)
+    })
+  }
   componentWillReceiveProps(nextProps: any) {
     if (this.props.isDuplicateConfig && !this.state.isNameCopyed && nextProps.config.name !== this.props.config.name){
-      this.props.updateCurrentConfig({name: 'Copy of ' + nextProps.config.name});
+      this.props.updateCurrentConfig({name: copyApplicationName(nextProps.config.name)});
       this.setState({
         isNameCopyed: true
       });
@@ -177,7 +193,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 style={{marginLeft: 10}}
                 onClick={this.handleSaveConfig}
                 loading = {this.state.handleSaving}
-                disabled = {this.props.isConfigNameError || (isDossierHome && _.isEmpty(dossierUrl))}>
+                disabled = {this.props.isConfigNameError || (isDossierHome && _.isEmpty(dossierUrl)) || !validName(this.props.defaultGroupsName)}>
                 {localizedStrings.SAVE}
             </Button>
             {/* confirmation dialog of cancel */}
@@ -212,6 +228,9 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             }
           }
         });
+      }
+      if(this.props.isDossierHome && getFeatureFlag(CONTENT_BUNDLE_FEATURE_FLAG, this.state.currentEnv)){
+        config.homeScreen.homeLibrary.contentBundleIds = [];
       }
       if (configId && !this.props.isDuplicateConfig) {
         HttpProxy.put(api.getApiPathForEditApplication(configId), config, {}, PARSE_METHOD.BLOB).then(() => {
@@ -296,7 +315,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                                 <HomeScreenDossierSetting />
                                 {this.buttonGroup()}
                             </Tabs.TabPane> */}
-                            {getFeatureFlag(CONTENT_BUNDLE_FEATURE_FLAG, this.state.currentEnv) &&   <Tabs.TabPane tab={localizedStrings.NAVBAR_CONTENT_BUNDLES} key={VC.CONTENT_BUNDLES} disabled={this.props.config.homeScreen.mode === 1}>
+                            {this.state.contentBundleFeatureEnable &&   <Tabs.TabPane tab={localizedStrings.NAVBAR_CONTENT_BUNDLES} key={VC.CONTENT_BUNDLES} disabled={this.props.config.homeScreen.mode === 1}>
                                 <HomeScreenContentBundles/>
                                 {this.buttonGroup()}
                             </Tabs.TabPane> }
@@ -318,6 +337,7 @@ const mapState = (state: RootState) => ({
   isDossierHome: selectIsDossierAsHome(state),
   isDuplicateConfig: selectIsDuplicateConfig(state),
   isConfigNameError: selectIsConfigNameError(state),
+  defaultGroupsName: selectDefaultGroupsName(state)
 })
 
 const connector = connect(mapState, {

@@ -156,7 +156,7 @@ $tablet-scale: 0.85;
                 color: $mobile-primary-blue;
                 .icon-tb_profile_n {
                     display: inline-block;
-                    transform: scale(1.5) !important;
+                    transform: scale(1.25) !important;
                 }
             }
         }
@@ -540,6 +540,13 @@ $tablet-scale: 0.85;
         }
         
         
+    }
+    &-pad {
+        .dossier-header {
+            .icon-aa_font {
+                margin-top: 2px !important;
+            }
+        }
     }
 
 }
