@@ -1,6 +1,6 @@
 import * as _ from "lodash";
 import { IServerSideGetRowsParams } from 'ag-grid-community'
-import { EnumDSSXMLViewMedia, HomeScreenHomeObjectType } from '../HomeScreenConfigConstant'
+import { EnumDSSXMLViewMedia, HomeScreenHomeObjectType, SPECIAL_CHARACTER_REGEX } from '../HomeScreenConfigConstant'
 import { Environment } from "@mstr/workstation-types";
 
 export function getContentType (viewMedia: number) {
@@ -88,4 +88,10 @@ export function getFeatureFlag(key: string, env: any){
       return false;
     }
     return env.preferences?.[key];
+}
+export function validName(name: string) {
+  //cannot contain any of the following characters: \"[]
+  const pattern = SPECIAL_CHARACTER_REGEX;
+  const isInvalidCharacter = pattern.test(name);
+  return !isInvalidCharacter;
 }

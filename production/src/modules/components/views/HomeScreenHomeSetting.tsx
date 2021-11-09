@@ -48,7 +48,7 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
     this.setState({
         currentEnv: curEnv,
         contentBundleFeatureEnable: contentBundleEnable
-    })
+    });
     const { homeScreen } = this.props.config;
     const dossierUrl = _.get(homeScreen, dossierUrlPath, '');
     if (dossierUrl) {

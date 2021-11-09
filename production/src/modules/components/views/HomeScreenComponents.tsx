@@ -13,6 +13,7 @@ import { Tooltip } from '@mstr/rc'
 import { getFeatureFlag } from './HomeScreenUtils'
 import { env } from '../../../main'
 
+
 const childrenKeyOffset = 1000;
 /* ClassName */
 const classNamePrefix = 'home-screen-components';
@@ -392,8 +393,9 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         const contentBundleEnable = !!getFeatureFlag(CONTENT_BUNDLE_FEATURE_FLAG, curEnv);
         this.setState({
             contentBundleFeatureEnable: contentBundleEnable
-        })
+        });
       }
+    
     render() {
         return (
             <Layout className={`${classNamePrefix}`}>
