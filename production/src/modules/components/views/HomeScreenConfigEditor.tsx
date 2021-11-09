@@ -9,7 +9,6 @@ import HomeScreenComponents from './HomeScreenComponents';
 import HomeScreenMoreSetting from './HomeScreenMoreSetting';
 import HomeScreenHomeSetting from './HomeScreenHomeSetting';
 import HomeScreenContentBundles from './HomeScreenContentBundles';
-import HomeScreenDossierSetting from './HomeScreenDossierSetting';
 import * as _ from "lodash";
 import { HttpProxy } from '../../../main';
 import { RestApiError } from '../../../server/RestApiError';
@@ -20,7 +19,6 @@ import * as Actions from '../../../store/actions/ActionsCreator';
 import * as api from '../../../services/Api';
 import { default as VC, localizedStrings, editorSize, iconTypes, libraryCustomizedIconKeys ,CONTENT_BUNDLE_FEATURE_FLAG, libraryCustomizedIconDefaultValues, CONTENT_BUNDLE_DEFAULT_GROUP_NAME, copyApplicationName} from '../HomeScreenConfigConstant'
 import { ConfirmationDialog, ConfirmationDialogWordings } from '../common-components/confirmation-dialog';
-import { HomeScreenConfigType } from '../../../../src/types/data-model/HomeScreenConfigModels';
 import { getFeatureFlag, validName } from './HomeScreenUtils';
 
 declare var workstation: WorkstationModule;
@@ -229,7 +227,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
           }
         });
       }
-      if(this.props.isDossierHome && getFeatureFlag(CONTENT_BUNDLE_FEATURE_FLAG, this.state.currentEnv)){
+      if(this.props.isDossierHome){
         config.homeScreen.homeLibrary.contentBundleIds = [];
       }
       if (configId && !this.props.isDuplicateConfig) {

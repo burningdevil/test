@@ -30,7 +30,6 @@ import Constatnt from '../HomeScreenConfigConstant'
 import * as api from '../../../services/Api';
 import { t } from '../../../i18n/i18next';
 import CustomHeader from '../common-components/ag-grid-components/custom-header/custom-header';
-import { ReactWsGrid } from '@mstr/react-ws-grid';
 
 declare var workstation: WorkstationModule;
 var searchName = '';
