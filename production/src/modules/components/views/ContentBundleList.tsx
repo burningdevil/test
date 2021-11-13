@@ -6,7 +6,7 @@ import { SearchInput, Input, Tooltip } from '@mstr/rc';
 import { WorkstationModule } from '@mstr/workstation-types';
 import { HttpProxy } from '../../../main';
 import { AgGridReact } from 'ag-grid-react';
-import { default as VC, BundleInfo, iconTypes, BundleRecipientType, localizedStrings, SPECIAL_CHARACTER_REGEX } from '../HomeScreenConfigConstant'
+import { default as VC, BundleInfo, iconTypes, BundleRecipientType, localizedStrings, SPECIAL_CHARACTER_REGEX, CONTENT_BUNDLE_DEFAULT_GROUP_NAME } from '../HomeScreenConfigConstant'
 import { PlusCircleOutlined, DownOutlined, EnterOutlined } from '@ant-design/icons'
 import { HomeScreenBundleListDatasource, getHomeScreenBundleListGroupCellInnerRenderer, validName } from './HomeScreenUtils'
 import {
@@ -24,7 +24,7 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';;
 import { connect } from 'react-redux';
-import { selectContentBundleList, selectDefaultGroupsName } from '../../../store/selectors/HomeScreenConfigEditorSelector';
+import { selectContentBundleList, selectContentLoadingFinish, selectDefaultGroupsName } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator'
 import Constatnt from '../HomeScreenConfigConstant'
 import * as api from '../../../services/Api';
@@ -97,6 +97,7 @@ class ContentBundleList extends React.Component<any, any> {
     this.state = {
       currentBundleList: [],
       showBundlePicker: false,
+      showEmptyView: false,
       nameFilter: ''
     };
   }
@@ -161,7 +162,7 @@ class ContentBundleList extends React.Component<any, any> {
     this.setState({
       currentBundleList: bundles
     });
-
+    this.gridOptions.cacheBlockSize = Math.max(this.gridOptions.cacheBlockSize, bundles.length);
     this.updateData(bundles, this.gridOptions);
   }
 
@@ -252,7 +253,7 @@ class ContentBundleList extends React.Component<any, any> {
       }
     },
     treeData: true,
-
+    cacheBlockSize: 100,
     isServerSideGroup: function (dataItem: any) {
       // indicate if node is a group
       return dataItem.expand;
@@ -339,11 +340,15 @@ class ContentBundleList extends React.Component<any, any> {
       .map((element, index) => {
         const showAddButton = iconTypes.myGroup.key === element.key
         const showExpandIcon = iconTypes.myGroup.key === element.key || iconTypes.defaultGroup.key === element.key
-        const showContent = iconTypes.defaultGroup.key === element.key
+        const showContent = iconTypes.defaultGroup.key === element.key;
+        let defaultGroupName = localizedStrings.DEFAULT_GROUPS;
+        if(this.props.defaultGroupsName && this.props.defaultGroupsName !== CONTENT_BUNDLE_DEFAULT_GROUP_NAME){
+          defaultGroupName = this.props.defaultGroupsName
+        }
         return (
           <div style={{ display: 'relative' }}>
             <div className={`${classNamePrefix}-popover-text`}> <span className={element.iconName} key={index} />
-              <span>{showExpandIcon ? this.props.defaultGroupsName : element.displayText}</span>
+              <span className = 'overflow'>{showExpandIcon ? defaultGroupName : element.displayText}</span>
               {showAddButton && <PlusCircleOutlined />}
               {showExpandIcon && <DownOutlined style={{ fontSize: '5px', marginLeft: 'auto', marginRight: '4px' }} />}
             </div>
@@ -401,7 +406,7 @@ class ContentBundleList extends React.Component<any, any> {
   }
   renderAddContent = () => {
     return (
-      <div className={`${classNamePrefix}-add-content`} onClick={() => {
+      <div className={`${classNamePrefix}-add-content unselectable`} onClick={() => {
         this.handleAddContent();
       }}>
         <span tabIndex={0} aria-label={localizedStrings.ADD_CONTENT_BUNDLES_TEXT} className={VC.FONT_ADD_NEW}
@@ -452,7 +457,7 @@ class ContentBundleList extends React.Component<any, any> {
           <div id='bundleListGrid' style={{ height: '100%', width: '100%' }} className='ag-theme-alpine'>
             <AgGridReact gridOptions={this.gridOptions}>
             </AgGridReact>
-            {this.props.allowDelete && this.state.currentBundleList && this.state.currentBundleList.length === 0 && this.renderEmptyView()}
+            {this.props.allowDelete && this.props.loadFinished  && !this.state.currentBundleList?.length && this.renderEmptyView()}
           </div>
         </div>
         <ContentBundlePicker handleClose={this.handleClosePicker} visible={this.state.showBundlePicker} handleBundlesAdd={this.handleNewBundlesAdded} />
@@ -464,6 +469,7 @@ class ContentBundleList extends React.Component<any, any> {
 const mapState = (state: RootState) => ({
   allBundleList: selectContentBundleList(state),
   defaultGroupsName: selectDefaultGroupsName(state),
+  loadFinished: selectContentLoadingFinish(state)
 })
 
 const connector = connect(mapState, {

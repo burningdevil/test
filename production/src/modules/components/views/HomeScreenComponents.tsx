@@ -99,14 +99,16 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                 // check all related props one time.
                 const check = ['selectedDocumentIcons', 'selectedLibraryIcons'];
                 const temp = check.some(v => this.props[v].includes(key));
-                validResult = (!validReverse && temp) ||  (validReverse && !temp);
+                validResult = (!validReverse && temp) || (validReverse && !temp);
                 if(!validResult){
                     return false;
                 }
                 // check for the customized item.
-                const check_customized = Object.keys(this.props.selectedLibraryCustomizedItems).includes(key);
-                if(!check_customized || (validReverse && this.props.selectedLibraryCustomizedItems[key] === true) || (!validReverse && this.props.selectedLibraryCustomizedItems[key] === false)){
-                    return false;
+                if(libraryCustomizedIconKeys.includes(key)){
+                    const check_customized = Object.keys(this.props.selectedLibraryCustomizedItems).includes(key);
+                    if(!check_customized || (validReverse && this.props.selectedLibraryCustomizedItems[key] === true) || (!validReverse && this.props.selectedLibraryCustomizedItems[key] === false)){
+                        return false;
+                    }
                 }
 
             };

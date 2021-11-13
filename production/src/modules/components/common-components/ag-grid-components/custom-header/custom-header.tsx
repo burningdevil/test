@@ -34,15 +34,31 @@ export default (props: any) => {
         setCheckAll(false);
         return
     }
-    if(selectNodes?.length < rowModel.getRowCount()){
+    const total = getAllData(rowModel.gridApi);
+    if(selectNodes?.length < total){
         setIndeterminate(true);
         return
     }
-    if(selectNodes?.length === rowModel.getRowCount()){
+    if(selectNodes?.length === total){
         setIndeterminate(false);
         setCheckAll(true);
         return;
     }
+  }
+  /**
+   * 
+   * @param gridApi 
+   * @returns 
+   * the count of the first level row data.
+   */
+  const getAllData  =(gridApi: any) => {
+    let res = 0;
+    gridApi.forEachNode((node: any) => {
+      if(node.group){
+        res++;
+      }
+    })
+    return res;
   }
   const onSortRequested = (order: any, event: any) => {
     props.setSort(order, event.shiftKey);

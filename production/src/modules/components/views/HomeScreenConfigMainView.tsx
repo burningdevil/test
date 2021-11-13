@@ -35,7 +35,7 @@ const customAppPath = 'CustomApp?id=';
 const configSaveSuccessPath = 'Message.homeConfigSaveSuccess';
 let gridApi: GridApi;
 class HomeScreenConfigMainView extends React.Component<any, any> {
-  columnDef: ColumnDef[];
+  columnDef: ColumnDef[] = [];
   constructor(props: any) {
     super(props)
     this.state = {
@@ -49,6 +49,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       isInitialLoading: true,
       deleteApplicationsToBeConfirmed: []
     };
+    // this.initOption();
   }
 
   async componentDidMount() {
@@ -92,7 +93,6 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     // waiting for the @mstr/workstation type's interface.
 
     (workstation.utils as any).addHandler('OnPreferencesChange', (msg: any) => {
-      console.log(msg);
       this.loadData();
       this.checkServerAndUserPrivilege();
     });
@@ -273,7 +273,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     );
   
     return (
-      <Dropdown className={classNames(classNamePrefix, 'application-share-menu-container')} overlay={menu} trigger={['click']}>
+      <Dropdown className={classNames(classNamePrefix, 'application-share-menu-container')} overlay={menu} trigger={['click', 'hover']}>
         <span className={VC.FONT_SHARE}/>
       </Dropdown>
     );
@@ -312,14 +312,14 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     return configList;
   }
 
-  getColumnDef = () => {
+  getColumnDef = (enableContent?: boolean) => {
     let cols = [
       {
         field: VC.NAME,
         headerName: localizedStrings.NAME,
         lockVisible: true,
-        // width: 300,
-        flex: 3,
+        width: 300,
+        minWidth: 200,
         cellRendererFramework: (rendererParam: any) => {
           const d = rendererParam.data;
           return (
@@ -333,9 +333,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       },
       {
         field: VC.DESC,
-        flex: 2,
         headerName: localizedStrings.DESCRIPTION,
-
       },
       {
         field: VC.MODE,
@@ -344,6 +342,37 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         // flex: 1,
         resizable: false,
       },
+      {
+        field: VC.CONTENT_BUNDLES,
+        headerName: localizedStrings.NAVBAR_CONTENT_BUNDLES,
+        sortable: false,
+        resizable: true,
+        // flex: 2.5,
+        hide: true,
+        minWidth: 300,
+        cellRendererFramework: (rendererParam: any) => {
+          const d = rendererParam.data;
+          if (d.contentBundles.length === 0) {
+            return (
+              <div className={`${classNamePrefix}-content-bundles`}>
+                <span>{d.mode === localizedStrings.LIBRARY ? localizedStrings.BUNDLE_USER_HINT : ''}</span>
+              </div>
+            )
+          }
+          return (
+            <div className={`${classNamePrefix}-content-bundles`}>
+              {
+                d.contentBundles.map(((bundle: {name: string, color: number}) => {
+                  return (<span className={`${classNamePrefix}-content-bundles-item`}>
+                    <span className={`${classNamePrefix}-content-bundles-item-icon`} style={{ background: hexIntToColorStr(bundle.color) }}></span>
+                    <span className={`${classNamePrefix}-content-bundles-item-text`}>{bundle.name}</span>
+                  </span>)
+                }))
+              }
+            </div>
+          )
+        },
+      },
       // {
       //   field: VC.PLATFORM_STR,
       //   headerName: localizedStrings.PLATFORMS,
@@ -351,24 +380,25 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       {
         field: VC.DATE_MODIFIED,
         headerName: localizedStrings.DATE_MODIFIED,
-        flex: 1.75,
+        width: 175,
         resizable: true // DE209336; make date column resizable.
       },
       {
         field: VC.DATE_CREATED,
         headerName: localizedStrings.DATE_CREATED,
-        flex: 1.75,
+        width: 175,
         resizable: true,
         initialHide: true
       }
     ] as ColumnDef[];
-    if(getFeatureFlag(CONTENT_BUNDLE_FEATURE_FLAG, this.state.currentEnv)){
+    if(enableContent || getFeatureFlag(CONTENT_BUNDLE_FEATURE_FLAG, this.state.currentEnv)){
       let contentItem = {
         field: VC.CONTENT_BUNDLES,
         headerName: localizedStrings.NAVBAR_CONTENT_BUNDLES,
         sortable: false,
         resizable: true,
-        flex: 2.5,
+        // flex: 2.5,
+        minWidth: 300,
         cellRendererFramework: (rendererParam: any) => {
           const d = rendererParam.data;
           if (d.contentBundles.length === 0) {
@@ -392,8 +422,15 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
           )
         },
       };
-      cols.splice(3, 0,contentItem);
-    };
+      cols.find(v => v.field === VC.CONTENT_BUNDLES).hide = false;
+      cols.find(v => v.field === VC.DESC).width = 200;
+    }else {
+      if(Object.keys(this.state.currentEnv)?.length && !getFeatureFlag(CONTENT_BUNDLE_FEATURE_FLAG, this.state.currentEnv)){
+        cols.splice(3, 1);
+        
+      }
+      cols.find(v => v.field === VC.DESC).width = 500;
+    }
     return cols;
   }
 
@@ -510,10 +547,11 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                 rowSelection={'single'}
                 getContextMenuItems={getContextMenuItems}
                 isLoading={this.props.configLoading && this.state.isInitialLoading}
-                columnDefs={this.columnDef}
+                columnDefs={this.getColumnDef()}
                 defaultColDef={{
                   resizable: true,
                   sortable: true,
+                  minWidth: 100
                 }}
                 rowData={configDataSource}
                 noDataMessage={localizedStrings.NO_DATA_MESSAGE}

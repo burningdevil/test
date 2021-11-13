@@ -14,14 +14,6 @@ export const loadConfigList = () => ({
   type: Actions.LOAD_CONFIG_LIST
 })
 
-export const loadContentBundleListSuccess = (contentBundleList: Array<MainViewContentBundleType>) => ({
-  type: Actions.LOAD_CONTENT_BUNDLE_LIST_SUCCESS,
-  data: contentBundleList,
-})
-
-export const loadContentBundleListFail = () => ({
-  type: Actions.LOAD_CONTENT_BUNDLE_LIST_FAIL,
-})
 
 /* ---------------------------- Editor Config Main ---------------------------- */
 export const setCurrentConfig = (config: HomeScreenConfigType) => ({
@@ -75,7 +67,23 @@ export const finishLoadingDossierListSuccess = () => ({
 export const finishLoadingDossierListFail = () => ({
   type: Actions.FINISH_LOADING_DOSSIER_LIST_FAILURE
 })
+/* ------------------------------ content bundle list ----------------------------*/
+export const startLoadingContentBundleList = () => ({
+  type: Actions.START_LOADING_CONTENT_LIST
+})
 
+export const finishLoadingContentBundleList = () => ({
+  type: Actions.FINISH_LOADING_CONTENT_LIST
+})
+
+export const loadContentBundleListSuccess = (contentBundleList: Array<MainViewContentBundleType>) => ({
+  type: Actions.LOAD_CONTENT_BUNDLE_LIST_SUCCESS,
+  data: contentBundleList,
+})
+
+export const loadContentBundleListFail = () => ({
+  type: Actions.LOAD_CONTENT_BUNDLE_LIST_FAIL,
+})
 
 
 
