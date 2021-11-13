@@ -37,6 +37,8 @@ var currentProjs: Array<string> = [];
 const classNamePrefix = 'content-bundle-list-container';
 const rowSelectionType = 'multiple';
 const rowModelType = 'serverSide';
+const imgUser = require('../images/bundleUser.png');
+const imgGroup = require('../images/bundleUserGroup.png');
 
 function FakeHomeScreenBundleListServer(allData: BundleInfo[]) {
   return {
@@ -284,22 +286,56 @@ class ContentBundleList extends React.Component<any, any> {
 
     columnDefs: [
       { field: VC.NAME, rowGroup: true, hide: true },
+
       {
-        field: VC.RECIPIENT_STR, headerName: localizedStrings.RECIPIENTS, cellRenderer: (params: any) => {
-          if (params.node.group) {
-            if (params.node.data.recipientType === BundleRecipientType.GROUP) {
-              return '<img class="content-bundle-list-container-item-group" src="../assets/images/bundleUserGroup.png"/><span style="color: #35383a;; padding: 4px; font-size: 12px">' + params.value + '</span>';
-            } else if (params.node.data.recipientType === BundleRecipientType.USER) {
-              return '<img class="content-bundle-list-container-item-user" src="../assets/images/bundleUser.png"/><span style="color: #35383a; padding: 4px; font-size: 12px">' + params.value + '</span>';
-            } else if (params.node.data.recipientType === BundleRecipientType.BOTH) {
-              return '<img class="content-bundle-list-container-item-user" src="../assets/images/bundleUser.png"/><img class="content-bundle-list-container-item-group2" src="../assets/images/bundleUserGroup.png"/><span style="color: #35383a; padding: 4px; font-size: 12px">' + params.value + '</span>';
-            } else {
-              return '';
-            }
-          } else {
+        field: VC.RECIPIENT_STR, headerName: localizedStrings.RECIPIENTS, 
+        // cellRenderer: (params: any) => {
+        //   if (params.node.group) {
+        //     if (params.node.data.recipientType === BundleRecipientType.GROUP) {
+        //       return `<img class="content-bundle-list-container-item-group" src={imgUser}/><span style="color: #35383a;; padding: 4px; font-size: 12px">{params.value}</span>`;
+        //     } else if (params.node.data.recipientType === BundleRecipientType.USER) {
+        //       return '<img class="content-bundle-list-container-item-user" src="../assets/images/bundleUser.png"/><span style="color: #35383a; padding: 4px; font-size: 12px">' + params.value + '</span>';
+        //     } else if (params.node.data.recipientType === BundleRecipientType.BOTH) {
+        //       return '<img class="content-bundle-list-container-item-user" src="../assets/images/bundleUser.png"/><img class="content-bundle-list-container-item-group2" src="../assets/images/bundleUserGroup.png"/><span style="color: #35383a; padding: 4px; font-size: 12px">' + params.value + '</span>';
+        //     } else {
+        //       return '';
+        //     }
+        //   } else {
+        //     return '    - -';
+        //   }
+        // },
+        cellRendererFramework: (params: any) => {
+          const d = params.data;
+          if(!params.node.group){
             return '    - -';
           }
-        }
+          if (params.node.data.recipientType === BundleRecipientType.GROUP) {
+            return (
+              <span>
+                  <img className="content-bundle-list-container-item-group" src={imgGroup}/>
+                  <span className="content-bundle-list-container-item-text">{params.value}
+                  </span>
+              </span>
+              
+            )
+          }else if(params.node.data.recipientType === BundleRecipientType.USER){
+            return (
+              <span>
+                  <img className="content-bundle-list-container-item-user" src={imgUser}/>
+                  <span className="content-bundle-list-container-item-text">{params.value}
+                  </span>
+              </span>
+            )
+          }else if(params.node.data.recipientType === BundleRecipientType.BOTH) {
+            <span>
+                <img className="content-bundle-list-container-item-user" src={imgUser}/>
+                <img className="content-bundle-list-container-item-group2" src={imgGroup}/>
+                <span className="content-bundle-list-container-item-text">{params.value}</span>
+            </span>
+          }else {
+            return ''
+          }
+        },
       }
     ]
   };

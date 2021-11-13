@@ -47,7 +47,8 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       isMDVersionMatched: true,
       isUserHasAccess: true,
       isInitialLoading: true,
-      deleteApplicationsToBeConfirmed: []
+      deleteApplicationsToBeConfirmed: [],
+      contentBundleFeatureEnable: true
     };
     // this.initOption();
   }
@@ -106,6 +107,9 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       currentEnv: currentEnv,
       isConnected: isConnected
     });
+    this.setState({
+      contentBundleFeatureEnable: getFeatureFlag(CONTENT_BUNDLE_FEATURE_FLAG, this.state.currentEnv)
+    })
     if (isConnected) {
       const status: any = await api.getServerStatus();
       const isLibraryVersionMatched = !!status.webVersion && isLibraryServerVersionMatch(status.webVersion);
@@ -122,7 +126,6 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       this.setState({
         isMDVersionMatched: isMDVersionMatched
       });
-      this.initOption();
     }
 
   }
@@ -312,7 +315,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     return configList;
   }
 
-  getColumnDef = (enableContent?: boolean) => {
+  getColumnDef = () => {
     let cols = [
       {
         field: VC.NAME,
@@ -391,43 +394,12 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         initialHide: true
       }
     ] as ColumnDef[];
-    if(enableContent || getFeatureFlag(CONTENT_BUNDLE_FEATURE_FLAG, this.state.currentEnv)){
-      let contentItem = {
-        field: VC.CONTENT_BUNDLES,
-        headerName: localizedStrings.NAVBAR_CONTENT_BUNDLES,
-        sortable: false,
-        resizable: true,
-        // flex: 2.5,
-        minWidth: 300,
-        cellRendererFramework: (rendererParam: any) => {
-          const d = rendererParam.data;
-          if (d.contentBundles.length === 0) {
-            return (
-              <div className={`${classNamePrefix}-content-bundles`}>
-                <span>{d.mode === localizedStrings.LIBRARY ? localizedStrings.BUNDLE_USER_HINT : ''}</span>
-              </div>
-            )
-          }
-          return (
-            <div className={`${classNamePrefix}-content-bundles`}>
-              {
-                d.contentBundles.map(((bundle: {name: string, color: number}) => {
-                  return (<span className={`${classNamePrefix}-content-bundles-item`}>
-                    <span className={`${classNamePrefix}-content-bundles-item-icon`} style={{ background: hexIntToColorStr(bundle.color) }}></span>
-                    <span className={`${classNamePrefix}-content-bundles-item-text`}>{bundle.name}</span>
-                  </span>)
-                }))
-              }
-            </div>
-          )
-        },
-      };
+    if(this.state.contentBundleFeatureEnable){
       cols.find(v => v.field === VC.CONTENT_BUNDLES).hide = false;
       cols.find(v => v.field === VC.DESC).width = 200;
     }else {
-      if(Object.keys(this.state.currentEnv)?.length && !getFeatureFlag(CONTENT_BUNDLE_FEATURE_FLAG, this.state.currentEnv)){
+      if(Object.keys(this.state.currentEnv)?.length && !this.state.contentBundleFeatureEnable){
         cols.splice(3, 1);
-        
       }
       cols.find(v => v.field === VC.DESC).width = 500;
     }
