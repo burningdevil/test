@@ -73,12 +73,15 @@ export const loadConfigList = () => {
 }
 
 export const loadContentBundleList = () => {
+    store.dispatch(ActionsCreator.startLoadingContentBundleList())
     HttpProxy.get('/contentBundles').then((response: any) => {
         let data = response?.data?.contentBundles ?? response?.contentBundles;
         data = data.filter((o: any) => o.id !== undefined);
         store.dispatch(ActionsCreator.loadContentBundleListSuccess(data));
+        store.dispatch(ActionsCreator.finishLoadingContentBundleList());
     }).catch((e: any) => {
         store.dispatch(ActionsCreator.loadContentBundleListFail());
+        store.dispatch(ActionsCreator.finishLoadingContentBundleList());
     });
 }
 

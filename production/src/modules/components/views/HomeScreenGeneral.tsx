@@ -158,7 +158,7 @@ class HomeScreenGeneral extends React.Component<any, any> {
                     {localizedStrings.DESCRIPTION}
                 </div>
                 <div className={`${classNamePrefix}-description-name`}>
-                    <TextArea className={`${classNamePrefix}-description-name-input`} placeholder='' rows={3} maxLength={250} value={description} onChange={this.handleDescChange}/>
+                    <TextArea className={`${classNamePrefix}-description-name-input`} placeholder='' autoSize={{ minRows: 3, maxRows: 5 }} maxLength={250} value={description} onChange={this.handleDescChange}/>
                 </div>
             </div>
             {/* <div className={`${classNamePrefix}-platform`}>

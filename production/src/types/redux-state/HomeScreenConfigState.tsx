@@ -21,9 +21,15 @@ export interface HomeScreenBundleContentState {
     loadingDossiers: boolean,
     loadingDossiersFinish: boolean,
 }
+export interface HomeScreenEditorContentBundleState {
+    data: Array<HomeScreenBundleContentListItem>
+    loadingContentBundle: boolean,
+    loadingContentBundleFinish: boolean,
+}
 
 export interface RootState {
     configEditor: HomeScreenConfigEditorState,
     configMain: HomeScreenMainViewState,
-    bundleContent: HomeScreenBundleContentState
+    bundleContent: HomeScreenBundleContentState,
+    content: HomeScreenEditorContentBundleState
 }
