@@ -3,7 +3,7 @@ import { CaretDownOutlined, CaretRightOutlined } from '@ant-design/icons'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import '../scss/HomeScreenComponents.scss'
-import { default as VC, localizedStrings, previewerWidth, platformType, iconDetail, iconTypes, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons, iconValidKey, libraryIconKeys, sidebarIconKeys, libraryCustomizedIconKeys, mobileOnlyIconKeys, webDesktopOnlyIconKeys, REVERSE, platformSpecificIcons, platformSpecificIconKeys, CONTENT_BUNDLE_FEATURE_FLAG, libraryCustomizedIconDefaultValues } from '../HomeScreenConfigConstant'
+import { default as VC, localizedStrings, previewerWidth, platformType, iconDetail, iconTypes, libraryIcons, dossierIcons, dossierIconsDossierHome, extraDesktopIcons, extraMobileIcons, childrenIcons, iconValidKey, libraryIconKeys, sidebarIconKeys, libraryCustomizedIconKeys, mobileOnlyIconKeys, webDesktopOnlyIconKeys, REVERSE, platformSpecificIcons, platformSpecificIconKeys, CONTENT_BUNDLE_FEATURE_FLAG, libraryCustomizedIconDefaultValues, CONTENT_BUNDLE_DEFAULT_GROUP_NAME } from '../HomeScreenConfigConstant'
 import * as _ from 'lodash'
 import HomeScreenPreviewer from './HomeScreenPreviewer'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
@@ -254,7 +254,11 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
             .map( (icon, index) =>  {
                 let displayText = icon.displayText
                 if(icon.key === iconTypes.defaultGroup.key) {
-                    displayText = _.isEmpty(this.props.defaultGroupsName) ? localizedStrings.DEFAULT_GROUPS : this.props.defaultGroupsName
+                    let defaultGroupName = localizedStrings.DEFAULT_GROUPS;
+                    if(this.props.defaultGroupsName && this.props.defaultGroupsName !== CONTENT_BUNDLE_DEFAULT_GROUP_NAME){
+                        defaultGroupName = this.props.defaultGroupsName;
+                    }
+                    displayText = defaultGroupName;
                 }
                 return (
                     {key: childrenKeyOffset+index, displayText: [icon.iconName, displayText], selected: this.iconSelectedInfo(icon.key)}
