@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { default as VC, localizedStrings, childrenIcons, iconDetail, iconTypes, platformType, reviewType, dossierIcons, dossierIconsDossierHome, libraryIconKeys, sidebarIconKeys, libraryCustomizedIconKeys, iconValidKey, extraDesktopIcons, extraMobileIcons, platformSpecificIconKeys, libraryCustomizedIconDefaultValues } from '../HomeScreenConfigConstant'
+import { default as VC, localizedStrings, childrenIcons, iconDetail, iconTypes, platformType, reviewType, dossierIcons, dossierIconsDossierHome, libraryIconKeys, sidebarIconKeys, libraryCustomizedIconKeys, iconValidKey, extraDesktopIcons, extraMobileIcons, platformSpecificIconKeys, libraryCustomizedIconDefaultValues, CONTENT_BUNDLE_DEFAULT_GROUP_NAME } from '../HomeScreenConfigConstant'
 import { Layout, Radio } from 'antd'
 import { PlusCircleOutlined, DownOutlined } from '@ant-design/icons'
 import '../scss/HomeScreenPreviewer.scss'
@@ -93,8 +93,10 @@ class HomeScreenPreviewer extends React.Component<any, any> {
             .map( (element, index) => {
             const showAddButton = iconTypes.myGroup.key === element.key;
             const showContent = iconTypes.defaultGroup.key === element.key;
-            const defaultGroupName = this.props.config.homeScreen.homeLibrary.defaultGroupsName ? this.props.config.homeScreen.homeLibrary.defaultGroupsName : localizedStrings.DEFAULT_GROUPS;
-            
+            let defaultGroupName = localizedStrings.DEFAULT_GROUPS;
+            if(this.props.config.homeScreen.homeLibrary.defaultGroupsName && this.props.config.homeScreen.homeLibrary.defaultGroupsName !== CONTENT_BUNDLE_DEFAULT_GROUP_NAME){
+                defaultGroupName = this.props.config.homeScreen.homeLibrary.defaultGroupsName;
+            }
             return this.iconShouldShow(element) &&
                 <div>
                     <div className={`${classNamePrefix}-pad-overview-left-text`}>

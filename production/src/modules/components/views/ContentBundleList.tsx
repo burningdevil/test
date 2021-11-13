@@ -398,7 +398,8 @@ class ContentBundleList extends React.Component<any, any> {
   }
 
   renderChangeNameField = () => {
-    const msgInfoID = 'contentBundleListMsgInfoID'
+    const msgInfoID = 'contentBundleListMsgInfoID';
+    const defaultGroupName = this.props.defaultGroupsName === CONTENT_BUNDLE_DEFAULT_GROUP_NAME ? localizedStrings.DEFAULT_GROUPS : this.props.defaultGroupsName;
     return (
       <div className={`${classNamePrefix}-title`}>
         {localizedStrings.DEFAULT_GROUPS_TITLE}
@@ -413,7 +414,7 @@ class ContentBundleList extends React.Component<any, any> {
         </Tooltip>
         <Input
           placeholder={localizedStrings.DEFAULT_GROUPS}
-          value={this.props.defaultGroupsName}
+          value={defaultGroupName}
           onValidate = {(e: string) => {
             return validName(e);
           }}
