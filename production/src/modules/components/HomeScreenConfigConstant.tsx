@@ -709,6 +709,7 @@ export const extraMobileIcons = [iconTypes.aaFont];
 // children icons for sidebar
 // export const childrenIcons = [iconTypes.all, iconTypes.favorites, iconTypes.recents, iconTypes.defaultGroup, iconTypes.myGroup, iconTypes.accountMobile]
 export const childrenIcons = [
+  iconTypes.addLibrary,
   iconTypes.all,
   iconTypes.myContent,
   iconTypes.favorites,
@@ -717,7 +718,6 @@ export const childrenIcons = [
   iconTypes.defaultGroup,
   iconTypes.myGroup,
   iconTypes.accountMobile,
-  iconTypes.addLibrary,
 ];
 
 // for accountMobile and accountWeb to remove suffix
