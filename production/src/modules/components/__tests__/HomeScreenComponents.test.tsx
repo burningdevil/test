@@ -75,7 +75,7 @@ describe('HomeScreenComponents Component', () => {
 
     // Check Toolbar Icon status after toolbar disabled
     const switches = queryAllByRole('switch');
-    expect(switches.length).toBe(10);  // 10 Icon switches for dossier as home
+    expect(switches.length).toBe(11);  // 10 Icon switches for dossier as home
     expect(switches[1]).toBeChecked();
     expect(switches[1]).toBeDisabled(); // Because toolbar is disabled in preview actions
 
