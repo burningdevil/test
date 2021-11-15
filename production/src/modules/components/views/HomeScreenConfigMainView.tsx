@@ -284,6 +284,10 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
 
   generateConfigDisplayList = () => {
     const THIS = this;
+    const record: any = {};
+    THIS.props.contentBundleList.forEach((v: any) => {
+      record[v.id] = v;
+    });
     const configList = this.props.configList.map((config: any) => {
       let resultConfig = _.cloneDeep(config);
       if (!_.has(resultConfig, VC.PLATFORM)) {
@@ -294,9 +298,10 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       if (!_.has(resultConfig, [VC.HOME_SCREEN, VC.HOME_LIBRARY, VC.CONTENT_BUNDLE_IDS])) {
         _.assign(resultConfig, { contentBundles: []});
       } else {
-        var arr = resultConfig.homeScreen.homeLibrary.contentBundleIds.reduce(function(res: any, v: any) {
-          return res.concat(_.filter(THIS.props.contentBundleList, function(o) { return o.id === v; }));
-          }, []);
+        let arr: any[] = [];
+        resultConfig.homeScreen.homeLibrary.contentBundleIds.forEach((id: string) => {
+          arr.push(record[id]);
+        })
         _.assign(resultConfig, { contentBundles: arr });
       }
 
@@ -355,7 +360,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         minWidth: 300,
         cellRendererFramework: (rendererParam: any) => {
           const d = rendererParam.data;
-          if (d.contentBundles.length === 0) {
+          if (d.contentBundles?.length === 0) {
             return (
               <div className={`${classNamePrefix}-content-bundles`}>
                 <span>{d.mode === localizedStrings.LIBRARY ? localizedStrings.BUNDLE_USER_HINT : ''}</span>
@@ -365,7 +370,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
           return (
             <div className={`${classNamePrefix}-content-bundles`}>
               {
-                d.contentBundles.map(((bundle: {name: string, color: number}) => {
+                d.contentBundles?.map(((bundle: {name: string, color: number}) => {
                   return (<span className={`${classNamePrefix}-content-bundles-item`}>
                     <span className={`${classNamePrefix}-content-bundles-item-icon`} style={{ background: hexIntToColorStr(bundle.color) }}></span>
                     <span className={`${classNamePrefix}-content-bundles-item-text`}>{bundle.name}</span>

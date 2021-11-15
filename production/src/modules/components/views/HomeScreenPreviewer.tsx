@@ -149,10 +149,10 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                 footerIcons = isDossierHome ? [iconTypes.filter, iconTypes.comment, iconTypes.notification, iconTypes.account] : [iconTypes.bookmark, iconTypes.reset, iconTypes.filter, iconTypes.comment]
                 break
             case reviewType.WEB:
-                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.editDossier, iconTypes.account, iconTypes.notification, iconTypes.share, iconTypes.comment, iconTypes.filter] : [iconTypes.previewLibraryWeb, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.editDossier, iconTypes.accountWeb, iconTypes.share, iconTypes.comment, iconTypes.filter]
+                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.undoRedo, iconTypes.editDossier, iconTypes.account, iconTypes.notification, iconTypes.share, iconTypes.comment, iconTypes.filter] : [iconTypes.previewLibraryWeb, iconTypes.toc,iconTypes.undoRedo, iconTypes.bookmark, iconTypes.reset, iconTypes.editDossier, iconTypes.accountWeb, iconTypes.share, iconTypes.comment, iconTypes.filter]
                 break;
             case reviewType.DESKTOP:
-                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.editDossier, iconTypes.account, iconTypes.notification, iconTypes.share, iconTypes.comment, iconTypes.hyper, iconTypes.filter, iconTypes.dataSearch] : [iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.editDossier, iconTypes.share, iconTypes.comment, iconTypes.hyper, iconTypes.filter, iconTypes.dataSearch]
+                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.undoRedo, iconTypes.editDossier, iconTypes.account, iconTypes.notification, iconTypes.share, iconTypes.comment, iconTypes.hyper, iconTypes.filter, iconTypes.dataSearch] : [iconTypes.toc, iconTypes.undoRedo, iconTypes.bookmark, iconTypes.reset, iconTypes.editDossier, iconTypes.share, iconTypes.comment, iconTypes.hyper, iconTypes.filter, iconTypes.dataSearch]
                 break
             default:
                 break
@@ -255,7 +255,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
 
                                         </Layout.Header>
                                         }
-                                        <Layout.Content className={`${classNamePrefix}-phone-content`}>{this.sidebarIconsRender(childrenIcons, `${classNamePrefix}-phone-sidebar`, deviceType)}</Layout.Content>
+                                        <Layout.Content className={`${classNamePrefix}-tablet-sidebar-content`}>{this.sidebarIconsRender(childrenIcons, `${classNamePrefix}-phone-sidebar`, deviceType)}</Layout.Content>
                                     </Layout>
                                 }
 
@@ -267,8 +267,8 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                                                 {this.toolbarIconsRender(libraryHeaderIcons)}
                                             </Layout.Header>
                                         }
-                                        <Layout.Content className={`${classNamePrefix}-phone-content`}>
-                                            <Layout className={`${classNamePrefix}-phone-container`}>
+                                        <Layout.Content className={`${classNamePrefix}-tablet-content-content`}>
+                                            <Layout className={`${classNamePrefix}-tablet-content-container`}>
                                                 <div className={this.previewerClassName(deviceType, '-overview-right')}>
                                                     { <div className={padRightClassName}> </div> }
                                                     { <div className={padRightClassName}> </div> }

@@ -42,6 +42,7 @@ $tablet-scale: 0.85;
     .icon-tb_hamburger,
     .icon-tb_toc_n,
     .icon-tb_bookmarks_n,
+    .icon-tb_undo,
     .icon-tb_reset {
         float: left;
         margin-left: 4.5px;
@@ -419,6 +420,7 @@ $tablet-scale: 0.85;
             padding: 0 5px;
             text-align: center;
             border: 1px solid lightgrey;
+            border-bottom: 0;
             border-radius: 4px 0 0 0;
             // border-left: 0;
             line-height: 24px;
@@ -516,6 +518,7 @@ $tablet-scale: 0.85;
             padding: 4px;
             border: 1px solid lightgrey;
             border-top: 0;
+            border-left: 0;
             background-color: $background-color;
              
             &-library {

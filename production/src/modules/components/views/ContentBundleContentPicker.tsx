@@ -101,7 +101,6 @@ class ContentBundleContentPicker extends React.Component<any, any> {
               params.successCallback(results, lastRow);
             });
           } else {
-            console.log(dossiers);
             if (loadFinished) {
               lastRow = isDossier ? dossiers.length : documents.length;
               results = isDossier ? _.slice(dossiers, startRow, lastRow) : _.slice(documents, startRow, lastRow);
