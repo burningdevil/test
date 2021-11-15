@@ -15,9 +15,6 @@ class HomeScreenPreviewer extends React.Component<any, any> {
     contentBundleEnable = false;
     hasContent = false;
     iconShouldShow(icon: iconDetail) {
-        if(icon.key === iconTypes.undoRedo.key){
-            console.log('xxxxxxx')
-        }
         const {libraryIcons, documentIcons, sidebarIcons, isDossierHome} = this.props;
         const validKey = iconValidKey(icon.key);
         if (libraryCustomizedIconKeys.includes(icon.key)) {
