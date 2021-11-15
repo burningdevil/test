@@ -178,6 +178,7 @@
     "disableNewDossierTooltipContent": "You cannot create new dossier after adding content.",
     "dataSearchText": "Data Search (Desktop Only)",
     "hyperIconText": "HyperIntelligence (Desktop Only)",
-    "fontIconText": "Font Size in Grid (iOS Only)"
+    "fontIconText": "Font Size in Grid (iOS Only)",
+    "undoRedo": "Undo (Web and Desktop)"
 
 }

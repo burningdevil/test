@@ -88,6 +88,7 @@ export const CONSTANTS = {
   ICON_NEW_DOSSIER: "new_dossier",
   ICON_EDIT_DOSSIER: "edit_dossier",
   ICON_ADD_LIBRARY: "add_library_server",
+  ICON_UNDO_REDO: "undo_and_redo",
 
   // icon font code
   FONT_SIDEBAR: "icon-tb_hamburger",
@@ -121,6 +122,7 @@ export const CONSTANTS = {
   FONT_NEW_DOSSIER: "icon-tb_create_dossier",
   FONT_EDIT_DOSSIER: "icon-info_edit",
   FONT_ADD_LIBRARY: "icon-tb_create_dossier",
+  FONT_UNDO_REDO: "icon-tb_undo",
 
   // preview use only
   FONT_HOME: "icon-tb_home",
@@ -594,6 +596,11 @@ export const iconTypes: IconTypes = {
     iconName: CONSTANTS.FONT_ADD_LIBRARY,
     key: CONSTANTS.ICON_ADD_LIBRARY
   },
+  undoRedo: {
+    displayText: t("undoRedo"),
+    iconName: CONSTANTS.FONT_UNDO_REDO,
+    key: CONSTANTS.ICON_UNDO_REDO
+  },
   //// for preview. Localization not needed.
   // home button
   home: {
@@ -672,21 +679,23 @@ export const dossierIcons = [
   iconTypes.toc,
   iconTypes.bookmark,
   iconTypes.reset,
+  iconTypes.undoRedo,
   iconTypes.filter,
   iconTypes.comment,
   iconTypes.share,
-  iconTypes.editDossier
+  iconTypes.editDossier,
 ];
 
 // dossier icons when mode is dossier as home
 export const dossierIconsDossierHome = [
   iconTypes.toc,
+  iconTypes.undoRedo,
   iconTypes.filter,
   iconTypes.comment,
   iconTypes.share,
   iconTypes.notification,
   iconTypes.account,
-  iconTypes.editDossier
+  iconTypes.editDossier,
 ];
 // platform specific
 export const platformSpecificIcons = [
@@ -729,7 +738,8 @@ export const libraryCustomizedIcons = [
   iconTypes.addLibrary,
   iconTypes.dataSearch,
   iconTypes.hyper,
-  iconTypes.aaFont
+  iconTypes.aaFont,
+  iconTypes.undoRedo
 ];
 export const libraryCustomizedIconKeys = libraryCustomizedIcons.map(
   element => element.key
@@ -743,7 +753,8 @@ export const libraryCustomizedIconDefaultValues = Object.freeze({
   [iconTypes.addLibrary.key]: true,
   [iconTypes.dataSearch.key]: true,
   [iconTypes.hyper.key]: true,
-  [iconTypes.aaFont.key]: true
+  [iconTypes.aaFont.key]: true,
+  [iconTypes.undoRedo.key]: true
 })
 
 export const mobileOnlyIconKeys = [iconTypes.accountMobile, iconTypes.addLibrary].map(
