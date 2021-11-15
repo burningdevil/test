@@ -255,7 +255,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
 
                                         </Layout.Header>
                                         }
-                                        <Layout.Content className={`${classNamePrefix}-phone-content`}>{this.sidebarIconsRender(childrenIcons, `${classNamePrefix}-phone-sidebar`, deviceType)}</Layout.Content>
+                                        <Layout.Content className={`${classNamePrefix}-tablet-sidebar-content`}>{this.sidebarIconsRender(childrenIcons, `${classNamePrefix}-phone-sidebar`, deviceType)}</Layout.Content>
                                     </Layout>
                                 }
 
@@ -267,8 +267,8 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                                                 {this.toolbarIconsRender(libraryHeaderIcons)}
                                             </Layout.Header>
                                         }
-                                        <Layout.Content className={`${classNamePrefix}-phone-content`}>
-                                            <Layout className={`${classNamePrefix}-phone-container`}>
+                                        <Layout.Content className={`${classNamePrefix}-tablet-content-content`}>
+                                            <Layout className={`${classNamePrefix}-tablet-content-container`}>
                                                 <div className={this.previewerClassName(deviceType, '-overview-right')}>
                                                     { <div className={padRightClassName}> </div> }
                                                     { <div className={padRightClassName}> </div> }
