@@ -111,19 +111,26 @@ def is_port_open?(ip, port)
   return false
 end
 
-def replace_workstation_plugin_mac
-  stop_workstation_app_mac
+def install_latest_workstation_mac_os_x
+  info "====== Dowloading workstation mac ======"
+  FileUtils.rm(@workstation_dmg_path) if File.exist?(@workstation_dmg_path)
+  Nexus.download_latest_artifact(file_path: @workstation_dmg_path, artifact_id: "#{@workstation_artifact_name}", group_id: "com.microstrategy.m2021", extra_coordinates: {e: 'dmg'})
+
+  stop_workstaion_app_mac
   # Make sure no workstation installed
   if Dir.exist?("#{@workstation_installation_folder}")
-    info "====== MicroStrategy Workstation has been installed, going to uninstall it... ======"
+    puts "MicroStrategy Workstation has been installed, going to uninstall it..."
     FileUtils.rm_rf("#{@workstation_installation_folder}")
   end
-  info "====== Install MicroStrategy Workstation... ======"
+  puts "Install MicroStrategy Workstation..."
   shell_command! "hdiutil unmount '/Volumes/MicroStrategy - Workstation'" if Dir.exist?('/Volumes/MicroStrategy - Workstation')
   shell_command! "hdiutil mount #{@workstation_dmg_path}"
   shell_command! "cp -R '/Volumes/MicroStrategy - Workstation/MicroStrategy Workstation.app' '#{@workstation_installation_folder}'"
   shell_command! "hdiutil unmount '/Volumes/MicroStrategy - Workstation'"
   FileUtils.rm(@workstation_dmg_path) if File.exist?(@workstation_dmg_path)
+end
+
+def replace_workstation_plugin_mac
 
   if ENV['JENKINS_STAGE'] == 'premerge'
     info "====== PREMERGE Job, no need to download plugin... ======"
@@ -139,16 +146,19 @@ def replace_workstation_plugin_mac
   plugin_home_foler = "/Applications/MicroStrategy Workstation.app/Contents/Resources/Plugins"
   ws_plugin_folder = "#{plugin_home_foler}/#{plugin_name}"
   info "====== Replacing the plugin of MicroStrategy Worstation... ======"
-  FileUtils.mkdir_p(ws_plugin_folder) unless File.exists?(ws_plugin_folder)
+  #FileUtils.mkdir_p(ws_plugin_folder) unless File.exists?(ws_plugin_folder)
   FileUtils.rm_rf("#{ws_plugin_folder}/")
   FileUtils.cp(plugin_path, plugin_home_foler)
-  shell_command! "unzip -o #{plugin_path}", cwd: plugin_home_foler
+  shell_command! "unzip -o #{@artifact_info[:artifact_base_file_name]}.zip", cwd: plugin_home_foler
   FileUtils.mv("#{plugin_home_foler}/dist", "#{ws_plugin_folder}")
-  FileUtils.rm("#{plugin_home_foler}/#{plugin_path.split('/').last}")
+  FileUtils.rm("#{plugin_home_foler}/#{@artifact_info[:artifact_base_file_name]}.zip")
+end
+
+task :install_latest_workstation_mac_os_x do
+  install_latest_workstation_mac_os_x
 end
 
 task :replace_workstation_plugin_mac do
-  download_latest_workstation_mac_os_x
   replace_workstation_plugin_mac
 end
 
