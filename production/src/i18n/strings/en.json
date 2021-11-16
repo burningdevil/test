@@ -139,7 +139,7 @@
     "errCopyLink": "Copy application link to clipboard fail: ",
     "library": "Library",
     "dossier": "Dossier",
-    "removeBundle": "Remove from application",
+    "removeBundle": "Remove",
 
     "blankAppNameError": "This field cannot be blank.",
     "duplicateAppNameError": "The name is already taken.",

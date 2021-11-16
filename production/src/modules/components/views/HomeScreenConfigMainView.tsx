@@ -223,7 +223,14 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         this.setState({
           isInitialLoading: false
         });
-        this.loadData();
+        let selectedData: any[] = [];
+        gridApi.forEachNode( (node: any) =>{
+          if(node.data?.id === objId){
+            selectedData.push(node.data);
+          }
+        });
+        gridApi.applyTransaction({ remove: selectedData });
+        api.loadConfigList();
       }).catch((e: any) => {
         this.processErrorResponse(e, localizedStrings.ERR_APP_DELETE);
       });
@@ -300,7 +307,9 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       } else {
         let arr: any[] = [];
         resultConfig.homeScreen.homeLibrary.contentBundleIds.forEach((id: string) => {
-          arr.push(record[id]);
+          if(record[id]){
+            arr.push(record[id]);
+          }
         })
         _.assign(resultConfig, { contentBundles: arr });
       }
@@ -360,6 +369,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         minWidth: 300,
         cellRendererFramework: (rendererParam: any) => {
           const d = rendererParam.data;
+          if(!d.contentBundles) return ' '
           if (d.contentBundles?.length === 0) {
             return (
               <div className={`${classNamePrefix}-content-bundles`}>

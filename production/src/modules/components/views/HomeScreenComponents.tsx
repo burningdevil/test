@@ -72,7 +72,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         if(allIconKeys.includes(iconKey)){
             const targetItem = iconTypes[allIcons[allIconKeys.indexOf(iconKey)]];
             if(iconKey === iconTypes.newDossier.key){
-                if(this.props.contentBundleIds?.length > 0){
+                if(this.props.contentBundleIds?.length > 0 || this.props.selectedLibraryCustomizedItems[iconTypes.editDossier.key] === false){
                     return false;
                 }else{
                     targetItem.tipMsg = localizedStrings.DISABLE_NEW_DOSSIER_TOOLTIP;

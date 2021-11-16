@@ -200,7 +200,7 @@ class ContentBundleList extends React.Component<any, any> {
   }
 
   getContextMenuItems = (params: GetContextMenuItemsParams) => {
-    if (!this.props.allowDelete || params.api.getSelectedNodes().length === 0) {
+    if (!this.props.allowDelete) {
       return [];
     }
 
@@ -212,11 +212,20 @@ class ContentBundleList extends React.Component<any, any> {
       params.api.clearFocusedCell();
     };
 
-    var result = [
+    var result: any[] = [
       {
         name: localizedStrings.REMOVE_BUNDLE,
         action: handleClickDelete
       }];
+    if(params.api.getSelectedNodes().length > 1){
+      result.unshift(
+        {
+          name: t('selectedStr', { bundlesCount: params.api.getSelectedNodes().length}),
+          action: () => {},
+          disabled: true
+        }
+      )
+    }
     return result;
   }
 
@@ -318,8 +327,9 @@ class ContentBundleList extends React.Component<any, any> {
                 <span className="content-bundle-list-container-item-text">{params.value}</span>
             </span>
           }else {
-            return ''
+            return '<span></span>'
           }
+          return ' '
         },
       }
     ]
