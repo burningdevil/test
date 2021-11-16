@@ -132,6 +132,8 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                         params.successCallback(results, lastRow);
                       } else {
                         var loaded = isDossier ? response.dossiers.length : response.documents.length;
+                        currentOffset = currentOffset + limit;
+                        expectedCount = expectedCount - loaded;
                         if (loaded > expectedCount) {// loaded
                           results = isDossier ? _.slice(dossiers, startRow, endRow) : _.slice(documents, startRow, endRow);
                           results = results.map((content: any) => {
@@ -139,8 +141,6 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                           });
                           params.successCallback(results, lastRow);
                         } else {// need to continue load
-                          currentOffset = currentOffset + limit;
-                          expectedCount = expectedCount - loaded;
                           loop(expectedCount);
                         }
                       }

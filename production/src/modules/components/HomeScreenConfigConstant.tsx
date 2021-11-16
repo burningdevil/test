@@ -123,16 +123,19 @@ export const CONSTANTS = {
   FONT_EDIT_DOSSIER: "icon-info_edit",
   FONT_ADD_LIBRARY: "icon-tb_create_dossier",
   FONT_UNDO_REDO: "icon-tb_undo",
+  FONT_REDO: "icon-tb_redo",
+  FONT_SIDEBAR_PREVIEW_TABLET: "icon-sidebar_preview_tablet",
 
   // preview use only
   FONT_HOME: "icon-tb_home",
   FONT_DESK_HOME: "icon-tb_hamburger",
   FONT_PREVIEWSIDEBAR: "icon-library",
   FONT_PREVIEWSIDEBAR_MOBILE: "icon-backarrow",
-  FONT_PREVIEWSIDEBAR_TABLET: "icon-lib-login",
+  FONT_PREVIEWSIDEBAR_TABLET: "icon-sidebar_preview_tablet",
   FONT_PREVIEWTOC: "icon-tb_undoarrow",
   FONT_PREVIEWOPTIONS: "icon-user-profile",
   FONT_FULLSCREEN: "icon-fullscreen",
+  FONT_FULLSCREEN_TABLET: "icon-v-down",
   FONT_LIBRARY_MOBILE: "icon-tb_appicon",
   FONT_ERROR: "icon-error",
 
@@ -601,6 +604,11 @@ export const iconTypes: IconTypes = {
     iconName: CONSTANTS.FONT_UNDO_REDO,
     key: CONSTANTS.ICON_UNDO_REDO
   },
+  redo: {
+    displayText: t("undoRedo"),
+    iconName: CONSTANTS.FONT_REDO,
+    key: CONSTANTS.ICON_UNDO_REDO
+  },
   //// for preview. Localization not needed.
   // home button
   home: {
@@ -656,7 +664,12 @@ export const iconTypes: IconTypes = {
     displayText: "Full Screen",
     iconName: CONSTANTS.FONT_FULLSCREEN,
     key: CONSTANTS.ICON_FULL_SCREEN
-  }
+  },
+  previewFullScreenTablet: {
+    displayText: "Full Screen",
+    iconName: CONSTANTS.FONT_FULLSCREEN_TABLET,
+    key: CONSTANTS.ICON_FULL_SCREEN
+  },
 };
 
 /// for icon switch

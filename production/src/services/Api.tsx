@@ -115,7 +115,7 @@ export const loadSearchedDossierDocuments = (name: string) => {
 }
 
 export const loadBatchDossierDocuments = (offset: number, limit: number) => {
-    return HttpProxy.get('/searches/results?pattern=4&type=14081&offset='+ offset +'&getAncestors=false&limit='+ limit + '&certifiedStatus=OFF').then((response: any) => {
+    return HttpProxy.get('/searches/results?pattern=4&type=14081&offset='+ offset +'&getAncestors=false&limit='+ limit + '&certifiedStatus=ALL').then((response: any) => {
         let data = response;
         let totalCount = response.totalItems;
         if (data && response.data) {

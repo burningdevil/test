@@ -11,7 +11,7 @@ $preview-header-height: 19px;
 $sidebar-width: 91px;
 
 $font-size-side: 7px;
-$line-height-side: 16px;
+$line-height-side: 15px;
 
 $phone-scale: 0.85;
 $tablet-scale: 0.85;
@@ -43,6 +43,7 @@ $tablet-scale: 0.85;
     .icon-tb_toc_n,
     .icon-tb_bookmarks_n,
     .icon-tb_undo,
+    .icon-tb_redo,
     .icon-tb_reset {
         float: left;
         margin-left: 4.5px;
@@ -59,6 +60,18 @@ $tablet-scale: 0.85;
         background: url("../images/18_18.svg");
         background-repeat: no-repeat;
         background-position: -324px -144px;
+    }
+    .icon-sidebar_preview_tablet {
+        float: left;
+        margin: 3px 4.5px 0 0;
+        vertical-align: middle;
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        transform: scale(0.75);
+        background: url("../images/18_18.svg");
+        background-repeat: no-repeat;
+        background-position: -414px -126px;
     }
     .icon-hyper,
     .icon-info_edit,
@@ -213,12 +226,27 @@ $tablet-scale: 0.85;
         border-bottom: 10px solid transparent;
         border-left: 10px solid transparent;
     }
+    &-overlay-custom {
+        position: absolute;
+        z-index: 102;
+        top: 5px;
+        width: 20px;
+        height: 10px;
+        background-color: rgba(63, 64, 66, .4);
+    }
     &-overlay-icon {
         position: absolute;
         z-index: 103; 
 
         font-size: 9px;
         padding: 3px 3px;
+    }
+    &-overlay-icon-custom {
+        position: absolute;
+        z-index: 103; 
+        margin-top: -2px;
+        font-size: 9px;
+        padding: 0 3px 5px 3px;
     }
     
     .ant-radio-button-wrapper {
@@ -309,7 +337,7 @@ $tablet-scale: 0.85;
             padding-left: 3px;
             background-color: $background-color;
             
-            border: .07rem solid lightgrey;
+            border: .03rem solid lightgrey;
             display: flex;
             flex: auto;
             height: 100%;
@@ -319,19 +347,26 @@ $tablet-scale: 0.85;
 
         .ant-layout-header {
             flex: auto;
-            height: 24px;
-            padding: 0 5px;
+            height: 20px;
+            padding: 0 2px 0 5px;
             text-align: center;
-            border: .07rem solid lightgrey;
+            border: .03rem solid lightgrey;
             border-radius: 4px 4px 0 0;
-            border-bottom-width: .01rem;
-            line-height: 24px;
+            border-bottom: 0;
+            line-height: 20px;
             background-color: $background-color;
             font-size: $font-size-mini;
             @include iconFeatures($mobile-primary-blue);
             span {
                 transform: scale($phone-scale);
             }
+            .icon-backarrow {
+                margin-left: -2.5px;
+            }
+            .icon-tb_create_dossier {
+                margin-right: 0;
+            }
+
             .icon-tb_share_n,
             .icon-aa_font {
                 margin-right: -2.5px;
@@ -346,8 +381,7 @@ $tablet-scale: 0.85;
             flex: auto;
             height: 100%;
             padding: 4px;
-            border: 1px solid lightgrey;
-            // border-left: 0;
+            border: .03rem solid lightgrey;
             background-color: $background-color;
              
             &-library {
@@ -375,8 +409,8 @@ $tablet-scale: 0.85;
             padding: 0;
             width: 100%;
             height: 24px;
-            border: .07rem solid lightgrey;
-            border-top-width: .01rem;
+            border: .03rem solid lightgrey;
+            border-top: 0;
             border-radius: 0 0 4px 4px;
             line-height: 24px;
             background-color: $background-color;
@@ -403,7 +437,8 @@ $tablet-scale: 0.85;
             border-radius: 2px;
             padding-left: 3px;
             background-color: $background-color;
-            border: 1px solid lightgrey !important;
+            border: 0.5px solid lightgrey !important;
+            border-right: 0 !important;
             display: flex;
             flex: auto;
             height: 100%;
@@ -484,7 +519,7 @@ $tablet-scale: 0.85;
             border-radius: 2px;
             padding-left: 3px;
             background-color: $background-color;
-            border: 1px solid lightgrey !important;
+            border: 0.5px solid lightgrey !important;
             border-left:0;
             display: flex;
             flex: auto;
@@ -498,10 +533,9 @@ $tablet-scale: 0.85;
             height: 24px;
             padding: 0 5px;
             text-align: center;
-            border: 1px solid lightgrey !important;
+            border-top: 0.5px solid lightgrey !important;
+            border-right: 0.5px solid lightgrey !important;
             border-radius: 0 4px 0 0;
-            border-bottom-width: .01rem;
-            border-left: 0;
             line-height: 24px;
             background-color: $background-color;
             font-size: $font-size-mini;
@@ -516,9 +550,7 @@ $tablet-scale: 0.85;
             flex: auto;
             height: 100%;
             padding: 4px;
-            border: 1px solid lightgrey;
-            border-top: 0;
-            border-left: 0;
+            border: 0.3px solid lightgrey;
             background-color: $background-color;
              
             &-library {
