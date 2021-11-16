@@ -116,7 +116,7 @@ def install_latest_workstation_mac_os_x
   FileUtils.rm(@workstation_dmg_path) if File.exist?(@workstation_dmg_path)
   Nexus.download_latest_artifact(file_path: @workstation_dmg_path, artifact_id: "#{@workstation_artifact_name}", group_id: "com.microstrategy.m2021", extra_coordinates: {e: 'dmg'})
 
-  stop_workstaion_app_mac
+  stop_workstation_app_mac
   # Make sure no workstation installed
   if Dir.exist?("#{@workstation_installation_folder}")
     puts "MicroStrategy Workstation has been installed, going to uninstall it..."
