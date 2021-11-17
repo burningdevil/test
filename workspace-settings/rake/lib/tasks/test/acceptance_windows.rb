@@ -157,4 +157,8 @@ task :acceptance_test_win do |t,args|
     close_apps
     Helm.delete_release(workstation_setting_release_name)
   end
+
+  info "update rally test results"
+  shell_command! "node  rally/updateE2EResultsToClientAutoData.js -c \"#{ENV['APPLICATION_VERSION']}\" \"#{ENV['BUILD_URL']}\"", cwd: "I:/tests/acceptance"
+  shell_command! "node  rally/updateE2EResultsToRally.js -c \"#{ENV['APPLICATION_VERSION']}\" \"#{ENV['BUILD_URL']}\"", cwd: "I:/tests/acceptance"
 end
