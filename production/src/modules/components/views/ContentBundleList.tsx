@@ -200,13 +200,19 @@ class ContentBundleList extends React.Component<any, any> {
   }
 
   getContextMenuItems = (params: GetContextMenuItemsParams) => {
-    if (!this.props.allowDelete) {
+    if(!params.node.isSelected() && params.api.getSelectedNodes().length > 0){
+      params.api.getSelectedNodes().forEach(node => node.setSelected(false));
+    }
+    if (!this.props.allowDelete || !params.node) {
       return [];
     }
 
     const handleClickDelete = () => {
       var selections = params.api.getSelectedNodes();
       selections = selections.map(o => o.data);
+      if(selections?.length === 0){
+        selections = [params.node.data];
+      }
       this.props.handleDeletion(selections);
       params.api.deselectAll();
       params.api.clearFocusedCell();
@@ -469,7 +475,7 @@ class ContentBundleList extends React.Component<any, any> {
   }
 
   render() {
-    const containerHeight = this.props.allowDelete ? 'calc(100% - 60px)' : '100%'
+    const containerHeight = this.props.allowDelete ? 'calc(100% - 80px)' : '100%'
     return (
       <div className={`${classNamePrefix}`} style={{ height: '100%' }}>
         {this.props.allowDelete && this.renderChangeNameField()}

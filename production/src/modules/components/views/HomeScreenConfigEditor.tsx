@@ -248,7 +248,6 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
           config.objectNames = [];
           config.objectAcl = [];
         }
-
         HttpProxy.post(api.getApiPathForNewApplication(), config, {}, PARSE_METHOD.BLOB).then(() => {
           workstation.window.postMessage({homeConfigSaveSuccess: true}).then(() => {workstation.window.close();});
         }).catch((err: any) => {
