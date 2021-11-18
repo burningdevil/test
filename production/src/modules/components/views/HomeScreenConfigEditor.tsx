@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import '../scss/HomeScreenConfigEditor.scss'
 import '../../../assets/fonts/webfonts/css/dossier.css'
 import { Tabs, Layout, Button, message} from 'antd';
-import { WorkstationModule, EnvironmentChangeArg, EnvironmentAction, EnvironmentStatus} from '@mstr/workstation-types';
+import { WorkstationModule, EnvironmentChangeArg, EnvironmentAction, EnvironmentStatus, WindowEvent, dialogs, DialogValues} from '@mstr/workstation-types';
 import HomeScreenGeneral from './HomeScreenGeneral';
 import HomeScreenComponents from './HomeScreenComponents';
 import HomeScreenMoreSetting from './HomeScreenMoreSetting';
@@ -14,10 +14,10 @@ import { HttpProxy } from '../../../main';
 import { RestApiError } from '../../../server/RestApiError';
 import { PARSE_METHOD } from '../../../utils/ParseMethods';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
-import { selectCurrentConfig, selectIsDuplicateConfig, selectIsConfigNameError, selectIsDossierAsHome, selectDefaultGroupsName } from '../../../store/selectors/HomeScreenConfigEditorSelector';
+import { selectCurrentConfig, selectIsDuplicateConfig, selectIsConfigNameError, selectIsDossierAsHome, selectDefaultGroupsName, selectConfigInfoList } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import * as api from '../../../services/Api';
-import { default as VC, localizedStrings, editorSize, iconTypes, libraryCustomizedIconKeys ,CONTENT_BUNDLE_FEATURE_FLAG, libraryCustomizedIconDefaultValues, CONTENT_BUNDLE_DEFAULT_GROUP_NAME, copyApplicationName} from '../HomeScreenConfigConstant'
+import { default as VC, localizedStrings, editorSize ,CONTENT_BUNDLE_FEATURE_FLAG, libraryCustomizedIconDefaultValues, CONTENT_BUNDLE_DEFAULT_GROUP_NAME, copyApplicationName, closeWindowConfirmationStr} from '../HomeScreenConfigConstant'
 import { ConfirmationDialog, ConfirmationDialogWordings } from '../common-components/confirmation-dialog';
 import { getFeatureFlag, validName } from './HomeScreenUtils';
 
@@ -39,7 +39,39 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
     }
   }
 
+  /**
+  * Function that registers functions to show confirmation dialog
+  */
+  async addHandlers() {
+    // Show confirmation dialog on close
+    workstation.window.addHandler(WindowEvent.CLOSE, async () => {
+        let appName = this.props.isConfigNameError ? this.generateDefaultAppName(this.props.configInfoList) : this.props.config.name;
+        let returnVal = await dialogs.confirmation({message: closeWindowConfirmationStr(appName)});
+        if (returnVal == DialogValues.YES) {  // Close and Save
+          if (this.props.isConfigNameError) {
+            let config = {
+              name: appName,
+            }
+            this.props.updateCurrentConfig(config);
+          }
+          this.handleSaveConfig();
+        } else if (returnVal == DialogValues.NO) {  // Close and Don't Save
+          workstation.window.close();
+        } else if (returnVal == DialogValues.CANCEL) {
+          // Cancel, back to editor window, do nothing.
+        } else {
+          // OK, just close window.
+          workstation.window.close();
+        }
+        return {
+            ResponseValue: true
+        };
+    });
+  }
+
   async componentDidMount() {
+      // register handler
+      await this.addHandlers();
       // Set Duplicate Config Flag
       const extraContext = await workstation.window.getExtraContext();
       const extraContextJson = JSON.parse(extraContext);
@@ -334,7 +366,8 @@ const mapState = (state: RootState) => ({
   isDossierHome: selectIsDossierAsHome(state),
   isDuplicateConfig: selectIsDuplicateConfig(state),
   isConfigNameError: selectIsConfigNameError(state),
-  defaultGroupsName: selectDefaultGroupsName(state)
+  defaultGroupsName: selectDefaultGroupsName(state),
+  configInfoList: selectConfigInfoList(state)
 })
 
 const connector = connect(mapState, {

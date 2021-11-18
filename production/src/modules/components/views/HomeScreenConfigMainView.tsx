@@ -335,7 +335,6 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         field: VC.NAME,
         headerName: localizedStrings.NAME,
         lockVisible: true,
-        width: 300,
         minWidth: 200,
         cellRendererFramework: (rendererParam: any) => {
           const d = rendererParam.data;
@@ -381,6 +380,9 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
             <div className={`${classNamePrefix}-content-bundles`}>
               {
                 d.contentBundles?.map(((bundle: {name: string, color: number}) => {
+                  if (!bundle) {
+                    return null;
+                  }
                   return (<span className={`${classNamePrefix}-content-bundles-item`}>
                     <span className={`${classNamePrefix}-content-bundles-item-icon`} style={{ background: hexIntToColorStr(bundle.color) }}></span>
                     <span className={`${classNamePrefix}-content-bundles-item-text`}>{bundle.name}</span>

@@ -124,10 +124,10 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
             key: columnDisplayText,
             dataIndex: columnDisplayText,
             align: 'left' as const,
-            render: (icon: [string, string]) => {
+            render: (icon: [string, string, [boolean, string]]) => {
                 return (
                     !iconExpandable(icon[1]) &&
-                    <span>
+                    <span style={ icon[2] && this.isIconDisabled(icon[2][1]) ?  {opacity: 0.5} : {opacity: 1.0}}>
                         <span className={icon[0]}/>
                         <span className={`${classNamePrefix}-table-text`}>  {icon[1]}  </span> 
                     </span>
@@ -261,7 +261,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                     displayText = defaultGroupName;
                 }
                 return (
-                    {key: childrenKeyOffset+index, displayText: [icon.iconName, displayText], selected: this.iconSelectedInfo(icon.key)}
+                    {key: childrenKeyOffset+index, displayText: [icon.iconName, displayText, this.iconSelectedInfo(icon.key)], selected: this.iconSelectedInfo(icon.key)}
                 )
             }
         )
