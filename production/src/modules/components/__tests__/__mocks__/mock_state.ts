@@ -123,6 +123,11 @@ export default {
 }
 
 export const mockLibraryAsHome: RootState = {
+  content: {
+    data: [],
+    loadingContentBundle: false,
+    loadingContentBundleFinish: true
+  },
   configEditor: {
       currentConfig: {
           'name': 'test application',
@@ -506,10 +511,20 @@ export const mockDossierAsHome: RootState = {
       documents: [],
       loadingDossiers: false,
       loadingDossiersFinish: false,
+  },
+  content: {
+    data: [],
+    loadingContentBundle: false,
+    loadingContentBundleFinish: true
   }
 }
 
 export const mockDossierPicker: RootState = {
+  content: {
+    data: [],
+    loadingContentBundle: false,
+    loadingContentBundleFinish: true
+  },
   configEditor: {
       currentConfig: {
           'name': 'test application dossier as home',
