@@ -96,6 +96,9 @@ spec:
         - name: iserver-config-volume
           mountPath: /opt/mstr/MicroStrategy/config.ini
           subPath: config.ini
+        - name: iserver-startup-volume
+          mountPath: /opt/mstr/startup.sh
+          subPath: startup.sh
 {{- end }}
       volumes:
       - name: log-dir
@@ -113,6 +116,13 @@ spec:
           items:
           - key: config.ini
             path: config.ini
+      - name: iserver-startup-volume
+        configMap:
+          name: {{ tpl .Values.config.config_map_name . }}
+          defaultMode: 0777
+          items:
+          - key: startup.sh
+            path: startup.sh
 {{- end }}
 {{- if .Values.volumes.cube.enabled }}
       - name: cube
