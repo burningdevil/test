@@ -306,7 +306,7 @@ class ContentBundleList extends React.Component<any, any> {
         field: VC.RECIPIENT_STR, headerName: localizedStrings.RECIPIENTS, 
         cellRendererFramework: (params: any) => {
           const d = params.data;
-          if(!params.node.group){
+          if (!params.node.group){
             return '    - -';
           }
           if (params.node.data.recipientType === BundleRecipientType.GROUP) {
@@ -318,7 +318,7 @@ class ContentBundleList extends React.Component<any, any> {
               </span>
               
             )
-          }else if(params.node.data.recipientType === BundleRecipientType.USER){
+          } else if(params.node.data.recipientType === BundleRecipientType.USER){
             return (
               <span>
                   <img className="content-bundle-list-container-item-user" src={imgUser}/>
@@ -326,16 +326,16 @@ class ContentBundleList extends React.Component<any, any> {
                   </span>
               </span>
             )
-          }else if(params.node.data.recipientType === BundleRecipientType.BOTH) {
+          } else if(params.node.data.recipientType === BundleRecipientType.BOTH) {
             <span>
                 <img className="content-bundle-list-container-item-user" src={imgUser}/>
                 <img className="content-bundle-list-container-item-group2" src={imgGroup}/>
                 <span className="content-bundle-list-container-item-text">{params.value}</span>
             </span>
-          }else {
-            return '<span></span>'
+          } else {
+            return ''
           }
-          return ' '
+          return ''
         },
       }
     ]

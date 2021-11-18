@@ -434,6 +434,9 @@ export const selectedBundlesStr = (bundlesCount: number) => {
 export const copyApplicationName = (name: string) => {
   return t("copyApplicationName", {name});
 }
+export const closeWindowConfirmationStr = (name: string) => {
+  return t("closeWindowConfirmationStr", {name});
+}
 export interface IconType {
   displayText: string;
   iconName: string;

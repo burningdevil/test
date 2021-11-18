@@ -144,17 +144,17 @@ class HomeScreenPreviewer extends React.Component<any, any> {
         let footerIcons: iconDetail[] = []
         switch (deviceType) {
             case reviewType.TABLET:
-                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.account, iconTypes.notification, iconTypes.share, iconTypes.comment, iconTypes.filter, iconTypes.aaFont] : [iconTypes.previewLibraryMobile, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.share, iconTypes.comment, iconTypes.filter, iconTypes.aaFont]
+                headerIcons = isDossierHome ? [iconTypes.toc, iconTypes.account, iconTypes.notification, iconTypes.share, iconTypes.comment, iconTypes.filter, iconTypes.aaFont] : [iconTypes.previewLibraryMobile, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.share, iconTypes.comment, iconTypes.filter, iconTypes.aaFont]
                 break
             case reviewType.PHONE:
-                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.share, iconTypes.aaFont] : [iconTypes.previewLibraryMobile, iconTypes.share, iconTypes.aaFont]
+                headerIcons = isDossierHome ? [iconTypes.share, iconTypes.aaFont] : [iconTypes.previewLibraryMobile, iconTypes.share, iconTypes.aaFont]
                 footerIcons = isDossierHome ? [iconTypes.filter, iconTypes.comment, iconTypes.notification, iconTypes.account] : [iconTypes.bookmark, iconTypes.reset, iconTypes.filter, iconTypes.comment]
                 break
             case reviewType.WEB:
-                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.undoRedo, iconTypes.redo, iconTypes.editDossier, iconTypes.account, iconTypes.notification, iconTypes.share, iconTypes.comment, iconTypes.filter] : [iconTypes.previewLibraryWeb, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.undoRedo, iconTypes.redo, iconTypes.editDossier, iconTypes.accountWeb, iconTypes.share, iconTypes.comment, iconTypes.filter]
+                headerIcons = isDossierHome ? [iconTypes.toc, iconTypes.undoRedo, iconTypes.redo, iconTypes.editDossier, iconTypes.account, iconTypes.notification, iconTypes.share, iconTypes.comment, iconTypes.filter] : [iconTypes.previewLibraryWeb, iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.undoRedo, iconTypes.redo, iconTypes.editDossier, iconTypes.accountWeb, iconTypes.share, iconTypes.comment, iconTypes.filter]
                 break;
             case reviewType.DESKTOP:
-                headerIcons = isDossierHome ? [iconTypes.home, iconTypes.toc, iconTypes.undoRedo, iconTypes.redo, iconTypes.editDossier, iconTypes.account, iconTypes.notification, iconTypes.share, iconTypes.comment, iconTypes.hyper, iconTypes.filter, iconTypes.dataSearch] : [iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.undoRedo, iconTypes.redo, iconTypes.editDossier, iconTypes.share, iconTypes.comment, iconTypes.hyper, iconTypes.filter, iconTypes.dataSearch]
+                headerIcons = isDossierHome ? [iconTypes.toc, iconTypes.undoRedo, iconTypes.redo, iconTypes.editDossier, iconTypes.account, iconTypes.notification, iconTypes.share, iconTypes.comment, iconTypes.hyper, iconTypes.filter, iconTypes.dataSearch] : [iconTypes.toc, iconTypes.bookmark, iconTypes.reset, iconTypes.undoRedo, iconTypes.redo, iconTypes.editDossier, iconTypes.share, iconTypes.comment, iconTypes.hyper, iconTypes.filter, iconTypes.dataSearch]
                 break
             default:
                 break
@@ -250,7 +250,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                                 {/* library sidebar */}
                                 {!isDossierHome && showSideBar &&
                                     <Layout className={`${classNamePrefix}-tablet-sidebar`}>
-                                        {!hideHeader &&
+                                        {   // Should always show header for phone sidebar even when toolbar collapse
                                         <Layout.Header style={{height: '40px'}}>
                                             {this.toolbarIconsRender(sidebarHeaderIcons)}
                                             {this.placeHolderRender('auto', true, '22px')}
@@ -346,7 +346,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                                     </Layout.Content>
                                 </Layout>
                             </Layout>
-                            {showExpanderOverlay && this.overlayRender(false)}
+                            {showExpanderOverlay && this.overlayRender(false, true)}
                         </div>
                         }
 
@@ -370,7 +370,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                                     </Layout>
                                 </Layout.Content>
                             </Layout>
-                            {showExpanderOverlay && this.overlayRender(false)}
+                            {showExpanderOverlay && this.overlayRender(false, true)}
                         </div>
 
                         {/* notification panel */}
@@ -393,7 +393,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                                 {/* library sidebar */}
                                 {!isDossierHome && showSideBar &&
                                     <Layout className={`${classNamePrefix}-phone`}>
-                                        {!hideHeader &&
+                                        {   // Should always show header for phone sidebar even when toolbar collapse
                                         <Layout.Header >
                                             {this.toolbarIconsRender(sidebarHeaderIcons)}
                                             {this.placeHolderRender('auto', true)}
@@ -427,7 +427,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                                         }
                                     </Layout>
                                 }
-                                { !isDossierHome && showExpanderOverlay && this.overlayRender(!showSideBar) }
+                                { !isDossierHome && showExpanderOverlay && this.overlayRender(!showSideBar, true) }
                             </div>
                         </div>
                         
@@ -456,7 +456,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                                     </footer>
                                 }
                             </Layout>
-                            {showExpanderOverlay && this.overlayRender(true)}
+                            {showExpanderOverlay && this.overlayRender(true, true)}
                         </div>
                         {/* notification panel */}
                         {/* {this.titleRender(sectionTitle.notificationPanel)} */}

@@ -14,7 +14,7 @@
     "documentsTab": "Documents Tab",
 
     "defaultApplicationName": "New Application",
-    "copyApplicationName": "Copy Of {{name}}",
+    "copyApplicationName": "Copy of {{name}}",
     "newApplication": "New Application",
     "newApplicationBtn": "Create Application Button",
     "environment": "Environment",
@@ -179,6 +179,7 @@
     "dataSearchText": "Data Search (Desktop Only)",
     "hyperIconText": "HyperIntelligence (Desktop Only)",
     "fontIconText": "Font Size in Grid (iOS Only)",
-    "undoRedo": "Undo (Web and Desktop)"
+    "undoRedo": "Undo (Web and Desktop)",
+    "closeWindowConfirmationStr": "Do you want to save the changes you made to {{name}}?"
 
 }

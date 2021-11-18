@@ -27,8 +27,8 @@
   "proxy": "http://localhost:3005",
   "license": "MIT",
   "dependencies": {
-    "@mstr/rc": "^1.24.22",
-    "@mstr/react-ws-grid": "^0.0.22",
+    "@mstr/rc": "^1.31.9",
+    "@mstr/react-ws-grid": "^0.1.7",
     "@mstr/workstation-types": "1.0.9",
     "@types/bluebird": "^3.5.27",
     "@types/lodash": "^4.14.133",
