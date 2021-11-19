@@ -9,7 +9,8 @@ import {
   GridReadyEvent,
   GridApi,
   SortChangedEvent,
-  IServerSideGetRowsParams
+  IServerSideGetRowsParams,
+  ServerSideStoreType
 } from 'ag-grid-community';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { connect } from 'react-redux';
@@ -317,7 +318,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                         // @ts-ignore: RC Component Support error
                         rowSelection = {rowSelectionType}
                         rowModelType = 'serverSide'
-                        serverSideStoreType = 'partial'
+                        serverSideStoreType = {'partial' as ServerSideStoreType }
                         getRowHeight = {this.getRowHeight}
                         columnDefs = {[
                             {field: VC.NAME, sortable: false, headerName: localizedStrings.NAME, width: 250, cellRendererFramework: (params: any) => {
