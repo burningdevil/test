@@ -35,7 +35,7 @@ job 'stage-2-init-postmerge-test-win' do
     end
     parameterized_builder do
       job_names "#{ENV['PROJECT_NAME']}-.-#{Environment.branch_name}-.-stage-2-postmerge-test-win"
-      parameters "APPLICATION_VERSION=$APPLICATION_VERSION, APPLICATION_COMMIT_HASH=$APPLICATION_COMMIT_HASH"
+      parameters "APPLICATION_VERSION=$APPLICATION_VERSION \nAPPLICATION_COMMIT_HASH=$APPLICATION_COMMIT_HASH"
 
       block_and_sync_status true
     end
