@@ -76,30 +76,124 @@ data:
   configOverride.properties: |-
     iserver.default.hostname=iserver-{{ .Release.Name }}
     iserver.default.port={{ .Values.iserver.service.port }}
-    services.collaboration.enabled=false
-    trustStore.path=/WEB-INF/truststore.pfx
-    services.collaboration.tlsEnabled=false
-    auth.modes.available=1,16,1048576
+    auth.modes.available=1,16
     iserver.tlsEnabled = false
     iserver.maxPoolSize = 100
     session.searchWorkingSet = 3
     iserver.initialPoolSize = 10
     session.workingSet = 10
     iserver.requestTimeout = 120000
-    services.MicroStrategy-Modeling-Service.tlsEnabled=false
-    services.MicroStrategy-Modeling-Service.baseURL=http://{{ index .Values "architect-service" "ingress" "host" }}:80
-    services.MicroStrategy-Modeling-Service.scheduleEnabled=true
-    identityToken.secretKey=elOY73zE8O4ANVrjpRiTe5UEKke8fA
-    auth.cors.origins=
-    security.allowAllOrigins=true
-    security.allowedOrigins=
+    services.collaboration.enabled = false
+    services.collaboration.tlsEnabled = false
+    identityToken.secretKey=tDiLgBAWoqERnkCLngcG
 
-  modelservice.conf: |-
-    modelservice.feature_flag.enabled true
-    modelservice.debug.enabled true
-    iserver.hostname iserver-{{ .Release.Name }}
-    iserver.port 34952
-    iserver.project Duplicated New Project For Fact
-    iserver.username administrator
-    iserver.password
-    modelservice.identity_token.secret_key elOY73zE8O4ANVrjpRiTe5UEKke8fA
+  startup.sh: |-
+    #! /bin/bash
+    echo "install wget"
+    yum -y install wget
+    echo "install unzip"
+    yum -y install unzip
+    yum clean all
+
+    #download mysql odbc driver
+    if [ ! -a "/usr/lib64/libmyodbc5w.so" ]; then
+      echo "mysql5 driver is not existing, install it"
+      yum install -y unixODBC
+      wget https://dev.mysql.com/get/Downloads/Connector-ODBC/5.3/mysql-connector-odbc-5.3.14-1.el7.x86_64.rpm
+      rpm -i mysql-connector-odbc-5.3.14-1.el7.x86_64.rpm
+    else
+      echo "mysql5 driver already exists!"
+    fi
+
+    # Download I-Server configure file
+    if [[ -z "$IS_CONFIG_FILE" ]]; then
+      echo "I-Server Configuration is not provided by User ..."
+    else
+      echo "Downloading I-Server Configuration file from $IS_CONFIG_FILE ..."
+      wget -O ISConfig.zip $IS_CONFIG_FILE
+      echo "Unzip the downloaded db package"
+      mkdir -p /etc/mstr/iserver
+      mv ISConfig.zip /etc/mstr/iserver/
+      unzip /etc/mstr/iserver/ISConfig.zip -d /etc/mstr/iserver/
+      echo "Clean environment by removing the downloaded zip file"
+      rm /etc/mstr/iserver/ISConfig.zip
+    fi
+
+    #copy odbc.ini file if it's provided by User. User Case: fast ring, the WH backup is not provided. Need to configure it to existing one
+    if [ -f /etc/mstr/iserver/odbc.ini ]; then
+      cp -f /etc/mstr/iserver/odbc.ini /opt/mstr/MicroStrategy/odbc.ini
+    fi
+
+    #create odbc.ini through mstrconnectwiz command
+    echo "Creating DSN for MD: $DSN_MD, $DB_MD_SERVER, $DB_MD_PORT, $DB_MD_NAME"
+    /opt/mstr/MicroStrategy/bin/mstrconnectwiz -r MYSQL_CONNECTOR $DSN_MD $DB_MD_SERVER $DB_MD_PORT $DB_MD_NAME /usr/lib64/libmyodbc5w.so -u:mstr -p:mstr123
+    if [ "$?" = "0" ]; then
+      echo "DSN $DSN_MD is created!"
+    else
+      echo "Failed to Created DSN for MD..."
+    fi
+
+    echo "Creating DSN for WH $DSN_WH, $DB_WH_SERVER, $DB_WH_PORT, $DB_WH_NAME"
+    /opt/mstr/MicroStrategy/bin/mstrconnectwiz -r MYSQL_CONNECTOR $DSN_WH $DB_WH_SERVER $DB_WH_PORT $DB_WH_NAME /usr/lib64/libmyodbc5w.so -u:mstr -p:mstr123
+    if [ "$?" = "0" ]; then
+      echo "DSN $DSN_WH is created!"
+    else
+      echo "Failed to Created DSN for WH..."
+    fi
+
+    if [[ $IS_CONFIG_OPT == "registry" ]]; then
+      echo "I-Server Configuration is provided from Registry File, start import the MSIReg file ..."
+      if [ -f /etc/mstr/iserver/MSIReg.reg ]; then
+        cp -f /etc/mstr/iserver/MSIReg.reg /opt/mstr/MicroStrategy/MSIReg.reg
+        if [[ "$CLUSTER_ISERVER" ]]; then
+          ISERVER_NODE=${HOSTNAME##*-}
+          if [ "$ISERVER_NODE" -gt "0" ]; then
+            clustermembers="\\\"ClusterMembers\\\"=\\\""
+            i=0
+            while [ "$i" -lt "$ISERVER_NODE" ]
+            do
+              clustermembers="${clustermembers}iserver-$i;"
+              i=`expr $i + 1`
+            done
+            clustermembers="${clustermembers}\\\""
+            original="\\\"ClusterMembers\\\"=\\\"\\\""
+            sed -i "s/$original/$clustermembers/" /opt/mstr/MicroStrategy/MSIReg.reg
+          fi
+        fi
+      else
+        echo "There is no /etc/mstr/iserver/MSIReg.reg file provided, use the default MSIReg.reg file!"
+      fi
+    elif [[ $IS_CONFIG_OPT == "ini" ]]; then
+      echo "I-Server Configuration is provided from configure wizard ini File, start import the ini file ..."
+      if [ -f /etc/mstr/iserver/config.ini ]; then
+        cp -f /etc/mstr/iserver/config.ini /opt/mstr/MicroStrategy/config.ini
+        /opt/mstr/MicroStrategy/bin/mstrcfgwiz-editor -response /opt/mstr/MicroStrategy/config.ini
+      else
+        echo "There is no /etc/mstr/iserver/config.ini provided, use default config.ini file!"
+      fi
+    else
+      echo "I-Server Configuration Option IS_CONFIG_OPT is not selected, please follow the steps to configure I-Server..."
+      /opt/mstr/MicroStrategy/bin/mstrsvr-configure
+    fi
+
+    if [[ "$NEE_HOST" != "nee" ]]; then
+      echo "The NEE_HOST is configured to $NEE_HOST"
+      original="\\\"host\\\"=\\\"nee\\\""
+      new="\\\"host\\\"=\\\"$NEE_HOST\\\""
+      sed -i "s/$original/$new/" /opt/mstr/MicroStrategy/MSIReg.reg
+    fi
+
+    echo "Starting I-Server ..."
+    ps -auxf | grep -v 'grep' | grep 'MSTRSvr'
+    iserver_running=$?
+    if [[ $iserver_running == 0 ]]; then
+      echo "I-Server process is launched by configurewizard. Shutting down it before starting I-Server from consol..."
+      pkill -x /opt/mstr/MicroStrategy/install/IntelligenceServer/bin/MSTRSvr
+      while [[ $iserver_running == 0 ]]; do
+        sleep 5
+        ps -auxf | grep -v 'grep' | grep 'MSTRSvr'
+        iserver_running=$?
+      done
+    fi
+
+    /opt/mstr/MicroStrategy/bin/mstrsvr

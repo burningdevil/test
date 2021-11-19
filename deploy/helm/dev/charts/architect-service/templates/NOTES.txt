@@ -1,2 +1,0 @@
-Instructions:
-This application aims to deploy MicroStratey Iserver.

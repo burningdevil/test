@@ -60,7 +60,7 @@ const resetMacEnv = function resetMacEnv() {
 
 const resetWinEnv = function resetWinEnv() {
   try {
-    fs.unlinkSync(`${process.env.HOME}\\AppData\\Local\\Microstrategy_Inc\\Workstation.db`)
+    fs.unlinkSync(`${process.env.LOCALAPPDATA}\\Microstrategy_Inc\\Workstation.db`)
   } catch (error) {
     console.log(error)
   }
@@ -73,3 +73,4 @@ export const MAC_XPATH_GENERAL = macXPath.general
 export const OSType = setValuePerPlatform('windows', 'mac')
 export const APP_CAPABILITIES = setValuePerPlatform(WIN_CAPABILITIES, MAC_CAPABILITIES)
 export const RESET_ENV = setValuePerPlatform(resetWinEnv, resetMacEnv)
+export const IMPLICIT_TIMEOUT = 20000

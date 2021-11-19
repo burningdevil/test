@@ -53,7 +53,7 @@ export default class EnvSection extends RootApp {
   }
 
   async getLoginMode(mode) {
-    return this.getNativeElement({
+    const locator = {
       windows: {
         locators: [
           { method: 'Name', value: 'Connection' },
@@ -61,7 +61,10 @@ export default class EnvSection extends RootApp {
         ]
       },
       mac: { xpath: mainCanvas.env.loginMode.replace(/ReplaceLoginMode/g, mode) }
-    })
+    }
+
+    await this.nativeWaitFor(locator,20000,'Dynamic waiting for getting auth mode failed')
+    return this.getNativeElement(locator)
   }
 
   // continue to connect after providing environment information and selecting login mode
@@ -118,7 +121,7 @@ export default class EnvSection extends RootApp {
     return this.getNativeElement({
       windows: {
         locators: [
-          { method: 'Name', value: 'Select Applications' },
+          { method: 'Name', value: 'Select Projects' },
           { method: 'ClassName', value: 'ListBox' }
         ]
       },
@@ -130,7 +133,7 @@ export default class EnvSection extends RootApp {
     return this.getNativeElement({
       windows: {
         locators: [
-          { method: 'Name', value: 'Select Applications' },
+          { method: 'Name', value: 'Select Projects' },
           { method: 'Name', value: applicationName }
         ]
       },
@@ -143,7 +146,7 @@ export default class EnvSection extends RootApp {
     return this.getNativeElement({
       windows: {
         locators: [
-          { method: 'Name', value: 'Select Applications' },
+          { method: 'Name', value: 'Select Projects' },
           { method: 'Name', value: 'OK' }
         ]
       },
@@ -211,7 +214,7 @@ export default class EnvSection extends RootApp {
     return this.getNativeElement({
       windows: {
         locators: [
-          { method: 'Name', value: 'Remember Selected Applications' }
+          { method: 'Name', value: 'Remember Selected Projects' }
         ]
       },
       mac: { xpath: mainCanvas.env.rememberSelectedApplications }
@@ -274,6 +277,12 @@ export default class EnvSection extends RootApp {
   async connectEnv(envName, envUrl) {
     // bring up 'add new environment' dialog
     await this.moveToAndClick(await this.getAddNewEnv())
+    try{
+      const envDialog = await workstationApp.elementByName('Connection')
+      } catch(e){
+        console.log('[INFO] Add new env dialog was not show, try to click add new environment connection button again!')
+        await this.moveToAndClick(await this.getAddNewEnv())
+      }
 
     // input environment name
     await this.moveToAndSendKey(await this.getInputEnvName(), envName)
@@ -329,6 +338,32 @@ export default class EnvSection extends RootApp {
     await this.moveToAndClick(existingEnv)
     await this.rightClick()
     await this.moveToAndClick(await this.getRemoveEnvOption())
+  }
+
+  //Please note: in windows, the first env object is "Add New Environment Connection"; in mac, all return elm are existing env. Besides, in mac, the locator will change, always delete the first env.
+  async removeAllEnv(){
+    let elm = await this.app
+    if (OSType === 'windows') {
+        elm = await elm.elementByClassName(`EnvIconBrowsingUserControl`)
+        elm = await elm.elementsByClassName(`ListBoxItem`)
+        for (let i=1; i<elm.length; i++)
+        {
+          await this.moveToAndClick(elm[i])
+          await this.rightClick()
+          await this.moveToAndClick(await this.getRemoveEnvOption())
+          this.app.sleep(1000)
+        }
+    }
+    else{
+      elm = await elm.elementsByXPath(MAC_XPATH.iconView.mainCanvas.env.existingEnvList)
+      for (let i=0; i<elm.length; i++)
+      {
+        await this.moveToAndClick(elm[0])
+        await this.rightClick()
+        await this.moveToAndClick(await this.getRemoveEnvOption())
+        this.app.sleep(1000)
+      }
+    }
   }
 
   async disconnectEnv(name) {

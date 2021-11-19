@@ -28,7 +28,7 @@ task :eks_deploy do
 
   eks_deploy(namespace: 'ci', release_name:workstation_setting_release_name, value_overrides: override_values, update_helm: false)
   helm_install_ready?(apps: "iserver mysql-md library", release: workstation_setting_release_name)
-  info "Please access the swagger page of web-dossier from url: http://#{library_service_fqdn}/MicroStrategyLibrary/"
+  info "Please access the swagger page of web-dossier from url: https://#{library_service_fqdn}/MicroStrategyLibrary/"
 end
 
 @workstation_folder = "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/.workstation"
@@ -111,19 +111,26 @@ def is_port_open?(ip, port)
   return false
 end
 
-def replace_workstation_plugin_mac
+def install_latest_workstation_mac_os_x
+  info "====== Dowloading workstation mac ======"
+  FileUtils.rm(@workstation_dmg_path) if File.exist?(@workstation_dmg_path)
+  Nexus.download_latest_artifact(file_path: @workstation_dmg_path, artifact_id: "#{@workstation_artifact_name}", group_id: "com.microstrategy.#{@wkstn_branch}", extra_coordinates: {e: 'dmg'})
+
   stop_workstation_app_mac
   # Make sure no workstation installed
   if Dir.exist?("#{@workstation_installation_folder}")
-    info "====== MicroStrategy Workstation has been installed, going to uninstall it... ======"
+    puts "MicroStrategy Workstation has been installed, going to uninstall it..."
     FileUtils.rm_rf("#{@workstation_installation_folder}")
   end
-  info "====== Install MicroStrategy Workstation... ======"
+  puts "Install MicroStrategy Workstation..."
   shell_command! "hdiutil unmount '/Volumes/MicroStrategy - Workstation'" if Dir.exist?('/Volumes/MicroStrategy - Workstation')
   shell_command! "hdiutil mount #{@workstation_dmg_path}"
   shell_command! "cp -R '/Volumes/MicroStrategy - Workstation/MicroStrategy Workstation.app' '#{@workstation_installation_folder}'"
   shell_command! "hdiutil unmount '/Volumes/MicroStrategy - Workstation'"
   FileUtils.rm(@workstation_dmg_path) if File.exist?(@workstation_dmg_path)
+end
+
+def replace_workstation_plugin_mac
 
   if ENV['JENKINS_STAGE'] == 'premerge'
     info "====== PREMERGE Job, no need to download plugin... ======"
@@ -139,16 +146,19 @@ def replace_workstation_plugin_mac
   plugin_home_foler = "/Applications/MicroStrategy Workstation.app/Contents/Resources/Plugins"
   ws_plugin_folder = "#{plugin_home_foler}/#{plugin_name}"
   info "====== Replacing the plugin of MicroStrategy Worstation... ======"
-  FileUtils.mkdir_p(ws_plugin_folder) unless File.exists?(ws_plugin_folder)
+  #FileUtils.mkdir_p(ws_plugin_folder) unless File.exists?(ws_plugin_folder)
   FileUtils.rm_rf("#{ws_plugin_folder}/")
   FileUtils.cp(plugin_path, plugin_home_foler)
-  shell_command! "unzip -o #{plugin_path}", cwd: plugin_home_foler
+  shell_command! "unzip -o #{@artifact_info[:artifact_base_file_name]}.zip", cwd: plugin_home_foler
   FileUtils.mv("#{plugin_home_foler}/dist", "#{ws_plugin_folder}")
-  FileUtils.rm("#{plugin_home_foler}/#{plugin_path.split('/').last}")
+  FileUtils.rm("#{plugin_home_foler}/#{@artifact_info[:artifact_base_file_name]}.zip")
+end
+
+task :install_latest_workstation_mac_os_x do
+  install_latest_workstation_mac_os_x
 end
 
 task :replace_workstation_plugin_mac do
-  download_latest_workstation_mac_os_x
   replace_workstation_plugin_mac
 end
 
@@ -191,7 +201,7 @@ task :acceptance_test_mac do
     info "====== Executing tests ======"
     app_path = "\'MicroStrategy Workstation\'"
     shell_command! "yarn install --frozen-lockfile", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
-    shell_command! "node #{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance/trigger_test.js #{app_path} \'http://#{library_service_fqdn}/MicroStrategyLibrary/\' \'@PREMERGE\' #{@cef_remote_debug_port}", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
+    shell_command! "node #{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance/trigger_test.js #{app_path} \'https://#{library_service_fqdn}/MicroStrategyLibrary/\' \'@PREMERGE\' #{@cef_remote_debug_port}", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
   ensure
     stop_workstation_app_mac
     Helm.delete_release(workstation_setting_release_name)

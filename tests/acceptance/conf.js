@@ -5,12 +5,26 @@ require('regenerator-runtime')
 const chai = require('chai')
 const chaiAsPromised = require('chai-as-promised')
 chai.use(chaiAsPromised)
+const { join } = require('path');
 
 const parseArguments = require('./utils/envUtils/parseArguments')
 const { sleep } = require('./utils/generalUtils')
 const customArgObj = parseArguments()
 
 exports.config = {
+  plugins: [
+    {
+      package: 'protractor-image-comparison',
+      options: {
+        baselineFolder: join(process.cwd(), './results/baseline/'),
+        formatImageName: `{tag}`,
+        screenshotPath: join(process.cwd(), './results/'),
+        savePerInstance: true,
+        autoSaveBaseline: true,
+      },
+    },
+  ],
+
   directConnect: true,
   // use custom chrome driver
   chromeDriver: process.platform === 'win32' ? '3rdParty/windows/chromedriver.exe' : '3rdParty/mac/chromedriver',
@@ -44,7 +58,7 @@ exports.config = {
     format: ['json:reports/rallyReport/execReport.json', 'rerun:./reports/reruns/@rerun.txt'], // <string[]> (type[:path]) specify the output format, optionally supply PATH to redirect formatter output (repeatable)
     // tags: ['@sanity'],
     profile: false,
-    'fail-fast': true,
+    'fail-fast': false,
     'no-source': true
   },
 
@@ -78,6 +92,18 @@ exports.config = {
 
       global.MAC_VIEWMODE = 'iconView'
 
+      global.enableUplodaVideo = false
+      const { isVideoRecorderAvailable } = require('./utils/ciUtils/video-helper')
+      global.videoRecord = customArgObj.videoRecord && isVideoRecorderAvailable()
+
+      // init video recorder
+      const { initVideoRecorder, recordVideo } = require('./utils/ciUtils/video-helper')
+      if (global.videoRecord) {
+        await initVideoRecorder()
+        global.uploadVideoPath = customArgObj.uploadVideoPath
+        if (global.uploadVideoPath !== undefined) global.enableUplodaVideo = true
+      }
+
       // //Reset Environment
       if (customArgObj.args.removeEnv) {
         RESET_ENV()
@@ -88,14 +114,14 @@ exports.config = {
       // For windows, the Main Workstation Window handle is registered globally
       const startWorkstation = require('./utils/wsUtils/startWorkstation')
       global.workstationApp = await startWorkstation()
-      if (OSType === 'windows') {
-        const { registerWindow } = require('./utils/wsUtils/windowHelper')
-        await registerWindow('Workstation Main Window')
-        // Initialize a CEF webview for Windows
-        // For Mac, as long as the Main Window is launched, there will be Quick Search WebView
-        const initializeWebView = require('./utils/wsUtils/initializeWebView')
-        await initializeWebView()
-      }
+      // if (OSType === 'windows') {
+      const { registerWindow, maximizeWindowByWindowName } = require('./utils/wsUtils/windowHelper')
+      await registerWindow('Workstation Main Window')
+      // if (OSType === 'windows') await maximizeWindowByWindowName('Workstation Main Window')
+      // Initialize a CEF webview for Windows
+      // For Mac, as long as the Main Window is launched, there will be Quick Search WebView
+      const initializeWebView = require('./utils/wsUtils/initializeWebView')
+      await initializeWebView()
     }
   },
 

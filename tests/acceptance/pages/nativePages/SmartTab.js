@@ -15,6 +15,19 @@ export default class SmartTab extends RootApp {
     })
   }
 
+  async getSmartTab() {
+    return this.getNativeElement({
+      windows: {
+        locators: [
+          { method: 'Name', value: 'Smart Mode' },
+          { method: 'AccessibilityId', value: 'SmartFoldersControl' },
+          { method: 'AccessibilityId', value: 'BrowseObjectListBox' }
+        ]
+      },
+      mac: { xpath: smartTab.smartTabContainer, }
+    })
+  }
+
   async getCreateNewItem(itemName) {
     let macBtnHelpStr
 
@@ -54,6 +67,11 @@ export default class SmartTab extends RootApp {
   // ** Actions ** //
   async selectTab(tabName) {
     return this.moveToAndClick(await this.getTab(tabName))
+  }
+
+  async scrollOnSmartTab(direction){
+    if (OSType === 'windows') await this.scrollUpOrDown(await this.getSmartTab(),direction)
+    return this.app.sleep(1000)
   }
 
   async createNewItem(itemName) {

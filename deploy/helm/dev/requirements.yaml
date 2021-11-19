@@ -12,5 +12,3 @@ dependencies:
   repository: file://./charts/iserver
 - name: library
   repository: file://./charts/library
-- name: architect-service
-  repository: file://./charts/architect-service

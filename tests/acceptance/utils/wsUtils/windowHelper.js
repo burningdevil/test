@@ -17,8 +17,20 @@ async function switchToWindow(windowName) {
   return workstationApp.sleep(1000)
 }
 
+async function setWindowPosition(windowName, x, y) {
+  const windowhandle = windowsMap.get(windowName)
+  await workstationApp.sleep(1000)
+  return workstationApp.setWindowPosition(x, y, windowhandle)
+}
+
+async function maximizeWindowByWindowName(windowName) {
+  const windowhandle = windowsMap.get(windowName)
+  await workstationApp.sleep(1000)
+  return workstationApp.maximize(windowhandle)
+}
+
 async function unregisterWindow(windowName) {
   return windowsMap.delete(windowName)
 }
 
-module.exports = { registerWindow, registerNewWindow, switchToWindow, unregisterWindow }
+module.exports = { registerWindow, registerNewWindow, switchToWindow, unregisterWindow, setWindowPosition, maximizeWindowByWindowName }

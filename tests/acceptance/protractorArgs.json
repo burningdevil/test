@@ -3,7 +3,7 @@
         "envInfo": [
             {
                 "envName": "shared",
-                "envUrl": "http://tec-w-005136.labs.microstrategy.com:8080/MicroStrategyLibrary/",
+                "envUrl": "http://10.23.38.24:8080/MicroStrategyLibrary",
                 "loginMode": "Standard",
                 "userName": "administrator",
                 "userPwd": "",
@@ -15,11 +15,11 @@
     },
     "args": {
         "launchWS": true,
-        "connectEnv": true,
+        "connectEnv": false,
         "removeEnv": true,
         "quitWS": true,
         "appPath": {
-            "mac": "MicroStrategy Workstation.app",
+            "mac": "MicroStrategy Workstation",
             "windows": "C:\\Program Files\\MicroStrategy\\Workstation\\Workstation.exe"
         },
         "ubConf": {

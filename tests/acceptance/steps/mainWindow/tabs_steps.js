@@ -9,6 +9,15 @@ Then('I first-time select tab {string} and wait for cache generation', async fun
 })
 
 When('I select tab {string}', async function (tabName) {
+  if(tabName==='Applications') {
+    await mainWindow.smartTab.scrollOnSmartTab('down')
+    console.log('[INFO] Scrll down by keyboard arrow down the first time.')
+    await mainWindow.app.sleep(500)
+    await mainWindow.smartTab.scrollOnSmartTab('down')
+    console.log('[INFO] Scrll down by keyboard arrow down the second time.')
+    await mainWindow.app.sleep(500)
+
+  }
   await mainWindow.smartTab.selectTab(tabName)
   return mainWindow.app.sleep(500)
 })

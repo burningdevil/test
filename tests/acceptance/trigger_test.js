@@ -16,9 +16,10 @@ const { spawn, execSync } = require('child_process')
 // receive arguments from CI Pipeline
 const argumentsFromCI = process.argv.slice(2)
 const APP_PATH = argumentsFromCI[0]
-const ENV_URL = argumentsFromCI[1] 
+const ENV_URL = argumentsFromCI[1]
 const TAG = argumentsFromCI[2]
 const CEF_PORT = argumentsFromCI[3]
+const VIDEO_PATH =  argumentsFromCI[4]
 
 let cp; let globalExitCode = 0
 // start appium method
@@ -55,11 +56,12 @@ const startupAppium = async () => {
     console.info('Running test...')
     let OS_APP_PATH = ''
     if (process.platform === 'win32') {
-      OS_APP_PATH = `--args.appPath.windows '${APP_PATH}'`
+      OS_APP_PATH = `--args.appPath.windows "${APP_PATH}"`
     } else {
-      OS_APP_PATH = `--args.appPath.mac '${APP_PATH}'`
+      OS_APP_PATH = `--args.appPath.mac "${APP_PATH}"`
     }
-    execSync(`yarn test ${OS_APP_PATH} --args.cefPort '${CEF_PORT}' --params.envInfo[0].envUrl '${ENV_URL}' --cucumberOpts.tags '${TAG}'`, { stdio: 'inherit', encoding: 'utf-8' })
+    //execSync(`yarn test ${OS_APP_PATH} --args.cefPort=\"${CEF_PORT}\" --params.envInfo[0].envUrl=\"${ENV_URL}\" --cucumberOpts.tags=\"${TAG}\"`, { stdio: 'inherit', encoding: 'utf-8' })
+    execSync(`yarn test ${OS_APP_PATH} --args.cefPort ${CEF_PORT} --params.envInfo[0].envUrl ${ENV_URL} --cucumberOpts.tags ${TAG} --videoRecord true --uploadVideoPath ${VIDEO_PATH}`, { stdio: 'inherit', encoding: 'utf-8' })
     // execSync(`yarn flakeTest '${APP_PATH}' '${ENV_URL}' '~@wip'`, { stdio: 'inherit', encoding: 'utf-8' })
   } catch (err) {
     console.error(err)

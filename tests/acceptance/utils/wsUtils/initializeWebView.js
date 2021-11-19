@@ -1,31 +1,43 @@
 const { registerNewWindow, switchToWindow } = require('./windowHelper')
 
 async function initializeWebView() {
-  // for windows there might be a auto pop up env configuration window for new installation
-  try {
-    const cancelButton = await workstationApp.elementByName('Connection').elementByName('Cancel')
-    if(cancelButton.isDisplayed()) {
-      cancelButton.click()
-    }
-    console.log('Canceling extra environment configuration')
-  } catch (e) {
-    console.log(e)
-  }
-  console.log('Initializing Webview for Workstation Windows...')
   // for windows switch to Getting Started tab
-  const tabDossier = await workstationApp.elementByName('Dossiers')
-  const createDossierButton = await tabDossier.elementByClassName('Button')
-  console.log('Create new dossier...')
-  await createDossierButton.click()
+  if (OSType === 'windows') {
+    console.log('Initializing Webview for Workstation Windows...')
+    const maxworksation = await workstationApp.elementByAccessibilityId("WindowRestoreButton")
+    await maxworksation.click()
+    const tabDossier = await workstationApp.elementByName('Dossiers')
+    const createDossierButton = await tabDossier.elementByClassName('Button')
+    await createDossierButton.click()
+    await workstationApp.sleep(1000)
+    await registerNewWindow(`webview helper`)
+    await switchToWindow(`webview helper`)
+    const minimizeBtn = await workstationApp.elementByAccessibilityId('WindowMinimizeButton')
+    await minimizeBtn.click()
+
+  } else { // OSType === 'mac'
+    // Initialize a CEF webview for Mac (This should be used after CEF feature enabled)
+    console.log('Initializing Webview for Workstation Mac...')
+    let referenceObject = workstationApp.elementByXPath(MAC_XPATH_GENERAL.smartTab.createNewItem.replace(/ReplaceMe/g, "Create a new dossier"))
+    await referenceObject.moveTo()
+
+    await workstationApp.sleep(100)
+    await workstationApp.buttonDown()
+    await workstationApp.sleep(100)
+    await workstationApp.buttonUp()
+    await workstationApp.sleep(1000)
+    await registerNewWindow(`webview helper`)
+    await switchToWindow(`webview helper`)
+
+    referenceObject = workstationApp.elementByXPath(MAC_XPATH_GENERAL.window.minimize)
+    await referenceObject.moveTo()
+    await workstationApp.sleep(100)
+    await workstationApp.buttonDown()
+    await workstationApp.sleep(100)
+    return workstationApp.buttonUp()
+  }
+
   await workstationApp.sleep(1000)
-  await registerNewWindow(`webview helper`)
-  console.log('Switch to dossier window...')
-  await switchToWindow(`webview helper`)
-  const minimizeBtn = await workstationApp.elementByAccessibilityId('WindowMinimizeButton')
-  console.log('Minimize dossier window...')
-  await minimizeBtn.click()
-  await workstationApp.sleep(1000)
-  console.log('Switch back to main window...')
   return switchToWindow('Workstation Main Window')
 }
 

@@ -1,3 +1,4 @@
+import { IMPLICIT_TIMEOUT } from '../../utils/envUtils/constants'
 export default class RootApp {
   constructor() {
     this.app = workstationApp
@@ -58,7 +59,7 @@ export default class RootApp {
         await this.sleep(pollFreq)
       }
     } finally {
-      await this.app.setImplicitWaitTimeout(10000)
+      await this.app.setImplicitWaitTimeout(IMPLICIT_TIMEOUT)
     }
     throw Error(errMsg)
   }
@@ -92,7 +93,7 @@ export default class RootApp {
         await this.sleep(pollFreq)
       }
     } finally {
-      await this.app.setImplicitWaitTimeout(10000)
+      await this.app.setImplicitWaitTimeout(IMPLICIT_TIMEOUT)
     }
     throw Error(errMsg)
   }
@@ -109,6 +110,19 @@ export default class RootApp {
     await this.app.buttonDown()
     await this.app.sleep(100)
     return this.app.buttonUp()
+  }
+
+  async scrollUpOrDown(referenceObject,direction){
+    //await this.moveToAndClick(referenceObject)
+    if(direction === 'up') {
+      //await referenceObject.sendKeys('\uE00E') //PAGE_UP
+      await this.moveToAndSendKey(referenceObject,'\uE013');
+    }else{
+      //await referenceObject.sendKeys('\uE00F') //PAGE_DOWN
+      await this.moveToAndSendKey(referenceObject,'\uE015');
+    }
+    return this.app.sleep(100)
+
   }
 
   async moveToAndClickAtPosition(referenceObject) {
