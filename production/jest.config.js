@@ -3,7 +3,8 @@ module.exports = {
   testRegex: '__tests__/.*.test.tsx?$|\\.spec.tsx',
   setupFilesAfterEnv: ['<rootDir>/enzymeSetup.js'],
   moduleNameMapper: { 
-    '\\.(scss|css|less|png|jpg|gif)$': '<rootDir>/node_modules/jest-css-modules',
+    '\\.(scss|css|less|png|jpg|gif|svg)$': '<rootDir>/node_modules/jest-css-modules',
+    'node_modules/@mstr/react-ws-grid/lib/locale/locale.js': '<rootDir>/src/modules/components/__tests__/__mocks__/i18next'
   },
   moduleFileExtensions: ['ts', 'tsx', 'js'],
   transform: {
