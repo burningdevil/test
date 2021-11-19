@@ -11,7 +11,7 @@ $prefix: confirmation-dialog;
   }
 
   border: 1px solid $msdl-border-gray;
-  box-shadow: 0 1px 4px 0 $msdl-shadow-gray;
+  // box-shadow: 0 8px 4px 0 $msdl-shadow-gray !important;
   border-radius: $msdl-border-radius;
 
   .#{$prefix}-dialog-container {
