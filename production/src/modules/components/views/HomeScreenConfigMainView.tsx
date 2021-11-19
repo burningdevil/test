@@ -473,12 +473,6 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       });
 
       contextMenuItems.push({
-        name: localizedStrings.DELETE,
-        action: handleClickDelete,
-        disabled: contextMenuTarget? contextMenuTarget.isDefault : false
-      })
-
-      contextMenuItems.push({
         name: localizedStrings.DUPLICATE,
         action: handleClickDuplicate,
         disabled: contextMenuTarget? contextMenuTarget.isDefault : false
@@ -487,6 +481,12 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       contextMenuItems.push({
         name: localizedStrings.GETINFO,
         action: handleClickInfo
+      })
+
+      contextMenuItems.push({
+        name: localizedStrings.DELETE,
+        action: handleClickDelete,
+        disabled: contextMenuTarget? contextMenuTarget.isDefault : false
       })
 
       return contextMenuItems

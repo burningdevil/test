@@ -31,7 +31,9 @@
     .name-column .ag-react-container {
         width: 100%;
     }
-
+    .ag-cell {
+        font-size: $font-size !important;
+    }
     .ag-cell-wrapper {
         line-height: 32px;
     }
