@@ -14,13 +14,13 @@ import { HttpProxy } from '../../../main';
 import { RestApiError } from '../../../server/RestApiError';
 import { PARSE_METHOD } from '../../../utils/ParseMethods';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
-import { selectCurrentConfig, selectIsDuplicateConfig, selectIsConfigNameError, selectIsDossierAsHome, selectDefaultGroupsName, selectConfigInfoList } from '../../../store/selectors/HomeScreenConfigEditorSelector';
+import { selectCurrentConfig, selectIsDuplicateConfig, selectIsConfigNameError, selectIsDossierAsHome, selectDefaultGroupsName, selectConfigInfoList, selectIsConfigChanged } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import * as api from '../../../services/Api';
 import { default as VC, localizedStrings, editorSize ,CONTENT_BUNDLE_FEATURE_FLAG, libraryCustomizedIconDefaultValues, CONTENT_BUNDLE_DEFAULT_GROUP_NAME, copyApplicationName, closeWindowConfirmationStr} from '../HomeScreenConfigConstant'
 import { ConfirmationDialog, ConfirmationDialogWordings } from '../common-components/confirmation-dialog';
 import { getFeatureFlag, validName } from './HomeScreenUtils';
-
+import { store } from '../../../main';
 declare var workstation: WorkstationModule;
 
 const classNamePrefix = 'home-screen-editor';
@@ -35,7 +35,8 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
       isNameCopyed: false,  // Copy of Name for duplicate config operation should only be handled one time.
       currentEnv: {},
       handleSaving: false,
-      contentBundleFeatureEnable: false
+      contentBundleFeatureEnable: false,
+      isCloseHanlderRegistered: false
     }
   }
 
@@ -67,11 +68,13 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             ResponseValue: true
         };
     });
+    this.setState({
+      isCloseHanlderRegistered: true
+    })
   }
 
   async componentDidMount() {
-      // register handler
-      await this.addHandlers();
+      
       // Set Duplicate Config Flag
       const extraContext = await workstation.window.getExtraContext();
       const extraContextJson = JSON.parse(extraContext);
@@ -111,6 +114,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         isNameCopyed: isNameCopyed
       });
       this.loadPreference();
+
       workstation.environments.onEnvironmentChange((change: EnvironmentChangeArg) => {
         console.log('editor enviornment change: ' + change.actionTaken);
         console.log('editor enviornment change: env name : ' + change.changedEnvironment.name);
@@ -126,6 +130,12 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         // this.loadPreference(newPrence);
         workstation.window.close()
       });
+      store.subscribe(async() => {
+        const state = store.getState();
+        if(state.configEditor.isStateChangeByManual && !this.state.isCloseHanlderRegistered){
+          await this.addHandlers();
+        }
+      })
   }
   loadPreference = (pref?: any) => {
     if(pref){
@@ -194,6 +204,9 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
       })
   }
   confirmCancel = () => {
+    if(!this.props.isStateChanged){
+      this.handleCancel();
+    }
       this.setState({
         isConfirmationDialogOpen: true
       })
@@ -367,7 +380,8 @@ const mapState = (state: RootState) => ({
   isDuplicateConfig: selectIsDuplicateConfig(state),
   isConfigNameError: selectIsConfigNameError(state),
   defaultGroupsName: selectDefaultGroupsName(state),
-  configInfoList: selectConfigInfoList(state)
+  configInfoList: selectConfigInfoList(state),
+  isStateChanged: selectIsConfigChanged(state),
 })
 
 const connector = connect(mapState, {

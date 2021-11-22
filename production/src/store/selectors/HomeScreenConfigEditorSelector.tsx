@@ -54,6 +54,11 @@ export const selectIsConfigLoading = createSelector(
   (configMainRoot) => configMainRoot.configLoading
 )
 
+export const selectIsConfigChanged = createSelector(
+  selectConfigEditorRoot,
+  (configMainRoot) => configMainRoot.isStateChangeByManual
+)
+
 export const selectContentBundleList = createSelector(
     selectConfigMainRoot,
   (configMainRoot) => configMainRoot.contentBundleList

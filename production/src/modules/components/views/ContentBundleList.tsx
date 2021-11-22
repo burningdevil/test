@@ -327,15 +327,16 @@ class ContentBundleList extends React.Component<any, any> {
               </span>
             )
           } else if(params.node.data.recipientType === BundleRecipientType.BOTH) {
-            <span>
+            return (
+              <span>
                 <img className="content-bundle-list-container-item-user" src={imgUser}/>
                 <img className="content-bundle-list-container-item-group2" src={imgGroup}/>
                 <span className="content-bundle-list-container-item-text">{params.value}</span>
             </span>
+            )
           } else {
             return ''
           }
-          return ''
         },
       }
     ]

@@ -6,7 +6,8 @@ export interface HomeScreenConfigEditorState {
     colorPalettes: Array<ColorPaletteType>
     isDuplicateConfig: boolean
     isConfigNameError: boolean
-    previewDeviceType: string
+    previewDeviceType: string,
+    isStateChangeByManual: boolean
 }
 
 export interface HomeScreenMainViewState {
