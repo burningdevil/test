@@ -206,6 +206,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
   confirmCancel = () => {
     if(!this.props.isStateChanged){
       this.handleCancel();
+      return;
     }
       this.setState({
         isConfirmationDialogOpen: true

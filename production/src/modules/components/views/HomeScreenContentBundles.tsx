@@ -50,7 +50,7 @@ class HomeScreenContentBundles extends React.Component<any, any> {
         sideBarIcons = _.concat(sideBarIcons, iconTypes.defaultGroup.key)
     }
     _.set(currentConfig, sidebarPath, sideBarIcons)
-    this.props.setCurrentConfigManual(currentConfig);
+    this.props.updateCurrentConfig(currentConfig);
   }
 
   render() {
@@ -74,7 +74,7 @@ const mapState = (state: RootState) => ({
 })
 
 const connector = connect(mapState, {
-  setCurrentConfigManual: Actions.setCurrentConfigManual
+  updateCurrentConfig: Actions.updateCurrentConfig
 })
 
 export default connector(HomeScreenContentBundles)

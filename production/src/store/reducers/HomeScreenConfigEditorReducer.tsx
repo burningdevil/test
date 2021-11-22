@@ -63,8 +63,6 @@ const HomeScreenConfigEditorReducer = (state: HomeScreenConfigEditorState = init
           }
         })
       }
-    case Actions.SET_CURRENT_CONFIG_MANUAL:
-      return {...state, currentConfig: data, isStateChangeByManual: true}
     case Actions.SET_CURRENT_CONFIG:
       return {...state, currentConfig: data}
     case Actions.SET_CONFIG_INFO_LIST:
