@@ -46,6 +46,7 @@ const initialState: HomeScreenConfigEditorState = {
   configInfoList: [],
   colorPalettes: [],
   previewDeviceType: reviewType.WEB,
+  isStateChangeByManual: false,
 }
 
 const HomeScreenConfigEditorReducer = (state: HomeScreenConfigEditorState = initialState, action: ActionTypes) => {
@@ -55,6 +56,7 @@ const HomeScreenConfigEditorReducer = (state: HomeScreenConfigEditorState = init
     case Actions.UPDATE_CURRENT_CONFIG:
       return {
         ...state, 
+        isStateChangeByManual: true,
         currentConfig : _.mergeWith({}, state.currentConfig, data, (target, source) => {
           if (_.isArray(target)) {
             return source

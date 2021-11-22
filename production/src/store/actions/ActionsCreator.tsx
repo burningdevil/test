@@ -21,6 +21,7 @@ export const setCurrentConfig = (config: HomeScreenConfigType) => ({
   data: config,
 })
 
+
 export const updateCurrentConfig = (settings: Partial<HomeScreenConfigType>) => ({
   type: Actions.UPDATE_CURRENT_CONFIG,
   data: settings,
