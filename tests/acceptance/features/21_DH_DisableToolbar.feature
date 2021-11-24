@@ -25,4 +25,3 @@ Feature: 21_DH_DisableToolbar
         Then check the screenshot by comparing "21_dh_disable_toolbar_web"
         When I choose the "Desktop" client preview 
         Then check the screenshot by comparing "21_dh_disable_toolbar_desktop"
-        Then I click "Cancel" button

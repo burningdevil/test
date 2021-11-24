@@ -57,4 +57,3 @@ Feature: 23_DH_DossierWindow
         Then check the screenshot by comparing "23_dh_off_edit_web"
         When I choose the "Desktop" client preview
         Then check the screenshot by comparing "23_dh_off_edit_desktop"
-        Then I click "Cancel" button

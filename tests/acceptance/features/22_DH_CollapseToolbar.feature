@@ -25,5 +25,4 @@ Feature: 22_DH_CollapseToolbar
         Then check the screenshot by comparing "22_dh_collapse_toolbar_web"
         When I choose the "Desktop" client preview
         Then check the screenshot by comparing "22_dh_collapse_toolbar_desktop"
-        Then I click "Cancel" button
  
