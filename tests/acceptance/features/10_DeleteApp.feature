@@ -1,12 +1,12 @@
 @TC78839 @Regression
-Feature: Delete applications
+Feature: 10_DeleteApp
     1. add environment
     2. delete application
 
     Background: Add Environment
         Given configure workstation engine test environment
 
-    Scenario: Delete applications
+    Scenario: 10_DeleteApp
         When I select tab "Applications"
         When I click the application create entry
         Then I click "Save" button

@@ -72,6 +72,11 @@ export default class SettingPage extends BasePage {
     return this.$('.content-bundle-content-picker-btn').element(by.cssContainingText('.ant-btn.ant-btn-primary', 'Select'))
   }
 
+  //Preview
+  getPreview(client) {
+    return this.$$('.ant-radio-group').all(by.cssContainingText('.ant-radio-button-wrapper', client)).first()
+  }
+
   //Components Page
   getToolbarMode(mode) {
     return this.$$('.home-screen-components-toolbar').all(by.cssContainingText('.ant-checkbox-wrapper', mode)).first()
@@ -90,9 +95,22 @@ export default class SettingPage extends BasePage {
   }
 
   getCancelButton() {
-    //return this.$('.ant-btn.ant-btn-default')
     return this.$('.home-screen-editor-layout-btn').element(by.cssContainingText('.ant-btn', 'Cancel'))
+    //return this.$$('.ant-btn').filter(async (elem) => {
+      //return elem.isDisplayed()
+    //}).first()
   }
+
+  getConfirmCancelButton() {
+    return this.$('.ant-btn.ant-btn-primary.confirmation-dialog-action-button')
+  }
+
+  //More Setting page
+  getAccessMode(mode) {
+    return this.$$('.home-screen-moresetting-box').all(by.cssContainingText('.ant-checkbox-wrapper', mode)).first()
+    
+  }
+
 
 
   // actions
@@ -112,13 +130,17 @@ export default class SettingPage extends BasePage {
       await this.getSaveButton().click()
     } else if (text === 'Cancel') {
       await this.getCancelButton().click()
+      await browser.sleep(2000)
+      await this.getConfirmCancelButton().click()
     }
     await browser.sleep(6000)
     await this.switchToNewWebView()
   }
 
   async switchMenu(menu) {
+    await browser.sleep(3000)
     await this.getMenuTab(menu).click()
+    await browser.sleep(3000)
   }
 
   /*
@@ -146,10 +168,15 @@ export default class SettingPage extends BasePage {
     await browser.sleep(3000)
   }
 
-
-  async waitForDossierListWindow() {
-    await this.wait(this.EC.visibilityOf(this.getDossierListPage()), 60000, 'Dossier list window was not displayed');
+  async choosePreview(client) {
+    await this.getPreview(client).click()
+    await browser.sleep(3000)
   }
+
+
+  //async waitForDossierListWindow() {
+    //await this.wait(this.EC.visibilityOf(this.getDossierListPage()), 60000, 'Dossier list window was not displayed');
+  //}
 
 
   async chooseToolbarMode(toolbarmode) {
@@ -160,13 +187,14 @@ export default class SettingPage extends BasePage {
 
   async switchDossierDocumentTab(menu) {
     await this.getDossierPickbutton().click()
-    await this.waitForDossierListWindow()
+    //await this.waitForDossierListWindow()
+    await browser.sleep(5000)
     await this.getDossierDocumentTab(menu).click()
     await browser.sleep(5000)
   }
 
   async pickDossierByName(name) {
-    await browser.sleep(60000)
+    await browser.sleep(5000)
     const dossierItem = await this.getGridCellInDossierListView(name)
     await this.click({ elem: dossierItem })
     await browser.sleep(2000)
@@ -184,4 +212,10 @@ export default class SettingPage extends BasePage {
     await this.getToolbarOptionSwitcher(text).click()
     await browser.sleep(2000)
   }
+
+  async chooseUserAccess(mode) {
+    await this.getAccessMode(mode).click()
+    await browser.sleep(3000)
+  }
+
 }
