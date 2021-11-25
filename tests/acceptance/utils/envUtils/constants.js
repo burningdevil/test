@@ -7,7 +7,8 @@ const WIN_CAPABILITIES = {
   platformName: 'Windows',
   deviceName: 'WindowsPC',
   app: workstationPath,
-  appArguments: '-p 54213'
+  appArguments: '-p 54213',
+  newCommandTimeout: 300000
 }
 
 // Mac Specific
@@ -15,6 +16,7 @@ const MAC_CAPABILITIES = {
   platformName: 'Mac',
   deviceName: 'Mac',
   app: workstationPath,
+  newCommandTimeout: 300000,
   cookies : [
     // for debug purpose
     { name:'command_delay', value: 0 },

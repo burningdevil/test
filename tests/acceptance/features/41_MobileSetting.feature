@@ -19,4 +19,6 @@ Feature: 41_MobileSetting
         When I choose the user access "Allow users to access preferences"
         When I choose the user access "Allow users to access advanced settings"
         Then check the screenshot by comparing "41_mobile_disable_useraccess"
+        Then I click "Save" button
+        Then I delete the application "New Application"
 

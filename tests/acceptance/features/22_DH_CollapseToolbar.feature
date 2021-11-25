@@ -17,12 +17,13 @@ Feature: 22_DH_CollapseToolbar
         Then I choose "Documents" menu and pick document "Colorful"
         Then I switch to menu "Components"
         Then I choose the toolbar mode "Collapse toolbar by default"
-        When I choose the "Tablet" client preview 
+        When I choose the "Tablet" client preview
         Then check the screenshot by comparing "22_dh_collapse_toolbar_tablet"
-        When I choose the "Phone" client preview 
+        When I choose the "Phone" client preview
         Then check the screenshot by comparing "22_dh_collapse_toolbar_phone"
-        When I choose the "Web" client preview 
+        When I choose the "Web" client preview
         Then check the screenshot by comparing "22_dh_collapse_toolbar_web"
         When I choose the "Desktop" client preview
         Then check the screenshot by comparing "22_dh_collapse_toolbar_desktop"
- 
+        Then I click "Save" button
+        Then I delete the application "New Application"

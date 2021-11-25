@@ -17,4 +17,5 @@ Feature: 08_LH_Sidebar
         When I click the application create entry
         Then I switch to menu "Components"
         Then I hide toolbar icon "Sidebar"
-     
+        Then I click "Save" button
+        Then I delete the application "New Application"

@@ -6,7 +6,7 @@ Feature: 07_LH_PlatformSpecific
     4. check the preview of tablet, phone, web and desktop when off Data Search
     5. check the preview of tablet, phone, web and desktop when off HyperIntelligence
     6. check the preview of tablet, phone, web and desktop when off Font Size in Grid
- 
+
     Background: Add Environment
         Given configure workstation engine test environment
 
@@ -27,3 +27,6 @@ Feature: 07_LH_PlatformSpecific
         Then check the screenshot by comparing "07_lh_off_aa_tablet"
         When I choose the "Desktop" client preview
         Then check the screenshot by comparing "07_lh_off_aa_phone"
+        Then I click "Save" button
+        Then I delete the application "New Application"
+

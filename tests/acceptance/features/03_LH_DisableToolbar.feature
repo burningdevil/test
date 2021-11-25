@@ -15,9 +15,11 @@ Feature: 03_LH_DisableToolbar
         Then I choose the toolbar mode "Disable toolbar"
         When I choose the "Tablet" client preview
         Then check the screenshot by comparing "03_lh_disable_toolbar_tablet"
-        When I choose the "Phone" client preview 
+        When I choose the "Phone" client preview
         Then check the screenshot by comparing "03_lh_disable_toolbar_phone"
         When I choose the "Web" client preview
         Then check the screenshot by comparing "03_lh_disable_toolbar_web"
-        When I choose the "Desktop" client preview 
+        When I choose the "Desktop" client preview
         Then check the screenshot by comparing "03_lh_disable_toolbar_desktop"
+        Then I click "Save" button
+        Then I delete the application "New Application"
