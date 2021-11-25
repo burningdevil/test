@@ -223,13 +223,13 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         this.setState({
           isInitialLoading: false
         });
-        let selectedData: any[] = [];
-        gridApi.forEachNode( (node: any) =>{
-          if(node.data?.id === objId){
-            selectedData.push(node.data);
-          }
-        });
-        gridApi.applyTransaction({ remove: selectedData });
+        // let selectedData: any[] = [];
+        // gridApi.forEachNode( (node: any) =>{
+        //   if(node.data?.id === objId){
+        //     selectedData.push(node.data);
+        //   }
+        // });
+        // gridApi.applyTransaction({ remove: selectedData });
         api.loadConfigList();
       }).catch((e: any) => {
         this.processErrorResponse(e, localizedStrings.ERR_APP_DELETE);
@@ -335,7 +335,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         field: VC.NAME,
         headerName: localizedStrings.NAME,
         lockVisible: true,
-        minWidth: 200,
+        minWidth: 180,
         cellRendererFramework: (rendererParam: any) => {
           const d = rendererParam.data;
           return (
@@ -400,25 +400,25 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       {
         field: VC.DATE_MODIFIED,
         headerName: localizedStrings.DATE_MODIFIED,
-        width: 175,
+        width: 150,
         resizable: true // DE209336; make date column resizable.
       },
       {
         field: VC.DATE_CREATED,
         headerName: localizedStrings.DATE_CREATED,
-        width: 175,
+        width: 150,
         resizable: true,
         initialHide: true
       }
     ] as ColumnDef[];
     if(this.state.contentBundleFeatureEnable){
       cols.find(v => v.field === VC.CONTENT_BUNDLES).hide = false;
-      cols.find(v => v.field === VC.DESC).width = 200;
+      cols.find(v => v.field === VC.DESC).width = 160;
     }else {
       if(Object.keys(this.state.currentEnv)?.length && !this.state.contentBundleFeatureEnable){
         cols.splice(3, 1);
       }
-      cols.find(v => v.field === VC.DESC).width = 500;
+      cols.find(v => v.field === VC.DESC).width = 420;
     }
     return cols;
   }
