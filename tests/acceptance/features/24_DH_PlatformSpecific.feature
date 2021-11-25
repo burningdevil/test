@@ -1,4 +1,4 @@
-@TC78877_1 @Regression
+@TC78877
 Feature: 24_DH_PlatformSpecific
     1. add environment
     2. add new application

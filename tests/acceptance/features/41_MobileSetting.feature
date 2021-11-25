@@ -1,4 +1,4 @@
-@TC79962 @Regression
+@TC79962 
 Feature: 41_MobileSetting
     1. add environment
     2. add new application

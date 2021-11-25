@@ -1,4 +1,4 @@
-@TC78812 @Regression
+@TC78812 
 Feature: 21_DH_DisableToolbar
     1. add environment
     2. add new application

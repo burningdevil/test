@@ -74,7 +74,7 @@ export default class SettingPage extends BasePage {
 
   //Preview
   getPreview(client) {
-    return this.$$('.ant-radio-group').all(by.cssContainingText('.ant-radio-button-wrapper', client)).first()
+    return this.$$('.ant-radio-group.ant-radio-group-solid').all(by.cssContainingText('.ant-radio-button-wrapper', client)).first()
   }
 
   //Components Page

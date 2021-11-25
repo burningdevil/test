@@ -1,4 +1,4 @@
-@TC78845 @Regression
+@TC78845 
 Feature: 08_LH_Sidebar
     1. add environment
     2. add new application

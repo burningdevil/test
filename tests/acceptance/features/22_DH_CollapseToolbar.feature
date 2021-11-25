@@ -1,4 +1,4 @@
-@TC78812 @Regression
+@TC78812 
 Feature: 22_DH_CollapseToolbar
     1. add environment
     2. add new application

@@ -1,4 +1,4 @@
-@TC78877 @Regression
+@TC78877 
 Feature: 23_DH_DossierWindow
     1. add environment
     2. add new application
