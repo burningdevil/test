@@ -7,6 +7,7 @@ i18nextInstance.init({
   lng: /* 'zh-CN' */ navigator.language,
   fallbackLng: ['en'],
   resources: languages,
+  interpolation: { escapeValue: false },
 })
 
 export const t: TFunction = i18nextInstance.t.bind(i18nextInstance)
