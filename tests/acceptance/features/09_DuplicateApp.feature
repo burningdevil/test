@@ -1,12 +1,12 @@
 @TC78838 @Regression
-Feature: Duplicate applications
+Feature: 09_DuplicateApp
     1. add environment
     3. duplicate application
 
     Background: Add Environment
         Given configure workstation engine test environment
 
-    Scenario: Duplicate applications
+    Scenario: 09_DuplicateApp
         When I select tab "Applications"
         When I click the application create entry
         Then I click "Save" button

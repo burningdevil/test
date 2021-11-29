@@ -111,6 +111,19 @@ Then('I hide toolbar icon {string}', async function (text) {
 }
 );
 
+When('I choose the {string} client preview', async function (client) {
+    await settingPage.choosePreview(client)
+    return mainWindow.app.sleep(500)
+}
+);
+
+When('I choose the user access {string}', async function (mode) {
+    await settingPage.chooseUserAccess(mode)
+    return mainWindow.app.sleep(500)
+}
+);
+
+
 Then('check the screenshot by comparing {string}', async function (screenshot) {
     await applicationPage.takeScreenshotOnPage(screenshot)
     return mainWindow.app.sleep(500)

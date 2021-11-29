@@ -1,7 +1,7 @@
 module.exports = {
   // Rally REST API
   apiUrl: 'https://rally1.rallydev.com/slm/webservice/v2.x',
-  rallyApiKey: '_7QJl9ZJbSJexjvle8qPzTNjGC0frkzZvdXeEPikGo4',
+  rallyApiKey: '_QKf6OcL2QQaRGNT5AhHljnORWYGE0v5vPlo3o5QEI',
   // Test result info
   testInfo: {
     // environment: 'On-Prem',

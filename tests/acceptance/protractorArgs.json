@@ -3,7 +3,7 @@
         "envInfo": [
             {
                 "envName": "shared",
-                "envUrl": "http://10.23.38.24:8080/MicroStrategyLibrary",
+                "envUrl": "http://tec-w-1024158.labs.microstrategy.com:8080/MicroStrategyLibrary",
                 "loginMode": "Standard",
                 "userName": "administrator",
                 "userPwd": "",
