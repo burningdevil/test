@@ -190,7 +190,15 @@
 .ant-menu-item-disabled {
     display: none !important;
 }
-.mstr-filter-search-input-btn svg {
-    width: 12px;
-    height: 12px;
-}
+.mstr-filter-search-input-btn{
+    &:focus {
+        outline: none;
+    }
+    svg {
+        width: 14px;
+        height: 14px;
+        &:focus {
+            outline: none;
+        }
+    }
+} 

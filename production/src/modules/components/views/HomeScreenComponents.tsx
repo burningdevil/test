@@ -127,7 +127,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
             render: (icon: [string, string, [boolean, string]]) => {
                 return (
                     !iconExpandable(icon[1]) &&
-                    <span style={ icon[2] && this.isIconDisabled(icon[2][1]) ?  {opacity: 0.5} : {opacity: 1.0}}>
+                    <span style={ icon[2] && !this.props.selectedLibraryIcons.includes(iconTypes.sidebar.key) && sidebarIconKeys.includes(icon[2][1]) ?  {opacity: 0.5} : {opacity: 1.0}}>
                         <span className={icon[0]}/>
                         <span className={`${classNamePrefix}-table-text`}>  {icon[1]}  </span> 
                     </span>
