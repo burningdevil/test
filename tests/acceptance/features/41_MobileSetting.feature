@@ -1,4 +1,4 @@
-@TC79962 
+@TC79962 @Regression
 Feature: 41_MobileSetting
     1. add environment
     2. add new application
@@ -19,6 +19,11 @@ Feature: 41_MobileSetting
         When I choose the user access "Allow users to access preferences"
         When I choose the user access "Allow users to access advanced settings"
         Then check the screenshot by comparing "41_mobile_disable_useraccess"
-        Then I click "Save" button
+        When I input the params by number in the more setting '180' '200'
+        When I input the params by number in the more setting '500' '600'
+        When I change the logging level 'All'
+        When I check the cache setting
+        Then check the screenshot by comparing "41_mobile_change_setting"
+        Then I click "Save" button in the tab "moreSettings"
         Then I delete the application "New Application"
 

@@ -14,13 +14,13 @@ Feature: 04_LH_CollapseToolbar
         When I click the application create entry
         Then I switch to menu "Components"
         Then I choose the toolbar mode "Collapse toolbar by default"
-        When I choose the "Tablet" client preview
+        When I choose the "Tablet" client preview in the tab "components"
         Then check the screenshot by comparing "04_lh_collapse_toolbar_tablet"
-        When I choose the "Phone" client preview
+        When I choose the "Phone" client preview in the tab "components"
         Then check the screenshot by comparing "04_lh_collapse_toolbar_phone"
-        When I choose the "Web" client preview
+        When I choose the "Web" client preview in the tab "components"
         Then check the screenshot by comparing "04_lh_collapse_toolbar_web"
-        When I choose the "Desktop" client preview
+        When I choose the "Desktop" client preview in the tab "components"
         Then check the screenshot by comparing "04_lh_collapse_toolbar_desktop"
-        Then I click "Save" button
+        Then I click "Save" button in the tab "components"
         Then I delete the application "New Application"

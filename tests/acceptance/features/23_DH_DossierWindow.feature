@@ -1,4 +1,4 @@
-@TC78877 
+@TC78877 @Regression
 Feature: 23_DH_DossierWindow
     1. add environment
     2. add new application
@@ -22,13 +22,13 @@ Feature: 23_DH_DossierWindow
         Then I switch to menu "Components"
 
         Then I hide toolbar icon "Table of Contents"
-        When I choose the "Tablet" client preview
+        When I choose the "Tablet" client preview in the tab "components"
         Then check the screenshot by comparing "23_dh_off_toc_tablet"
-        When I choose the "Phone" client preview
+        When I choose the "Phone" client preview in the tab "components"
         Then check the screenshot by comparing "23_dh_off_toc_phone"
-        When I choose the "Web" client preview
+        When I choose the "Web" client preview in the tab "components"
         Then check the screenshot by comparing "23_dh_off_toc_web"
-        When I choose the "Desktop" client preview
+        When I choose the "Desktop" client preview in the tab "components"
         Then check the screenshot by comparing "23_dh_off_toc_desktop"
 
 
@@ -37,25 +37,25 @@ Feature: 23_DH_DossierWindow
         Then I hide toolbar icon "Share"
         Then I hide toolbar icon "Notifications"
         Then I hide toolbar icon "Account"
-        When I choose the "Tablet" client preview
+        When I choose the "Tablet" client preview in the tab "components"
         Then check the screenshot by comparing "23_dh_off_filter_comment_share_notification_account_tablet"
-        When I choose the "Phone" client preview
+        When I choose the "Phone" client preview in the tab "components"
         Then check the screenshot by comparing "23_dh_off_filter_comment_share_notification_account_phone"
-        When I choose the "Web" client preview
+        When I choose the "Web" client preview in the tab "components"
         Then check the screenshot by comparing "23_dh_off_filter_comment_share_notification_account_web"
-        When I choose the "Desktop" client preview
+        When I choose the "Desktop" client preview in the tab "components"
         Then check the screenshot by comparing "23_dh_off_filter_comment_share_notification_account_desktop"
 
         Then I hide toolbar icon "Undo (Web and Desktop)"
-        When I choose the "Web" client preview
+        When I choose the "Web" client preview in the tab "components"
         Then check the screenshot by comparing "23_dh_off_undo_web"
-        When I choose the "Desktop" client preview
+        When I choose the "Desktop" client preview in the tab "components"
         Then check the screenshot by comparing "23_dh_off_undo_desktop"
 
-        Then I hide toolbar icon "Edit (Web and Desktop)"
-        When I choose the "Web" client preview
+        Then I hide toolbar icon "Edit Dossier (Web and Desktop)"
+        When I choose the "Web" client preview in the tab "components"
         Then check the screenshot by comparing "23_dh_off_edit_web"
-        When I choose the "Desktop" client preview
+        When I choose the "Desktop" client preview in the tab "components"
         Then check the screenshot by comparing "23_dh_off_edit_desktop"
-        Then I click "Save" button
+        Then I click "Save" button in the tab "components"
         Then I delete the application "New Application"

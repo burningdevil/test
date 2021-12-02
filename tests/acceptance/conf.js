@@ -40,8 +40,8 @@ exports.config = {
 
   SELENIUM_PROMISE_MANAGER: false,
 
-  getPageTimeout: 60000,
-  allScriptsTimeout: 500000,
+  getPageTimeout: 6000000,
+  allScriptsTimeout: 50000000,
 
   // for protractor-cucumber
   framework: 'custom', // set to "custom" instead of cucumber.

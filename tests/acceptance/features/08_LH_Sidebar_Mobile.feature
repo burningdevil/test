@@ -1,21 +1,22 @@
 @TC78845 @Regression
-Feature: 08_LH_Sidebar
+Feature: 08_LH_Sidebar_Mobile
     1. add environment
     2. add new application
     3. switch to component tab
-    4. check the preview of tablet, phone, web and desktop when off Data Search
-    5. check the preview of tablet, phone, web and desktop when off HyperIntelligence
-    6. check the preview of tablet, phone, web and desktop when off Font Size in Grid
-    7. turn off the Sidebar and check the i info
+    4. collaps the Sidebar
+    5. disable the add library
+    6. disable the mobile account
 
 
     Background: Add Environment
         Given configure workstation engine test environment
 
-    Scenario:  08_LH_Sidebar
+    Scenario:  08_LH_Sidebar_Mobile
         When I select tab "Applications"
         When I click the application create entry
         Then I switch to menu "Components"
-        Then I hide toolbar icon "Sidebar"
+        Then I open the sidebar collapse
+        Then I hide toolbar icon "Add Library (Mobile only)"
+        Then I hide toolbar icon "Account (Mobile only)"
         Then I click "Save" button in the tab "components"
         Then I delete the application "New Application"

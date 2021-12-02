@@ -1,4 +1,4 @@
-@TC78812 
+@TC78812 @Regression
 Feature: 21_DH_DisableToolbar
     1. add environment
     2. add new application
@@ -17,13 +17,13 @@ Feature: 21_DH_DisableToolbar
         Then I choose "Dossiers" menu and pick document "Rustic"
         Then I switch to menu "Components"
         Then I choose the toolbar mode "Disable toolbar"
-        When I choose the "Tablet" client preview
+        When I choose the "Tablet" client preview in the tab "components"
         Then check the screenshot by comparing "21_dh_disable_toolbar_tablet"
-        When I choose the "Phone" client preview
+        When I choose the "Phone" client preview in the tab "components"
         Then check the screenshot by comparing "21_dh_disable_toolbar_phone"
-        When I choose the "Web" client preview
+        When I choose the "Web" client preview in the tab "components"
         Then check the screenshot by comparing "21_dh_disable_toolbar_web"
-        When I choose the "Desktop" client preview
+        When I choose the "Desktop" client preview in the tab "components"
         Then check the screenshot by comparing "21_dh_disable_toolbar_desktop"
-        Then I click "Save" button
+        Then I click "Save" button in the tab "components"
         Then I delete the application "New Application"

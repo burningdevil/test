@@ -9,7 +9,7 @@ Feature: 10_DeleteApp
     Scenario: 10_DeleteApp
         When I select tab "Applications"
         When I click the application create entry
-        Then I click "Save" button
+        Then I click "Save" button in the tab "general"
         Then check the screenshot on element "detailGrid" by comparing "10_add_application"
         Then I delete the application "New Application"
         Then check the screenshot on element "detailGrid" by comparing "10_delete_application"
