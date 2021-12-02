@@ -139,7 +139,7 @@ def replace_workstation_plugin_mac
     workstation_plugin_version = ENV['APPLICATION_VERSION'] || Nexus.latest_artifact_version
     plugin_path = "#{@artifact_info[:output_dir]}/#{@artifact_info[:artifact_base_file_name]}.zip"
     info "====== Downloading plugin #{@artifact_info[:artifact_base_file_name]} with version #{workstation_plugin_version} ======"
-    download_snapshot_artifact(@artifact_info[:artifact_base_file_name], workstation_plugin_version)
+    download_artifact(@artifact_info[:artifact_base_file_name], workstation_plugin_version)
   end
 
   plugin_name = plugin_name_mapping || "#{$WORKSPACE_SETTINGS[:project][:name]}"

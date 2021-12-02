@@ -106,7 +106,7 @@ task :replace_plugin_windows, [:plugin_version] do |t,args|
     FileUtils.rm_rf(plugin_path, secure: true)
     FileUtils.mv("#{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}/dist", plugin_path)
   else
-    download_snapshot_artifact(@artifact_info[:artifact_base_file_name], plugin['version'])
+    download_artifact(@artifact_info[:artifact_base_file_name], plugin['version'])
     FileUtils.rm_rf(plugin_path, secure: true)
     shell_command! "7z x #{@artifact_info[:artifact_base_file_name]}.zip -aoa",cwd: @artifact_info[:output_dir]
     FileUtils.mv("#{@artifact_info[:output_dir]}/dist", plugin_path)
