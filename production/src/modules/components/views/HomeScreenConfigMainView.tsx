@@ -25,6 +25,7 @@ import { isLibraryServerVersionMatch, isIServerVersionMatch, isUserHasManageAppl
 import classNames from 'classnames';
 import { ConfirmationDialog, ConfirmationDialogWordings } from '../common-components/confirmation-dialog';
 import CONSTANTS, { default as VC, localizedStrings, platformType, APPLICATION_OBJECT_TYPE, APPLICATION_OBJECT_SUBTYPE, CONTENT_BUNDLE_FEATURE_FLAG } from '../HomeScreenConfigConstant';
+import { t } from '../../../i18n/i18next';
 
 
 declare var workstation: WorkstationModule;
@@ -156,6 +157,9 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       isConfirmationDialogOpen: false
     })
   }
+  deleteConfirmationStr = (name: string) => {
+    return t("confirmDeleteDialogMsgTitle", {name});
+  }
   /* Confirmation dialog wordings */
   wordings: ConfirmationDialogWordings = {
     title: localizedStrings.DELETE,
@@ -163,7 +167,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       localizedStrings.DELETE,
     cancelButtonText: localizedStrings.CANCEL,
     summaryText:
-      localizedStrings.CONFIRM_DELETE_DIALOG_MSG_TITLE,
+    this.deleteConfirmationStr('default'),
     detailText:
       localizedStrings.CONFIRM_DELETE_DIALOG_MSG_DETAIL
   }
@@ -433,10 +437,13 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       };
       const handleClickDelete = () => {
         // this.deleteConfig(contextMenuTarget.id);
+        this.wordings.summaryText = this.deleteConfirmationStr(contextMenuTarget.name);
         this.setState({
           isConfirmationDialogOpen: true,
           deleteApplicationsToBeConfirmed: [contextMenuTarget.id]
-        })
+        });
+        console.log(contextMenuTarget);
+        this.wordings.summaryText = this.deleteConfirmationStr(contextMenuTarget.name);
       };
       const handleClickDuplicate = () => {
         this.openConfigEditor(contextMenuTarget.id, true);
