@@ -5,6 +5,7 @@ export default class BasePage {
     this.$$ = this.brwsr.$$
     this.element = this.brwsr.element
     this.EC = this.brwsr.ExpectedConditions
+    this.ratio = 1;
   }
 
   // Browser Utils

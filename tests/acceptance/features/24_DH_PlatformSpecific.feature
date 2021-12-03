@@ -1,4 +1,4 @@
-@TC78877
+@TC78877 @Regression
 Feature: 24_DH_PlatformSpecific
     1. add environment
     2. add new application
@@ -21,17 +21,17 @@ Feature: 24_DH_PlatformSpecific
         Then I choose "Dossiers" menu and pick document "Rustic"
         Then I switch to menu "Components"
         Then I hide toolbar icon "Data Search (Desktop Only)"
-        When I choose the "Desktop" client preview
+        When I choose the "Desktop" client preview in the tab "components"
         Then check the screenshot by comparing "24_dh_off_datasearch_desktop"
 
         Then I hide toolbar icon "HyperIntelligence (Desktop Only)"
-        When I choose the "Desktop" client preview
+        When I choose the "Desktop" client preview in the tab "components"
         Then check the screenshot by comparing "24_dh_off_hyperintelligence_desktop"
 
         Then I hide toolbar icon "Font Size in Grid (iOS Only)"
-        When I choose the "Tablet" client preview
+        When I choose the "Tablet" client preview in the tab "components"
         Then check the screenshot by comparing "24_dh_off_aa_tablet"
-        When I choose the "Phone" client preview
+        When I choose the "Phone" client preview in the tab "components"
         Then check the screenshot by comparing "24_dh_off_aa_phone"
-        Then I click "Save" button
+        Then I click "Save" button in the tab "components"
         Then I delete the application "New Application"

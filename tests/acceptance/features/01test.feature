@@ -19,7 +19,7 @@ Feature: Create applications
         Then I switch to menu "Components"
         Then I hide toolbar icon "Filter"
         Then I hide toolbar icon "Share"
-        Then I click "Save" button
+        Then I click "Save" button in the tab "Components"
         Then check the screenshot by comparing "01-add_new_custom_app"
         Then I delete the application "Auto_DossierAsHome"
         #Then I sort the application list by "Name"

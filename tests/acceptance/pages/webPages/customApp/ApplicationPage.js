@@ -16,7 +16,8 @@ export default class ApplicationPage extends BasePage {
   */
 
   getCustomAppHomePage() {
-    return this.$(".home-screen-main-new-application-container")
+    // return this.$(".home-screen-main-new-application-container")
+    return this.element(by.xpath(`//div[@class='home-screen-main-new-application-container']`))
   }
 
   /*
@@ -26,10 +27,12 @@ export default class ApplicationPage extends BasePage {
   */
 
   getGridCellInCustomAppListView(gridCellValue) {
-    return this.$$('.home-screen-main-application-name-text').filter(async (elem) => {
-      const text = await elem.getText()
-      return text === gridCellValue
-    }).first()
+    // const elm = this.$$('.home-screen-main-application-name-text').filter(async (elem) => {
+    //   const text = await elem.getText()
+    //   return text === gridCellValue
+    // });
+    // return elm.first()
+    return this.element(by.xpath(`//span[@class='home-screen-main-application-name-text' and text() = '${gridCellValue}']`))
   }
 
   /*
@@ -39,10 +42,11 @@ export default class ApplicationPage extends BasePage {
   */
 
   getColumnCell(columnname) {
-    return this.$$('.ag-header-cell-text').filter(async (elem) => {
-      const text = await elem.getText()
-      return text === columnname
-    }).first()
+    // return this.$$('.ag-header-cell-text').filter(async (elem) => {
+    //   const text = await elem.getText()
+    //   return text === columnname
+    // }).first()
+    return this.element(by.xpath(`//span[@class='ag-header-cell-text' and text()='${columnname}']`))
   }
 
 
@@ -66,10 +70,11 @@ export default class ApplicationPage extends BasePage {
   }
 
   getContentMenuInCustomAppListView(menuItem) {
-    return this.$$('.item-title-wrapper').filter(async (elem) => {
-      const text = await elem.getText()
-      return text === menuItem
-    }).first()
+    return this.element(by.xpath(`//div[@class='item-title-wrapper' and text()='${menuItem}']`))
+    // return this.$$('.item-title-wrapper').filter(async (elem) => {
+    //   const text = await elem.getText()
+    //   return text === menuItem
+    // }).first()
   }
 
 
@@ -122,30 +127,30 @@ export default class ApplicationPage extends BasePage {
   }
 
   async switchToNewApplicationWindow() {
-    await browser.sleep(1000)
+    await browser.sleep(1000 * this.ratio)
     // await registerNewWindow('New Application')
     // await switchToWindow('New Application')
     await this.switchToNewWebView()
   }
 
   async switchToEditApplicationWindow() {
-    await browser.sleep(1000)
+    await browser.sleep(1000 * this.ratio)
     // await registerNewWindow('Edit Application')
     // await switchToWindow('Edit Application')
     await this.switchToNewWebView()
   }
 
   async switchToCustomAppWindow() {
-    await browser.sleep(1000)
+    await browser.sleep(1000 * this.ratio)
     await this.switchToNewWebView()
   }
 
   async waitForCustomAppMainWindow() {
-    await this.wait(this.EC.visibilityOf(this.getCustomAppHomePage()), 30000, 'Custom app main window was not displayed');
+    await this.wait(this.EC.visibilityOf(this.getCustomAppHomePage()), 600000 * this.ratio, 'Custom app main window was not displayed');
   }
 
   async waitForContentMenu(text){
-    await this.wait(this.EC.visibilityOf(this.element(by.xpath(`//div[@class='item-title-wrapper' and text()='${text}']`))), 10000, 'Waiting for delete button in context menu int timeout.')
+    await this.wait(this.EC.visibilityOf(this.element(by.xpath(`//div[@class='item-title-wrapper' and text()='${text}']`))), 60000 * this.ratio, 'Waiting for delete button in context menu int timeout.')
   }
 
   async createNewCustomApp() {
@@ -157,13 +162,15 @@ export default class ApplicationPage extends BasePage {
 
   async deleteCustomAppFromCustomAppListPageByName(name) {
     await this.waitForCustomAppMainWindow();
-    await this.wait(this.EC.visibilityOf(this.getGridCellInCustomAppListView(name)), 30000, `Waiting for custom app '${name}' timeout, it still doesn't show in main grid after 30s!`);
+    await this.wait(this.EC.visibilityOf(this.getGridCellInCustomAppListView(name)), 60000 * this.ratio, `Waiting for custom app '${name}' timeout, it still doesn't show in main grid after 30s!`);
     const appItem = await this.getGridCellInCustomAppListView(name)
     await this.rightClick({ elem: appItem })
     await this.waitForContentMenu('Delete')
     await this.getContentMenuInCustomAppListView('Delete').click()
+    await browser.sleep(500 * this.ratio)
     await this.getConfirmDeleteButton().click()
-    await this.wait(this.EC.stalenessOf(this.element(by.xpath(`//span[@class='home-screen-main-application-name-text' and text()='${name}']`))), 10000, `Custom app ${name} was still displayed after deletion`)
+    await browser.sleep(1000 * this.ratio)
+    await this.wait(this.EC.stalenessOf(this.element(by.xpath(`//span[@class='home-screen-main-application-name-text' and text()='${name}']`))), 60000 * this.ratio, `Custom app ${name} was still displayed after deletion`)
   }
 
   async duplicateCustomAppFromCustomAppListPageByName(name) {
@@ -185,7 +192,8 @@ export default class ApplicationPage extends BasePage {
   }
 
   async sortColumn(columnname) {
-    await this.waitForCustomAppMainWindow()
+    // await this.waitForCustomAppMainWindow()
+    await browser.sleep(3000 * this.ratio)
     const columnItem = await this.getColumnCell(columnname)
     await this.click({ elem: columnItem })
   }
@@ -205,7 +213,7 @@ export default class ApplicationPage extends BasePage {
   }
 
   async takeScreenshotOnPage(screenshot) {
-    await browser.sleep(1000)
+    await browser.sleep(1000 * this.ratio)
     // Ensure the mouse stay the same location
     await browser
       .actions()

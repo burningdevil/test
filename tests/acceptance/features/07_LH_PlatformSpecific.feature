@@ -15,18 +15,18 @@ Feature: 07_LH_PlatformSpecific
         When I click the application create entry
         Then I switch to menu "Components"
         Then I hide toolbar icon "Data Search (Desktop Only)"
-        When I choose the "Desktop" client preview
+        When I choose the "Desktop" client preview in the tab "components"
         Then check the screenshot by comparing "07_lh_off_datasearch_desktop"
 
         Then I hide toolbar icon "HyperIntelligence (Desktop Only)"
-        When I choose the "Desktop" client preview
+        When I choose the "Desktop" client preview in the tab "components"
         Then check the screenshot by comparing "07_lh_off_hyperintelligence_desktop"
 
         Then I hide toolbar icon "Font Size in Grid (iOS Only)"
-        When I choose the "Web" client preview
+        When I choose the "Web" client preview in the tab "components"
         Then check the screenshot by comparing "07_lh_off_aa_tablet"
-        When I choose the "Desktop" client preview
+        When I choose the "Desktop" client preview in the tab "components"
         Then check the screenshot by comparing "07_lh_off_aa_phone"
-        Then I click "Save" button
+        Then I click "Save" button in the tab "components"
         Then I delete the application "New Application"
 

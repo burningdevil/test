@@ -15,6 +15,7 @@ When('I click the application create entry', async function () {
 );
 
 Then('I sort the application list by {string}', async function (columnname) {
+    await applicationPage.switchToCustomAppWindow()
     await applicationPage.sortColumn(columnname)
     return mainWindow.app.sleep(500)
 }
@@ -34,8 +35,8 @@ When('I copy link of the application {string}', async function (name) {
 }
 );
 
-Then('I click {string} button', async function (text) {
-    await settingPage.clickButtonsByTextOnNewCustomAppPage(text)
+Then('I click {string} button in the tab {string}', async function (text, pageId = 'components') {
+    await settingPage.clickButtonsByTextOnNewCustomAppPage(text, pageId)
     return mainWindow.app.sleep(500)
 }
 );
@@ -111,14 +112,15 @@ Then('I hide toolbar icon {string}', async function (text) {
 }
 );
 
-When('I choose the {string} client preview', async function (client) {
-    await settingPage.choosePreview(client)
+When('I choose the {string} client preview in the tab {string}', async function (client, pageId) {
+    await settingPage.choosePreview(client, pageId)
     return mainWindow.app.sleep(500)
 }
 );
 
 When('I choose the user access {string}', async function (mode) {
-    await settingPage.chooseUserAccess(mode)
+    let id = mode === 'Allow users to access preferences' ? 'disablePreferences' : 'disableAdvancedSettings';
+    await settingPage.chooseUserAccess(id)
     return mainWindow.app.sleep(500)
 }
 );
@@ -134,6 +136,20 @@ Then('check the screenshot on element {string} by comparing {string}', async fun
     await applicationPage.takeScreenshotOnElement(element, text)
     return mainWindow.app.sleep(500)
 })
+
+When('I input the params by number in the more setting {string} {string}', async function (number, val) {
+    await settingPage.inputMoreSetting(number, val)
+    return mainWindow.app.sleep(500)}
+);
+When('I change the logging level {string}', async function (level) {
+    await settingPage.changeLoggingLevel(level)
+    return mainWindow.app.sleep(500)}
+);
+When('I check the cache setting', async function () {
+    await settingPage.checkCache()
+    return mainWindow.app.sleep(500)}
+);
+
 
 
 

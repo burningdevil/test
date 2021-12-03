@@ -13,6 +13,6 @@ Feature: 13_CreateApp_CustomName
         When I input application name "WS_NameAndDescription"
         When I input application description "WS_NameAndDescription"
         Then check the screenshot by comparing "13_newapplication_customizedname"
-        Then I click "Save" button
+        Then I click "Save" button in the tab "general"
         Then I delete the application "WS_NameAndDescription"
 
