@@ -222,7 +222,7 @@ export default class SettingPage extends BasePage {
     await browser.sleep(5000 * this.ratio)
     // const dossierItem = await this.getGridCellInDossierListView(name)
     // await this.click({ elem: dossierItem })
-    await this.wait(this.EC.visibilityOf(this.getGridCellInDossierListView(name)), 60000, 'The target dossier was not displayed')
+    await this.wait(this.EC.visibilityOf(this.getGridCellInDossierListView(name)), 60000 * this.ratio, 'The target dossier was not displayed')
     await this.getGridCellInDossierListView(name).click()
     await browser.sleep(6000 * this.ratio)
     await this.getSelectButton().click()

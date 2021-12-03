@@ -146,11 +146,11 @@ export default class ApplicationPage extends BasePage {
   }
 
   async waitForCustomAppMainWindow() {
-    await this.wait(this.EC.visibilityOf(this.getCustomAppHomePage()), 600000, 'Custom app main window was not displayed');
+    await this.wait(this.EC.visibilityOf(this.getCustomAppHomePage()), 600000 * this.ratio, 'Custom app main window was not displayed');
   }
 
   async waitForContentMenu(text){
-    await this.wait(this.EC.visibilityOf(this.element(by.xpath(`//div[@class='item-title-wrapper' and text()='${text}']`))), 60000, 'Waiting for delete button in context menu int timeout.')
+    await this.wait(this.EC.visibilityOf(this.element(by.xpath(`//div[@class='item-title-wrapper' and text()='${text}']`))), 60000 * this.ratio, 'Waiting for delete button in context menu int timeout.')
   }
 
   async createNewCustomApp() {
@@ -162,7 +162,7 @@ export default class ApplicationPage extends BasePage {
 
   async deleteCustomAppFromCustomAppListPageByName(name) {
     await this.waitForCustomAppMainWindow();
-    await this.wait(this.EC.visibilityOf(this.getGridCellInCustomAppListView(name)), 60000, `Waiting for custom app '${name}' timeout, it still doesn't show in main grid after 30s!`);
+    await this.wait(this.EC.visibilityOf(this.getGridCellInCustomAppListView(name)), 60000 * this.ratio, `Waiting for custom app '${name}' timeout, it still doesn't show in main grid after 30s!`);
     const appItem = await this.getGridCellInCustomAppListView(name)
     await this.rightClick({ elem: appItem })
     await this.waitForContentMenu('Delete')
@@ -170,7 +170,7 @@ export default class ApplicationPage extends BasePage {
     await browser.sleep(500 * this.ratio)
     await this.getConfirmDeleteButton().click()
     await browser.sleep(1000 * this.ratio)
-    await this.wait(this.EC.stalenessOf(this.element(by.xpath(`//span[@class='home-screen-main-application-name-text' and text()='${name}']`))), 60000, `Custom app ${name} was still displayed after deletion`)
+    await this.wait(this.EC.stalenessOf(this.element(by.xpath(`//span[@class='home-screen-main-application-name-text' and text()='${name}']`))), 60000 * this.ratio, `Custom app ${name} was still displayed after deletion`)
   }
 
   async duplicateCustomAppFromCustomAppListPageByName(name) {
