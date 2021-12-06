@@ -1,0 +1,9 @@
+features\09_DuplicateApp.feature:9
+features\10_DeleteApp.feature:9
+features\12_CreateApp.feature:9
+features\13_CreateApp_CustomName.feature:10
+features\21_DH_DisableToolbar.feature:12
+features\22_DH_CollapseToolbar.feature:12
+features\23_DH_DossierWindow.feature:16
+features\24_DH_PlatformSpecific.feature:16
+features\41_MobileSetting.feature:14
