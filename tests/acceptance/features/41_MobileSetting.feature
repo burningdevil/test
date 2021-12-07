@@ -24,6 +24,7 @@ Feature: 41_MobileSetting
         When I change the logging level 'All'
         When I check the cache setting
         Then check the screenshot by comparing "41_mobile_change_setting"
-        Then I click "Save" button in the tab "moreSettings"
+        Then I switch to menu "Components"
+        Then I click "Save" button in the tab "components"
         Then I delete the application "New Application"
 
