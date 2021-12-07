@@ -147,8 +147,8 @@ export default class SettingPage extends BasePage {
 
   async clickButtonsByTextOnNewCustomAppPage(text, pageId= 'components') {
     if (text === 'Save') {
-      await browser.sleep(2000 * this.ratio)
-      await this.wait(this.EC.visibilityOf(this.getSaveButton()), 60000 * this.ratio, 'Save buton was not visible');
+      // await browser.sleep(2000 * this.ratio)
+      await this.wait(this.EC.visibilityOf(this.getSaveButton()), 120000 * this.ratio, 'Save buton was not visible');
       await this.getSaveButton(pageId).click()
       await browser.sleep(2000 * this.ratio)
     } else if (text === 'Cancel') {

@@ -9,10 +9,12 @@ Feature: 09_DuplicateApp
     Scenario: 09_DuplicateApp
         When I select tab "Applications"
         When I click the application create entry
-        Then I click "Save" button in the tab "general"
+        Then I switch to menu "Components"
+        Then I click "Save" button in the tab "components"
         Then I duplicate the application "New Application"
         Then check the screenshot by comparing "09_copy_application"
-        Then I click "Save" button in the tab "general"
+        Then I switch to menu "Components"
+        Then I click "Save" button in the tab "components"
         Then I delete the application "New Application"
         Then I delete the application "Copy of New Application"
 

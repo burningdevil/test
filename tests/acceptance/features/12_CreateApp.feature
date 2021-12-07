@@ -10,13 +10,16 @@ Feature: 12_CreateApp
         When I select tab "Applications"
         When I click the application create entry
         Then check the screenshot by comparing "12_newapplication_default"
-        Then I click "Save" button in the tab "general"
+        Then I switch to menu "Components"
+        Then I click "Save" button in the tab "components"
         When I click the application create entry
         Then check the screenshot by comparing "12_newapplication_default1"
-        Then I click "Save" button in the tab "general"
+        Then I switch to menu "Components"
+        Then I click "Save" button in the tab "components"
         When I click the application create entry
         Then check the screenshot by comparing "02_newapplication_default2"
-        Then I click "Save" button in the tab "general"
+        Then I switch to menu "Components"
+        Then I click "Save" button in the tab "components"
         Then I delete the application "New Application"
         Then I delete the application "New Application 1"
         Then I delete the application "New Application 2"
