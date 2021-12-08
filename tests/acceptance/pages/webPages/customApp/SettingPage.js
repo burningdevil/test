@@ -98,15 +98,17 @@ export default class SettingPage extends BasePage {
     return this.element(by.xpath(`//div[@id='rc-tabs-0-panel-${pageId}']//span[text()='Save']`));
   }
 
-  getCancelButton() {
-    return this.$('.home-screen-editor-layout-btn').element(by.cssContainingText('.ant-btn', 'Cancel'))
+  getCancelButton(pageId = 'components') {
+    // return this.$('.home-screen-editor-layout-btn').element(by.cssContainingText('.ant-btn', 'Cancel'))
     //return this.$$('.ant-btn').filter(async (elem) => {
       //return elem.isDisplayed()
     //}).first()
+    return this.element(by.xpath(`//div[@id='rc-tabs-0-panel-${pageId}']//span[text()='Cancel']`));
   }
 
-  getConfirmCancelButton() {
-    return this.$('.ant-btn.ant-btn-primary.confirmation-dialog-action-button')
+  getConfirmCancelButton(pageId = 'components') {
+    const index = ['general','homeScreen','components'].findIndex(v => v === pageId);
+    return this.element.all(by.xpath(`//div[@class='mstr-button-container']//span[text()='Yes']`)).get(index)
   }
 
   //More Setting page
@@ -152,9 +154,9 @@ export default class SettingPage extends BasePage {
       await this.getSaveButton(pageId).click()
       await browser.sleep(2000 * this.ratio)
     } else if (text === 'Cancel') {
-      await this.getCancelButton().click()
+      await this.getCancelButton(pageId).click()
       await browser.sleep(2000 * this.ratio)
-      await this.getConfirmCancelButton().click()
+      await this.getConfirmCancelButton(pageId).click()
     }
     await browser.sleep(6000 * this.ratio)
     await this.switchToNewWebView()

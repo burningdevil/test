@@ -23,6 +23,22 @@ Then('I pick the dossier {string} in the add content dialog', async function (na
     return mainWindow.app.sleep(500)
 }
 );
+Then('I click the section title tip icon to show preview', async () => {
+    await contentPage.hoverTip();
+    return mainWindow.app.sleep(500);
+})
+Then('I select the all checkbox', async () => {
+    await contentPage.selectAll();
+    return mainWindow.app.sleep(500);
+})
+Then('I collapse the content bundle {string}', async (name) => {
+    await contentPage.collapseContent(name);
+    return mainWindow.app.sleep(500);
+})
+Then('I remove the content bundle {string}', async (name) => {
+    await contentPage.removeContent(name);
+    return mainWindow.app.sleep(500);
+})
 
 
 
