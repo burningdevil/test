@@ -1,4 +1,4 @@
-@TC78810 @Feature
+@TC80105 @Feature
 Feature: 30_Content_Bundle
     1. add environment
     2. create application
