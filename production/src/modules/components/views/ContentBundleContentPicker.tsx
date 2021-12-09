@@ -14,11 +14,12 @@ import {
 } from 'ag-grid-community';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { connect } from 'react-redux';
-import { selectAllDossiers, selectAllDocuments, selectIsLoadingDossiers, selectLoadingDossiersFinish } from '../../../store/selectors/HomeScreenConfigEditorSelector';
+import { selectAllDossiers, selectAllDocuments, selectIsLoadingDossiers, selectLoadingDossiersFinish, selectIsLoadingDocuments, selectLoadingDocumentsFinish } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import { default as VC, localizedStrings, HomeScreenHomeObjectType, contentPickerSize } from '../HomeScreenConfigConstant'
 import * as api from '../../../services/Api'
 import { store } from '../../../main'
 import ContentBundleList from './ContentBundleList';
+import * as Actions from '../../../store/actions/ActionsCreator';
 
 const classNamePrefix = 'content-bundle-content-picker';
 const rowSelectionType = 'single';
@@ -64,7 +65,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
           let limit: number = 1000;
           let dossiers = selectAllDossiers(store.getState() as RootState);
           let documents = selectAllDocuments(store.getState() as RootState);
-          let loadFinished = selectLoadingDossiersFinish(store.getState() as RootState);
+          let loadFinished = isDossier ? selectLoadingDossiersFinish(store.getState() as RootState) : selectLoadingDocumentsFinish(store.getState() as RootState);
 
           var startRow = params.request.startRow;
           var endRow = params.request.endRow;
@@ -79,7 +80,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                 });
                 params.successCallback(results, lastRow);
             } else {
-              api.loadBatchDossierDocuments(dossiers.length + documents.length, -1).then((response: {dossiers: any, documents: any, totalCount: any}) => {
+              api.loadBatchDossierDocuments(dossiers.length + documents.length, -1, !isDossier).then((response: {dossiers: any, documents: any, totalCount: any}) => {
                 dossiers = dossiers.concat(response.dossiers);
                 documents = documents.concat(response.documents);
                 lastRow = isDossier ? dossiers.length : documents.length;
@@ -93,7 +94,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
             }
           } else {
           if(this.state.searchNameFilter !== '') {
-            api.loadSearchedDossierDocuments(this.state.searchNameFilter).then((response: {dossiers: any, documents: any, totalCount: any}) => {
+            api.loadSearchedDossierDocuments(this.state.searchNameFilter, !isDossier).then((response: {dossiers: any, documents: any, totalCount: any}) => {
               lastRow = isDossier ? response.dossiers.length : response.documents.length;
               results = isDossier ? _.slice(response.dossiers, startRow, lastRow) : _.slice(response.documents, startRow, lastRow);
               results = results.map((content: any) => {
@@ -121,7 +122,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                 var expectedCount = endRow - currentLength;
                 (function loop(count) {
                   if (count > 0) {
-                    api.loadBatchDossierDocuments(currentOffset, limit).then((response: {dossiers: any, documents: any, totalCount: any}) => {
+                    api.loadBatchDossierDocuments(currentOffset, limit, !isDossier).then((response: {dossiers: any, documents: any, totalCount: any}) => {
                       dossiers = dossiers.concat(response.dossiers);
                       documents = documents.concat(response.documents);
                       if(response.totalCount <= currentOffset + limit) {// load finished
@@ -175,6 +176,16 @@ class ContentBundleContentPicker extends React.Component<any, any> {
       activeTab: param.key
     });
     this.handleSelectionChanged({});
+    if(param.key === 'Dossier'){
+      if(!this.props.loadingDossierFinish){
+        this.props.restartDossierLoading();
+      }
+    }else {
+      if(!this.props.loadDocumentFinished){
+        this.props.restartDocumentLoading();
+      }
+    }
+    
     this.updateData();
     if (gridApi) {
       gridApi.deselectAll();
@@ -230,7 +241,6 @@ class ContentBundleContentPicker extends React.Component<any, any> {
   };
 
   onSelectionChanged = (event: SelectionChangedEvent) => {
-    console.log(event.api.getSelectedNodes());
     var selections = event.api.getSelectedNodes();
     selections = selections.map(o=>o.data);
     if (selections && selections.length > 0) {
@@ -261,6 +271,10 @@ class ContentBundleContentPicker extends React.Component<any, any> {
     }).map((content: any) => {
       return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});
     });
+  }
+  judgeLoading() {
+
+    return this.state.activeTab === 'Dossier' ? this.props.loadingDossierData : this.props.loadingDocumentData
   }
   render() {
     return (
@@ -347,7 +361,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                             {field: VC.DATE_CREATED_SHORT, sortable: false, width: 116, headerName: localizedStrings.DATE_CREATED},
                             {field: VC.DATE_MODIFIED_SHORT, sortable: false, width: 116, headerName: localizedStrings.DATE_MODIFIED}
                         ]}
-                        isLoading={this.props.loadingData}
+                        isLoading={this.judgeLoading()}
                         defaultColDef={{
                           resizable: true
                         }}
@@ -372,11 +386,15 @@ class ContentBundleContentPicker extends React.Component<any, any> {
 const mapState = (state: RootState) => ({
   dossiers: selectAllDossiers(state),
   documents: selectAllDocuments(state),
-  loadingData: selectIsLoadingDossiers(state),
-  loadFinished: selectLoadingDossiersFinish(state)
+  loadingDossierData: selectIsLoadingDossiers(state),
+  loadDossierFinished: selectLoadingDossiersFinish(state),
+  loadingDocumentData: selectIsLoadingDocuments(state),
+  loadDocumentFinished: selectLoadingDocumentsFinish(state)
 })
 
 const connector = connect(mapState, {
+  restartDossierLoading: Actions.startLoadingDossierList,
+  restartDocumentLoading: Actions.startLoadingDocumentList
 })
 
 export default connector(ContentBundleContentPicker)

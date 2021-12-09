@@ -59,10 +59,17 @@ export const appendContentDocuments = (list: HomeScreenBundleContentListItem[]) 
 export const startLoadingDossierList = () => ({
   type: Actions.START_LOADING_DOSSIER_LIST
 })
+export const startLoadingDocumentList = () => ({
+  type: Actions.START_LOADING_DOCUMENT_LIST
+})
 
 export const finishLoadingDossierListSuccess = () => ({
   type: Actions.FINISH_LOADING_DOSSIER_LIST_SUCCESS
 })
+export const finishLoadingDocumentListSuccess = () => ({
+  type: Actions.FINISH_LOADING_DOCUMENT_LIST_SUCCESS
+})
+
 
 
 export const finishLoadingDossierListFail = () => ({

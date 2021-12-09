@@ -187,6 +187,9 @@ export const EnumDSSXMLViewMedia = {
   DssXmlViewMediaHTML5Dashboard: 0x00002000
 };
 
+export const DossierViewMediaList = [1610612736, 1879048192];
+export const DocumentViewMediaList = [536870912, 402653184, 268435456, 134217728];
+
 export enum HomeScreenHomeObjectType {
   DOCUMENT = "Document",
   DOSSIER = "Dossier"

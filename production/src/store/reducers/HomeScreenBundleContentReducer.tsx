@@ -8,6 +8,8 @@ const initialState: HomeScreenBundleContentState = {
   documents: [],
   loadingDossiers: false,
   loadingDossiersFinish: false,
+  loadingDocuments: false,
+  loadingDocumentsFinish: false
 }
 
 const HomeScreenBundleContentReducer = (state: HomeScreenBundleContentState = initialState, action: ActionTypes) => {
@@ -19,7 +21,11 @@ const HomeScreenBundleContentReducer = (state: HomeScreenBundleContentState = in
     case Actions.APPEND_CONTENT_DOSSIER_LIST:
       return {...state, dossiers: state.dossiers.concat(data as HomeScreenBundleContentListItem[])}
     case Actions.START_LOADING_DOSSIER_LIST:
-      return {...state, loadingDossiers: true}
+      return {...state, loadingDossiersFinish: false}
+    case Actions.START_LOADING_DOCUMENT_LIST:
+      return {...state, loadingDocumentsFinish: false}
+    case Actions.FINISH_LOADING_DOCUMENT_LIST_SUCCESS:
+      return {...state, loadingDocumentsFinish: true, loadingDocuments: false}
     case Actions.FINISH_LOADING_DOSSIER_LIST_SUCCESS:
     case Actions.FINISH_LOADING_DOSSIER_LIST_FAILURE:
       return {...state, loadingDossiersFinish: true, loadingDossiers: false}

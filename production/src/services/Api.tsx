@@ -3,7 +3,7 @@ import { HttpProxy } from '../main';
 import * as ActionsCreator from '../store/actions/ActionsCreator';
 import { isContentTypeDossier } from '../modules/components/views/HomeScreenUtils'
 import * as _ from 'lodash';
-import { default as VC, platformType, localizedStrings } from '../modules/components/HomeScreenConfigConstant';
+import { default as VC, platformType, localizedStrings, DossierViewMediaList, DocumentViewMediaList } from '../modules/components/HomeScreenConfigConstant';
 import { HomeScreenConfigType } from '../../src/types/data-model/HomeScreenConfigModels';
 import { ConfigListModel } from '../../src/types/api-model/requestModels';
 
@@ -98,9 +98,17 @@ export const loadCurrentEditConfig = (configId: string) => {
         store.dispatch(ActionsCreator.setCurrentConfig(data));
     });
 }
-
-export const loadSearchedDossierDocuments = (name: string) => {
-    return HttpProxy.get('/searches/results?name=' + name + '&pattern=4&type=14081&getAncestors=false&limit=1000&certifiedStatus=OFF').then((response: any) => {
+const transformViewMedia = (isDocument?: boolean) =>{
+    let viewMedia = isDocument ? DocumentViewMediaList : DossierViewMediaList;
+    let viewMediaStr = '';
+    viewMedia.forEach(v => {
+        viewMediaStr += `&viewMedia=${v}`;
+    });
+    return viewMediaStr;
+}
+export const loadSearchedDossierDocuments = (name: string, isDocument?: boolean) => {
+    let viewMediaStr = transformViewMedia(isDocument);
+    return HttpProxy.get(`/searches/results?name=${name}&pattern=4&type=14081&getAncestors=false&limit=1000&certifiedStatus=OFF${viewMediaStr}`).then((response: any) => {
         let data = response;
         let totalCount = response.totalItems;
         if (data && response.data) {
@@ -114,22 +122,33 @@ export const loadSearchedDossierDocuments = (name: string) => {
     .catch((e: any) => (console.log(e)));
 }
 
-export const loadBatchDossierDocuments = (offset: number, limit: number) => {
-    return HttpProxy.get('/searches/results?pattern=4&type=14081&offset='+ offset +'&getAncestors=false&limit='+ limit + '&certifiedStatus=ALL').then((response: any) => {
+export const loadBatchDossierDocuments = (offset: number, limit: number, isDocument?: boolean) => {
+    let viewMediaStr = transformViewMedia(isDocument);
+    return HttpProxy.get(`/searches/results?pattern=4&type=14081&offset=${offset}&getAncestors=false&limit=${limit}&certifiedStatus=ALL${viewMediaStr}`).then((response: any) => {
         let data = response;
         let totalCount = response.totalItems;
         if (data && response.data) {
           data = response.data;
           totalCount = response.data.totalItems;
         }
-        var dossiers = data.result.filter((o: { viewMedia: number; }) => {return isContentTypeDossier(o.viewMedia)});
-        var documents = data.result.filter((o: { viewMedia: number; }) => {return !isContentTypeDossier(o.viewMedia)});
-        store.dispatch(ActionsCreator.appendContentDossiers(dossiers));
-        store.dispatch(ActionsCreator.appendContentDocuments(documents));
-        if(totalCount <= offset + limit) {
-            store.dispatch(ActionsCreator.finishLoadingDossierListSuccess());
+        if(isDocument){
+            store.dispatch(ActionsCreator.appendContentDocuments(data.result));
+        }else {
+            store.dispatch(ActionsCreator.appendContentDossiers(data.result));
         }
-        return {dossiers, documents, totalCount};
+        if(totalCount <= offset + limit) {
+            if(!isDocument){
+                store.dispatch(ActionsCreator.finishLoadingDossierListSuccess());
+            }else {
+                store.dispatch(ActionsCreator.finishLoadingDocumentListSuccess());
+            }
+            
+        }
+        if(isDocument){
+            return {documents: data.result, dossiers: [], totalCount};
+        }else {
+            return {documents: [], dossiers: data.result, totalCount} as any
+        }
     })
     .catch((e: any) => (console.log(e)));
 }
