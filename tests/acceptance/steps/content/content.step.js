@@ -1,0 +1,47 @@
+
+import ContentsPage from '../../pages/webPages/customApp/ContentBundlesPage'
+const { Given, When, Then, setDefaultTimeout } = require('cucumber')
+const contentPage = new ContentsPage()
+const { mainWindow } = pageObj
+
+
+
+When('I input default group name {string}', async function (name) {
+    await contentPage.inputName(name)
+    return mainWindow.app.sleep(500)
+}
+);
+
+Then('I add the content {string}', async function (name) {
+    await contentPage.addContent(name)
+    return mainWindow.app.sleep(500)
+}
+);
+
+Then('I pick the dossier {string} in the add content dialog', async function (name) {
+    await contentPage.pickDossier(name)
+    return mainWindow.app.sleep(500)
+}
+);
+Then('I click the section title tip icon to show preview', async () => {
+    await contentPage.hoverTip();
+    return mainWindow.app.sleep(500);
+})
+Then('I select the all checkbox', async () => {
+    await contentPage.selectAll();
+    return mainWindow.app.sleep(500);
+})
+Then('I collapse the content bundle {string}', async (name) => {
+    await contentPage.collapseContent(name);
+    return mainWindow.app.sleep(500);
+})
+Then('I remove the content bundle {string}', async (name) => {
+    await contentPage.removeContent(name);
+    return mainWindow.app.sleep(500);
+})
+
+
+
+
+
+
