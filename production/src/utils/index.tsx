@@ -1,9 +1,9 @@
 /* eslint-disable import/prefer-default-export */
 import * as compareVersions from 'compare-versions';
 
-//TODO: replaced below config value.
-const LIBRARY_SERVER_VERSION_THRESHOLD = '11.3.0300';
-const ISERVER_VERSION_THRESHOLD = '11.3.0300';
+// Custom Application Support start from 11.3.4
+const LIBRARY_SERVER_VERSION_THRESHOLD = '11.3.0400';
+const ISERVER_VERSION_THRESHOLD = '11.3.0400';
 const USER_MANAGE_APPLICATIONS_PRIVILEGE = 298;
 export const APPLICATIONS_FOLDER_ID = '4B979645463C14EF5A32EF8A032C9AC1';
 export const APPLICATIONS_FOLDER_TYPE = 8;
