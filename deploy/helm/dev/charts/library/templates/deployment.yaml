@@ -31,6 +31,10 @@ spec:
           value: {{ .Values.env.identitytoken}}
         - name: CROSS_REGION
           value: "true"
+        - name: UNIFIED_USERNAME
+          value: "mstr"
+        - name: UNIFIED_PASSWORD
+          value: "mstr1234"
         ports:
         - containerPort: 8080
         readinessProbe:
