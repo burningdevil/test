@@ -203,3 +203,16 @@ export const loadAllProjects = async () => {
     const response = await HttpProxy.get('/projects');
     return response;
 }
+export const loadColorPaletteList = () => {
+    // store.dispatch(ActionsCreator.startLoadingContentBundleList())
+    HttpProxy.get('/colorPalettes').then((response: any) => {
+        let data = response?.data?.data ?? response?.data;
+        data = data.filter((o: any) => o.id !== undefined);
+        // setTimeout(()=> {store.dispatch(ActionsCreator.loadColorPaletteSuccess(data));}, 3000)
+        store.dispatch(ActionsCreator.loadColorPaletteSuccess(data));
+        store.dispatch(ActionsCreator.finishLoadingColorPaletteList());
+    }).catch((e: any) => {
+        store.dispatch(ActionsCreator.loadColorPaletteFail());
+        store.dispatch(ActionsCreator.finishLoadingColorPaletteList());
+    });
+}

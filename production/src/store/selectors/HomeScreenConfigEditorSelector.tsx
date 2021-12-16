@@ -149,3 +149,9 @@ export const selectDefaultGroupsName = createSelector(
   }
 )
 
+export const selectAllColorPalettes = createSelector(
+  selectConfigEditorRoot,
+  (config) =>  { 
+    return config.colorPalettes
+  }
+)

@@ -1,0 +1,148 @@
+@import '~@mstr/rc/es/assets/scss/variables.scss';
+@import '../../scss/variables.scss';
+
+.home-screen-dossiersetting {
+    &-container {
+        padding-left: 20px;
+        padding-top: 15px;
+        padding-right: 20px;
+
+        font-family: $font-family;
+        font-size: $font-size;
+        color: $msdl-black;
+        line-height: $line-height;
+
+        .ant-divider-horizontal {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .name-col {
+            font-weight: 600;
+            font-size: '11px';
+        }
+
+        .default-col {
+            color: $mobile-primary-blue;
+        }
+
+        .set-default-col {
+            color: $mobile-primary-blue;
+            display: none;
+        }
+
+        .ant-table-row {
+            height: 40px;
+        }
+        .ant-table-tbody >tr >td {
+            border-bottom: none !important;
+        }
+        .ant-table-row:hover {
+            .item-edit {
+                // flex: auto;
+                margin-left: 10%;
+                display: inline-block;
+            }
+            .item-delete {
+                // flex: auto;
+                margin-left: 5%;
+                display: inline-block;
+            }
+            .item-drag {
+                // flex: auto;
+                display: inline-block;
+            }
+            .set-default-col {
+                // flex: auto;
+                display: inline-block;
+            }
+        }
+        .row-operation {
+            display: flex;
+        }
+        .item-edit {
+            background: url("../../images/colorPalette/cp-edit.svg");
+            display: none;
+            width: 18px;
+            height: 19px;
+            background-repeat: no-repeat;
+            &:hover {
+                background: url("../../images/colorPalette/cp-edit-hover.svg");
+            }
+        }
+
+        .item-delete {
+            background: url("../../images/colorPalette/cp-delete.svg");
+            display: none;
+
+            width: 9px;
+            height: 10px;
+            background-repeat: no-repeat;
+            &:hover {
+                width: 18px;
+                height: 18px;
+                background: url("../../images/colorPalette/cp-delete-hover.svg");
+            }
+        }
+
+        .item-drag {
+            background: url("../../images/colorPalette/cp-drag.svg");
+            display: none;
+            width: 18px;
+            height: 18px;
+            background-repeat: no-repeat;
+            &:hover {
+                width: 18px;
+                height: 18px;
+                background: url("../../images/colorPalette/cp-drag-hover.svg");
+            }
+        }
+    }
+
+    &-title {
+        font-weight: 700;
+    }
+
+    &-default-color-palette-container {
+        padding-top: 5px;
+
+        .ant-checkbox-wrapper {
+            font-size: $font-size;
+            color: $msdl-black;
+            line-height: 24px;
+            transform: scale(0.75);
+        }
+
+        .icon-msg_info {
+            color: lightgray;
+            &:hover {
+                color: $mobile-primary-blue;
+            }
+        }
+    }
+    &-default-color-palette-title {
+        margin: 0px 5px;
+    }
+
+    &-custom-color-palette-title-section {
+        margin-bottom: 10px;
+    }
+
+    &-custom-color-palette-title {
+        margin-right: 10px;
+        font-weight: 600;
+    }
+
+    &-custom-color-palette-new {
+        color: $msdl-blue;
+        cursor: pointer;
+        &-text {
+            margin-left: 3px;
+        }
+        
+    }
+    &-custom-color-palettes-container {
+        margin-top: 5px;
+        padding-left: 5px;
+    }
+}

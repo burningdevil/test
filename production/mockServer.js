@@ -10,7 +10,7 @@ require("fs").readdirSync(normalizedPath).forEach(function(file) {
   Object.keys(item.default).forEach(key => {
     const keys = key.split(' ');
     const method = keys[0]
-    const url = keys[1]
+    const url = '/api' + keys[1]
     const call = item.default[key]
 
     if (method === 'GET') {

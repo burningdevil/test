@@ -73,6 +73,8 @@ const HomeScreenConfigEditorReducer = (state: HomeScreenConfigEditorState = init
       return {...state, isConfigNameError: data}
     case Actions.UPDATE_REVIEW_TYPE:
       return {...state, previewDeviceType: data}
+    case Actions.LOAD_COLOR_PALETTE_LIST_SUCCESS:
+      return {...state, colorPalettes: data}
     default:
       return state
   }

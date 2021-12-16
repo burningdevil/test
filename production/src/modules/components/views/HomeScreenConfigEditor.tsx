@@ -22,6 +22,7 @@ import { ConfirmationDialog, ConfirmationDialogWordings } from '../common-compon
 import { validName } from './HomeScreenUtils';
 import { store } from '../../../main';
 import { isLibraryServerVersionMatch ,isUserHasManageContentGroupPrivilege,LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION} from '../../../utils';
+import ColorPaletteBlade from '../features/color-palette/color-palette-blade';
 declare var workstation: WorkstationModule;
 
 const classNamePrefix = 'home-screen-editor';
@@ -346,6 +347,10 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                                 <HomeScreenDossierSetting />
                                 {this.buttonGroup()}
                             </Tabs.TabPane> */}
+                            <Tabs.TabPane tab={localizedStrings.NAVBAR_DOSSIERSETTINGS} key={VC.DOSSIERSETTINGS}>
+                                <ColorPaletteBlade />
+                                {this.buttonGroup()}
+                            </Tabs.TabPane>
                             {this.state.contentBundleFeatureEnable && <Tabs.TabPane tab={localizedStrings.NAVBAR_CONTENT_BUNDLES} key={VC.CONTENT_BUNDLES} disabled={this.props.config.homeScreen.mode === 1}>
                                 <HomeScreenContentBundles/>
                                 {this.buttonGroup()}
