@@ -67,7 +67,7 @@ const getColumns = (isDefault: boolean) => {
     },
   ];
   if (isDefault) {
-    columns.find((v) => v.dataIndex === "operation").render = () => null;
+    columns.find((v) => v.dataIndex === "operation").render = () =>  <></>;
   }
   return columns;
 };
