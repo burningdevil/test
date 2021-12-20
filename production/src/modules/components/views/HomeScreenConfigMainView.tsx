@@ -28,7 +28,7 @@ import CONSTANTS, { default as VC, localizedStrings, platformType, APPLICATION_O
 import { t } from '../../../i18n/i18next';
 import { store} from '../../../main';
 import { from, of, interval, ReplaySubject, Observable} from 'rxjs';
-import { tap, switchMap, zip, takeUntil, map} from 'rxjs/operators';
+import { tap, switchMap, zip, takeUntil, map, catchError} from 'rxjs/operators';
 
 declare var workstation: WorkstationModule;
 const classNamePrefix = 'home-screen-main';
@@ -141,6 +141,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       return from(api.getSingleDossierInfo(dossierId, projectId))
                 .pipe(
                       takeUntil(this.destroy$),
+                      catchError(err => of(null)),
                       map(response => {
                         let data = response;
                         if (response?.data) {
@@ -149,6 +150,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                         return data;
                       }),
                       tap((data: any) => {
+                        if(!data) return;
                         const isTypeDocument: boolean = !isContentTypeDossier(data.viewMedia);
                         let itemsToUpdate: any[] = [];
                         item.homeScreen.homeDocument.homeDocumentType = HOME_DOCUMENT_TYPE_DOSSIER;
@@ -166,7 +168,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                         }
                       }),
                       switchMap((data: any) => {
-                        return from(api.loadEditorConfig(item.id)).pipe(takeUntil(this.destroy$))
+                        return from(api.loadEditorConfig(item.id)).pipe(catchError(err => of(null)),takeUntil(this.destroy$))
                       }),
                       map((response: any) => {
                         let data = response?.data ?? response;
@@ -180,7 +182,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                         return data;
                       }),
                       switchMap((data: any) => {
-                        return from(api.updateConfig(item.id, data)).pipe(takeUntil(this.destroy$))
+                        return from(api.updateConfig(item.id, data)).pipe(catchError(err => of(null)),takeUntil(this.destroy$))
                       })
                 )
     }
@@ -189,7 +191,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       const configList = selectConfigList(store.getState() as RootState);
       currentValue = configList.length;
       if(!configList || currentValue === previousValue) return;
-      let candidateData = configList.filter((v: any) => v.homeScreen.mode === 1 && !v.homeScreen.homeDocument.homeDocumentType);
+      let candidateData = configList.filter((v: any) => v.homeScreen.mode === 1 && !v.homeScreen.homeDocument?.homeDocumentType);
       if(!candidateData?.length) return;
       from(candidateData)
         .pipe(
