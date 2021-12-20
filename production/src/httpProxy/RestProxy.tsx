@@ -122,11 +122,11 @@ async function request (method: string, path: string, body: any, headers: any, p
   while (isLogin && !authToken) {
     await timeout(1000)
   }
-  // if (!authToken) {
-  //   isLogin = true
-  //   return login()
-  //     .then(() => baseRequest(method, path, body, headers, parseFunc, signal))
-  // }
+  if (!authToken) {
+    isLogin = true
+    return login()
+      .then(() => baseRequest(method, path, body, headers, parseFunc, signal))
+  }
 
   return baseRequest(method, path, body, headers, parseFunc, signal)
 }

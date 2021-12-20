@@ -38,6 +38,7 @@ const customAppPath = 'CustomApp?id=';
 const configSaveSuccessPath = 'Message.homeConfigSaveSuccess';
 const invalidDisplayModeConst = '--';
 let gridApi: GridApi;
+let unsubscribe: any;
 class HomeScreenConfigMainView extends React.Component<any, any> {
   columnDef: ColumnDef[] = [];
   destroy$: ReplaySubject<boolean> = new ReplaySubject(1);
