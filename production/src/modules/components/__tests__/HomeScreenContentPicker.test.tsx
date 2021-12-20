@@ -7,8 +7,22 @@ import createStore from '../../../store/createStore';
 import ContentBundleContentPicker from '../views/ContentBundleContentPicker';
 import { mockDossierPicker } from './__mocks__/mock_state';
 
-
 describe('ContentBundleContentPicker Component', () => {
+  beforeAll(() => {
+    let workstation = {
+      'environments': {
+        'getCurrentEnvironment': (): any => {
+          return {
+            projects: []
+          }
+        }
+      }
+    }
+    Object.defineProperty(window, 'workstation', {
+      value: workstation
+    })
+    
+  });
   afterEach(() => {
     jest.restoreAllMocks();
     cleanup();

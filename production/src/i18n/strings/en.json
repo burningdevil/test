@@ -180,6 +180,7 @@
     "hyperIconText": "HyperIntelligence (Desktop Only)",
     "fontIconText": "Font Size in Grid (iOS Only)",
     "undoRedo": "Undo (Web and Desktop)",
-    "closeWindowConfirmationStr": "Do you want to save the changes you made to {{name}}?"
+    "closeWindowConfirmationStr": "Do you want to save the changes you made to {{name}}?",
+    "project": "Project"
 
 }

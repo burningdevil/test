@@ -16,6 +16,7 @@ export const CONSTANTS = {
   VERSION: "version",
   SCHEMA_VERSION: "schemaVersion",
   IS_DEFAULT: "isDefault",
+  PROJECT_NAME: "projectName",
   //Home Screen
   MODE_USE_DEFAULT_HOME_SCREEN: 0,
   MODE_USE_DOSSIER_AS_HOME_SCREEN: 1,
@@ -378,7 +379,8 @@ export const localizedStrings = {
   ADD_CONTENT_BUNDLE_TIP_MSG: t("addContentBundleTipMsg"),
   DISABLE_NEW_DOSSIER_TOOLTIP: t("disableNewDossierTooltip"),
   DISABLE_EDIT_DOSSIER_TOOLTIP: t("disableEditDossierTooltip"),
-  DISABLE_NEW_DOSSIER_TOOLTIP_CONTENT: t("disableNewDossierTooltipContent")
+  DISABLE_NEW_DOSSIER_TOOLTIP_CONTENT: t("disableNewDossierTooltipContent"),
+  PROJECT_NAME: t("project"),
 };
 
 export const sectionTitle = {

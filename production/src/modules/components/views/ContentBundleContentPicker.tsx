@@ -28,6 +28,7 @@ const rowSelectionType = 'single';
 let gridApi: GridApi;
 let currentOffset = 0;
 let projectIds: string[] = [];
+let projectMap: any = {};
 // let activeTab = 'Dossier';
 // let searchNameFilter = '';
 
@@ -72,16 +73,19 @@ class ContentBundleContentPicker extends React.Component<any, any> {
 
           var startRow = params.request.startRow;
           var endRow = params.request.endRow;
+          const transformData = (results: any[], isDossier: boolean) => {
+            return results.map((content: any) => {
+              return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier, projectName: projectMap[content.projectId] ?? '--'});//certifiedWithIcon: this.geCertifiedIcon(content.certifiedInfo.certified), nameWithIcon: this.getContentIconWithName(content.name, activeTab)});
+            });
+          }
           if (params.request.sortModel && params.request.sortModel.length > 0) {
             const { sort, colId } = params.request.sortModel[0];
             if (loadFinished) {
                 lastRow = isDossier ? dossiers.length : documents.length;
                 results = isDossier ? _.orderBy(dossiers, [colId], [sort]): _.orderBy(documents, [colId], [sort]);
                 results = _.slice(results, startRow, lastRow);
-                results = results.map((content: any) => {
-                  return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});//certifiedWithIcon: this.geCertifiedIcon(content.certifiedInfo.certified), nameWithIcon: this.getContentIconWithName(content.name, activeTab)});
-                });
-                params.successCallback(results, lastRow);
+                
+                params.successCallback(transformData(results, isDossier), lastRow);
             } else {
               api.loadBatchDossierDocuments(dossiers.length + documents.length, -1, !isDossier, projectIds).then((response: {dossiers: any, documents: any, totalCount: any}) => {
                 dossiers = dossiers.concat(response.dossiers);
@@ -89,10 +93,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                 lastRow = isDossier ? dossiers.length : documents.length;
                 results = isDossier ? _.orderBy(dossiers, [colId], [sort]): _.orderBy(documents, [colId], [sort]);
                 results = _.slice(results, startRow, lastRow);
-                results = results.map((content: any) => {
-                  return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});//certifiedWithIcon: this.geCertifiedIcon(content.certifiedInfo.certified), nameWithIcon: this.getContentIconWithName(content.name, activeTab)});
-                });
-                params.successCallback(results, lastRow);
+                params.successCallback(transformData(results, isDossier), lastRow);
               });
             }
           } else {
@@ -100,27 +101,18 @@ class ContentBundleContentPicker extends React.Component<any, any> {
             api.loadSearchedDossierDocuments(this.state.searchNameFilter, !isDossier, projectIds).then((response: {dossiers: any, documents: any, totalCount: any}) => {
               lastRow = isDossier ? response.dossiers.length : response.documents.length;
               results = isDossier ? _.slice(response.dossiers, startRow, lastRow) : _.slice(response.documents, startRow, lastRow);
-              results = results.map((content: any) => {
-                return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});//certifiedWithIcon: this.geCertifiedIcon(content.certifiedInfo.certified), nameWithIcon: this.getContentIconWithName(content.name, activeTab)});
-              });
-              params.successCallback(results, lastRow);
+              params.successCallback(transformData(results, isDossier), lastRow);
             });
           } else {
             if (loadFinished) {
               lastRow = isDossier ? dossiers.length : documents.length;
               results = isDossier ? _.slice(dossiers, startRow, lastRow) : _.slice(documents, startRow, lastRow);
-              results = results.map((content: any) => {
-                return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});//certifiedWithIcon: this.geCertifiedIcon(content.certifiedInfo.certified), nameWithIcon: this.getContentIconWithName(content.name, activeTab)});
-              });
-              params.successCallback(results, lastRow);
+              params.successCallback(transformData(results, isDossier), lastRow);
             } else {
               var currentLength = isDossier ? dossiers.length : documents.length;
               if (endRow < currentLength) {
                 results = isDossier ? _.slice(dossiers, startRow, endRow) : _.slice(documents, startRow, endRow);
-                results = results.map((content: any) => {
-                  return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});//certifiedWithIcon: this.geCertifiedIcon(content.certifiedInfo.certified), nameWithIcon: this.getContentIconWithName(content.name, activeTab)});
-                });
-                params.successCallback(results, lastRow);
+                params.successCallback(transformData(results, isDossier), lastRow);
               } else {
                 var expectedCount = endRow - currentLength;
                 (function loop(count) {
@@ -131,20 +123,15 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                       if(response.totalCount <= currentOffset + limit) {// load finished
                         lastRow = isDossier ? dossiers.length : documents.length;
                         results = isDossier ? _.slice(dossiers, startRow, lastRow) : _.slice(documents, startRow, lastRow);
-                        results = results.map((content: any) => {
-                          return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});//certifiedWithIcon: this.geCertifiedIcon(content.certifiedInfo.certified), nameWithIcon: this.getContentIconWithName(content.name, activeTab)});
-                        });
-                        params.successCallback(results, lastRow);
+                        params.successCallback(transformData(results, isDossier), lastRow);
                       } else {
                         var loaded = isDossier ? response.dossiers.length : response.documents.length;
                         currentOffset = currentOffset + limit;
                         expectedCount = expectedCount - loaded;
                         if (loaded > expectedCount) {// loaded
                           results = isDossier ? _.slice(dossiers, startRow, endRow) : _.slice(documents, startRow, endRow);
-                          results = results.map((content: any) => {
-                            return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});//certifiedWithIcon: this.geCertifiedIcon(content.certifiedInfo.certified), nameWithIcon: this.getContentIconWithName(content.name, activeTab)});
-                          });
-                          params.successCallback(results, lastRow);
+                          
+                          params.successCallback(transformData(results, isDossier), lastRow);
                         } else {// need to continue load
                           loop(expectedCount);
                         }
@@ -162,6 +149,9 @@ class ContentBundleContentPicker extends React.Component<any, any> {
   async componentDidMount() {
     const currentEnv = await workstation.environments.getCurrentEnvironment();
     projectIds = currentEnv.projects.map(v => v.id);
+    currentEnv.projects.forEach(project => {
+      projectMap[project.id] = project.name;
+    })
   }
 
   onGridReady = async (params: GridReadyEvent) => {
@@ -353,6 +343,8 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                                       </>
                               }
                             }},
+                            {field: VC.PROJECT_NAME, sortable: false, headerName: localizedStrings.PROJECT_NAME, width: 120
+                            },
                             {field: VC.CERTIFIED, sortable: false, headerName: localizedStrings.CERTIFIED, width: 90, cellRendererFramework: (params: any) => {
                               const data = params.data;
                               if (data.certified) {

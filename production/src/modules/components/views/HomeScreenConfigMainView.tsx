@@ -37,10 +37,10 @@ const appRootPathWithConfig = 'app/config/';
 const customAppPath = 'CustomApp?id=';
 const configSaveSuccessPath = 'Message.homeConfigSaveSuccess';
 let gridApi: GridApi;
-let unsubscribe: any;
 class HomeScreenConfigMainView extends React.Component<any, any> {
   columnDef: ColumnDef[] = [];
   destroy$: ReplaySubject<boolean> = new ReplaySubject(1);
+  unsubscribe: any;
   constructor(props: any) {
     super(props)
     this.state = {
@@ -213,12 +213,12 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         )
       .subscribe(()=> {})
     }
-    unsubscribe = store.subscribe(handleChange);
+    this.unsubscribe = store.subscribe(handleChange);
     window.addEventListener('click', ()=> {this.destroy$.next(true)});
     
   }
   componentWillUnmount() {
-    unsubscribe.unsubscribe();
+    this.unsubscribe?.unsubscribe?.();
     this.destroy$.next(true);
   }
   loadApplicationsFolder = async () => {
