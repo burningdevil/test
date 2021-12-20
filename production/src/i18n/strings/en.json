@@ -70,9 +70,9 @@
     "content": "Content",
     "recipients": "Recipients",
     "addContent": "Add Content",
-    "addContentBundlesBtn": "Add Content Bundles Button",
+    "addContentBundlesBtn": "Add Content Groups Button",
     "addContentBundles": "Add content to your application",
-    "selectContentBundles": "Select content bundles",
+    "selectContentBundles": "Select content groups",
     "defaultGroupsSectionTitle": "Default Groups Section Title",
     "tipOfDefaultGroups": "Where it appears in Library",
 

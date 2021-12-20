@@ -14,19 +14,21 @@ import { WorkstationModule, ObjectEditorSettings, EnvironmentChangeArg, WindowEv
 import { HttpProxy } from '../../../main';
 import { RestApiError } from '../../../server/RestApiError';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
-import { selectConfigList, selectContentBundleList, selectIsConfigLoading } from '../../../store/selectors/HomeScreenConfigEditorSelector';
+import { selectAllDocuments, selectAllDossiers, selectConfigList, selectContentBundleList, selectIsConfigLoading } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as api from '../../../services/Api';
 import * as _ from "lodash";
-import { getFeatureFlag, hexIntToColorStr } from './HomeScreenUtils';
+import { getFeatureFlag, hexIntToColorStr, isContentTypeDossier } from './HomeScreenUtils';
 import DisconnectedPage from './error-pages/DisconnectedPage';
 import ServerIncompatiblePage from './error-pages/ServerIncompatiblePage';
 import NoAccessPage from './error-pages/NoAccessPage';
 import { isLibraryServerVersionMatch, isIServerVersionMatch, isUserHasManageApplicationPrivilege, APPLICATIONS_FOLDER_ID, APPLICATIONS_FOLDER_TYPE } from '../../../utils';
 import classNames from 'classnames';
 import { ConfirmationDialog, ConfirmationDialogWordings } from '../common-components/confirmation-dialog';
-import CONSTANTS, { default as VC, localizedStrings, platformType, APPLICATION_OBJECT_TYPE, APPLICATION_OBJECT_SUBTYPE, CONTENT_BUNDLE_FEATURE_FLAG } from '../HomeScreenConfigConstant';
+import CONSTANTS, { default as VC, localizedStrings, platformType, APPLICATION_OBJECT_TYPE, APPLICATION_OBJECT_SUBTYPE, CONTENT_BUNDLE_FEATURE_FLAG, HOME_DOCUMENT_TYPE_DOSSIER, HOME_DOCUMENT_TYPE_DOCUMENT } from '../HomeScreenConfigConstant';
 import { t } from '../../../i18n/i18next';
-
+import { store} from '../../../main';
+import { from, of, interval, ReplaySubject, Observable} from 'rxjs';
+import { tap, switchMap, zip, takeUntil, map} from 'rxjs/operators';
 
 declare var workstation: WorkstationModule;
 const classNamePrefix = 'home-screen-main';
@@ -35,8 +37,10 @@ const appRootPathWithConfig = 'app/config/';
 const customAppPath = 'CustomApp?id=';
 const configSaveSuccessPath = 'Message.homeConfigSaveSuccess';
 let gridApi: GridApi;
+let unsubscribe: any;
 class HomeScreenConfigMainView extends React.Component<any, any> {
   columnDef: ColumnDef[] = [];
+  destroy$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(props: any) {
     super(props)
     this.state = {
@@ -57,7 +61,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
   async componentDidMount() {
     this.loadData();
     this.checkServerAndUserPrivilege();
-
+    this.checkHomeDcoumentModeRx();
     workstation.environments.onEnvironmentChange((change: EnvironmentChangeArg) => {
       console.log('enviornment change: ' + change.actionTaken);
       console.log('enviornment change: env name : ' + change.changedEnvironment.name);
@@ -80,7 +84,6 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         });
       }
     })
-
     workstation.window.addHandler(WindowEvent.POSTMESSAGE, (msg: any) => {
       if(_.get(msg, configSaveSuccessPath, '')){
         this.setState({
@@ -99,6 +102,8 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       this.checkServerAndUserPrivilege();
     });
   }
+
+
 
   checkServerAndUserPrivilege = async () => {
     const currentEnv = await workstation.environments.getCurrentEnvironment();
@@ -130,7 +135,92 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     }
 
   }
-
+  checkHomeDcoumentModeRx = () => {
+    let currentValue: number;
+    const handleUpdateData  = (dossierId: string, projectId: string, item: any):Observable<any> => {
+      return from(api.getSingleDossierInfo(dossierId, projectId))
+                .pipe(
+                      takeUntil(this.destroy$),
+                      map(response => {
+                        let data = response;
+                        if (response?.data) {
+                          data = response.data;
+                        }
+                        return data;
+                      }),
+                      tap((data: any) => {
+                        const isTypeDocument: boolean = !isContentTypeDossier(data.viewMedia);
+                        let itemsToUpdate: any[] = [];
+                        item.homeScreen.homeDocument.homeDocumentType = HOME_DOCUMENT_TYPE_DOSSIER;
+                        if(isTypeDocument){
+                          item.mode = localizedStrings.DOCUMENTS;
+                          gridApi.forEachNodeAfterFilterAndSort(function(rowNode, index) {
+                            let data = rowNode.data;
+                            if(data.id === item.id){
+                              data.mode = localizedStrings.DOCUMENTS;
+                              item.homeScreen.homeDocument.homeDocumentType = HOME_DOCUMENT_TYPE_DOCUMENT;
+                              itemsToUpdate.push(data);
+                              gridApi.updateRowData({update: itemsToUpdate})
+                            }
+                          });
+                        }
+                      }),
+                      switchMap((data: any) => {
+                        return from(api.loadEditorConfig(item.id)).pipe(takeUntil(this.destroy$))
+                      }),
+                      map((response: any) => {
+                        let data = response?.data ?? response;
+                        if (!_.has(data, VC.PLATFORM)) {
+                            _.assign(data, {platforms: [platformType.web]});
+                        }
+                        if (!_.has(data, 'homeScreen.homeLibrary')) {
+                          data.homeScreen.homeLibrary = {icons:[], sidebars:[], contentBundleIds:[]}
+                        }
+                        data.homeScreen.homeDocument.homeDocumentType = item.homeScreen.homeDocument.homeDocumentType;
+                        return data;
+                      }),
+                      switchMap((data: any) => {
+                        return from(api.updateConfig(item.id, data)).pipe(takeUntil(this.destroy$))
+                      })
+                )
+    }
+    const handleChange = () => {
+      let previousValue = currentValue;
+      const configList = selectConfigList(store.getState() as RootState);
+      currentValue = configList.length;
+      if(!configList || currentValue === previousValue) return;
+      let candidateData = configList.filter((v: any) => v.homeScreen.mode === 1 && !v.homeScreen.homeDocument.homeDocumentType);
+      if(!candidateData?.length) return;
+      from(candidateData)
+        .pipe(
+          zip(interval(3000), (a, b) => a),
+          takeUntil(this.destroy$),
+          map(item=> {
+            const dossierUrlPath = 'homeScreen.homeDocument.url';
+            const dossierUrl = _.get(item, dossierUrlPath, '');
+            const spliter = '/';
+            const ids = _.split(dossierUrl, spliter);
+              if (ids && ids.length > 1) {
+                const projectId = ids[ids.length - 2];
+                const dossierId = ids[ids.length - 1];
+            return {item,projectId,dossierId}
+          }}),
+          switchMap((dossierInfo: any) => {
+            const {item,projectId,dossierId} = dossierInfo;
+            if(!dossierId) return of(null);
+            return handleUpdateData(dossierId, projectId, item)
+          })
+        )
+      .subscribe(()=> {})
+    }
+    unsubscribe = store.subscribe(handleChange);
+    window.addEventListener('click', ()=> {this.destroy$.next(true)});
+    
+  }
+  componentWillUnmount() {
+    unsubscribe.unsubscribe();
+    this.destroy$.next(true);
+  }
   loadApplicationsFolder = async () => {
     let hasDefault = true;
     await HttpProxy.get('/objects/' + APPLICATIONS_FOLDER_ID + '?type=' + APPLICATIONS_FOLDER_TYPE).catch((e: any) => {
@@ -292,7 +382,17 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       </Dropdown>
     );
   };
-
+  getHomeMode = (config: any) => {
+    if(config?.homeScreen?.mode === 0){
+      return localizedStrings.LIBRARY;
+    }else {
+      if(config?.homeScreen?.homeDocument?.homeDocumentType === HOME_DOCUMENT_TYPE_DOCUMENT){
+        return localizedStrings.DOCUMENTS;
+      }else {
+        return localizedStrings.DOSSIER;
+      }
+    }
+  }
   generateConfigDisplayList = () => {
     const THIS = this;
     const record: any = {};
@@ -317,8 +417,8 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         })
         _.assign(resultConfig, { contentBundles: arr });
       }
-
-      _.assign(resultConfig, {mode: resultConfig.homeScreen && resultConfig.homeScreen.mode === 1 ? localizedStrings.DOSSIER : localizedStrings.LIBRARY});
+      
+      _.assign(resultConfig, {mode: this.getHomeMode(resultConfig)});
 
       if (_.has(resultConfig, VC.DATE_MODIFIED)) {
         _.assign(resultConfig, {dateModified: _.split(resultConfig.dateModified, /[\T.]+/, 2).join(' ')});
@@ -567,7 +667,9 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
 const mapState = (state: RootState) => ({
   configList: selectConfigList(state),
   configLoading: selectIsConfigLoading(state),
-  contentBundleList: selectContentBundleList(state)
+  contentBundleList: selectContentBundleList(state),
+  dossierList: selectAllDossiers(state),
+  documentList: selectAllDocuments(state)
 })
 
 const connector = connect(mapState, {

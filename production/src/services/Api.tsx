@@ -6,6 +6,7 @@ import * as _ from 'lodash';
 import { default as VC, platformType, localizedStrings, DossierViewMediaList, DocumentViewMediaList } from '../modules/components/HomeScreenConfigConstant';
 import { HomeScreenConfigType } from '../../src/types/data-model/HomeScreenConfigModels';
 import { ConfigListModel } from '../../src/types/api-model/requestModels';
+import { PARSE_METHOD } from '../utils/ParseMethods';
 
 const CONFIG_ENDPOINTS = '/v2/applications/';
 
@@ -72,6 +73,13 @@ export const loadConfigList = () => {
     });
 }
 
+export const updateConfig = (configId: string, config: any) => {
+    return HttpProxy.put(getApiPathForEditApplication(configId), config, {}, PARSE_METHOD.BLOB)
+}
+export const loadEditorConfig = (configId: string) => {
+    return HttpProxy.get(CONFIG_ENDPOINTS + configId + '?outputFlag=INCLUDE_LOCALE&outputFlag=INCLUDE_ACL')
+}
+
 export const loadContentBundleList = () => {
     store.dispatch(ActionsCreator.startLoadingContentBundleList())
     HttpProxy.get('/contentBundles').then((response: any) => {
@@ -106,9 +114,18 @@ const transformViewMedia = (isDocument?: boolean) =>{
     });
     return viewMediaStr;
 }
-export const loadSearchedDossierDocuments = (name: string, isDocument?: boolean) => {
+const transformProjectList = (projects: string[]) => {
+    let projectStr = '';
+    if(!projects) return projectStr;
+    projects.forEach(v => {
+        projectStr += `&projectId=${v}`
+    });
+    return projectStr;
+}
+export const loadSearchedDossierDocuments = (name: string, isDocument?: boolean, projectList?: string[]) => {
     let viewMediaStr = transformViewMedia(isDocument);
-    return HttpProxy.get(`/searches/results?name=${name}&pattern=4&type=14081&getAncestors=false&limit=1000&certifiedStatus=OFF${viewMediaStr}`).then((response: any) => {
+    let projectListStr = transformProjectList(projectList);
+    return HttpProxy.get(`/searches/results?name=${name}&pattern=4&type=14081&getAncestors=false&limit=1000&certifiedStatus=OFF${viewMediaStr}${projectListStr}`).then((response: any) => {
         let data = response;
         let totalCount = response.totalItems;
         if (data && response.data) {
@@ -122,9 +139,10 @@ export const loadSearchedDossierDocuments = (name: string, isDocument?: boolean)
     .catch((e: any) => (console.log(e)));
 }
 
-export const loadBatchDossierDocuments = (offset: number, limit: number, isDocument?: boolean) => {
+export const loadBatchDossierDocuments = (offset: number, limit: number, isDocument?: boolean, projectList?: string[]) => {
     let viewMediaStr = transformViewMedia(isDocument);
-    return HttpProxy.get(`/searches/results?pattern=4&type=14081&offset=${offset}&getAncestors=false&limit=${limit}&certifiedStatus=ALL${viewMediaStr}`).then((response: any) => {
+    let projectListStr = transformProjectList(projectList);
+    return HttpProxy.get(`/searches/results?pattern=4&type=14081&offset=${offset}&getAncestors=false&limit=${limit}&certifiedStatus=ALL${viewMediaStr}${projectListStr}`).then((response: any) => {
         let data = response;
         let totalCount = response.totalItems;
         if (data && response.data) {
@@ -172,4 +190,9 @@ export const loadAllDossierDocuments = () => {
     .catch((e: any) => {
         store.dispatch(ActionsCreator.finishLoadingDossierListFail());
     });
+}
+export const loadAllDocuments = (projects: string[]) => {
+    let viewMediaStr = transformViewMedia(true);
+    let projectListStr = transformProjectList(projects);
+    return HttpProxy.get(`/searches/results?pattern=4&type=14081&offset=0&getAncestors=false&certifiedStatus=ALL${viewMediaStr}${projectListStr}`)
 }

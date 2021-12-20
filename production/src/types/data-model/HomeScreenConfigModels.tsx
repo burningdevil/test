@@ -39,6 +39,7 @@ export interface HomeScreenConfigType {
             icons: Array<string>,
             toolbarMode: number,
             toolbarEnabled: boolean,
+            homeDocumentType?: string
         }
     },
     'general': {

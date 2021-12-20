@@ -20,11 +20,14 @@ import * as api from '../../../services/Api'
 import { store } from '../../../main'
 import ContentBundleList from './ContentBundleList';
 import * as Actions from '../../../store/actions/ActionsCreator';
+import { WorkstationModule } from '@mstr/workstation-types';
 
+declare var workstation: WorkstationModule;
 const classNamePrefix = 'content-bundle-content-picker';
 const rowSelectionType = 'single';
 let gridApi: GridApi;
 let currentOffset = 0;
+let projectIds: string[] = [];
 // let activeTab = 'Dossier';
 // let searchNameFilter = '';
 
@@ -80,7 +83,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                 });
                 params.successCallback(results, lastRow);
             } else {
-              api.loadBatchDossierDocuments(dossiers.length + documents.length, -1, !isDossier).then((response: {dossiers: any, documents: any, totalCount: any}) => {
+              api.loadBatchDossierDocuments(dossiers.length + documents.length, -1, !isDossier, projectIds).then((response: {dossiers: any, documents: any, totalCount: any}) => {
                 dossiers = dossiers.concat(response.dossiers);
                 documents = documents.concat(response.documents);
                 lastRow = isDossier ? dossiers.length : documents.length;
@@ -94,7 +97,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
             }
           } else {
           if(this.state.searchNameFilter !== '') {
-            api.loadSearchedDossierDocuments(this.state.searchNameFilter, !isDossier).then((response: {dossiers: any, documents: any, totalCount: any}) => {
+            api.loadSearchedDossierDocuments(this.state.searchNameFilter, !isDossier, projectIds).then((response: {dossiers: any, documents: any, totalCount: any}) => {
               lastRow = isDossier ? response.dossiers.length : response.documents.length;
               results = isDossier ? _.slice(response.dossiers, startRow, lastRow) : _.slice(response.documents, startRow, lastRow);
               results = results.map((content: any) => {
@@ -122,7 +125,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                 var expectedCount = endRow - currentLength;
                 (function loop(count) {
                   if (count > 0) {
-                    api.loadBatchDossierDocuments(currentOffset, limit, !isDossier).then((response: {dossiers: any, documents: any, totalCount: any}) => {
+                    api.loadBatchDossierDocuments(currentOffset, limit, !isDossier, projectIds).then((response: {dossiers: any, documents: any, totalCount: any}) => {
                       dossiers = dossiers.concat(response.dossiers);
                       documents = documents.concat(response.documents);
                       if(response.totalCount <= currentOffset + limit) {// load finished
@@ -156,11 +159,12 @@ class ContentBundleContentPicker extends React.Component<any, any> {
        }
     }
   }
-  componentDidMount() {
-    // api.loadAllDossierDocuments();
+  async componentDidMount() {
+    const currentEnv = await workstation.environments.getCurrentEnvironment();
+    projectIds = currentEnv.projects.map(v => v.id);
   }
 
-  onGridReady = (params: GridReadyEvent) => {
+  onGridReady = async (params: GridReadyEvent) => {
     gridApi = params.api;
     this.updateData();
 
