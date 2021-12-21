@@ -97,7 +97,7 @@ task :install_workstation_windows do |t,args|
 
     # remove setting with name 'Preferences'
     for temp_node in root_node.search('setting') do 
-      if temp_node.keys,include?('name') && temp_node['name'] == 'Preferences' then
+      if temp_node.keys.include?('name') && temp_node['name'] == 'Preferences' then
         info "remove origin Preferences"
         temp_node.remove()
       end
