@@ -81,9 +81,10 @@ task :install_workstation_windows do |t,args|
   # update user
   Dir.glob("#{appdata_location}/**/user.config").each do |user_config|
     info "find user config at #{user_config}"
-    next unless user_config.include?(product['version'].split('.').last)
-    info "updating user config at #{user_config}"
-    FileUtils.cp_r("#{$WORKSPACE_SETTINGS[:paths][:project][:workspace][:settings][:rake][:lib][:templates][:home]}/user.config", user_config, remove_destination: true)
+    unless user_config.include?(product['version'].split('.').last)
+      info "updating user config at #{user_config}"
+      FileUtils.cp_r("#{$WORKSPACE_SETTINGS[:paths][:project][:workspace][:settings][:rake][:lib][:templates][:home]}/user.config", user_config, remove_destination: true)
+    end
     # update configs
     data = File.read(user_config)
     doc = Nokogiri::XML.parse data
