@@ -1,0 +1,59 @@
+job 'stage-0-premerge-test-win' do
+  description 'The zero stage in the pipeline:
+designed to execute @Sanity tests'
+
+  configure_common_items{}
+
+
+  concurrent_build true
+
+  triggers do
+    pull_request_builder do
+      trigger_phrase 'ecosystem test'
+      commit_status_context 'ecosystem-premerge-test'
+    end
+  end
+
+    inject do
+      properties_content <<-EOH
+MSYS=winsymlinks:nativestrict
+PATH=/usr/local/.rbenv/shims:/usr/local/ruby-install/bin:/usr/local/rbenv/libexec:/tools/msys/20160205-3/cmd:/tools/Sysinternals:/Users/vagrant/bin:/Users/vagrant/.rbenv/versions/2.2.4/bin:/cmd:/usr/local/bin:/mingw64/bin:/usr/bin:/Windows/system32:/Windows:/Windows/System32/Wbem:/Windows/System32/WindowsPowerShell/v1.0:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/c/Program\ Files/Amazon/AWSCLI
+SHELLOPTS=igncr
+EOH
+    end
+  end
+
+  assigned_node_string 'workstatioin_plugin_ui_test'
+
+  builders do
+    bash do
+      script '#!/usr/bin/env bash
+set +xe
+
+# do something to find there if is a change
+
+export PATH=/usr/local/sbin:/usr/local/bin:$PATH
+export WORKSPACE_SETTING=dev
+source .ecosystem
+
+powershell -command \'Get-DisplayResolution\'
+powershell -command \'Set-DisplayResolution -Width 1920 -Height 1080 -Force\'
+powershell -command \'Get-DisplayResolution\'
+
+if [rake changed_files_in_test]; then
+  rake eks_deploy
+  rake install_workstation_windows
+  rake sanity_test_win
+fi
+'
+    end
+  end
+
+  publishers do
+    cucumber do
+      json_report_directory 'tests/acceptance/reports/rallyReport'
+      file_include_pattern 'execReport.json'
+    end
+  end
+
+end

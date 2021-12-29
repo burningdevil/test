@@ -3,6 +3,7 @@ require 'nexus'
 require 'fileutils'
 require 'pry'
 require 'json'
+require 'github'
 
 @artifact_info = Compiler::Maven.artifact_info
 @wkstn_branch  = ENV['ghprbTargetBranch'] || Common::Version.application_branch
@@ -33,6 +34,23 @@ def close_apps
   shell_command "taskkill /F /IM node.exe" if shell_true?("tasklist| grep node.exe")
 end
 
+task :changed_files_in_test do |t,args|
+  info "====== try to find if there is changed files in test document ======"
+  git_user = ENV['GITHUB_SVC_USER']
+  git_pswd = ENV['GITHUB_SVC_PWD']
+  pr_id = ENV['ghprbPullId']
+  pull_instance = Github::PullRequests.new(git_user, git_pswd)
+  changed_files = pull_instance.get_changed_files('workstation-homescreen-admin', 'Kiai', pr_id)
+  unless changed_files then
+    return false
+  end
+  for changed_file in changed_files do
+    if changed_file['filename'].start_with?('tests/acceptance/features') then
+      return true
+    end
+  end
+  return false
+end
 
 task :install_workstation_windows do |t,args|
   info "====== installing workstation windows ======"
@@ -160,6 +178,32 @@ task :acceptance_test_win do |t,args|
     shell_command! "node  rally/updateE2EResultsToClientAutoData.js -c \"#{ENV['APPLICATION_VERSION']}\" \"#{ENV['BUILD_URL']}\"", cwd: "I:/tests/acceptance"
     shell_command! "node  rally/updateE2EResultsToRally.js -c \"#{ENV['APPLICATION_VERSION']}\" \"#{ENV['BUILD_URL']}\"", cwd: "I:/tests/acceptance"
   end
+
+  task :sanity_test_win do |t,args|
+    #stop_winappdriver
+    #uninstall_winappdriver
+    map_I
+    workstation_path = "C:\\Program Files\\MicroStrategy\\Workstation\\Workstation.exe"
+    close_apps
+  
+    shell_command! "powershell -command 'Get-DisplayResolution'"
+    #shell_command! "powershell -command 'Set-DisplayResolution -Width 1920 -Height 1080 -Force'"
+    #shell_command! "powershell -command 'Get-DisplayResolution'"
+  
+    info "====== yarn install starting ======"
+    shell_command! "yarn install", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
+    shell_command! 'yarn config set script-shell "C:/usr/bin/bash"', environment: {'MSYS' => 'winsymlinks:nativestrict'}
+  
+    info "====== starting test ======"
+    begin
+      shell_command! "node trigger_test.js  \"#{workstation_path}\"  \"https://#{library_service_fqdn}/MicroStrategyLibrary/\" \"@Sanity\" 54213 \"#{ENV['APPLICATION_VERSION']}\"", cwd: "I:/tests/acceptance"
+    ensure
+      close_apps
+      Helm.delete_release(workstation_setting_release_name)
+      info "update rally test results"
+      shell_command! "node  rally/updateE2EResultsToClientAutoData.js -c \"#{ENV['APPLICATION_VERSION']}\" \"#{ENV['BUILD_URL']}\"", cwd: "I:/tests/acceptance"
+      shell_command! "node  rally/updateE2EResultsToRally.js -c \"#{ENV['APPLICATION_VERSION']}\" \"#{ENV['BUILD_URL']}\"", cwd: "I:/tests/acceptance"
+    end
 
 
 end
