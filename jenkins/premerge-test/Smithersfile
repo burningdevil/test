@@ -46,7 +46,6 @@ if [rake changed_files_in_test]; then
   rake sanity_test_win
 fi
 '
-    end
   end
 
   publishers do
