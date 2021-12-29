@@ -3,6 +3,7 @@ require 'nexus'
 require 'fileutils'
 require 'pry'
 require 'json'
+require 'nokogiri'
 
 @artifact_info = Compiler::Maven.artifact_info
 @wkstn_branch  = ENV['ghprbTargetBranch'] || Common::Version.application_branch
@@ -80,9 +81,34 @@ task :install_workstation_windows do |t,args|
   # update user
   Dir.glob("#{appdata_location}/**/user.config").each do |user_config|
     info "find user config at #{user_config}"
-    next unless user_config.include?(product['version'].split('.').last)
-    info "updating user config at #{user_config}"
-    FileUtils.cp_r("#{$WORKSPACE_SETTINGS[:paths][:project][:workspace][:settings][:rake][:lib][:templates][:home]}/user.config", user_config, remove_destination: true)
+    unless user_config.include?(product['version'].split('.').last)
+      info "updating user config at #{user_config}"
+      FileUtils.cp_r("#{$WORKSPACE_SETTINGS[:paths][:project][:workspace][:settings][:rake][:lib][:templates][:home]}/user.config", user_config, remove_destination: true)
+    end
+    # update configs
+    data = File.read(user_config)
+    doc = Nokogiri::XML.parse data
+    root_node = doc.at('//configuration').at('//userSettings').at('//Workstation.Properties.Settings')
+    setting_node = Nokogiri::XML::Node.new("setting",doc)
+    setting_node['name'] = 'Preferences'
+    setting_node['serializeAs'] = 'String'
+    value_node = Nokogiri::XML::Node.new("value",doc)
+    value_node.content = '{"show-hidden-objects":false,"use-contentbundle":true,"use-cubeeditor":false,"use-objectmigration":false,"use-microchart":true,"use-richtextbox":true,"support-info-window":true}'
+    setting_node << value_node
+
+    # remove setting with name 'Preferences'
+    for temp_node in root_node.search('setting') do 
+      if temp_node.keys.include?('name') && temp_node['name'] == 'Preferences' then
+        info "remove origin Preferences"
+        temp_node.remove()
+      end
+    end
+
+    info "add new Preferences"
+    root_node << setting_node
+    File.open(user_config, 'w') do |file|
+      file.print doc.to_xml
+    end
   end
 end
 
