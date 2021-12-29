@@ -230,6 +230,6 @@ task :acceptance_test_win do |t,args|
       shell_command! "node  rally/updateE2EResultsToClientAutoData.js -c \"#{ENV['APPLICATION_VERSION']}\" \"#{ENV['BUILD_URL']}\"", cwd: "I:/tests/acceptance"
       shell_command! "node  rally/updateE2EResultsToRally.js -c \"#{ENV['APPLICATION_VERSION']}\" \"#{ENV['BUILD_URL']}\"", cwd: "I:/tests/acceptance"
     end
-
+  end
 
 end
