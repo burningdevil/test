@@ -9,7 +9,7 @@ designed to execute @Sanity tests'
 
   triggers do
     pull_request_builder do
-      trigger_phrase 'ecosystem test'
+      trigger_phrase 'ecosystem test win'
       commit_status_context 'ecosystem-premerge-test-win'
     end
   end
