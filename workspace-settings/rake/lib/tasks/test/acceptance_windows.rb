@@ -51,6 +51,7 @@ task :do_test_when_test_file_changed do |t,args|
       end
     end
   end
+  info "====== no changed file in test document ======"
 end
 
 task :install_workstation_windows do |t,args|
