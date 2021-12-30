@@ -4,7 +4,6 @@ designed to execute @Sanity tests'
 
   configure_common_items{}
 
-
   concurrent_build true
 
   triggers do
@@ -16,6 +15,17 @@ designed to execute @Sanity tests'
 
 
   assigned_node_string 'workstatioin_plugin_ui_test'
+
+
+  properties do
+    inject do
+      properties_content <<-EOH
+MSYS=winsymlinks:nativestrict
+PATH=/usr/local/.rbenv/shims:/usr/local/ruby-install/bin:/usr/local/rbenv/libexec:/tools/msys/20160205-3/cmd:/tools/Sysinternals:/Users/vagrant/bin:/Users/vagrant/.rbenv/versions/2.2.4/bin:/cmd:/usr/local/bin:/mingw64/bin:/usr/bin:/Windows/system32:/Windows:/Windows/System32/Wbem:/Windows/System32/WindowsPowerShell/v1.0:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/c/Program\ Files/Amazon/AWSCLI
+SHELLOPTS=igncr
+EOH
+    end
+  end
 
   builders do
     bash do
