@@ -14,7 +14,7 @@ designed to execute @Sanity tests'
   end
 
 
-  assigned_node_string 'workstatioin_plugin_ui_test'
+  assigned_node_string 'windows_plugin_ui_test'
 
 
   properties do
@@ -42,11 +42,8 @@ powershell -command \'Get-DisplayResolution\'
 powershell -command \'Set-DisplayResolution -Width 1920 -Height 1080 -Force\'
 powershell -command \'Get-DisplayResolution\'
 
-if [rake changed_files_in_test]; then
-  rake eks_deploy
-  rake install_workstation_windows
-  rake sanity_test_win
-fi
+rake do_test_when_test_file_changed
+
 '
     end
   end

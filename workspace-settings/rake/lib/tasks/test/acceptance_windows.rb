@@ -35,22 +35,22 @@ def close_apps
   shell_command "taskkill /F /IM node.exe" if shell_true?("tasklist| grep node.exe")
 end
 
-task :changed_files_in_test do |t,args|
+task :do_test_when_test_file_changed do |t,args|
   info "====== try to find if there is changed files in test document ======"
   git_user = ENV['GITHUB_SVC_USER']
   git_pswd = ENV['GITHUB_SVC_PWD']
   pr_id = ENV['ghprbPullId']
   pull_instance = Github::PullRequests.new(git_user, git_pswd)
   changed_files = pull_instance.get_changed_files('workstation-homescreen-admin', 'Kiai', pr_id)
-  unless changed_files then
-    return false
-  end
-  for changed_file in changed_files do
-    if changed_file['filename'].start_with?('tests/acceptance/features') then
-      return true
+  if changed_files then
+    for changed_file in changed_files do
+      if changed_file['filename'].start_with?('tests/acceptance/features') then
+        Rake::Task['eks_deploy'].invoke
+        Rake::Task['install_workstation_windows'].invoke
+        Rake::Task['sanity_test_win'].invoke
+      end
     end
   end
-  return false
 end
 
 task :install_workstation_windows do |t,args|
