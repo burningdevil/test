@@ -224,12 +224,9 @@ task :sanity_test_win do |t,args|
 
   info "====== starting test ======"
   begin
-    shell_command! "node trigger_test.js  \"#{workstation_path}\"  \"https://#{library_service_fqdn}/MicroStrategyLibrary/\" \"@Sanity\" 54213 \"#{ENV['APPLICATION_VERSION']}\"", cwd: "I:/tests/acceptance"
+    shell_command! "node trigger_test.js  \"#{workstation_path}\"  \"https://#{library_service_fqdn}/MicroStrategyLibrary/\" \"@Sanity\" 54213 \"#{ENV['ghprbSourceBranch']}\"", cwd: "I:/tests/acceptance"
   ensure
     close_apps
     Helm.delete_release(workstation_setting_release_name)
-    info "update rally test results"
-    shell_command! "node  rally/updateE2EResultsToClientAutoData.js -c \"#{ENV['APPLICATION_VERSION']}\" \"#{ENV['BUILD_URL']}\"", cwd: "I:/tests/acceptance"
-    shell_command! "node  rally/updateE2EResultsToRally.js -c \"#{ENV['APPLICATION_VERSION']}\" \"#{ENV['BUILD_URL']}\"", cwd: "I:/tests/acceptance"
   end
 end
