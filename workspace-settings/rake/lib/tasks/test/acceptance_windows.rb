@@ -42,16 +42,20 @@ task :do_test_when_test_file_changed do |t,args|
   pr_id = ENV['ghprbPullId']
   pull_instance = Github::PullRequests.new(git_user, git_pswd)
   changed_files = pull_instance.get_changed_files('workstation-homescreen-admin', 'Kiai', pr_id)
+  if_changed_files_in_document = false
   if changed_files then
     for changed_file in changed_files do
       if changed_file['filename'].start_with?('tests/acceptance/features') then
+        if_changed_files_in_document = true
         Rake::Task['eks_deploy'].invoke
         Rake::Task['install_workstation_windows'].invoke
         Rake::Task['sanity_test_win'].invoke
       end
     end
   end
-  info "====== no changed file in test document ======"
+  if if_changed_files_in_document then 
+    info "====== no changed file in test document ======"
+  end
 end
 
 task :install_workstation_windows do |t,args|
