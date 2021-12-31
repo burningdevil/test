@@ -3,104 +3,60 @@
 
 .home-screen-dossiersetting {
     &-container {
-        padding-left: 20px;
-        padding-top: 15px;
-        padding-right: 20px;
-
+        padding: 24px 30px 0 30px;
         font-family: $font-family;
         font-size: $font-size;
         color: $msdl-black;
         line-height: $line-height;
 
-        .ant-divider-horizontal {
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
-
-        .name-col {
-            font-weight: 600;
-            font-size: '11px';
-        }
-
-        .default-col {
-            color: $mobile-primary-blue;
-        }
-
+        
         .set-default-col {
             color: $mobile-primary-blue;
             display: none;
         }
 
         .ant-table-row {
-            height: 40px;
+            height: 26px;
         }
         .ant-table-tbody >tr >td {
             border-bottom: none !important;
         }
+        .ant-table-row-selected {
+            background-color: $mobile-primary-blue;
+        }
         .ant-table-row:hover {
-            .item-edit {
+            
+            .icon-pnl_close {
                 // flex: auto;
-                margin-left: 10%;
-                display: inline-block;
-            }
-            .item-delete {
-                // flex: auto;
-                margin-left: 5%;
-                display: inline-block;
-            }
-            .item-drag {
-                // flex: auto;
+                cursor: pointer;
                 display: inline-block;
             }
             .set-default-col {
                 // flex: auto;
+                cursor: pointer;
+                margin-left: 10px;
                 display: inline-block;
             }
         }
         .row-operation {
             display: flex;
         }
-        .item-edit {
-            background: url("../../images/colorPalette/cp-edit.svg");
+        
+
+        .icon-pnl_close {
             display: none;
-            width: 18px;
-            height: 19px;
+            margin-left: 10px;
+            font-size: 10px;
             background-repeat: no-repeat;
             &:hover {
-                background: url("../../images/colorPalette/cp-edit-hover.svg");
-            }
-        }
-
-        .item-delete {
-            background: url("../../images/colorPalette/cp-delete.svg");
-            display: none;
-
-            width: 9px;
-            height: 10px;
-            background-repeat: no-repeat;
-            &:hover {
-                width: 18px;
-                height: 18px;
-                background: url("../../images/colorPalette/cp-delete-hover.svg");
-            }
-        }
-
-        .item-drag {
-            background: url("../../images/colorPalette/cp-drag.svg");
-            display: none;
-            width: 18px;
-            height: 18px;
-            background-repeat: no-repeat;
-            &:hover {
-                width: 18px;
-                height: 18px;
-                background: url("../../images/colorPalette/cp-drag-hover.svg");
+                color: $mobile-primary-blue
             }
         }
     }
 
     &-title {
         font-weight: 700;
+        margin-bottom:18px;
     }
 
     &-default-color-palette-container {
@@ -125,24 +81,51 @@
     }
 
     &-custom-color-palette-title-section {
-        margin-bottom: 10px;
+        margin-bottom: 8px;
+        // margin-top: 22px;
+        .ant-checkbox {
+            margin-right: 5px;
+        }
     }
 
     &-custom-color-palette-title {
         margin-right: 10px;
-        font-weight: 600;
+        font-weight: 700;
+    }
+    &-custom-color-palette-desc {
+        color: $msdl-gray;
+        margin-bottom: 10px;
+        display: block;
     }
 
     &-custom-color-palette-new {
         color: $msdl-blue;
+        margin-left: 5px;
         cursor: pointer;
         &-text {
             margin-left: 3px;
         }
+        span {
+            outline: none;
+        }
         
     }
-    &-custom-color-palettes-container {
-        margin-top: 5px;
-        padding-left: 5px;
+    &-custom-color-palette-container {
+        margin-top: 20px;
+    }
+
+    
+}
+// override the antd style
+#color-palette-setting {
+    .ant-radio-wrapper {
+        font-size: 12px !important;
+        line-height: 18px !important;
+    }
+    .ant-radio {
+        transform: scale(0.75);
+    }
+    .ant-modal-body {
+        font-size: 12px !important
     }
 }

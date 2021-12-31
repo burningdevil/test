@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 
 
-const mockColorPalettes = [
+export const mockColorPalettes = [
   {
       id: '001',
       name: 'Ocean',
@@ -42,16 +42,42 @@ const mockColorPalettes = [
       id: '003',
       name: 'Desert',
       colors: [
-          'red',
-          'orange',
-          'yellow',
-          'lightgreen',
-          'lightblue',
-          'blue',
-          'purple'
+        "8636385",
+        "9218428",
+        "7560292",
+        "7585731",
+        "12167304",
+        "5522787",
+        "6599838",
+        "11767682",
+        "3879533",
+        "6860425",
+        "9860465",
+        "921711"
       ],
       paletteType: 2
-  }
+  },
+  {
+    id: '004',
+    name: 'Albumn',
+    colors: [
+      "7585731",
+      "12167304",
+      "5522787",
+      "6599838",
+      "11767682",
+      "3879533",
+    ],
+    paletteType: 2
+  },
+  {
+    id: '005',
+    name: 'Albumn',
+    colors: [
+      "#DB6657",
+    ],
+    paletteType: 2
+}
 ];
 
 

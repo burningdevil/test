@@ -155,3 +155,34 @@ export const selectAllColorPalettes = createSelector(
     return config.colorPalettes
   }
 )
+
+export const selectApplicationPalettes = createSelector(
+  selectCurrentConfig,
+  (config) =>  { 
+    return config.applicationPalettes
+  }
+)
+
+export const selectApplicationDefaultPalette = createSelector(
+  selectCurrentConfig,
+  (config) =>  { 
+    return config.applicationDefaultPalette
+  }
+)
+
+export const selectUseConfigPalettes = createSelector(
+  selectCurrentConfig,
+  (config) =>  { 
+    return config.useConfigPalettes
+  }
+)
+export const selectColorPalettesSelected = createSelector(
+  selectCurrentConfig,
+  (config) => {
+    return !config.useConfigPalettes || config.useConfigPalettes && config.applicationPalettes?.length > 0
+  }
+)
+
+
+
+

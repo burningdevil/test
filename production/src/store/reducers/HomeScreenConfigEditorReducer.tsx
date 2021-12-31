@@ -39,7 +39,9 @@ const initialState: HomeScreenConfigEditorState = {
       maxLogSize: CONSTANTS.DEFAULT_MAX_LOG_SIZE, 
       logLevel: CONSTANTS.LOG_LEVEL_WARNING, 
       updateInterval: CONSTANTS.DEFAULT_UPDATE_INTERVAL
-    }
+    },
+    applicationPalettes: [],
+    useConfigPalettes: false
   },
   isDuplicateConfig: false,
   isConfigNameError: false,

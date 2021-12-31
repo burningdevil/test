@@ -1,0 +1,51 @@
+@import '~@mstr/rc/es/assets/scss/variables.scss';
+@import '../../../scss/variables.scss';
+.color-palette-grid-container {
+    margin-top: -10px; // disable the ant table measure row height
+    padding-left: 10px;
+    padding-bottom: 20px;
+    .operation-item {
+        display: none;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    .operation-item:first-of-type {
+        margin-left: 20px;
+    }
+    .color-block {
+        vertical-align: top;
+        margin-top: 2px;
+    }
+    .ant-table-row:hover {
+        .operation-item {
+            display: inline-block;
+            cursor: pointer;
+            &:hover {
+                color: $mobile-primary-blue;
+            }
+        }
+    }
+}
+.ant-table-tbody >tr.ant-table-row-selected {
+    td {
+        background-color: #f2f3f5 !important;
+    }
+    &:hover {
+        td {
+            background-color: #f2f3f5 !important;
+        }
+        
+    }
+}
+.ant-table-tbody >tr > td {
+    padding: 7px !important;
+}
+.icon-msg_info {
+    color: lightgray;
+    &:hover {
+        color: $mobile-primary-blue;
+    }
+}
+.color-palette-item-colors-col {
+    height: 19px;
+}

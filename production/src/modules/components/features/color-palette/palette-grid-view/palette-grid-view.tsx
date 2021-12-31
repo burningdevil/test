@@ -1,102 +1,283 @@
-import { Table } from "antd";
-import * as React from "react";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { selectAllColorPalettes } from "../../../../../store/selectors/HomeScreenConfigEditorSelector";
-import "../color-palette.scss";
-import { store } from "../../../../../main";
+import { Table } from 'antd';
+import { Tooltip } from '@mstr/rc';
+import * as React from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  selectAllColorPalettes,
+  selectApplicationDefaultPalette,
+  selectApplicationPalettes,
+} from '../../../../../store/selectors/HomeScreenConfigEditorSelector';
+import '../color-palette.scss';
+import './palette-grid-view.scss';
+import { store } from '../../../../../main';
+import { useImperativeHandle } from 'react';
+import { useState } from 'react';
+import * as Actions from '../../../../../store/actions/ActionsCreator';
+import {
+  default as VC,
+  localizedStrings,
+} from '../../../HomeScreenConfigConstant';
+import { dispatchUpdateAction, getSupportSingleColorPalette, toHex } from '../color-palette.util';
+import ColorPaletteEditor from '../color-palette-editor/color-palette-editor';
 interface PaletteGridViewProps {
   paletteList?: any[];
   paletteType: number;
+  cRef?: any;
+  checkIndeterminate?: any;
+  classNamePrefix?: string;
+}
+interface PaletteDataType {
+  id: string;
+  name: string;
+  colors: string[];
+  paletteType: number;
+}
+interface RowSelectionType {
+  isDefault: boolean;
+  selectedRowKeys: any[];
+  setSelectedRowKeys: any;
+  checkIndeterminate: any;
+  dataSource: any[];
+  dispatch: any;
 }
 const renderPaletteColors = (colors: Array<string>) => {
-  return colors.map((c) => {
+  return colors.map((c, index) => {
     return (
       <div
-        className="color-block"
+        className='color-block'
+        key = {index}
         style={{
-          backgroundColor: c,
-          width: "16px",
-          height: "16px",
-          float: "left",
+          backgroundColor: toHex(c),
+          width: '19px',
+          height: '19px',
+          float: 'left',
         }}
       />
     );
   });
 };
-const getColumns = (isDefault: boolean) => {
-  let columns = [
-    {
-      title: "Name",
-      dataIndex: "name",
-      className: "name-col",
-      width: "10%",
-    },
-    {
-      title: "Default",
-      dataIndex: "default",
-      className: "default-col",
-      width: "5%",
-    },
-    {
-      title: "Colors",
-      dataIndex: "colors",
-      width: "60%",
-      render: (d: Array<string>) => {
-        return (
-          <div className={`${classNamePrefix}-color-palette-item-colors-col`}>
-            {renderPaletteColors(d)}
-          </div>
-        );
-      },
-    },
-    {
-      title: "operation",
-      dataIndex: "operation",
-      width: "20%",
-      render: (_: any, record: any) => {
-        return (
-          <div className="row-operation">
-            <span className="set-default-col">{"Set as Default"}</span>
-            <span className="item-edit" />
-            <span className="item-duplicate" />
-            <span className="item-delete" />
-          </div>
-        );
-      },
-    },
-  ];
-  if (isDefault) {
-    columns.find((v) => v.dataIndex === "operation").render = () =>  <></>;
-  }
-  return columns;
+const setPaletteDefault = (
+  data: any,
+  dispatch: any,
+  dataSource: any[],
+  setCurrentList: any
+) => {
+  if (data.isDefault) return;
+  dataSource.forEach((one) => (one.isDefault = false));
+  dataSource.find((v) => v.id === data.id).isDefault = true;
+  setCurrentList(dataSource);
+  dispatch(
+    Actions.updateCurrentConfig({
+      applicationDefaultPalette: data.id,
+    })
+  );
 };
 
-const classNamePrefix = "home-screen-dossiersetting";
-
 const PaletteGridView: React.FC<PaletteGridViewProps> = (props) => {
-  // const dispatch = useDispatch();
-  const paletteList: any[] = useSelector(selectAllColorPalettes);
-  const isDefault = props.paletteType === 1 ? true : false;
-  console.log("test the color", paletteList, store.getState());
-  const dataSource = paletteList.filter(
-    (v) => v.paletteType === props.paletteType
-  );
+  const { classNamePrefix, paletteType } = props;
+  const dispatch = useDispatch();
 
-  return (
-    paletteList?.length && (
+  const paletteList: any[] = useSelector(selectAllColorPalettes);
+  const defaultPaletteId = useSelector(selectApplicationDefaultPalette);
+  const applicationPalettes = useSelector(selectApplicationPalettes) ?? [];
+  const [currentList, setCurrentList] = useState([]);
+  const [dataSource, setDataSource] = useState([]);
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [isShowEditPalette, setEditorPalette] = useState(false);
+  const [paletteEditorParams, setEditorParams] = useState({});
+  const isDefault = paletteType === 1 ? true : false;
+
+  const getData = () => {
+    let data;
+    if(applicationPalettes?.length){
+      data = paletteList.filter((v) => applicationPalettes.includes(v.id));
+      setCurrentList([...data]);
+    }
+    
+  };
+  const dispatchUpdateAction = (defaultApplicationPalettes: string[], targetData: string[]) => {
+    const defaultData = getSupportSingleColorPalette() ? [] : defaultApplicationPalettes;
+    dispatch(Actions.updateCurrentConfig({
+        applicationPalettes: Array.from(new Set(defaultData.concat(targetData))) 
+    }));
+  }
+
+  useImperativeHandle(props.cRef, () => ({
+    checkAll: (check: boolean) => {
+      const defaultApplicationPalettes = applicationPalettes.filter(
+        (v) => !dataSource.map((v) => v.id).includes(v)
+      );
+      if (check) {
+        setSelectedRowKeys(dataSource.map((v) => v.id));
+        dispatchUpdateAction(defaultApplicationPalettes, dataSource.map(v => v.id));
+      } else {
+        setSelectedRowKeys([]);
+        dispatchUpdateAction(defaultApplicationPalettes, []);
+      }
+    },
+  }));
+
+  useEffect(() => {
+    getData();
+  }, [applicationPalettes, paletteList]);
+  const getRowSelection = (obj: RowSelectionType) => {
+    const {
+      isDefault,
+      selectedRowKeys,
+      setSelectedRowKeys,
+      checkIndeterminate,
+      dataSource,
+      dispatch,
+    } = obj;
+    const rowSelection = {
+      type: getSupportSingleColorPalette() ? 'radio' : 'checkbox',
+      selectedRowKeys,
+      onChange: (selectedRowKeys: any, selectedRows: any) => {
+        console.log(
+          `selectedRowKeys: ${selectedRowKeys}`,
+          'selectedRows: ',
+          selectedRows
+        );
+        setSelectedRowKeys(selectedRows.map((v: any) => v.id));
+        checkIndeterminate(selectedRows.length, dataSource.length);
+        const defaultApplicationPalettes = applicationPalettes.filter(
+          (v) => !dataSource.map((v) => v.id).includes(v)
+        );
+        dispatchUpdateAction(defaultApplicationPalettes, selectedRows.map((v: any) => v.id));
+        // for the single selection case, there is no set default operation. So when the radio selection is changed, should update the default palette at the same time.
+        if(getSupportSingleColorPalette()){
+          setPaletteDefault(selectedRows[0], dispatch, dataSource, setCurrentList);
+        }
+      },
+      getCheckboxProps: (record: any) => ({
+        disabled: record.paletteType === 2,
+        // Column configuration not to be checked
+        name: record.id,
+      }),
+    };
+    if (isDefault) {
+      return rowSelection;
+    }
+  };
+  const removeColorPalette = (
+    data: any,
+    dispatch: any,
+    dataSource: any[],
+    setCurrentList: any
+  ) => {
+    const leftList = dataSource.filter((v) => v.id !== data.id);
+    const defaultApplicationPalettes = applicationPalettes.filter(
+      (v) => !dataSource.map((v) => v.id).includes(v)
+    );
+    dispatchUpdateAction(defaultApplicationPalettes, leftList.map((v: any) => v.id))
+    // special handling, if remove the default item, then the first one in the list will be set to default automatically.
+    if (data.isDefault) {
+      leftList[0].isDefault = true;
+      dispatch(
+        Actions.updateCurrentConfig({
+          applicationDefaultPalette: leftList[0].id,
+        })
+      );
+    }
+    setCurrentList(leftList);
+  };
+  const duplicatePalette = (data: any) => {
+    setEditorPalette(true);
+    let cloneObject = { ...data };
+    cloneObject.name = `Copy of ${data.name}`;
+    cloneObject.isDuplicate = true;
+    cloneObject.isDuplicateFromDefault = true;
+    setEditorParams(cloneObject);
+  };
+  const renderPaletteOperations = (
+    isDefault: boolean,
+    data: any,
+    dispatch: any,
+    currentPaletteList: any[],
+    setCurrentList: any
+  ) => {
+    return (
       <>
-        <div id={`color-pallete-grid-${props.paletteType}`} className={"test"}>
-          <Table
-            showHeader={false}
-            pagination={false}
-            rowKey="index"
-            dataSource={dataSource}
-            columns={getColumns(isDefault)}
-          />
-        </div>
+        <span
+          className='icon-pnl_close'
+          onClick={() =>
+            removeColorPalette(
+              data,
+              dispatch,
+              currentPaletteList,
+              setCurrentList
+            )
+          }
+        />
       </>
-    )
+    );
+  };
+  const getColumns = (
+    isDefault: boolean,
+    dispatch: any,
+    currentPaletteList: any[],
+    setCurrentList: any
+  ) => {
+    let columns = [
+      {
+        title: 'Name',
+        dataIndex: 'name',
+        className: 'name-col',
+        width: '150px',
+        render: (name: string, data: any) => {
+          return (
+            <>
+              {name}
+            </>
+          );
+        },
+      },
+      {
+        title: 'Colors',
+        dataIndex: 'colors',
+        width: '80%',
+        render: (d: Array<string>, data: any) => {
+          return (
+            <div className={'color-palette-item-colors-col'}>
+              {renderPaletteColors(d)}
+              {renderPaletteOperations(
+                false,
+                data,
+                dispatch,
+                currentPaletteList,
+                setCurrentList
+              )}
+            </div>
+          );
+        },
+      },
+    ];
+
+    return columns;
+  };
+  return (
+    <>
+      <div
+        id={`color-palette-grid-${props.paletteType}`}
+        className={'color-palette-grid-container'}
+      >
+        <Table
+          showHeader={false}
+          pagination={false}
+          rowKey='id'
+          size={'small'}
+          dataSource={currentList}
+          scroll={{ y: 255 }}
+          columns={getColumns(isDefault, dispatch, currentList, setCurrentList)}
+        />
+        <ColorPaletteEditor
+          visible={isShowEditPalette}
+          params={paletteEditorParams}
+          onClose={() => setEditorPalette(false)}
+        ></ColorPaletteEditor>
+      </div>
+    </>
   );
 };
 export default PaletteGridView;

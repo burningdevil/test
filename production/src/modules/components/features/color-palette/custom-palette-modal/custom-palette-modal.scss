@@ -1,0 +1,217 @@
+@import '~@mstr/rc/es/assets/scss/variables.scss';
+@import '../../../scss/variables.scss';
+.custom-palette-modal {
+    top: 0;
+    padding: 10px 20px 20px 20px;
+}
+.modal-container {
+    top: 50px;
+    font-size: 12px !important;
+}
+.custom-palette-add-container {
+    height: 89%;
+    // height: 500px;
+    // padding: 35px 10px 10px 10px;
+    font-family: $font-family;
+    font-size: 12px;
+
+    .icon-pnl_add-new {
+      cursor: pointer;
+      outline: none;
+    }
+
+    .mstr-filter-search-input-clear {
+      width: 10px;
+    }
+
+    &-popover {
+      width: 184px;
+      height: auto;
+      font-size: 12px;
+      font-family: $font-family;
+
+      &-text {
+        display: flex;
+        align-items: center;
+        // width: 140px;
+        line-height: 20px;
+        max-width: 100px;
+        font-size: 8px;
+        span {
+            margin-left: 4px;
+        }
+      }      
+      &-container {
+        margin-top: 10px;
+        padding: 5px 0;
+        border-style: inset;
+        border-width: 1px;
+        border-radius: 2px;
+        border-color: $msdl-divider-gray;
+      }
+
+      &-blank {
+        background-color: transparent;
+        height: 20px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding-right: 5px;
+        &-fill {
+            margin-left: 25px;
+            margin-right: 5px;
+            flex: auto;
+            height: 8px;
+            background-color: $right-background;
+        }
+      }
+    }
+
+    &-title {
+      line-height: 14px;
+      .icon-msg_info {
+        cursor: pointer;
+        margin-left: 5px;
+        color: gray;
+      }
+      .mstr-input-container {
+        width: 330px;
+        height: 28px;
+        margin-top: 12px;
+        margin-bottom: 15px;
+      }
+    }
+
+    // padding: 5px;
+    &-header {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      padding-bottom: 14px;
+      padding-top: 5px;
+      color: $msdl-gray;
+    }
+    &-search-container {
+        display: flex;
+        height: 24px;
+    }
+
+    &-search {
+      flex-grow: 0;
+      width: 330px;
+      height: 28px;
+    }
+    &-btn {
+        margin-top: 10px;
+        text-align: right;
+    }
+    &-palette-count {
+        margin-top: 8px;
+        padding-left: 9px;
+        font-size: 10px;
+        color: #B9B9B9;
+        letter-spacing: 0;
+        text-align: center;
+        font-weight: 400;
+    }
+    &-add-palette {
+        flex-grow: 1;
+        padding-left: 10px;
+        padding-right: 10px;
+        text-align: right;
+        margin-top: 8px;
+        color: $mobile-primary-blue; 
+    }
+
+    &-add-content {
+      flex-grow: 1;
+      padding-left: 10px;
+      padding-right: 10px;
+      text-align: right;
+      color: $msdl-black;
+    }
+
+    &-add-icon {
+      margin-right: 5px;
+      cursor: pointer;
+    }
+
+    &-add-text {
+      margin-left: 5px;
+      cursor: pointer;
+    }
+
+    &-empty {
+      position: absolute;
+      top: 45px;
+      left: 10px;
+      padding: 200px 100px;
+      border: 1px dashed $msdl-border-gray;
+      // left: 460px;
+      width: calc(100% - 20px);
+      height: calc(100% - 55px);
+      display: flex;
+      flex-direction: column;
+      align-items:center;
+      vertical-align:middle;
+    
+      &-img {
+        width: 100px;
+      }
+      
+      &-desc {
+        padding: 10px;
+        color: #9a9a9a
+      }
+    
+      &-add {
+        color: $msdl-blue;
+        cursor: pointer;
+      }
+    }
+
+    
+
+    
+}
+
+.content-bundle-list-name-icon {
+  display: flex;
+  align-items: center;
+}
+
+.content-bundle-list-user-icon {
+  display: flex;
+  align-items: center;
+}
+
+.mstr-ws-icons-copy {
+  &.disabled {
+    opacity: 0.5;
+  }
+
+  &.icon-bundle-group {
+    background-position: -234px 0px;
+  }
+
+  &.icon-user-group {
+    background-position: -234px -18px;
+  }
+}
+.modal-container {
+  .ant-modal-header {
+    background: #f0f0f0;
+  }
+  .ant-modal-title {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+  }
+  .ant-modal-body {
+    font-size: 12px !important;
+  }
+  .ant-btn {
+    font-size: 13px;
+    height: 22px;
+    min-width: 74px;
+  }
+}

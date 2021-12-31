@@ -1,0 +1,391 @@
+
+@import '~@mstr/rc/es/assets/scss/variables.scss';
+.color-picker-container {
+    padding: 0px;
+}
+.mstr-color-picker-dropdown {
+    &.disabled {
+        .color-picker-arrow-button,
+        .popover-button {
+            background-color: $msdl-disable-gray;
+            opacity: 0.5;
+        }
+        
+    }
+    .popover-button {
+        height: 28px;
+        width: 50px;
+        border: 1px solid $mbde-splitline-gray;
+        border-radius: 3px;
+        padding: 3px;
+        display: flex;
+        background-color: $msdl-white;
+    }
+    .button-dropdown {
+        width: 20px;
+        height: 20px;
+        &[style="background-color: transparent;"] {
+            background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' preserveAspectRatio='none' viewBox='0 0 100 100'><path d='M0 99 L99 0 L100 1 L1 100' fill='transparent' stroke='rgb(213,59,65)' stroke-width='3' /></svg>");
+            background-repeat:no-repeat;
+            background-position:center center;
+            background-size: 100% 100%, auto;
+            box-shadow: 0 0 1px $msdl-primary-neutral inset;
+        }
+        &[style="background-color: rgb(255, 255, 255);"] {
+            box-shadow: 0 0 1px $msdl-primary-neutral inset;
+        }
+    }
+    
+    .color-picker-arrow-button{
+        min-width: 18px;
+        width: 20px;
+        height: 20px;
+        background-color: $mbde-primary-white;
+        margin-left: 3px;
+        // background-image: url('../assets/icons/icon-downarrow.svg');
+    }
+}
+.color-picker-dropdown {
+    font-family: Helvetica, sans-serif;
+    font-size: 11px;
+    font-weight: normal;
+    color: $mbde-primary-black;
+    line-height: 14px;
+    
+
+    .mstr-select-container .ant-select-selection,
+    .mstr-select-container .mstr-select-container__menu .mstr-select-option,
+    .color-slider-with-hex input,
+    .no-fill-button {
+        font-family: Helvetica, sans-serif;
+        font-size: 11px;
+        font-weight: normal;
+        color: $mbde-primary-black;
+        line-height: 14px;
+    }
+    
+    .color-picker-toolbar {
+        display: flex;
+        border-bottom: 1px solid $mbde-splitline-gray;
+        margin-bottom: 10px;
+        outline: none;
+        .ant-radio-button {
+            height: 32px;
+            width: 32px;
+        }
+        
+        & > .ant-radio-group {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            
+            .color-picker-toolbar-items {
+                height: 32px;
+            }
+        }
+    }
+    
+    .color-picker-toolbar-button,
+    .color-picker-toolbar .ant-radio-button-wrapper:not(.ant-radio-button-wrapper-disabled) {
+        background: transparent url(./assets/color-picker.svg) no-repeat 0 0;
+        width: 22px;
+        padding: 0;
+        border: none !important;
+        transition: none;
+
+        &:focus-within,
+        &:focus {
+            outline: none;
+            box-shadow: none;
+        }
+        
+        &.ant-radio-button-wrapper-checked {
+            box-shadow: none;
+        }
+
+        &.grid-mode {
+            background-position: 6px -54px;
+            &.ant-radio-button-wrapper-checked {
+                background-position: 6px -24px;
+            }
+        }
+        &.palette-mode {
+            background-position: -24px -54px;
+            &.ant-radio-button-wrapper-checked {
+                background-position: -24px -24px;
+            }
+        }
+        &.gradient-mode {
+            background-position: -54px -54px;
+            &.ant-radio-button-wrapper-checked {
+                background-position: -54px -24px;
+            }
+        }
+    }
+    .color-picker-toolbar-button::before {
+        display: none; /* turn off this divider bar from ant d*/
+    }
+    .palette-picker {
+        width: 184px
+    }
+    .ant-popover-inner-content {
+        padding: 10px 10px;
+        display: block;
+    }
+    
+    .ant-popover-arrow {
+        opacity:0;
+    }
+    
+    .ant-popover-inner {
+        margin-top: -10px;
+    }
+    .right-toolbar {
+        margin-left: auto;
+        display: flex;
+    }
+    .color-picker-tab-preview {
+        margin: 10px;
+        margin-right: 4px; // Add 4px of right margin so the preview aligns with the color cells
+    }
+    .refresh-button {
+        background: transparent url(./assets/color-picker.svg) no-repeat 0 0;
+        background-position: -151px -91px;
+        width: 18px;
+        height: 18px;
+        margin: 10px;
+        margin-right: 0;
+        display: none;
+    }
+    .colorGridTitle {
+        padding-top: 10px;
+        padding-bottom: 5px;
+        // display: none;
+    
+    }
+    // .color-grid {
+    //     width: 200px;
+    // }
+    .color-grid {
+        display: grid;
+        gap: 1px 0px;
+        // Hard code that there are always 8 items in each row and they all take up the same amount of space
+        grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% ;
+    }
+    .color-picker-tab-preview {
+        height: 18px;
+        width: 18px;
+        &[style="background-color: transparent;"] {
+            background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' preserveAspectRatio='none' viewBox='0 0 100 100'><path d='M0 99 L99 0 L100 1 L1 100' fill='transparent' stroke='rgb(213,59,65)' stroke-width='3' /></svg>");
+            background-repeat:no-repeat;
+            background-position:center center;
+            background-size: 100% 100%, auto;
+            box-shadow: 0 0 1px $msdl-primary-neutral inset;
+        }
+        &[style="background-color: rgb(255, 255, 255);"] {
+            box-shadow: 0 0 1px $msdl-primary-neutral inset;
+        }
+    }
+    .color-cell {
+        height: 20px;
+        width: 20px;
+        border: 2px solid white;
+        margin: 0.5px 0.5px 0.5px 0;
+        border-radius: 3px;
+        cursor: initial;
+        &.white-cell { // White box needs a grey background
+            box-shadow: 0 0 1px $msdl-primary-neutral inset;
+            &.selected {
+                box-shadow: 0 0 1.5px $msdl-primary-neutral inset;
+            }
+        }
+        &.selected {
+            height: 20px;
+            width: 20px;
+            margin: 0.5px 0.5px 0.5px 0;
+            padding: 0;
+            border: 1px solid $msdl-primary-neutral;
+            border-radius: 4px;
+            box-shadow: 0 0 0 1px white inset;
+        }
+    }
+    
+    .invalid-input{
+        input {
+            border: solid 1px red !important;
+            box-shadow: none;
+        }
+    } 
+    .color-slider-with-hex {
+        display: flex;
+        align-items: center;
+        padding-top: 10px;
+    }
+    
+    .paletteModesSelect {
+        margin: 5px;
+    }
+    
+    .no-fill-button {
+        width: 204px;
+        margin-top: 3px;
+        height: 25px;
+    }
+    .opacity-slider {
+        display: flex;
+    }
+    .opacity-slider > div:first-of-type {
+        height: 10px;
+        position: relative !important; /*important required to overwrite the inline styling from react-color alpha component*/
+        width: 204px;
+        top: 10px !important; /*important required to overwrite the inline styling from react-color alpha component*/
+    }
+    .grid-mode-container {
+        .opacity-slider > div:first-of-type {
+            width: 160px;
+        }
+    }
+    .opacity-slider .ant-input-number {
+        width: 30px;
+        margin-left: 6px;
+    }
+    .color-picker-display-text {
+        text-align: right;
+        grid-column-start: 3;
+        line-height: $msdl-label-line-height;
+        .color-picker-inner-text {
+          display: inline-block;
+          vertical-align: middle;
+          line-height: normal;
+        }
+    }
+    .no-fill {
+        background: transparent url(./assets/color-picker.svg) no-repeat 0 0;
+        background-position: -60px -90px;
+        justify-content: right;
+        box-shadow: 0 0 1px rgba($msdl-primary-neutral, 0.2) inset;
+        margin: 0;
+        display: none;
+        border: 1px solid white;
+        &.selected {
+            box-shadow: 0 0 1px rgba($msdl-primary-neutral, 0.2) inset;
+            margin: 0;
+            border-radius: 3px;
+        }
+    }
+    .add-button {
+        background: transparent url(./assets/color-picker.svg) no-repeat 0 0;
+        width: 18px;
+        height: 18px;
+        background-position: -120px -90px;
+        justify-content: right;
+        border: 0;
+        margin-top: 2px;
+        margin-left: 1px;
+        transform: scale(0.9); // Make add button the same size as the color cells
+    }
+    .no-fill-text-container {
+        // display: grid;
+        display: none;
+        grid-template-columns: auto auto auto;
+    }
+    .color-saturation {
+        height: 120px;
+        // width: 260px;
+        position: relative;
+        margin-bottom: 5px;
+    }
+    
+    .hue-slider {
+        margin-top: -10px;
+        // width: 260px;
+        height: 8px;
+        position: relative;
+    }
+    .color-slider {
+        .opacity-slider {
+            padding-top: 0;
+        }
+        margin-bottom: 10px;
+        margin-top: 20px;
+    }
+    .input-hex-rgba {
+        display: flex;
+        // width: 260px;
+        span {
+            display: block;
+            text-align: center;
+            font-size: 11px;
+            color: rgb(34, 34, 34);
+            padding-top: 3px;
+            padding-bottom: 4px;
+        }
+    }
+    .ant-input-number-handler-wrap {
+        display: none;
+    }
+    .ant-input-number-input {
+        font-size: 11px;
+        padding: 3px;
+    }
+    .ant-input-number {
+        border-radius: 2px;
+    }
+
+    
+    .gradient-toolbar {
+        display: flex;
+        .gradient-button.ant-radio-button-wrapper {
+            border: solid 1px $mbde-primary-white;
+            box-shadow: 0 0 1px $msdl-primary-neutral;
+            border-radius: 12px;
+            height: 12px;
+            width: 12px;
+            padding: 0;
+            background-image: none;
+            margin-top: 4px;
+
+            &.ant-radio-button-wrapper-checked {
+                box-shadow: 1px 1px 4px $msdl-black !important; // required to overwrite ant !important flag
+                height: 14px;
+                width: 14px;
+                margin-top: 3px;
+                border-right-color: $mbde-primary-white;
+            }
+        }
+        .connector {
+            width: 28px;
+            height: 11px;
+            border-bottom: 1px solid $msdl-black;
+        }
+        .gradient-button.color-two.ant-radio-button-wrapper:not(:first-child)::before {
+            display: none;
+        }
+        -webkit-animation: none !important; //need important to overwrite antd
+        animation: none !important;
+        .ant-radio-group {
+            display: inline-flex;
+        }
+        .gradient-buttons {
+            margin-left: auto;
+            display: flex;
+            .color-cell {
+                height: 20px;
+                width: 20px;
+                padding: 1px;
+                margin: 3px;
+                border: 0;
+                background: transparent url(./assets/color-picker.svg) no-repeat 0 0;
+                &.flip {
+                    background-position: 0 -90px;
+                }
+                &.rotate {
+                    background-position: -30px -90px;
+                }
+            }
+            
+        }
+        
+    }
+    
+}

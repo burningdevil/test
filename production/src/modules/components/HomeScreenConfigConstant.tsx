@@ -341,6 +341,7 @@ export const localizedStrings = {
   DUPLICATE_APP_NAME_ERROR: t("duplicateAppNameError"),
   INVALID_CHARACTER_APP_NAME_ERROR: t("invalidCharacterAppNameError"),
   GETINFO: t("getInfo"),
+  INVALID_COLOR_PALETTE_NAME_ERROR: t("invalidPaletteNameError"),
 
   // Dossier Setting Strings
   COLOR_PALETTE: t("colorPalette"),
@@ -353,7 +354,22 @@ export const localizedStrings = {
   CUSTOM_COLOR_PALETTE_TITLE: t("customColorPaletteTitle"),
   NEW_COLOE_PALETTE: t("newColorPalette"),
   EMPTY_COLOR_PALETTE_LIST_HINT: t("emptyColorPaletteListHint"),
-
+  USE_NEW_COLOR_PALETTE_DESC: t(
+    "useNewColorPaletteDesc"
+  ),
+  USE_PREVIOUS_COLOR_PALETTE_DESC: t(
+    "usePreviousColorPaletteDesc"
+  ),
+  CUSTOM_COLOR_PALETTE_DESC: t(
+    "customColorPaletteDesc"
+  ),
+  DEFAULT_COLOR_PALETTE_TITLE: t(
+    "defaultColorPaletteTitle"
+  ),
+  DEFAULT_COLOR_PALETTE_TOOLTIP: t(
+    "defaultColorPaletteTooltip"
+  ),
+  ADD_CUSTOM_COLOR_PALETTES: t("addCustomColorPalettes"),
   // Error Message Strings
   ENVIRONTMENT_DISCONNECT_ERROR_TITLE_MSG: t(
     "environmentDisconnectErrorTitleMsg"
@@ -382,6 +398,10 @@ export const localizedStrings = {
   DISABLE_EDIT_DOSSIER_TOOLTIP: t("disableEditDossierTooltip"),
   DISABLE_NEW_DOSSIER_TOOLTIP_CONTENT: t("disableNewDossierTooltipContent"),
   PROJECT_NAME: t("project"),
+  CONTINUE: t("continue"),
+  OK: t("ok"),
+  PALETTE: t("palette"),
+  NEW: t("new")
 };
 
 export const sectionTitle = {

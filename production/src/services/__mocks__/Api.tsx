@@ -1,5 +1,5 @@
 import { mockDossierPicker } from '../../modules/components/__tests__/__mocks__/mock_state';
-
+import {mockColorPalettes} from '../../../mock/colorPalette';
 export const loadConfigList = jest.fn(() => {
 })
 
@@ -27,4 +27,7 @@ export const loadBatchDossierDocuments = () => {
 }
 export const getServerStatus = () => {
     return Promise.resolve({webVersion: '11.3.0500'});
+}
+export const loadColorPaletteList = () => {
+    return Promise.resolve(mockColorPalettes);
 }

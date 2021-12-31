@@ -1,0 +1,63 @@
+.modal-content {
+    padding: 13px 16px 8px 16px;
+    &-name {
+        display: flex;
+        span {
+            margin: auto;
+        }
+        input {
+            border-radius: 4px;
+            height: 26px;
+            width: 142px !important;
+        }
+    }
+    .modal-content-palette-list {
+        height: 51px;
+        border: 1px solid lightgray;
+        border-radius: 4px;
+    }
+    
+    .add-button {
+        background: transparent url(../../../common-components/rc-compat/assets/color-picker.svg) no-repeat 0 0;
+        width: 20px;
+        height: 20px;
+        background-position: -120px -90px;
+        justify-content: right;
+        outline: none;
+        border: 0;
+        margin-top: 3px;
+        margin-left: 2px;
+    }
+    .color-cell {
+        height: 18px;
+        width: 18px;
+        border: 1px solid #fff;
+        margin: 2.5px 2.5px 2.5px 2.5px;
+        cursor: auto;
+    }
+    .color-grid {
+        margin-left: 5px;
+        display: grid;
+        gap: 1px 0;
+        grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
+    }
+}
+.palette-picker {
+    .colorGridTitle {
+        display: none;
+    }
+    .color-grid {
+        display: none;
+    }
+}
+.color-palette-editor-btn {
+    margin-top: 10px;
+    text-align: right;
+    button {
+        height: 26px;
+        font-size: 12px;
+    }
+}
+.ant-modal-body {
+    font-size: 12px !important;
+}

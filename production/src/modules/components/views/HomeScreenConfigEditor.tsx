@@ -14,7 +14,7 @@ import { HttpProxy } from '../../../main';
 import { RestApiError } from '../../../server/RestApiError';
 import { PARSE_METHOD } from '../../../utils/ParseMethods';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
-import { selectCurrentConfig, selectIsDuplicateConfig, selectIsConfigNameError, selectIsDossierAsHome, selectDefaultGroupsName, selectConfigInfoList, selectIsConfigChanged } from '../../../store/selectors/HomeScreenConfigEditorSelector';
+import { selectCurrentConfig, selectIsDuplicateConfig, selectIsConfigNameError, selectIsDossierAsHome, selectDefaultGroupsName, selectConfigInfoList, selectIsConfigChanged, selectColorPalettesSelected } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import * as api from '../../../services/Api';
 import { default as VC, localizedStrings, editorSize , libraryCustomizedIconDefaultValues, CONTENT_BUNDLE_DEFAULT_GROUP_NAME, copyApplicationName, closeWindowConfirmationStr, libraryIcons} from '../HomeScreenConfigConstant'
@@ -226,7 +226,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 style={{marginLeft: 10}}
                 onClick={this.handleSaveConfig}
                 loading = {this.state.handleSaving}
-                disabled = {this.props.isConfigNameError || (isDossierHome && _.isEmpty(dossierUrl)) || !validName(this.props.defaultGroupsName)}>
+                disabled = {this.props.isConfigNameError || (isDossierHome && _.isEmpty(dossierUrl)) || !validName(this.props.defaultGroupsName) || !this.props.isColorPalettesSelected}>
                 {localizedStrings.SAVE}
             </Button>
             {/* confirmation dialog of cancel */}
@@ -376,6 +376,7 @@ const mapState = (state: RootState) => ({
   defaultGroupsName: selectDefaultGroupsName(state),
   configInfoList: selectConfigInfoList(state),
   isStateChanged: selectIsConfigChanged(state),
+  isColorPalettesSelected: selectColorPalettesSelected(state)
 })
 
 const connector = connect(mapState, {

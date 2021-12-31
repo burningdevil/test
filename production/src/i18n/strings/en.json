@@ -150,8 +150,10 @@
     "colorPalette": "COLOR PALETTE",
     "enableMicroStrategyColorPaletteDesc": "Enable MicroStrategy Color Palettes",
     "enableMicroStrategyColorPaletteTooltip": "You can disable the default MicroStrategy color palettes by creating your own color palettes.",
-    "customColorPaletteTitle": "Custom Color Palette",
+    "customColorPaletteTitle": "Custom Color Palettes",
     "newColorPalette": "Add New",
+    "addCustomColorPalettes": "Add Custom Color Palettes",
+    "addCustomColorPalettesMessage": "please select color palette from the existing color palette list.",
     "emptyColorPaletteListHint": "To create your custom color palette, click Add New. Your custom color palette will appear here.",
 
     "environmentDisconnectErrorTitleMsg": "The selected environment is disconnected",
@@ -182,6 +184,24 @@
     "fontIconText": "Font Size in Grid (iOS Only)",
     "undoRedo": "Undo (Web and Desktop)",
     "closeWindowConfirmationStr": "Do you want to save the changes you made to {{name}}?",
-    "project": "Project"
+    "project": "Project",
+
+    "useNewColorPaletteDesc": "Use new color palettes for the application.",
+    "usePreviousColorPaletteDesc": "Use previously defined color palettes across the application.",
+    "customColorPaletteDesc": "Add custom color palettes for dossiers in the application",
+    "defaultColorPaletteTitle": "MicroStrategy Defaults",
+    "defaultColorPaletteTooltip": "This default color palette will be applied automatically to all dossiers in the application. Authors can still make changes at a later time.",
+    "confirmEditColorPaletteDialogTitle": "Are you sure you want to edit this color palette?",
+    "confirmEditColorPaletteDialogMsg": "All applications using this palette will be affected.",
+    "confirmDeleteColorPaletteDialogTitle": "Are you sure you want to delete this color palette?",
+    "confirmDeleteColorPaletteDialogMsg": "This cannot be undone.",
+    "continue": "Continue",
+    "ok": "OK",
+    "new": "New",
+    "palette": "Palette",
+    "deletePaletteFailedTitle": "Color palette cannot be deleted",
+    "deletePaletteFailedMsg": "This palette is used in multiple applications.",
+    "paletteName": "Palette Name",
+    "paletteColors": "Palette Colors"
 
 }

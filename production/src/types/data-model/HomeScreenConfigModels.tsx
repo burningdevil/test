@@ -53,7 +53,7 @@ export interface HomeScreenConfigType {
         updateInterval: number
     },
     // Color Palette
-    useProjectPalettes: boolean,
+    useConfigPalettes: boolean,
     applicationPalettes: Array<string>,
     applicationDefaultPalette: string
 }
