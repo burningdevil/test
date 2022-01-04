@@ -204,9 +204,13 @@ filterCandidate = (configList: any[]) => {
       let previousValue = currentValue;
       const configList = selectConfigList(store.getState() as RootState);
       currentValue = configList.length;
+      // adding the length judgement to prevent from multi-times execute this function. Only the first time config loaded will subscribe the change.
       if(!configList || currentValue === previousValue) return;
       let candidateData = this.filterCandidate(configList);
-      if(!candidateData?.length) return;
+      if(!candidateData?.length) {
+        this.unsubscribe?.unsubscribe?.();
+        return 
+      };
       from(candidateData)
         .pipe(
           zip(interval(3000), (a, b) => a),
