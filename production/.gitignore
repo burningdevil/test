@@ -29,7 +29,7 @@ Thumbs.db
 scratch
 deploy/runtime-share
 tests/acceptance/.reports
-
+production/build/server.config.js
 # Application specific configuration
 .DS_STORE
 *.log

@@ -76,7 +76,7 @@ export const loadConfigList = () => {
 export const updateConfig = (configId: string, config: any) => {
     return HttpProxy.put(getApiPathForEditApplication(configId), config, {}, PARSE_METHOD.BLOB)
 }
-export const loadEditorConfig = (configId: string) => {
+export const loadConfig = (configId: string) => {
     return HttpProxy.get(CONFIG_ENDPOINTS + configId + '?outputFlag=INCLUDE_LOCALE&outputFlag=INCLUDE_ACL')
 }
 
@@ -168,7 +168,13 @@ export const loadBatchDossierDocuments = (offset: number, limit: number, isDocum
             return {documents: [], dossiers: data.result, totalCount} as any
         }
     })
-    .catch((e: any) => (console.log(e)));
+    .catch((e: any) => {
+        if(isDocument){
+            store.dispatch(ActionsCreator.finishLoadingDocumentListFail());
+        }else {
+            store.dispatch(ActionsCreator.finishLoadingDossierListFail());
+        }
+    })
 }
 
 export const loadAllDossierDocuments = () => {
@@ -190,9 +196,4 @@ export const loadAllDossierDocuments = () => {
     .catch((e: any) => {
         store.dispatch(ActionsCreator.finishLoadingDossierListFail());
     });
-}
-export const loadAllDocuments = (projects: string[]) => {
-    let viewMediaStr = transformViewMedia(true);
-    let projectListStr = transformProjectList(projects);
-    return HttpProxy.get(`/searches/results?pattern=4&type=14081&offset=0&getAncestors=false&certifiedStatus=ALL${viewMediaStr}${projectListStr}`)
 }

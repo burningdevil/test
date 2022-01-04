@@ -25,6 +25,7 @@ const HomeScreenBundleContentReducer = (state: HomeScreenBundleContentState = in
     case Actions.START_LOADING_DOCUMENT_LIST:
       return {...state, loadingDocumentsFinish: false}
     case Actions.FINISH_LOADING_DOCUMENT_LIST_SUCCESS:
+      case Actions.FINISH_LOADING_DOCUMENT_LIST_FAILURE:
       return {...state, loadingDocumentsFinish: true, loadingDocuments: false}
     case Actions.FINISH_LOADING_DOSSIER_LIST_SUCCESS:
     case Actions.FINISH_LOADING_DOSSIER_LIST_FAILURE:

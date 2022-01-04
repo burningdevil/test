@@ -66,8 +66,12 @@ export const startLoadingDocumentList = () => ({
 export const finishLoadingDossierListSuccess = () => ({
   type: Actions.FINISH_LOADING_DOSSIER_LIST_SUCCESS
 })
+
 export const finishLoadingDocumentListSuccess = () => ({
   type: Actions.FINISH_LOADING_DOCUMENT_LIST_SUCCESS
+})
+export const finishLoadingDocumentListFail = () => ({
+  type: Actions.FINISH_LOADING_DOCUMENT_LIST_FAILURE
 })
 
 

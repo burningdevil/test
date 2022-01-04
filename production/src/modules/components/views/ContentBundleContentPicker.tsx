@@ -170,16 +170,6 @@ class ContentBundleContentPicker extends React.Component<any, any> {
       activeTab: param.key
     });
     this.handleSelectionChanged({});
-    if(param.key === 'Dossier'){
-      if(!this.props.loadingDossierFinish){
-        this.props.restartDossierLoading();
-      }
-    }else {
-      if(!this.props.loadDocumentFinished){
-        this.props.restartDocumentLoading();
-      }
-    }
-    
     this.updateData();
     if (gridApi) {
       gridApi.deselectAll();

@@ -135,82 +135,89 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     }
 
   }
+  updateGridCell = (response: any, item: any) => {
+    let data = response?.data ?? response;
+    if(!data) return;
+    const isTypeDocument: boolean = !isContentTypeDossier(data.viewMedia);
+    let itemsToUpdate: any[] = [];
+    item.homeScreen.homeDocument.homeDocumentType = HOME_DOCUMENT_TYPE_DOSSIER;
+    if(isTypeDocument){
+      item.mode = localizedStrings.DOCUMENTS;
+      gridApi.forEachNodeAfterFilterAndSort(function(rowNode, index) {
+        let data = rowNode.data;
+        if(data.id === item.id){
+          data.mode = localizedStrings.DOCUMENTS;
+          item.homeScreen.homeDocument.homeDocumentType = HOME_DOCUMENT_TYPE_DOCUMENT;
+          itemsToUpdate.push(data);
+          gridApi.updateRowData({update: itemsToUpdate})
+        }
+      });
+    }
+  }
+  markGridCell = (response: any, item: any) => {
+    let data = response?.data ?? response;
+    if (!_.has(data, VC.PLATFORM)) {
+        _.assign(data, {platforms: [platformType.web]});
+    }
+    if (!_.has(data, 'homeScreen.homeLibrary')) {
+      data.homeScreen.homeLibrary = {icons:[], sidebars:[], contentBundleIds:[]}
+    }
+    data.homeScreen.homeDocument.homeDocumentType = item.homeScreen.homeDocument.homeDocumentType;
+    return data;
+  }
+  handleUpdateData  = (dossierId: string, projectId: string, item: any):Observable<any> => {
+    return from(api.getSingleDossierInfo(dossierId, projectId))
+              .pipe(
+                    takeUntil(this.destroy$),
+                    catchError( () => of(null)),
+                    tap((response: any) => {
+                      this.updateGridCell(response, item);
+                    }),
+                    switchMap((data: any) => {
+                      return from(api.loadConfig(item.id)).pipe(catchError(err => of(null)),takeUntil(this.destroy$))
+                    }),
+                    map((response: any) => {
+                      return this.markGridCell(response, item);
+                    }),
+                    switchMap((data: any) => {
+                      return from(api.updateConfig(item.id, data)).pipe(catchError(err => of(null)),takeUntil(this.destroy$))
+                    })
+              )
+  }
+  parseUrl = (item: any) => {
+    const dossierUrlPath = 'homeScreen.homeDocument.url';
+    const dossierUrl = _.get(item, dossierUrlPath, '');
+    const spliter = '/';
+    const ids = _.split(dossierUrl, spliter);
+    if (ids && ids.length > 1) {
+      const projectId = ids[ids.length - 2];
+      const dossierId = ids[ids.length - 1];
+    return {item,projectId,dossierId};
+  }
+}
+filterCandidate = (configList: any[]) => {
+  return configList.filter((v: any) => v.homeScreen.mode === 1 && !v.homeScreen.homeDocument?.homeDocumentType)
+}
   checkHomeDcoumentModeRx = () => {
     let currentValue: number;
-    const handleUpdateData  = (dossierId: string, projectId: string, item: any):Observable<any> => {
-      return from(api.getSingleDossierInfo(dossierId, projectId))
-                .pipe(
-                      takeUntil(this.destroy$),
-                      catchError(err => of(null)),
-                      map(response => {
-                        let data = response;
-                        if (response?.data) {
-                          data = response.data;
-                        }
-                        return data;
-                      }),
-                      tap((data: any) => {
-                        if(!data) return;
-                        const isTypeDocument: boolean = !isContentTypeDossier(data.viewMedia);
-                        let itemsToUpdate: any[] = [];
-                        item.homeScreen.homeDocument.homeDocumentType = HOME_DOCUMENT_TYPE_DOSSIER;
-                        if(isTypeDocument){
-                          item.mode = localizedStrings.DOCUMENTS;
-                          gridApi.forEachNodeAfterFilterAndSort(function(rowNode, index) {
-                            let data = rowNode.data;
-                            if(data.id === item.id){
-                              data.mode = localizedStrings.DOCUMENTS;
-                              item.homeScreen.homeDocument.homeDocumentType = HOME_DOCUMENT_TYPE_DOCUMENT;
-                              itemsToUpdate.push(data);
-                              gridApi.updateRowData({update: itemsToUpdate})
-                            }
-                          });
-                        }
-                      }),
-                      switchMap((data: any) => {
-                        return from(api.loadEditorConfig(item.id)).pipe(catchError(err => of(null)),takeUntil(this.destroy$))
-                      }),
-                      map((response: any) => {
-                        let data = response?.data ?? response;
-                        if (!_.has(data, VC.PLATFORM)) {
-                            _.assign(data, {platforms: [platformType.web]});
-                        }
-                        if (!_.has(data, 'homeScreen.homeLibrary')) {
-                          data.homeScreen.homeLibrary = {icons:[], sidebars:[], contentBundleIds:[]}
-                        }
-                        data.homeScreen.homeDocument.homeDocumentType = item.homeScreen.homeDocument.homeDocumentType;
-                        return data;
-                      }),
-                      switchMap((data: any) => {
-                        return from(api.updateConfig(item.id, data)).pipe(catchError(err => of(null)),takeUntil(this.destroy$))
-                      })
-                )
-    }
     const handleChange = () => {
       let previousValue = currentValue;
       const configList = selectConfigList(store.getState() as RootState);
       currentValue = configList.length;
       if(!configList || currentValue === previousValue) return;
-      let candidateData = configList.filter((v: any) => v.homeScreen.mode === 1 && !v.homeScreen.homeDocument?.homeDocumentType);
+      let candidateData = this.filterCandidate(configList);
       if(!candidateData?.length) return;
       from(candidateData)
         .pipe(
           zip(interval(3000), (a, b) => a),
           takeUntil(this.destroy$),
           map(item=> {
-            const dossierUrlPath = 'homeScreen.homeDocument.url';
-            const dossierUrl = _.get(item, dossierUrlPath, '');
-            const spliter = '/';
-            const ids = _.split(dossierUrl, spliter);
-              if (ids && ids.length > 1) {
-                const projectId = ids[ids.length - 2];
-                const dossierId = ids[ids.length - 1];
-            return {item,projectId,dossierId}
-          }}),
+            return this.parseUrl(item);
+          }),
           switchMap((dossierInfo: any) => {
             const {item,projectId,dossierId} = dossierInfo;
             if(!dossierId) return of(null);
-            return handleUpdateData(dossierId, projectId, item)
+            return this.handleUpdateData(dossierId, projectId, item)
           })
         )
       .subscribe(()=> {})
@@ -259,7 +266,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       localizedStrings.DELETE,
     cancelButtonText: localizedStrings.CANCEL,
     summaryText:
-    this.deleteConfirmationStr('default'),
+    this.deleteConfirmationStr('application'),
     detailText:
       localizedStrings.CONFIRM_DELETE_DIALOG_MSG_DETAIL
   }
@@ -544,7 +551,6 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
           isConfirmationDialogOpen: true,
           deleteApplicationsToBeConfirmed: [contextMenuTarget.id]
         });
-        console.log(contextMenuTarget);
         this.wordings.summaryText = this.deleteConfirmationStr(contextMenuTarget.name);
       };
       const handleClickDuplicate = () => {
