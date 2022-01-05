@@ -318,6 +318,7 @@ export const localizedStrings = {
   DATE_CREATED: t("dateCreated"),
   LIBRARY: t("library"),
   DOSSIER: t("dossier"),
+  DOCUMENT: t("document"),
   SELECT: t("select"),
   SELECT_CONTENT_BUNDLES: t("selectContentBundles"),
   SEARCH: t("search"),

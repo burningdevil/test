@@ -400,7 +400,7 @@ filterCandidate = (configList: any[]) => {
       return localizedStrings.LIBRARY;
     }else {
       if(config?.homeScreen?.homeDocument?.homeDocumentType === HOME_DOCUMENT_TYPE_DOCUMENT){
-        return localizedStrings.DOCUMENTS;
+        return localizedStrings.DOCUMENT;
       }else {
         return localizedStrings.DOSSIER;
       }

@@ -139,6 +139,7 @@
     "errCopyLink": "Copy application link to clipboard fail: ",
     "library": "Library",
     "dossier": "Dossier",
+    "document": "Document",
     "removeBundle": "Remove",
 
     "blankAppNameError": "This field cannot be blank.",
