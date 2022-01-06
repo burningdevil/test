@@ -12,7 +12,7 @@ produces and publishes a versioned deployment package'
 
   triggers do
     pull_request_builder do
-      trigger_phrase 'ecosystem test'
+      trigger_phrase 'ecosystem-premerge-test'
       commit_status_context 'ecosystem-premerge-test'
     end
   end
