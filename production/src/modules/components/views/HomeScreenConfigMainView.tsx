@@ -145,26 +145,21 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     let data = response?.data ?? response;
     if(!data) return;
     const updateGrid = (targetId: string, label: string) => {
-      
       gridApi.forEachNodeAfterFilterAndSort(function(rowNode, index) {
         let data = rowNode.data;
         if(data.id === targetId){
           data.mode = label;
-          itemsToUpdate.push(data);
-          gridApi.updateRowData({update: itemsToUpdate})
+          gridApi.updateRowData({update: [data]})
         }
       });
     }
-    let itemsToUpdate: any[] = [];
     if(!data.viewMedia){
       updateGrid(item.id, invalidDisplayModeConst);
       return;
     }
     const isTypeDocument: boolean = !isContentTypeDossier(data.viewMedia);
     item.homeScreen.homeDocument.homeDocumentType = HOME_DOCUMENT_TYPE_DOSSIER;
-    item.mode = localizedStrings.DOSSIER;
     if(isTypeDocument){
-      item.mode = localizedStrings.DOCUMENT;
       item.homeScreen.homeDocument.homeDocumentType = HOME_DOCUMENT_TYPE_DOCUMENT;
       updateGrid(item.id, localizedStrings.DOCUMENT);
     }
