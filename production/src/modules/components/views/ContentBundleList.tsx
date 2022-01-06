@@ -122,8 +122,20 @@ class ContentBundleList extends React.Component<any, any> {
   async componentDidMount() {
     api.loadContentBundleList();
     this.processBundleList(this.props.allBundleList, this.props.includedIds, this.props.excludedIds);
-    const currentEnv = await workstation.environments.getCurrentEnvironment();
-    currentProjs = currentEnv.projects.map(o => o.id);
+    
+    const loadProjects = async () => {
+      const projects = await api.loadAllProjects();
+      currentProjs = projects?.map((o: any) => o.id);
+    }
+    const loadSelectedProjects = async (err: any) => {
+      console.info('loaded all projects failed, so using the selected projects instead');
+      const currentEnv = await workstation.environments.getCurrentEnvironment();
+      currentProjs = currentEnv.projects.map(o => o.id);
+    }
+    loadProjects().catch(loadSelectedProjects);
+    
+    
+
   }
 
   processBundleList(bundles: BundleInfo[], includedIds: string[], excludedIds: string[]) {
