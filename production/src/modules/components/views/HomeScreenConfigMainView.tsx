@@ -21,7 +21,7 @@ import { getFeatureFlag, hexIntToColorStr, isContentTypeDossier } from './HomeSc
 import DisconnectedPage from './error-pages/DisconnectedPage';
 import ServerIncompatiblePage from './error-pages/ServerIncompatiblePage';
 import NoAccessPage from './error-pages/NoAccessPage';
-import { isLibraryServerVersionMatch, isIServerVersionMatch, isUserHasManageApplicationPrivilege, APPLICATIONS_FOLDER_ID, APPLICATIONS_FOLDER_TYPE } from '../../../utils';
+import { isLibraryServerVersionMatch, isIServerVersionMatch, isUserHasManageApplicationPrivilege, APPLICATIONS_FOLDER_ID, APPLICATIONS_FOLDER_TYPE, LIBRARY_SERVER_SUPPORT_DOC_TYPE_VERSION } from '../../../utils';
 import classNames from 'classnames';
 import { ConfirmationDialog, ConfirmationDialogWordings } from '../common-components/confirmation-dialog';
 import CONSTANTS, { default as VC, localizedStrings, platformType, APPLICATION_OBJECT_TYPE, APPLICATION_OBJECT_SUBTYPE, CONTENT_BUNDLE_FEATURE_FLAG, HOME_DOCUMENT_TYPE_DOSSIER, HOME_DOCUMENT_TYPE_DOCUMENT } from '../HomeScreenConfigConstant';
@@ -36,6 +36,7 @@ const appRootPath = 'app';
 const appRootPathWithConfig = 'app/config/';
 const customAppPath = 'CustomApp?id=';
 const configSaveSuccessPath = 'Message.homeConfigSaveSuccess';
+const invalidModeConst = localizedStrings.DOSSIER;
 let gridApi: GridApi;
 class HomeScreenConfigMainView extends React.Component<any, any> {
   columnDef: ColumnDef[] = [];
@@ -47,6 +48,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       currentEnv: {},
       isConnected: true,
       isLibraryVersionMatched: true,
+      isLibraryVersionSupportDocumentType: false,
       isIServerVersionMatched: true,
       isConfirmationDialogOpen: false,
       isMDVersionMatched: true,
@@ -80,7 +82,8 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
           isLibraryVersionMatched: true,
           isIServerVersionMatched: true,
           isMDVersionMatched: true,
-          isUserHasAccess: true
+          isUserHasAccess: true,
+          isLibraryVersionSupportDocumentType: false
         });
       }
     })
@@ -119,13 +122,16 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     if (isConnected) {
       const status: any = await api.getServerStatus();
       const isLibraryVersionMatched = !!status.webVersion && isLibraryServerVersionMatch(status.webVersion);
+      // check whether the library version is supported the homeDocumentType
+      const isLibraryVersionSupportDocumentType = !!status.webVersion && isLibraryServerVersionMatch(status.webVersion, LIBRARY_SERVER_SUPPORT_DOC_TYPE_VERSION)
       const isIServerVersionMatched = !!status.iServerVersion && isIServerVersionMatch(status.iServerVersion);
       const isUserHasAccess = isUserHasManageApplicationPrivilege(currentEnv.privileges);
       // Server version and User privilige
       this.setState({
         isLibraryVersionMatched: isLibraryVersionMatched,
         isIServerVersionMatched: isIServerVersionMatched,
-        isUserHasAccess: isUserHasAccess
+        isUserHasAccess: isUserHasAccess,
+        isLibraryVersionSupportDocumentType: isLibraryVersionSupportDocumentType
       });
       const isMDVersionMatched = await this.loadApplicationsFolder();
       // MD version
@@ -140,18 +146,27 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     if(!data) return;
     const isTypeDocument: boolean = !isContentTypeDossier(data.viewMedia);
     let itemsToUpdate: any[] = [];
-    item.homeScreen.homeDocument.homeDocumentType = HOME_DOCUMENT_TYPE_DOSSIER;
-    if(isTypeDocument){
-      item.mode = localizedStrings.DOCUMENTS;
+    item.homeScreen.homeDocument.homeDocumentType = invalidModeConst;
+    item.mode = invalidModeConst;
+    if(!data.viewMedia){
+      return;
+    }
+    const update  = (label: string, prop: string) => {
+      item.mode = label;
       gridApi.forEachNodeAfterFilterAndSort(function(rowNode, index) {
         let data = rowNode.data;
         if(data.id === item.id){
-          data.mode = localizedStrings.DOCUMENTS;
-          item.homeScreen.homeDocument.homeDocumentType = HOME_DOCUMENT_TYPE_DOCUMENT;
+          data.mode = label;
+          item.homeScreen.homeDocument.homeDocumentType = prop;
           itemsToUpdate.push(data);
           gridApi.updateRowData({update: itemsToUpdate})
         }
       });
+    }
+    if(isTypeDocument){
+        update(localizedStrings.DOCUMENT, HOME_DOCUMENT_TYPE_DOCUMENT);
+    }else{
+        update(localizedStrings.DOSSIER, HOME_DOCUMENT_TYPE_DOSSIER);
     }
   }
   markGridCell = (response: any, item: any) => {
@@ -162,7 +177,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     if (!_.has(data, 'homeScreen.homeLibrary')) {
       data.homeScreen.homeLibrary = {icons:[], sidebars:[], contentBundleIds:[]}
     }
-    data.homeScreen.homeDocument.homeDocumentType = item.homeScreen.homeDocument.homeDocumentType;
+    data.homeScreen.homeDocument.homeDocumentType = item.homeScreen.homeDocument.homeDocumentType === invalidModeConst ? invalidModeConst : item.homeScreen.homeDocument.homeDocumentType;
     return data;
   }
   handleUpdateData  = (dossierId: string, projectId: string, item: any):Observable<any> => {
@@ -201,6 +216,7 @@ filterCandidate = (configList: any[]) => {
   checkHomeDcoumentModeRx = () => {
     let currentValue: number;
     const handleChange = () => {
+      if(!this.state.isLibraryVersionSupportDocumentType) return;
       let previousValue = currentValue;
       const configList = selectConfigList(store.getState() as RootState);
       currentValue = configList.length;
@@ -213,7 +229,7 @@ filterCandidate = (configList: any[]) => {
       };
       from(candidateData)
         .pipe(
-          zip(interval(3000), (a, b) => a),
+          zip(interval(2000), (a, b) => a),
           takeUntil(this.destroy$),
           map(item=> {
             return this.parseUrl(item);
@@ -401,8 +417,10 @@ filterCandidate = (configList: any[]) => {
     }else {
       if(config?.homeScreen?.homeDocument?.homeDocumentType === HOME_DOCUMENT_TYPE_DOCUMENT){
         return localizedStrings.DOCUMENT;
-      }else {
+      }else if(config?.homeScreen?.homeDocument?.homeDocumentType === HOME_DOCUMENT_TYPE_DOSSIER){
         return localizedStrings.DOSSIER;
+      }else{
+        return invalidModeConst;
       }
     }
   }
