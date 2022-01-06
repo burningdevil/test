@@ -214,8 +214,9 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     if (ids && ids.length > 1) {
       const projectId = ids[ids.length - 2];
       const dossierId = ids[ids.length - 1];
-    return {item,projectId,dossierId};
-  }
+      return {item,projectId,dossierId};
+    }
+    return {};
 }
 filterCandidate = (configList: any[]) => {
   return configList.filter((v: any) => v.homeScreen.mode === 1 && !v.homeScreen.homeDocument?.homeDocumentType)
