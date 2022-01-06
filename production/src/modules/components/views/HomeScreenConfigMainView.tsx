@@ -36,7 +36,7 @@ const appRootPath = 'app';
 const appRootPathWithConfig = 'app/config/';
 const customAppPath = 'CustomApp?id=';
 const configSaveSuccessPath = 'Message.homeConfigSaveSuccess';
-const invalidModeConst = localizedStrings.DOSSIER;
+const invalidDisplayModeConst = '--';
 let gridApi: GridApi;
 class HomeScreenConfigMainView extends React.Component<any, any> {
   columnDef: ColumnDef[] = [];
@@ -141,35 +141,37 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     }
 
   }
-  updateGridCell = (response: any, item: any) => {
+  updateGridCell = (response: any, item: any, dossierId: string) => {
     let data = response?.data ?? response;
     if(!data) return;
-    const isTypeDocument: boolean = !isContentTypeDossier(data.viewMedia);
-    let itemsToUpdate: any[] = [];
-    item.homeScreen.homeDocument.homeDocumentType = invalidModeConst;
-    item.mode = invalidModeConst;
-    if(!data.viewMedia){
-      return;
-    }
-    const update  = (label: string, prop: string) => {
-      item.mode = label;
+    const updateGrid = (targetId: string, label: string) => {
+      
       gridApi.forEachNodeAfterFilterAndSort(function(rowNode, index) {
         let data = rowNode.data;
-        if(data.id === item.id){
+        if(data.id === targetId){
           data.mode = label;
-          item.homeScreen.homeDocument.homeDocumentType = prop;
           itemsToUpdate.push(data);
           gridApi.updateRowData({update: itemsToUpdate})
         }
       });
     }
-    if(isTypeDocument){
-        update(localizedStrings.DOCUMENT, HOME_DOCUMENT_TYPE_DOCUMENT);
-    }else{
-        update(localizedStrings.DOSSIER, HOME_DOCUMENT_TYPE_DOSSIER);
+    let itemsToUpdate: any[] = [];
+    if(!data.viewMedia){
+      updateGrid(item.id, invalidDisplayModeConst);
+      return;
     }
+    const isTypeDocument: boolean = !isContentTypeDossier(data.viewMedia);
+    item.homeScreen.homeDocument.homeDocumentType = HOME_DOCUMENT_TYPE_DOSSIER;
+    item.mode = localizedStrings.DOSSIER;
+    if(isTypeDocument){
+      item.mode = localizedStrings.DOCUMENT;
+      item.homeScreen.homeDocument.homeDocumentType = HOME_DOCUMENT_TYPE_DOCUMENT;
+      updateGrid(item.id, localizedStrings.DOCUMENT);
+    }
+    
   }
   markGridCell = (response: any, item: any) => {
+    if(!response) return null;
     let data = response?.data ?? response;
     if (!_.has(data, VC.PLATFORM)) {
         _.assign(data, {platforms: [platformType.web]});
@@ -177,8 +179,18 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     if (!_.has(data, 'homeScreen.homeLibrary')) {
       data.homeScreen.homeLibrary = {icons:[], sidebars:[], contentBundleIds:[]}
     }
-    data.homeScreen.homeDocument.homeDocumentType = item.homeScreen.homeDocument.homeDocumentType === invalidModeConst ? invalidModeConst : item.homeScreen.homeDocument.homeDocumentType;
+    data.homeScreen.homeDocument.homeDocumentType = item.homeScreen.homeDocument.homeDocumentType;
     return data;
+  }
+  loadConfigObservable = (response: any, item: any): Observable<any> => {
+    if(!response?.data?.viewMedia && !response?.viewMedia){
+      return of(null);
+    }
+    return from(api.loadConfig(item.id)).pipe(catchError(err => of(null)),takeUntil(this.destroy$))
+  }
+  updateConfigObservable = (data: any, item: any): Observable<any> => {
+    if(!data) return of(null);
+    return from(api.updateConfig(item.id, data)).pipe(catchError(err => of(null)),takeUntil(this.destroy$))
   }
   handleUpdateData  = (dossierId: string, projectId: string, item: any):Observable<any> => {
     return from(api.getSingleDossierInfo(dossierId, projectId))
@@ -186,16 +198,16 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                     takeUntil(this.destroy$),
                     catchError( () => of(null)),
                     tap((response: any) => {
-                      this.updateGridCell(response, item);
+                      this.updateGridCell(response, item, dossierId);
                     }),
-                    switchMap((data: any) => {
-                      return from(api.loadConfig(item.id)).pipe(catchError(err => of(null)),takeUntil(this.destroy$))
+                    switchMap((response: any) => {
+                      return this.loadConfigObservable(response, item)
                     }),
                     map((response: any) => {
                       return this.markGridCell(response, item);
                     }),
                     switchMap((data: any) => {
-                      return from(api.updateConfig(item.id, data)).pipe(catchError(err => of(null)),takeUntil(this.destroy$))
+                      return this.updateConfigObservable(data, item)
                     })
               )
   }
@@ -417,10 +429,8 @@ filterCandidate = (configList: any[]) => {
     }else {
       if(config?.homeScreen?.homeDocument?.homeDocumentType === HOME_DOCUMENT_TYPE_DOCUMENT){
         return localizedStrings.DOCUMENT;
-      }else if(config?.homeScreen?.homeDocument?.homeDocumentType === HOME_DOCUMENT_TYPE_DOSSIER){
+      }else {
         return localizedStrings.DOSSIER;
-      }else{
-        return invalidModeConst;
       }
     }
   }
