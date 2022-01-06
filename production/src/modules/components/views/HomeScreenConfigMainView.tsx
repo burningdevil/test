@@ -141,7 +141,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     }
 
   }
-  updateGridCell = (response: any, item: any, dossierId: string) => {
+  updateGridCell = (response: any, item: any) => {
     let data = response?.data ?? response;
     if(!data) return;
     const updateGrid = (targetId: string, label: string) => {
@@ -198,7 +198,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                     takeUntil(this.destroy$),
                     catchError( () => of(null)),
                     tap((response: any) => {
-                      this.updateGridCell(response, item, dossierId);
+                      this.updateGridCell(response, item);
                     }),
                     switchMap((response: any) => {
                       return this.loadConfigObservable(response, item)
