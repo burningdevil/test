@@ -120,6 +120,7 @@ export default {
         documents: [],
         loadingDossiers: false,
         loadingDossiersFinish: false,
+        loadingDocumentsFinish: false
     }
 }
 
@@ -245,6 +246,8 @@ export const mockLibraryAsHome: RootState = {
       documents: [],
       loadingDossiers: false,
       loadingDossiersFinish: false,
+      loadingDocuments: false,
+      loadingDocumentsFinish: false
   }
 }
 
@@ -514,6 +517,8 @@ export const mockDossierAsHome: RootState = {
       documents: [],
       loadingDossiers: false,
       loadingDossiersFinish: false,
+      loadingDocuments: false,
+      loadingDocumentsFinish: false
   },
   content: {
     data: [],
@@ -878,5 +883,7 @@ export const mockDossierPicker: RootState = {
       ],
       loadingDossiers: false,
       loadingDossiersFinish: true,
+      loadingDocuments: false,
+      loadingDocumentsFinish: true
   }
 }

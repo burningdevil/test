@@ -89,6 +89,16 @@ export const selectLoadingDossiersFinish = createSelector(
   (bundleContentRoot) => bundleContentRoot.loadingDossiersFinish
 );
 
+export const selectIsLoadingDocuments = createSelector(
+  selectBundleContentRoot,
+  (bundleContentRoot) => bundleContentRoot.loadingDocuments
+);
+
+export const selectLoadingDocumentsFinish = createSelector(
+  selectBundleContentRoot,
+  (bundleContentRoot) => bundleContentRoot.loadingDocumentsFinish
+);
+
 // helper 
 export const selectIsDossierAsHome = createSelector(
   selectCurrentConfig,

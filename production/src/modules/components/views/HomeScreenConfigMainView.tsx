@@ -14,18 +14,21 @@ import { WorkstationModule, ObjectEditorSettings, EnvironmentChangeArg, WindowEv
 import { HttpProxy } from '../../../main';
 import { RestApiError } from '../../../server/RestApiError';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
-import { selectConfigList, selectContentBundleList, selectIsConfigLoading } from '../../../store/selectors/HomeScreenConfigEditorSelector';
+import { selectAllDocuments, selectAllDossiers, selectConfigList, selectContentBundleList, selectIsConfigLoading } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as api from '../../../services/Api';
 import * as _ from "lodash";
-import { getFeatureFlag, hexIntToColorStr } from './HomeScreenUtils';
+import { getFeatureFlag, hexIntToColorStr, isContentTypeDossier } from './HomeScreenUtils';
 import DisconnectedPage from './error-pages/DisconnectedPage';
 import ServerIncompatiblePage from './error-pages/ServerIncompatiblePage';
 import NoAccessPage from './error-pages/NoAccessPage';
-import { isLibraryServerVersionMatch, isIServerVersionMatch, isUserHasManageApplicationPrivilege, APPLICATIONS_FOLDER_ID, APPLICATIONS_FOLDER_TYPE } from '../../../utils';
+import { isLibraryServerVersionMatch, isIServerVersionMatch, isUserHasManageApplicationPrivilege, APPLICATIONS_FOLDER_ID, APPLICATIONS_FOLDER_TYPE, LIBRARY_SERVER_SUPPORT_DOC_TYPE_VERSION } from '../../../utils';
 import classNames from 'classnames';
 import { ConfirmationDialog, ConfirmationDialogWordings } from '../common-components/confirmation-dialog';
-import CONSTANTS, { default as VC, localizedStrings, platformType, APPLICATION_OBJECT_TYPE, APPLICATION_OBJECT_SUBTYPE, CONTENT_BUNDLE_FEATURE_FLAG } from '../HomeScreenConfigConstant';
-
+import CONSTANTS, { default as VC, localizedStrings, platformType, APPLICATION_OBJECT_TYPE, APPLICATION_OBJECT_SUBTYPE, CONTENT_BUNDLE_FEATURE_FLAG, HOME_DOCUMENT_TYPE_DOSSIER, HOME_DOCUMENT_TYPE_DOCUMENT } from '../HomeScreenConfigConstant';
+import { t } from '../../../i18n/i18next';
+import { store} from '../../../main';
+import { from, of, interval, ReplaySubject, Observable} from 'rxjs';
+import { tap, switchMap, zip, takeUntil, map, catchError} from 'rxjs/operators';
 
 declare var workstation: WorkstationModule;
 const classNamePrefix = 'home-screen-main';
@@ -33,15 +36,19 @@ const appRootPath = 'app';
 const appRootPathWithConfig = 'app/config/';
 const customAppPath = 'CustomApp?id=';
 const configSaveSuccessPath = 'Message.homeConfigSaveSuccess';
+const invalidDisplayModeConst = '--';
 let gridApi: GridApi;
 class HomeScreenConfigMainView extends React.Component<any, any> {
   columnDef: ColumnDef[] = [];
+  destroy$: ReplaySubject<boolean> = new ReplaySubject(1);
+  unsubscribe: any;
   constructor(props: any) {
     super(props)
     this.state = {
       currentEnv: {},
       isConnected: true,
       isLibraryVersionMatched: true,
+      isLibraryVersionSupportDocumentType: false,
       isIServerVersionMatched: true,
       isConfirmationDialogOpen: false,
       isMDVersionMatched: true,
@@ -56,7 +63,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
   async componentDidMount() {
     this.loadData();
     this.checkServerAndUserPrivilege();
-
+    this.checkHomeDcoumentModeRx();
     workstation.environments.onEnvironmentChange((change: EnvironmentChangeArg) => {
       console.log('enviornment change: ' + change.actionTaken);
       console.log('enviornment change: env name : ' + change.changedEnvironment.name);
@@ -75,11 +82,11 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
           isLibraryVersionMatched: true,
           isIServerVersionMatched: true,
           isMDVersionMatched: true,
-          isUserHasAccess: true
+          isUserHasAccess: true,
+          isLibraryVersionSupportDocumentType: false
         });
       }
     })
-
     workstation.window.addHandler(WindowEvent.POSTMESSAGE, (msg: any) => {
       if(_.get(msg, configSaveSuccessPath, '')){
         this.setState({
@@ -99,6 +106,8 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     });
   }
 
+
+
   checkServerAndUserPrivilege = async () => {
     const currentEnv = await workstation.environments.getCurrentEnvironment();
     const isConnected = currentEnv.status === EnvironmentStatus.Connected;
@@ -113,13 +122,16 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     if (isConnected) {
       const status: any = await api.getServerStatus();
       const isLibraryVersionMatched = !!status.webVersion && isLibraryServerVersionMatch(status.webVersion);
+      // check whether the library version is supported the homeDocumentType
+      const isLibraryVersionSupportDocumentType = !!status.webVersion && isLibraryServerVersionMatch(status.webVersion, LIBRARY_SERVER_SUPPORT_DOC_TYPE_VERSION)
       const isIServerVersionMatched = !!status.iServerVersion && isIServerVersionMatch(status.iServerVersion);
       const isUserHasAccess = isUserHasManageApplicationPrivilege(currentEnv.privileges);
       // Server version and User privilige
       this.setState({
         isLibraryVersionMatched: isLibraryVersionMatched,
         isIServerVersionMatched: isIServerVersionMatched,
-        isUserHasAccess: isUserHasAccess
+        isUserHasAccess: isUserHasAccess,
+        isLibraryVersionSupportDocumentType: isLibraryVersionSupportDocumentType
       });
       const isMDVersionMatched = await this.loadApplicationsFolder();
       // MD version
@@ -129,7 +141,123 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     }
 
   }
-
+  updateGridCell = (response: any, item: any) => {
+    let data = response?.data ?? response;
+    if(!data) return;
+    const updateGrid = (targetId: string, label: string) => {
+      gridApi.forEachNodeAfterFilterAndSort(function(rowNode, index) {
+        let data = rowNode.data;
+        if(data.id === targetId){
+          data.mode = label;
+          gridApi.updateRowData({update: [data]})
+        }
+      });
+    }
+    if(!data.viewMedia){
+      updateGrid(item.id, invalidDisplayModeConst);
+      return;
+    }
+    const isTypeDocument: boolean = !isContentTypeDossier(data.viewMedia);
+    item.homeScreen.homeDocument.homeDocumentType = HOME_DOCUMENT_TYPE_DOSSIER;
+    if(isTypeDocument){
+      item.homeScreen.homeDocument.homeDocumentType = HOME_DOCUMENT_TYPE_DOCUMENT;
+      updateGrid(item.id, localizedStrings.DOCUMENT);
+    }
+    
+  }
+  markGridCell = (response: any, item: any) => {
+    if(!response) return null;
+    let data = response?.data ?? response;
+    if (!_.has(data, VC.PLATFORM)) {
+        _.assign(data, {platforms: [platformType.web]});
+    }
+    if (!_.has(data, 'homeScreen.homeLibrary')) {
+      data.homeScreen.homeLibrary = {icons:[], sidebars:[], contentBundleIds:[]}
+    }
+    data.homeScreen.homeDocument.homeDocumentType = item.homeScreen.homeDocument.homeDocumentType;
+    return data;
+  }
+  loadConfigObservable = (response: any, item: any): Observable<any> => {
+    if(!response?.data?.viewMedia && !response?.viewMedia){
+      return of(null);
+    }
+    return from(api.loadConfig(item.id)).pipe(catchError(err => of(null)),takeUntil(this.destroy$))
+  }
+  updateConfigObservable = (data: any, item: any): Observable<any> => {
+    if(!data) return of(null);
+    return from(api.updateConfig(item.id, data)).pipe(catchError(err => of(null)),takeUntil(this.destroy$))
+  }
+  handleUpdateData  = (dossierId: string, projectId: string, item: any):Observable<any> => {
+    return from(api.getSingleDossierInfo(dossierId, projectId))
+              .pipe(
+                    takeUntil(this.destroy$),
+                    catchError( () => of(null)),
+                    tap((response: any) => {
+                      this.updateGridCell(response, item);
+                    }),
+                    switchMap((response: any) => {
+                      return this.loadConfigObservable(response, item)
+                    }),
+                    map((response: any) => {
+                      return this.markGridCell(response, item);
+                    }),
+                    switchMap((data: any) => {
+                      return this.updateConfigObservable(data, item)
+                    })
+              )
+  }
+  parseUrl = (item: any) => {
+    const dossierUrlPath = 'homeScreen.homeDocument.url';
+    const dossierUrl = _.get(item, dossierUrlPath, '');
+    const spliter = '/';
+    const ids = _.split(dossierUrl, spliter);
+    if (ids && ids.length > 1) {
+      const projectId = ids[ids.length - 2];
+      const dossierId = ids[ids.length - 1];
+      return {item,projectId,dossierId};
+    }
+    return {};
+}
+filterCandidate = (configList: any[]) => {
+  return configList.filter((v: any) => v.homeScreen.mode === 1 && !v.homeScreen.homeDocument?.homeDocumentType)
+}
+  checkHomeDcoumentModeRx = () => {
+    let currentValue: number;
+    const handleChange = () => {
+      if(!this.state.isLibraryVersionSupportDocumentType) return;
+      let previousValue = currentValue;
+      const configList = selectConfigList(store.getState() as RootState);
+      currentValue = configList.length;
+      // adding the length judgement to prevent from multi-times execute this function. Only the first time config loaded will subscribe the change.
+      if(!configList || currentValue === previousValue) return;
+      let candidateData = this.filterCandidate(configList);
+      if(!candidateData?.length) {
+        this.unsubscribe?.unsubscribe?.();
+        return 
+      };
+      from(candidateData)
+        .pipe(
+          zip(interval(2000), (a, b) => a),
+          takeUntil(this.destroy$),
+          map(item=> {
+            return this.parseUrl(item);
+          }),
+          switchMap((dossierInfo: any) => {
+            const {item,projectId,dossierId} = dossierInfo;
+            if(!dossierId) return of(null);
+            return this.handleUpdateData(dossierId, projectId, item)
+          })
+        )
+      .subscribe(()=> {})
+    }
+    this.unsubscribe = store.subscribe(handleChange);
+    window.addEventListener('click', ()=> {this.destroy$.next(true)});
+    
+  }
+  componentWillUnmount() {
+    this.unsubscribe?.unsubscribe?.();
+    this.destroy$.next(true);
+  }
   loadApplicationsFolder = async () => {
     let hasDefault = true;
     await HttpProxy.get('/objects/' + APPLICATIONS_FOLDER_ID + '?type=' + APPLICATIONS_FOLDER_TYPE).catch((e: any) => {
@@ -156,6 +284,9 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       isConfirmationDialogOpen: false
     })
   }
+  deleteConfirmationStr = (name: string) => {
+    return t("confirmDeleteDialogMsgTitle", {name});
+  }
   /* Confirmation dialog wordings */
   wordings: ConfirmationDialogWordings = {
     title: localizedStrings.DELETE,
@@ -163,7 +294,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       localizedStrings.DELETE,
     cancelButtonText: localizedStrings.CANCEL,
     summaryText:
-      localizedStrings.CONFIRM_DELETE_DIALOG_MSG_TITLE,
+    this.deleteConfirmationStr('application'),
     detailText:
       localizedStrings.CONFIRM_DELETE_DIALOG_MSG_DETAIL
   }
@@ -288,7 +419,17 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       </Dropdown>
     );
   };
-
+  getHomeMode = (config: any) => {
+    if(config?.homeScreen?.mode === 0){
+      return localizedStrings.LIBRARY;
+    }else {
+      if(config?.homeScreen?.homeDocument?.homeDocumentType === HOME_DOCUMENT_TYPE_DOCUMENT){
+        return localizedStrings.DOCUMENT;
+      }else {
+        return localizedStrings.DOSSIER;
+      }
+    }
+  }
   generateConfigDisplayList = () => {
     const THIS = this;
     const record: any = {};
@@ -313,8 +454,8 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         })
         _.assign(resultConfig, { contentBundles: arr });
       }
-
-      _.assign(resultConfig, {mode: resultConfig.homeScreen && resultConfig.homeScreen.mode === 1 ? localizedStrings.DOSSIER : localizedStrings.LIBRARY});
+      
+      _.assign(resultConfig, {mode: this.getHomeMode(resultConfig)});
 
       if (_.has(resultConfig, VC.DATE_MODIFIED)) {
         _.assign(resultConfig, {dateModified: _.split(resultConfig.dateModified, /[\T.]+/, 2).join(' ')});
@@ -433,10 +574,12 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       };
       const handleClickDelete = () => {
         // this.deleteConfig(contextMenuTarget.id);
+        this.wordings.summaryText = this.deleteConfirmationStr(contextMenuTarget.name);
         this.setState({
           isConfirmationDialogOpen: true,
           deleteApplicationsToBeConfirmed: [contextMenuTarget.id]
-        })
+        });
+        this.wordings.summaryText = this.deleteConfirmationStr(contextMenuTarget.name);
       };
       const handleClickDuplicate = () => {
         this.openConfigEditor(contextMenuTarget.id, true);
@@ -560,7 +703,9 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
 const mapState = (state: RootState) => ({
   configList: selectConfigList(state),
   configLoading: selectIsConfigLoading(state),
-  contentBundleList: selectContentBundleList(state)
+  contentBundleList: selectContentBundleList(state),
+  dossierList: selectAllDossiers(state),
+  documentList: selectAllDocuments(state)
 })
 
 const connector = connect(mapState, {

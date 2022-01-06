@@ -16,6 +16,7 @@ export const CONSTANTS = {
   VERSION: "version",
   SCHEMA_VERSION: "schemaVersion",
   IS_DEFAULT: "isDefault",
+  PROJECT_NAME: "projectName",
   //Home Screen
   MODE_USE_DEFAULT_HOME_SCREEN: 0,
   MODE_USE_DOSSIER_AS_HOME_SCREEN: 1,
@@ -187,6 +188,9 @@ export const EnumDSSXMLViewMedia = {
   DssXmlViewMediaHTML5Dashboard: 0x00002000
 };
 
+export const DossierViewMediaList = [1610612736, 1879048192];
+export const DocumentViewMediaList = [536870912, 402653184, 268435456, 134217728];
+
 export enum HomeScreenHomeObjectType {
   DOCUMENT = "Document",
   DOSSIER = "Dossier"
@@ -314,6 +318,7 @@ export const localizedStrings = {
   DATE_CREATED: t("dateCreated"),
   LIBRARY: t("library"),
   DOSSIER: t("dossier"),
+  DOCUMENT: t("document"),
   SELECT: t("select"),
   SELECT_CONTENT_BUNDLES: t("selectContentBundles"),
   SEARCH: t("search"),
@@ -375,7 +380,8 @@ export const localizedStrings = {
   ADD_CONTENT_BUNDLE_TIP_MSG: t("addContentBundleTipMsg"),
   DISABLE_NEW_DOSSIER_TOOLTIP: t("disableNewDossierTooltip"),
   DISABLE_EDIT_DOSSIER_TOOLTIP: t("disableEditDossierTooltip"),
-  DISABLE_NEW_DOSSIER_TOOLTIP_CONTENT: t("disableNewDossierTooltipContent")
+  DISABLE_NEW_DOSSIER_TOOLTIP_CONTENT: t("disableNewDossierTooltipContent"),
+  PROJECT_NAME: t("project"),
 };
 
 export const sectionTitle = {
@@ -788,4 +794,7 @@ export default CONSTANTS;
 export const CONTENT_BUNDLE_FEATURE_FLAG = 'use-contentbundle';
 export const CONTENT_BUNDLE_DEFAULT_GROUP_NAME = 'Default Groups';
 export const SPECIAL_CHARACTER_REGEX = /[\\\[\]\"]/;
+export const EXTRA_ATTR_VIEW_TYPE = 'viewMedia';
+export const HOME_DOCUMENT_TYPE_DOSSIER = 'dossier';
+export const HOME_DOCUMENT_TYPE_DOCUMENT = 'document';
 
