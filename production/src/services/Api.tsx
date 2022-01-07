@@ -149,10 +149,13 @@ export const loadBatchDossierDocuments = (offset: number, limit: number, isDocum
           data = response.data;
           totalCount = response.data.totalItems;
         }
+        let dossiers = data.result.filter((o: { viewMedia: number; }) => {return isContentTypeDossier(o.viewMedia)});
+        let documents = data.result.filter((o: { viewMedia: number; }) => {return !isContentTypeDossier(o.viewMedia)});
+
         if(isDocument){
-            store.dispatch(ActionsCreator.appendContentDocuments(data.result));
+            store.dispatch(ActionsCreator.appendContentDocuments(documents));
         }else {
-            store.dispatch(ActionsCreator.appendContentDossiers(data.result));
+            store.dispatch(ActionsCreator.appendContentDossiers(dossiers));
         }
         if(totalCount <= offset + limit) {
             if(!isDocument){
@@ -160,12 +163,11 @@ export const loadBatchDossierDocuments = (offset: number, limit: number, isDocum
             }else {
                 store.dispatch(ActionsCreator.finishLoadingDocumentListSuccess());
             }
-            
         }
-        if(isDocument){
-            return {documents: data.result, dossiers: [], totalCount};
-        }else {
-            return {documents: [], dossiers: data.result, totalCount} as any
+        return {
+            documents,
+            dossiers,
+            totalCount
         }
     })
     .catch((e: any) => {
