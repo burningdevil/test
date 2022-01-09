@@ -11,7 +11,7 @@ import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { selectCurrentConfig, selectCurrentConfigContentBundleIds, selectIsDossierAsHome, selectSelectedDocumentIcons, selectSelectedLibraryIcons } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import HomeScreenPreviewer from './HomeScreenPreviewer';
-import { default as VC, localizedStrings, previewerWidth, iconValidKey, CONTENT_BUNDLE_FEATURE_FLAG } from '../HomeScreenConfigConstant';
+import { default as VC, localizedStrings, previewerWidth, iconValidKey, CONTENT_BUNDLE_FEATURE_FLAG, HOME_DOCUMENT_TYPE_DOSSIER, HOME_DOCUMENT_TYPE_DOCUMENT } from '../HomeScreenConfigConstant';
 import * as api from '../../../services/Api';
 // @ts-ignore: RC Component Support error
 import selectedDossierIcon from '../images/icon_select_dossier.png';
@@ -68,6 +68,15 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
               dossierName: data.name,
               isDossier: isTypeDossier
           });
+          if(!homeScreen.homeDocument.homeDocumentType){
+            this.props.updateCurrentConfig({
+              homeScreen: {
+                homeDocument: {
+                  homeDocumentType: isTypeDossier ? HOME_DOCUMENT_TYPE_DOSSIER : HOME_DOCUMENT_TYPE_DOCUMENT
+                }
+              }
+            });
+          }
         }
     }
   }
@@ -230,7 +239,9 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
     this.props.updateCurrentConfig({
       homeScreen: {
         homeDocument: {
-          url: relativePath + dossierUrl
+          url: relativePath + dossierUrl,
+          homeDocumentType: isDossier ? HOME_DOCUMENT_TYPE_DOSSIER : HOME_DOCUMENT_TYPE_DOCUMENT
+
         }
       }
     });

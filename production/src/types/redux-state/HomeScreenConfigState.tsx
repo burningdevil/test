@@ -21,6 +21,8 @@ export interface HomeScreenBundleContentState {
     documents: Array<HomeScreenBundleContentListItem>
     loadingDossiers: boolean,
     loadingDossiersFinish: boolean,
+    loadingDocuments: boolean,
+    loadingDocumentsFinish: boolean
 }
 export interface HomeScreenEditorContentBundleState {
     data: Array<HomeScreenBundleContentListItem>

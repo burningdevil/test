@@ -70,9 +70,9 @@
     "content": "Content",
     "recipients": "Recipients",
     "addContent": "Add Content",
-    "addContentBundlesBtn": "Add Content Bundles Button",
+    "addContentBundlesBtn": "Add Content Groups Button",
     "addContentBundles": "Add content to your application",
-    "selectContentBundles": "Select content bundles",
+    "selectContentBundles": "Select content groups",
     "defaultGroupsSectionTitle": "Default Groups Section Title",
     "tipOfDefaultGroups": "Where it appears in Library",
 
@@ -139,6 +139,7 @@
     "errCopyLink": "Copy application link to clipboard fail: ",
     "library": "Library",
     "dossier": "Dossier",
+    "document": "Document",
     "removeBundle": "Remove",
 
     "blankAppNameError": "This field cannot be blank.",
@@ -160,7 +161,7 @@
     "serverVersionErrorTitleMsg": "You need a newer environment version to use this feature.",
     "serverVersionErrorDetailMsg": "You are connecting to an older version of Library Server, some features may not work as expected.",
     "iServerVersionErrorDetailMsg": "You are connecting to an older version of Intelligence Server, some features may not work as expected.",
-    "confirmDeleteDialogMsgTitle": "Are you sure you want to delete this application?",
+    "confirmDeleteDialogMsgTitle": "Are you sure you want to delete {{name}}?",
     "confirmDeleteDialogMsgDetail": "All application settings will be lost. This cannot be undone.",
     "confirmCancelDialogMsgTitle": "Are you sure you want to cancel?",
     "confirmCancelDialogMsgDetail": "All changes will be lost. This cannot be undone.",
@@ -180,6 +181,7 @@
     "hyperIconText": "HyperIntelligence (Desktop Only)",
     "fontIconText": "Font Size in Grid (iOS Only)",
     "undoRedo": "Undo (Web and Desktop)",
-    "closeWindowConfirmationStr": "Do you want to save the changes you made to {{name}}?"
+    "closeWindowConfirmationStr": "Do you want to save the changes you made to {{name}}?",
+    "project": "Project"
 
 }

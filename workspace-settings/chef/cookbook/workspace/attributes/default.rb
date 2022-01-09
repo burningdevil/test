@@ -11,7 +11,7 @@ default[:workspace][:nodejs][:package] = value_for_platform_family(
 default[:workspace][:nodejs][:version] = '10.15.0'
 default[:workspace][:nodejs][:packages] = {
   'yarn' => '1.12.3',
-  'appium' => '1.10.0'
+  'appium' => '1.22.0'
 }
 
 default[:workspace][:nexus_url] = 'https://nexus.internal.microstrategy.com:8443/repositories'

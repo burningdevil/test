@@ -14,16 +14,21 @@ import {
 } from 'ag-grid-community';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { connect } from 'react-redux';
-import { selectAllDossiers, selectAllDocuments, selectIsLoadingDossiers, selectLoadingDossiersFinish } from '../../../store/selectors/HomeScreenConfigEditorSelector';
+import { selectAllDossiers, selectAllDocuments, selectIsLoadingDossiers, selectLoadingDossiersFinish, selectIsLoadingDocuments, selectLoadingDocumentsFinish } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import { default as VC, localizedStrings, HomeScreenHomeObjectType, contentPickerSize } from '../HomeScreenConfigConstant'
 import * as api from '../../../services/Api'
 import { store } from '../../../main'
 import ContentBundleList from './ContentBundleList';
+import * as Actions from '../../../store/actions/ActionsCreator';
+import { WorkstationModule } from '@mstr/workstation-types';
 
+declare var workstation: WorkstationModule;
 const classNamePrefix = 'content-bundle-content-picker';
 const rowSelectionType = 'single';
 let gridApi: GridApi;
 let currentOffset = 0;
+let projectIds: string[] = [];
+let projectMap: any = {};
 // let activeTab = 'Dossier';
 // let searchNameFilter = '';
 
@@ -64,83 +69,69 @@ class ContentBundleContentPicker extends React.Component<any, any> {
           let limit: number = 1000;
           let dossiers = selectAllDossiers(store.getState() as RootState);
           let documents = selectAllDocuments(store.getState() as RootState);
-          let loadFinished = selectLoadingDossiersFinish(store.getState() as RootState);
+          let loadFinished = isDossier ? selectLoadingDossiersFinish(store.getState() as RootState) : selectLoadingDocumentsFinish(store.getState() as RootState);
 
           var startRow = params.request.startRow;
           var endRow = params.request.endRow;
+          const transformData = (results: any[], isDossier: boolean) => {
+            return results.map((content: any) => {
+              return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier, projectName: projectMap[content.projectId] ?? '--'});//certifiedWithIcon: this.geCertifiedIcon(content.certifiedInfo.certified), nameWithIcon: this.getContentIconWithName(content.name, activeTab)});
+            });
+          }
           if (params.request.sortModel && params.request.sortModel.length > 0) {
             const { sort, colId } = params.request.sortModel[0];
             if (loadFinished) {
                 lastRow = isDossier ? dossiers.length : documents.length;
                 results = isDossier ? _.orderBy(dossiers, [colId], [sort]): _.orderBy(documents, [colId], [sort]);
                 results = _.slice(results, startRow, lastRow);
-                results = results.map((content: any) => {
-                  return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});//certifiedWithIcon: this.geCertifiedIcon(content.certifiedInfo.certified), nameWithIcon: this.getContentIconWithName(content.name, activeTab)});
-                });
-                params.successCallback(results, lastRow);
+                
+                params.successCallback(transformData(results, isDossier), lastRow);
             } else {
-              api.loadBatchDossierDocuments(dossiers.length + documents.length, -1).then((response: {dossiers: any, documents: any, totalCount: any}) => {
+              api.loadBatchDossierDocuments(dossiers.length + documents.length, -1, !isDossier, projectIds).then((response: {dossiers: any, documents: any, totalCount: any}) => {
                 dossiers = dossiers.concat(response.dossiers);
                 documents = documents.concat(response.documents);
                 lastRow = isDossier ? dossiers.length : documents.length;
                 results = isDossier ? _.orderBy(dossiers, [colId], [sort]): _.orderBy(documents, [colId], [sort]);
                 results = _.slice(results, startRow, lastRow);
-                results = results.map((content: any) => {
-                  return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});//certifiedWithIcon: this.geCertifiedIcon(content.certifiedInfo.certified), nameWithIcon: this.getContentIconWithName(content.name, activeTab)});
-                });
-                params.successCallback(results, lastRow);
+                params.successCallback(transformData(results, isDossier), lastRow);
               });
             }
           } else {
           if(this.state.searchNameFilter !== '') {
-            api.loadSearchedDossierDocuments(this.state.searchNameFilter).then((response: {dossiers: any, documents: any, totalCount: any}) => {
+            api.loadSearchedDossierDocuments(this.state.searchNameFilter, !isDossier, projectIds).then((response: {dossiers: any, documents: any, totalCount: any}) => {
               lastRow = isDossier ? response.dossiers.length : response.documents.length;
               results = isDossier ? _.slice(response.dossiers, startRow, lastRow) : _.slice(response.documents, startRow, lastRow);
-              results = results.map((content: any) => {
-                return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});//certifiedWithIcon: this.geCertifiedIcon(content.certifiedInfo.certified), nameWithIcon: this.getContentIconWithName(content.name, activeTab)});
-              });
-              params.successCallback(results, lastRow);
+              params.successCallback(transformData(results, isDossier), lastRow);
             });
           } else {
             if (loadFinished) {
               lastRow = isDossier ? dossiers.length : documents.length;
               results = isDossier ? _.slice(dossiers, startRow, lastRow) : _.slice(documents, startRow, lastRow);
-              results = results.map((content: any) => {
-                return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});//certifiedWithIcon: this.geCertifiedIcon(content.certifiedInfo.certified), nameWithIcon: this.getContentIconWithName(content.name, activeTab)});
-              });
-              params.successCallback(results, lastRow);
+              params.successCallback(transformData(results, isDossier), lastRow);
             } else {
               var currentLength = isDossier ? dossiers.length : documents.length;
               if (endRow < currentLength) {
                 results = isDossier ? _.slice(dossiers, startRow, endRow) : _.slice(documents, startRow, endRow);
-                results = results.map((content: any) => {
-                  return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});//certifiedWithIcon: this.geCertifiedIcon(content.certifiedInfo.certified), nameWithIcon: this.getContentIconWithName(content.name, activeTab)});
-                });
-                params.successCallback(results, lastRow);
+                params.successCallback(transformData(results, isDossier), lastRow);
               } else {
                 var expectedCount = endRow - currentLength;
                 (function loop(count) {
                   if (count > 0) {
-                    api.loadBatchDossierDocuments(currentOffset, limit).then((response: {dossiers: any, documents: any, totalCount: any}) => {
+                    api.loadBatchDossierDocuments(currentOffset, limit, !isDossier, projectIds).then((response: {dossiers: any, documents: any, totalCount: any}) => {
                       dossiers = dossiers.concat(response.dossiers);
                       documents = documents.concat(response.documents);
                       if(response.totalCount <= currentOffset + limit) {// load finished
                         lastRow = isDossier ? dossiers.length : documents.length;
                         results = isDossier ? _.slice(dossiers, startRow, lastRow) : _.slice(documents, startRow, lastRow);
-                        results = results.map((content: any) => {
-                          return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});//certifiedWithIcon: this.geCertifiedIcon(content.certifiedInfo.certified), nameWithIcon: this.getContentIconWithName(content.name, activeTab)});
-                        });
-                        params.successCallback(results, lastRow);
+                        params.successCallback(transformData(results, isDossier), lastRow);
                       } else {
                         var loaded = isDossier ? response.dossiers.length : response.documents.length;
                         currentOffset = currentOffset + limit;
                         expectedCount = expectedCount - loaded;
                         if (loaded > expectedCount) {// loaded
                           results = isDossier ? _.slice(dossiers, startRow, endRow) : _.slice(documents, startRow, endRow);
-                          results = results.map((content: any) => {
-                            return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});//certifiedWithIcon: this.geCertifiedIcon(content.certifiedInfo.certified), nameWithIcon: this.getContentIconWithName(content.name, activeTab)});
-                          });
-                          params.successCallback(results, lastRow);
+                          
+                          params.successCallback(transformData(results, isDossier), lastRow);
                         } else {// need to continue load
                           loop(expectedCount);
                         }
@@ -155,11 +146,15 @@ class ContentBundleContentPicker extends React.Component<any, any> {
        }
     }
   }
-  componentDidMount() {
-    // api.loadAllDossierDocuments();
+  async componentDidMount() {
+    const currentEnv = await workstation.environments.getCurrentEnvironment();
+    projectIds = currentEnv.projects.map(v => v.id);
+    currentEnv.projects.forEach(project => {
+      projectMap[project.id] = project.name;
+    })
   }
 
-  onGridReady = (params: GridReadyEvent) => {
+  onGridReady = async (params: GridReadyEvent) => {
     gridApi = params.api;
     this.updateData();
 
@@ -230,7 +225,6 @@ class ContentBundleContentPicker extends React.Component<any, any> {
   };
 
   onSelectionChanged = (event: SelectionChangedEvent) => {
-    console.log(event.api.getSelectedNodes());
     var selections = event.api.getSelectedNodes();
     selections = selections.map(o=>o.data);
     if (selections && selections.length > 0) {
@@ -261,6 +255,10 @@ class ContentBundleContentPicker extends React.Component<any, any> {
     }).map((content: any) => {
       return _.assign(content, {dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0], dateModifiedShort: _.split(content.dateModified, 'T', 1)[0], key: content.id, ownerName: content.owner.name, certified: content.certifiedInfo.certified, isDossier: isDossier});
     });
+  }
+  judgeLoading() {
+
+    return this.state.activeTab === 'Dossier' ? this.props.loadingDossierData : this.props.loadingDocumentData
   }
   render() {
     return (
@@ -335,6 +333,8 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                                       </>
                               }
                             }},
+                            {field: VC.PROJECT_NAME, sortable: false, headerName: localizedStrings.PROJECT_NAME, width: 120
+                            },
                             {field: VC.CERTIFIED, sortable: false, headerName: localizedStrings.CERTIFIED, width: 90, cellRendererFramework: (params: any) => {
                               const data = params.data;
                               if (data.certified) {
@@ -347,7 +347,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                             {field: VC.DATE_CREATED_SHORT, sortable: false, width: 116, headerName: localizedStrings.DATE_CREATED},
                             {field: VC.DATE_MODIFIED_SHORT, sortable: false, width: 116, headerName: localizedStrings.DATE_MODIFIED}
                         ]}
-                        isLoading={this.props.loadingData}
+                        isLoading={this.judgeLoading()}
                         defaultColDef={{
                           resizable: true
                         }}
@@ -372,11 +372,15 @@ class ContentBundleContentPicker extends React.Component<any, any> {
 const mapState = (state: RootState) => ({
   dossiers: selectAllDossiers(state),
   documents: selectAllDocuments(state),
-  loadingData: selectIsLoadingDossiers(state),
-  loadFinished: selectLoadingDossiersFinish(state)
+  loadingDossierData: selectIsLoadingDossiers(state),
+  loadDossierFinished: selectLoadingDossiersFinish(state),
+  loadingDocumentData: selectIsLoadingDocuments(state),
+  loadDocumentFinished: selectLoadingDocumentsFinish(state)
 })
 
 const connector = connect(mapState, {
+  restartDossierLoading: Actions.startLoadingDossierList,
+  restartDocumentLoading: Actions.startLoadingDocumentList
 })
 
 export default connector(ContentBundleContentPicker)
