@@ -1,9 +1,9 @@
-import * as React from "react";
-import "../scss/ContentBundleContentPicker.scss";
-import { SearchInput } from "@mstr/rc";
-import { Modal, Button, Menu } from "antd";
-import * as _ from "lodash";
-import { ReactWsGrid } from "@mstr/react-ws-grid";
+import * as React from 'react';
+import '../scss/ContentBundleContentPicker.scss';
+import { SearchInput } from '@mstr/rc';
+import { Modal, Button, Menu } from 'antd';
+import * as _ from 'lodash';
+import { ReactWsGrid } from '@mstr/react-ws-grid';
 import {
   SelectionChangedEvent,
   GridReadyEvent,
@@ -11,9 +11,9 @@ import {
   SortChangedEvent,
   IServerSideGetRowsParams,
   ServerSideStoreType,
-} from "ag-grid-community";
-import { RootState } from "../../../types/redux-state/HomeScreenConfigState";
-import { connect } from "react-redux";
+} from 'ag-grid-community';
+import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
+import { connect } from 'react-redux';
 import {
   selectAllDossiers,
   selectAllDocuments,
@@ -21,26 +21,26 @@ import {
   selectLoadingDossiersFinish,
   selectIsLoadingDocuments,
   selectLoadingDocumentsFinish,
-} from "../../../store/selectors/HomeScreenConfigEditorSelector";
+} from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import {
   default as VC,
   localizedStrings,
   HomeScreenHomeObjectType,
   contentPickerSize,
-} from "../HomeScreenConfigConstant";
-import * as api from "../../../services/Api";
-import { store } from "../../../main";
-import ContentBundleList from "./ContentBundleList";
-import * as Actions from "../../../store/actions/ActionsCreator";
-import { WorkstationModule } from "@mstr/workstation-types";
+} from '../HomeScreenConfigConstant';
+import * as api from '../../../services/Api';
+import { store } from '../../../main';
+import ContentBundleList from './ContentBundleList';
+import * as Actions from '../../../store/actions/ActionsCreator';
+import { WorkstationModule } from '@mstr/workstation-types';
 import {
   isLibraryServerVersionMatch,
   LIBRARY_SERVER_SUPPORT_DOC_TYPE_VERSION,
-} from "../../../utils";
+} from '../../../utils';
 
 declare var workstation: WorkstationModule;
-const classNamePrefix = "content-bundle-content-picker";
-const rowSelectionType = "single";
+const classNamePrefix = 'content-bundle-content-picker';
+const rowSelectionType = 'single';
 let gridApi: GridApi;
 const offset = {
   dossier: 0,
@@ -58,13 +58,13 @@ class ContentBundleContentPicker extends React.Component<any, any> {
     this.state = {
       activeTab: HomeScreenHomeObjectType.DOSSIER,
       selectedObject: {},
-      searchNameFilter: "",
+      searchNameFilter: '',
     };
   }
   bundleContentPickerDataSource(server: any) {
     return {
       getRows: function (params: IServerSideGetRowsParams) {
-        console.log("[Datasource] - rows requested by grid: ", params.request);
+        console.log('[Datasource] - rows requested by grid: ', params.request);
         var response = server.getData(params);
         setTimeout(function () {
           if (response?.success) {
@@ -83,7 +83,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
   bundleContentPickerServer() {
     return {
       getData: (params: IServerSideGetRowsParams) => {
-        const isDossier = this.state.activeTab === "Dossier";
+        const isDossier = this.state.activeTab === 'Dossier';
         let results: any[] = [];
         let lastRow: number = -1;
         let limit: number = 1000;
@@ -98,13 +98,13 @@ class ContentBundleContentPicker extends React.Component<any, any> {
         const transformData = (results: any[], isDossier: boolean) => {
           return results.map((content: any) => {
             return _.assign(content, {
-              dateCreatedShort: _.split(content.dateCreated, "T", 1)[0],
-              dateModifiedShort: _.split(content.dateModified, "T", 1)[0],
+              dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0],
+              dateModifiedShort: _.split(content.dateModified, 'T', 1)[0],
               key: content.id,
               ownerName: content.owner.name,
               certified: content.certifiedInfo.certified,
               isDossier: isDossier,
-              projectName: projectMap[content.projectId] ?? "--",
+              projectName: projectMap[content.projectId] ?? '--',
             }); //certifiedWithIcon: this.geCertifiedIcon(content.certifiedInfo.certified), nameWithIcon: this.getContentIconWithName(content.name, activeTab)});
           });
         };
@@ -136,7 +136,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
             );
         };
         // currently not support the ssrm sort, so remove the unused code.
-        if (this.state.searchNameFilter !== "") {
+        if (this.state.searchNameFilter !== '') {
           searchData();
           return;
         }
@@ -147,16 +147,16 @@ class ContentBundleContentPicker extends React.Component<any, any> {
           2. the new version supports the viewMedia type
              configure independent offset / totalCount
           */
-         const saveOffset  = () => {
-            if (isDossier) {
-              offset.dossier = currentOffset;
-            } else {
-              offset.document = currentOffset;
-            }
-            if(!isSupportViewMediaType){
-              offset.document = offset.dossier = currentOffset;
-            }
-         }
+        const saveOffset = () => {
+          if (isDossier) {
+            offset.dossier = currentOffset;
+          } else {
+            offset.document = currentOffset;
+          }
+          if (!isSupportViewMediaType) {
+            offset.document = offset.dossier = currentOffset;
+          }
+        };
         const loopFetchData = (count: number) => {
           if (count <= 0) return;
           api
@@ -278,7 +278,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
     this.props.handleClose();
     this.handleSelectionChanged({});
     this.setState({
-      searchNameFilter: "",
+      searchNameFilter: '',
     });
   };
 
@@ -294,11 +294,11 @@ class ContentBundleContentPicker extends React.Component<any, any> {
   handleSaveAdd = () => {
     const { id, projectId, name } = this.state.selectedObject;
     const isDossier = this.state.activeTab === HomeScreenHomeObjectType.DOSSIER;
-    this.props.handleChange(name, projectId + "/" + id, isDossier);
+    this.props.handleChange(name, projectId + '/' + id, isDossier);
     this.props.handleClose();
     this.handleSelectionChanged({});
     this.setState({
-      searchNameFilter: "",
+      searchNameFilter: '',
     });
   };
 
@@ -309,7 +309,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
           {localizedStrings.CANCEL}
         </Button>
         <Button
-          type="primary"
+          type='primary'
           style={{ marginLeft: 10, paddingTop: 0 }}
           onClick={this.handleSaveAdd}
           disabled={_.isEmpty(this.state.selectedObject)}
@@ -356,8 +356,8 @@ class ContentBundleContentPicker extends React.Component<any, any> {
       })
       .map((content: any) => {
         return _.assign(content, {
-          dateCreatedShort: _.split(content.dateCreated, "T", 1)[0],
-          dateModifiedShort: _.split(content.dateModified, "T", 1)[0],
+          dateCreatedShort: _.split(content.dateCreated, 'T', 1)[0],
+          dateModifiedShort: _.split(content.dateModified, 'T', 1)[0],
           key: content.id,
           ownerName: content.owner.name,
           certified: content.certifiedInfo.certified,
@@ -366,7 +366,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
       });
   };
   judgeLoading() {
-    return this.state.activeTab === "Dossier"
+    return this.state.activeTab === 'Dossier'
       ? this.props.loadingDossierData
       : this.props.loadingDocumentData;
   }
@@ -392,7 +392,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
               onChange={(e: string) => this.handleSearch(e)}
               value={this.state.searchNameFilter}
               onClear={() => {
-                this.handleSearch("");
+                this.handleSearch('');
               }}
             />
           </div>
@@ -402,8 +402,8 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                 <Menu
                   className={`${classNamePrefix}-grid-menu`}
                   defaultSelectedKeys={[this.state.activeTab]}
-                  mode="inline"
-                  theme={"dark"}
+                  mode='inline'
+                  theme={'dark'}
                 >
                   <Menu.Item
                     tabIndex={0}
@@ -432,10 +432,10 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                 </Menu>
               </div>
               <div className={`${classNamePrefix}-grid-right`}>
-                <div style={{ width: "100%", height: "100%" }}>
+                <div style={{ width: '100%', height: '100%' }}>
                   <div
-                    id="contentPickerGrid"
-                    style={{ height: "100%", width: "100%" }}
+                    id='contentPickerGrid'
+                    style={{ height: '100%', width: '100%' }}
                   >
                     <ReactWsGrid
                       rowMultiSelectWithClick={true}
@@ -443,8 +443,8 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                       onSortChanged={this.onSortChanged}
                       // @ts-ignore: RC Component Support error
                       rowSelection={rowSelectionType}
-                      rowModelType="serverSide"
-                      serverSideStoreType={"partial" as ServerSideStoreType}
+                      rowModelType='serverSide'
+                      serverSideStoreType={'partial' as ServerSideStoreType}
                       getRowHeight={this.getRowHeight}
                       columnDefs={[
                         {
@@ -500,11 +500,11 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                               return (
                                 <span
                                   className={VC.FONT_CERTIFIED}
-                                  style={{ color: "#f08033", fontSize: "14px" }}
+                                  style={{ color: '#f08033', fontSize: '14px' }}
                                 />
                               );
                             } else {
-                              return "";
+                              return '';
                             }
                           },
                         },
