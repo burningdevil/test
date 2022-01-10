@@ -34,5 +34,23 @@ Given('configure workstation engine test environment', async function () {
   await workstationApp.sleep(2000)
   await browser.sleep(5000)
 
+  if (OSType === 'mac') {
+    console.log('[INFO] Click to collapse ANALYSIS tab.')
+    await mainWindow.smartTab.selectTab('ANALYSIS')
+    await workstationApp.sleep(1000)
+    try {
+      const projectsTab = await mainWindow.smartTab.getTab('Projects')
+      console.log('[INFO] Click to collapse ANALYSIS tab again.')
+      await mainWindow.smartTab.selectTab('ANALYSIS')
+    } catch (e) {
+      console.log('[INFO] ANALYSIS tab collapsed.')
+    }
+
+  } else {
+    await mainWindow.smartTab.scrollOnSmartTab('down')
+    await mainWindow.app.sleep(500)
+    await mainWindow.smartTab.scrollOnSmartTab('down')
+    await mainWindow.app.sleep(500)
+  }
 
 })
