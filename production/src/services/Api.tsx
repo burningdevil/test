@@ -199,3 +199,7 @@ export const loadAllDossierDocuments = () => {
         store.dispatch(ActionsCreator.finishLoadingDossierListFail());
     });
 }
+export const loadAllProjects = async () => {
+    const response = await HttpProxy.get('/projects');
+    return response;
+}

@@ -6,7 +6,7 @@ const fs = require('fs')
 const path = require('path')
 const cmd = process.argv[2]
 let build
-let release = '21.11'
+let release = '22.03 (11.3.5)'
 let note = ''
 
 function sleep(ms) {
@@ -14,8 +14,8 @@ function sleep(ms) {
 }
 
 const helpMsg = 'Cannot accept the parameters. Usage: \n\n' +
-    'node rally/updateE2EResultsToRally.js -c <build#> <build url>\n' +
-    'e.g. node rally/updateE2EResultsToRally.js -c 11.2.0000.0073 http://jenkins.com'
+  'node rally/updateE2EResultsToRally.js -c <build#> <build url>\n' +
+  'e.g. node rally/updateE2EResultsToRally.js -c 11.2.0000.0073 http://jenkins.com'
 
 if (cmd === '-c' && process.argv[3]) {
   console.log(`release: ${release}`)

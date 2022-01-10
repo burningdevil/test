@@ -26,7 +26,7 @@ designed to execute all acceptance tests'
     end
   end
 
-  assigned_node_string 'mac_hq_devops_3'
+  assigned_node_string 'macpro1_devops_vm8'
 
   builders do
     bash do

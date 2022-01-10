@@ -196,14 +196,17 @@ task :acceptance_test_mac do
   shell_command! "defaults write com.microstrategy.Workstation IsCEFPluginMode -boolean YES"
   shell_command! "defaults write com.microstrategy.Workstation CefRemoteDebuggingPort -integer #{@cef_remote_debug_port}"
   shell_command! "defaults read com.microstrategy.Workstation"
-  
+
   begin
     info "====== Executing tests ======"
     app_path = "\'MicroStrategy Workstation\'"
     shell_command! "yarn install --frozen-lockfile", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
-    shell_command! "node #{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance/trigger_test.js #{app_path} \'https://#{library_service_fqdn}/MicroStrategyLibrary/\' \'@PREMERGE\' #{@cef_remote_debug_port}", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
+    shell_command! "node #{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance/trigger_test.js #{app_path} \'https://#{library_service_fqdn}/MicroStrategyLibrary/\' \'@Regression\' #{@cef_remote_debug_port} \'#{ENV['APPLICATION_VERSION']}\'", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
   ensure
     stop_workstation_app_mac
     Helm.delete_release(workstation_setting_release_name)
+    info "update rally test results"
+    shell_command! "node rally/updateE2EResultsToClientAutoData.js -c \"#{ENV['APPLICATION_VERSION']}\" \"#{ENV['BUILD_URL']}\"", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
+    shell_command! "node rally/updateE2EResultsToRally.js -c \"#{ENV['APPLICATION_VERSION']}\" \"#{ENV['BUILD_URL']}\"", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
   end
 end

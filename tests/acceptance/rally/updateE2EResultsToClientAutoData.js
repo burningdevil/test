@@ -105,7 +105,7 @@ async function sendSlackMessage(resultData) {
           "type": "section",
           "text": {
             "type": "mrkdwn",
-            "text": "<https://aqueduct.microstrategy.com/MicroStrategyLibrary/app/0730F68F4B8B4B52AA23F0AAB46F3CA8/1774168AB7405F718A6EF88CDF15FCD4/bookmarks?ids=025DCCC9A34A81CBAE92239D4070A805|View details on dossier>"
+            "text": "<https://aqueduct.microstrategy.com/MicroStrategyLibrary/app/0730F68F4B8B4B52AA23F0AAB46F3CA8/FE3ADDA23C4F3DC67C7C7892C0346CCF/bookmarks?ids=7FE6708F264CE96909FAE4BDC0118B2C|View details on dossier>"
           }
         }
       ]
@@ -188,7 +188,7 @@ async function e2eResultsParserForDumpClientData({ file, resultMap }) {
 }
 
 const resultMap = {
-  testSuitName: 'Workstation Custom App Tests',
+  testSuitName: 'Workstation Custom App End to End Tests on ' + ostype,
   buildNumber: build,
   owner: 'Li,Meng',
   product: 'Workstation',
