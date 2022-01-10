@@ -53,7 +53,7 @@ task :do_test_when_test_file_changed do |t,args|
       end
     end
   end
-  if if_changed_files_in_document then 
+  if if_changed_files_in_document then
     info "====== no changed file in test document ======"
   end
 end
@@ -120,7 +120,7 @@ task :install_workstation_windows do |t,args|
     setting_node << value_node
 
     # remove setting with name 'Preferences'
-    for temp_node in root_node.search('setting') do 
+    for temp_node in root_node.search('setting') do
       if temp_node.keys.include?('name') && temp_node['name'] == 'Preferences' then
         info "remove origin Preferences"
         temp_node.remove()
@@ -206,8 +206,8 @@ task :acceptance_test_win do |t,args|
     close_apps
     Helm.delete_release(workstation_setting_release_name)
     info "update rally test results"
-    shell_command! "node  rally/updateE2EResultsToClientAutoData.js -c \"#{ENV['APPLICATION_VERSION']}\" \"#{ENV['BUILD_URL']}\"", cwd: "I:/tests/acceptance"
-    shell_command! "node  rally/updateE2EResultsToRally.js -c \"#{ENV['APPLICATION_VERSION']}\" \"#{ENV['BUILD_URL']}\"", cwd: "I:/tests/acceptance"
+    shell_command! "node rally/updateE2EResultsToClientAutoData.js -c \"#{ENV['APPLICATION_VERSION']}\" \"#{ENV['BUILD_URL']}\"", cwd: "I:/tests/acceptance"
+    shell_command! "node rally/updateE2EResultsToRally.js -c \"#{ENV['APPLICATION_VERSION']}\" \"#{ENV['BUILD_URL']}\"", cwd: "I:/tests/acceptance"
   end
 end
 
