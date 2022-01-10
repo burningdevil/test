@@ -63,7 +63,7 @@ export default class EnvSection extends RootApp {
       mac: { xpath: mainCanvas.env.loginMode.replace(/ReplaceLoginMode/g, mode) }
     }
 
-    await this.nativeWaitFor(locator,20000,'Dynamic waiting for getting auth mode failed')
+    await this.nativeWaitFor(locator, 20000, 'Dynamic waiting for getting auth mode failed')
     return this.getNativeElement(locator)
   }
 
@@ -255,16 +255,16 @@ export default class EnvSection extends RootApp {
           { method: 'Name', value: 'Cancel' }
         ]
       },
-      mac: { xpath: mainCanvas.env.cancelConnectionButton}
+      mac: { xpath: mainCanvas.env.cancelConnectionButton }
     })
   }
 
   async closeExtraEnvWindow() {
     let isExtraEnvPresent = true
-    while(isExtraEnvPresent) {
+    while (isExtraEnvPresent) {
       sleep(10000)
       const cancelButton = await this.getCancelConnectionButton()
-      if( cancelButton.isDisplayed() ) {
+      if (cancelButton.isDisplayed()) {
         cancelButton.click()
       } else {
         isExtraEnvPresent = false
@@ -277,12 +277,13 @@ export default class EnvSection extends RootApp {
   async connectEnv(envName, envUrl) {
     // bring up 'add new environment' dialog
     await this.moveToAndClick(await this.getAddNewEnv())
-    try{
-      const envDialog = await workstationApp.elementByName('Connection')
-      } catch(e){
-        console.log('[INFO] Add new env dialog was not show, try to click add new environment connection button again!')
-        await this.moveToAndClick(await this.getAddNewEnv())
-      }
+    try {
+      const envDialog = await this.getConnectDialog()
+    } catch (e) {
+      console.log('[INFO] Add new env dialog was not show, try to click add new environment connection button again!')
+      await this.moveToAndClick(await this.getAddNewEnv())
+    }
+
 
     // input environment name
     await this.moveToAndSendKey(await this.getInputEnvName(), envName)
@@ -314,9 +315,9 @@ export default class EnvSection extends RootApp {
   async loginToEnv(loginMode, userName, userPwd) {
     await this.moveToAndClick(await this.getLoginMode(loginMode))
     await this.moveToAndClick(await this.getContinueToConnect())
+    await this.moveToAndClickAtPosition(await this.getRememberMe())
     await this.moveToAndSendKey(await this.getInputUserName(), userName)
     await this.moveToAndSendKey(await this.getInputUserPwd(), userPwd)
-    await this.moveToAndClickAtPosition(await this.getRememberMe())
     return this.moveToAndClick(await this.getLoginToConnect())
   }
 
@@ -341,23 +342,21 @@ export default class EnvSection extends RootApp {
   }
 
   //Please note: in windows, the first env object is "Add New Environment Connection"; in mac, all return elm are existing env. Besides, in mac, the locator will change, always delete the first env.
-  async removeAllEnv(){
+  async removeAllEnv() {
     let elm = await this.app
     if (OSType === 'windows') {
-        elm = await elm.elementByClassName(`EnvIconBrowsingUserControl`)
-        elm = await elm.elementsByClassName(`ListBoxItem`)
-        for (let i=1; i<elm.length; i++)
-        {
-          await this.moveToAndClick(elm[i])
-          await this.rightClick()
-          await this.moveToAndClick(await this.getRemoveEnvOption())
-          this.app.sleep(1000)
-        }
+      elm = await elm.elementByClassName(`EnvIconBrowsingUserControl`)
+      elm = await elm.elementsByClassName(`ListBoxItem`)
+      for (let i = 1; i < elm.length; i++) {
+        await this.moveToAndClick(elm[i])
+        await this.rightClick()
+        await this.moveToAndClick(await this.getRemoveEnvOption())
+        this.app.sleep(1000)
+      }
     }
-    else{
+    else {
       elm = await elm.elementsByXPath(MAC_XPATH.iconView.mainCanvas.env.existingEnvList)
-      for (let i=0; i<elm.length; i++)
-      {
+      for (let i = 0; i < elm.length; i++) {
         await this.moveToAndClick(elm[0])
         await this.rightClick()
         await this.moveToAndClick(await this.getRemoveEnvOption())
