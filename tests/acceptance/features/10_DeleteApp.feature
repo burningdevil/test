@@ -1,4 +1,4 @@
-@TC78839 @Regression
+@TC78839 @Regression @Sanity
 Feature: 10_DeleteApp
     1. add environment
     2. delete application
@@ -16,5 +16,5 @@ Feature: 10_DeleteApp
         Then check the screenshot on element "detailGrid" by comparing "10_delete_application"
 
 
-      
+
 
