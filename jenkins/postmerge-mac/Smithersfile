@@ -38,9 +38,9 @@ export PATH=/usr/local/sbin:/usr/local/bin:$PATH
 export WORKSPACE_SETTING=dev
 source .ecosystem
 
+rake eks_deploy
 rake install_latest_workstation_mac_os_x
 rake replace_workstation_plugin_mac
-rake eks_deploy
 rake acceptance_test_mac
 '
     end
