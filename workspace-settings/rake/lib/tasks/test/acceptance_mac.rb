@@ -28,6 +28,7 @@ task :eks_deploy do
 
   eks_deploy(namespace: 'ci', release_name:workstation_setting_release_name, value_overrides: override_values, update_helm: false)
   helm_install_ready?(apps: "iserver mysql-md library", release: workstation_setting_release_name)
+
   info "Please access the swagger page of web-dossier from url: https://#{library_service_fqdn}/MicroStrategyLibrary/"
 end
 
@@ -112,6 +113,9 @@ def is_port_open?(ip, port)
 end
 
 def install_latest_workstation_mac_os_x
+  #clean environment
+  info "====== clean environment ======"
+  shell_command! "git clean -dxf",cwd: $WORKSPACE_SETTINGS[:paths][:project][:home]
   info "====== Dowloading workstation mac ======"
   FileUtils.rm(@workstation_dmg_path) if File.exist?(@workstation_dmg_path)
   Nexus.download_latest_artifact(file_path: @workstation_dmg_path, artifact_id: "#{@workstation_artifact_name}", group_id: "com.microstrategy.#{@wkstn_branch}", extra_coordinates: {e: 'dmg'})
