@@ -38,6 +38,8 @@ spec:
           value: "mstr"
         - name: UNIFIED_PASSWORD
           value: "mstr1234"
+        - name: TRUSTSTORE_PASSPHRASE
+          value: {{ .Values.env.trustStoreParaphrase | quote }}
         ports:
         - containerPort: 8080
         readinessProbe:

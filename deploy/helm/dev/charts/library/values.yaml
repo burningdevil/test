@@ -30,6 +30,7 @@ env:
   identitytoken: tDiLgBAWoqERnkCLngcG
   collabport: 80
   nlpservicename: please_define
+  trustStoreParaphrase: "mstr123"
 
 ingress:
   enabled: false
