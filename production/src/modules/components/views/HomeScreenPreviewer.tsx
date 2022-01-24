@@ -61,7 +61,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
           this.setState({
             showToolTip: index
           })
-        } else {
+        }else {
           this.setState({
             showToolTip: false
           })

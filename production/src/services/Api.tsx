@@ -103,6 +103,10 @@ export const loadCurrentEditConfig = (configId: string) => {
         if (!_.has(data, 'homeScreen.homeLibrary')) {
           data.homeScreen.homeLibrary = {icons:[], sidebars:[], contentBundleIds:[]}
         }
+        // the backend will not return the useConfigPalettes property when set it as false, so manually added it.
+        if(_.has(data, 'applicationPalettes') && !_.has(data, 'useConfigPalettes')){
+            data.useConfigPalettes = false;
+        }
         store.dispatch(ActionsCreator.setCurrentConfig(data));
     });
 }

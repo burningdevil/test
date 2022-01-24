@@ -149,11 +149,11 @@
 
     "colorPalette": "COLOR PALETTE",
     "enableMicroStrategyColorPaletteDesc": "Enable MicroStrategy Color Palettes",
-    "enableMicroStrategyColorPaletteTooltip": "You can disable the default MicroStrategy color palettes by creating your own color palettes.",
+    "enableMicroStrategyColorPaletteTooltip": "This selection will override all previously defined color palettes and the default will apply to all dossiers in the application.",
     "customColorPaletteTitle": "Custom Color Palettes",
     "newColorPalette": "Add New",
     "addCustomColorPalettes": "Add Custom Color Palettes",
-    "addCustomColorPalettesMessage": "please select color palette from the existing color palette list.",
+    "addCustomColorPalettesMessage": "please select color palette from the existing list.",
     "emptyColorPaletteListHint": "To create your custom color palette, click Add New. Your custom color palette will appear here.",
 
     "environmentDisconnectErrorTitleMsg": "The selected environment is disconnected",
@@ -187,7 +187,7 @@
     "project": "Project",
 
     "useNewColorPaletteDesc": "Use new color palettes for the application.",
-    "usePreviousColorPaletteDesc": "Use previously defined color palettes across the application.",
+    "usePreviousColorPaletteDesc": "Keep current color palettes that are available.",
     "customColorPaletteDesc": "Add custom color palettes for dossiers in the application",
     "defaultColorPaletteTitle": "MicroStrategy Defaults",
     "defaultColorPaletteTooltip": "This default color palette will be applied automatically to all dossiers in the application. Authors can still make changes at a later time.",
@@ -200,7 +200,7 @@
     "new": "New",
     "palette": "Palette",
     "deletePaletteFailedTitle": "Color palette cannot be deleted",
-    "deletePaletteFailedMsg": "This palette is used in multiple applications.",
+    "deletePaletteFailedMsg": "This palette is used by one or more applications.",
     "paletteName": "Palette Name",
     "paletteColors": "Palette Colors"
 

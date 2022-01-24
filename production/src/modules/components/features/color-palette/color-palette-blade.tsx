@@ -120,7 +120,7 @@ const ColorPaletteBlade: React.FC<any> = () => {
               />
               <span
                 className={`${classNamePrefix}-custom-color-palette-new-text`}
-              >Add New</span>
+              >{localizedStrings.NEW_COLOE_PALETTE}</span>
             </span>
           </div>
           }

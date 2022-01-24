@@ -21,7 +21,7 @@ import { t } from "../../../../../../src/i18n/i18next";
 const classNamePrefix = "custom-palette-add-container";
 
 
-const ColorPaletteBlade: React.FC<any> = (props: any) => {
+const ColorPaletteModal: React.FC<any> = (props: any) => {
   const paletteList = useSelector(selectAllColorPalettes);
   const applicationPalettes = useSelector(selectApplicationPalettes) ?? [];
   const [selectedCustomPalettes, setCustomPalettes] = useState(applicationPalettes);
@@ -110,8 +110,7 @@ const ColorPaletteBlade: React.FC<any> = (props: any) => {
       </span>
       )
   }
-  return (
-            
+  return ( 
             <Modal
                 title={localizedStrings.ADD_CUSTOM_COLOR_PALETTES}
                 className = {`modal-container`}
@@ -162,10 +161,9 @@ const ColorPaletteBlade: React.FC<any> = (props: any) => {
                     </div> 
                     {buttonGroup()} 
                 </div>
-                
             </Modal>
 
   );
 };
 
-export default ColorPaletteBlade;
+export default ColorPaletteModal;

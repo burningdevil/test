@@ -928,7 +928,10 @@ export const mockColorPalette: RootState = {
               maxLogSize: CONSTANTS.DEFAULT_MAX_LOG_SIZE, 
               logLevel: CONSTANTS.LOG_LEVEL_WARNING, 
               updateInterval: CONSTANTS.DEFAULT_UPDATE_INTERVAL
-          }
+          },
+          applicationPalettes: ['1'],
+          applicationDefaultPalette: '1',
+          useConfigPalettes: true
       },
       isConfigNameError: false,
       isDuplicateConfig: false,
@@ -936,13 +939,13 @@ export const mockColorPalette: RootState = {
       configInfoList: [],
       colorPalettes: [
         {
-          name: 'palette1',
+          name: 'Default',
           paletteType: 1,
           id: '1',
           colors: ['123456']
         },
         {
-          name: 'palette2',
+          name: 'Pepsi',
           paletteType: 2,
           id: '2',
           colors: ['#ffffff']

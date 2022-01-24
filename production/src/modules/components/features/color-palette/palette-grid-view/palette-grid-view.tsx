@@ -34,7 +34,7 @@ interface PaletteDataType {
   paletteType: number;
 }
 interface RowSelectionType {
-  isDefault: boolean;
+  isDefaultPalette: boolean;
   selectedRowKeys: any[];
   setSelectedRowKeys: any;
   checkIndeterminate: any;
@@ -63,9 +63,9 @@ const setPaletteDefault = (
   dataSource: any[],
   setCurrentList: any
 ) => {
-  if (data.isDefault) return;
-  dataSource.forEach((one) => (one.isDefault = false));
-  dataSource.find((v) => v.id === data.id).isDefault = true;
+  if (data.isDefaultPalette) return;
+  dataSource.forEach((one) => (one.isDefaultPalette = false));
+  dataSource.find((v) => v.id === data.id).isDefaultPalette = true;
   setCurrentList(dataSource);
   dispatch(
     Actions.updateCurrentConfig({
@@ -86,7 +86,7 @@ const PaletteGridView: React.FC<PaletteGridViewProps> = (props) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [isShowEditPalette, setEditorPalette] = useState(false);
   const [paletteEditorParams, setEditorParams] = useState({});
-  const isDefault = paletteType === 1 ? true : false;
+  const isDefaultPalette = paletteType === 1 ? true : false;
 
   const getData = () => {
     let data;
@@ -123,7 +123,7 @@ const PaletteGridView: React.FC<PaletteGridViewProps> = (props) => {
   }, [applicationPalettes, paletteList]);
   const getRowSelection = (obj: RowSelectionType) => {
     const {
-      isDefault,
+      isDefaultPalette,
       selectedRowKeys,
       setSelectedRowKeys,
       checkIndeterminate,
@@ -156,7 +156,7 @@ const PaletteGridView: React.FC<PaletteGridViewProps> = (props) => {
         name: record.id,
       }),
     };
-    if (isDefault) {
+    if (isDefaultPalette) {
       return rowSelection;
     }
   };
@@ -172,8 +172,8 @@ const PaletteGridView: React.FC<PaletteGridViewProps> = (props) => {
     );
     dispatchUpdateAction(defaultApplicationPalettes, leftList.map((v: any) => v.id))
     // special handling, if remove the default item, then the first one in the list will be set to default automatically.
-    if (data.isDefault) {
-      leftList[0].isDefault = true;
+    if (data.isDefaultPalette) {
+      leftList[0].isDefaultPalette = true;
       dispatch(
         Actions.updateCurrentConfig({
           applicationDefaultPalette: leftList[0].id,
@@ -191,7 +191,7 @@ const PaletteGridView: React.FC<PaletteGridViewProps> = (props) => {
     setEditorParams(cloneObject);
   };
   const renderPaletteOperations = (
-    isDefault: boolean,
+    isDefaultPalette: boolean,
     data: any,
     dispatch: any,
     currentPaletteList: any[],
@@ -214,7 +214,7 @@ const PaletteGridView: React.FC<PaletteGridViewProps> = (props) => {
     );
   };
   const getColumns = (
-    isDefault: boolean,
+    isDefaultPalette: boolean,
     dispatch: any,
     currentPaletteList: any[],
     setCurrentList: any
@@ -269,7 +269,7 @@ const PaletteGridView: React.FC<PaletteGridViewProps> = (props) => {
           size={'small'}
           dataSource={currentList}
           scroll={{ y: 255 }}
-          columns={getColumns(isDefault, dispatch, currentList, setCurrentList)}
+          columns={getColumns(isDefaultPalette, dispatch, currentList, setCurrentList)}
         />
         <ColorPaletteEditor
           visible={isShowEditPalette}

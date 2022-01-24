@@ -35,7 +35,7 @@ interface PaletteDataType {
 
 }
 interface RowSelectionType {
-  isDefault: boolean, 
+  isDefaultPalette: boolean, 
   selectedRowKeys: any[], 
   setSelectedRowKeys: any, 
   checkIndeterminate: any, 
@@ -112,7 +112,7 @@ const CustomPaletteModalGrid: React.FC<any> = (props) => {
   const [toBeDeleteData, setToBeDeletedData] = useState(null);
   const [highlightRow, setHighlightRow] = useState(null);
 
-  const isDefault =  paletteType === 1 ? true : false;
+  const isDefaultPalette =  paletteType === 1 ? true : false;
   const components = {
     header: {
       cell: ResizableTitle
@@ -124,11 +124,11 @@ const CustomPaletteModalGrid: React.FC<any> = (props) => {
     let selectedId = defaultPaletteId;
     
     if(data.map((v: any) => v.id).includes(defaultPaletteId)){
-        data.find((v: any) => v.id === defaultPaletteId).isDefault = true;
+        data.find((v: any) => v.id === defaultPaletteId).isDefaultPalette = true;
     }else {
         const item = data.find(v => v.name === 'Categorical')
         if(item){
-          item.isDefault =  true;
+          item.isDefaultPalette =  true;
           selectedId = item.id;
           checkIndeterminate(1, dataSource.length, [item]);
         }
@@ -201,8 +201,8 @@ const CustomPaletteModalGrid: React.FC<any> = (props) => {
   const setRowHighlight = (target: any) => {
     setHighlightRow(target);
   }
-  const renderPaletteOperations = (isDefault: boolean, data: any, dispatch: any, currentPaletteList: any[], setCurrentList: any) => {
-    if(isDefault) return (
+  const renderPaletteOperations = (isDefaultPalette: boolean, data: any, dispatch: any, currentPaletteList: any[], setCurrentList: any) => {
+    if(isDefaultPalette) return (
         <>
          <div className="operation-item icon-copy" onClick = {() => {setRowHighlight(data);duplicatePalette(data)}} />
         </>);
@@ -224,7 +224,7 @@ const CustomPaletteModalGrid: React.FC<any> = (props) => {
   };
     
   
-  const getColumns = (isDefault: boolean, dispatch: any, currentPaletteList: any[], setCurrentList: any, firstTime?: boolean) => {
+  const getColumns = (isDefaultPalette: boolean, dispatch: any, currentPaletteList: any[], setCurrentList: any, firstTime?: boolean) => {
     let columns: any[] = [
       {
         title: t("paletteName"),
@@ -279,7 +279,7 @@ const CustomPaletteModalGrid: React.FC<any> = (props) => {
     ];
     return columns;
   };
-  const [columns, setColumns] =  useState(getColumns(isDefault, dispatch, currentList, setCurrentList, false));
+  const [columns, setColumns] =  useState(getColumns(isDefaultPalette, dispatch, currentList, setCurrentList, false));
   const columnData = columns.map((col, index) => ({
     ...col,
     onHeaderCell: (column: any) => ({
@@ -337,9 +337,9 @@ const confirmDelete = () => {
         const defaultApplicationPalettes = applicationPalettes.filter(v => !dataSource.map(v => v.id).includes(v));
         dispatchUpdateAction(defaultApplicationPalettes, selectedRowKeys.filter(v => v !== toBeDeleteData.id))
         // special handling, when removed the default item, then the first one in the list will be set to default automatically.
-        if(toBeDeleteData.isDefault){
+        if(toBeDeleteData.isDefaultPalette){
             if(leftList?.length){
-                leftList[0].isDefault = true;
+                leftList[0].isDefaultPalette = true;
                 dispatch(Actions.updateCurrentConfig({
                     applicationDefaultPalette: leftList[0].id
                 }));
@@ -408,7 +408,7 @@ const [confirmDialogWordings, setConfirmDialogWordings] = useState(deleteDialogW
             showHeader={true}
             pagination={false}
             size={'small'}
-            rowSelection={getRowSelection({isDefault, selectedRowKeys, setSelectedRowKeys, checkIndeterminate, dataSource, dispatch, setCustomPalettes})}
+            rowSelection={getRowSelection({isDefaultPalette, selectedRowKeys, setSelectedRowKeys, checkIndeterminate, dataSource, dispatch, setCustomPalettes})}
             rowKey="id"
             dataSource={generateDisplayData()}
             defaultExpandedRowKeys = {[1]}

@@ -1,11 +1,11 @@
-jest.mock('../../../../services/Api');
+jest.mock('../../../../../services/Api');
 
 import * as React from 'react';
 import { render, cleanup, fireEvent, queryByAttribute } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import createStore from '../../../../store/createStore';
-import { mockLibraryAsHome, mockDossierAsHome, mockColorPalette } from '../__mocks__/mock_state';
-import ColorPaletteBlade from '../../features/color-palette/color-palette-blade';
+import createStore from '../../../../../store/createStore';
+import { mockLibraryAsHome, mockDossierAsHome, mockColorPalette } from '../../__mocks__/mock_state';
+import ColorPaletteBlade from '../../../features/color-palette/color-palette-blade';
 
 
 describe('ColorPaletteBlade Component', () => {
@@ -29,7 +29,7 @@ describe('ColorPaletteBlade Component', () => {
         cleanup();
     });
 
-  it('ColorPaletteBlade: use project level palette', async () => {
+  it('ColorPaletteBlade: use custom palette', async () => {
     const store = createStore(mockColorPalette);
     // Render
     const { queryAllByRole, queryByText, container } = render(
@@ -41,24 +41,26 @@ describe('ColorPaletteBlade Component', () => {
     const checkboxes = queryAllByRole('radio');
     const defaultCheckBox = checkboxes[0];
     expect(defaultCheckBox).toBeInTheDocument();
-    expect(defaultCheckBox).toBeChecked();
+    expect(defaultCheckBox).not.toBeChecked();
 
     // Check custom palette
     const customCheckBox = checkboxes[1];
     expect(customCheckBox).toBeInTheDocument();
-    expect(customCheckBox).not.toBeChecked();
-    
-    fireEvent.click(customCheckBox);
     expect(customCheckBox).toBeChecked();
-    expect(defaultCheckBox).not.toBeChecked();
+    
+    fireEvent.click(defaultCheckBox);
+    expect(defaultCheckBox).toBeChecked();
+    expect(customCheckBox).not.toBeChecked();
+
+    fireEvent.click(customCheckBox);
 
     // check add button
     const paletteAddBtn = container.querySelector('.icon-pnl_add-new');
-    expect(paletteAddBtn).toBeInTheDocument();
-
-    // check the default grid
-    const defaultPaletteGrid = container.querySelector('#color-palette-grid-1');
-    expect(defaultPaletteGrid).toBeInTheDocument();
+    expect(paletteAddBtn).not.toBeInTheDocument();
+   
+    // check the grid
+    const paletteGrid = container.querySelector('#color-palette-grid-0');
+    expect(paletteGrid).toBeInTheDocument();
     const rows = container.querySelectorAll('.ant-table-row');
     expect(rows?.length).toBe(1);
 
