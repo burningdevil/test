@@ -1,15 +1,17 @@
-import * as React from "react";
-// import {ColorPicker} from '@mstr/rc';
+import * as React from 'react';
 import ColorPicker from '@mstr/rc/lib/color-picker/color-picker';
-import { Input, Modal } from "antd";
-import { useState } from "react";
+import { useState } from 'react';
 import './color-picker-container.scss';
 import { COLOR, DIRECTION, TABS } from './color-picker-helpers/enums';
-import { useEffect } from "react";
-import { getGradientLinearBackgroundString, isColorGradient, gradientEquals, getSplitFavorites } from './color-picker-helpers/utils';
+import { useEffect } from 'react';
+import {
+  getGradientLinearBackgroundString,
+  isColorGradient,
+  gradientEquals,
+  getSplitFavorites,
+} from './color-picker-helpers/utils';
 
-const ColorPickerContainer: React.FC<any>  = (props) => {
-
+const ColorPickerContainer: React.FC<any> = (props) => {
   const {
     onChange,
     onChangeOpacity,
@@ -36,23 +38,28 @@ const ColorPickerContainer: React.FC<any>  = (props) => {
     tooltipText,
     maxFavorite,
     locale,
-    } = props;
+  } = props;
   const [colorValue, changeValue] = useState(value);
   const [isVisible, changeVisible] = useState(false);
   const [opacityValue, changeOpacityValue] = useState(opacity);
   const [customHexVals, changeCustomVals] = useState(customVals);
   const [isGradientVal, changeIsGradient] = useState(isGradient);
   const [gradientConfigVal, changeGradientConfig] = useState(gradientConfig);
-  const [isIndeterminate, changeIsIndeterminate] = useState(value === COLOR.INDETERMINATE);
-  const [solidFavorites, changeSolidFavorites] = useState(getSplitFavorites(customHexVals).solidFavorites);
-  const [gradientFavorites, changeGradientFavorites] = useState(getSplitFavorites(customHexVals).gradientFavorites);
+  const [isIndeterminate, changeIsIndeterminate] = useState(
+    value === COLOR.INDETERMINATE
+  );
+  const [solidFavorites, changeSolidFavorites] = useState(
+    getSplitFavorites(customHexVals).solidFavorites
+  );
+  const [gradientFavorites, changeGradientFavorites] = useState(
+    getSplitFavorites(customHexVals).gradientFavorites
+  );
   const [isSolidFavoriteFull, changeSolidFavoriteFull] = useState(
     solidFavorites && solidFavorites.length >= maxFavorite
   );
   const [isGradientFavoriteFull, changeGradientFavoriteFull] = useState(
     gradientFavorites && gradientFavorites.length >= maxFavorite
   );
-  // const { t } = useTranslation('common', { i18n: i18next });
 
   // Enums to tell the onChangeFavorite function if the value should be added or removed
   const SHOULD_ADD = true;
@@ -83,15 +90,19 @@ const ColorPickerContainer: React.FC<any>  = (props) => {
   useEffect(() => {
     const {
       solidFavorites: solidFavoriteColors,
-      gradientFavorites: gradientFavoriteColors
+      gradientFavorites: gradientFavoriteColors,
     } = getSplitFavorites(customHexVals);
 
     changeSolidFavorites(solidFavoriteColors);
     changeGradientFavorites(gradientFavoriteColors);
 
     // Check here if maxFavorite needs to change
-    changeSolidFavoriteFull(maxFavorite && solidFavoriteColors.length === maxFavorite);
-    changeGradientFavoriteFull(maxFavorite && gradientFavoriteColors.length === maxFavorite);
+    changeSolidFavoriteFull(
+      maxFavorite && solidFavoriteColors.length === maxFavorite
+    );
+    changeGradientFavoriteFull(
+      maxFavorite && gradientFavoriteColors.length === maxFavorite
+    );
   }, [customHexVals, maxFavorite]);
 
   /**
@@ -105,14 +116,19 @@ const ColorPickerContainer: React.FC<any>  = (props) => {
     if (shouldNotApplyChange) {
       return;
     }
-    if (isColorGradient(newValue)) { // Instead of writing hex value we need to send an object
+    if (isColorGradient(newValue)) {
+      // Instead of writing hex value we need to send an object
       const { colorA, colorB, direction } = newValue;
       onChangeGradientConfig({ colorA, colorB, direction });
       return;
     }
-    changeValue(newValue.hex ? newValue.hex.toUpperCase() : newValue.toUpperCase())
+    changeValue(
+      newValue.hex ? newValue.hex.toUpperCase() : newValue.toUpperCase()
+    );
     changeIsGradient(false);
-    onChange(newValue.hex ? newValue.hex.toUpperCase() : newValue.toUpperCase());
+    onChange(
+      newValue.hex ? newValue.hex.toUpperCase() : newValue.toUpperCase()
+    );
     changeIsIndeterminate(newValue === COLOR.INDETERMINATE);
   }
 
@@ -120,9 +136,14 @@ const ColorPickerContainer: React.FC<any>  = (props) => {
    * This function is to open/close the color picker when Keyboard event is triggered.
    * @param {DOM Event} event - keyboard event
    */
-  
+
   const changeCustomFavorites = (
-    shouldAdd: any, filterFunction: any, tabFavorites: any, changeTabFavorites: any, changeFavoriteFull: any, val: any
+    shouldAdd: any,
+    filterFunction: any,
+    tabFavorites: any,
+    changeTabFavorites: any,
+    changeFavoriteFull: any,
+    val: any
   ) => {
     if (shouldAdd) {
       // Add new value to individual favorites array
@@ -147,7 +168,9 @@ const ColorPickerContainer: React.FC<any>  = (props) => {
 
     if (isGradientVal) {
       // We need to check if this gradient exists by checking the if custom values already have this gradient value
-      hasGradient = !!customHexVals.find((currColor: any) => gradientEquals(currColor, val));
+      hasGradient = !!customHexVals.find((currColor: any) =>
+        gradientEquals(currColor, val)
+      );
     } else {
       val = val.toUpperCase();
     }
@@ -162,7 +185,7 @@ const ColorPickerContainer: React.FC<any>  = (props) => {
           gradientFavorites,
           changeGradientFavorites,
           changeGradientFavoriteFull,
-          val,
+          val
         );
       } else {
         newFavorite = changeCustomFavorites(
@@ -185,7 +208,12 @@ const ColorPickerContainer: React.FC<any>  = (props) => {
     if (isGradientVal) {
       newFavorite = changeCustomFavorites(
         isRemove,
-        (item: any) => !(item.colorA === val.colorA && item.colorB === val.colorB && item.direction === val.direction),
+        (item: any) =>
+          !(
+            item.colorA === val.colorA &&
+            item.colorB === val.colorB &&
+            item.direction === val.direction
+          ),
         gradientFavorites,
         changeGradientFavorites,
         changeGradientFavoriteFull,
@@ -194,7 +222,7 @@ const ColorPickerContainer: React.FC<any>  = (props) => {
     } else {
       newFavorite = changeCustomFavorites(
         isRemove,
-        (item:any) => item !== val.toUpperCase(),
+        (item: any) => item !== val.toUpperCase(),
         solidFavorites,
         changeSolidFavorites,
         changeSolidFavoriteFull,
@@ -208,53 +236,54 @@ const ColorPickerContainer: React.FC<any>  = (props) => {
   const onChangeOpacityVal = (o: any) => {
     changeOpacityValue(o);
     onChangeOpacity(o);
-  }
+  };
 
   const onChangeGradientConfig = (config: any) => {
     changeIsGradient(true);
     changeGradientConfig(config);
     onChangeGradient(config);
-  }
+  };
   const onResetDefault = () => {
     onChange('DEFAULT');
-  }
-  
+  };
 
-  
-  const linearGradientString = getGradientLinearBackgroundString(gradientConfigVal);
-  const gradientStyle = isGradientVal ? { background: `linear-gradient(${linearGradientString})` } : {};
+  const linearGradientString =
+    getGradientLinearBackgroundString(gradientConfigVal);
+  const gradientStyle = isGradientVal
+    ? { background: `linear-gradient(${linearGradientString})` }
+    : {};
 
-    return (
-        <div className="color-picker-container">
-          <ColorPicker
-              hidden={false}
-              className={className}
-              chosenTab={chosenTab}
-              useOpacity={useOpacity}
-              allowResetDefault={allowResetDefault}
-              opacity={opacityValue}
-              onOpacityChange={onChangeOpacityVal}
-              onResetDefault={onResetDefault}
-              useGradient={useGradient}
-              gradientStyle={gradientStyle}
-              isGradient={isGradientVal}
-              gradientConfig={gradientConfigVal}
-              changeIsGradient={changeIsGradient}
-              onChangeGradient={onChangeGradientConfig}
-              value={colorValue}
-              onChange={change}
-              colorGuideHexVals={colorGuideHexVals}
-              customHexVals={customHexVals}
-              addCustomVals={onAddCustomVals}
-              removeCustomVals={onRemoveCustomVals}
-              paletteHexVals={paletteHexVals}
-              isSolidFavoriteFull={isSolidFavoriteFull}
-              isGradientFavoriteFull={isGradientFavoriteFull}
-              locale={locale}
-              solidFavorites={solidFavorites}
-              gradientFavorites={gradientFavorites}
-            />
-        </div>
-      )
-}
+  return (
+    <div className='color-picker-container'>
+      <ColorPicker
+        hidden={false}
+        className={className}
+        chosenTab={chosenTab}
+        useOpacity={useOpacity}
+        allowResetDefault={allowResetDefault}
+        opacity={opacityValue}
+        onOpacityChange={onChangeOpacityVal}
+        onResetDefault={onResetDefault}
+        useGradient={useGradient}
+        gradientStyle={gradientStyle}
+        isGradient={isGradientVal}
+        gradientConfig={gradientConfigVal}
+        changeIsGradient={changeIsGradient}
+        onChangeGradient={onChangeGradientConfig}
+        value={colorValue}
+        onChange={change}
+        colorGuideHexVals={colorGuideHexVals}
+        customHexVals={customHexVals}
+        addCustomVals={onAddCustomVals}
+        removeCustomVals={onRemoveCustomVals}
+        paletteHexVals={paletteHexVals}
+        isSolidFavoriteFull={isSolidFavoriteFull}
+        isGradientFavoriteFull={isGradientFavoriteFull}
+        locale={locale}
+        solidFavorites={solidFavorites}
+        gradientFavorites={gradientFavorites}
+      />
+    </div>
+  );
+};
 export default ColorPickerContainer;

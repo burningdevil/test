@@ -16,11 +16,9 @@ import {
   selectApplicationPalettes,
   selectUseConfigPalettes,
 } from '../../../../store/selectors/HomeScreenConfigEditorSelector';
-import { RootState } from '../../../../types/redux-state/HomeScreenConfigState';
 import { useRef } from 'react';
 import * as Actions from '../../../../store/actions/ActionsCreator';
 import CustomPaletteModal from './custom-palette-modal/custom-palette-modal';
-import { getSupportSingleColorPalette } from './color-palette.util';
 const classNamePrefix = 'home-screen-dossiersetting';
 
 const ColorPaletteBlade: React.FC<any> = () => {
@@ -55,7 +53,7 @@ const ColorPaletteBlade: React.FC<any> = () => {
     );
   };
   return (
-    <div id="color-palette-setting" className={`${classNamePrefix}-container`}>
+    <div id='color-palette-setting' className={`${classNamePrefix}-container`}>
       <div className={`${classNamePrefix}-title`}>
         {localizedStrings.COLOR_PALETTE}
       </div>
@@ -64,7 +62,7 @@ const ColorPaletteBlade: React.FC<any> = () => {
         <Radio.Group
           onChange={(e) => onCheckChangeUseProject(e, dispatch)}
           value={isProjectPalettes}
-          size="small"
+          size='small'
         >
           <Space direction='vertical'>
             <Radio value={false}>
@@ -94,37 +92,39 @@ const ColorPaletteBlade: React.FC<any> = () => {
             <span className={`${classNamePrefix}-custom-color-palette-title`}>
               {localizedStrings.CUSTOM_COLOR_PALETTE_TITLE}
             </span>
-            {applicationPalettes?.length > 0 && <span
-              className={`${classNamePrefix}-custom-color-palette-new`}
-              onClick={handleAddColorPalette}
-            >
-              
+            {applicationPalettes?.length > 0 && (
               <span
-                className={`${classNamePrefix}-custom-color-palette-new-text`}
+                className={`${classNamePrefix}-custom-color-palette-new`}
+                onClick={handleAddColorPalette}
               >
-                {localizedStrings.EDIT}
+                <span
+                  className={`${classNamePrefix}-custom-color-palette-new-text`}
+                >
+                  {localizedStrings.EDIT}
+                </span>
               </span>
-            </span>}
-            
+            )}
           </div>
-          {
-            !applicationPalettes?.length && <div style ={{marginTop: '20px'}}>
-            <span
-              className={`${classNamePrefix}-custom-color-palette-new`}
-              onClick={handleAddColorPalette}
-            >
+          {!applicationPalettes?.length && (
+            <div style={{ marginTop: '20px' }}>
               <span
-                tabIndex={0}
-                aria-label={localizedStrings.NEW_COLOE_PALETTE}
-                className={VC.FONT_ADD_NEW}
-              />
-              <span
-                className={`${classNamePrefix}-custom-color-palette-new-text`}
-              >{localizedStrings.NEW_COLOE_PALETTE}</span>
-            </span>
-          </div>
-          }
-          
+                className={`${classNamePrefix}-custom-color-palette-new`}
+                onClick={handleAddColorPalette}
+              >
+                <span
+                  tabIndex={0}
+                  aria-label={localizedStrings.NEW_COLOE_PALETTE}
+                  className={VC.FONT_ADD_NEW}
+                />
+                <span
+                  className={`${classNamePrefix}-custom-color-palette-new-text`}
+                >
+                  {localizedStrings.NEW_COLOE_PALETTE}
+                </span>
+              </span>
+            </div>
+          )}
+
           {/* Custom Color Palette List */}
           {applicationPalettes?.length > 0 && (
             <PaletteGridView
@@ -133,15 +133,13 @@ const ColorPaletteBlade: React.FC<any> = () => {
             />
           )}
           {
-              <CustomPaletteModal
-                visible={showColorPaletteEditor}
-                close={openColorPaletteEditor}
-              ></CustomPaletteModal>
-            }
-          
+            <CustomPaletteModal
+              visible={showColorPaletteEditor}
+              close={openColorPaletteEditor}
+            ></CustomPaletteModal>
+          }
         </div>
       )}
-      
     </div>
   );
 };

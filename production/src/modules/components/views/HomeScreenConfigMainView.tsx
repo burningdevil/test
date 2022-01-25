@@ -672,7 +672,6 @@ filterCandidate = (configList: any[]) => {
                 rowSelectable={true}
                 onSortChanged={this.onSortChange}
                 onRowClicked = {this.onRowClick}
-                onContextMenuClose = {() => console.log('on context menu closed')}
                 getRowHeight={() => 32}
                 showCheckbox={false}
                 useToolbar={true}

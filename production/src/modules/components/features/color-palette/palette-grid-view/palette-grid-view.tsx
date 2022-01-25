@@ -1,5 +1,4 @@
 import { Table } from 'antd';
-import { Tooltip } from '@mstr/rc';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,7 +9,6 @@ import {
 } from '../../../../../store/selectors/HomeScreenConfigEditorSelector';
 import '../color-palette.scss';
 import './palette-grid-view.scss';
-import { store } from '../../../../../main';
 import { useImperativeHandle } from 'react';
 import { useState } from 'react';
 import * as Actions from '../../../../../store/actions/ActionsCreator';
@@ -18,7 +16,10 @@ import {
   default as VC,
   localizedStrings,
 } from '../../../HomeScreenConfigConstant';
-import { dispatchUpdateAction, getSupportSingleColorPalette, toHex } from '../color-palette.util';
+import {
+  getSupportSingleColorPalette,
+  toHex,
+} from '../color-palette.util';
 import ColorPaletteEditor from '../color-palette-editor/color-palette-editor';
 interface PaletteGridViewProps {
   paletteList?: any[];
@@ -26,12 +27,6 @@ interface PaletteGridViewProps {
   cRef?: any;
   checkIndeterminate?: any;
   classNamePrefix?: string;
-}
-interface PaletteDataType {
-  id: string;
-  name: string;
-  colors: string[];
-  paletteType: number;
 }
 interface RowSelectionType {
   isDefaultPalette: boolean;
@@ -46,7 +41,7 @@ const renderPaletteColors = (colors: Array<string>) => {
     return (
       <div
         className='color-block'
-        key = {index}
+        key={index}
         style={{
           backgroundColor: toHex(c),
           width: '19px',
@@ -90,18 +85,26 @@ const PaletteGridView: React.FC<PaletteGridViewProps> = (props) => {
 
   const getData = () => {
     let data;
-    if(applicationPalettes?.length){
+    if (applicationPalettes?.length) {
       data = paletteList.filter((v) => applicationPalettes.includes(v.id));
       setCurrentList([...data]);
     }
-    
   };
-  const dispatchUpdateAction = (defaultApplicationPalettes: string[], targetData: string[]) => {
-    const defaultData = getSupportSingleColorPalette() ? [] : defaultApplicationPalettes;
-    dispatch(Actions.updateCurrentConfig({
-        applicationPalettes: Array.from(new Set(defaultData.concat(targetData))) 
-    }));
-  }
+  const dispatchUpdateAction = (
+    defaultApplicationPalettes: string[],
+    targetData: string[]
+  ) => {
+    const defaultData = getSupportSingleColorPalette()
+      ? []
+      : defaultApplicationPalettes;
+    dispatch(
+      Actions.updateCurrentConfig({
+        applicationPalettes: Array.from(
+          new Set(defaultData.concat(targetData))
+        ),
+      })
+    );
+  };
 
   useImperativeHandle(props.cRef, () => ({
     checkAll: (check: boolean) => {
@@ -110,7 +113,10 @@ const PaletteGridView: React.FC<PaletteGridViewProps> = (props) => {
       );
       if (check) {
         setSelectedRowKeys(dataSource.map((v) => v.id));
-        dispatchUpdateAction(defaultApplicationPalettes, dataSource.map(v => v.id));
+        dispatchUpdateAction(
+          defaultApplicationPalettes,
+          dataSource.map((v) => v.id)
+        );
       } else {
         setSelectedRowKeys([]);
         dispatchUpdateAction(defaultApplicationPalettes, []);
@@ -144,10 +150,18 @@ const PaletteGridView: React.FC<PaletteGridViewProps> = (props) => {
         const defaultApplicationPalettes = applicationPalettes.filter(
           (v) => !dataSource.map((v) => v.id).includes(v)
         );
-        dispatchUpdateAction(defaultApplicationPalettes, selectedRows.map((v: any) => v.id));
+        dispatchUpdateAction(
+          defaultApplicationPalettes,
+          selectedRows.map((v: any) => v.id)
+        );
         // for the single selection case, there is no set default operation. So when the radio selection is changed, should update the default palette at the same time.
-        if(getSupportSingleColorPalette()){
-          setPaletteDefault(selectedRows[0], dispatch, dataSource, setCurrentList);
+        if (getSupportSingleColorPalette()) {
+          setPaletteDefault(
+            selectedRows[0],
+            dispatch,
+            dataSource,
+            setCurrentList
+          );
         }
       },
       getCheckboxProps: (record: any) => ({
@@ -170,7 +184,10 @@ const PaletteGridView: React.FC<PaletteGridViewProps> = (props) => {
     const defaultApplicationPalettes = applicationPalettes.filter(
       (v) => !dataSource.map((v) => v.id).includes(v)
     );
-    dispatchUpdateAction(defaultApplicationPalettes, leftList.map((v: any) => v.id))
+    dispatchUpdateAction(
+      defaultApplicationPalettes,
+      leftList.map((v: any) => v.id)
+    );
     // special handling, if remove the default item, then the first one in the list will be set to default automatically.
     if (data.isDefaultPalette) {
       leftList[0].isDefaultPalette = true;
@@ -226,11 +243,7 @@ const PaletteGridView: React.FC<PaletteGridViewProps> = (props) => {
         className: 'name-col',
         width: '150px',
         render: (name: string, data: any) => {
-          return (
-            <>
-              {name}
-            </>
-          );
+          return <>{name}</>;
         },
       },
       {
@@ -269,7 +282,12 @@ const PaletteGridView: React.FC<PaletteGridViewProps> = (props) => {
           size={'small'}
           dataSource={currentList}
           scroll={{ y: 255 }}
-          columns={getColumns(isDefaultPalette, dispatch, currentList, setCurrentList)}
+          columns={getColumns(
+            isDefaultPalette,
+            dispatch,
+            currentList,
+            setCurrentList
+          )}
         />
         <ColorPaletteEditor
           visible={isShowEditPalette}

@@ -27,12 +27,10 @@
         .ant-table-row:hover {
             
             .icon-pnl_close {
-                // flex: auto;
                 cursor: pointer;
                 display: inline-block;
             }
             .set-default-col {
-                // flex: auto;
                 cursor: pointer;
                 margin-left: 10px;
                 display: inline-block;
@@ -82,7 +80,6 @@
 
     &-custom-color-palette-title-section {
         margin-bottom: 8px;
-        // margin-top: 22px;
         .ant-checkbox {
             margin-right: 5px;
         }

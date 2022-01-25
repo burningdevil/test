@@ -207,11 +207,8 @@ export const loadAllProjects = async () => {
     const response = await HttpProxy.get('/projects');
     return response;
 }
-const temp = {'X-MSTR-ProjectID': 'B7CA92F04B9FAE8D941C3E9B7E0CD754'};
 
 export const loadColorPaletteList = () => {
-    // store.dispatch(ActionsCreator.startLoadingContentBundleList())
-    // HttpProxy.get('/colorPalettes').then((response: any) => {
     HttpProxy.get('/palettes',{}).then((response: any) => {
         let data = response?.data?.palettes ?? response?.palettes;
         data = data.filter((o: any) => o.id !== undefined)?.reverse();
