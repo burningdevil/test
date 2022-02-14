@@ -262,6 +262,14 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
           }
         });
       }
+      /* color palette related.
+      if useConfigPalette is false, delete the selected applicationPalettes.
+      */
+     if(!config.useConfigPalettes && config.applicationPalettes?.length){
+       config.applicationPalettes =  [];
+       config.applicationDefaultPalette = '';
+     }
+
       if(this.props.isDossierHome){
         config.homeScreen.homeLibrary.contentBundleIds = [];
       }
