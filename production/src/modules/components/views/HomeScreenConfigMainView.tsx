@@ -251,7 +251,13 @@ filterCandidate = (configList: any[]) => {
       .subscribe(()=> {})
     }
     this.unsubscribe = store.subscribe(handleChange);
-    window.addEventListener('click', ()=> {this.destroy$.next(true)});
+    window.addEventListener('click', (e: any)=> {
+      this.destroy$.next(true);
+      if(!gridApi) return;
+      if(e.path.join('-').includes('ag-cell')) return; // ag-cell indicate that the click target is in the table, not the blank space.
+      gridApi.clearFocusedCell();
+    });
+
     
   }
   componentWillUnmount() {

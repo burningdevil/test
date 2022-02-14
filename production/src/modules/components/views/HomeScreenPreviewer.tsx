@@ -8,12 +8,19 @@ import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
 import { connect } from 'react-redux'
 import { selectCurrentConfig, selectIsDossierAsHome, selectPreviewDeviceType, selectIsToolbarHidden, selectIsToolbarCollapsed, selectSelectedSideBarIcons, selectSelectedLibraryCustomizedItems, selectSelectedLibraryIcons, selectSelectedDocumentIcons } from '../../../store/selectors/HomeScreenConfigEditorSelector'
 import * as Actions from '../../../store/actions/ActionsCreator'
+import { Tooltip } from '@mstr/rc'
 
 const classNamePrefix = 'homeScreenPreviewer';
 
 class HomeScreenPreviewer extends React.Component<any, any> {
     contentBundleEnable = false;
     hasContent = false;
+    constructor(props: any) {
+        super(props)
+        this.state = {
+          showToolTip: false // boolean or the index number.
+        };
+      }
     iconShouldShow(icon: iconDetail) {
         const {libraryIcons, documentIcons, sidebarIcons, isDossierHome} = this.props;
         const validKey = iconValidKey(icon.key);
@@ -47,9 +54,58 @@ class HomeScreenPreviewer extends React.Component<any, any> {
 
     // call back
     onDeviceTypeChange = (e: any) => {
-        this.props.handleDeviceTypeChange(e.target.value)
+        this.props.handleDeviceTypeChange(e.target.value);
     }
-
+    handleTooltip = (event: any, index: number) => {
+        if(event.target?.offsetWidth < event.target?.scrollWidth){
+          this.setState({
+            showToolTip: index
+          })
+        } else {
+          this.setState({
+            showToolTip: false
+          })
+        }
+      }
+      hideTooltip = () => {
+        this.setState({
+          showToolTip: false
+        })
+      }
+    renderTabRadio  =() => {
+        const items = [
+            {
+                label: localizedStrings.TABLET,
+                value: reviewType.TABLET,
+                width: '25%'
+            },
+            {
+                label: localizedStrings.PHONE,
+                value: reviewType.PHONE,
+                width: '25%'
+            },
+            {
+                label: localizedStrings.WEB,
+                value: reviewType.WEB,
+                width: '24%'
+            },
+            {
+                label: localizedStrings.DESKTOP,
+                value: reviewType.DESKTOP,
+                width: '26%'
+            }
+        ]
+        return (
+            items.map((item, index) => {
+                return <Radio.Button style={{width: item.width,  }} 
+                value={item.value}>
+                    <Tooltip placement="top" title={item.label} visible = {this.state.showToolTip === index}>
+                        <div className="ellipsis" onMouseEnter={(e) => this.handleTooltip(e, index)} onMouseLeave={this.hideTooltip} >{item.label}</div>
+                    </Tooltip>
+                </Radio.Button>
+            })
+        )
+    }
      // render device type radio buttons
     deviceTypesRender = (deviceType: string) => {
         
@@ -59,13 +115,11 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                     className={`${classNamePrefix}-device-type-group`}
                     onChange={this.onDeviceTypeChange}
                     value={deviceType}
+                    style = {{display: 'flex'}}
                     buttonStyle='solid'
                     size='small'
                 >
-                   {<Radio.Button style={{width: '25%'}} value={reviewType.TABLET}>{localizedStrings.TABLET}</Radio.Button>}
-                   {<Radio.Button style={{width: '25%'}} value={reviewType.PHONE}>{localizedStrings.PHONE}</Radio.Button>}
-                    <Radio.Button style={{width: '25%'}} value={reviewType.WEB} disabled={false}>{localizedStrings.WEB}</Radio.Button>
-                    <Radio.Button style={{width: '25%'}} value={reviewType.DESKTOP} disabled={false}>{localizedStrings.DESKTOP}</Radio.Button>
+                   {this.renderTabRadio()}
                 </Radio.Group>
             </div>
     }

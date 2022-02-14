@@ -592,3 +592,11 @@ $tablet-scale: 0.85;
     }
 
 }
+.ellipsis {
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
+  }
