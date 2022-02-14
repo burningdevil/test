@@ -30,5 +30,5 @@ export const hexToDecimal = (d: string) => {
   return res.toString();
 };
 export const getSupportSingleColorPalette = () => {
-  return true;
+  return false;
 };

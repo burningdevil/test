@@ -79,13 +79,13 @@ const ColorPaletteModal: React.FC<any> = (props: any) => {
   const handleSaveAdd = () => {
     props.close(false);
     // dispatch action here.
-    const defaultApplicationPalettes = applicationPalettes.filter((v) =>
-      paletteList
-        .filter((v) => v.paletteType === 1)
-        .map((v) => v.id)
-        .includes(v)
-    );
-    dispatchUpdateAction(defaultApplicationPalettes, selectedCustomPalettes);
+    // const defaultApplicationPalettes = applicationPalettes.filter((v) =>
+    //   paletteList
+    //     .filter((v) => v.paletteType === 1)
+    //     .map((v) => v.id)
+    //     .includes(v)
+    // );
+    dispatchUpdateAction([], selectedCustomPalettes);
     // for the single selection case, there is no set default operation. So when the radio selection is changed, should update the default palette at the same time.
     if (getSupportSingleColorPalette()) {
       dispatch(

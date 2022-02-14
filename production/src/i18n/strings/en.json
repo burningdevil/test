@@ -202,6 +202,7 @@
     "deletePaletteFailedTitle": "Color palette cannot be deleted",
     "deletePaletteFailedMsg": "This palette is used by one or more applications.",
     "paletteName": "Palette Name",
-    "paletteColors": "Palette Colors"
+    "paletteColors": "Palette Colors",
+    "setAsDefault": "Set as Default"
 
 }

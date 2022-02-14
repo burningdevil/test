@@ -21,6 +21,8 @@ import {
   toHex,
 } from '../color-palette.util';
 import ColorPaletteEditor from '../color-palette-editor/color-palette-editor';
+import { Tooltip } from '@mstr/rc';
+import { t } from '../../../../../../src/i18n/i18next';
 interface PaletteGridViewProps {
   paletteList?: any[];
   paletteType: number;
@@ -87,7 +89,30 @@ const PaletteGridView: React.FC<PaletteGridViewProps> = (props) => {
     let data;
     if (applicationPalettes?.length) {
       data = paletteList.filter((v) => applicationPalettes.includes(v.id));
+      initData(paletteList, data)
       setCurrentList([...data]);
+    }
+  };
+  const initData = (paletteList: any[], currentData: any[]) => {
+    // init the default palette. it's redundant for the single selection case.
+    if(getSupportSingleColorPalette()) return;
+    const data = currentData;
+    data.forEach(one => one.isDefaultPalette = false)
+    if (data.map((v) => v.id).includes(defaultPaletteId)) {
+      const item = data.find((v) => v.id === defaultPaletteId);
+      if (item) {
+        item.isDefaultPalette = true;
+      }
+    } else {
+      if (paletteList.map((v) => v.id).includes(defaultPaletteId)) {
+        dataSource.forEach((one) => (one.isDefaultPalette = false));
+      } else {
+        // todo
+        const item = data.find((v) => v.name === 'Categorical');
+        if (item) {
+          item.isDefaultPalette = true;
+        }
+      }
     }
   };
   const dispatchUpdateAction = (
@@ -105,7 +130,6 @@ const PaletteGridView: React.FC<PaletteGridViewProps> = (props) => {
       })
     );
   };
-
   useImperativeHandle(props.cRef, () => ({
     checkAll: (check: boolean) => {
       const defaultApplicationPalettes = applicationPalettes.filter(
@@ -127,6 +151,7 @@ const PaletteGridView: React.FC<PaletteGridViewProps> = (props) => {
   useEffect(() => {
     getData();
   }, [applicationPalettes, paletteList]);
+
   const getRowSelection = (obj: RowSelectionType) => {
     const {
       isDefaultPalette,
@@ -216,8 +241,23 @@ const PaletteGridView: React.FC<PaletteGridViewProps> = (props) => {
   ) => {
     return (
       <>
+        {!data.isDefaultPalette && !getSupportSingleColorPalette() && (
+          <span
+            className='set-default-col operation-item'
+            onClick={() =>
+              setPaletteDefault(
+                data,
+                dispatch,
+                currentPaletteList,
+                setCurrentList
+              )
+            }
+          >
+            {t("setAsDefault")}
+          </span>
+        )}
         <span
-          className='icon-pnl_close'
+          className='icon-pnl_close operation-item'
           onClick={() =>
             removeColorPalette(
               data,
@@ -243,7 +283,22 @@ const PaletteGridView: React.FC<PaletteGridViewProps> = (props) => {
         className: 'name-col',
         width: '150px',
         render: (name: string, data: any) => {
-          return <>{name}</>;
+          return (
+            <>
+              {name}
+              {data.isDefaultPalette && !getSupportSingleColorPalette() && (
+                <span className={`default-color-palette`}>
+                  (Default)
+                  <Tooltip
+                    title={localizedStrings.DEFAULT_COLOR_PALETTE_TOOLTIP}
+                    placement='right'
+                  >
+                    <span className={VC.FONT_MSG_INFO}> </span>
+                  </Tooltip>
+                </span>
+              )}
+            </>
+          )
         },
       },
       {

@@ -86,8 +86,9 @@
     .ant-radio {
         transform: scale(0.75);
     }
+    .ant-checkbox-wrapper-disabled,
     .ant-radio-disabled {
-        display: none;
+        display: none !important;
     }
     .ant-table-row-expand-icon {
         margin-top: 0 !important;

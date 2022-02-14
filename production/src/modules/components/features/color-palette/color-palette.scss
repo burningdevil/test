@@ -11,7 +11,10 @@
 
         
         .set-default-col {
-            color: $mobile-primary-blue;
+            &:hover {
+                color: $mobile-primary-blue;
+            }
+            
             display: none;
         }
 

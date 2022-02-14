@@ -148,7 +148,11 @@ const CustomPaletteModalGrid: React.FC<PaletteProps> = (props: PaletteProps) => 
 
     setDataSource([...data]);
     setCurrentList([...data]);
-    setSelectedRowKeys([selectedId]);
+    if(getSupportSingleColorPalette()){
+      setSelectedRowKeys([selectedId]);
+    }else {
+      setSelectedRowKeys([...applicationPalettes])
+    }
   };
 
   useImperativeHandle(cRef, () => ({
@@ -183,7 +187,7 @@ const CustomPaletteModalGrid: React.FC<PaletteProps> = (props: PaletteProps) => 
 
   useEffect(() => {
     initData(paletteList);
-  }, [paletteList, defaultPaletteId]);
+  }, [paletteList, defaultPaletteId, applicationPalettes]);
 
   useEffect(() => {
     setPaletteLength(currentList?.length);
