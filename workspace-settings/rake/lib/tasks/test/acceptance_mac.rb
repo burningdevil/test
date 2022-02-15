@@ -17,19 +17,11 @@ def architect_service_fqdn
   "architect-service-#{workstation_setting_release_name}.internal.microstrategy.com"
 end
 
-def get_base_image_version
-  "#{ENV['BASE_BRANCH']}-.-latest"
-end
-
 desc "Deploy the environment to kubernetes"
 task :eks_deploy do
   info "=== Deploy test servers ==="
   library_ingress_host = library_service_fqdn
-  base_image_version = get_base_image_version
-
-  override_values = "library.ingress.host=#{library_ingress_host},"+
-                    "iserver.image.version=#{base_image_version},"+
-                    "library.image.version=#{base_image_version}"
+  override_values = "library.ingress.host=#{library_ingress_host}"
 
   eks_deploy(namespace: 'ci', release_name:workstation_setting_release_name, value_overrides: override_values, update_helm: false)
   helm_install_ready?(apps: "postgres-md library iserver", release: workstation_setting_release_name)
