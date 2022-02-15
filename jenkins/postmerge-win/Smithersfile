@@ -28,7 +28,7 @@ EOH
     end
   end
 
-  assigned_node_string 'workstatioin_plugin_ui_test'
+  assigned_node_string 'windows_plugin_ui_test'
 
   builders do
     bash do
