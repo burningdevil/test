@@ -21,13 +21,10 @@ desc "Deploy the environment to kubernetes"
 task :eks_deploy do
   info "=== Deploy test servers ==="
   library_ingress_host = library_service_fqdn
-  architect_service_ingress_host = architect_service_fqdn
-
-  override_values = "library.ingress.host=#{library_ingress_host},"+
-                    "architect-service.ingress.host=#{architect_service_ingress_host}"
+  override_values = "library.ingress.host=#{library_ingress_host}"
 
   eks_deploy(namespace: 'ci', release_name:workstation_setting_release_name, value_overrides: override_values, update_helm: false)
-  helm_install_ready?(apps: "iserver mysql-md library", release: workstation_setting_release_name)
+  helm_install_ready?(apps: "postgres-md library iserver", release: workstation_setting_release_name)
 
   info "Please access the swagger page of web-dossier from url: https://#{library_service_fqdn}/MicroStrategyLibrary/"
 end

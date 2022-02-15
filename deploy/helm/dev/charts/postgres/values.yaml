@@ -12,20 +12,18 @@ imagePullSecrets:
   name: ecrsecret
 
 image:
-  repository: 899557540756.dkr.ecr.us-east-1.amazonaws.com/mysql-tutorial
-  version: latest
+  registry:
+  repository: postgres
+  tags: 11.7
   pullPolicy: Always
 
 service:
   type: ClusterIP
+  port: 5432
 
-replicaCount: 1
-
-database_url: https://nexus.internal.microstrategy.com:8443/repositories/DBBackup/com/microstrategy/dbbackup/mysql56/admin-rest/11.1.003/admin-rest-11.1.003.zip
-database_name: Tutorial
-mysql_root_password: mstr123
-mysql_user: mstr
-mysql_password: mstr123
+postgres_root_password: mstr123
+postgres_user: postgres
+postgres_password: mstr123
 
 volumes:
   enabled: false
@@ -36,10 +34,6 @@ volumes:
   db_usage: the usage of this pv
   storage_class: storage class name
 
-config:
-  from_config_map: false
-  config_map_name: default-configmap-{{ .Release.Name }}
-  
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little

@@ -1,14 +1,10 @@
 ---
 dependencies:
-- name: mysql
-  version: 0.1.36
-  repository: file://./charts/mysql
-  alias: mysql-md
-- name: mysql
-  version: 0.1.36
-  repository: file://./charts/mysql
-  alias: mysql-wh
-- name: iserver
-  repository: file://./charts/iserver
-- name: library
-  repository: file://./charts/library
+  - name: postgres
+    version: 0.1.1
+    repository: file://./charts/postgres
+    alias: postgres-md
+  - name: iserver
+    repository: file://./charts/iserver
+  - name: library
+    repository: file://./charts/library

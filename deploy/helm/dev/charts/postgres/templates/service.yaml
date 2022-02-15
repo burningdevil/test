@@ -8,6 +8,6 @@ metadata:
 spec:
   type: {{ .Values.service.type | quote }}
   ports:
-  - port: 3306
+  - port: 5432
   selector:
 {{- include "product.labels" . | indent 4 }}

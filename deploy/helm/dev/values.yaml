@@ -2,41 +2,49 @@
 global:
   namespace: ci
   branch_name: m2021
-mysql-md:
+
+postgres-md:
+  replicaCount: 1
   image:
-    repository: nexus.internal.microstrategy.com:49080/mysql-tutorial
-    version: MySQL5.7
-  database_url: https://nexus.internal.microstrategy.com/repository/DBBackup/com/microstrategy/dbbackup/mysql56/workstation-homescreen-admin/metadata/11.3.003/metadata-11.3.003.sql
+    registry:
+    repository: postgres
+    tags: 11.7
+    pullPolicy: IfNotPresent
+  database_url: https://nexus.internal.microstrategy.com/repository/DBBackup/com/microstrategy/DBBackup/PSQL11/homescreenadmin/11.3.001/homescreenadmin-11.3.001.zip
   database_name: poc_metadata
-  mysql_root_password: mstr1234
-mysql-wh:
-  image:
-    repository: nexus.internal.microstrategy.com:49080/mysql-tutorial
-    version: MySQL5.7
-  database_url: http://nexus.internal.microstrategy.com/repositories/DBBackup/com/microstrategy/dbbackup/mysql80/workstation-plugin/warehouse/11.2.0001/warehouse-11.2.0001.sql
-  database_name: tutorial-wh
-  mysql_root_password: mstr1234
+  postgres_password: mstr1234
+  postgres_user: postgres
+  service:
+    type: ClusterIP
+  config:
+    from_config_map: true
+    config_map_name: configmap-{{ .Release.Name }}
+
 iserver:
   replicaCount: 1
   image:
     repository: nexus.internal.microstrategy.com:49080/iserver
     version: m2021-.-latest
     pullPolicy: IfNotPresent
-  odbc:
-    db_md_name: poc_metadata
-    dsn_md: poc_metadata
-    db_wh_name: tutorial-wh
-    dsn_wh: tutorial-wh
-  dbserver:
-    override: true
-    md_server: mysql-md-{{ .Release.Name }}
-    wh_server: mysql-wh-{{ .Release.Name }}
   config:
     from_config_map: true
     config_map_name: configmap-{{ .Release.Name }}
+    serverdef: mtdi
+  odbc:
+    db_md_name: poc_metadata
+    dsn_md: poc_metadata
+    db_md_user: postgres
+    md_type: postgresql
+  dbserver:
+    override: true
+    md_server: postgres-md-{{ .Release.Name }}
   service:
     type: ClusterIP
     port: 34952
+  connectivity:
+    login: 
+    password: 
+    projectName: 
   ingress:
     enabled: false
     host: iserver-m2021-dev.internal.microstrategy.com
