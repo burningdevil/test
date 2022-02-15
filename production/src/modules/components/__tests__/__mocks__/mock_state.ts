@@ -937,20 +937,6 @@ export const mockColorPalette: RootState = {
       isDuplicateConfig: false,
       isStateChangeByManual: false,
       configInfoList: [],
-      colorPalettes: [
-        {
-          name: 'Default',
-          paletteType: 1,
-          id: '1',
-          colors: ['123456']
-        },
-        {
-          name: 'Pepsi',
-          paletteType: 2,
-          id: '2',
-          colors: ['#ffffff']
-        }
-      ],
       previewDeviceType: featureFlag.platformEnable ? reviewType.TABLET : reviewType.WEB,
   },
   configMain: {
@@ -965,5 +951,23 @@ export const mockColorPalette: RootState = {
       loadingDossiersFinish: true,
       loadingDocuments: false,
       loadingDocumentsFinish: true
-  }
+  },
+  colorPalette: {
+    data: [
+      {
+        name: 'Default',
+        paletteType: 1,
+        id: '1',
+        colors: ['123456']
+      },
+      {
+        name: 'Pepsi',
+        paletteType: 2,
+        id: '2',
+        colors: ['#ffffff']
+      }
+    ],
+    loadingColorPalette: false,
+    loadingColorPaletteFinish: false
+  },
 }

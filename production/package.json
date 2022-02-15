@@ -22,7 +22,8 @@
     "lint:fix": "npm run lint -- --fix",
     "metrics": "node build/scripts/generateMetrics.js",
     "updateVersion": "node build/scripts/updateVersion",
-    "serve": "babel-node --presets env mockServer.js"
+    "serve": "babel-node --presets env mockServer.js",
+    "prettier": "cd ../ && prettier --write $(git diff --cached --name-only --diff-filter d |  xargs)"
   },
   "proxy": "http://localhost:3005",
   "license": "MIT",
@@ -169,5 +170,9 @@
     "webpack-dev-server": "^3.9.0",
     "webpack-hot-middleware": "^2.24.3",
     "yargs": "^8.0.1"
-  }
+  },
+  "hooks": {
+    "pre-push": "npm run unit-test",
+    "pre-commit": "npm run prettier"
+}
 }

@@ -16,6 +16,12 @@
         vertical-align: top;
         margin-top: 2px;
     }
+    .default-color-palette {
+        padding-right: 2px;
+    }
+    .ant-table-cell {
+        font-size: 12px;
+    }
     .ant-table-row:hover {
         .operation-item {
             display: inline-block;

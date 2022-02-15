@@ -38,22 +38,16 @@ describe('ColorPaletteBlade Component', () => {
       </Provider>
     );
     // check default color palette checked
-    const checkboxes = queryAllByRole('radio');
+    const checkboxes = queryAllByRole('checkbox');
     const defaultCheckBox = checkboxes[0];
     expect(defaultCheckBox).toBeInTheDocument();
-    expect(defaultCheckBox).not.toBeChecked();
-
-    // Check custom palette
-    const customCheckBox = checkboxes[1];
-    expect(customCheckBox).toBeInTheDocument();
-    expect(customCheckBox).toBeChecked();
+    expect(defaultCheckBox).toBeChecked();
     
     fireEvent.click(defaultCheckBox);
-    expect(defaultCheckBox).toBeChecked();
-    expect(customCheckBox).not.toBeChecked();
-
-    fireEvent.click(customCheckBox);
-
+    
+    expect(defaultCheckBox).not.toBeChecked();
+    
+    fireEvent.click(defaultCheckBox);
     // check add button
     const paletteAddBtn = container.querySelector('.icon-pnl_add-new');
     expect(paletteAddBtn).not.toBeInTheDocument();

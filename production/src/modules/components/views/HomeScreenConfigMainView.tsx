@@ -86,20 +86,22 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
           isLibraryVersionSupportDocumentType: false
         });
       }
-    })
+    });
     workstation.window.addHandler(WindowEvent.POSTMESSAGE, (msg: any) => {
-      if(_.get(msg, configSaveSuccessPath, '')){
+      if(_.get(msg, configSaveSuccessPath, false)){
         this.setState({
           isInitialLoading: false
         });
         this.loadData();
       }
-      return {
-          ResponseValue: true
-      };
+        return {
+          ResponseValue: false
+      }
+      
     });
   }
-
+  
+  
 
 
   checkServerAndUserPrivilege = async () => {
@@ -257,6 +259,9 @@ filterCandidate = (configList: any[]) => {
   componentWillUnmount() {
     this.unsubscribe?.unsubscribe?.();
     this.destroy$.next(true);
+  //   workstation.window.removeHandler(WindowEvent.POSTMESSAGE, () => {return {
+  //     ResponseValue: true
+  // };}, configSaveSuccessPath)
   }
   loadApplicationsFolder = async () => {
     let hasDefault = true;

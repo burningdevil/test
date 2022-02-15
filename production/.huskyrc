@@ -1,5 +1,6 @@
 {
   "hooks": {
-    "pre-push": "npm run unit-test"
+    "pre-push": "npm run unit-test",
+    "pre-commit": "npm run prettier"
   }
 }

@@ -3,354 +3,214 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  selectAllColorPalettes,
-  selectApplicationDefaultPalette,
-  selectApplicationPalettes,
+    selectAllColorPalettes,
+    selectApplicationDefaultPalette,
+    selectApplicationPalettes,
 } from '../../../../../store/selectors/HomeScreenConfigEditorSelector';
 import '../color-palette.scss';
 import './palette-grid-view.scss';
-import { useImperativeHandle } from 'react';
 import { useState } from 'react';
 import * as Actions from '../../../../../store/actions/ActionsCreator';
-import {
-  default as VC,
-  localizedStrings,
-} from '../../../HomeScreenConfigConstant';
-import {
-  getSupportSingleColorPalette,
-  toHex,
-} from '../color-palette.util';
-import ColorPaletteEditor from '../color-palette-editor/color-palette-editor';
-import { Tooltip } from '@mstr/rc';
+import { toHex } from '../color-palette.util';
 import { t } from '../../../../../../src/i18n/i18next';
+import { ColorPaletteType } from 'src/types/data-model/HomeScreenConfigModels';
 interface PaletteGridViewProps {
-  paletteList?: any[];
-  paletteType: number;
-  cRef?: any;
-  checkIndeterminate?: any;
-  classNamePrefix?: string;
-}
-interface RowSelectionType {
-  isDefaultPalette: boolean;
-  selectedRowKeys: any[];
-  setSelectedRowKeys: any;
-  checkIndeterminate: any;
-  dataSource: any[];
-  dispatch: any;
+    paletteList?: any[];
+    paletteType: number;
+    cRef?: any;
+    checkIndeterminate?: any;
+    classNamePrefix?: string;
 }
 const renderPaletteColors = (colors: Array<string>) => {
-  return colors.map((c, index) => {
-    return (
-      <div
-        className='color-block'
-        key={index}
-        style={{
-          backgroundColor: toHex(c),
-          width: '19px',
-          height: '19px',
-          float: 'left',
-        }}
-      />
-    );
-  });
-};
-const setPaletteDefault = (
-  data: any,
-  dispatch: any,
-  dataSource: any[],
-  setCurrentList: any
-) => {
-  if (data.isDefaultPalette) return;
-  dataSource.forEach((one) => (one.isDefaultPalette = false));
-  dataSource.find((v) => v.id === data.id).isDefaultPalette = true;
-  setCurrentList(dataSource);
-  dispatch(
-    Actions.updateCurrentConfig({
-      applicationDefaultPalette: data.id,
-    })
-  );
+    return colors.map((c, index) => {
+        return (
+            <div
+                className="color-block"
+                key={index}
+                style={{
+                    backgroundColor: toHex(c),
+                    width: '19px',
+                    height: '19px',
+                    float: 'left',
+                }}
+            />
+        );
+    });
 };
 
 const PaletteGridView: React.FC<PaletteGridViewProps> = (props) => {
-  const { classNamePrefix, paletteType } = props;
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
+    const paletteList: any[] = useSelector(selectAllColorPalettes);
+    const defaultPaletteId = useSelector(selectApplicationDefaultPalette);
+    const applicationPalettes = useSelector(selectApplicationPalettes) ?? [];
+    const [currentList, setCurrentList] = useState(null);
 
-  const paletteList: any[] = useSelector(selectAllColorPalettes);
-  const defaultPaletteId = useSelector(selectApplicationDefaultPalette);
-  const applicationPalettes = useSelector(selectApplicationPalettes) ?? [];
-  const [currentList, setCurrentList] = useState([]);
-  const [dataSource, setDataSource] = useState([]);
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [isShowEditPalette, setEditorPalette] = useState(false);
-  const [paletteEditorParams, setEditorParams] = useState({});
-  const isDefaultPalette = paletteType === 1 ? true : false;
-
-  const getData = () => {
-    let data;
-    if (applicationPalettes?.length) {
-      data = paletteList.filter((v) => applicationPalettes.includes(v.id));
-      initData(paletteList, data)
-      setCurrentList([...data]);
-    }
-  };
-  const initData = (paletteList: any[], currentData: any[]) => {
-    // init the default palette. it's redundant for the single selection case.
-    if(getSupportSingleColorPalette()) return;
-    const data = currentData;
-    data.forEach(one => one.isDefaultPalette = false)
-    if (data.map((v) => v.id).includes(defaultPaletteId)) {
-      const item = data.find((v) => v.id === defaultPaletteId);
-      if (item) {
-        item.isDefaultPalette = true;
-      }
-    } else {
-      if (paletteList.map((v) => v.id).includes(defaultPaletteId)) {
-        dataSource.forEach((one) => (one.isDefaultPalette = false));
-      } else {
-        // todo
-        const item = data.find((v) => v.name === 'Categorical');
-        if (item) {
-          item.isDefaultPalette = true;
+    useEffect(() => {
+        getData();
+    }, [applicationPalettes, paletteList]);
+    const getData = () => {
+        let data;
+        if (applicationPalettes?.length && paletteList?.length) {
+            data = paletteList.filter((v) =>
+                applicationPalettes.includes(v.id)
+            );
+            initData(paletteList, data);
+            data.sort((a, b) => {
+                if (a.isDefaultPalette) {
+                    return -1;
+                } else if (b.isDefaultPalette) {
+                    return 1;
+                } else
+                    return applicationPalettes.indexOf(a.id) <
+                        applicationPalettes.indexOf(b.id)
+                        ? -1
+                        : 1;
+            });
+            setCurrentList([...data]);
         }
-      }
-    }
-  };
-  const dispatchUpdateAction = (
-    defaultApplicationPalettes: string[],
-    targetData: string[]
-  ) => {
-    const defaultData = getSupportSingleColorPalette()
-      ? []
-      : defaultApplicationPalettes;
-    dispatch(
-      Actions.updateCurrentConfig({
-        applicationPalettes: Array.from(
-          new Set(defaultData.concat(targetData))
-        ),
-      })
-    );
-  };
-  useImperativeHandle(props.cRef, () => ({
-    checkAll: (check: boolean) => {
-      const defaultApplicationPalettes = applicationPalettes.filter(
-        (v) => !dataSource.map((v) => v.id).includes(v)
-      );
-      if (check) {
-        setSelectedRowKeys(dataSource.map((v) => v.id));
-        dispatchUpdateAction(
-          defaultApplicationPalettes,
-          dataSource.map((v) => v.id)
-        );
-      } else {
-        setSelectedRowKeys([]);
-        dispatchUpdateAction(defaultApplicationPalettes, []);
-      }
-    },
-  }));
-
-  useEffect(() => {
-    getData();
-  }, [applicationPalettes, paletteList]);
-
-  const getRowSelection = (obj: RowSelectionType) => {
-    const {
-      isDefaultPalette,
-      selectedRowKeys,
-      setSelectedRowKeys,
-      checkIndeterminate,
-      dataSource,
-      dispatch,
-    } = obj;
-    const rowSelection = {
-      type: getSupportSingleColorPalette() ? 'radio' : 'checkbox',
-      selectedRowKeys,
-      onChange: (selectedRowKeys: any, selectedRows: any) => {
-        console.log(
-          `selectedRowKeys: ${selectedRowKeys}`,
-          'selectedRows: ',
-          selectedRows
-        );
-        setSelectedRowKeys(selectedRows.map((v: any) => v.id));
-        checkIndeterminate(selectedRows.length, dataSource.length);
-        const defaultApplicationPalettes = applicationPalettes.filter(
-          (v) => !dataSource.map((v) => v.id).includes(v)
-        );
-        dispatchUpdateAction(
-          defaultApplicationPalettes,
-          selectedRows.map((v: any) => v.id)
-        );
-        // for the single selection case, there is no set default operation. So when the radio selection is changed, should update the default palette at the same time.
-        if (getSupportSingleColorPalette()) {
-          setPaletteDefault(
-            selectedRows[0],
-            dispatch,
-            dataSource,
-            setCurrentList
-          );
-        }
-      },
-      getCheckboxProps: (record: any) => ({
-        disabled: record.paletteType === 2,
-        // Column configuration not to be checked
-        name: record.id,
-      }),
     };
-    if (isDefaultPalette) {
-      return rowSelection;
-    }
-  };
-  const removeColorPalette = (
-    data: any,
-    dispatch: any,
-    dataSource: any[],
-    setCurrentList: any
-  ) => {
-    const leftList = dataSource.filter((v) => v.id !== data.id);
-    const defaultApplicationPalettes = applicationPalettes.filter(
-      (v) => !dataSource.map((v) => v.id).includes(v)
-    );
-    dispatchUpdateAction(
-      defaultApplicationPalettes,
-      leftList.map((v: any) => v.id)
-    );
-    // special handling, if remove the default item, then the first one in the list will be set to default automatically.
-    if (data.isDefaultPalette) {
-      leftList[0].isDefaultPalette = true;
-      dispatch(
-        Actions.updateCurrentConfig({
-          applicationDefaultPalette: leftList[0].id,
-        })
-      );
-    }
-    setCurrentList(leftList);
-  };
-  const duplicatePalette = (data: any) => {
-    setEditorPalette(true);
-    let cloneObject = { ...data };
-    cloneObject.name = `Copy of ${data.name}`;
-    cloneObject.isDuplicate = true;
-    cloneObject.isDuplicateFromDefault = true;
-    setEditorParams(cloneObject);
-  };
-  const renderPaletteOperations = (
-    isDefaultPalette: boolean,
-    data: any,
-    dispatch: any,
-    currentPaletteList: any[],
-    setCurrentList: any
-  ) => {
-    return (
-      <>
-        {!data.isDefaultPalette && !getSupportSingleColorPalette() && (
-          <span
-            className='set-default-col operation-item'
-            onClick={() =>
-              setPaletteDefault(
-                data,
-                dispatch,
-                currentPaletteList,
-                setCurrentList
-              )
+    const initData = (paletteList: any[], currentData: any[]) => {
+        // init the default palette. it's redundant for the single selection case.
+        if (!currentData?.length) return;
+        paletteList.forEach((p) => (p.isDefaultPalette = false));
+        const data = currentData;
+        data.forEach((one) => (one.isDefaultPalette = false));
+        if (data.map((v) => v.id).includes(defaultPaletteId)) {
+            const item = data.find((v) => v.id === defaultPaletteId);
+            if (item) {
+                item.isDefaultPalette = true;
             }
-          >
-            {t("setAsDefault")}
-          </span>
-        )}
-        <span
-          className='icon-pnl_close operation-item'
-          onClick={() =>
-            removeColorPalette(
-              data,
-              dispatch,
-              currentPaletteList,
-              setCurrentList
-            )
-          }
-        />
-      </>
-    );
-  };
-  const getColumns = (
-    isDefaultPalette: boolean,
-    dispatch: any,
-    currentPaletteList: any[],
-    setCurrentList: any
-  ) => {
-    let columns = [
-      {
-        title: 'Name',
-        dataIndex: 'name',
-        className: 'name-col',
-        width: '150px',
-        render: (name: string, data: any) => {
-          return (
-            <>
-              {name}
-              {data.isDefaultPalette && !getSupportSingleColorPalette() && (
-                <span className={`default-color-palette`}>
-                  (Default)
-                  <Tooltip
-                    title={localizedStrings.DEFAULT_COLOR_PALETTE_TOOLTIP}
-                    placement='right'
-                  >
-                    <span className={VC.FONT_MSG_INFO}> </span>
-                  </Tooltip>
-                </span>
-              )}
-            </>
-          )
-        },
-      },
-      {
-        title: 'Colors',
-        dataIndex: 'colors',
-        width: '80%',
-        render: (d: Array<string>, data: any) => {
-          return (
-            <div className={'color-palette-item-colors-col'}>
-              {renderPaletteColors(d)}
-              {renderPaletteOperations(
-                false,
-                data,
-                dispatch,
-                currentPaletteList,
-                setCurrentList
-              )}
-            </div>
-          );
-        },
-      },
-    ];
+        } else {
+            data[0].isDefaultPalette = true;
+        }
+    };
+    const dispatchUpdateAction = (targetData: string[]) => {
+        dispatch(
+            Actions.updateCurrentConfig({
+                applicationPalettes: Array.from(new Set(targetData)),
+            })
+        );
+    };
 
-    return columns;
-  };
-  return (
-    <>
-      <div
-        id={`color-palette-grid-${props.paletteType}`}
-        className={'color-palette-grid-container'}
-      >
-        <Table
-          showHeader={false}
-          pagination={false}
-          rowKey='id'
-          size={'small'}
-          dataSource={currentList}
-          scroll={{ y: 255 }}
-          columns={getColumns(
-            isDefaultPalette,
-            dispatch,
-            currentList,
-            setCurrentList
-          )}
-        />
-        <ColorPaletteEditor
-          visible={isShowEditPalette}
-          params={paletteEditorParams}
-          onClose={() => setEditorPalette(false)}
-        ></ColorPaletteEditor>
-      </div>
-    </>
-  );
+    const removeColorPalette = (data: any) => {
+        const leftList = currentList.filter(
+            (v: ColorPaletteType) => v.id !== data.id
+        );
+        dispatchUpdateAction(leftList.map((v: any) => v.id));
+        // special handling, if remove the default item, then the first one in the list will be set to default automatically.
+        if (data.isDefaultPalette) {
+            if (leftList?.length) {
+                leftList[0].isDefaultPalette = true;
+                dispatch(
+                    Actions.updateCurrentConfig({
+                        applicationDefaultPalette: leftList[0].id,
+                    })
+                );
+            } else {
+                dispatch(
+                    Actions.updateCurrentConfig({
+                        applicationDefaultPalette: '',
+                    })
+                );
+            }
+        }
+        setCurrentList(leftList);
+    };
+    const setPaletteDefault = (data: any) => {
+        if (data.isDefaultPalette) return;
+        currentList.forEach(
+            (one: ColorPaletteType) => (one.isDefaultPalette = false)
+        );
+        currentList.find(
+            (v: ColorPaletteType) => v.id === data.id
+        ).isDefaultPalette = true;
+        setCurrentList(currentList);
+        // should pop up the default to the first.
+        const newApplicationPalettes = applicationPalettes.filter(
+            (v) => v !== data.id
+        );
+        newApplicationPalettes.unshift(data.id);
+        dispatch(
+            Actions.updateCurrentConfig({
+                applicationDefaultPalette: data.id,
+                applicationPalettes: newApplicationPalettes,
+            })
+        );
+    };
+    const renderPaletteOperations = (data: any) => {
+        return (
+            <>
+                {!data.isDefaultPalette && (
+                    <span
+                        className="set-default-col operation-item"
+                        onClick={() => setPaletteDefault(data)}
+                    >
+                        {t('setAsDefault')}
+                    </span>
+                )}
+                <span
+                    className="icon-pnl_close operation-item"
+                    onClick={() => removeColorPalette(data)}
+                />
+            </>
+        );
+    };
+    const getColumns = () => {
+        let columns = [
+            {
+                title: 'Name',
+                dataIndex: 'name',
+                className: 'name-col',
+                width: '200px',
+                ellipsis: true,
+                render: (name: string, data: any) => {
+                    return (
+                        <>
+                            {data.isDefaultPalette && (
+                                <span className={`default-color-palette`}>
+                                    ({t('default')})
+                                </span>
+                            )}
+                            {name}
+                        </>
+                    );
+                },
+            },
+            {
+                title: 'Colors',
+                dataIndex: 'colors',
+                width: '80%',
+                render: (d: Array<string>, data: any) => {
+                    return (
+                        <div className={'color-palette-item-colors-col'}>
+                            {renderPaletteColors(d)}
+                            {renderPaletteOperations(data)}
+                        </div>
+                    );
+                },
+            },
+        ];
+
+        return columns;
+    };
+    return (
+        <>
+            <div
+                id={`color-palette-grid-${props.paletteType}`}
+                className={'color-palette-grid-container'}
+            >
+                <Table
+                    showHeader={false}
+                    pagination={false}
+                    loading={!currentList}
+                    rowKey="id"
+                    size={'small'}
+                    dataSource={currentList}
+                    scroll={{ y: 500 }}
+                    columns={getColumns()}
+                />
+            </div>
+        </>
+    );
 };
 export default PaletteGridView;

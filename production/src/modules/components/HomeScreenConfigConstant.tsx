@@ -352,6 +352,7 @@ export const localizedStrings = {
     "enableMicroStrategyColorPaletteTooltip"
   ),
   CUSTOM_COLOR_PALETTE_TITLE: t("customColorPaletteTitle"),
+  CUSTOM_COLOR_PALETTE_TAB_DESC: t("colorPaletteTabDesc"),
   NEW_COLOE_PALETTE: t("newColorPalette"),
   EMPTY_COLOR_PALETTE_LIST_HINT: t("emptyColorPaletteListHint"),
   USE_NEW_COLOR_PALETTE_DESC: t(

@@ -1,10 +1,11 @@
-import { useDispatch } from 'react-redux';
-import * as Actions from '../../../../store/actions/ActionsCreator';
+export const COLOR_PALETTE_SELECTED_FORM = 'color_palette_selected_form';
 
 export const toHex = (d: string) => {
   // follow the sequence to transform: B G R into int.
   if (!d || d?.startsWith('#')) return d;
   let t = parseInt(d, 10);
+  if(t < 0) return '#000000';
+  if(t > 16777215) return '#ffffff';
   let res = '#';
   let flag = 1 << 8;
   let cnt = 3;

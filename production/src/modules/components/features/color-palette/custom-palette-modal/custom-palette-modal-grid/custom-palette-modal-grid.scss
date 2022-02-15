@@ -15,9 +15,11 @@
             }
             
         }
-        
     }
-    
+    .default-color-palette {
+        color: $msdl-blue;
+        padding-right: 2px;
+    }
     .operation-item {
         display: none;
         margin-left: 5px;
@@ -83,6 +85,9 @@
     .ant-table-cell {
         font-size: 12px;
     }
+    .ant-table-selection {
+        right: 7px;
+    }
     .ant-radio {
         transform: scale(0.75);
     }
@@ -92,7 +97,7 @@
     }
     .ant-table-row-expand-icon {
         margin-top: 0 !important;
-        margin-left: -30px;
+        margin-left: -32px;
     }
 }
 .highlight-row {

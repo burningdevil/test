@@ -50,7 +50,7 @@ describe('ColorPaletteModal Component', () => {
     fireEvent.click(clearBtn);
     await waitFor(() => {expect(modalContainer.querySelectorAll('.ant-table-row').length).toBe(3);});
 
-    const checkBoxes = queryAllByRole('radio');
+    const checkBoxes = queryAllByRole('checkbox');
     
     fireEvent.click(checkBoxes[1]);
     expect(checkBoxes[1]).toBeChecked();

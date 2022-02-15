@@ -8,7 +8,7 @@ export const selectConfigEditorRoot = (state: RootState) => state.configEditor
 export const selectConfigMainRoot = (state: RootState) => state.configMain
 export const selectBundleContentRoot = (state: RootState) => state.bundleContent
 export const selectContentRoot = (state: RootState) => state.content
-
+export const selectColorPaletteRoot = (state: RootState) => state.colorPalette
 export const selectCurrentConfig = createSelector(
     selectConfigEditorRoot,
   (configEditorRoot) => configEditorRoot.currentConfig
@@ -150,9 +150,9 @@ export const selectDefaultGroupsName = createSelector(
 )
 
 export const selectAllColorPalettes = createSelector(
-  selectConfigEditorRoot,
+  selectColorPaletteRoot,
   (config) =>  { 
-    return config.colorPalettes
+    return config.data
   }
 )
 

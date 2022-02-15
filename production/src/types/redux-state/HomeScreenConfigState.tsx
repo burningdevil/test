@@ -3,7 +3,6 @@ import { HomeScreenConfigType, MainViewContentBundleType, HomeScreenBundleConten
 export interface HomeScreenConfigEditorState {
     currentConfig: Partial<HomeScreenConfigType>
     configInfoList: Array<HomeScreenConfigInfo>
-    colorPalettes: Array<ColorPaletteType>
     isDuplicateConfig: boolean
     isConfigNameError: boolean
     previewDeviceType: string,
@@ -29,10 +28,16 @@ export interface HomeScreenEditorContentBundleState {
     loadingContentBundle: boolean,
     loadingContentBundleFinish: boolean,
 }
-
+export interface HomeScreenEditorColorPaletteState {
+    data: Array<ColorPaletteType>
+    loadingColorPalette: boolean,
+    loadingColorPaletteFinish: boolean,
+}
 export interface RootState {
     configEditor: HomeScreenConfigEditorState,
     configMain: HomeScreenMainViewState,
     bundleContent: HomeScreenBundleContentState,
-    content: HomeScreenEditorContentBundleState
+    content: HomeScreenEditorContentBundleState,
+    colorPalette?: HomeScreenEditorColorPaletteState
 }
+

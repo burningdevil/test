@@ -269,6 +269,9 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
        config.applicationPalettes =  [];
        config.applicationDefaultPalette = '';
      }
+     if(config.applicationPalettes?.length && !config.applicationDefaultPalette){
+       config.applicationDefaultPalette = config.applicationPalettes[0];
+     }
 
       if(this.props.isDossierHome){
         config.homeScreen.homeLibrary.contentBundleIds = [];

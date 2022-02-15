@@ -153,7 +153,7 @@
     "customColorPaletteTitle": "Custom Color Palettes",
     "newColorPalette": "Add New",
     "addCustomColorPalettes": "Add Custom Color Palettes",
-    "addCustomColorPalettesMessage": "please select color palette from the existing list.",
+    "addCustomColorPalettesMessage": "Please select color palette from the existing list.",
     "emptyColorPaletteListHint": "To create your custom color palette, click Add New. Your custom color palette will appear here.",
 
     "environmentDisconnectErrorTitleMsg": "The selected environment is disconnected",
@@ -186,7 +186,7 @@
     "closeWindowConfirmationStr": "Do you want to save the changes you made to {{name}}?",
     "project": "Project",
 
-    "useNewColorPaletteDesc": "Use new color palettes for the application.",
+    "useNewColorPaletteDesc": "Specify color palettes for this application",
     "usePreviousColorPaletteDesc": "Keep current color palettes that are available.",
     "customColorPaletteDesc": "Add custom color palettes for dossiers in the application",
     "defaultColorPaletteTitle": "MicroStrategy Defaults",
@@ -203,6 +203,7 @@
     "deletePaletteFailedMsg": "This palette is used by one or more applications.",
     "paletteName": "Palette Name",
     "paletteColors": "Palette Colors",
-    "setAsDefault": "Set as Default"
+    "setAsDefault": "Set as Default",
+    "colorPaletteTabDesc": "To specify color palettes at the application level, select the option below. The palette defined as the default will automatically be applied to all dossiers in this application."
 
 }
