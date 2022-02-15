@@ -86,7 +86,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
         const isDossier = this.state.activeTab === 'Dossier';
         let results: any[] = [];
         let lastRow: number = -1;
-        let limit: number = 1000;
+        let limit: number = 100;
         let dossiers = selectAllDossiers(store.getState() as RootState);
         let documents = selectAllDocuments(store.getState() as RootState);
         let loadFinished = isDossier
