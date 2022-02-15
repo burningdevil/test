@@ -27,13 +27,13 @@ spec:
         command:
         - /opt/mstr/wait_for_it.sh
 {{- if .Values.dbserver.override }}
-        - {{ tpl .Values.dbserver.md_server . }}:3306
+        - {{ tpl .Values.dbserver.md_server . }}:5432
 {{- else }}
-        - mysql-{{ .Release.Name }}:3306
+        - postgres-{{ .Release.Name }}:5432
 {{- end }}
-        - --timeout=300
+        - --timeout=600
         - --
-        - /opt/mstr/startup.sh
+        - /mnt/scripts/init_iserver.sh
         env:
         - name: IS_CONFIG_FILE
           value: {{ .Values.config.is_config_file }}
@@ -42,28 +42,42 @@ spec:
 {{- if .Values.dbserver.override }}
         - name: DB_MD_SERVER
           value: {{ tpl .Values.dbserver.md_server . }}
-        - name: DB_WH_SERVER
-          value: {{ tpl .Values.dbserver.wh_server . }}
+        #- name: DB_WH_SERVER
+        #  value: {{ tpl .Values.dbserver.wh_server . }}
 {{- else }}
         - name: DB_MD_SERVER
-          value: mysql-{{ .Release.Name }}
-        - name: DB_WH_SERVER
-          value: mysql-{{ .Release.Name }}
+          value: postgres-{{ .Release.Name }}
+        #- name: DB_WH_SERVER
+        #  value: mysql-{{ .Release.Name }}
 {{- end }}
-        - name: DB_WH_PORT
-          value: "3306"
+        #- name: DB_WH_PORT
+        #  value: "3306"
+        - name: DB_USER
+          value: {{ .Values.odbc.db_md_user }}
         - name: DB_MD_PORT
-          value: "3306"
+          value: "5432"
         - name: DB_MD_NAME
           value: {{ .Values.odbc.db_md_name }}
-        - name: DB_WH_NAME
-          value: {{ .Values.odbc.db_wh_name }}
+        #- name: DB_WH_NAME
+        #  value: {{ .Values.odbc.db_wh_name }}
+        - name: DB_TYPE
+          value: {{ .Values.odbc.md_type }}
         - name: DSN_MD
           value: {{ .Values.odbc.dsn_md }}
-        - name: DSN_WH
-          value: {{ .Values.odbc.dsn_wh }}
+        #- name: DSN_WH
+        #  value: {{ .Values.odbc.dsn_wh }}
+        - name: SERVER_DEF
+          value: {{ .Values.config.serverdef }}
         - name: NEE_HOST
           value: nee-{{ .Release.Name }}
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
         ports:
         - containerPort: 34952
         - containerPort: 34962
@@ -72,7 +86,7 @@ spec:
             command:
             - /bin/bash
             - -c
-            - "/usr/bin/ps -ef | /usr/bin/grep -i mstrsvr"
+            - "/opt/mstr/MicroStrategy/bin/mstrctl -s IntelligenceServer gs | grep running"
           initialDelaySeconds: 60
           periodSeconds: 60
         volumeMounts:
@@ -99,9 +113,12 @@ spec:
         - name: iserver-config-volume
           mountPath: /opt/mstr/MicroStrategy/config.ini
           subPath: config.ini
-        - name: iserver-startup-volume
-          mountPath: /opt/mstr/startup.sh
-          subPath: startup.sh
+        - name: init-iserver
+          mountPath: /mnt/scripts/init_iserver.sh
+          subPath: init_iserver.sh
+        - name: fix-encoding
+          mountPath: /mnt/scripts/fix_encoding.sh
+          subPath: fix_encoding.sh
 {{- end }}
       volumes:
       - name: log-dir
@@ -110,22 +127,31 @@ spec:
       - name: odbc-config-volume
         configMap:
           name: {{ tpl .Values.config.config_map_name . }}
+          defaultMode: 0777
           items:
           - key: odbc.ini
             path: odbc.ini
       - name: iserver-config-volume
         configMap:
           name: {{ tpl .Values.config.config_map_name . }}
+          defaultMode: 0777
           items:
           - key: config.ini
             path: config.ini
-      - name: iserver-startup-volume
+      - name: init-iserver
         configMap:
           name: {{ tpl .Values.config.config_map_name . }}
           defaultMode: 0777
           items:
-          - key: startup.sh
-            path: startup.sh
+          - key: init_iserver.sh
+            path: init_iserver.sh
+      - name: fix-encoding
+        configMap:
+          name: {{ tpl .Values.config.config_map_name . }}
+          defaultMode: 0777
+          items:
+          - key: fix_encoding.sh
+            path: fix_encoding.sh
 {{- end }}
 {{- if .Values.volumes.cube.enabled }}
       - name: cube
