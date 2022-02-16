@@ -22,18 +22,6 @@ data:
     session.searchWorkingSet = 3
     iserver.initialPoolSize = 10
 
-  modelservice.conf: |-
-    modelservice.debug.enabled = true
-    iserver.hostname = iserver-{{ .Release.Name }}
-    iserver.port = 34952
-    iserver.project = MicroStrategy Tutorial(Playground)
-    iserver.username = Administrator
-    iserver.password
-    modelservice.identity_token.secret_key = tDiLgBAWoqERnkCLngcG
-    modelservice.featureflag.api.enabled = true
-    modelservice.featureflag.fact.enabled = true
-    modelservice.admin.authtoken  =  test12345
-
   odbc.ini: |-
     [ODBC Data Sources]
     poc_metadata=MicroStrategy ODBC Driver for PostgreSQL Wire Protocol
@@ -64,7 +52,7 @@ data:
     Server=1
     Action=4
     InstanceName=CICD
-    ProjectsToRegister=ProjectsToRegister=Human Resources Analysis Module\MicroStrategy Tutorial\New Project\
+    ProjectsToRegister=Consolidated Education Project\Hierarchies Project\Human Resources Analysis Module\MicroStrategy Tutorial\Relationships Project\Star\
     ProjectsToUnregister=
     DSName={{ .Values.iserver.odbc.dsn_md }}
     DSNUser=postgres
