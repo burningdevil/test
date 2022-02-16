@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}-{{ .Release.Name }}
+{{- include "namespace" . | indent 2 }}
+  labels:
+{{- include "product.labels" . | indent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+{{- include "product.labels" . | indent 6 }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+{{- include "product.labels" . | indent 8 }}
+    spec:
+{{- if .Values.imagePullSecrets.enabled }}
+      imagePullSecrets:
+      - name: {{ .Values.imagePullSecrets.name }}
+{{- end }}
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tags }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+        command:
+          - /bin/bash
+          - -c
+          - "/mnt/scripts/postgres_entrypoint.sh postgres"
+        #command: ["/bin/bash","-c","sleep 120000"]
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_USER
+          value: {{ .Values.postgres_user }}
+        - name: POSTGRES_PASSWORD
+          value: {{ .Values.postgres_password }}
+        - name: DATABASE_URL
+          value: {{ .Values.database_url }}
+        - name: POSTGRES_DB
+          value: {{ .Values.database_name }}
+        - name: POSTGRES_HOST_AUTH_METHOD
+          value: "md5"
+        - name: POSTGRES_INITDB_ARGS
+          value: "--auth=md5"
+        readinessProbe:
+          exec:
+            command:
+              - /bin/bash
+              - -c
+              - "pg_isready -h localhost -U postgres"
+          initialDelaySeconds: 20
+          periodSeconds: 5
+        volumeMounts:
+          - name: postgres-entrypoint
+            mountPath: /mnt/scripts/postgres_entrypoint.sh
+            subPath: postgres_entrypoint.sh
+          - name: postgres-startup
+            mountPath: /mnt/scripts/postgres_startup.sh
+            subPath: postgres_startup.sh
+      volumes:
+      - name: postgres-entrypoint
+        configMap:
+          name: {{ tpl .Values.config.config_map_name . }}
+          defaultMode: 0777
+          items:
+          - key: postgres_entrypoint.sh
+            path: postgres_entrypoint.sh
+      - name: postgres-startup
+        configMap:
+          name: {{ tpl .Values.config.config_map_name . }}
+          defaultMode: 0777
+          items:
+          - key: postgres_startup.sh
+            path: postgres_startup.sh
+      restartPolicy: Always
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
