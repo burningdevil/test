@@ -256,6 +256,7 @@ filterCandidate = (configList: any[]) => {
       if(!gridApi) return;
       if(e.path.join('-').includes('ag-cell')) return; // ag-cell indicate that the click target is in the table, not the blank space.
       gridApi.clearFocusedCell();
+      gridApi.deselectAll();
     });
 
     
