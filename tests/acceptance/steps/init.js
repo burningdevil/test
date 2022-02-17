@@ -14,7 +14,7 @@ Given('configure workstation engine test environment', async function () {
   await mainWindow.smartTab.selectTab('Environments')
 
   try {
-    await mainWindow.mainCanvas.envSection.removeAllEnv(envName)
+    await mainWindow.mainCanvas.envSection.removeEnv(envName)
   } catch (err) {
     console.log('[INFO] [Remove User] Target env already removed.')
   }

@@ -192,7 +192,7 @@ const resultMap = {
   buildNumber: build,
   owner: 'Li,Meng',
   product: 'Workstation',
-  team: 'CT-Clients-Framework',
+  team: 'CT-Applications-CTC',
   testResults: []
 }
 const resultReport = './reports/rallyReport/execReport.json'
