@@ -10,8 +10,9 @@ import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
 import { selectCurrentConfig, selectIsDossierAsHome, selectIsToolbarHidden, selectIsToolbarCollapsed, selectSelectedSideBarIcons, selectSelectedLibraryCustomizedItems, selectSelectedLibraryIcons, selectSelectedDocumentIcons, selectCurrentConfigContentBundleIds, selectDefaultGroupsName } from '../../../store/selectors/HomeScreenConfigEditorSelector'
 import * as Actions from '../../../store/actions/ActionsCreator';
 import { Tooltip } from '@mstr/rc'
-import { getFeatureFlag } from './HomeScreenUtils'
 import { env } from '../../../main'
+import * as api from '../../../services/Api';
+import { isLibraryServerVersionMatch, LIBRARY_SERVER_SUPPORT_DOC_TYPE_VERSION } from '../../../utils';
 
 
 const childrenKeyOffset = 1000;
@@ -395,8 +396,8 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         }
     }
     async componentDidMount() {
-        const curEnv = await env.environments.getCurrentEnvironment();
-        const contentBundleEnable = !!getFeatureFlag(CONTENT_BUNDLE_FEATURE_FLAG, curEnv);
+        const status: any = await api.getServerStatus();
+        const contentBundleEnable = !!status.webVersion && isLibraryServerVersionMatch(status.webVersion, LIBRARY_SERVER_SUPPORT_DOC_TYPE_VERSION);
         this.setState({
             contentBundleFeatureEnable: contentBundleEnable
         });

@@ -25,3 +25,6 @@ export const loadBatchDossierDocuments = () => {
     const totalCount = dossiers.length + documents.length;
     return Promise.resolve({dossiers, documents, totalCount});
 }
+export const getServerStatus = () => {
+    return Promise.resolve({webVersion: '11.3.0500'});
+}

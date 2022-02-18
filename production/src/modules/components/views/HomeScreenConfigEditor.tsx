@@ -17,10 +17,11 @@ import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { selectCurrentConfig, selectIsDuplicateConfig, selectIsConfigNameError, selectIsDossierAsHome, selectDefaultGroupsName, selectConfigInfoList, selectIsConfigChanged } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import * as api from '../../../services/Api';
-import { default as VC, localizedStrings, editorSize ,CONTENT_BUNDLE_FEATURE_FLAG, libraryCustomizedIconDefaultValues, CONTENT_BUNDLE_DEFAULT_GROUP_NAME, copyApplicationName, closeWindowConfirmationStr} from '../HomeScreenConfigConstant'
+import { default as VC, localizedStrings, editorSize , libraryCustomizedIconDefaultValues, CONTENT_BUNDLE_DEFAULT_GROUP_NAME, copyApplicationName, closeWindowConfirmationStr} from '../HomeScreenConfigConstant'
 import { ConfirmationDialog, ConfirmationDialogWordings } from '../common-components/confirmation-dialog';
-import { getFeatureFlag, validName } from './HomeScreenUtils';
+import { validName } from './HomeScreenUtils';
 import { store } from '../../../main';
+import { isLibraryServerVersionMatch ,LIBRARY_SERVER_SUPPORT_DOC_TYPE_VERSION} from '../../../utils';
 declare var workstation: WorkstationModule;
 
 const classNamePrefix = 'home-screen-editor';
@@ -103,6 +104,8 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
       }
 
       const currentEnv = await workstation.environments.getCurrentEnvironment();
+      const status: any = await api.getServerStatus();
+      const contentBundleEnable = !!status.webVersion && isLibraryServerVersionMatch(status.webVersion, LIBRARY_SERVER_SUPPORT_DOC_TYPE_VERSION);
       let isNameCopyed = false;
       if (isDuplicate && this.props.config.name && this.props.config.name.length > 0) {
         this.props.updateCurrentConfig({name: copyApplicationName(this.props.config.name)});
@@ -111,9 +114,9 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
       this.setState({
         currentEnv: currentEnv,
         configId: configId,
-        isNameCopyed: isNameCopyed
+        isNameCopyed: isNameCopyed,
+        contentBundleFeatureEnable: contentBundleEnable
       });
-      this.loadPreference();
 
       workstation.environments.onEnvironmentChange((change: EnvironmentChangeArg) => {
         console.log('editor enviornment change: ' + change.actionTaken);
@@ -125,28 +128,12 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
           workstation.window.close();  
         }
       });
-      (workstation.utils as any).addHandler('OnPreferencesChange', (msg: any) => {
-        // let newPrence = JSON.parse(msg.Response);
-        // this.loadPreference(newPrence);
-        workstation.window.close()
-      });
       store.subscribe(async() => {
         const state = store.getState();
         if(state.configEditor.isStateChangeByManual && !this.state.isCloseHanlderRegistered){
           await this.addHandlers();
         }
       })
-  }
-  loadPreference = (pref?: any) => {
-    if(pref){
-      this.setState({
-        contentBundleFeatureEnable: pref.workstation[CONTENT_BUNDLE_FEATURE_FLAG]
-      });
-      return;
-    }
-    this.setState({
-      contentBundleFeatureEnable: getFeatureFlag(CONTENT_BUNDLE_FEATURE_FLAG, this.state.currentEnv)
-    })
   }
   componentWillReceiveProps(nextProps: any) {
     if (this.props.isDuplicateConfig && !this.state.isNameCopyed && nextProps.config.name !== this.props.config.name){
