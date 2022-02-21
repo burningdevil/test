@@ -10,11 +10,16 @@ const { registerNewWindow, switchToWindow } = require('../utils/wsUtils/windowHe
 Given('configure workstation engine test environment', async function () {
   const { envName, envUrl, loginMode, userName, userPwd, projects } = browser.params.envInfo[0]
   await switchToWindow('Workstation Main Window')
-  await mainWindow.smartTab.scrollOnSmartTab('up');
+  await mainWindow.smartTab.scrollOnSmartTab('up')
   await mainWindow.smartTab.selectTab('Environments')
 
   try {
-    await mainWindow.mainCanvas.envSection.removeAllEnv(envName)
+    if (OSType === 'mac') {
+      await mainWindow.mainCanvas.envSection.removeEnv(envName)
+    }else{
+      await mainWindow.mainCanvas.envSection.removeAllEnv()
+    }
+    
   } catch (err) {
     console.log('[INFO] [Remove User] Target env already removed.')
   }

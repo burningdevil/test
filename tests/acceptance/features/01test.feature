@@ -7,7 +7,6 @@ Feature: Create applications
         Given configure workstation engine test environment
 
     Scenario: create application with custom name, libray as home
-        When I select tab "ANALYSIS"
         When I select tab "Applications"
         Then check the screenshot on element "detailGrid" by comparing "00-app_detail_grid"
         When I click the application create entry
