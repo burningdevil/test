@@ -11,7 +11,7 @@ import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { selectCurrentConfig, selectCurrentConfigContentBundleIds, selectIsDossierAsHome, selectSelectedDocumentIcons, selectSelectedLibraryIcons } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import HomeScreenPreviewer from './HomeScreenPreviewer';
-import { default as VC, localizedStrings, previewerWidth, iconValidKey, CONTENT_BUNDLE_FEATURE_FLAG, HOME_DOCUMENT_TYPE_DOSSIER, HOME_DOCUMENT_TYPE_DOCUMENT } from '../HomeScreenConfigConstant';
+import { default as VC, localizedStrings, previewerWidth, HOME_DOCUMENT_TYPE_DOSSIER, HOME_DOCUMENT_TYPE_DOCUMENT } from '../HomeScreenConfigConstant';
 import * as api from '../../../services/Api';
 // @ts-ignore: RC Component Support error
 import selectedDossierIcon from '../images/icon_select_dossier.png';
