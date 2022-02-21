@@ -7,6 +7,7 @@ import HomeScreenComponents from '../views/HomeScreenComponents';
 import rootState, { mockLibraryAsHome } from './__mocks__/mock_state';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 
+jest.mock('../../../services/Api');
 describe('HomeScreenComponents Component', () => {
   beforeAll(() => {
     Object.defineProperty(window, "matchMedia", {

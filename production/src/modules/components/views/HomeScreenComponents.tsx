@@ -9,9 +9,10 @@ import HomeScreenPreviewer from './HomeScreenPreviewer'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
 import { selectCurrentConfig, selectIsDossierAsHome, selectIsToolbarHidden, selectIsToolbarCollapsed, selectSelectedSideBarIcons, selectSelectedLibraryCustomizedItems, selectSelectedLibraryIcons, selectSelectedDocumentIcons, selectCurrentConfigContentBundleIds, selectDefaultGroupsName } from '../../../store/selectors/HomeScreenConfigEditorSelector'
 import * as Actions from '../../../store/actions/ActionsCreator';
-import { Tooltip } from '@mstr/rc'
-import { getFeatureFlag } from './HomeScreenUtils'
-import { env } from '../../../main'
+import { Tooltip } from '@mstr/rc';
+import * as api from '../../../services/Api';
+import { env } from '../../../main';
+import { isLibraryServerVersionMatch, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION } from '../../../utils';
 
 
 const childrenKeyOffset = 1000;
@@ -396,7 +397,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
     }
     async componentDidMount() {
         const curEnv = await env.environments.getCurrentEnvironment();
-        const contentBundleEnable = !!getFeatureFlag(CONTENT_BUNDLE_FEATURE_FLAG, curEnv);
+        const contentBundleEnable = !!curEnv.webVersion && isLibraryServerVersionMatch(curEnv.webVersion, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION);
         this.setState({
             contentBundleFeatureEnable: contentBundleEnable
         });

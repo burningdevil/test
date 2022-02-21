@@ -83,12 +83,6 @@ export function getHomeScreenBundleListGroupCellInnerRenderer() {
     return HomeScreenBundleListGroupCellInnerRenderer;
   }
 
-export function getFeatureFlag(key: string, env: any){
-  if(!env?.preferences){
-      return false;
-    }
-    return env.preferences?.[key];
-}
 export function validName(name: string) {
   //cannot contain any of the following characters: \"[]
   const pattern = SPECIAL_CHARACTER_REGEX;

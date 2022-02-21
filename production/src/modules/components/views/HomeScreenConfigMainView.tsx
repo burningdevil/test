@@ -17,14 +17,14 @@ import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { selectAllDocuments, selectAllDossiers, selectConfigList, selectContentBundleList, selectIsConfigLoading } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as api from '../../../services/Api';
 import * as _ from "lodash";
-import { getFeatureFlag, hexIntToColorStr, isContentTypeDossier } from './HomeScreenUtils';
+import { hexIntToColorStr, isContentTypeDossier } from './HomeScreenUtils';
 import DisconnectedPage from './error-pages/DisconnectedPage';
 import ServerIncompatiblePage from './error-pages/ServerIncompatiblePage';
 import NoAccessPage from './error-pages/NoAccessPage';
-import { isLibraryServerVersionMatch, isIServerVersionMatch, isUserHasManageApplicationPrivilege, APPLICATIONS_FOLDER_ID, APPLICATIONS_FOLDER_TYPE, LIBRARY_SERVER_SUPPORT_DOC_TYPE_VERSION } from '../../../utils';
+import { isLibraryServerVersionMatch, isIServerVersionMatch, isUserHasManageApplicationPrivilege, APPLICATIONS_FOLDER_ID, APPLICATIONS_FOLDER_TYPE, LIBRARY_SERVER_SUPPORT_DOC_TYPE_VERSION, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION } from '../../../utils';
 import classNames from 'classnames';
 import { ConfirmationDialog, ConfirmationDialogWordings } from '../common-components/confirmation-dialog';
-import CONSTANTS, { default as VC, localizedStrings, platformType, APPLICATION_OBJECT_TYPE, APPLICATION_OBJECT_SUBTYPE, CONTENT_BUNDLE_FEATURE_FLAG, HOME_DOCUMENT_TYPE_DOSSIER, HOME_DOCUMENT_TYPE_DOCUMENT } from '../HomeScreenConfigConstant';
+import CONSTANTS, { default as VC, localizedStrings, platformType, APPLICATION_OBJECT_TYPE, APPLICATION_OBJECT_SUBTYPE, HOME_DOCUMENT_TYPE_DOSSIER, HOME_DOCUMENT_TYPE_DOCUMENT } from '../HomeScreenConfigConstant';
 import { t } from '../../../i18n/i18next';
 import { store} from '../../../main';
 import { from, of, interval, ReplaySubject, Observable} from 'rxjs';
@@ -98,12 +98,6 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
           ResponseValue: true
       };
     });
-    // waiting for the @mstr/workstation type's interface.
-
-    (workstation.utils as any).addHandler('OnPreferencesChange', (msg: any) => {
-      this.loadData();
-      this.checkServerAndUserPrivilege();
-    });
   }
 
 
@@ -116,9 +110,6 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       currentEnv: currentEnv,
       isConnected: isConnected
     });
-    this.setState({
-      contentBundleFeatureEnable: getFeatureFlag(CONTENT_BUNDLE_FEATURE_FLAG, this.state.currentEnv)
-    })
     if (isConnected) {
       const status: any = await api.getServerStatus();
       const isLibraryVersionMatched = !!status.webVersion && isLibraryServerVersionMatch(status.webVersion);
@@ -126,12 +117,14 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       const isLibraryVersionSupportDocumentType = !!status.webVersion && isLibraryServerVersionMatch(status.webVersion, LIBRARY_SERVER_SUPPORT_DOC_TYPE_VERSION)
       const isIServerVersionMatched = !!status.iServerVersion && isIServerVersionMatch(status.iServerVersion);
       const isUserHasAccess = isUserHasManageApplicationPrivilege(currentEnv.privileges);
+      const isLibraryVersionSupportContentGroup = !!status.webVersion && isLibraryServerVersionMatch(status.webVersion, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION)
       // Server version and User privilige
       this.setState({
         isLibraryVersionMatched: isLibraryVersionMatched,
         isIServerVersionMatched: isIServerVersionMatched,
         isUserHasAccess: isUserHasAccess,
-        isLibraryVersionSupportDocumentType: isLibraryVersionSupportDocumentType
+        isLibraryVersionSupportDocumentType: isLibraryVersionSupportDocumentType,
+        contentBundleFeatureEnable: isLibraryVersionSupportContentGroup
       });
       const isMDVersionMatched = await this.loadApplicationsFolder();
       // MD version
