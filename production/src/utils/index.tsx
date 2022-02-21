@@ -8,6 +8,7 @@ const USER_MANAGE_APPLICATIONS_PRIVILEGE = 298;
 export const APPLICATIONS_FOLDER_ID = '4B979645463C14EF5A32EF8A032C9AC1';
 export const APPLICATIONS_FOLDER_TYPE = 8;
 export const LIBRARY_SERVER_SUPPORT_DOC_TYPE_VERSION = '11.3.0500';
+export const LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION = '11.3.0500';
 
 /**
  * a function to judge whether the version is matched requirement

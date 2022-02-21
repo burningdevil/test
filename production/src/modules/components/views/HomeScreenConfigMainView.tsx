@@ -21,7 +21,7 @@ import { hexIntToColorStr, isContentTypeDossier } from './HomeScreenUtils';
 import DisconnectedPage from './error-pages/DisconnectedPage';
 import ServerIncompatiblePage from './error-pages/ServerIncompatiblePage';
 import NoAccessPage from './error-pages/NoAccessPage';
-import { isLibraryServerVersionMatch, isIServerVersionMatch, isUserHasManageApplicationPrivilege, APPLICATIONS_FOLDER_ID, APPLICATIONS_FOLDER_TYPE, LIBRARY_SERVER_SUPPORT_DOC_TYPE_VERSION } from '../../../utils';
+import { isLibraryServerVersionMatch, isIServerVersionMatch, isUserHasManageApplicationPrivilege, APPLICATIONS_FOLDER_ID, APPLICATIONS_FOLDER_TYPE, LIBRARY_SERVER_SUPPORT_DOC_TYPE_VERSION, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION } from '../../../utils';
 import classNames from 'classnames';
 import { ConfirmationDialog, ConfirmationDialogWordings } from '../common-components/confirmation-dialog';
 import CONSTANTS, { default as VC, localizedStrings, platformType, APPLICATION_OBJECT_TYPE, APPLICATION_OBJECT_SUBTYPE, HOME_DOCUMENT_TYPE_DOSSIER, HOME_DOCUMENT_TYPE_DOCUMENT } from '../HomeScreenConfigConstant';
@@ -117,7 +117,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
       const isLibraryVersionSupportDocumentType = !!status.webVersion && isLibraryServerVersionMatch(status.webVersion, LIBRARY_SERVER_SUPPORT_DOC_TYPE_VERSION)
       const isIServerVersionMatched = !!status.iServerVersion && isIServerVersionMatch(status.iServerVersion);
       const isUserHasAccess = isUserHasManageApplicationPrivilege(currentEnv.privileges);
-      const isLibraryVersionSupportContentGroup = !!status.webVersion && isLibraryServerVersionMatch(status.webVersion, LIBRARY_SERVER_SUPPORT_DOC_TYPE_VERSION)
+      const isLibraryVersionSupportContentGroup = !!status.webVersion && isLibraryServerVersionMatch(status.webVersion, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION)
       // Server version and User privilige
       this.setState({
         isLibraryVersionMatched: isLibraryVersionMatched,

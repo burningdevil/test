@@ -17,11 +17,11 @@ import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { selectCurrentConfig, selectIsDuplicateConfig, selectIsConfigNameError, selectIsDossierAsHome, selectDefaultGroupsName, selectConfigInfoList, selectIsConfigChanged } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import * as api from '../../../services/Api';
-import { default as VC, localizedStrings, editorSize , libraryCustomizedIconDefaultValues, CONTENT_BUNDLE_DEFAULT_GROUP_NAME, copyApplicationName, closeWindowConfirmationStr} from '../HomeScreenConfigConstant'
+import { default as VC, localizedStrings, editorSize , libraryCustomizedIconDefaultValues, CONTENT_BUNDLE_DEFAULT_GROUP_NAME, copyApplicationName, closeWindowConfirmationStr, libraryIcons} from '../HomeScreenConfigConstant'
 import { ConfirmationDialog, ConfirmationDialogWordings } from '../common-components/confirmation-dialog';
 import { validName } from './HomeScreenUtils';
 import { store } from '../../../main';
-import { isLibraryServerVersionMatch ,LIBRARY_SERVER_SUPPORT_DOC_TYPE_VERSION} from '../../../utils';
+import { isLibraryServerVersionMatch ,LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION} from '../../../utils';
 declare var workstation: WorkstationModule;
 
 const classNamePrefix = 'home-screen-editor';
@@ -104,8 +104,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
       }
 
       const currentEnv = await workstation.environments.getCurrentEnvironment();
-      const status: any = await api.getServerStatus();
-      const contentBundleEnable = !!status.webVersion && isLibraryServerVersionMatch(status.webVersion, LIBRARY_SERVER_SUPPORT_DOC_TYPE_VERSION);
+      const contentBundleEnable = !!currentEnv.webVersion && isLibraryServerVersionMatch(currentEnv.webVersion, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION);
       let isNameCopyed = false;
       if (isDuplicate && this.props.config.name && this.props.config.name.length > 0) {
         this.props.updateCurrentConfig({name: copyApplicationName(this.props.config.name)});
