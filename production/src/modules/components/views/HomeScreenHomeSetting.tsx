@@ -18,7 +18,7 @@ import selectedDossierIcon from '../images/icon_select_dossier.png';
 // @ts-ignore: RC Component Support error
 import selectedDocumentIcon from '../images/icon_select_document.png';
 import { isContentTypeDossier } from './HomeScreenUtils';
-import { isLibraryServerVersionMatch, LIBRARY_SERVER_SUPPORT_DOC_TYPE_VERSION } from '../../../utils';
+import { isLibraryServerVersionMatch, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION } from '../../../utils';
 
 const classNamePrefixSimple = 'home-screen-home';
 const classNamePrefix = `${classNamePrefixSimple}-settings`;
@@ -40,8 +40,7 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
 
   loadData = async () => {
     const curEnv = await env.environments.getCurrentEnvironment();
-    const status: any = await api.getServerStatus();
-    const contentBundleEnable = !!status.webVersion && isLibraryServerVersionMatch(status.webVersion, LIBRARY_SERVER_SUPPORT_DOC_TYPE_VERSION);
+    const contentBundleEnable = !!curEnv.webVersion && isLibraryServerVersionMatch(curEnv.webVersion, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION);
     const {contentBundleIds, isDossierHome} = this.props;
     let defaultGroupEnable = false;
     if (!isDossierHome) {
