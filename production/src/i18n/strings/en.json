@@ -201,6 +201,7 @@
     "palette": "Palette",
     "deletePaletteFailedTitle": "Color palette cannot be deleted",
     "deletePaletteFailedMsg": "This palette is used by one or more applications.",
+    "deletePaletteFailedMsgDossier": "This palette is used by one or more dossiers.",
     "paletteName": "Palette Name",
     "paletteColors": "Palette Colors",
     "setAsDefault": "Set as Default",

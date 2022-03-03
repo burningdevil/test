@@ -82,7 +82,6 @@ export const mockColorPalettes = [
 
 
 const listColorPalettes = (req, res) => {
-  console.log('listColorPalettes', req);
   res.json(
     {
       'code': 200,

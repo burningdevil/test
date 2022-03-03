@@ -129,6 +129,13 @@ const PaletteGridView: React.FC<PaletteGridViewProps> = (props) => {
         const newApplicationPalettes = applicationPalettes.filter(
             (v) => v !== data.id
         );
+        const paletteRecordMap: any = {};
+        paletteList.forEach((item) => {
+            paletteRecordMap[item.id] = item.name;
+        });
+        newApplicationPalettes.sort((a, b) => {
+            return paletteRecordMap[a] < paletteRecordMap[b] ? -1 : 1;
+        });
         newApplicationPalettes.unshift(data.id);
         dispatch(
             Actions.updateCurrentConfig({

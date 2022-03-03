@@ -63,8 +63,8 @@ const renderPaletteColors = (colors: Array<string>) => {
 
 const ResizableTitle = (props: any) => {
     let { onResize, width, ...restProps } = props;
-    if (width > 500) width = 500;
-    if (width < 100) width = 100;
+    if (width > 380) width = 380;
+    if (width < 120) width = 120;
 
     if (!width) {
         return <th {...restProps} />;
@@ -388,6 +388,12 @@ const CustomPaletteModalGrid: React.FC<PaletteGridProps> = (
                 summaryText: t('deletePaletteFailedTitle'),
                 detailText: t('deletePaletteFailedMsg'),
             };
+            // distinguish the msg by the iServerCode
+            // -2147217387 used by application.
+            // -2147216619 used by dossier
+            if(error.iServerErrorCode === -2147216619){
+              deleteFailedDialogWordings.detailText = t('deletePaletteFailedMsgDossier');
+            }
             setDeleteConfirmationDialogOpen(true);
             setConfirmDialogWordings(deleteFailedDialogWordings);
             return;
@@ -450,12 +456,29 @@ const CustomPaletteModalGrid: React.FC<PaletteGridProps> = (
             type: 'checkbox',
             selectedRowKeys,
             onChange: (selectedRowKeys: any, selectedRows: any) => {
-                localStorage.setItem(
+                if(!nameFilter){
+                    localStorage.setItem(
+                      COLOR_PALETTE_SELECTED_FORM,
+                      JSON.stringify(selectedRowKeys)
+                  );
+                  setSelectedRowKeys(selectedRows.map((v: any) => v.id));
+                  checkIndeterminate(selectedRows);
+
+                }else {
+                  // should merge the selected data which not displayed in the currentList.
+                  const notDisplayData = dataSource.filter(v => !currentList.map(v=> v.id).includes(v.id));
+                  const previousSelectedData = JSON.parse(localStorage.getItem(COLOR_PALETTE_SELECTED_FORM)) ?? applicationPalettes;
+                  const notDisplaySelectDataKey = previousSelectedData.filter((v: any) => notDisplayData.map((v: any) => v.id).includes(v))
+                  const notDisplaySelectRows = dataSource.filter((v: any) => notDisplaySelectDataKey.includes(v.id));
+                  localStorage.setItem(
                     COLOR_PALETTE_SELECTED_FORM,
-                    JSON.stringify(selectedRowKeys)
-                );
-                setSelectedRowKeys(selectedRows.map((v: any) => v.id));
-                checkIndeterminate(selectedRows);
+                    JSON.stringify(notDisplaySelectDataKey.concat(selectedRowKeys))
+                  );
+                  setSelectedRowKeys(notDisplaySelectDataKey.concat(selectedRowKeys));
+                  checkIndeterminate(notDisplaySelectRows.concat(selectedRows));
+                }
+                // setSelectedRowKeys(selectedRows.map((v: any) => v.id));
+                // checkIndeterminate(selectedRows);
                 setHighlightRow(null);
             },
             getCheckboxProps: (record: any) => ({

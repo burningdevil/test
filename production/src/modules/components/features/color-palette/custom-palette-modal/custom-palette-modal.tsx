@@ -80,6 +80,7 @@ const ColorPaletteModal: React.FC<any> = (props: any) => {
     const handleSaveAdd = () => {
         props.close(false);
         localStorage.setItem(COLOR_PALETTE_SELECTED_FORM, '');
+        setFilterName('');
         const paletteRecordMap: any = {};
         paletteList.forEach((item) => {
             paletteRecordMap[item.id] = item.name;
