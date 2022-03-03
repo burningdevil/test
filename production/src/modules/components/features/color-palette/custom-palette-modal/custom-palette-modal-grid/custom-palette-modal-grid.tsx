@@ -19,6 +19,7 @@ import ColorPaletteEditor from '../../color-palette-editor/color-palette-editor'
 import { COLOR_PALETTE_SELECTED_FORM, toHex } from '../../color-palette.util';
 import * as api from '../../../../../../services/Api';
 import { Resizable } from 'react-resizable';
+import { VList } from 'virtuallist-antd';
 import {
     ConfirmationDialog,
     ConfirmationDialogWordings,
@@ -26,6 +27,7 @@ import {
 import { t } from '../../../../../../i18n/i18next';
 import { RestApiError } from '../../../../../../server/RestApiError';
 import { ColorPaletteType } from 'src/types/data-model/HomeScreenConfigModels';
+import { useMemo } from 'react';
 interface PaletteGridProps {
     nameFilter: string;
     setPaletteLength: Function;
@@ -119,10 +121,14 @@ const CustomPaletteModalGrid: React.FC<PaletteGridProps> = (
     const [highlightRow, setHighlightRow] = useState(null);
 
     const isDefaultPalette = paletteType === 1 ? true : false;
+    const vc = useMemo(() => {
+        return VList({ height: 500 });
+    }, []);
     const components = {
         header: {
             cell: ResizableTitle,
         },
+        vc,
     };
     const initData = (paletteList: ColorPaletteType[]) => {
         const data = [...paletteList];
@@ -134,10 +140,11 @@ const CustomPaletteModalGrid: React.FC<PaletteGridProps> = (
         setCurrentList([...data]);
         if (applicationPalettes) {
             // should invoke the selected data from local storage.
-            if (localStorage.getItem(COLOR_PALETTE_SELECTED_FORM)) {
-                const mergeKeys = JSON.parse(
-                    localStorage.getItem(COLOR_PALETTE_SELECTED_FORM)
-                ).concat(
+            const storageKey = JSON.parse(
+                localStorage.getItem(COLOR_PALETTE_SELECTED_FORM)
+            );
+            if (storageKey) {
+                const mergeKeys = storageKey.concat(
                     applicationPalettes?.filter(
                         (key) => !currentPaletteList?.find((v) => v.id === key)
                     )
@@ -391,8 +398,10 @@ const CustomPaletteModalGrid: React.FC<PaletteGridProps> = (
             // distinguish the msg by the iServerCode
             // -2147217387 used by application.
             // -2147216619 used by dossier
-            if(error.iServerErrorCode === -2147216619){
-              deleteFailedDialogWordings.detailText = t('deletePaletteFailedMsgDossier');
+            if (error.iServerErrorCode === -2147216619) {
+                deleteFailedDialogWordings.detailText = t(
+                    'deletePaletteFailedMsgDossier'
+                );
             }
             setDeleteConfirmationDialogOpen(true);
             setConfirmDialogWordings(deleteFailedDialogWordings);
@@ -456,26 +465,41 @@ const CustomPaletteModalGrid: React.FC<PaletteGridProps> = (
             type: 'checkbox',
             selectedRowKeys,
             onChange: (selectedRowKeys: any, selectedRows: any) => {
-                if(!nameFilter){
+                if (!nameFilter) {
                     localStorage.setItem(
-                      COLOR_PALETTE_SELECTED_FORM,
-                      JSON.stringify(selectedRowKeys)
-                  );
-                  setSelectedRowKeys(selectedRows.map((v: any) => v.id));
-                  checkIndeterminate(selectedRows);
-
-                }else {
-                  // should merge the selected data which not displayed in the currentList.
-                  const notDisplayData = dataSource.filter(v => !currentList.map(v=> v.id).includes(v.id));
-                  const previousSelectedData = JSON.parse(localStorage.getItem(COLOR_PALETTE_SELECTED_FORM)) ?? applicationPalettes;
-                  const notDisplaySelectDataKey = previousSelectedData.filter((v: any) => notDisplayData.map((v: any) => v.id).includes(v))
-                  const notDisplaySelectRows = dataSource.filter((v: any) => notDisplaySelectDataKey.includes(v.id));
-                  localStorage.setItem(
-                    COLOR_PALETTE_SELECTED_FORM,
-                    JSON.stringify(notDisplaySelectDataKey.concat(selectedRowKeys))
-                  );
-                  setSelectedRowKeys(notDisplaySelectDataKey.concat(selectedRowKeys));
-                  checkIndeterminate(notDisplaySelectRows.concat(selectedRows));
+                        COLOR_PALETTE_SELECTED_FORM,
+                        JSON.stringify(selectedRowKeys)
+                    );
+                    setSelectedRowKeys(selectedRows.map((v: any) => v.id));
+                    checkIndeterminate(selectedRows);
+                } else {
+                    // should merge the selected data which not displayed in the currentList.
+                    const notDisplayData = dataSource.filter(
+                        (v) => !currentList.map((v) => v.id).includes(v.id)
+                    );
+                    const previousSelectedData =
+                        JSON.parse(
+                            localStorage.getItem(COLOR_PALETTE_SELECTED_FORM)
+                        ) ?? applicationPalettes;
+                    const notDisplaySelectDataKey = previousSelectedData.filter(
+                        (v: any) =>
+                            notDisplayData.map((v: any) => v.id).includes(v)
+                    );
+                    const notDisplaySelectRows = dataSource.filter((v: any) =>
+                        notDisplaySelectDataKey.includes(v.id)
+                    );
+                    localStorage.setItem(
+                        COLOR_PALETTE_SELECTED_FORM,
+                        JSON.stringify(
+                            notDisplaySelectDataKey.concat(selectedRowKeys)
+                        )
+                    );
+                    setSelectedRowKeys(
+                        notDisplaySelectDataKey.concat(selectedRowKeys)
+                    );
+                    checkIndeterminate(
+                        notDisplaySelectRows.concat(selectedRows)
+                    );
                 }
                 // setSelectedRowKeys(selectedRows.map((v: any) => v.id));
                 // checkIndeterminate(selectedRows);

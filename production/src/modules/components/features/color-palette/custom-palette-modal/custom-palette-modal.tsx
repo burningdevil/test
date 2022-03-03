@@ -75,11 +75,11 @@ const ColorPaletteModal: React.FC<any> = (props: any) => {
     const handleCancelAdd = () => {
         setFilterName('');
         props.close(false);
-        localStorage.setItem(COLOR_PALETTE_SELECTED_FORM, '');
+        localStorage.setItem(COLOR_PALETTE_SELECTED_FORM, 'false');
     };
     const handleSaveAdd = () => {
         props.close(false);
-        localStorage.setItem(COLOR_PALETTE_SELECTED_FORM, '');
+        localStorage.setItem(COLOR_PALETTE_SELECTED_FORM, 'false');
         setFilterName('');
         const paletteRecordMap: any = {};
         paletteList.forEach((item) => {
