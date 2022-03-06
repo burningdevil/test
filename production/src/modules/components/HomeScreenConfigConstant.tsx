@@ -160,9 +160,12 @@ export const CONSTANTS = {
   MORESETTINGS: "moreSettings",
   BACK: "back",
   GENERATE: "Generate",
-  CONFIG_EDITOR_OBJTYPE: "HomeScreenConfig",
   JSONFILE_SUFFIX: ".json",
-  CONFIG_PROJECT: "38A062302D4411D28E71006008960167"
+  CONFIG_PROJECT: "38A062302D4411D28E71006008960167",
+
+  // ObjectEditor Type
+  CONFIG_EDITOR_OBJTYPE: "HomeScreenConfig",
+  APP_DESIGN_OBJTYPE: 'ApplicationDesign'
 };
 
 export const featureFlag = {
@@ -235,6 +238,11 @@ export interface BundleInfo {
   recipientStr: string; //eg: 2 users and 2 groups
   expand: boolean;
   recipientType: number;
+}
+export interface ApplicationTheme {
+  id: string,
+  name: string,
+  settings: object
 }
 
 export const editorSize = {
@@ -797,4 +805,3 @@ export const SPECIAL_CHARACTER_REGEX = /[\\\[\]\"]/;
 export const EXTRA_ATTR_VIEW_TYPE = 'viewMedia';
 export const HOME_DOCUMENT_TYPE_DOSSIER = 'dossier';
 export const HOME_DOCUMENT_TYPE_DOCUMENT = 'document';
-

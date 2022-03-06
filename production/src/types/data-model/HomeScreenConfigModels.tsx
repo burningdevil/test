@@ -40,7 +40,8 @@ export interface HomeScreenConfigType {
             toolbarMode: number,
             toolbarEnabled: boolean,
             homeDocumentType?: string
-        }
+        },
+        themes: Array<ApplicationTheme>
     },
     'general': {
         disableAdvancedSettings: boolean,
@@ -74,3 +75,9 @@ export interface HomeScreenBundleContentListItem {
     acg: number,
     certifiedInfo: {certified: any}
 }
+
+export interface ApplicationTheme {
+    id: string,
+    name: string,
+    settings: {}
+} 

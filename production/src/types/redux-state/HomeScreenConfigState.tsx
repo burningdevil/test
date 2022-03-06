@@ -1,4 +1,4 @@
-import { HomeScreenConfigType, MainViewContentBundleType, HomeScreenBundleContentListItem, HomeScreenConfigInfo, ColorPaletteType } from '../data-model/HomeScreenConfigModels'
+import { HomeScreenConfigType, MainViewContentBundleType, HomeScreenBundleContentListItem, HomeScreenConfigInfo, ColorPaletteType, ApplicationTheme } from '../data-model/HomeScreenConfigModels'
 
 export interface HomeScreenConfigEditorState {
     currentConfig: Partial<HomeScreenConfigType>
@@ -30,9 +30,14 @@ export interface HomeScreenEditorContentBundleState {
     loadingContentBundleFinish: boolean,
 }
 
+export interface ApplicationDesignEditorState {
+    theme: ApplicationTheme
+}
+
 export interface RootState {
     configEditor: HomeScreenConfigEditorState,
     configMain: HomeScreenMainViewState,
     bundleContent: HomeScreenBundleContentState,
-    content: HomeScreenEditorContentBundleState
+    content: HomeScreenEditorContentBundleState,
+    appDesignEditor: ApplicationDesignEditorState
 }

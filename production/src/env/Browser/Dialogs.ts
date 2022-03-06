@@ -9,9 +9,12 @@ class Dialogs implements DialogsModule {
   openProperties(options: PropertiesSettings): Promise<void> {
     throw new Error('Method not implemented.')
   }
-  openObjectEditor(options: ObjectEditorSettings): Promise<ObjectEditorResponse> {
-    throw new Error('Method not implemented.')
-  }
+  openObjectEditor = async (options: ObjectEditorSettings) => {
+    window.open(`${window.location.origin}/#/appDesignEditor`, 'App Design Editor', 'popup')
+    return {
+      windowId: ''
+    }
+  } 
   confirmation = async (settings: ConfirmationSettings) => DialogValues.YES
 
   error = async (settings: ErrorSettings) => DialogValues.OK

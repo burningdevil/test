@@ -6,6 +6,7 @@ import { Tabs, Layout, Button, message} from 'antd';
 import { WorkstationModule, EnvironmentChangeArg, EnvironmentAction, EnvironmentStatus, WindowEvent, dialogs, DialogValues} from '@mstr/workstation-types';
 import HomeScreenGeneral from './HomeScreenGeneral';
 import HomeScreenComponents from './HomeScreenComponents';
+import HomeScreenAppearance from './HomeScreenAppearance';
 import HomeScreenMoreSetting from './HomeScreenMoreSetting';
 import HomeScreenHomeSetting from './HomeScreenHomeSetting';
 import HomeScreenContentBundles from './HomeScreenContentBundles';
@@ -337,6 +338,11 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                                 <HomeScreenComponents />
                                 {this.buttonGroup()}
                             </Tabs.TabPane>
+                            <Tabs.TabPane tab={localizedStrings.NAVBAR_APPEARANCE} key={VC.APPEARANCE}>
+                              <HomeScreenAppearance />
+                                {this.buttonGroup()}
+                            </Tabs.TabPane>
+                            
                             {/* <Tabs.TabPane tab={localizedStrings.NAVBAR_APPEARANCE} key={VC.APPEARANCE}>
                                 {this.buttonGroup()}
                             </Tabs.TabPane> */}

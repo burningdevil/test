@@ -30,3 +30,7 @@ export const FINISH_LOADING_DOCUMENT_LIST_FAILURE = 'FINISH_LOADING_DOCUMENT_LIS
 /* ------------------------------ Content bundle fetch State ----------------------------*/
 export const START_LOADING_CONTENT_LIST = 'START_LOADING_CONTENT_LIST'
 export const FINISH_LOADING_CONTENT_LIST = 'FINISH_LOADING_CONTENT_LIST'
+
+/* ------------------------------ Application design editor store ------------------------------ */
+export const ASYNC_INIT_APP_DESIGN_EDITOR = 'ASYNC_INIT_APP_DESIGN_EDITOR'
+export const SET_THEME = 'SET_THEME'

@@ -28,7 +28,8 @@ const initialState: HomeScreenConfigEditorState = {
         icons: dossierIconKeys.concat(platformSpecificIconKeys).filter(key => !libraryCustomizedIconKeys.includes(key)).map((key) => iconValidKey(key)), 
         toolbarMode: CONSTANTS.SHOW_TOOLBAR,
         toolbarEnabled: true,
-      }
+      },
+      themes: []
     },
     'general': {
       disableAdvancedSettings: false,

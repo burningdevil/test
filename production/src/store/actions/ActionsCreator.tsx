@@ -1,5 +1,5 @@
 import * as Actions from './ActionConstants'
-import { HomeScreenConfigType, MainViewContentBundleType, HomeScreenBundleContentListItem, HomeScreenConfigInfo } from '../../types/data-model/HomeScreenConfigModels'
+import { HomeScreenConfigType, MainViewContentBundleType, HomeScreenBundleContentListItem, HomeScreenConfigInfo, ApplicationTheme } from '../../types/data-model/HomeScreenConfigModels'
 
 export const loadConfigListSuccess = (configList: Array<HomeScreenConfigType>) => ({
   type: Actions.LOAD_CONFIG_LIST_SUCCESS,
@@ -97,5 +97,13 @@ export const loadContentBundleListFail = () => ({
   type: Actions.LOAD_CONTENT_BUNDLE_LIST_FAIL,
 })
 
+/* ------------------------------ application design editor ----------------------------*/
+export const asyncInitAppDesignEditor = () => ({ 
+  type: Actions.ASYNC_INIT_APP_DESIGN_EDITOR 
+})
 
+export const setTheme = (theme: ApplicationTheme) => ({
+  type: Actions.SET_THEME,
+  data: theme
+})
 

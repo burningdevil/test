@@ -1,4 +1,4 @@
-import { HomeScreenConfigType, MainViewContentBundleType, HomeScreenBundleContentListItem } from '../../types/data-model/HomeScreenConfigModels'
+import { HomeScreenConfigType, MainViewContentBundleType, HomeScreenBundleContentListItem, ApplicationTheme } from '../../types/data-model/HomeScreenConfigModels'
 
 export interface LoadConfigListSuccessActionType {
     type: string,
@@ -40,5 +40,10 @@ export interface FinishLoadingBundleContentList {
     data: string
 }
 
+export interface AppDesignEditorActionType {
+    type: string,
+    data: any
+}
+
 export type ActionTypes = UpdateCurrentConfigActionType | SetCurrentConfigActionType | LoadConfigListSuccessActionType | LoadContentBundleListSuccessActionType | AppendBundleContentDocumentActionType | AppendBundleContentDossierActionType
-| StartLoadingBundleContentList | FinishLoadingBundleContentList
+| StartLoadingBundleContentList | FinishLoadingBundleContentList | AppDesignEditorActionType
