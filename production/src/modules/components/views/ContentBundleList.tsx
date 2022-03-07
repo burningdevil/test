@@ -256,7 +256,6 @@ class ContentBundleList extends React.Component<any, any> {
   }
 
   gridOptions: GridOptions = {
-    components: { bundleGroupCellInnerRenderer: getHomeScreenBundleListGroupCellInnerRenderer() },
     frameworkComponents: {agColumnHeader: CustomHeader},
     rowHeight: 35,
     headerHeight: 35,
@@ -278,7 +277,7 @@ class ContentBundleList extends React.Component<any, any> {
       headerComponentParams: { enableCheck: true },
       cellRenderer: 'agGroupCellRenderer',
       cellRendererParams: {
-        innerRenderer: 'bundleGroupCellInnerRenderer',
+        innerRenderer: getHomeScreenBundleListGroupCellInnerRenderer,
       }
     },
     treeData: true,
