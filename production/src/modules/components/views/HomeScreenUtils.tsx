@@ -88,5 +88,5 @@ export function validName(name: string) {
   return !isInvalidCharacter;
 }
  export function formatTime(timeString: string) {
-   return new Date(timeString).toLocaleString()
+   return new Date(timeString).toLocaleString('sv-SE')
  }
