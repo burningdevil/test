@@ -8,9 +8,7 @@ type PreviewPanelProps = {
 
 const PreviewPanel: React.FC<PreviewPanelProps> = ({ }) => {
   return (
-    <div>
-      Preview Panel
-    </div>
+    <div className='mstr-app-theme-preview-panel'></div>
   )
 }
 

@@ -26,7 +26,8 @@ export default {
                   icons: dossierIconKeys.map((key) => iconValidKey(key)), 
                   toolbarMode: CONSTANTS.SHOW_TOOLBAR,
                   toolbarEnabled: true,
-                }
+                },
+                 themes: []
             },
             'general': {
                 disableAdvancedSettings: false,
@@ -80,6 +81,7 @@ export default {
                 "toolbarMode": 0,
                 "toolbarEnabled": true
               },
+              "themes": [],
               "homeLibrary": {
                 "contentBundleIds": [
                   
@@ -121,6 +123,13 @@ export default {
         loadingDossiers: false,
         loadingDossiersFinish: false,
         loadingDocumentsFinish: false
+    },
+    appDesignEditor: {
+      theme: {
+        id: '',
+        name: '',
+        settings: {}
+      }
     }
 }
 
@@ -154,7 +163,8 @@ export const mockLibraryAsHome: RootState = {
                 icons: dossierIconKeys.map((key) => iconValidKey(key)), 
                 toolbarMode: CONSTANTS.SHOW_TOOLBAR,
                 toolbarEnabled: true,
-              }
+              },
+              themes: []
           },
           'general': {
               disableAdvancedSettings: false,
@@ -208,6 +218,7 @@ export const mockLibraryAsHome: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": true
             },
+            "themes": [],
             "homeLibrary": {
               "contentBundleIds": [],
               "icons": [
@@ -248,6 +259,13 @@ export const mockLibraryAsHome: RootState = {
       loadingDossiersFinish: false,
       loadingDocuments: false,
       loadingDocumentsFinish: false
+  },
+  appDesignEditor: {
+    theme: {
+      id: '',
+      name: '',
+      settings: {}
+    }
   }
 }
 
@@ -276,7 +294,8 @@ export const mockDossierAsHome: RootState = {
                 icons: dossierIconKeys.map((key) => iconValidKey(key)), 
                 toolbarMode: CONSTANTS.SHOW_TOOLBAR,
                 toolbarEnabled: true
-              }
+              },
+              themes: []
           },
           'general': {
               disableAdvancedSettings: false,
@@ -330,6 +349,7 @@ export const mockDossierAsHome: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": false
             },
+            "themes": [],
             "homeLibrary": {
               "contentBundleIds": [
                 
@@ -388,6 +408,7 @@ export const mockDossierAsHome: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": false,
             },
+            "themes": [],
             "homeLibrary": {
               "contentBundleIds": [
                 
@@ -439,6 +460,7 @@ export const mockDossierAsHome: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": false,
             },
+            "themes": [],
             "homeLibrary": {
               "contentBundleIds": [
                 
@@ -487,6 +509,7 @@ export const mockDossierAsHome: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": false,
             },
+            "themes": [],
             "homeLibrary": {
               "contentBundleIds": [
                 
@@ -524,6 +547,13 @@ export const mockDossierAsHome: RootState = {
     data: [],
     loadingContentBundle: false,
     loadingContentBundleFinish: true
+  },
+  appDesignEditor: {
+    theme: {
+      id: '',
+      name: '',
+      settings: {}
+    }
   }
 }
 
@@ -557,7 +587,8 @@ export const mockDossierPicker: RootState = {
                 icons: dossierIconKeys.map((key) => iconValidKey(key)), 
                 toolbarMode: CONSTANTS.SHOW_TOOLBAR,
                 toolbarEnabled: true,
-              }
+              },
+              themes: []
           },
           'general': {
               disableAdvancedSettings: false,
@@ -611,6 +642,7 @@ export const mockDossierPicker: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": true
             },
+            "themes": [],
             "homeLibrary": {
               "contentBundleIds": [
                 
@@ -669,6 +701,7 @@ export const mockDossierPicker: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": true
             },
+            "themes": [],
             "homeLibrary": {
               "contentBundleIds": [
                 
@@ -720,6 +753,7 @@ export const mockDossierPicker: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": false
             },
+            "themes": [],
             "homeLibrary": {
               "contentBundleIds": [
                 
@@ -768,6 +802,7 @@ export const mockDossierPicker: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": false,
             },
+            "themes": [],
             "homeLibrary": {
               "contentBundleIds": [],
               "icons": [
@@ -885,5 +920,12 @@ export const mockDossierPicker: RootState = {
       loadingDossiersFinish: true,
       loadingDocuments: false,
       loadingDocumentsFinish: true
+  },
+  appDesignEditor: {
+    theme: {
+      id: '',
+      name: '',
+      settings: {}
+    }
   }
 }

@@ -53,7 +53,7 @@ class HomeScreenAppearance extends React.Component<any, any> {
 
     render() {
         const { themes } = this.props;
-        // TODO - Implement UI to render list of themes
+        // TODO - Refactor/Implement UI to render list of themes
         return (
             <div>
                 {

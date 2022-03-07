@@ -3,8 +3,6 @@ import { connect } from 'react-redux'
 import { RootState } from '../types/redux-state/HomeScreenConfigState'
 import { env } from '../main'
 import * as Actions from '../store/actions/ActionsCreator';
-// import PropTypes from 'prop-types'
-// import classnames from 'classnames'
 import PreviewPanel from './Components/PreviewPanel'
 import SettingsPanel from './Components/SettingsPanel'
 
