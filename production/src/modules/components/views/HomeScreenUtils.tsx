@@ -1,5 +1,5 @@
 import * as _ from "lodash";
-import { IServerSideGetRowsParams } from 'ag-grid-community'
+import { IServerSideGetRowsParams, ICellRendererFunc, ICellRendererParams } from 'ag-grid-community'
 import { EnumDSSXMLViewMedia, HomeScreenHomeObjectType, SPECIAL_CHARACTER_REGEX } from '../HomeScreenConfigConstant'
 import { Environment } from "@mstr/workstation-types";
 
@@ -50,42 +50,43 @@ export function HomeScreenBundleListDatasource(server: any) {
     };
   }
   
-export function getHomeScreenBundleListGroupCellInnerRenderer() {
-    function HomeScreenBundleListGroupCellInnerRenderer() { return '' };
-    HomeScreenBundleListGroupCellInnerRenderer.prototype.init = function (params: any) {
-      var tempDiv = document.createElement('div');
-      if (params.node.group) {
-        const color = hexIntToColorStr(params.node.data.color);
-        tempDiv.innerHTML =
-          '<span class="icon-group_groups_a" style="color:'+ color + '"/><span style="color: #35383a; padding: 6px; font-weight: 400">' +
-          params.value +
-          '</span>';
-      } else {
-        const viewMedia = params.node.data.viewMedia;
-        const type: HomeScreenHomeObjectType = getContentType(viewMedia);
-        if (type === HomeScreenHomeObjectType.DOSSIER) {
-            tempDiv.innerHTML =
-            '<span class="icon-dossier" style="color: #3492ed"/><span style="color: #35383a; padding: 6px; font-weight: 400">' +
-            params.value +
-            '</span>';
+export  const getHomeScreenBundleListGroupCellInnerRenderer: ICellRendererFunc = (params: ICellRendererParams) => {
+  const elem = document.createElement('div')
+      const iconElem = document.createElement('span')
+      const textElem = document.createElement('span')
+      elem.appendChild(iconElem)
+      elem.appendChild(textElem)
+
+      
+      textElem.classList.add('content-bundle-list-custom-name')
+      const { data } = params.node
+      textElem.innerText = data.name;
+      if (data != null) {
+        if (params.node.group) {
+          const color = hexIntToColorStr(data.color)
+          iconElem.classList.add('icon-group_groups_a')
+          iconElem.style.color = color;
+
         } else {
-            tempDiv.innerHTML =
-            '<span class="icon-rsd-cover" style="color: #ff4000"/><span style="color: #35383a; padding: 6px; font-weight: 400">' +
-            params.value +
-            '</span>';
+          const { viewMedia } = data
+          const type: HomeScreenHomeObjectType = getContentType(viewMedia)
+          if (type === HomeScreenHomeObjectType.DOSSIER) {
+            iconElem.classList.add('icon-dossier')
+            iconElem.style.color = '#3492ed'
+          } else {
+            iconElem.classList.add('icon-rsd-cover')
+            iconElem.style.color = '#ff4000'
+          }
         }
       }
-      this.eGui = tempDiv.firstChild;
-    };
-    HomeScreenBundleListGroupCellInnerRenderer.prototype.getGui = function () {
-      return this.eGui;
-    };
-    return HomeScreenBundleListGroupCellInnerRenderer;
-  }
-
+      return elem;
+};
 export function validName(name: string) {
   //cannot contain any of the following characters: \"[]
   const pattern = SPECIAL_CHARACTER_REGEX;
   const isInvalidCharacter = pattern.test(name);
   return !isInvalidCharacter;
 }
+ export function formatTime(timeString: string) {
+   return new Date(timeString).toLocaleString('sv-SE')
+ }
