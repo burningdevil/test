@@ -87,3 +87,6 @@ export function validName(name: string) {
   const isInvalidCharacter = pattern.test(name);
   return !isInvalidCharacter;
 }
+ export function formatTime(timeString: string) {
+   return new Date(timeString).toLocaleString()
+ }

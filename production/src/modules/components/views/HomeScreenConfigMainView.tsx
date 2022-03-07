@@ -17,7 +17,7 @@ import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { selectAllDocuments, selectAllDossiers, selectConfigList, selectContentBundleList, selectIsConfigLoading } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as api from '../../../services/Api';
 import * as _ from "lodash";
-import { hexIntToColorStr, isContentTypeDossier } from './HomeScreenUtils';
+import { formatTime, hexIntToColorStr, isContentTypeDossier } from './HomeScreenUtils';
 import DisconnectedPage from './error-pages/DisconnectedPage';
 import ServerIncompatiblePage from './error-pages/ServerIncompatiblePage';
 import NoAccessPage from './error-pages/NoAccessPage';
@@ -458,11 +458,11 @@ filterCandidate = (configList: any[]) => {
       _.assign(resultConfig, {mode: this.getHomeMode(resultConfig)});
 
       if (_.has(resultConfig, VC.DATE_MODIFIED)) {
-        _.assign(resultConfig, {dateModified: _.split(resultConfig.dateModified, /[\T.]+/, 2).join(' ')});
+        _.assign(resultConfig, {dateModified: formatTime(resultConfig.dateModified)});
       }
 
       if (_.has(resultConfig, VC.DATE_CREATED)) {
-        _.assign(resultConfig, {dateCreated: _.split(resultConfig.dateCreated, /[\T.]+/, 2).join(' ')});
+        _.assign(resultConfig, {dateCreated: formatTime(resultConfig.dateCreated)});
       }
 
       return resultConfig;
