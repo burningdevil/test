@@ -7,9 +7,8 @@ import * as _ from "lodash";
 import { Input } from '@mstr/rc';
 import { platformType, reviewType, localizedStrings, featureFlag } from '../HomeScreenConfigConstant';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
-import { selectConfigInfoList, selectCurrentConfig, selectIsConfigNameError, selectIsDuplicateConfig, selectPreviewDeviceType } from '../../../store/selectors/HomeScreenConfigEditorSelector';
+import { selectConfigInfoList, selectCurrentConfig, selectIsApplicationConfigLoading, selectIsConfigNameError, selectIsDuplicateConfig, selectPreviewDeviceType } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
-import { validName } from './HomeScreenUtils';
 const { TextArea } = Input;
 
 const classNamePrefix = 'home-screen-general';
@@ -148,7 +147,7 @@ class HomeScreenGeneral extends React.Component<any, any> {
                         value={name}
                         onValidate = {(e: string) => {
                             // avoid the first render validation.
-                            if(!this.state.isDefaultNameFocused && !e) return true;
+                            if(this.props.isConfigLoading) return true;
                             return !this.validateName(e).showNameError;
                         }}
                         ref = {this.nameInputRef}
@@ -217,6 +216,7 @@ const mapState = (state: RootState) => ({
   isDuplicateConfig: selectIsDuplicateConfig(state),
   isConfigNameError: selectIsConfigNameError(state),
   previewDeviceType: selectPreviewDeviceType(state), 
+  isConfigLoading: selectIsApplicationConfigLoading(state)
 })
 
 const connector = connect(mapState, {

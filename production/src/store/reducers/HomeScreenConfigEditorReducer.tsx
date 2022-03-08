@@ -47,6 +47,7 @@ const initialState: HomeScreenConfigEditorState = {
   colorPalettes: [],
   previewDeviceType: reviewType.WEB,
   isStateChangeByManual: false,
+  isApplicationConfigLoading: false
 }
 
 const HomeScreenConfigEditorReducer = (state: HomeScreenConfigEditorState = initialState, action: ActionTypes) => {
@@ -64,7 +65,7 @@ const HomeScreenConfigEditorReducer = (state: HomeScreenConfigEditorState = init
         })
       }
     case Actions.SET_CURRENT_CONFIG:
-      return {...state, currentConfig: data}
+      return {...state, currentConfig: data, isApplicationConfigLoading: false}
     case Actions.SET_CONFIG_INFO_LIST:
       return {...state, configInfoList: data}
     case Actions.SET_DUPLICATE_CONFIG:
@@ -73,6 +74,8 @@ const HomeScreenConfigEditorReducer = (state: HomeScreenConfigEditorState = init
       return {...state, isConfigNameError: data}
     case Actions.UPDATE_REVIEW_TYPE:
       return {...state, previewDeviceType: data}
+    case Actions.START_LOADING_APPLICATION_CONFIG: 
+      return {...state, isApplicationConfigLoading: true}
     default:
       return state
   }

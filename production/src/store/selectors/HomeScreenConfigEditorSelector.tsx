@@ -59,6 +59,11 @@ export const selectIsConfigChanged = createSelector(
   (configMainRoot) => configMainRoot.isStateChangeByManual
 )
 
+export const selectIsApplicationConfigLoading = createSelector(
+  selectConfigEditorRoot,
+  (configMainRoot) => configMainRoot.isApplicationConfigLoading
+)
+
 export const selectContentBundleList = createSelector(
     selectConfigMainRoot,
   (configMainRoot) => configMainRoot.contentBundleList
@@ -148,3 +153,4 @@ export const selectDefaultGroupsName = createSelector(
     return config.homeScreen.homeLibrary.defaultGroupsName === localizedStrings.DEFAULT_GROUPS ? CONTENT_BUNDLE_DEFAULT_GROUP_NAME : config.homeScreen.homeLibrary.defaultGroupsName
   }
 )
+

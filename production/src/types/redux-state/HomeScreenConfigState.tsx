@@ -7,7 +7,8 @@ export interface HomeScreenConfigEditorState {
     isDuplicateConfig: boolean
     isConfigNameError: boolean
     previewDeviceType: string,
-    isStateChangeByManual: boolean
+    isStateChangeByManual: boolean,
+    isApplicationConfigLoading: boolean
 }
 
 export interface HomeScreenMainViewState {
