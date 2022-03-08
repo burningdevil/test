@@ -36,7 +36,7 @@
         &-error {
             flex: auto;
             padding-right: 50px;
-    
+            margin-bottom: 15px;
             .ant-input {
                 padding-left: 5px;
                 padding-right: 5px;
@@ -95,5 +95,9 @@
         &-name {
             text-align: left;
         }
+    }
+    // override
+    .error-message-container__error-message {
+        float: left;
     }
 }
