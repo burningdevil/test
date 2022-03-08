@@ -5,6 +5,7 @@ import * as compareVersions from 'compare-versions';
 const LIBRARY_SERVER_VERSION_THRESHOLD = '11.3.0400';
 const ISERVER_VERSION_THRESHOLD = '11.3.0400';
 const USER_MANAGE_APPLICATIONS_PRIVILEGE = 298;
+const MANAGE_CONTENT_BUNDLE_PRIVILEGE = 294
 export const APPLICATIONS_FOLDER_ID = '4B979645463C14EF5A32EF8A032C9AC1';
 export const APPLICATIONS_FOLDER_TYPE = 8;
 export const LIBRARY_SERVER_SUPPORT_DOC_TYPE_VERSION = '11.3.0500';
@@ -29,4 +30,8 @@ export const isIServerVersionMatch = (version: string) => {
 
 export const isUserHasManageApplicationPrivilege = (privileges: number[]) => {
   return privileges.includes(USER_MANAGE_APPLICATIONS_PRIVILEGE);
+}
+
+export const isUserHasManageContentGroupPrivilege = (privileges: number[]) => {
+  return privileges.includes(MANAGE_CONTENT_BUNDLE_PRIVILEGE);
 }

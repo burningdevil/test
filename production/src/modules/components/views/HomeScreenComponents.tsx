@@ -12,7 +12,8 @@ import * as Actions from '../../../store/actions/ActionsCreator';
 import { Tooltip } from '@mstr/rc';
 import * as api from '../../../services/Api';
 import { env } from '../../../main';
-import { isLibraryServerVersionMatch, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION } from '../../../utils';
+import { isLibraryServerVersionMatch, isUserHasManageContentGroupPrivilege, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION } from '../../../utils';
+import { Environment } from '@mstr/workstation-types'
 
 
 const childrenKeyOffset = 1000;
@@ -396,8 +397,8 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         }
     }
     async componentDidMount() {
-        const curEnv = await env.environments.getCurrentEnvironment();
-        const contentBundleEnable = !!curEnv.webVersion && isLibraryServerVersionMatch(curEnv.webVersion, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION);
+        const curEnv: Environment = await env.environments.getCurrentEnvironment();
+        const contentBundleEnable = !!curEnv.webVersion && isLibraryServerVersionMatch(curEnv.webVersion, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION) && isUserHasManageContentGroupPrivilege(curEnv.privileges);
         this.setState({
             contentBundleFeatureEnable: contentBundleEnable
         });

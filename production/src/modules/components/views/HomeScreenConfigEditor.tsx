@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import '../scss/HomeScreenConfigEditor.scss'
 import '../../../assets/fonts/webfonts/css/dossier.css'
 import { Tabs, Layout, Button, message} from 'antd';
-import { WorkstationModule, EnvironmentChangeArg, EnvironmentAction, EnvironmentStatus, WindowEvent, dialogs, DialogValues} from '@mstr/workstation-types';
+import { WorkstationModule, EnvironmentChangeArg, EnvironmentAction, EnvironmentStatus, WindowEvent, dialogs, DialogValues, Environment} from '@mstr/workstation-types';
 import HomeScreenGeneral from './HomeScreenGeneral';
 import HomeScreenComponents from './HomeScreenComponents';
 import HomeScreenMoreSetting from './HomeScreenMoreSetting';
@@ -21,7 +21,7 @@ import { default as VC, localizedStrings, editorSize , libraryCustomizedIconDefa
 import { ConfirmationDialog, ConfirmationDialogWordings } from '../common-components/confirmation-dialog';
 import { validName } from './HomeScreenUtils';
 import { store } from '../../../main';
-import { isLibraryServerVersionMatch ,LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION} from '../../../utils';
+import { isLibraryServerVersionMatch ,isUserHasManageContentGroupPrivilege,LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION} from '../../../utils';
 declare var workstation: WorkstationModule;
 
 const classNamePrefix = 'home-screen-editor';
@@ -102,9 +102,11 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         }
         this.props.updateCurrentConfig(config);
       }
-
+      const checkContentGroupEnable = (currentEnv: Environment) => {
+        return !!currentEnv.webVersion && isLibraryServerVersionMatch(currentEnv.webVersion, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION) && isUserHasManageContentGroupPrivilege(currentEnv.privileges)
+      }
       const currentEnv = await workstation.environments.getCurrentEnvironment();
-      const contentBundleEnable = !!currentEnv.webVersion && isLibraryServerVersionMatch(currentEnv.webVersion, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION);
+      const contentBundleEnable = checkContentGroupEnable(currentEnv);
       let isNameCopyed = false;
       if (isDuplicate && this.props.config.name && this.props.config.name.length > 0) {
         this.props.updateCurrentConfig({name: copyApplicationName(this.props.config.name)});

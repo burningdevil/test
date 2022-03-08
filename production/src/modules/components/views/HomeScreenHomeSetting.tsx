@@ -18,7 +18,8 @@ import selectedDossierIcon from '../images/icon_select_dossier.png';
 // @ts-ignore: RC Component Support error
 import selectedDocumentIcon from '../images/icon_select_document.png';
 import { isContentTypeDossier } from './HomeScreenUtils';
-import { isLibraryServerVersionMatch, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION } from '../../../utils';
+import { isLibraryServerVersionMatch, isUserHasManageContentGroupPrivilege, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION } from '../../../utils';
+import { Environment } from '@mstr/workstation-types';
 
 const classNamePrefixSimple = 'home-screen-home';
 const classNamePrefix = `${classNamePrefixSimple}-settings`;
@@ -39,8 +40,8 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
   }
 
   loadData = async () => {
-    const curEnv = await env.environments.getCurrentEnvironment();
-    const contentBundleEnable = !!curEnv.webVersion && isLibraryServerVersionMatch(curEnv.webVersion, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION);
+    const curEnv: Environment = await env.environments.getCurrentEnvironment();
+    const contentBundleEnable = !!curEnv.webVersion && isLibraryServerVersionMatch(curEnv.webVersion, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION) && isUserHasManageContentGroupPrivilege(curEnv.privileges);
     const {contentBundleIds, isDossierHome} = this.props;
     let defaultGroupEnable = false;
     if (!isDossierHome) {
