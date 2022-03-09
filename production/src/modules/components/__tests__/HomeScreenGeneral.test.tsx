@@ -66,7 +66,7 @@ describe('HomeScreenGeneral Component', () => {
     );
     // Change Name length to 0, display error info
     const nameInputBox = queryByDisplayValue('test application');
-    fireEvent.change(nameInputBox, { target: { value: '['} });
+    fireEvent.change(nameInputBox, { target: { value: ''} });
     await waitFor(() => {
        const errorContainer = container.querySelector('.home-screen-general-name-error');
        expect(errorContainer).toBeInTheDocument()
