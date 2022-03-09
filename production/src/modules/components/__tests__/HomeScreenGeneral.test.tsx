@@ -59,7 +59,7 @@ describe('HomeScreenGeneral Component', () => {
   it('Application Name Limitation test', async () => {
     const store = createStore(rootState);
     // Render
-    const { queryByDisplayValue, queryByText } = render(
+    const { queryByDisplayValue, queryByText, container } = render(
       <Provider store={store}>
         <HomeScreenGeneral />
       </Provider>
@@ -68,13 +68,15 @@ describe('HomeScreenGeneral Component', () => {
     const nameInputBox = queryByDisplayValue('test application');
     fireEvent.change(nameInputBox, { target: { value: ''} });
     await waitFor(() => {
-       expect(queryByText('blankAppNameError')).toBeInTheDocument()
+       const errorContainer = container.querySelector('.home-screen-general-name-error');
+       expect(errorContainer).toBeInTheDocument()
     });
 
     // Change Name, dismiss error info
     fireEvent.change(nameInputBox, { target: { value: 'new application'} });
     await waitFor(() => {
-      expect(queryByText('blankAppNameError')).not.toBeInTheDocument()
+      const errorContainer = container.querySelector('.home-screen-general-name-error');
+      expect(errorContainer).not.toBeInTheDocument()
    });
   });
 });

@@ -148,3 +148,4 @@ export const selectDefaultGroupsName = createSelector(
     return config.homeScreen.homeLibrary.defaultGroupsName === localizedStrings.DEFAULT_GROUPS ? CONTENT_BUNDLE_DEFAULT_GROUP_NAME : config.homeScreen.homeLibrary.defaultGroupsName
   }
 )
+

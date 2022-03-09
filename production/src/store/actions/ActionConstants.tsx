@@ -30,3 +30,4 @@ export const FINISH_LOADING_DOCUMENT_LIST_FAILURE = 'FINISH_LOADING_DOCUMENT_LIS
 /* ------------------------------ Content bundle fetch State ----------------------------*/
 export const START_LOADING_CONTENT_LIST = 'START_LOADING_CONTENT_LIST'
 export const FINISH_LOADING_CONTENT_LIST = 'FINISH_LOADING_CONTENT_LIST'
+

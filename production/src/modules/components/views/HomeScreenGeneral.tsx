@@ -4,8 +4,8 @@ import '../scss/HomeScreenGeneral.scss';
 import { env } from '../../../main';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import * as _ from "lodash";
-import { Input } from 'antd';
-import { platformType, reviewType, localizedStrings, featureFlag } from '../HomeScreenConfigConstant';
+import { Input } from '@mstr/rc';
+import { platformType, reviewType, localizedStrings } from '../HomeScreenConfigConstant';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { selectConfigInfoList, selectCurrentConfig, selectIsConfigNameError, selectIsDuplicateConfig, selectPreviewDeviceType } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
@@ -17,12 +17,11 @@ class HomeScreenGeneral extends React.Component<any, any> {
     super(props)
     this.state = {
       currentEnv: {name: '', url: ''},
-      showNameError: false,
-      nameErrorMsg: '',
       isDefaultNameFocused: false,  // auto focus default name for only once
+      isNameChangedByManual: false
     };
   }
-  private nameInputRef = React.createRef<Input>();
+  private nameInputRef = React.createRef<any>();
 
   async componentDidMount() {
     const curEnv = await env.environments.getCurrentEnvironment();
@@ -41,11 +40,17 @@ class HomeScreenGeneral extends React.Component<any, any> {
         }
       return;
     }
+    if(!this.state.isNameChangedByManual && prevProps.config.name !== this.props.config.name){
+        this.setState({
+            isNameChangedByManual: true
+        })
+    }
   }
 
   componentWillReceiveProps(nextProps: any) {
     
   }
+  
 
   validateName(name: string) {
     const isEmptyName = !(name && name.trim());
@@ -67,18 +72,16 @@ class HomeScreenGeneral extends React.Component<any, any> {
     } else if (isInvalidCharacter) {
         nameErrorMsg = localizedStrings.INVALID_CHARACTER_APP_NAME_ERROR;
     }
+    
     return {showNameError, nameErrorMsg};
   }
 
-  handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      const nameStr = event.target.value;
-      this.props.updateCurrentConfig({name: nameStr});
-      const { showNameError, nameErrorMsg } = this.validateName(nameStr);
-      this.setState({
-        showNameError: showNameError,
-        nameErrorMsg: nameErrorMsg
-      });
-      this.props.setConfigNameError(showNameError);
+  handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => { 
+    const nameStr = event.target.value;
+    this.props.updateCurrentConfig({name: nameStr});
+    const { showNameError,  } = this.validateName(nameStr);
+    this.props.setConfigNameError(showNameError);
+    return 
   }
 
   handleDescChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -144,15 +147,23 @@ class HomeScreenGeneral extends React.Component<any, any> {
                 <div className={`${classNamePrefix}-name-title`}>
                     {localizedStrings.NAME + '*'}
                 </div>
+                
                 <div className={this.props.isConfigNameError ? `${classNamePrefix}-name-error` : `${classNamePrefix}-name-name`}>
-                    <Input ref={this.nameInputRef} placeholder='' maxLength={250} value={name} onChange={this.handleNameChange}/>
+                    <Input
+                        value={name}
+                        onValidate = {(e: string) => {
+                            // avoid the first render validation.
+                            if(!this.state.isNameChangedByManual) return true;
+                            return !this.validateName(e).showNameError;
+                        }}
+                        ref = {this.nameInputRef}
+                        maxLength={250}
+                        errorMessage = {this.validateName(name).nameErrorMsg}
+                        isErrorDisplayed = 'true'
+                        onChange={this.handleNameChange}
+                        />
                 </div>
             </div>
-            { this.state.showNameError && <div className={`${classNamePrefix}-name-hint-error`}>
-                    <div/>
-                    <span>{this.state.nameErrorMsg}</span>
-                </div>
-            }
             <div className={`${classNamePrefix}-description`}>
                 <div className={`${classNamePrefix}-description-title`}>
                     {localizedStrings.DESCRIPTION}
@@ -210,7 +221,7 @@ const mapState = (state: RootState) => ({
   configInfoList: selectConfigInfoList(state),
   isDuplicateConfig: selectIsDuplicateConfig(state),
   isConfigNameError: selectIsConfigNameError(state),
-  previewDeviceType: selectPreviewDeviceType(state), 
+  previewDeviceType: selectPreviewDeviceType(state)
 })
 
 const connector = connect(mapState, {

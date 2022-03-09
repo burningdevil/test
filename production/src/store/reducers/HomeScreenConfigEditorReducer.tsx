@@ -46,7 +46,7 @@ const initialState: HomeScreenConfigEditorState = {
   configInfoList: [],
   colorPalettes: [],
   previewDeviceType: reviewType.WEB,
-  isStateChangeByManual: false,
+  isStateChangeByManual: false
 }
 
 const HomeScreenConfigEditorReducer = (state: HomeScreenConfigEditorState = initialState, action: ActionTypes) => {
