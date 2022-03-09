@@ -53,8 +53,6 @@ class HomeScreenGeneral extends React.Component<any, any> {
   
 
   validateName(name: string) {
-    // avoid the first render validation.
-    if(!this.state.isNameChangedByManual) return {showNameError: false, nameErrorMsg: ''}
     const isEmptyName = !(name && name.trim());
     const currentConfigId = this.props.config.id;
     const isDuplicateName = this.props.configInfoList.filter((appInfo: any ) => {
@@ -154,6 +152,8 @@ class HomeScreenGeneral extends React.Component<any, any> {
                     <Input
                         value={name}
                         onValidate = {(e: string) => {
+                            // avoid the first render validation.
+                            if(!this.state.isNameChangedByManual) return true;
                             return !this.validateName(e).showNameError;
                         }}
                         ref = {this.nameInputRef}
