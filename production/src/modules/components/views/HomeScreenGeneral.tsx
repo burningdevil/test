@@ -5,9 +5,9 @@ import { env } from '../../../main';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import * as _ from "lodash";
 import { Input } from '@mstr/rc';
-import { platformType, reviewType, localizedStrings, featureFlag } from '../HomeScreenConfigConstant';
+import { platformType, reviewType, localizedStrings } from '../HomeScreenConfigConstant';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
-import { selectConfigInfoList, selectCurrentConfig, selectIsApplicationConfigLoading, selectIsConfigNameError, selectIsDuplicateConfig, selectPreviewDeviceType } from '../../../store/selectors/HomeScreenConfigEditorSelector';
+import { selectConfigInfoList, selectCurrentConfig, selectIsConfigNameError, selectIsDuplicateConfig, selectPreviewDeviceType } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 const { TextArea } = Input;
 
@@ -18,6 +18,7 @@ class HomeScreenGeneral extends React.Component<any, any> {
     this.state = {
       currentEnv: {name: '', url: ''},
       isDefaultNameFocused: false,  // auto focus default name for only once
+      isNameChangedByManual: false
     };
   }
   private nameInputRef = React.createRef<any>();
@@ -39,6 +40,11 @@ class HomeScreenGeneral extends React.Component<any, any> {
         }
       return;
     }
+    if(!this.state.isNameChangedByManual && prevProps.config.name !== this.props.config.name){
+        this.setState({
+            isNameChangedByManual: true
+        })
+    }
   }
 
   componentWillReceiveProps(nextProps: any) {
@@ -47,6 +53,8 @@ class HomeScreenGeneral extends React.Component<any, any> {
   
 
   validateName(name: string) {
+    // avoid the first render validation.
+    if(!this.state.isNameChangedByManual) return {showNameError: false, nameErrorMsg: ''}
     const isEmptyName = !(name && name.trim());
     const currentConfigId = this.props.config.id;
     const isDuplicateName = this.props.configInfoList.filter((appInfo: any ) => {
@@ -146,8 +154,6 @@ class HomeScreenGeneral extends React.Component<any, any> {
                     <Input
                         value={name}
                         onValidate = {(e: string) => {
-                            // avoid the first render validation.
-                            if(this.props.isConfigLoading) return true;
                             return !this.validateName(e).showNameError;
                         }}
                         ref = {this.nameInputRef}
@@ -215,8 +221,7 @@ const mapState = (state: RootState) => ({
   configInfoList: selectConfigInfoList(state),
   isDuplicateConfig: selectIsDuplicateConfig(state),
   isConfigNameError: selectIsConfigNameError(state),
-  previewDeviceType: selectPreviewDeviceType(state), 
-  isConfigLoading: selectIsApplicationConfigLoading(state)
+  previewDeviceType: selectPreviewDeviceType(state)
 })
 
 const connector = connect(mapState, {

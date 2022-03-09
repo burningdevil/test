@@ -97,9 +97,6 @@ export const loadContentBundleListFail = () => ({
   type: Actions.LOAD_CONTENT_BUNDLE_LIST_FAIL,
 })
 
-export const startLoadingApplicationConfig = () => ({
-  type: Actions.START_LOADING_APPLICATION_CONFIG
-})
 
 
 

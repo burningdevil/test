@@ -94,7 +94,6 @@ export const loadContentBundleList = () => {
 }
 
 export const loadCurrentEditConfig = (configId: string) => {
-    store.dispatch(ActionsCreator.startLoadingApplicationConfig())
     return HttpProxy.get(CONFIG_ENDPOINTS + configId + '?outputFlag=INCLUDE_LOCALE&outputFlag=INCLUDE_ACL').then((response: any) => {
         let data = response?.data ?? response;
         if (!_.has(data, VC.PLATFORM)) {
