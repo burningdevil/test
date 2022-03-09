@@ -1,6 +1,15 @@
 @import '~@mstr/rc/es/assets/scss/variables.scss';
 @import '../../scss/variables.scss';
+@import '~ag-grid-community/src/styles/ag-grid.scss';
+@import '~ag-grid-community/src/styles/ag-theme-alpine/sass/ag-theme-alpine-mixin';
 
+.ag-theme-alpine {
+    @include ag-theme-alpine(
+        (
+            font-size: 12px,
+        )
+    );
+}
 .home-screen-dossiersetting {
     &-container {
         padding: 24px 30px 0 30px;

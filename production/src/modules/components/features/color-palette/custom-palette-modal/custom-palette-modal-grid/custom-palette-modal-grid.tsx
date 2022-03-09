@@ -1,25 +1,21 @@
-import { Table, message } from 'antd';
+import { message } from 'antd';
+import { AgGridReact } from 'ag-grid-react';
 import * as React from 'react';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
     selectAllColorPalettes,
     selectApplicationDefaultPalette,
-    selectApplicationPalettes,
 } from '../../../../../../store/selectors/HomeScreenConfigEditorSelector';
 import './custom-palette-modal-grid.scss';
-import { useImperativeHandle } from 'react';
 import { useState } from 'react';
-import * as Actions from '../../../../../../store/actions/ActionsCreator';
 import {
     default as VC,
     localizedStrings,
 } from '../../../../HomeScreenConfigConstant';
 import ColorPaletteEditor from '../../color-palette-editor/color-palette-editor';
-import { COLOR_PALETTE_SELECTED_FORM, toHex } from '../../color-palette.util';
+import { toHex } from '../../color-palette.util';
 import * as api from '../../../../../../services/Api';
-import { Resizable } from 'react-resizable';
-import { VList } from 'virtuallist-antd';
 import {
     ConfirmationDialog,
     ConfirmationDialogWordings,
@@ -28,6 +24,17 @@ import { t } from '../../../../../../i18n/i18next';
 import { RestApiError } from '../../../../../../server/RestApiError';
 import { ColorPaletteType } from 'src/types/data-model/HomeScreenConfigModels';
 import { useMemo } from 'react';
+import { useRef } from 'react';
+import { useCallback } from 'react';
+import {
+    GridReadyEvent,
+    SelectionChangedEvent,
+    CheckboxSelectionCallbackParams,
+    RowNode,
+    ICellRendererFunc,
+    ICellRendererParams,
+    ModelUpdatedEvent,
+} from 'ag-grid-community';
 interface PaletteGridProps {
     nameFilter: string;
     setPaletteLength: Function;
@@ -36,15 +43,7 @@ interface PaletteGridProps {
     paletteType?: number;
     cRef?: any;
     checkIndeterminate?: any;
-}
-interface RowSelectionType {
-    isDefaultPalette: boolean;
-    selectedRowKeys: any[];
-    setSelectedRowKeys: any;
-    checkIndeterminate: any;
-    dataSource: any[];
-    dispatch: any;
-    setCustomPalettes: any;
+    selectedCustomPalettes: string[];
 }
 const renderPaletteColors = (colors: Array<string>) => {
     return colors?.map((c, index) => {
@@ -63,54 +62,22 @@ const renderPaletteColors = (colors: Array<string>) => {
     });
 };
 
-const ResizableTitle = (props: any) => {
-    let { onResize, width, ...restProps } = props;
-    if (width > 380) width = 380;
-    if (width < 120) width = 120;
-
-    if (!width) {
-        return <th {...restProps} />;
-    }
-
-    return (
-        <Resizable
-            width={width}
-            height={0}
-            handle={
-                <span
-                    className="react-resizable-handle"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                    }}
-                />
-            }
-            onResize={onResize}
-            draggableOpts={{ enableUserSelectHack: false }}
-        >
-            <th {...restProps} />
-        </Resizable>
-    );
-};
 let currentPaletteList: ColorPaletteType[];
+let gridApi: any;
 const CustomPaletteModalGrid: React.FC<PaletteGridProps> = (
     props: PaletteGridProps
 ) => {
     const {
         setPaletteLength,
         nameFilter,
-        paletteType,
         checkIndeterminate,
-        cRef,
         setCustomPalettes,
+        selectedCustomPalettes,
     } = props;
-    const dispatch = useDispatch();
+
     const paletteList: ColorPaletteType[] = useSelector(selectAllColorPalettes);
     const defaultPaletteId = useSelector(selectApplicationDefaultPalette);
-    const applicationPalettes = useSelector(selectApplicationPalettes) ?? [];
 
-    const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-    const [currentList, setCurrentList] = useState([]); // used to display;
-    const [dataSource, setDataSource] = useState([]); // store the data source backup;
     const [isShowEditPalette, setEditorPalette] = useState(false);
     const [paletteEditorParams, setEditorParams] = useState({} as any);
     const [isEditConfirmationDialogOpen, setEditConfirmationDialogOpen] =
@@ -118,117 +85,199 @@ const CustomPaletteModalGrid: React.FC<PaletteGridProps> = (
     const [isDeleteConfirmationDialogOpen, setDeleteConfirmationDialogOpen] =
         useState(false);
     const [toBeDeleteData, setToBeDeletedData] = useState(null);
-    const [highlightRow, setHighlightRow] = useState(null);
-
-    const isDefaultPalette = paletteType === 1 ? true : false;
-    const vc = useMemo(() => {
-        return VList({ height: 500 });
-    }, []);
-    const components = {
-        header: {
-            cell: ResizableTitle,
+    // grid related
+    const gridRef: any = useRef();
+    const gridStyle = useMemo(() => ({ height: '100%', width: '100%' }), []);
+    const [rowData, setRowData] = useState(null);
+    const [columnDefs, setColumnDefs] = useState([
+        {
+            field: 'name',
+            rowGroup: true,
+            hide: true,
+            getQuickFilterText: (params: any) => {
+                return params.data.colors ? params.data.name : '';
+            },
         },
-        vc,
+
+        {
+            field: 'colors',
+            headerName: t('paletteColors'),
+            sortable: false,
+            flex: 3,
+            getQuickFilterText: (params: any) => {
+                return '';
+            },
+            cellRendererFramework: (params: any) => {
+                const d = params.data;
+                if (!d.colors) {
+                    return ' ';
+                }
+                if (d.colors) {
+                    return (
+                        <div className={`color-palette-item-colors-col`}>
+                            {renderPaletteColors(d.colors)}
+                            {renderPaletteOperations(d.paletteType === 1, d)}
+                        </div>
+                    );
+                } else {
+                    return ' ';
+                }
+            },
+        },
+    ]);
+    const defaultColDef = useMemo(() => {
+        return {
+            flex: 1,
+            filter: false,
+            sortable: true,
+            resizable: true,
+            menuTabs: [] as string[],
+        };
+    }, []);
+    const NameRenderer: ICellRendererFunc = (params: ICellRendererParams) => {
+        const d = params.data;
+        let elem = document.createElement('div');
+        elem.classList.add('overflow');
+        if (d.id === defaultPaletteId) {
+            const defaultSpan = document.createElement('span');
+            defaultSpan.innerText = `(${t('default')})`;
+
+            const textSpan = document.createElement('span');
+            elem.appendChild(defaultSpan);
+            textSpan.innerText = d.name;
+            elem.appendChild(textSpan);
+        } else {
+            elem.innerText = d.name;
+        }
+        return elem;
     };
-    const initData = (paletteList: ColorPaletteType[]) => {
+    const autoGroupColumnDef = useMemo(() => {
+        return {
+            headerName: t('paletteName'),
+            headerCheckboxSelection: true,
+            minWidth: 200,
+            maxWidth: 380,
+            checkboxSelection: (params: CheckboxSelectionCallbackParams) => {
+                return params.node.data.colors !== undefined;
+            },
+            getQuickFilterText: (params: any) => {
+                return params.data.colors ? params.data.name : '';
+            },
+            cellRenderer: 'agGroupCellRenderer',
+            cellRendererParams: {
+                suppressCount: true,
+                innerRenderer: NameRenderer,
+            },
+        };
+    }, []);
+    const getDataPath = useCallback(function (data) {
+        return data.org;
+    }, []);
+    const isRowSelectable = useCallback((node: RowNode) => {
+        return !!node.data.colors;
+    }, []);
+    // enabled the related api in ag-grid version higher than 27.
+    // after upgrading the version, then can set the default expand.
+    // const isGroupExpanded = useCallback((params: any) => {
+    //   if(nameFilter){
+    //     return true;
+    //   }else {
+    //     return params.data.id === 1 ? true : false;
+    //   }
+    // }, [nameFilter])
+    const onSelectionChanged = useCallback((event: SelectionChangedEvent) => {
+        const selections = event.api.getSelectedNodes();
+        const selectedRows = selections.map((o) => o.data);
+        const selectedRowKeys = selectedRows.map((v: any) => v.id);
+        checkIndeterminate(selectedRows);
+        setCustomPalettes(selectedRowKeys);
+    }, []);
+    const initData = useCallback((paletteList: ColorPaletteType[]) => {
         const data = [...paletteList];
         if (data.map((v: any) => v.id).includes(defaultPaletteId)) {
             data.find((v: any) => v.id === defaultPaletteId).isDefaultPalette =
                 true;
         }
-        setDataSource([...data]);
-        setCurrentList([...data]);
-        if (applicationPalettes) {
-            // should invoke the selected data from local storage.
-            const storageKey = JSON.parse(
-                localStorage.getItem(COLOR_PALETTE_SELECTED_FORM)
+        setRowData(generateDisplayData(data));
+    }, []);
+    const onGridReady = useCallback((params: GridReadyEvent) => {
+        gridApi = params.api;
+    }, []);
+    const generateDisplayData = useCallback((currentList: any) => {
+        return [
+            {
+                id: 1,
+                name: t('customColorPaletteTitle'),
+                org: [t('customColorPaletteTitle')],
+            },
+        ]
+            .concat(
+                currentList
+                    .filter((v: any) => v.paletteType === 2)
+                    .map((one: any) => {
+                        return {
+                            ...one,
+                            org: [t('customColorPaletteTitle'), one.name],
+                        };
+                    })
+            )
+            .concat([
+                {
+                    id: 2,
+                    name: t('defaultColorPaletteTitle'),
+                    org: [t('defaultColorPaletteTitle')],
+                },
+            ])
+            .concat(
+                currentList
+                    .filter((v: any) => v.paletteType === 1)
+                    .map((one: any) => {
+                        return {
+                            ...one,
+                            org: [t('defaultColorPaletteTitle'), one.name],
+                        };
+                    })
             );
-            if (storageKey) {
-                const mergeKeys = storageKey.concat(
-                    applicationPalettes?.filter(
-                        (key) => !currentPaletteList?.find((v) => v.id === key)
-                    )
-                );
-                setSelectedRowKeys([...mergeKeys]);
-                // pass data to the parent comp.
-                setCustomPalettes([...mergeKeys]);
-            } else {
-                setSelectedRowKeys([...applicationPalettes]);
-                setCustomPalettes([...applicationPalettes]);
-            }
-        }
-    };
+    }, []);
 
-    useImperativeHandle(cRef, () => ({
-        checkAll: (check: boolean) => {
-            if (check) {
-                setSelectedRowKeys(currentList.map((v: any) => v.id));
-                dispatch(
-                    Actions.updateCurrentConfig({
-                        applicationPalettes: currentList.map((v: any) => v.id),
-                    })
-                );
-            } else {
-                setSelectedRowKeys([]);
-                dispatch(
-                    Actions.updateCurrentConfig({
-                        applicationPalettes: [],
-                    })
-                );
-            }
-        },
-    }));
     useEffect(() => {
+        gridRef?.current?.api.setQuickFilter(nameFilter);
         if (nameFilter) {
-            const filterList = dataSource.filter(
-                (v) =>
-                    v.name.toLowerCase().indexOf(nameFilter.toLowerCase()) > -1
-            );
-            setCurrentList(filterList);
-        } else {
-            setCurrentList(dataSource);
+            gridRef.current.api.expandAll();
         }
     }, [nameFilter]);
 
     useEffect(() => {
         initData(paletteList);
         currentPaletteList = paletteList;
-    }, [paletteList, defaultPaletteId, applicationPalettes]);
+    }, [paletteList, defaultPaletteId]);
 
     useEffect(() => {
-        setPaletteLength(currentList?.length);
-    }, [currentList?.length]);
+        setTimeout(() => {
+            gridRef.current?.api?.forEachNode((node: RowNode) => {
+                node.setSelected(selectedCustomPalettes.includes(node.data.id));
+            });
+        }, 0);
+    }, [selectedCustomPalettes, rowData]);
 
-    const dispatchUpdateAction = (
-        defaultApplicationPalettes: string[],
-        targetData: string[]
-    ) => {
-        dispatch(
-            Actions.updateCurrentConfig({
-                applicationPalettes: Array.from(
-                    new Set(defaultApplicationPalettes.concat(targetData))
-                ),
-            })
-        );
-    };
-    const removeColorPalette = (data: any) => {
+    const removeColorPalette = useCallback((data: any) => {
         setConfirmDialogWordings(deleteDialogWordings);
         setDeleteConfirmationDialogOpen(true);
         setToBeDeletedData(data);
-    };
-    const editPalette = (data: any) => {
+    }, []);
+    const editPalette = useCallback((data: any) => {
         // double confirm
         setEditConfirmationDialogOpen(true);
         setEditorParams(data);
-    };
-    const duplicatePalette = (data: any) => {
+    }, []);
+    const duplicatePalette = useCallback((data: any) => {
         setEditorPalette(true);
         let cloneObject = { ...data };
         cloneObject.name = generateDefaultPaletteName(data.name);
         cloneObject.isDuplicate = true;
         setEditorParams(cloneObject);
-    };
-    const generateDefaultPaletteName = (name: string) => {
+    }, []);
+    const generateDefaultPaletteName = useCallback((name: string) => {
         let defaultName = t('copyApplicationName', { name });
         if (
             currentPaletteList.filter((p: any) => {
@@ -251,141 +300,68 @@ const CustomPaletteModalGrid: React.FC<PaletteGridProps> = (
             }
         }
         return defaultName;
-    };
-    const setRowHighlight = (target: any) => {
-        setHighlightRow(target);
-    };
-    const renderPaletteOperations = (isDefaultPalette: boolean, data: any) => {
-        if (isDefaultPalette)
+    }, []);
+
+    const renderPaletteOperations = useCallback(
+        (isDefaultPalette: boolean, data: any) => {
+            if (isDefaultPalette)
+                return (
+                    <>
+                        <div
+                            className="operation-item icon-copy"
+                            onClick={() => {
+                                duplicatePalette(data);
+                            }}
+                        />
+                    </>
+                );
             return (
                 <>
                     <div
+                        className="operation-item icon-pnl_delete"
+                        onClick={() => {
+                            removeColorPalette(data);
+                        }}
+                    />
+                    <div
                         className="operation-item icon-copy"
                         onClick={() => {
-                            setRowHighlight(data);
                             duplicatePalette(data);
                         }}
                     />
+                    <div
+                        className="operation-item icon-info_edit"
+                        onClick={() => {
+                            editPalette(data);
+                        }}
+                    ></div>
                 </>
             );
-        return (
-            <>
-                <div
-                    className="operation-item icon-pnl_delete"
-                    onClick={() => {
-                        setRowHighlight(data);
-                        removeColorPalette(data);
-                    }}
-                />
-                <div
-                    className="operation-item icon-copy"
-                    onClick={() => {
-                        setRowHighlight(data);
-                        duplicatePalette(data);
-                    }}
-                />
-                <div
-                    className="operation-item icon-info_edit"
-                    onClick={() => {
-                        setRowHighlight(data);
-                        editPalette(data);
-                    }}
-                ></div>
-            </>
-        );
-    };
-    const handleResize =
-        (index: any) =>
-        (e: any, { size }: any) => {
-            const nextColumns = [...columns];
-            nextColumns[index] = {
-                ...nextColumns[index],
-                width: size.width,
-            };
-            setColumns(nextColumns);
-        };
-
-    const getColumns = () => {
-        let columns: any[] = [
-            {
-                title: t('paletteName'),
-                dataIndex: 'name',
-                key: 'id',
-                width: 150,
-                sorter: (a: any, b: any) => {
-                    return a.name < b.name ? -1 : 1;
-                },
-                render: (name: string, data: any) => {
-                    return {
-                        props: {
-                            style: {},
-                        },
-                        children: (
-                            <div className={'overflow'}>
-                                {data.id === defaultPaletteId && (
-                                    <span className={`default-color-palette`}>
-                                        ({t('default')})
-                                    </span>
-                                )}
-                                {name}
-                            </div>
-                        ),
-                    };
-                },
-            },
-            {
-                title: t('paletteColors'),
-                dataIndex: 'colors',
-                render: (d: Array<string>, data: any) => {
-                    return {
-                        props: {
-                            style: { background: data.color },
-                        },
-                        children: data.colors ? (
-                            <div className={`color-palette-item-colors-col`}>
-                                {renderPaletteColors(d)}
-                                {renderPaletteOperations(
-                                    data.paletteType === 1,
-                                    data
-                                )}
-                            </div>
-                        ) : (
-                            ''
-                        ),
-                    };
-                },
-            },
-        ];
-        return columns;
-    };
-    const [columns, setColumns] = useState(getColumns());
-    const columnData = columns.map((col, index) => ({
-        ...col,
-        onHeaderCell: (column: any) => ({
-            width: column.width,
-            onResize: handleResize(index),
-        }),
-    }));
+        },
+        []
+    );
 
     /* Confirmation dialog related */
-    const handleCloseEditDialog = () => {
+    const handleCloseEditDialog = useCallback(() => {
         setEditConfirmationDialogOpen(false);
-    };
-    const confirmEdit = () => {
+    }, []);
+    const confirmEdit = useCallback(() => {
         setEditConfirmationDialogOpen(false);
         setEditorPalette(true);
-    };
-    const editDialogWordings: ConfirmationDialogWordings = {
-        title: localizedStrings.EDIT,
-        actionButtonText: localizedStrings.CONTINUE,
-        cancelButtonText: localizedStrings.CANCEL,
-        summaryText: t('confirmEditColorPaletteDialogTitle'),
-        detailText: t('confirmEditColorPaletteDialogMsg'),
-    };
-    const handleCloseDeleteDialog = () => {
+    }, []);
+    const editDialogWordings: ConfirmationDialogWordings = useMemo(() => {
+        return {
+            title: localizedStrings.EDIT,
+            actionButtonText: localizedStrings.CONTINUE,
+            cancelButtonText: localizedStrings.CANCEL,
+            summaryText: t('confirmEditColorPaletteDialogTitle'),
+            detailText: t('confirmEditColorPaletteDialogMsg'),
+        };
+    }, []);
+    const handleCloseDeleteDialog = useCallback(() => {
         setDeleteConfirmationDialogOpen(false);
-    };
-    const processErrorResponse = (e: any, errorMsg: string) => {
+    }, []);
+    const processErrorResponse = useCallback((e: any, errorMsg: string) => {
         const error = e as RestApiError;
         if (error.statusCode === 500) {
             const deleteFailedDialogWordings: ConfirmationDialogWordings = {
@@ -408,130 +384,45 @@ const CustomPaletteModalGrid: React.FC<PaletteGridProps> = (
             return;
         }
         message.error(errorMsg + error.errorMsg);
-    };
-    const confirmDelete = () => {
+    }, []);
+    const confirmDelete = useCallback(() => {
         setDeleteConfirmationDialogOpen(false);
-        const updateState = () => {
-            const leftList = dataSource.filter(
-                (v) => v.id !== toBeDeleteData.id
-            );
-            const defaultApplicationPalettes = applicationPalettes.filter(
-                (v) => !dataSource.map((v) => v.id).includes(v)
-            );
-            dispatchUpdateAction(
-                defaultApplicationPalettes,
-                selectedRowKeys.filter((v) => v !== toBeDeleteData.id)
-            );
-            // special handling, when removed the default item, then the first one in the list will be set to default automatically.
-            if (toBeDeleteData.isDefaultPalette) {
-                if (leftList?.length) {
-                    leftList[0].isDefaultPalette = true;
-                    dispatch(
-                        Actions.updateCurrentConfig({
-                            applicationDefaultPalette: leftList[0].id,
-                        })
-                    );
-                }
-            }
-            setCurrentList(leftList);
-        };
+        gridRef.current.api.clearFocusedCell();
         api.deletePalette(toBeDeleteData.id).then(
             () => {
                 api.loadColorPaletteList();
-                updateState();
             },
             (err: any) => {
                 processErrorResponse(err, localizedStrings.ERR_APP_DELETE);
             }
         );
-    };
-    const deleteDialogWordings: ConfirmationDialogWordings = {
-        title: localizedStrings.DELETE,
-        actionButtonText: localizedStrings.DELETE,
-        cancelButtonText: localizedStrings.CANCEL,
-        summaryText: t('confirmDeleteColorPaletteDialogTitle'),
-        detailText: t('confirmDeleteColorPaletteDialogMsg'),
-    };
+    }, [toBeDeleteData]);
+    const deleteDialogWordings: ConfirmationDialogWordings = useMemo(() => {
+        return {
+            title: localizedStrings.DELETE,
+            actionButtonText: localizedStrings.DELETE,
+            cancelButtonText: localizedStrings.CANCEL,
+            summaryText: t('confirmDeleteColorPaletteDialogTitle'),
+            detailText: t('confirmDeleteColorPaletteDialogMsg'),
+        };
+    }, []);
     const [confirmDialogWordings, setConfirmDialogWordings] =
         useState(deleteDialogWordings);
-    const getRowSelection = (obj: RowSelectionType) => {
-        const {
-            selectedRowKeys,
-            setSelectedRowKeys,
-            checkIndeterminate,
-            dataSource,
-        } = obj;
-        const rowSelection = {
-            type: 'checkbox',
-            selectedRowKeys,
-            onChange: (selectedRowKeys: any, selectedRows: any) => {
-                if (!nameFilter) {
-                    localStorage.setItem(
-                        COLOR_PALETTE_SELECTED_FORM,
-                        JSON.stringify(selectedRowKeys)
-                    );
-                    setSelectedRowKeys(selectedRows.map((v: any) => v.id));
-                    checkIndeterminate(selectedRows);
-                } else {
-                    // should merge the selected data which not displayed in the currentList.
-                    const notDisplayData = dataSource.filter(
-                        (v) => !currentList.map((v) => v.id).includes(v.id)
-                    );
-                    const previousSelectedData =
-                        JSON.parse(
-                            localStorage.getItem(COLOR_PALETTE_SELECTED_FORM)
-                        ) ?? applicationPalettes;
-                    const notDisplaySelectDataKey = previousSelectedData.filter(
-                        (v: any) =>
-                            notDisplayData.map((v: any) => v.id).includes(v)
-                    );
-                    const notDisplaySelectRows = dataSource.filter((v: any) =>
-                        notDisplaySelectDataKey.includes(v.id)
-                    );
-                    localStorage.setItem(
-                        COLOR_PALETTE_SELECTED_FORM,
-                        JSON.stringify(
-                            notDisplaySelectDataKey.concat(selectedRowKeys)
-                        )
-                    );
-                    setSelectedRowKeys(
-                        notDisplaySelectDataKey.concat(selectedRowKeys)
-                    );
-                    checkIndeterminate(
-                        notDisplaySelectRows.concat(selectedRows)
-                    );
-                }
-                // setSelectedRowKeys(selectedRows.map((v: any) => v.id));
-                // checkIndeterminate(selectedRows);
-                setHighlightRow(null);
-            },
-            getCheckboxProps: (record: any) => ({
-                disabled: !record.colors,
-                // Column configuration not to be checked
-                name: record.id,
-            }),
-        };
-        return rowSelection;
-    };
-    const generateDisplayData = () => {
-        return [
-            {
-                id: 1,
-                name: t('customColorPaletteTitle'),
-                children: currentList.filter((v) => v.paletteType === 2),
-            },
-            {
-                id: 2,
-                name: t('defaultColorPaletteTitle'),
-                children: currentList.filter((v) => v.paletteType === 1),
-            },
-        ];
-    };
+
     const executeScroll = () => {
         setTimeout(() => {
-            document.querySelector('.scroll-row').scrollIntoView();
+            document.querySelector('.ag-row-group-indent-0').scrollIntoView();
         }, 1000);
     };
+    const onModelUpdate = useCallback((event: ModelUpdatedEvent) => {
+        let cnt = 0;
+        event.api.forEachNodeAfterFilter((node: RowNode) => {
+            if (node.data.colors) {
+                cnt++;
+            }
+        });
+        setPaletteLength(cnt);
+    }, []);
     return (
         paletteList?.length > 0 && (
             <>
@@ -539,63 +430,62 @@ const CustomPaletteModalGrid: React.FC<PaletteGridProps> = (
                     id={`color-palette-edit-grid`}
                     className={'color-palette-modal-grid-container'}
                 >
-                    <Table
-                        showHeader={true}
-                        pagination={false}
-                        showSorterTooltip={false}
-                        size={'small'}
-                        rowSelection={
-                            getRowSelection({
-                                isDefaultPalette,
-                                selectedRowKeys,
-                                setSelectedRowKeys,
-                                checkIndeterminate,
-                                dataSource,
-                                dispatch,
-                                setCustomPalettes,
-                            }) as any
-                        }
-                        rowKey="id"
-                        dataSource={generateDisplayData()}
-                        defaultExpandedRowKeys={[1]}
-                        columns={columnData}
-                        components={components as any}
-                        rowClassName={(record: any, index: number) => {
-                            let defaultClass;
-                            defaultClass = index === 0 ? 'scroll-row' : '';
-                            if (!highlightRow) return defaultClass;
-                            return record.id === highlightRow.id
-                                ? 'highlight-row'
-                                : defaultClass;
-                        }}
-                        scroll={{ y: 360 }}
-                    />
-                    <ColorPaletteEditor
-                        visible={isShowEditPalette}
-                        params={paletteEditorParams}
-                        onClose={() => {
-                            setEditorPalette(false);
-                            executeScroll();
-                        }}
-                    ></ColorPaletteEditor>
-                    <ConfirmationDialog
-                        isConfirmationDialogDisplayed={
-                            isEditConfirmationDialogOpen
-                        }
-                        closeDialog={handleCloseEditDialog}
-                        triggerAction={confirmEdit}
-                        wordings={editDialogWordings}
-                        elementId="palette-edit-confirm"
-                    />
-                    <ConfirmationDialog
-                        isConfirmationDialogDisplayed={
-                            isDeleteConfirmationDialogOpen
-                        }
-                        closeDialog={handleCloseDeleteDialog}
-                        triggerAction={confirmDelete}
-                        wordings={confirmDialogWordings}
-                        elementId="palette-delete-confirm"
-                    />
+                    <div style={gridStyle} className="ag-theme-alpine">
+                        <AgGridReact
+                            ref={gridRef}
+                            rowData={rowData}
+                            columnDefs={columnDefs}
+                            defaultColDef={defaultColDef}
+                            autoGroupColumnDef={autoGroupColumnDef}
+                            treeData={true}
+                            animateRows={true}
+                            getDataPath={getDataPath}
+                            isRowSelectable={isRowSelectable}
+                            groupDefaultExpanded={1}
+                            rowSelection={'multiple'}
+                            suppressAggFuncInHeader={true}
+                            rowMultiSelectWithClick={true}
+                            suppressRowClickSelection={true}
+                            onSelectionChanged={onSelectionChanged}
+                            onModelUpdated={onModelUpdate}
+                            onGridReady={onGridReady}
+                        ></AgGridReact>
+                    </div>
+                    {isShowEditPalette && (
+                        <ColorPaletteEditor
+                            visible={isShowEditPalette}
+                            params={paletteEditorParams}
+                            setCustomPalettes={setCustomPalettes}
+                            selectedCustomPalettes={selectedCustomPalettes}
+                            onClose={() => {
+                                setEditorPalette(false);
+                                executeScroll();
+                                gridRef.current?.api?.clearFocusedCell();
+                            }}
+                        ></ColorPaletteEditor>
+                    )}
+                    {isEditConfirmationDialogOpen && (
+                        <ConfirmationDialog
+                            isConfirmationDialogDisplayed={
+                                isEditConfirmationDialogOpen
+                            }
+                            closeDialog={handleCloseEditDialog}
+                            triggerAction={confirmEdit}
+                            wordings={editDialogWordings}
+                            elementId="palette-edit-confirm"
+                        />
+                    )}
+                    {isDeleteConfirmationDialogOpen && (
+                        <ConfirmationDialog
+                            isConfirmationDialogDisplayed={
+                                isDeleteConfirmationDialogOpen
+                            }
+                            closeDialog={handleCloseDeleteDialog}
+                            triggerAction={confirmDelete}
+                            wordings={confirmDialogWordings}
+                            elementId="palette-delete-confirm"
+                        />
+                    )}
                 </div>
             </>
         )

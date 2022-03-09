@@ -8,11 +8,7 @@ import {
 } from '../../../HomeScreenConfigConstant';
 import ColorPickerContainer from '../../../common-components/rc-compat/color-picker-container';
 import './color-palette-editor.scss';
-import {
-    getSupportSingleColorPalette,
-    hexToDecimal,
-    toHex,
-} from '../color-palette.util';
+import { hexToDecimal, toHex } from '../color-palette.util';
 import { useEffect } from 'react';
 import * as api from '../../../../../services/Api';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,7 +16,7 @@ import {
     selectAllColorPalettes,
     selectApplicationPalettes,
 } from '../../../../../../src/store/selectors/HomeScreenConfigEditorSelector';
-import * as Actions from '../../../../../store/actions/ActionsCreator';
+
 import { RestApiError } from '../../../../../server/RestApiError';
 
 import { DndProvider } from 'react-dnd';
@@ -96,7 +92,8 @@ const colorPickerProps: any = {
 };
 
 const ColorPaletteEditor: React.FC<any> = (props: any) => {
-    const { params, isCreate } = props;
+    const { params, isCreate, selectedCustomPalettes, setCustomPalettes } =
+        props;
     const [currentVal, setCurrentValue] = useState('#000000');
     const [buttonDisabled, setButtonDisabled] = useState(true);
     const dispatch = useDispatch();
@@ -112,26 +109,14 @@ const ColorPaletteEditor: React.FC<any> = (props: any) => {
     const [isCancelConfirmationDialogOpen, setCancelConfirmDialogOpen] =
         useState(false);
     let colorsForm: string[] = null;
-    const dispatchUpdateAction = (
-        defaultApplicationPalettes: string[],
-        targetData: string[]
-    ) => {
-        dispatch(
-            Actions.updateCurrentConfig({
-                applicationPalettes: Array.from(
-                    new Set(defaultApplicationPalettes.concat(targetData))
-                ),
-            })
-        );
-    };
     const packageParams = () => {
         return {
             name: nameForm,
-            colors: colorsForm ? colorsForm : colorList,
+            colors: colorList,
         };
     };
     const saveColorList = (colors: string[]) => {
-        colorsForm = colors;
+        setColorList(colors);
     };
     const processErrorResponse = (e: any, errorMsg: string) => {
         const error = e as RestApiError;
@@ -143,13 +128,8 @@ const ColorPaletteEditor: React.FC<any> = (props: any) => {
         const postUpdateAction = (resp: any) => {
             // create and duplicate, set selected by default.
             if (params?.isDuplicate || isCreate) {
-                dispatchUpdateAction(applicationPalettes, [resp?.id]);
+                setCustomPalettes(selectedCustomPalettes.concat(resp?.id));
             }
-            if (isCreate) {
-                setName('');
-                setColorList([]);
-            }
-
             api.loadColorPaletteList();
             props.onClose();
         };
@@ -190,12 +170,10 @@ const ColorPaletteEditor: React.FC<any> = (props: any) => {
                 // create case
                 return colorList.length;
             }
-            if (colorsForm) {
-                // color sequence is changed.
-                return colorsForm.join('-') !== params.colors.join('-');
+            if (colorList.length !== params.colors.length) {
+                return true;
             } else {
-                // add color or remove.
-                return colorList.length !== params.colors.length;
+                return colorList.join('-') !== params.colors.join('-');
             }
         };
         if (nameChange() || colorChange()) {

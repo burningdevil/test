@@ -12,7 +12,7 @@ import './palette-grid-view.scss';
 import { useState } from 'react';
 import * as Actions from '../../../../../store/actions/ActionsCreator';
 import { toHex } from '../color-palette.util';
-import { t } from '../../../../../../src/i18n/i18next';
+import { t } from '../../../../../i18n/i18next';
 import { ColorPaletteType } from 'src/types/data-model/HomeScreenConfigModels';
 interface PaletteGridViewProps {
     paletteList?: any[];
@@ -148,17 +148,19 @@ const PaletteGridView: React.FC<PaletteGridViewProps> = (props) => {
         return (
             <>
                 {!data.isDefaultPalette && (
-                    <span
+                    <div
                         className="set-default-col operation-item"
                         onClick={() => setPaletteDefault(data)}
                     >
                         {t('setAsDefault')}
-                    </span>
+                    </div>
                 )}
-                <span
-                    className="icon-pnl_close operation-item"
-                    onClick={() => removeColorPalette(data)}
-                />
+                {currentList?.length > 1 && (
+                    <div
+                        className="icon-pnl_close operation-item"
+                        onClick={() => removeColorPalette(data)}
+                    />
+                )}
             </>
         );
     };

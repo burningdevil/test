@@ -20,22 +20,23 @@ const classNamePrefix = 'home-screen-dossiersetting';
 const ColorPaletteBlade: React.FC<any> = () => {
     const useConfigPalettes = useSelector(selectUseConfigPalettes) ?? false;
     const applicationPalettes = useSelector(selectApplicationPalettes);
-    const [isProjectPalettes, setProjectPalettes] = useState(useConfigPalettes);
+    const [isUseConfigurationPalettes, setUseConfigurationPalettes] =
+        useState(useConfigPalettes);
     const [showColorPaletteEditor, openColorPaletteEditor] = useState(false);
     const dispatch = useDispatch();
     useEffect(() => {
-        isProjectPalettes && api.loadColorPaletteList();
-    }, [isProjectPalettes]);
+        isUseConfigurationPalettes && api.loadColorPaletteList();
+    }, [isUseConfigurationPalettes]);
 
     useEffect(() => {
-        setProjectPalettes(useConfigPalettes);
+        setUseConfigurationPalettes(useConfigPalettes);
     }, [useConfigPalettes]);
 
     const handleAddColorPalette = () => {
         openColorPaletteEditor(true);
     };
     const onCheckChangeUseProject = (e: any, dispatch: any) => {
-        setProjectPalettes(e.target.checked);
+        setUseConfigurationPalettes(e.target.checked);
         dispatch(
             Actions.updateCurrentConfig({
                 useConfigPalettes: e.target.checked,
@@ -59,14 +60,14 @@ const ColorPaletteBlade: React.FC<any> = () => {
             >
                 <Checkbox
                     onChange={(e) => onCheckChangeUseProject(e, dispatch)}
-                    checked={isProjectPalettes}
+                    checked={isUseConfigurationPalettes}
                 >
                     {localizedStrings.USE_NEW_COLOR_PALETTE_DESC}
                 </Checkbox>
             </div>
 
             {/* Custom Color Palette section */}
-            {isProjectPalettes && (
+            {isUseConfigurationPalettes && (
                 <div
                     className={`${classNamePrefix}-custom-color-palette-container`}
                 >
@@ -120,12 +121,13 @@ const ColorPaletteBlade: React.FC<any> = () => {
                             classNamePrefix="home-dossier-setting-grid-custom"
                         />
                     )}
-                    {
+                    {showColorPaletteEditor && (
                         <CustomPaletteModal
+                            applicationPalettes={applicationPalettes}
                             visible={showColorPaletteEditor}
                             close={openColorPaletteEditor}
                         ></CustomPaletteModal>
-                    }
+                    )}
                 </div>
             )}
         </div>

@@ -8,6 +8,7 @@
         display: none;
         margin-left: 10px;
         margin-right: 10px;
+        padding-top: 5px;
     }
     .operation-item:first-of-type {
         margin-left: 20px;
@@ -32,7 +33,7 @@
         }
     }
 }
-.ant-table-tbody >tr.ant-table-row-selected {
+.ant-table-tbody > tr.ant-table-row-selected {
     td {
         background-color: #f2f3f5 !important;
     }
@@ -40,10 +41,9 @@
         td {
             background-color: #f2f3f5 !important;
         }
-        
     }
 }
-.ant-table-tbody >tr > td {
+.ant-table-tbody > tr > td {
     padding: 7px !important;
 }
 .icon-msg_info {

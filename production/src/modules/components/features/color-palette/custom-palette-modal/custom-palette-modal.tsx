@@ -13,25 +13,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
     selectAllColorPalettes,
     selectApplicationDefaultPalette,
-    selectApplicationPalettes,
 } from '../../../../../store/selectors/HomeScreenConfigEditorSelector';
 import ColorPaletteEditor from '../color-palette-editor/color-palette-editor';
 
 import * as Actions from '../../../../../store/actions/ActionsCreator';
-import {
-    COLOR_PALETTE_SELECTED_FORM,
-    getSupportSingleColorPalette,
-} from '../color-palette.util';
 import { t } from '../../../../../../src/i18n/i18next';
 const classNamePrefix = 'custom-palette-add-container';
 
 const ColorPaletteModal: React.FC<any> = (props: any) => {
+    const { applicationPalettes } = props;
     const dispatch = useDispatch();
     const paletteList = useSelector(selectAllColorPalettes);
-    const applicationPalettes = useSelector(selectApplicationPalettes) ?? [];
     const defaultPaletteId = useSelector(selectApplicationDefaultPalette);
-    const [selectedCustomPalettes, setCustomPalettes] =
-        useState(applicationPalettes);
+    const [selectedCustomPalettes, setCustomPalettes] = useState(null);
     const [currentPalettesLen, setPaletteLength] = useState(
         paletteList?.length
     );
@@ -39,30 +33,22 @@ const ColorPaletteModal: React.FC<any> = (props: any) => {
     const [nameFilter, setFilterName] = useState('');
     const [isShowEditPalette, setEditorPalette] = useState(false);
     useEffect(() => {
-        if (applicationPalettes?.length > 0) {
-            setDisableSave(false);
-        } else {
-            setDisableSave(true);
-        }
-    }, [applicationPalettes?.length]);
+        setCustomPalettes(applicationPalettes);
+    }, [applicationPalettes]);
 
     const dispatchUpdateAction = (
         defaultApplicationPalettes: string[],
         targetData: string[]
     ) => {
-        const defaultData = getSupportSingleColorPalette()
-            ? []
-            : defaultApplicationPalettes;
         dispatch(
             Actions.updateCurrentConfig({
                 applicationPalettes: Array.from(
-                    new Set(defaultData.concat(targetData))
+                    new Set(defaultApplicationPalettes.concat(targetData))
                 ),
             })
         );
     };
     const checkIndeterminate = (selectedRows?: any[]) => {
-        setCustomPalettes(selectedRows.map((v) => v.id));
         if (selectedRows?.length === 0) {
             setDisableSave(true);
         } else {
@@ -75,29 +61,38 @@ const ColorPaletteModal: React.FC<any> = (props: any) => {
     const handleCancelAdd = () => {
         setFilterName('');
         props.close(false);
-        localStorage.setItem(COLOR_PALETTE_SELECTED_FORM, 'false');
+        setCustomPalettes(applicationPalettes);
     };
     const handleSaveAdd = () => {
-        props.close(false);
-        localStorage.setItem(COLOR_PALETTE_SELECTED_FORM, 'false');
         setFilterName('');
         const paletteRecordMap: any = {};
         paletteList.forEach((item) => {
             paletteRecordMap[item.id] = item.name;
         });
-        selectedCustomPalettes.sort((a, b) => {
+        selectedCustomPalettes.sort((a: string, b: string) => {
             return paletteRecordMap[a] < paletteRecordMap[b] ? -1 : 1;
         });
-        dispatchUpdateAction([], selectedCustomPalettes);
         // for the single selection case, there is no set default operation. So when the radio selection is changed, should update the default palette at the same time.
         // for the multiple case, always use the first one as default unless the defaultId is in the selected list.
         if (!selectedCustomPalettes.includes(defaultPaletteId)) {
             dispatch(
                 Actions.updateCurrentConfig({
                     applicationDefaultPalette: selectedCustomPalettes[0],
+                    applicationPalettes: selectedCustomPalettes,
+                })
+            );
+        } else {
+            dispatch(
+                Actions.updateCurrentConfig({
+                    applicationPalettes: [defaultPaletteId].concat(
+                        selectedCustomPalettes.filter(
+                            (v: any) => v !== defaultPaletteId
+                        )
+                    ),
                 })
             );
         }
+        props.close(false);
     };
 
     const buttonGroup = () => {
@@ -170,11 +165,17 @@ const ColorPaletteModal: React.FC<any> = (props: any) => {
                             </div>
                             <div className={`${classNamePrefix}-add-palette`}>
                                 {getAddColorPaletteIcon()}
-                                <ColorPaletteEditor
-                                    visible={isShowEditPalette}
-                                    isCreate={true}
-                                    onClose={() => setEditorPalette(false)}
-                                ></ColorPaletteEditor>
+                                {isShowEditPalette && (
+                                    <ColorPaletteEditor
+                                        visible={isShowEditPalette}
+                                        isCreate={true}
+                                        setCustomPalettes={setCustomPalettes}
+                                        selectedCustomPalettes={
+                                            selectedCustomPalettes
+                                        }
+                                        onClose={() => setEditorPalette(false)}
+                                    ></ColorPaletteEditor>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -184,13 +185,18 @@ const ColorPaletteModal: React.FC<any> = (props: any) => {
                                 className={`${classNamePrefix}-grid-left`}
                             ></div>
                             <div className={`${classNamePrefix}-grid-right`}>
-                                <CustomPaletteModalGrid
-                                    nameFilter={nameFilter}
-                                    paletteType={2}
-                                    checkIndeterminate={checkIndeterminate}
-                                    setCustomPalettes={setCustomPalettes}
-                                    setPaletteLength={setPaletteLength}
-                                ></CustomPaletteModalGrid>
+                                {selectedCustomPalettes && (
+                                    <CustomPaletteModalGrid
+                                        nameFilter={nameFilter}
+                                        paletteType={2}
+                                        checkIndeterminate={checkIndeterminate}
+                                        selectedCustomPalettes={
+                                            selectedCustomPalettes
+                                        }
+                                        setCustomPalettes={setCustomPalettes}
+                                        setPaletteLength={setPaletteLength}
+                                    ></CustomPaletteModalGrid>
+                                )}
                             </div>
                         </div>
                     </div>
