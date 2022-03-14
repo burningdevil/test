@@ -92,23 +92,25 @@ const PaletteGridView: React.FC<PaletteGridViewProps> = (props) => {
         const leftList = currentList.filter(
             (v: ColorPaletteType) => v.id !== data.id
         );
-        dispatchUpdateAction(leftList.map((v: any) => v.id));
         // special handling, if remove the default item, then the first one in the list will be set to default automatically.
         if (data.isDefaultPalette) {
             if (leftList?.length) {
-                leftList[0].isDefaultPalette = true;
                 dispatch(
                     Actions.updateCurrentConfig({
                         applicationDefaultPalette: leftList[0].id,
+                        applicationPalettes: leftList.map((v: any) => v.id),
                     })
                 );
             } else {
                 dispatch(
                     Actions.updateCurrentConfig({
                         applicationDefaultPalette: '',
+                        applicationPalettes: leftList.map((v: any) => v.id),
                     })
                 );
             }
+        } else {
+            dispatchUpdateAction(leftList.map((v: any) => v.id));
         }
     };
     const setPaletteDefault = (data: any) => {
@@ -125,7 +127,7 @@ const PaletteGridView: React.FC<PaletteGridViewProps> = (props) => {
             (v) => v !== data.id
         );
         const paletteRecordMap: any = {};
-        paletteList.forEach((item) => {
+        currentList.forEach((item) => {
             paletteRecordMap[item.id] = item.name;
         });
         newApplicationPalettes.sort((a, b) => {
