@@ -11,7 +11,7 @@ import {
     WindowEvent,
     dialogs,
     DialogValues,
-    Environment
+    Environment,
 } from '@mstr/workstation-types';
 import HomeScreenGeneral from './HomeScreenGeneral';
 import HomeScreenComponents from './HomeScreenComponents';
@@ -168,62 +168,76 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             this.props.updateCurrentConfig(config);
         }
         const checkContentGroupEnable = (currentEnv: Environment) => {
-          return !!currentEnv.webVersion && isLibraryServerVersionMatch(currentEnv.webVersion, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION) && isUserHasManageContentGroupPrivilege(currentEnv.privileges)
-        }
-        const currentEnv = await workstation.environments.getCurrentEnvironment();
+            return (
+                !!currentEnv.webVersion &&
+                isLibraryServerVersionMatch(
+                    currentEnv.webVersion,
+                    LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION
+                ) &&
+                isUserHasManageContentGroupPrivilege(currentEnv.privileges)
+            );
+        };
+        const currentEnv =
+            await workstation.environments.getCurrentEnvironment();
         const contentBundleEnable = checkContentGroupEnable(currentEnv);
         let isNameCopyed = false;
-        if (isDuplicate && this.props.config.name && this.props.config.name.length > 0) {
-          this.props.updateCurrentConfig({name: copyApplicationName(this.props.config.name)});
-          isNameCopyed = true;
+        if (
+            isDuplicate &&
+            this.props.config.name &&
+            this.props.config.name.length > 0
+        ) {
+            this.props.updateCurrentConfig({
+                name: copyApplicationName(this.props.config.name),
+            });
+            isNameCopyed = true;
         }
         this.setState({
-          currentEnv: currentEnv,
-          configId: configId,
-          isNameCopyed: isNameCopyed,
-          contentBundleFeatureEnable: contentBundleEnable
+            currentEnv: currentEnv,
+            configId: configId,
+            isNameCopyed: isNameCopyed,
+            contentBundleFeatureEnable: contentBundleEnable,
         });
         this.loadPreference();
         workstation.environments.onEnvironmentChange(
-          (change: EnvironmentChangeArg) => {
-              console.log('editor enviornment change: ' + change.actionTaken);
-              console.log(
-                  'editor enviornment change: env name : ' +
-                      change.changedEnvironment.name
-              );
-              console.log(
-                  'editor enviornment change: env status : ' +
-                      change.changedEnvironment.status
-              );
-              if (
-                  change.actionTaken === EnvironmentAction.Disconnect &&
-                  change.changedEnvironment.status ===
-                      EnvironmentStatus.Disconnected &&
-                  change.changedEnvironment.url === this.state.currentEnv.url
-              ) {
-                  // Disconnect environment and Close current window
-                  workstation.environments.disconnect(
-                      this.state.currentEnv.url
-                  );
-                  workstation.window.close();
-              }
-          }
-      );
-      (workstation.utils as any).addHandler(
-          'OnPreferencesChange',
-          (msg: any) => {
-              workstation.window.close();
-          }
-      );
-      store.subscribe(async () => {
-          const state = store.getState();
-          if (
-              state.configEditor.isStateChangeByManual &&
-              !this.state.isCloseHanlderRegistered
-          ) {
-              await this.addHandlers();
-          }
-      });
+            (change: EnvironmentChangeArg) => {
+                console.log('editor enviornment change: ' + change.actionTaken);
+                console.log(
+                    'editor enviornment change: env name : ' +
+                        change.changedEnvironment.name
+                );
+                console.log(
+                    'editor enviornment change: env status : ' +
+                        change.changedEnvironment.status
+                );
+                if (
+                    change.actionTaken === EnvironmentAction.Disconnect &&
+                    change.changedEnvironment.status ===
+                        EnvironmentStatus.Disconnected &&
+                    change.changedEnvironment.url === this.state.currentEnv.url
+                ) {
+                    // Disconnect environment and Close current window
+                    workstation.environments.disconnect(
+                        this.state.currentEnv.url
+                    );
+                    workstation.window.close();
+                }
+            }
+        );
+        (workstation.utils as any).addHandler(
+            'OnPreferencesChange',
+            (msg: any) => {
+                workstation.window.close();
+            }
+        );
+        store.subscribe(async () => {
+            const state = store.getState();
+            if (
+                state.configEditor.isStateChangeByManual &&
+                !this.state.isCloseHanlderRegistered
+            ) {
+                await this.addHandlers();
+            }
+        });
     }
     loadPreference = (pref?: any) => {
         const colorPaletteLibrarySupport =

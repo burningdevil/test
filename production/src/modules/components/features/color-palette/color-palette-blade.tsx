@@ -26,11 +26,11 @@ const ColorPaletteBlade: React.FC<any> = () => {
     const [isPaletteRequestLoaded, setPaletteRequestLoaded] = useState(false);
     const dispatch = useDispatch();
     useEffect(() => {
-      if(isUseConfigurationPalettes && !isPaletteRequestLoaded) {
-        api.loadColorPaletteList();
-        // make sure the api request trigger only once.
-        setPaletteRequestLoaded(true);
-      }
+        if (isUseConfigurationPalettes && !isPaletteRequestLoaded) {
+            api.loadColorPaletteList();
+            // make sure the api request trigger only once.
+            setPaletteRequestLoaded(true);
+        }
     }, [isUseConfigurationPalettes]);
 
     useEffect(() => {
@@ -121,9 +121,7 @@ const ColorPaletteBlade: React.FC<any> = () => {
 
                     {/* Custom Color Palette List */}
                     {applicationPalettes?.length > 0 && (
-                        <PaletteGridView
-                            paletteType={0}
-                        />
+                        <PaletteGridView paletteType={0} />
                     )}
                     {showColorPaletteEditor && (
                         <CustomPaletteModal

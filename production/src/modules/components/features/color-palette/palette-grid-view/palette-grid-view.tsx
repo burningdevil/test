@@ -35,9 +35,7 @@ const renderPaletteColors = (colors: Array<string>) => {
 };
 
 const PaletteGridView: React.FC<PaletteGridViewProps> = (props) => {
-    const {
-        paletteType
-    } = props;
+    const { paletteType } = props;
     const dispatch = useDispatch();
     const paletteList: any[] = useSelector(selectAllColorPalettes);
     const defaultPaletteId = useSelector(selectApplicationDefaultPalette);

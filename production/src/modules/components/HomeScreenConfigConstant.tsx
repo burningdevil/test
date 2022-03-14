@@ -396,7 +396,7 @@ export const localizedStrings = {
     PALETTE: t('palette'),
     NEW: t('new'),
     ADD_CUSTOM_COLOR_PALETTE_MESSAGE: t('addCustomColorPalettesMessage'),
-    PALETTE_COUNT: t('paletteCount')
+    PALETTE_COUNT: t('paletteCount'),
 };
 
 export const sectionTitle = {

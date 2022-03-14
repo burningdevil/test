@@ -33,7 +33,7 @@ const ColorPaletteModal: React.FC<any> = (props: any) => {
     const [isShowEditPalette, setEditorPalette] = useState(false);
     useEffect(() => {
         setCustomPalettes(applicationPalettes);
-        if(applicationPalettes?.length === 0){
+        if (applicationPalettes?.length === 0) {
             setDisableSave(true);
         }
     }, [applicationPalettes]);
@@ -175,7 +175,6 @@ const ColorPaletteModal: React.FC<any> = (props: any) => {
                                 className={`${classNamePrefix}-grid-left`}
                             ></div>
                             <div className={`${classNamePrefix}-grid-right`}>
-                                
                                 <CustomPaletteModalGrid
                                     nameFilter={nameFilter}
                                     paletteType={2}
