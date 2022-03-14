@@ -95,7 +95,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         this.loadData();
       }
         return {
-          ResponseValue: false
+          ResponseValue: true
       }
       
     });
@@ -259,9 +259,6 @@ filterCandidate = (configList: any[]) => {
   componentWillUnmount() {
     this.unsubscribe?.unsubscribe?.();
     this.destroy$.next(true);
-  //   workstation.window.removeHandler(WindowEvent.POSTMESSAGE, () => {return {
-  //     ResponseValue: true
-  // };}, configSaveSuccessPath)
   }
   loadApplicationsFolder = async () => {
     let hasDefault = true;

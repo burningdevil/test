@@ -43,7 +43,6 @@ import {
     CONTENT_BUNDLE_DEFAULT_GROUP_NAME,
     copyApplicationName,
     closeWindowConfirmationStr,
-    libraryIcons,
     SUPPORT_CONFIGURATION_PALETTE,
     COLOR_PALETTE_PREVIEW_FEATURE_FLAG,
 } from '../HomeScreenConfigConstant';
@@ -60,7 +59,6 @@ import {
     LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION,
 } from '../../../utils';
 import ColorPaletteBlade from '../features/color-palette/color-palette-blade';
-import colorPalette from 'mock/colorPalette';
 declare var workstation: WorkstationModule;
 
 const classNamePrefix = 'home-screen-editor';
@@ -531,10 +529,6 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                                     {this.buttonGroup()}
                                 </Tabs.TabPane>
                                 {/* <Tabs.TabPane tab={localizedStrings.NAVBAR_APPEARANCE} key={VC.APPEARANCE}>
-                                {this.buttonGroup()}
-                            </Tabs.TabPane> */}
-                                {/* <Tabs.TabPane tab={localizedStrings.NAVBAR_DOSSIERSETTINGS} key={VC.DOSSIERSETTINGS}>
-                                <HomeScreenDossierSetting />
                                 {this.buttonGroup()}
                             </Tabs.TabPane> */}
                                 {this.state.colorPaletteFeatureEnable &&

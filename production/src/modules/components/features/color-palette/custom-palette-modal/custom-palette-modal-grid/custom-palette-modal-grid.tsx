@@ -1,7 +1,7 @@
 import { message } from 'antd';
 import { AgGridReact } from 'ag-grid-react';
 import * as React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useMemo, useRef, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import {
     selectAllColorPalettes,
@@ -23,9 +23,6 @@ import {
 import { t } from '../../../../../../i18n/i18next';
 import { RestApiError } from '../../../../../../server/RestApiError';
 import { ColorPaletteType } from 'src/types/data-model/HomeScreenConfigModels';
-import { useMemo } from 'react';
-import { useRef } from 'react';
-import { useCallback } from 'react';
 import {
     GridReadyEvent,
     SelectionChangedEvent,
@@ -88,7 +85,7 @@ const CustomPaletteModalGrid: React.FC<PaletteGridProps> = (
     // grid related
     const gridRef: any = useRef();
     const gridStyle = useMemo(() => ({ height: '100%', width: '100%' }), []);
-    const [rowData, setRowData] = useState(null);
+    const [rowData, setRowData] = useState([]);
     const [columnDefs, setColumnDefs] = useState([
         {
             field: 'name',

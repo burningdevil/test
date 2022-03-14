@@ -15,11 +15,7 @@ import { toHex } from '../color-palette.util';
 import { t } from '../../../../../i18n/i18next';
 import { ColorPaletteType } from 'src/types/data-model/HomeScreenConfigModels';
 interface PaletteGridViewProps {
-    paletteList?: any[];
     paletteType: number;
-    cRef?: any;
-    checkIndeterminate?: any;
-    classNamePrefix?: string;
 }
 const renderPaletteColors = (colors: Array<string>) => {
     return colors.map((c, index) => {
@@ -39,11 +35,14 @@ const renderPaletteColors = (colors: Array<string>) => {
 };
 
 const PaletteGridView: React.FC<PaletteGridViewProps> = (props) => {
+    const {
+        paletteType
+    } = props;
     const dispatch = useDispatch();
     const paletteList: any[] = useSelector(selectAllColorPalettes);
     const defaultPaletteId = useSelector(selectApplicationDefaultPalette);
     const applicationPalettes = useSelector(selectApplicationPalettes) ?? [];
-    const [currentList, setCurrentList] = useState(null);
+    const [currentList, setCurrentList] = useState([]);
 
     useEffect(() => {
         getData();
@@ -54,7 +53,7 @@ const PaletteGridView: React.FC<PaletteGridViewProps> = (props) => {
             data = paletteList.filter((v) =>
                 applicationPalettes.includes(v.id)
             );
-            initData(paletteList, data);
+            initData(data);
             data.sort((a, b) => {
                 if (a.isDefaultPalette) {
                     return -1;
@@ -69,10 +68,9 @@ const PaletteGridView: React.FC<PaletteGridViewProps> = (props) => {
             setCurrentList([...data]);
         }
     };
-    const initData = (paletteList: any[], currentData: any[]) => {
+    const initData = (currentData: any[]) => {
         // init the default palette. it's redundant for the single selection case.
         if (!currentData?.length) return;
-        paletteList.forEach((p) => (p.isDefaultPalette = false));
         const data = currentData;
         data.forEach((one) => (one.isDefaultPalette = false));
         if (data.map((v) => v.id).includes(defaultPaletteId)) {
@@ -114,7 +112,6 @@ const PaletteGridView: React.FC<PaletteGridViewProps> = (props) => {
                 );
             }
         }
-        setCurrentList(leftList);
     };
     const setPaletteDefault = (data: any) => {
         if (data.isDefaultPalette) return;
@@ -205,13 +202,13 @@ const PaletteGridView: React.FC<PaletteGridViewProps> = (props) => {
     return (
         <>
             <div
-                id={`color-palette-grid-${props.paletteType}`}
+                id={`color-palette-grid-${paletteType}`}
                 className={'color-palette-grid-container'}
             >
                 <Table
                     showHeader={false}
                     pagination={false}
-                    loading={!currentList}
+                    loading={!currentList?.length}
                     rowKey="id"
                     size={'small'}
                     dataSource={currentList}

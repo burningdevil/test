@@ -17,7 +17,6 @@ import {
 import ColorPaletteEditor from '../color-palette-editor/color-palette-editor';
 
 import * as Actions from '../../../../../store/actions/ActionsCreator';
-import { t } from '../../../../../../src/i18n/i18next';
 const classNamePrefix = 'custom-palette-add-container';
 
 const ColorPaletteModal: React.FC<any> = (props: any) => {
@@ -25,7 +24,7 @@ const ColorPaletteModal: React.FC<any> = (props: any) => {
     const dispatch = useDispatch();
     const paletteList = useSelector(selectAllColorPalettes);
     const defaultPaletteId = useSelector(selectApplicationDefaultPalette);
-    const [selectedCustomPalettes, setCustomPalettes] = useState(null);
+    const [selectedCustomPalettes, setCustomPalettes] = useState([]);
     const [currentPalettesLen, setPaletteLength] = useState(
         paletteList?.length
     );
@@ -34,20 +33,11 @@ const ColorPaletteModal: React.FC<any> = (props: any) => {
     const [isShowEditPalette, setEditorPalette] = useState(false);
     useEffect(() => {
         setCustomPalettes(applicationPalettes);
+        if(applicationPalettes?.length === 0){
+            setDisableSave(true);
+        }
     }, [applicationPalettes]);
 
-    const dispatchUpdateAction = (
-        defaultApplicationPalettes: string[],
-        targetData: string[]
-    ) => {
-        dispatch(
-            Actions.updateCurrentConfig({
-                applicationPalettes: Array.from(
-                    new Set(defaultApplicationPalettes.concat(targetData))
-                ),
-            })
-        );
-    };
     const checkIndeterminate = (selectedRows?: any[]) => {
         if (selectedRows?.length === 0) {
             setDisableSave(true);
@@ -146,7 +136,7 @@ const ColorPaletteModal: React.FC<any> = (props: any) => {
                 <div className={`${classNamePrefix}`}>
                     <div className={`${classNamePrefix}-top`}>
                         <div className={`${classNamePrefix}-header`}>
-                            {t('addCustomColorPalettesMessage')}
+                            {localizedStrings.ADD_CUSTOM_COLOR_PALETTE_MESSAGE}
                         </div>
                         <div className={`${classNamePrefix}-search-container`}>
                             <SearchInput
@@ -161,7 +151,7 @@ const ColorPaletteModal: React.FC<any> = (props: any) => {
                                 }}
                             />
                             <div className={`${classNamePrefix}-palette-count`}>
-                                {`Palettes: ${currentPalettesLen}`}
+                                {`${localizedStrings.PALETTE_COUNT}: ${currentPalettesLen}`}
                             </div>
                             <div className={`${classNamePrefix}-add-palette`}>
                                 {getAddColorPaletteIcon()}
@@ -185,18 +175,17 @@ const ColorPaletteModal: React.FC<any> = (props: any) => {
                                 className={`${classNamePrefix}-grid-left`}
                             ></div>
                             <div className={`${classNamePrefix}-grid-right`}>
-                                {selectedCustomPalettes && (
-                                    <CustomPaletteModalGrid
-                                        nameFilter={nameFilter}
-                                        paletteType={2}
-                                        checkIndeterminate={checkIndeterminate}
-                                        selectedCustomPalettes={
-                                            selectedCustomPalettes
-                                        }
-                                        setCustomPalettes={setCustomPalettes}
-                                        setPaletteLength={setPaletteLength}
-                                    ></CustomPaletteModalGrid>
-                                )}
+                                
+                                <CustomPaletteModalGrid
+                                    nameFilter={nameFilter}
+                                    paletteType={2}
+                                    checkIndeterminate={checkIndeterminate}
+                                    selectedCustomPalettes={
+                                        selectedCustomPalettes
+                                    }
+                                    setCustomPalettes={setCustomPalettes}
+                                    setPaletteLength={setPaletteLength}
+                                ></CustomPaletteModalGrid>
                             </div>
                         </div>
                     </div>

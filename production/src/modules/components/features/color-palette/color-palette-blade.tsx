@@ -23,9 +23,14 @@ const ColorPaletteBlade: React.FC<any> = () => {
     const [isUseConfigurationPalettes, setUseConfigurationPalettes] =
         useState(useConfigPalettes);
     const [showColorPaletteEditor, openColorPaletteEditor] = useState(false);
+    const [isPaletteRequestLoaded, setPaletteRequestLoaded] = useState(false);
     const dispatch = useDispatch();
     useEffect(() => {
-        isUseConfigurationPalettes && api.loadColorPaletteList();
+      if(isUseConfigurationPalettes && !isPaletteRequestLoaded) {
+        api.loadColorPaletteList();
+        // make sure the api request trigger only once.
+        setPaletteRequestLoaded(true);
+      }
     }, [isUseConfigurationPalettes]);
 
     useEffect(() => {
@@ -118,7 +123,6 @@ const ColorPaletteBlade: React.FC<any> = () => {
                     {applicationPalettes?.length > 0 && (
                         <PaletteGridView
                             paletteType={0}
-                            classNamePrefix="home-dossier-setting-grid-custom"
                         />
                     )}
                     {showColorPaletteEditor && (

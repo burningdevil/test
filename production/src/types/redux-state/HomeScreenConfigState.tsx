@@ -31,7 +31,6 @@ export interface HomeScreenEditorContentBundleState {
 export interface HomeScreenEditorColorPaletteState {
     data: Array<ColorPaletteType>
     loadingColorPalette: boolean,
-    loadingColorPaletteFinish: boolean,
 }
 export interface RootState {
     configEditor: HomeScreenConfigEditorState,

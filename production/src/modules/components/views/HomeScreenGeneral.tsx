@@ -33,7 +33,7 @@ class HomeScreenGeneral extends React.Component<any, any> {
   componentDidUpdate(prevProps: any) {
     if (!this.state.isDefaultNameFocused && (!this.props.config.id || this.props.isDuplicateConfig) && prevProps.config.name !== this.props.config.name){
         if (this.nameInputRef && this.nameInputRef.current) {
-            // this.nameInputRef.current.select();
+            this.nameInputRef.current.select();
             this.setState({
                 isDefaultNameFocused: true,  // auto focus default name for only once
             });

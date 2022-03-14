@@ -70,8 +70,7 @@
     "redux-saga": "^0.16.0",
     "reselect": "^3.0.1",
     "whatwg-fetch": "^2.0.3",
-    "rxjs":"^6.6.6",
-    "react-resizable": "3.0.4"
+    "rxjs":"^6.6.6"
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",

@@ -291,7 +291,6 @@ export const loadColorPaletteList = () => {
         .then((response: any) => {
             let data = response?.data?.palettes ?? response?.palettes;
             data = data.filter((o: any) => o.id !== undefined)?.reverse();
-            // setTimeout(()=> {store.dispatch(ActionsCreator.loadColorPaletteSuccess(data));}, 3000)
             store.dispatch(ActionsCreator.loadColorPaletteSuccess(data));
             store.dispatch(ActionsCreator.finishLoadingColorPaletteList());
         })

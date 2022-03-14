@@ -21,20 +21,6 @@
         display: flex;
         background-color: $msdl-white;
     }
-    .button-dropdown {
-        width: 20px;
-        height: 20px;
-        &[style="background-color: transparent;"] {
-            background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' preserveAspectRatio='none' viewBox='0 0 100 100'><path d='M0 99 L99 0 L100 1 L1 100' fill='transparent' stroke='rgb(213,59,65)' stroke-width='3' /></svg>");
-            background-repeat:no-repeat;
-            background-position:center center;
-            background-size: 100% 100%, auto;
-            box-shadow: 0 0 1px $msdl-primary-neutral inset;
-        }
-        &[style="background-color: rgb(255, 255, 255);"] {
-            box-shadow: 0 0 1px $msdl-primary-neutral inset;
-        }
-    }
     
     .color-picker-arrow-button{
         min-width: 18px;
@@ -169,22 +155,13 @@
     .color-grid {
         display: grid;
         gap: 1px 0px;
+        outline: none;
         // Hard code that there are always 8 items in each row and they all take up the same amount of space
         grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% ;
     }
     .color-picker-tab-preview {
         height: 18px;
         width: 18px;
-        &[style="background-color: transparent;"] {
-            background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' preserveAspectRatio='none' viewBox='0 0 100 100'><path d='M0 99 L99 0 L100 1 L1 100' fill='transparent' stroke='rgb(213,59,65)' stroke-width='3' /></svg>");
-            background-repeat:no-repeat;
-            background-position:center center;
-            background-size: 100% 100%, auto;
-            box-shadow: 0 0 1px $msdl-primary-neutral inset;
-        }
-        &[style="background-color: rgb(255, 255, 255);"] {
-            box-shadow: 0 0 1px $msdl-primary-neutral inset;
-        }
     }
     .color-cell {
         height: 20px;
