@@ -44,7 +44,7 @@ import {
     copyApplicationName,
     closeWindowConfirmationStr,
     SUPPORT_CONFIGURATION_PALETTE,
-    COLOR_PALETTE_PREVIEW_FEATURE_FLAG,
+    GENERAL_PREVIEW_FEATURE_FLAG,
 } from '../HomeScreenConfigConstant';
 import {
     ConfirmationDialog,
@@ -249,7 +249,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         this.setState({
             colorPalettePreviewFeatureEnable:
                 getFeatureFlag(
-                    COLOR_PALETTE_PREVIEW_FEATURE_FLAG,
+                    GENERAL_PREVIEW_FEATURE_FLAG,
                     this.state.currentEnv
                 ) && colorPaletteLibrarySupport,
         });

@@ -206,6 +206,6 @@
     "paletteColors": "Palette Colors",
     "setAsDefault": "Set as Default",
     "colorPaletteTabDesc": "To specify color palettes at the application level, select the option below. The palette defined as the default will automatically be applied to all dossiers in this application.",
-    "paletteCount": "Palettes"
+    "paletteCount": "Palettes: {{count}}"
 
 }

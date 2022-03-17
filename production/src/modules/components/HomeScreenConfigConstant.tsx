@@ -458,6 +458,9 @@ export const copyApplicationName = (name: string) => {
 export const closeWindowConfirmationStr = (name: string) => {
     return t('closeWindowConfirmationStr', { name });
 };
+export const paletteCountsStr = (count: number) => {
+  return t('paletteCount', { count });
+};
 export interface IconType {
     displayText: string;
     iconName: string;
@@ -814,4 +817,4 @@ export const EXTRA_ATTR_VIEW_TYPE = 'viewMedia';
 export const HOME_DOCUMENT_TYPE_DOSSIER = 'dossier';
 export const HOME_DOCUMENT_TYPE_DOCUMENT = 'document';
 export const SUPPORT_CONFIGURATION_PALETTE = 'Support Configuration Palette';
-export const COLOR_PALETTE_PREVIEW_FEATURE_FLAG = 'use-contentbundle';
+export const GENERAL_PREVIEW_FEATURE_FLAG = 'preview-features';

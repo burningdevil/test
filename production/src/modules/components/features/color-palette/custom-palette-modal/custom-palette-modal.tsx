@@ -3,6 +3,7 @@ import {
     default as VC,
     localizedStrings,
     bundlePickerSize,
+    paletteCountsStr,
 } from '../../../HomeScreenConfigConstant';
 import { Button, Modal } from 'antd';
 import { SearchInput } from '@mstr/rc';
@@ -151,7 +152,7 @@ const ColorPaletteModal: React.FC<any> = (props: any) => {
                                 }}
                             />
                             <div className={`${classNamePrefix}-palette-count`}>
-                                {`${localizedStrings.PALETTE_COUNT}: ${currentPalettesLen}`}
+                                {paletteCountsStr(currentPalettesLen)}
                             </div>
                             <div className={`${classNamePrefix}-add-palette`}>
                                 {getAddColorPaletteIcon()}
