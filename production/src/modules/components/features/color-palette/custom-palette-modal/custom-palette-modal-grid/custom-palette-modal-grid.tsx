@@ -407,6 +407,10 @@ const CustomPaletteModalGrid: React.FC<PaletteGridProps> = (
         useState(deleteDialogWordings);
 
     const executeScroll = () => {
+      // if editor, no need to scroll to the top;
+        if(!paletteEditorParams.isDuplicate){
+          return;
+        }
         setTimeout(() => {
             document.querySelector('.ag-row-group-indent-0').scrollIntoView();
         }, 1000);
