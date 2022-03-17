@@ -1,0 +1,109 @@
+@import '~@mstr/rc/es/assets/scss/variables.scss';
+@import '../../../../scss/variables.scss';
+.color-palette-modal-grid-container {
+    border: 1px solid rgba(53, 56, 58, 0.2);
+    height: 420px;
+    margin-top: 14px;
+
+    .ant-table-tbody > tr.ant-table-row-selected {
+        td {
+            background-color: #f2f3f5 !important;
+        }
+        &:hover {
+            td {
+                background-color: #f2f3f5 !important;
+            }
+        }
+    }
+    .default-color-palette {
+        color: $msdl-blue;
+        padding-right: 2px;
+    }
+    .operation-item {
+        display: none;
+        margin-left: 5px;
+        margin-right: 10px;
+        padding-top: 4px;
+        line-height: 20px;
+        float: right;
+    }
+    .color-block {
+        vertical-align: top;
+        margin-top: 2px;
+    }
+
+    .ant-table-row:active {
+        background-color: aqua;
+    }
+    .ag-icon-tree-open,
+    .ag-icon-tree-closed {
+        margin-left: -10px;
+    }
+    .ag-row {
+        border: none !important;
+    }
+    .ag-row:hover {
+        .operation-item {
+            display: inline-block;
+            cursor: pointer;
+            &:hover {
+                color: $mobile-primary-blue;
+            }
+        }
+    }
+    .row-operation {
+        display: flex;
+    }
+    .icon-pnl_close {
+        display: none;
+        margin-left: 3%;
+        width: 9px;
+        height: 10px;
+        background-repeat: no-repeat;
+        &:hover {
+            color: $mobile-primary-blue;
+        }
+    }
+    .icon-copy {
+        font-size: 12px;
+        transform: scale(1.25);
+    }
+    .color-palette-item-colors-col {
+        height: 24px;
+    }
+}
+.react-resizable {
+    position: relative;
+    background-clip: padding-box;
+}
+.react-resizable-handle {
+    position: absolute;
+    right: -5px;
+    bottom: 0;
+    z-index: 1;
+    width: 10px;
+    height: 100%;
+    cursor: col-resize;
+}
+#color-palette-edit-grid {
+    .ant-table-cell {
+        font-size: 12px;
+    }
+    .ant-table-selection {
+        right: 7px;
+    }
+    .ant-radio {
+        transform: scale(0.75);
+    }
+    .ant-checkbox-wrapper-disabled,
+    .ant-radio-disabled {
+        display: none !important;
+    }
+    .ant-table-row-expand-icon {
+        margin-top: 0 !important;
+        margin-left: -32px;
+    }
+}
+.highlight-row {
+    background-color: #f2f3f5;
+}

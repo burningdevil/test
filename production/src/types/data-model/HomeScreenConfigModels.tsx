@@ -8,7 +8,8 @@ export interface ColorPaletteType {
     'colors': Array<string>,
     'name': string,
     'id': string,
-    'paletteType': number
+    'paletteType': number,
+    'isDefaultPalette'?: boolean
 }
 
 export interface HomeScreenConfigType {
@@ -53,7 +54,7 @@ export interface HomeScreenConfigType {
         updateInterval: number
     },
     // Color Palette
-    showBuiltinPalattes: boolean,
+    useConfigPalettes: boolean,
     applicationPalettes: Array<string>,
     applicationDefaultPalette: string
 }
