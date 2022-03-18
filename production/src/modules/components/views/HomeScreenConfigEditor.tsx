@@ -45,6 +45,7 @@ import {
     closeWindowConfirmationStr,
     SUPPORT_CONFIGURATION_PALETTE,
     GENERAL_PREVIEW_FEATURE_FLAG,
+    SUPPORT_CONFIGURATION_PALETTE_ID,
 } from '../HomeScreenConfigConstant';
 import {
     ConfirmationDialog,
@@ -120,22 +121,6 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
     }
 
     async componentDidMount() {
-        // check the color palette feature flag.
-        api.fetchAllFeatureFlags().then((resp: any) => {
-            const colorPaletteItem = resp.featureFlags.find(
-                (v: any) => v.name === SUPPORT_CONFIGURATION_PALETTE
-            );
-            const colorPaletteLibrarySupport =
-                !!this.state.currentEnv.webVersion &&
-                isLibraryServerVersionMatch(
-                    this.state.currentEnv.webVersion,
-                    LIBRARY_SERVER_SUPPORT_COLOR_PALETTE_VERSION
-                );
-            this.setState({
-                colorPaletteFeatureEnable:
-                    colorPaletteItem.enabled && colorPaletteLibrarySupport,
-            });
-        });
         // Set Duplicate Config Flag
         const extraContext = await workstation.window.getExtraContext();
         const extraContextJson = JSON.parse(extraContext);
@@ -180,6 +165,21 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         const currentEnv =
             await workstation.environments.getCurrentEnvironment();
         const contentBundleEnable = checkContentGroupEnable(currentEnv);
+        // check the color palette feature flag.
+        const checkColorPaletteFeatureEnable = (currentEnv: Environment) => {
+            const colorPaletteItem = (currentEnv as any).configFeatureFlags?.find(
+                (v: any) => v.id === SUPPORT_CONFIGURATION_PALETTE_ID
+            );
+            return (
+                !!currentEnv.webVersion &&
+                isLibraryServerVersionMatch(
+                    currentEnv.webVersion,
+                    LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION
+                ) &&
+                colorPaletteItem?.enabled
+            );
+        };
+        const colorPaletteFeatureFlagEnabled  = checkColorPaletteFeatureEnable(currentEnv);
         let isNameCopyed = false;
         if (
             isDuplicate &&
@@ -196,6 +196,8 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             configId: configId,
             isNameCopyed: isNameCopyed,
             contentBundleFeatureEnable: contentBundleEnable,
+            colorPaletteFeatureEnable: colorPaletteFeatureFlagEnabled
+
         });
         this.loadPreference();
         workstation.environments.onEnvironmentChange(

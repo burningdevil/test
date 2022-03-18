@@ -394,7 +394,7 @@ export const localizedStrings = {
     CONTINUE: t('continue'),
     OK: t('ok'),
     PALETTE: t('palette'),
-    NEW: t('new'),
+    NEW_PALETTE_DEFAULT_NAME: t('newPaletteDefaultName'),
     ADD_CUSTOM_COLOR_PALETTE_MESSAGE: t('addCustomColorPalettesMessage'),
     PALETTE_COUNT: t('paletteCount'),
 };
@@ -817,4 +817,5 @@ export const EXTRA_ATTR_VIEW_TYPE = 'viewMedia';
 export const HOME_DOCUMENT_TYPE_DOSSIER = 'dossier';
 export const HOME_DOCUMENT_TYPE_DOCUMENT = 'document';
 export const SUPPORT_CONFIGURATION_PALETTE = 'Support Configuration Palette';
+export const SUPPORT_CONFIGURATION_PALETTE_ID = 'F6E46AFF44AC27FCEA1B5D93451BE4FC';
 export const GENERAL_PREVIEW_FEATURE_FLAG = 'preview-features';

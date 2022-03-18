@@ -14,6 +14,8 @@ import * as Actions from '../../../../../store/actions/ActionsCreator';
 import { toHex } from '../color-palette.util';
 import { t } from '../../../../../i18n/i18next';
 import { ColorPaletteType } from 'src/types/data-model/HomeScreenConfigModels';
+import { Tooltip } from '@mstr/rc';
+import { useCallback } from 'react';
 interface PaletteGridViewProps {
     paletteType: number;
 }
@@ -41,7 +43,8 @@ const PaletteGridView: React.FC<PaletteGridViewProps> = (props) => {
     const defaultPaletteId = useSelector(selectApplicationDefaultPalette);
     const applicationPalettes = useSelector(selectApplicationPalettes) ?? [];
     const [currentList, setCurrentList] = useState([]);
-
+    const [showToolTip, setShowToolTip] = useState(false);
+    const [hoverRowId, setHoverRowId] = useState('');
     useEffect(() => {
         getData();
     }, [applicationPalettes, paletteList]);
@@ -154,13 +157,24 @@ const PaletteGridView: React.FC<PaletteGridViewProps> = (props) => {
                 )}
                 {currentList?.length > 1 && (
                     <div
-                        className="icon-pnl_close operation-item"
+                        className={data.isDefaultPalette ? "icon-pnl_close operation-item-only" : "icon-pnl_close operation-item"}
                         onClick={() => removeColorPalette(data)}
                     />
                 )}
             </>
         );
     };
+    const handleTooltip = useCallback((event: any, rowData: any) => {
+        if(event.target?.offsetWidth < event.target?.scrollWidth){
+            setShowToolTip(true);
+            setHoverRowId(rowData.id);
+        }else {
+          setShowToolTip(false);
+        }
+      }, [])
+    const hideTooltip = useCallback(() => {
+        setShowToolTip(false);
+      }, []);
     const getColumns = () => {
         let columns = [
             {
@@ -172,12 +186,21 @@ const PaletteGridView: React.FC<PaletteGridViewProps> = (props) => {
                 render: (name: string, data: any) => {
                     return (
                         <>
-                            {data.isDefaultPalette && (
-                                <span className={`default-color-palette`}>
-                                    ({t('default')})
-                                </span>
-                            )}
-                            {name}
+                            
+                            <Tooltip
+                                title={<span>{name}</span>}
+                                placement='top'
+                                visible = {showToolTip && data.id === hoverRowId}
+                                triggerMode='hover'>
+                                    <div className = "overflow" onMouseEnter={(e) => handleTooltip(e, data)} onMouseLeave={hideTooltip}>
+                                            {data.isDefaultPalette && (
+                                                    <span className={`default-color-palette`}>
+                                                        ({t('default')})
+                                                    </span>
+                                                )}
+                                            {name}
+                                    </div>
+                            </Tooltip>
                         </>
                     );
                 },

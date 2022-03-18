@@ -5,16 +5,9 @@
     height: 420px;
     margin-top: 14px;
 
-    .ant-table-tbody > tr.ant-table-row-selected {
-        td {
-            background-color: #f2f3f5 !important;
-        }
-        &:hover {
-            td {
-                background-color: #f2f3f5 !important;
-            }
-        }
-    }
+    .ag-theme-alpine {
+        font-size: 12px !important;
+      }
     .default-color-palette {
         color: $msdl-blue;
         padding-right: 2px;
@@ -23,7 +16,7 @@
         display: none;
         margin-left: 5px;
         margin-right: 10px;
-        padding-top: 4px;
+        padding-top: 2px;
         line-height: 20px;
         float: right;
     }
@@ -38,9 +31,20 @@
     .ag-icon-tree-open,
     .ag-icon-tree-closed {
         margin-left: -10px;
+        transform: scale(1.1);
+    }
+    .icon-info_edit {
+        margin-left: 20px;
+    }
+    .ag-checkbox-input-wrapper {
+        transform: scale(1.2);
+    }
+    .ag-row-group {
+        font-size: 12px !important;
     }
     .ag-row {
         border: none !important;
+        font-size: 12px !important;
     }
     .ag-row:hover {
         .operation-item {
@@ -71,39 +75,13 @@
     .color-palette-item-colors-col {
         height: 24px;
     }
-}
-.react-resizable {
-    position: relative;
-    background-clip: padding-box;
-}
-.react-resizable-handle {
-    position: absolute;
-    right: -5px;
-    bottom: 0;
-    z-index: 1;
-    width: 10px;
-    height: 100%;
-    cursor: col-resize;
-}
-#color-palette-edit-grid {
-    .ant-table-cell {
-        font-size: 12px;
+    .ag-row-group-indent-1 {
+        padding-left: 8px !important;
     }
-    .ant-table-selection {
-        right: 7px;
+
+    .ag-row-level-1 .ag-row-group-leaf-indent {
+        margin-left: 10px !important;
     }
-    .ant-radio {
-        transform: scale(0.75);
-    }
-    .ant-checkbox-wrapper-disabled,
-    .ant-radio-disabled {
-        display: none !important;
-    }
-    .ant-table-row-expand-icon {
-        margin-top: 0 !important;
-        margin-left: -32px;
-    }
+    
 }
-.highlight-row {
-    background-color: #f2f3f5;
-}
+
