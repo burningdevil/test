@@ -41,7 +41,7 @@ export interface HomeScreenConfigType {
             toolbarEnabled: boolean,
             homeDocumentType?: string
         },
-        themes: Array<ApplicationTheme>
+        theme?: ApplicationTheme
     },
     'general': {
         disableAdvancedSettings: boolean,
@@ -76,8 +76,16 @@ export interface HomeScreenBundleContentListItem {
     certifiedInfo: {certified: any}
 }
 
+export interface ThemePropObject {
+    type: string,
+    value: any
+}
+export interface ApplicationLogos {
+    web: ThemePropObject,
+    favicon: ThemePropObject,
+    mobile: ThemePropObject
+}
 export interface ApplicationTheme {
-    id: string,
-    name: string,
-    settings: {}
+    schemaVersion: number,
+    logos: ApplicationLogos
 } 

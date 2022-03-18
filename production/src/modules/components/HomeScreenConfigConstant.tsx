@@ -218,12 +218,10 @@ export interface BundleRecipient {
   group: boolean;
   name: string;
 }
-
 export interface BundleOwner {
   id: string;
   name: string;
 }
-
 export interface BundleInfo {
   color: number;
   opacity: number;
@@ -238,11 +236,6 @@ export interface BundleInfo {
   recipientStr: string; //eg: 2 users and 2 groups
   expand: boolean;
   recipientType: number;
-}
-export interface ApplicationTheme {
-  id: string,
-  name: string,
-  settings: object
 }
 
 export const editorSize = {

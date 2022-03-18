@@ -26,8 +26,7 @@ export default {
                   icons: dossierIconKeys.map((key) => iconValidKey(key)), 
                   toolbarMode: CONSTANTS.SHOW_TOOLBAR,
                   toolbarEnabled: true,
-                },
-                 themes: []
+                }
             },
             'general': {
                 disableAdvancedSettings: false,
@@ -81,7 +80,7 @@ export default {
                 "toolbarMode": 0,
                 "toolbarEnabled": true
               },
-              "themes": [],
+              
               "homeLibrary": {
                 "contentBundleIds": [
                   
@@ -126,9 +125,21 @@ export default {
     },
     appDesignEditor: {
       theme: {
-        id: '',
-        name: '',
-        settings: {}
+        schemaVersion: 1,
+        logos: {
+          web: {
+            type: 'URL',
+            value: ''
+          },
+          favicon: {
+            type: 'URL',
+            value: ''
+          },
+          mobile: {
+            type: 'URL',
+            value: ''
+          }
+        }
       }
     }
 }
@@ -163,8 +174,7 @@ export const mockLibraryAsHome: RootState = {
                 icons: dossierIconKeys.map((key) => iconValidKey(key)), 
                 toolbarMode: CONSTANTS.SHOW_TOOLBAR,
                 toolbarEnabled: true,
-              },
-              themes: []
+              }
           },
           'general': {
               disableAdvancedSettings: false,
@@ -218,7 +228,7 @@ export const mockLibraryAsHome: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": true
             },
-            "themes": [],
+            
             "homeLibrary": {
               "contentBundleIds": [],
               "icons": [
@@ -262,9 +272,21 @@ export const mockLibraryAsHome: RootState = {
   },
   appDesignEditor: {
     theme: {
-      id: '',
-      name: '',
-      settings: {}
+      schemaVersion: 1,
+      logos: {
+        web: {
+          type: 'URL',
+          value: ''
+        },
+        favicon: {
+          type: 'URL',
+          value: ''
+        },
+        mobile: {
+          type: 'URL',
+          value: ''
+        }
+      }
     }
   }
 }
@@ -294,8 +316,7 @@ export const mockDossierAsHome: RootState = {
                 icons: dossierIconKeys.map((key) => iconValidKey(key)), 
                 toolbarMode: CONSTANTS.SHOW_TOOLBAR,
                 toolbarEnabled: true
-              },
-              themes: []
+              }
           },
           'general': {
               disableAdvancedSettings: false,
@@ -349,7 +370,7 @@ export const mockDossierAsHome: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": false
             },
-            "themes": [],
+            
             "homeLibrary": {
               "contentBundleIds": [
                 
@@ -408,7 +429,7 @@ export const mockDossierAsHome: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": false,
             },
-            "themes": [],
+            
             "homeLibrary": {
               "contentBundleIds": [
                 
@@ -460,7 +481,7 @@ export const mockDossierAsHome: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": false,
             },
-            "themes": [],
+            
             "homeLibrary": {
               "contentBundleIds": [
                 
@@ -509,7 +530,7 @@ export const mockDossierAsHome: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": false,
             },
-            "themes": [],
+            
             "homeLibrary": {
               "contentBundleIds": [
                 
@@ -550,9 +571,21 @@ export const mockDossierAsHome: RootState = {
   },
   appDesignEditor: {
     theme: {
-      id: '',
-      name: '',
-      settings: {}
+      schemaVersion: 1,
+      logos: {
+        web: {
+          type: 'URL',
+          value: ''
+        },
+        favicon: {
+          type: 'URL',
+          value: ''
+        },
+        mobile: {
+          type: 'URL',
+          value: ''
+        }
+      }
     }
   }
 }
@@ -588,7 +621,23 @@ export const mockDossierPicker: RootState = {
                 toolbarMode: CONSTANTS.SHOW_TOOLBAR,
                 toolbarEnabled: true,
               },
-              themes: []
+              theme: {
+                schemaVersion: 1,
+                logos: {
+                  web: {
+                    type: 'URL',
+                    value: ''
+                  },
+                  favicon: {
+                    type: 'URL',
+                    value: ''
+                  },
+                  mobile: {
+                    type: 'URL',
+                    value: ''
+                  }
+                }
+              }
           },
           'general': {
               disableAdvancedSettings: false,
@@ -642,7 +691,6 @@ export const mockDossierPicker: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": true
             },
-            "themes": [],
             "homeLibrary": {
               "contentBundleIds": [
                 
@@ -701,7 +749,6 @@ export const mockDossierPicker: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": true
             },
-            "themes": [],
             "homeLibrary": {
               "contentBundleIds": [
                 
@@ -753,7 +800,6 @@ export const mockDossierPicker: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": false
             },
-            "themes": [],
             "homeLibrary": {
               "contentBundleIds": [
                 
@@ -802,7 +848,7 @@ export const mockDossierPicker: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": false,
             },
-            "themes": [],
+            
             "homeLibrary": {
               "contentBundleIds": [],
               "icons": [
@@ -923,9 +969,21 @@ export const mockDossierPicker: RootState = {
   },
   appDesignEditor: {
     theme: {
-      id: '',
-      name: '',
-      settings: {}
+      schemaVersion: 1,
+      logos: {
+        web: {
+          type: 'URL',
+          value: ''
+        },
+        favicon: {
+          type: 'URL',
+          value: ''
+        },
+        mobile: {
+          type: 'URL',
+          value: ''
+        }
+      }
     }
   }
 }

@@ -23,9 +23,9 @@ module.exports = {
   isHomeScreenConfigEnabled: function(info) {
     return getResponseValue(true)
   },
-  openAppExtensionEditor: function(info) {
+  openAppDesignEditor: function(info) {
     return {
-      url: '/index.html#/appExtensionEditor'
+      url: '/index.html#/appDesignEditor'
     }
   }
 }

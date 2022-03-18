@@ -14,11 +14,11 @@ const project = require('../project.config')
 const app = express()
 
 let connectionInfo = {
-  server: 'http://10.27.20.50:8080',
-  base: '/MicroStrategyConsumer',
-  username: 'administrator',
-  password: '',
-  projectID:'7D17F8784C83F8052B81FFBF2626B7CA'
+  server: 'http://localhost:8282',
+  base: '/consume-dev',
+  username: 'mstr',
+  password: 'zL5kwtaZCC2Q',
+  projectID:'B7CA92F04B9FAE8D941C3E9B7E0CD754'
 }
 
 const cfgFilePath = path.join('server', '.librc.json')

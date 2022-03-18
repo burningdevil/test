@@ -19,7 +19,7 @@ export default class App extends React.Component<any, any> {
         path="/homescreenConfigEditor?id="
         component={HomeScreenConfigEditor}
       />
-      <Route exact 
+      <Route 
         path='/appDesignEditor' 
         component={ApplicationDesignEditor} 
       />

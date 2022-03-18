@@ -31,7 +31,7 @@ export interface HomeScreenEditorContentBundleState {
 }
 
 export interface ApplicationDesignEditorState {
-    theme: ApplicationTheme
+    theme?: ApplicationTheme
 }
 
 export interface RootState {

@@ -1,20 +1,36 @@
-import { Button } from 'antd'
+import { Button, Image } from 'antd'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import 'antd/dist/antd.css';
 import * as _ from 'lodash'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
-import { selectCurrentConfigThemes } from '../../../store/selectors/HomeScreenConfigEditorSelector'
+import { selectCurrentConfigTheme, selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEditorSelector'
+import * as Actions from '../../../store/actions/ActionsCreator'
 import { env } from '../../../main'
-import { default as VC, localizedStrings, ApplicationTheme } from '../HomeScreenConfigConstant';
-import { ObjectEditorSettings } from '@mstr/workstation-types';
+import { default as VC, localizedStrings } from '../HomeScreenConfigConstant'
+import { ApplicationTheme } from '../../../types/data-model/HomeScreenConfigModels'
+import { ObjectEditorSettings, WorkstationModule, WindowEvent } from '@mstr/workstation-types'
+import '../scss/HomeScreenAppearance.scss'
 
 const appThemeDefault = {
-    id: '',
-    name: '',
-    settings: {}
+    schemaVersion: 1,
+    logos: {
+        web: {
+            type: 'URL',
+            value: ''
+        },
+        favicon: {
+            type: 'URL',
+            value: ''
+        },
+        mobile: {
+            type: 'URL',
+            value: ''
+        }
+    }
 }
 
+declare var workstation: WorkstationModule;
 class HomeScreenAppearance extends React.Component<any, any> {
 
     // Life cycle
@@ -28,13 +44,37 @@ class HomeScreenAppearance extends React.Component<any, any> {
     componentDidUpdate() { }
 
     async componentDidMount() {
-        const currentEnvironment = await env.environments.getCurrentEnvironment();
+        const currentEnvironment = await workstation.environments.getCurrentEnvironment();
         this.setState({
             currentEnv: currentEnvironment
         });
+        workstation.window.addHandler(WindowEvent.ONCHILDCLOSE, (info) => {
+            console.log('response is ',info)
+            const { Message } = info || {}
+            const { ChildInfo } = Message || {} 
+            const { theme } = ChildInfo || {}
+            if (theme) {
+                this.props.updateCurrentConfig({ homeScreen: {
+                    theme
+                }})
+            }
+            
+            return {}
+        })
+        workstation.window.addHandler(WindowEvent.POSTMESSAGE, (info: any) => {
+            console.log('response is ',info)
+            const { Message } = info || {}
+            const { theme } = Message || {}
+            if (theme) {
+                this.props.updateCurrentConfig({ homeScreen: {
+                    theme
+                }})
+            }
+            return {}
+        })
     }
 
-    openAppDesignEditor = (theme: ApplicationTheme = appThemeDefault) => {
+    openAppDesignEditor = (theme?: ApplicationTheme) => {
         const objType = VC.APP_DESIGN_OBJTYPE;
 
         let options: ObjectEditorSettings = {
@@ -43,27 +83,38 @@ class HomeScreenAppearance extends React.Component<any, any> {
             extraContext: JSON.stringify(theme)
         }
 
-        env.dialogs.openObjectEditor(options).catch((e: any) =>
-            env.dialogs.error({
+        workstation.dialogs.openObjectEditor(options).catch((e: any) =>
+            workstation.dialogs.error({
                 message: localizedStrings.ERR_EDITOR_OPEN,
                 additionalInformation: JSON.stringify(e)
             })
         )
     }
 
+    removeTheme = () => {
+        this.props.deleteThemeInCurrentConfig()
+    }
+
     render() {
-        const { themes } = this.props;
+        const { theme } = this.props;
+        console.log("App theme => ", theme)
         // TODO - Refactor/Implement UI to render list of themes
         return (
             <div>
                 {
-                    Array.isArray(themes) && themes.length === 0 ?
-                        <div>
-                            <Button type="primary" onClick={() => this.openAppDesignEditor(appThemeDefault)}>
-                                Add Design
+                    theme ? <div className="mstr-custom-app-theme">
+                        <div className="edit" onClick={() => this.openAppDesignEditor(theme)}>
+                            <img />
+                        </div>
+                        <div className="delete" onClick={() => this.removeTheme()}>
+                            <img />
+                        </div>
+                    </div>
+                        : <div className="mstr-custom-app-no-theme">
+                            <Button className="add-design-btn" type="primary" onClick={() => this.openAppDesignEditor()}>
+                                Add Theme
                             </Button>
                         </div>
-                        : themes.forEach((theme: ApplicationTheme) => <div>{theme}</div>)
                 }
             </div>
         )
@@ -71,11 +122,13 @@ class HomeScreenAppearance extends React.Component<any, any> {
 }
 
 const mapState = (state: RootState) => ({
-    themes: selectCurrentConfigThemes(state)
+    theme: selectCurrentConfigTheme(state),
+    config: selectCurrentConfig(state)
 })
 
 const connector = connect(mapState, {
-
+    deleteThemeInCurrentConfig: Actions.deleteThemeInCurrentConfig,
+    updateCurrentConfig :Actions.updateCurrentConfig
 })
 
 export default connector(HomeScreenAppearance)

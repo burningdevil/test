@@ -149,7 +149,7 @@ export const selectDefaultGroupsName = createSelector(
   }
 )
 
-export const selectCurrentConfigThemes = createSelector(
+export const selectCurrentConfigTheme = createSelector(
   selectCurrentConfig,
-  (currentConfig) => currentConfig.homeScreen.themes
+  (currentConfig) => currentConfig.homeScreen.theme
 )

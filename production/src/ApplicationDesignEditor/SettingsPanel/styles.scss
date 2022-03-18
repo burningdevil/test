@@ -1,0 +1,56 @@
+.mstr-app-theme-settings-panel {
+  background: #FFFFFF;
+
+  .mstr-app-theme-logos {
+    font-family: 'Helvetica';
+
+    .theme-logos-title {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #4A4A4A;
+    }
+
+    .theme-logo {
+      display: flex;
+      margin: 20px;
+
+      &:nth-child(2) {
+        margin-top: 10px;
+      }
+
+      .logo-caption {
+        font-size: 15px;
+        font-weight: 400;
+        line-height: 1.2;
+        color: #4A4A4A;
+        display: flex;
+        align-items: center;
+        margin-right: 12px;
+      }
+    }
+  }
+
+  .settings-panel-footer {
+    display: flex;
+    margin-bottom: auto;
+    right: 0;
+    bottom: 0;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.mstr-app-theme-upload-logo {
+  .logo-modal-label,
+  .logo-modal-url {
+    margin: 12px;
+  }
+
+  .logo-modal-url {
+    background: #F2F3F5;
+    width: 95%;
+    margin: 0 12px;
+    color: #575A5D;
+  }
+}

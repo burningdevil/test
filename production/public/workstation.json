@@ -40,7 +40,9 @@
         {
           "key": "openAppDesign",
           "command": "openAppDesignEditor",
-          "windowKey": "appDesignEditor"
+          "windowKey": "appDesignEditor",
+          "isVisible": "isHomeScreenConfigEnabled",
+          "canExecute": "isHomeScreenConfigEnabled"
         }
       ]
     },

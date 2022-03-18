@@ -1,0 +1,18 @@
+.mstr-react-resizer {
+  $thickness: 8px;
+  background-color: transparent;
+  position: absolute;
+  z-index: 1;
+  &.react-draggable-dragging {
+    background-color: rgba(black, 0.35);
+  }
+  &.x {
+    top: 0;
+    cursor: ew-resize;
+    width: $thickness;
+  }
+  &.y {
+    cursor: ns-resize;
+    height: $thickness;
+  }
+}
