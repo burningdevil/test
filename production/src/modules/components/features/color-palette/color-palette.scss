@@ -3,14 +3,15 @@
 @import '~ag-grid-community/src/styles/ag-grid.scss';
 @import '~ag-grid-community/src/styles/ag-theme-alpine/sass/ag-theme-alpine-mixin';
 
-.ag-theme-alpine {
-    @include ag-theme-alpine(
-        (
-            font-size: 12px,
-        )
-    );
-}
+
 .home-screen-dossiersetting {
+    .ag-theme-alpine {
+        @include ag-theme-alpine(
+            (
+                font-size: 12px,
+            )
+        );
+    }
     &-container {
         padding: 24px 30px 0 30px;
         font-family: $font-family;
@@ -22,7 +23,6 @@
             &:hover {
                 color: $mobile-primary-blue;
             }
-
             display: none;
         }
 
@@ -35,6 +35,10 @@
         .ant-table-row-selected {
             background-color: $mobile-primary-blue;
         }
+        .operation-item-only {
+            margin-left: 20px !important;
+            padding-top: 5px;
+        }
         .ant-table-row:hover {
             .icon-pnl_close {
                 cursor: pointer;
@@ -42,7 +46,7 @@
             }
             .set-default-col {
                 cursor: pointer;
-                margin-left: 10px;
+                margin-left: 20px;
                 display: inline-block;
             }
         }

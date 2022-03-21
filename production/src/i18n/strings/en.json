@@ -142,7 +142,7 @@
     "document": "Document",
     "removeBundle": "Remove",
 
-    "blankAppNameError": "This field cannot be blank.",
+    "blankAppNameError": "Please enter a name.",
     "duplicateAppNameError": "The name is already taken.",
     "invalidCharacterAppNameError": "The name cannot contain the following characters \\ \" [ ].",
     "getInfo": "Get Info",
@@ -197,7 +197,7 @@
     "confirmDeleteColorPaletteDialogMsg": "This cannot be undone.",
     "continue": "Continue",
     "ok": "OK",
-    "new": "New",
+    "newPaletteDefaultName": "New Palette",
     "palette": "Palette",
     "deletePaletteFailedTitle": "Color palette cannot be deleted",
     "deletePaletteFailedMsg": "This palette is used by one or more applications.",

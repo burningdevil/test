@@ -152,7 +152,7 @@ const CustomPaletteModalGrid: React.FC<PaletteGridProps> = (
         return {
             headerName: t('paletteName'),
             headerCheckboxSelection: true,
-            minWidth: 200,
+            minWidth: 175,
             maxWidth: 380,
             checkboxSelection: (params: CheckboxSelectionCallbackParams) => {
                 return params.node.data.colors !== undefined;
@@ -447,6 +447,7 @@ const CustomPaletteModalGrid: React.FC<PaletteGridProps> = (
                             suppressAggFuncInHeader={true}
                             rowMultiSelectWithClick={true}
                             suppressRowClickSelection={true}
+                            suppressContextMenu = {true}
                             onSelectionChanged={onSelectionChanged}
                             onModelUpdated={onModelUpdate}
                             onGridReady={onGridReady}

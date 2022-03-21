@@ -9,7 +9,7 @@ import {
 import ColorPickerContainer from '../../../common-components/rc-compat/color-picker-container';
 import './color-palette-editor.scss';
 import { hexToDecimal, toHex } from '../color-palette.util';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import * as api from '../../../../../services/Api';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -99,9 +99,10 @@ const ColorPaletteEditor: React.FC<any> = (props: any) => {
     const dispatch = useDispatch();
     const applicationPalettes = useSelector(selectApplicationPalettes) ?? [];
     const paletteList = useSelector(selectAllColorPalettes);
-    const name = params?.name ?? localizedStrings.NEW;
+    const name = params?.name ?? localizedStrings.NEW_PALETTE_DEFAULT_NAME;
     const colors = params?.colors?.map((v: any) => v) ?? [];
     const [colorList, setColorList] = useState(colors);
+    const nameRef: any = useRef();
     const [nameForm, setName] = useState(name);
     const [nameErrMsg, setNameErrMsg] = useState(
         localizedStrings.DUPLICATE_APP_NAME_ERROR
@@ -250,6 +251,9 @@ const ColorPaletteEditor: React.FC<any> = (props: any) => {
         if (colors?.length) {
             setCurrentValue(toHex(colors[colors.length - 1]));
         }
+        if(isCreate || params?.isDuplicate){
+          nameRef.current.select();
+        }
     }, [params]);
     useEffect(() => {
         const names = paletteList.map((v) => v.name);
@@ -267,7 +271,12 @@ const ColorPaletteEditor: React.FC<any> = (props: any) => {
     useEffect(() => {
         setName(name);
     }, [name]);
-    const checkNameDuplicate = (name: string) => {
+    const checkNameValid = (name: string) => {
+        // blank validation
+        if(!name?.trim()){
+          setNameErrMsg(localizedStrings.BLANK_APP_NAME_ERROR);
+          return false;
+        }
         // special character
         if (!validName(name)) {
             setButtonDisabled(true);
@@ -358,11 +367,11 @@ const ColorPaletteEditor: React.FC<any> = (props: any) => {
                             {localizedStrings.NAME}
                         </div>
                         <Input
-                            placeholder={localizedStrings.NEW}
+                            ref = {nameRef}
                             onChange={(val: any) => handleName(val)}
                             value={nameForm}
                             onValidate={(e: string) => {
-                                return checkNameDuplicate(e);
+                                return checkNameValid(e);
                             }}
                             maxLength={80}
                             isErrorDisplayed="true"
