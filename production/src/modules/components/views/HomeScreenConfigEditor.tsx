@@ -174,13 +174,13 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 !!currentEnv.webVersion &&
                 isLibraryServerVersionMatch(
                     currentEnv.webVersion,
-                    LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION
+                    LIBRARY_SERVER_SUPPORT_COLOR_PALETTE_VERSION
                 ) &&
                 colorPaletteItem?.enabled
             );
         };
         const colorPaletteFeatureFlagEnabled  = checkColorPaletteFeatureEnable(currentEnv);
-        let isNameCopyed = false;
+        let isNameCopied = false;
         if (
             isDuplicate &&
             this.props.config.name &&
@@ -189,12 +189,12 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             this.props.updateCurrentConfig({
                 name: copyApplicationName(this.props.config.name),
             });
-            isNameCopyed = true;
+            isNameCopied = true;
         }
         this.setState({
             currentEnv: currentEnv,
             configId: configId,
-            isNameCopyed: isNameCopyed,
+            isNameCopyed: isNameCopied,
             contentBundleFeatureEnable: contentBundleEnable,
             colorPaletteFeatureEnable: colorPaletteFeatureFlagEnabled
 
@@ -202,13 +202,13 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         this.loadPreference();
         workstation.environments.onEnvironmentChange(
             (change: EnvironmentChangeArg) => {
-                console.log('editor enviornment change: ' + change.actionTaken);
+                console.log('editor environment change: ' + change.actionTaken);
                 console.log(
-                    'editor enviornment change: env name : ' +
+                    'editor environment change: env name : ' +
                         change.changedEnvironment.name
                 );
                 console.log(
-                    'editor enviornment change: env status : ' +
+                    'editor environment change: env status : ' +
                         change.changedEnvironment.status
                 );
                 if (
