@@ -219,6 +219,13 @@ const ColorPaletteEditor: React.FC<any> = (props: any) => {
         sortColors();
         const temp = colorList.filter((v: any) => v !== color.key);
         setColorList(temp);
+        if (color.key === hexToDecimal(currentVal)) {
+            if (temp.length > 0) {
+                onClick(temp[0]);
+            } else {
+                onClick(0);
+            }
+        }
     };
     const onAddFavorite = () => {
         if (colorList?.length >= 16) return;
@@ -251,8 +258,8 @@ const ColorPaletteEditor: React.FC<any> = (props: any) => {
         if (colors?.length) {
             setCurrentValue(toHex(colors[colors.length - 1]));
         }
-        if(isCreate || params?.isDuplicate){
-          nameRef.current.select();
+        if (isCreate || params?.isDuplicate) {
+            nameRef.current.select();
         }
     }, [params]);
     useEffect(() => {
@@ -273,9 +280,9 @@ const ColorPaletteEditor: React.FC<any> = (props: any) => {
     }, [name]);
     const checkNameValid = (name: string) => {
         // blank validation
-        if(!name?.trim()){
-          setNameErrMsg(localizedStrings.BLANK_APP_NAME_ERROR);
-          return false;
+        if (!name?.trim()) {
+            setNameErrMsg(localizedStrings.BLANK_APP_NAME_ERROR);
+            return false;
         }
         // special character
         if (!validName(name)) {
@@ -367,7 +374,7 @@ const ColorPaletteEditor: React.FC<any> = (props: any) => {
                             {localizedStrings.NAME}
                         </div>
                         <Input
-                            ref = {nameRef}
+                            ref={nameRef}
                             onChange={(val: any) => handleName(val)}
                             value={nameForm}
                             onValidate={(e: string) => {

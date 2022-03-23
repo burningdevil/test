@@ -8,7 +8,7 @@ import {
 import { Button, Modal } from 'antd';
 import { SearchInput } from '@mstr/rc';
 import CustomPaletteModalGrid from './custom-palette-modal-grid/custom-palette-modal-grid';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import './custom-palette-modal.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -19,7 +19,7 @@ import ColorPaletteEditor from '../color-palette-editor/color-palette-editor';
 
 import * as Actions from '../../../../../store/actions/ActionsCreator';
 const classNamePrefix = 'custom-palette-add-container';
-
+let currentPaletteList: any[];
 const ColorPaletteModal: React.FC<any> = (props: any) => {
     const { applicationPalettes } = props;
     const dispatch = useDispatch();
@@ -32,13 +32,16 @@ const ColorPaletteModal: React.FC<any> = (props: any) => {
     const [disableSave, setDisableSave] = useState(false);
     const [nameFilter, setFilterName] = useState('');
     const [isShowEditPalette, setEditorPalette] = useState(false);
+    const [paletteEditorParams, setEditorParams] = useState({} as any);
     useEffect(() => {
         setCustomPalettes(applicationPalettes);
         if (applicationPalettes?.length === 0) {
             setDisableSave(true);
         }
     }, [applicationPalettes]);
-
+    useEffect(() => {
+        currentPaletteList = paletteList;
+    }, [paletteList]);
     const checkIndeterminate = (selectedRows?: any[]) => {
         if (selectedRows?.length === 0) {
             setDisableSave(true);
@@ -85,6 +88,38 @@ const ColorPaletteModal: React.FC<any> = (props: any) => {
         }
         props.close(false);
     };
+    const generateDefaultPaletteName = useCallback(() => {
+        let defaultName = localizedStrings.NEW_PALETTE_DEFAULT_NAME;
+        if (
+            currentPaletteList.filter((p: any) => {
+                return p.name?.toLowerCase() === defaultName.toLowerCase();
+            }).length === 0
+        ) {
+            return defaultName;
+        }
+        for (let i = 1; i < 10000; i++) {
+            const newPaletteName = `${defaultName} ${i}`;
+            if (
+                currentPaletteList.filter((appInfo: any) => {
+                    return (
+                        appInfo.name.toLowerCase() ===
+                        newPaletteName.toLowerCase()
+                    );
+                }).length === 0
+            ) {
+                return newPaletteName;
+            }
+        }
+        return defaultName;
+    }, []);
+    const handleAddPalette = useCallback(() => {
+        const newObj: any = {
+            name: generateDefaultPaletteName(),
+            colors: [],
+        };
+        setEditorParams(newObj);
+        setEditorPalette(true);
+    }, []);
 
     const buttonGroup = () => {
         return (
@@ -107,7 +142,7 @@ const ColorPaletteModal: React.FC<any> = (props: any) => {
         return (
             <span
                 className={`${classNamePrefix}-custom-color-palette-new`}
-                onClick={() => setEditorPalette(true)}
+                onClick={handleAddPalette}
             >
                 <span
                     tabIndex={0}
@@ -160,6 +195,7 @@ const ColorPaletteModal: React.FC<any> = (props: any) => {
                                     <ColorPaletteEditor
                                         visible={isShowEditPalette}
                                         isCreate={true}
+                                        params={paletteEditorParams}
                                         setCustomPalettes={setCustomPalettes}
                                         selectedCustomPalettes={
                                             selectedCustomPalettes

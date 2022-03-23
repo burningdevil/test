@@ -152,6 +152,7 @@ const CustomPaletteModalGrid: React.FC<PaletteGridProps> = (
         return {
             headerName: t('paletteName'),
             headerCheckboxSelection: true,
+            headerCheckboxSelectionFilteredOnly: true,
             minWidth: 175,
             maxWidth: 380,
             checkboxSelection: (params: CheckboxSelectionCallbackParams) => {
@@ -407,9 +408,9 @@ const CustomPaletteModalGrid: React.FC<PaletteGridProps> = (
         useState(deleteDialogWordings);
 
     const executeScroll = () => {
-      // if editor, no need to scroll to the top;
-        if(!paletteEditorParams.isDuplicate){
-          return;
+        // if editor, no need to scroll to the top;
+        if (!paletteEditorParams.isDuplicate) {
+            return;
         }
         setTimeout(() => {
             document.querySelector('.ag-row-group-indent-0').scrollIntoView();
@@ -423,6 +424,10 @@ const CustomPaletteModalGrid: React.FC<PaletteGridProps> = (
             }
         });
         setPaletteLength(cnt);
+    }, []);
+
+    const onPostSort = useCallback(() => {
+        gridRef.current?.api?.clearFocusedCell();
     }, []);
     return (
         paletteList?.length > 0 && (
@@ -447,8 +452,10 @@ const CustomPaletteModalGrid: React.FC<PaletteGridProps> = (
                             suppressAggFuncInHeader={true}
                             rowMultiSelectWithClick={true}
                             suppressRowClickSelection={true}
-                            suppressContextMenu = {true}
+                            suppressContextMenu={true}
+                            groupSelectsFiltered={true}
                             onSelectionChanged={onSelectionChanged}
+                            postSort={onPostSort}
                             onModelUpdated={onModelUpdate}
                             onGridReady={onGridReady}
                         ></AgGridReact>

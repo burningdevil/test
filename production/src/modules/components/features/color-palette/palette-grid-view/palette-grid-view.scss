@@ -1,7 +1,7 @@
 @import '~@mstr/rc/es/assets/scss/variables.scss';
 @import '../../../scss/variables.scss';
 .color-palette-grid-container {
-    margin-top: -10px; // disable the ant table measure row height
+    margin-top: -8px; // disable the ant table measure row height
     padding-left: 10px;
     padding-bottom: 20px;
     .operation-item {
@@ -22,6 +22,9 @@
     }
     .ant-table-cell {
         font-size: 12px;
+    }
+    .ant-table-tbody {
+        overflow-y: auto !important;
     }
     .ant-table-row:hover {
         .operation-item {

@@ -28,6 +28,7 @@ export const Container: React.FC<any> = memo(function Container(props: any) {
     } = props;
 
     const [cards, setCards] = useState([]);
+    const [selected, setSelected] = useState();
     useEffect(() => {
         if (!colors) return;
         let temp = colors.map((v: any) => {
@@ -61,6 +62,13 @@ export const Container: React.FC<any> = memo(function Container(props: any) {
     );
 
     const [, drop] = useDrop(() => ({ accept: ItemTypes.CARD }));
+    const cardClick = useCallback(
+        (e) => {
+            setSelected(e);
+            onClick(e);
+        },
+        [onClick]
+    );
     return (
         <div ref={drop} style={style}>
             {cards.map((card, index) => (
@@ -71,7 +79,8 @@ export const Container: React.FC<any> = memo(function Container(props: any) {
                     canDelete={cards?.length > 0}
                     moveCard={moveCard}
                     findCard={findCard}
-                    onClick={onClick}
+                    selected={selected === card.id}
+                    onClick={cardClick}
                     onRemoveFavorite={onRemoveFavorite}
                     handleKeyDownEvent={handleKeyDownEvent}
                 />
