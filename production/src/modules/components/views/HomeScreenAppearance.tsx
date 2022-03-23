@@ -100,21 +100,23 @@ class HomeScreenAppearance extends React.Component<any, any> {
         console.log("App theme => ", theme)
         // TODO - Refactor/Implement UI to render list of themes
         return (
-            <div>
+            <div className='mstr-custom-app-screen'>
+                <div className='mstr-custom-app-screen-title'>THEME AND APPEARANCE</div>
                 {
-                    theme ? <div className="mstr-custom-app-theme">
-                        <div className="edit" onClick={() => this.openAppDesignEditor(theme)}>
-                            <img />
-                        </div>
-                        <div className="delete" onClick={() => this.removeTheme()}>
-                            <img />
+                    theme ? <div className="mstr-custom-app-theme-content">
+                        <div className='existing-theme-icn' />
+                        <div className='existing-theme-hover-overlay' />
+                        <div className="edit" onClick={() => this.openAppDesignEditor(theme)} />
+                        <div className="delete" onClick={() => this.removeTheme()} />
+                    </div>
+                    : <div className='mstr-custom-app-no-theme-content'>
+                        <div className='new-theme-icn' />
+                        <div className='new-theme-desc'>Customize the look of your application</div>
+                        <div className="add-design" tabIndex={0} onClick={() => this.openAppDesignEditor()}>
+                            <div className='add-design-icn' />
+                            <div className='add-design-text'>Enter Design Studio</div>
                         </div>
                     </div>
-                        : <div className="mstr-custom-app-no-theme">
-                            <Button className="add-design-btn" type="primary" onClick={() => this.openAppDesignEditor()}>
-                                Add Theme
-                            </Button>
-                        </div>
                 }
             </div>
         )
