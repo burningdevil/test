@@ -100,6 +100,24 @@ export const loadContentBundleListSuccess = (contentBundleList: Array<MainViewCo
 export const loadContentBundleListFail = () => ({
   type: Actions.LOAD_CONTENT_BUNDLE_LIST_FAIL,
 })
+ 
+/* ------------------------------ color palette list ----------------------------*/
+export const startLoadingColorPaletteList = () => ({
+  type: Actions.START_LOADING_COLOR_PALETTE_LIST
+})
+
+export const finishLoadingColorPaletteList = () => ({
+  type: Actions.FINISH_LOADING_COLOR_PALETTE_LIST
+})
+
+export const loadColorPaletteSuccess = (colorPaletteList: Array<any>) => ({
+  type: Actions.LOAD_COLOR_PALETTE_LIST_SUCCESS,
+  data: colorPaletteList,
+})
+
+export const loadColorPaletteFail = () => ({
+  type: Actions.LOAD_COLOR_PALETTE_LIST_FAIL,
+})
 
 /* ------------------------------ application design editor ----------------------------*/
 export const asyncInitAppDesignEditor = () => ({ 

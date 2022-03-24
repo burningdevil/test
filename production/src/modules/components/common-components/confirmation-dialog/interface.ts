@@ -11,4 +11,5 @@ export interface ConfirmationDialogProps {
   triggerAction: () => void
   closeDialog: () => void
   wordings: ConfirmationDialogWordings
+  elementId?: string
 }

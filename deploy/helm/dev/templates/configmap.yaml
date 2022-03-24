@@ -29,8 +29,8 @@ data:
     [ODBC]
     Trace=0
     TraceFile=odbctrace.out
-    TraceDll=/opt/mstr/MicroStrategy/install/lib/MYtrcXX.so
-    InstallDir=/opt/mstr/MicroStrategy/install/odbc
+    TraceDll=/opt/mstr/MicroStrategy/drivers/odbc/progress/lib/MYtrc64.so
+    InstallDir=/opt/mstr/MicroStrategy/drivers/odbc/progress/
     IANAAppCodePage=106
     UseCursorLib=0
     UNICODE=UTF-8
@@ -45,7 +45,7 @@ data:
     SERVER=postgres-md-{{ .Release.Name }}
     OPTION=2
     SOCKET=#
-    Driver=/opt/mstr/MicroStrategy/install/lib/MYpsqlXX.so
+    Driver=/opt/mstr/MicroStrategy/drivers/odbc/postgresql/MYpsql64.so
 
   config.ini: |-
     [Server]
@@ -417,14 +417,6 @@ data:
     yum -y install p7zip
     yum clean all
 
-    # sed -i -- "s:tmp/\(RELEASE\|DEBUG\|debug\|release\)\/BIN\/Linux:opt\/mstr\/MicroStrategy\/install:g" /opt/mstr/MicroStrategy/env/Principal.sh /opt/mstr/MicroStrategy/env/SAP.sh /opt/mstr/MicroStrategy/env/ODBC.sh /opt/mstr/MicroStrategy/install/odbc.ini /opt/mstr/MicroStrategy/odbc.ini.example /opt/mstr/MicroStrategy/install/odbc.ini.example /opt/mstr/MicroStrategy/odbcinst.ini /opt/mstr/MicroStrategy/install/odbcinst.ini /opt/mstr/MicroStrategy/install/axis2.xml /opt/mstr/MicroStrategy/install/MAdsncx.otl /opt/mstr/MicroStrategy/MAdsncx.otl  /opt/mstr/MicroStrategy/install/MSIReg.reg /opt/mstr/MicroStrategy/install/FontConfiguration/fonts.conf
-    # sed -i -e "s/MSTR_ADMIN_USER.*/MSTR_ADMIN_USER=root/" /opt/mstr/MicroStrategy/env/Principal.sh
-    # sed -i -e "s/MSTR_USER_GROUP.*/MSTR_USER_GROUP=root/" /opt/mstr/MicroStrategy/env/Principal.sh
-
-    # update dsn and registry file
-    # yes | cp -rf /mnt/config/iserver/MSIReg.reg /opt/mstr/MicroStrategy/MSIReg.reg
-    # yes | cp -rf /mnt/config/iserver/odbc.ini /opt/mstr/MicroStrategy/odbc.ini
-
     # download cube cache
     echo ${SERVER_DEF}
     if [ -z $CUBE_URL ]; then
@@ -452,42 +444,6 @@ data:
         done
     fi
 
-    #7za x -o/opt/mstr/MicroStrategy/install/Cubes/Test ${CUBE_URL}
-    #host_name=`hostname`
-    #cube_dir=/opt/mstr/MicroStrategy/IntelligenceServer/Cube/NCSTester/Server_${host_name}_P${CUBE_PROJECT_ID} #PB19DEDCC11D4E0EFC000EB9495D0F44F
-
-
-    # wget -O cube.zip ${CUBE_URL}
-    # unzip cube.zip -d /opt/mstr/MicroStrategy/install/Cubes
-    # host_name=`hostname`
-    # cube_dir=/opt/mstr/MicroStrategy/IntelligenceServer/Cube/serverdefinition/Server_${host_name}_P${CUBE_PROJECT_ID} #PB19DEDCC11D4E0EFC000EB9495D0F44F
-    # mkdir -p ${cube_dir}
-    # cp -avr /opt/mstr/MicroStrategy/install/Cubes/ICube/* ${cube_dir}
-
-    # trap 'exit 0' SIGTERM
-    # while true; do sleep 1; done
-
-    # Download I-Server configure file
-    # if [[ -z "$IS_CONFIG_FILE" ]]; then
-    #   echo "I-Server Configuration is not provided by User ..."
-    # else
-    #   echo "Downloading I-Server Configuration file from $IS_CONFIG_FILE ..."
-    #   wget -O ISConfig.zip $IS_CONFIG_FILE
-
-    #   echo "Unzip the downloaded db package"
-    #   mkdir -p /etc/mstr/iserver
-    #   mv ISConfig.zip /etc/mstr/iserver/
-    #   unzip /etc/mstr/iserver/ISConfig.zip -d /etc/mstr/iserver/
-
-    #   echo "Clean environment by removing the downloaded zip file"
-    #   rm /etc/mstr/iserver/ISConfig.zip
-    # fi
-
-    #copy odbc.ini file if it's provided by User. User Case: fast ring, the WH backup is not provided. Need to configure it to existing one
-    # if [ -f /etc/mstr/iserver/odbc.ini ]; then
-    #   cp -f /etc/mstr/iserver/odbc.ini /opt/mstr/MicroStrategy/odbc.ini
-    # fi
-
     # Configure MSIReg.reg with new test MD 
     sed -i "s/DSN=poc_metadata/DSN=$DSN_MD/g" /opt/mstr/MicroStrategy/MSIReg.reg
     echo "replace MSIReg MD dsn to $DSN_MD"
@@ -514,22 +470,6 @@ data:
     
     bash /mnt/scripts/fix_encoding.sh
     echo "fix encoding for odbc character"
-    #create odbc.ini through mstrconnectwiz command
-    # echo "Creating DSN for MD: $DSN_MD, $DB_MD_SERVER, $DB_MD_PORT, $DB_MD_NAME"
-    # /opt/mstr/MicroStrategy/bin/mstrconnectwiz -r MYSQL_CONNECTOR $DSN_MD $DB_MD_SERVER $DB_MD_PORT $DB_MD_NAME /usr/lib64/libmyodbc5w.so -u:root -p:mstr123
-    # if [ "$?" = "0" ]; then
-    # 	echo "DSN $DSN_MD is created!"
-    # else
-    # 	echo "Failed to Created DSN for MD..."
-    # fi
-
-    # echo "Creating DSN for WH: $DSN_WH, $DB_WH_SERVER, $DB_WH_PORT, $DB_WH_NAME"
-    # /opt/mstr/MicroStrategy/bin/mstrconnectwiz -r MYSQL_CONNECTOR $DSN_WH $DB_WH_SERVER $DB_WH_PORT $DB_WH_NAME /usr/lib64/libmyodbc5w.so -u:mstr -p:mstr123
-    # if [ "$?" = "0" ]; then
-    # 	echo "DSN $DSN_WH is created!"
-    # else
-    # 	echo "Failed to Created DSN for WH..."
-    # fi
 
     # Configure I-Server
     if [[ $IS_CONFIG_OPT == "registry" ]]; then

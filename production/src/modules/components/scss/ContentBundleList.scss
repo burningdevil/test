@@ -157,14 +157,14 @@
     }
 
     .ag-theme-alpine .ag-row {
-      font-size: 11px;
+      font-size: 12px;
       border-color: #f3f4f5;
       font-family: $font-family;
     }
     
     .ag-theme-alpine .ag-header {
       border-bottom: none;
-      font-size: 11px;
+      font-size: 12px;
     }
     
     .ag-theme-alpine .ag-header-cell {
@@ -294,6 +294,11 @@
 .content-bundle-list-name-icon {
   display: flex;
   align-items: center;
+}
+.content-bundle-list-custom-name {
+  padding: 6px;
+  color: #35383a;
+  font-weight: 400
 }
 
 .content-bundle-list-user-icon {

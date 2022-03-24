@@ -1,91 +1,108 @@
-import * as _ from "lodash";
-import { IServerSideGetRowsParams } from 'ag-grid-community'
-import { EnumDSSXMLViewMedia, HomeScreenHomeObjectType, SPECIAL_CHARACTER_REGEX } from '../HomeScreenConfigConstant'
-import { Environment } from "@mstr/workstation-types";
+import * as _ from 'lodash';
+import { IServerSideGetRowsParams, ICellRendererFunc, ICellRendererParams } from 'ag-grid-community'
+import {
+    EnumDSSXMLViewMedia,
+    HomeScreenHomeObjectType,
+    SPECIAL_CHARACTER_REGEX,
+} from '../HomeScreenConfigConstant';
+import { Environment } from '@mstr/workstation-types';
 
-export function getContentType (viewMedia: number) {
+export function getContentType(viewMedia: number) {
     const defModePosition = viewMedia >> 27;
     let defaultViewMedia;
     if (defModePosition == 0) {
         defaultViewMedia = 0;
     }
 
-    defaultViewMedia = EnumDSSXMLViewMedia.DssXmlViewMediaViewStatic << defModePosition - 1;
-    if (defaultViewMedia == EnumDSSXMLViewMedia.DssXmlViewMediaViewAnalysis || defaultViewMedia == EnumDSSXMLViewMedia.DssXmlViewMediaHTML5Dashboard) {
+    defaultViewMedia =
+        EnumDSSXMLViewMedia.DssXmlViewMediaViewStatic << (defModePosition - 1);
+    if (
+        defaultViewMedia == EnumDSSXMLViewMedia.DssXmlViewMediaViewAnalysis ||
+        defaultViewMedia == EnumDSSXMLViewMedia.DssXmlViewMediaHTML5Dashboard
+    ) {
         return HomeScreenHomeObjectType.DOSSIER;
     } else {
         return HomeScreenHomeObjectType.DOCUMENT;
     }
 }
 
-export function isContentTypeDossier (viewMedia: number) {
+export function isContentTypeDossier(viewMedia: number) {
     return getContentType(viewMedia) === HomeScreenHomeObjectType.DOSSIER;
 }
 
-export function hexIntToColorStr (hexIntColor: number) {
+export function hexIntToColorStr(hexIntColor: number) {
     const colorPrefix = '#';
     return colorPrefix + hexIntColor.toString(16).padStart(6, '0');
 }
 
-export function colorStrToHexInt (colorStr: string) {
+export function colorStrToHexInt(colorStr: string) {
     var hex = parseInt(colorStr.replace(/^#/, ''), 16);
     return hex;
 }
 
 export function HomeScreenBundleListDatasource(server: any) {
     return {
-      getRows: function (params: IServerSideGetRowsParams) {
-        console.log('[Datasource] - rows requested by grid: ', params.request);
-        var response = server.getData(params);
-        setTimeout(function () {
-          if (response?.success) {
-            params.success({
-              rowData: response.rows,
-              rowCount: response.lastRow,
-            });
-          } 
-          
-        }, 500);
-      },
+        getRows: function (params: IServerSideGetRowsParams) {
+            console.log(
+                '[Datasource] - rows requested by grid: ',
+                params.request
+            );
+            var response = server.getData(params);
+            setTimeout(function () {
+                if (response?.success) {
+                    params.success({
+                        rowData: response.rows,
+                        rowCount: response.lastRow,
+                    });
+                }
+            }, 500);
+        },
     };
   }
   
-export function getHomeScreenBundleListGroupCellInnerRenderer() {
-    function HomeScreenBundleListGroupCellInnerRenderer() { return '' };
-    HomeScreenBundleListGroupCellInnerRenderer.prototype.init = function (params: any) {
-      var tempDiv = document.createElement('div');
-      if (params.node.group) {
-        const color = hexIntToColorStr(params.node.data.color);
-        tempDiv.innerHTML =
-          '<span class="icon-group_groups_a" style="color:'+ color + '"/><span style="color: #35383a; padding: 6px; font-weight: 400">' +
-          params.value +
-          '</span>';
-      } else {
-        const viewMedia = params.node.data.viewMedia;
-        const type: HomeScreenHomeObjectType = getContentType(viewMedia);
-        if (type === HomeScreenHomeObjectType.DOSSIER) {
-            tempDiv.innerHTML =
-            '<span class="icon-dossier" style="color: #3492ed"/><span style="color: #35383a; padding: 6px; font-weight: 400">' +
-            params.value +
-            '</span>';
+export  const getHomeScreenBundleListGroupCellInnerRenderer: ICellRendererFunc = (params: ICellRendererParams) => {
+  const elem = document.createElement('div')
+      const iconElem = document.createElement('span')
+      const textElem = document.createElement('span')
+      elem.appendChild(iconElem)
+      elem.appendChild(textElem)
+
+      
+      textElem.classList.add('content-bundle-list-custom-name')
+      const { data } = params.node
+      textElem.innerText = data.name;
+      if (data != null) {
+        if (params.node.group) {
+          const color = hexIntToColorStr(data.color)
+          iconElem.classList.add('icon-group_groups_a')
+          iconElem.style.color = color;
+
         } else {
-            tempDiv.innerHTML =
-            '<span class="icon-rsd-cover" style="color: #ff4000"/><span style="color: #35383a; padding: 6px; font-weight: 400">' +
-            params.value +
-            '</span>';
+          const { viewMedia } = data
+          const type: HomeScreenHomeObjectType = getContentType(viewMedia)
+          if (type === HomeScreenHomeObjectType.DOSSIER) {
+            iconElem.classList.add('icon-dossier')
+            iconElem.style.color = '#3492ed'
+          } else {
+            iconElem.classList.add('icon-rsd-cover')
+            iconElem.style.color = '#ff4000'
+          }
         }
       }
-      this.eGui = tempDiv.firstChild;
-    };
-    HomeScreenBundleListGroupCellInnerRenderer.prototype.getGui = function () {
-      return this.eGui;
-    };
-    return HomeScreenBundleListGroupCellInnerRenderer;
-  }
-
+      return elem;
+};
 export function validName(name: string) {
   //cannot contain any of the following characters: \"[]
   const pattern = SPECIAL_CHARACTER_REGEX;
   const isInvalidCharacter = pattern.test(name);
   return !isInvalidCharacter;
+}
+ export function formatTime(timeString: string) {
+   return new Date(timeString).toLocaleString('sv-SE')
+ }
+ export function getFeatureFlag(key: string, env: any) {
+  if (!env?.preferences) {
+      return false;
+  }
+  return env.preferences?.[key];
 }

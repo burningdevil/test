@@ -60,3 +60,18 @@ volumes:
     mount_path: mount source folder path on nfs server
     project_id: project id of cube backup
     mount_to: mount target path in container
+
+# image for Gateway drivers deployer init container 
+gatewayDriversImage:
+  # registry docker registry to get the image from
+  registry: nexus.internal.microstrategy.com:49080
+  # repository for the image
+  repository: gateway-drivers-mce
+  # tag version to retrieve the  image
+  tag: latest
+  # repository for the image
+  pullPolicy: IfNotPresent
+
+# mount file paths
+mount:
+  iserverGatewayDriversMountPath: /opt/mstr/MicroStrategy/drivers

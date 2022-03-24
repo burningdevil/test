@@ -38,7 +38,10 @@ $prefix: confirmation-dialog;
       }
 
       .#{$prefix}-details {
+        font-size: 11px;
         overflow: scroll;
+        color: #444649;
+        line-height: 16px;
 
 
         &::-webkit-scrollbar {
