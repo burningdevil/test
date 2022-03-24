@@ -106,13 +106,23 @@ class HomeScreenAppearance extends React.Component<any, any> {
                     theme ? <div className="mstr-custom-app-theme-content">
                         <div className='existing-theme-icn' />
                         <div className='existing-theme-hover-overlay' />
-                        <div className="edit" onClick={() => this.openAppDesignEditor(theme)} />
-                        <div className="delete" onClick={() => this.removeTheme()} />
+                        <div className='existing-theme-options'>
+                            <div className="edit" onClick={() => this.openAppDesignEditor(theme)} />
+                            <div className="delete" onClick={() => this.removeTheme()} />
+                        </div>
                     </div>
                     : <div className='mstr-custom-app-no-theme-content'>
                         <div className='new-theme-icn' />
                         <div className='new-theme-desc'>Customize the look of your application</div>
-                        <div className="add-design" tabIndex={0} onClick={() => this.openAppDesignEditor()}>
+                        <div className="add-design"
+                            tabIndex={0}
+                            onClick={() => this.openAppDesignEditor()}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    this.openAppDesignEditor()
+                                }
+                            }}
+                        >
                             <div className='add-design-icn' />
                             <div className='add-design-text'>Enter Design Studio</div>
                         </div>
