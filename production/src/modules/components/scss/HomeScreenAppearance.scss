@@ -66,12 +66,8 @@
     }
 
     &:hover {
-      .existing-theme-hover-overlay {
+      .existing-theme-hover-overlay, .edit, .delete {
         display: block;
-      }
-
-      .edit, .delete {
-        display: flex;
       }
     }
   }
