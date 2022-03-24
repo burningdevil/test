@@ -3,7 +3,6 @@
 @import '~ag-grid-community/src/styles/ag-grid.scss';
 @import '~ag-grid-community/src/styles/ag-theme-alpine/sass/ag-theme-alpine-mixin';
 
-
 .home-screen-dossiersetting {
     .ag-theme-alpine {
         @include ag-theme-alpine(
@@ -28,6 +27,9 @@
 
         .ant-table-row {
             height: 26px;
+        }
+        .ant-table-body {
+            overflow-y: auto !important;
         }
         .ant-table-tbody > tr > td {
             border-bottom: none !important;
@@ -99,7 +101,7 @@
     }
 
     &-custom-color-palette-title-section {
-        margin-bottom: 8px;
+        margin-bottom: 10px;
         .ant-checkbox {
             margin-right: 5px;
         }
