@@ -5,10 +5,10 @@
 .mstr-custom-app-screen {
   position: relative;
   font-family: $font-family;
+  font-size: $font-size;
   color: $msdl-black;
-  padding: 24px 30px 0;
-  height: 708px;
-  font-size: 12px;
+  padding: $custom-apps-screen-padding;
+  height: $custom-apps-screen-height;
 
   &-title {
     line-height: 16px;
