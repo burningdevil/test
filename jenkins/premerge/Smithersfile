@@ -36,31 +36,8 @@ export SRCCLR_SCAN_COLLECTORS=npm
 
 source .ecosystem
 rake veracode
-rake generate_sonar_inclusions
 rake build
 '
-    end
-    sonarqube do
-      project './sonar-project.properties'
-      other_properties 'sonar.javascript.lcov.reportPaths=production/coverage/lcov.info
-                        sonar.exclusions=**/*.test.*
-                        sonar.coverage.exclusions=**/public/*'
-    end
-  end
-  publishers do
-    html do
-      report_name 'Code Coverage Report'
-      report_directory_path "production/coverage"
-      index_file_name 'index.html'
-    end
-    ext_mailer do
-      recipients_list '$ghprbActualCommitAuthorEmail $ghprbPullAuthorEmail'
-      subject 'workstation-homescreen-admin pre-merge sonarqube - $BUILD_STATUS'
-      content '$DEFAULT_CONTENT'
-      fail_trigger_recipients_list ''
-      fail_trigger_notify_developer 'true'
-      always_trigger 'true'
-      always_trigger_recipients_list ''
     end
   end
 end
