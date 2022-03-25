@@ -223,7 +223,7 @@ const ColorPaletteEditor: React.FC<any> = (props: any) => {
             if (temp.length > 0) {
                 onClick(temp[0]);
             } else {
-                onClick(0);
+                onClick('0')
             }
         }
     };
