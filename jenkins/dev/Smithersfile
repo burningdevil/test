@@ -32,12 +32,11 @@ rake post_pipeline
         stage-2-postmerge-test-mac stage-2-init-postmerge-test-win
       }
     end
-  end
-
-  sonarqube do
-    other_properties 'sonar.javascript.lcov.reportPaths=production/coverage/lcov.info
-                      sonar.exclusions=**/*.test.*
-                      sonar.coverage.exclusions=**/public/*'
+    sonarqube do
+      other_properties 'sonar.javascript.lcov.reportPaths=production/coverage/lcov.info
+                        sonar.exclusions=**/*.test.*
+                        sonar.coverage.exclusions=**/public/*'
+    end
   end
 
 end
