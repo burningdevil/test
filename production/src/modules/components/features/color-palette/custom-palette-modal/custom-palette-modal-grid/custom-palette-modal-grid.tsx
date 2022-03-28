@@ -229,6 +229,7 @@ const CustomPaletteModalGrid: React.FC<PaletteGridProps> = (
             .concat(
                 currentList
                     .filter((v: any) => v.paletteType === 1)
+                    .sort((a: any,b: any) => {return a.name < b.name ? -1 : 1})
                     .map((one: any) => {
                         return {
                             ...one,
