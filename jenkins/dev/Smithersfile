@@ -24,6 +24,11 @@ rake update_dep_db_from_file
 rake post_pipeline
 '
     end
+    sonarqube do
+      other_properties 'sonar.javascript.lcov.reportPaths=production/coverage/lcov.info
+                        sonar.exclusions=**/*.test.*
+                        sonar.coverage.exclusions=**/public/*'
+    end
   end
 
   publishers do
@@ -31,11 +36,6 @@ rake post_pipeline
       job_short_names %w{
         stage-2-postmerge-test-mac stage-2-init-postmerge-test-win
       }
-    end
-    sonarqube do
-      other_properties 'sonar.javascript.lcov.reportPaths=production/coverage/lcov.info
-                        sonar.exclusions=**/*.test.*
-                        sonar.coverage.exclusions=**/public/*'
     end
   end
 
