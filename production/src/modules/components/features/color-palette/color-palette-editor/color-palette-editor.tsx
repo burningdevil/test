@@ -27,58 +27,59 @@ import {
     ConfirmationDialogWordings,
 } from './../../../../../../src/modules/components/common-components/confirmation-dialog';
 import { validName } from '../../../../../modules/components/views/HomeScreenUtils';
+const colorGuideHexVals = [
+    { name: 'Rose ###', color: '#FBDAD9' },
+    { name: 'Peach ###', color: '#FFDEC6' },
+    { name: 'Buttermilk ###', color: '#FFF3B3' },
+    { name: 'Honeydew ###', color: '#E1F5C9' },
+    { name: 'Mint ###', color: '#D7F6F0' },
+    { name: 'Iceberg ###', color: '#DCECF1' },
+    { name: 'Fog ###', color: '#DEDDFF' },
+    { name: 'Lavender ###', color: '#DDCAFF' },
+    { name: 'Pink ###', color: '#FDA29A' },
+    { name: 'Coral ###', color: '#FFAE8B' },
+    { name: 'Sweet Corn ###', color: '#FAD47F' },
+    { name: 'Green Pea ###', color: '#BFE2A2' },
+    { name: 'Aqua ###', color: '#AADED7' },
+    { name: 'Frost ###', color: '#A6CCDD' },
+    { name: 'Pale Purple ###', color: '#9D9FE0' },
+    { name: 'Orchid ###', color: '#B496DD' },
+    { name: 'Salmon ###', color: '#DB6657' },
+    { name: 'Orange ###', color: '#D76322' },
+    { name: 'Honey ###', color: '#E69912' },
+    { name: 'Grass ###', color: '#83C962' },
+    { name: 'Turquoise ###', color: '#55BFC3' },
+    { name: 'Ocean Blue ###', color: '#1C8DD4' },
+    { name: 'Royal Blue ###', color: '#4F60D6' },
+    { name: 'Violet ###', color: '#834FBD' },
+    { name: 'Ruby Red ###', color: '#C1292F' },
+    { name: 'Rust ###', color: '#9A3A0A' },
+    { name: 'Caramel ###', color: '#B27B11' },
+    { name: 'Emerald ###', color: '#38AE6F' },
+    { name: 'Teal ###', color: '#028F94' },
+    { name: 'Indigo ###', color: '#0F6095' },
+    { name: 'Sapphire ###', color: '#31329D' },
+    { name: 'Plum ###', color: '#5C388C' },
+    { name: 'Maroon ###', color: '#7E0F16' },
+    { name: 'Chestnut ###', color: '#733413' },
+    { name: 'Nutmeg ###', color: '#7B5B31' },
+    { name: 'Forest ###', color: '#1D6F31' },
+    { name: 'Pine Green ###', color: '#156962' },
+    { name: 'Navy ###', color: '#193B67' },
+    { name: 'Midnight ###', color: '#1B1575' },
+    { name: 'Deep Purple ###', color: '#3A2471' },
+    { name: 'Black ###', color: '#000000' },
+    { name: 'Charcoal ###', color: '#35383A' },
+    { name: 'Dark Gray ###', color: '#6C6C6C' },
+    { name: 'Silver ###', color: '#ABABAB' },
+    { name: 'Porcelain ###', color: '#DEDEDE' },
+    { name: 'Mist ###', color: '#EBEBEB' },
+    { name: 'Smoke White ###', color: '#F4F4F4' },
+    { name: 'White ###', color: '#FFFFFF' },
+];
 const colorPickerProps: any = {
     chosenTab: 'grid',
-    colorGuideHexVals: [
-        '#FBDAD9',
-        '#FFDEC6',
-        '#FFF3B3',
-        '#E1F5C9',
-        '#D7F6F0',
-        '#DCECF1',
-        '#DEDDFF',
-        '#DDCAFF',
-        '#FDA29A',
-        '#FFAE8B',
-        '#FAD47F',
-        '#BFE2A2',
-        '#AADED7',
-        '#A6CCDD',
-        '#9D9FE0',
-        '#B496DD',
-        '#DB6657',
-        '#D76322',
-        '#E69912',
-        '#83C962',
-        '#55BFC3',
-        '#1C8DD4',
-        '#4F60D6',
-        '#834FBD',
-        '#C1292F',
-        '#9A3A0A',
-        '#B27B11',
-        '#38AE6F',
-        '#028F94',
-        '#0F6095',
-        '#31329D',
-        '#5C388C',
-        '#7E0F16',
-        '#733413',
-        '#7B5B31',
-        '#1D6F31',
-        '#156962',
-        '#193B67',
-        '#1B1575',
-        '#3A2471',
-        '#000000',
-        '#35383A',
-        '#6C6C6C',
-        '#ABABAB',
-        '#DEDEDE',
-        '#EBEBEB',
-        '#F4F4F4',
-        '#FFFFFF',
-    ],
+    colorGuideHexVals: colorGuideHexVals,
     gradientConfig: {},
     solidFavorites: [],
     customVals: [],
@@ -104,6 +105,7 @@ const ColorPaletteEditor: React.FC<any> = (props: any) => {
     const [colorList, setColorList] = useState(colors);
     const nameRef: any = useRef();
     const [nameForm, setName] = useState(name);
+    const [handleSaving, setHandleSaving] = useState(false);
     const [nameErrMsg, setNameErrMsg] = useState(
         localizedStrings.DUPLICATE_APP_NAME_ERROR
     );
@@ -120,6 +122,7 @@ const ColorPaletteEditor: React.FC<any> = (props: any) => {
         setColorList(colors);
     };
     const processErrorResponse = (e: any, errorMsg: string) => {
+        setHandleSaving(false);
         const error = e as RestApiError;
         message.error(errorMsg + error.errorMsg);
     };
@@ -134,6 +137,7 @@ const ColorPaletteEditor: React.FC<any> = (props: any) => {
             api.loadColorPaletteList();
             props.onClose();
         };
+        setHandleSaving(true);
         if (isCreate || params.isDuplicate) {
             savePromise = api.createPalette(body);
             savePromise
@@ -306,13 +310,6 @@ const ColorPaletteEditor: React.FC<any> = (props: any) => {
     };
     const confirmCancel = () => {
         setCancelConfirmDialogOpen(false);
-        if (!isCreate) {
-            setColorList(params.colors);
-            setName(params.name);
-        } else {
-            setName('');
-            setColorList([]);
-        }
         // to provide the disappear in sequence, so just adding the extra timeout.It's no issue related.
         setTimeout(() => {
             props.onClose();
@@ -350,6 +347,7 @@ const ColorPaletteEditor: React.FC<any> = (props: any) => {
                     style={{ marginLeft: 10, marginRight: 18 }}
                     onClick={handleOk}
                     disabled={buttonDisabled}
+                    loading={handleSaving}
                 >
                     {localizedStrings.OK}
                 </Button>
