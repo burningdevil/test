@@ -81,6 +81,7 @@ export const Container: React.FC<any> = memo(function Container(props: any) {
                     findCard={findCard}
                     selected={selected === card.id}
                     onClick={cardClick}
+                    onContextMenu={cardClick}
                     onRemoveFavorite={onRemoveFavorite}
                     handleKeyDownEvent={handleKeyDownEvent}
                 />
