@@ -2,11 +2,12 @@ import { t } from "../../i18n/i18next";
 
 // URL errors
 const URLErrorTypes = {
-    emptyError: t('enterValidImageUrlErrMessage'),
+    emptyError: t('enterImageUrlErrMessage'),
     protocalSyntaxError: t('imageUrlWithHttpErrMessage'),
     imageTypeErrorPS: t('svgAndPngImageErrMessage'),
     imageTypeErrorP: t('pngImageErrMessage'),
-    imageOnLoadError: t('imageOnLoadErrMessage')
+    imageOnLoadError: t('imageOnLoadErrMessage'),
+    imageSizeError: t('incorrrectImageDimensionErrMessage')
 }
 
 // mininum dimension requirement for different Logo images
@@ -48,7 +49,7 @@ const  validateImageDimensionFromUrl = (url: string, callback: any, currLogoCate
  
   img.onload = function () { 
     if (img.width < logoMinDimension || img.height < logoMinDimension) {
-      callback(false, t('incorrrectImageDimensionErrMessage', { logoMinDimension: logoMinDimension }));
+      callback(false, URLErrorTypes.imageSizeError);
     } else {
       callback(true, '');
     }
