@@ -5,8 +5,8 @@ dependencies:
     repository: s3://mstr-charts/charts
     alias: postgres-md
   - name: iserver
-    version: 0.1.5
+    version: 0.1.75
     repository: s3://mstr-charts/charts
   - name: library
-    version: 0.1.5
+    version: 0.1.65
     repository: s3://mstr-charts/charts
