@@ -58,7 +58,7 @@ end
 
 def update_db_and_user(product)
   # update db
-  echo "override update_db_and_user"
+  puts "override update_db_and_user"
   appdata_location = "#{ENV['LOCALAPPDATA']}\\MicroStrategy_Inc".gsub("\\",'/')
   FileUtils.mkdir_p(appdata_location)
 
