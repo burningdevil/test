@@ -10,6 +10,7 @@ import { env } from '../../../main'
 import { default as VC, localizedStrings } from '../HomeScreenConfigConstant'
 import { ApplicationTheme } from '../../../types/data-model/HomeScreenConfigModels'
 import { ObjectEditorSettings, WorkstationModule, WindowEvent } from '@mstr/workstation-types'
+import { t } from '../../../i18n/i18next';
 import '../scss/HomeScreenAppearance.scss'
 
 const appThemeDefault = {
@@ -101,7 +102,7 @@ class HomeScreenAppearance extends React.Component<any, any> {
         // TODO - Refactor/Implement UI to render list of themes
         return (
             <div className='mstr-custom-app-screen'>
-                <div className='mstr-custom-app-screen-title'>THEME AND APPEARANCE</div>
+                <div className='mstr-custom-app-screen-title'>{t('customAppScreenTitle')}</div>
                 {
                     theme ? <div className="mstr-custom-app-theme-content">
                         <div className='existing-theme-icn' />
@@ -113,7 +114,7 @@ class HomeScreenAppearance extends React.Component<any, any> {
                     </div>
                     : <div className='mstr-custom-app-no-theme-content'>
                         <div className='new-theme-icn' />
-                        <div className='new-theme-desc'>Customize the look of your application</div>
+                        <div className='new-theme-desc'>{t('newThemeDesc')}</div>
                         <div className="add-design"
                             tabIndex={0}
                             onClick={() => this.openAppDesignEditor()}
@@ -124,7 +125,7 @@ class HomeScreenAppearance extends React.Component<any, any> {
                             }}
                         >
                             <div className='add-design-icn' />
-                            <div className='add-design-text'>Enter Design Studio</div>
+                            <div className='add-design-text'>{t('newThemeText')}</div>
                         </div>
                     </div>
                 }

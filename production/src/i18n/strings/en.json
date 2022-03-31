@@ -182,6 +182,7 @@
     "fontIconText": "Font Size in Grid (iOS Only)",
     "undoRedo": "Undo (Web and Desktop)",
     "closeWindowConfirmationStr": "Do you want to save the changes you made to {{name}}?",
-    "project": "Project"
+    "project": "Project",
 
+    "customAppScreenTitle": "THEME AND APPEARANCE"
 }
