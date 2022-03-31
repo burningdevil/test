@@ -10,6 +10,7 @@ import { env } from '../../../main'
 import { default as VC, localizedStrings } from '../HomeScreenConfigConstant'
 import { ApplicationTheme } from '../../../types/data-model/HomeScreenConfigModels'
 import { ObjectEditorSettings, WorkstationModule, WindowEvent } from '@mstr/workstation-types'
+import { t } from '../../../i18n/i18next';
 import '../scss/HomeScreenAppearance.scss'
 
 const appThemeDefault = {
@@ -100,21 +101,33 @@ class HomeScreenAppearance extends React.Component<any, any> {
         console.log("App theme => ", theme)
         // TODO - Refactor/Implement UI to render list of themes
         return (
-            <div>
+            <div className='mstr-custom-app-screen'>
+                <div className='mstr-custom-app-screen-title'>{t('customAppScreenTitle')}</div>
                 {
-                    theme ? <div className="mstr-custom-app-theme">
-                        <div className="edit" onClick={() => this.openAppDesignEditor(theme)}>
-                            <img />
-                        </div>
-                        <div className="delete" onClick={() => this.removeTheme()}>
-                            <img />
+                    theme ? <div className="mstr-custom-app-theme-content">
+                        <div className='existing-theme-icn' />
+                        <div className='existing-theme-hover-overlay' />
+                        <div className='existing-theme-options'>
+                            <div className="edit" onClick={() => this.openAppDesignEditor(theme)} />
+                            <div className="delete" onClick={() => this.removeTheme()} />
                         </div>
                     </div>
-                        : <div className="mstr-custom-app-no-theme">
-                            <Button className="add-design-btn" type="primary" onClick={() => this.openAppDesignEditor()}>
-                                Add Theme
-                            </Button>
+                    : <div className='mstr-custom-app-no-theme-content'>
+                        <div className='new-theme-icn' />
+                        <div className='new-theme-desc'>{t('newThemeDesc')}</div>
+                        <div className="add-design"
+                            tabIndex={0}
+                            onClick={() => this.openAppDesignEditor()}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    this.openAppDesignEditor()
+                                }
+                            }}
+                        >
+                            <div className='add-design-icn' />
+                            <div className='add-design-text'>{t('newThemeText')}</div>
                         </div>
+                    </div>
                 }
             </div>
         )
