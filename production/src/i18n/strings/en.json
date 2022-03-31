@@ -206,6 +206,13 @@
     "paletteColors": "Palette Colors",
     "setAsDefault": "Set as Default",
     "colorPaletteTabDesc": "To specify color palettes at the application level, select the option below. The palette defined as the default will automatically be applied to all dossiers in this application.",
-    "paletteCount": "Palettes: {{count}}"
+    "paletteCount": "Palettes: {{count}}",
 
+    "pasteImageUrl": "Paste image URL",
+    "enterValidImageUrlErrMessage": "Please enter a valid image URL.",
+    "imageUrlWithHttpErrMessage": "Please enter a URL with HTTP or HTTPS protocol.",
+    "svgAndPngImageErrMessage": "Only SVG and PNG image files are supported.",
+    "pngImageErrMessage": "Only PNG image file is supported.",
+    "imageOnLoadErrMessage": "Please ensure that the URL points to a valid image file.",
+    "incorrrectImageDimensionErrMessage": "Incorrect image dimensions. Please upload an image of minimum {{logoMinDimension}} * {{logoMinDimension}} pixels."
 }

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Button, Modal, Input } from 'antd'
+import { Button, Modal } from 'antd'
 import { connect } from 'react-redux'
 import { RootState } from '../../types/redux-state/HomeScreenConfigState'
 import { selectTheme } from '../../store/selectors/ApplicationDesignEditorSelector'
@@ -7,6 +7,10 @@ import { ApplicationTheme } from '../../types/data-model/HomeScreenConfigModels'
 import * as Actions from '../../store/actions/ActionsCreator'
 import { WorkstationModule } from '@mstr/workstation-types'
 import './styles.scss'
+import { Input }  from '@mstr/rc'
+import { validateUrl } from '../UrlWarning'
+import { localizedStrings } from '../../modules/components/HomeScreenConfigConstant';
+import { t } from "../../i18n/i18next";
 
 declare var workstation: WorkstationModule
 
@@ -20,6 +24,8 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ theme, updateTheme, updat
   const [isLogoModalVisible, setIsLogoModalVisible] = React.useState(false);
   const [currLogo, setCurrLogo] = React.useState({ type: 'URL', value: '' })
   const [currLogoCategory, setCurrLogoCategory] = React.useState('')
+  const [errMessage, setErrMessage] = React.useState('');
+  const [urlValid, setUrlValid] = React.useState(true);
 
   const { 
     web = { type: 'URL', value: '' }, 
@@ -48,6 +54,16 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ theme, updateTheme, updat
 
   const handleApply = () => {
     workstation.window.postMessage({ theme })
+  }
+ 
+  const isUrlValid = (url: string, currLogoCategory: string): boolean => {
+
+    const callback = (errorState: boolean, errorMessage: string): void => {
+       setErrMessage(errorMessage);
+       setUrlValid(errorState);
+    };
+
+    return validateUrl(url, callback, currLogoCategory); 
   }
 
   return (
@@ -81,19 +97,25 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ theme, updateTheme, updat
         </div>
       </div>
       <Modal className='mstr-app-theme-upload-logo' 
-        title="Upload Logo" 
         visible={isLogoModalVisible} 
         onOk={handleOk} 
         onCancel={handleCancel}
-        okText='Save'
+        okText={localizedStrings.SAVE}
+        cancelText={localizedStrings.CANCEL}
+        okButtonProps={{disabled:!urlValid}}
+        cancelButtonProps={{style:{color:'#0661E0', backgroundColor:'#F2F3F5'}}}
       >
-        <div className='logo-modal-label'> Paste an image URL</div>
-        <Input 
+        <div className='logo-modal-label'>{t('pasteImageUrl')}</div>
+        <Input
             className='logo-modal-url'
-            defaultValue={'https;//'}
+            defaultValue={'https://'}
+            placeholder={'https://'}
             value= {currLogo.value}
             onChange={(e) => setCurrLogo({ type: 'URL', value: e.target.value })}
             onPressEnter={handleOk}
+            onValidate={()=>isUrlValid(currLogo.value, currLogoCategory)&&urlValid}
+            errorMessage={errMessage}
+            isErrorDisplayed
         />
       </Modal>
     </div>
