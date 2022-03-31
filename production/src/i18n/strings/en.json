@@ -184,5 +184,7 @@
     "closeWindowConfirmationStr": "Do you want to save the changes you made to {{name}}?",
     "project": "Project",
 
-    "customAppScreenTitle": "THEME AND APPEARANCE"
+    "customAppScreenTitle": "THEME AND APPEARANCE",
+    "newThemeDesc": "Customize the look of your application",
+    "newThemeText": "Enter Design Studio"
 }
