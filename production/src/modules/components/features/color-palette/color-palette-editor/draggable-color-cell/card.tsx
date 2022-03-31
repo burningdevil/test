@@ -24,6 +24,7 @@ export interface CardProps {
     findCard: (id: string) => { index: number };
     onRemoveFavorite: () => {};
     onClick: Function;
+    onContextMenu: Function;
     handleKeyDownEvent: () => {};
 }
 
@@ -40,6 +41,7 @@ export const Card: FC<CardProps> = memo(function Card({
     findCard,
     onRemoveFavorite,
     onClick,
+    onContextMenu,
     handleKeyDownEvent,
     selected,
 }) {
@@ -96,6 +98,7 @@ export const Card: FC<CardProps> = memo(function Card({
                 style={{ ...style, backgroundColor: toHex(c) }}
                 onClick={() => onClick(c)}
                 onKeyDown={handleKeyDownEvent}
+                onContextMenu = {(e) => onContextMenu(c)}
                 aria-label={toHex(c)}
                 tabIndex={-1}
             />

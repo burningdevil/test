@@ -21,12 +21,13 @@ interface PaletteGridViewProps {
 }
 const renderPaletteColors = (colors: Array<string>) => {
     return colors.map((c, index) => {
+        const colorStr = toHex(c);
         return (
             <div
-                className="color-block"
+                className={colorStr === '#ffffff' ? "color-block white-cell": "color-block"}
                 key={index}
                 style={{
-                    backgroundColor: toHex(c),
+                    backgroundColor: colorStr,
                     width: '19px',
                     height: '19px',
                     float: 'left',
