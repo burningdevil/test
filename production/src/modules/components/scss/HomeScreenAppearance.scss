@@ -11,7 +11,7 @@
   height: $custom-apps-screen-height;
 
   &-title {
-    line-height: 16px;
+    line-height: 1.3;
     font-weight: bold;
   }
 
@@ -19,8 +19,8 @@
     display: flex;
     position: relative;
     margin-top: 14px;
-    width: 227px;
-    height: 149px;
+    width: $theme-content-width;
+    height: $theme-content-height;
 
     .existing-theme-icn {
       background-image: url("../images/theme-icon.svg");
@@ -32,8 +32,8 @@
     .existing-theme-hover-overlay {
       display: none;
       position: absolute;
-      width: 227px;
-      height: 149px;
+      width: $theme-content-width;
+      height: $theme-content-height;
       background-color: rgba(0, 0, 0, 0.15);
       z-index: 2;
     }
@@ -43,13 +43,13 @@
       position: absolute;
       top: 112px;
       left: 143px;
-      height: 28px;
+      height: $existing-theme-option-icon-height;
       width: 72px;
 
       .edit, .delete {
         display: none;
-        height: 28px;
-        width: 28px;
+        height: $existing-theme-option-icon-height;
+        width: $existing-theme-option-icon-width;
         cursor: pointer;
         z-index: 3;
       }
@@ -108,7 +108,7 @@
       }
 
       &-text {
-        line-height: 18px;
+        line-height: 1.5;
       }
     }
   }
