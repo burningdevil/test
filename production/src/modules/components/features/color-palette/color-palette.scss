@@ -1,0 +1,147 @@
+@import '~@mstr/rc/es/assets/scss/variables.scss';
+@import '../../scss/variables.scss';
+@import '~ag-grid-community/src/styles/ag-grid.scss';
+@import '~ag-grid-community/src/styles/ag-theme-alpine/sass/ag-theme-alpine-mixin';
+
+.home-screen-dossiersetting {
+    .ag-theme-alpine {
+        @include ag-theme-alpine(
+            (
+                font-size: 12px,
+            )
+        );
+    }
+    &-container {
+        padding: 24px 30px 0 30px;
+        font-family: $font-family;
+        font-size: $font-size;
+        color: $msdl-black;
+        line-height: $line-height;
+
+        .set-default-col {
+            &:hover {
+                color: $mobile-primary-blue;
+            }
+            display: none;
+        }
+
+        .ant-table-row {
+            height: 26px;
+        }
+        .ant-table-body {
+            overflow-y: auto !important;
+        }
+        .ant-table-tbody > tr > td {
+            border-bottom: none !important;
+        }
+        .ant-table-row-selected {
+            background-color: $mobile-primary-blue;
+        }
+        .operation-item-only {
+            margin-left: 20px !important;
+            padding-top: 5px;
+        }
+        .ant-table-row:hover {
+            .icon-pnl_close {
+                cursor: pointer;
+                display: inline-block;
+            }
+            .set-default-col {
+                cursor: pointer;
+                margin-left: 20px;
+                display: inline-block;
+            }
+        }
+        .row-operation {
+            display: flex;
+        }
+
+        .icon-pnl_close {
+            display: none;
+            margin-left: 10px;
+            font-size: 10px;
+            background-repeat: no-repeat;
+            &:hover {
+                color: $mobile-primary-blue;
+            }
+        }
+    }
+
+    &-title {
+        font-weight: 700;
+        margin-bottom: 7px;
+    }
+    &-desc {
+        color: $msdl-gray;
+        margin-bottom: 10px;
+        line-height: 20px;
+    }
+
+    &-default-color-palette-container {
+        padding-top: 5px;
+
+        .ant-checkbox-wrapper {
+            font-size: $font-size;
+            color: $msdl-black;
+            line-height: 24px;
+        }
+        .ant-checkbox {
+            transform: scale(0.75);
+        }
+
+        .icon-msg_info {
+            color: lightgray;
+            &:hover {
+                color: $mobile-primary-blue;
+            }
+        }
+    }
+    &-default-color-palette-title {
+        margin: 0px 5px;
+    }
+
+    &-custom-color-palette-title-section {
+        margin-bottom: 10px;
+        .ant-checkbox {
+            margin-right: 5px;
+        }
+    }
+
+    &-custom-color-palette-title {
+        margin-right: 10px;
+        font-weight: 700;
+    }
+    &-custom-color-palette-desc {
+        color: $msdl-gray;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    &-custom-color-palette-new {
+        color: $msdl-blue;
+        margin-left: 5px;
+        cursor: pointer;
+        &-text {
+            margin-left: 3px;
+        }
+        span {
+            outline: none;
+        }
+    }
+    &-custom-color-palette-container {
+        margin-top: 20px;
+    }
+}
+// override the antd style
+#color-palette-setting {
+    .ant-radio-wrapper {
+        font-size: 12px !important;
+        line-height: 18px !important;
+    }
+    .ant-radio {
+        transform: scale(0.75);
+    }
+    .ant-modal-body {
+        font-size: 12px !important;
+    }
+}

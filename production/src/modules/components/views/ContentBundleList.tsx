@@ -215,7 +215,7 @@ class ContentBundleList extends React.Component<any, any> {
     if(!params.node.isSelected() && params.api.getSelectedNodes().length > 0){
       params.api.getSelectedNodes().forEach(node => node.setSelected(false));
     }
-    if (!this.props.allowDelete || !params.node) {
+    if (!this.props.allowDelete || !params.node || !params.node.group) {
       return [];
     }
 
@@ -256,7 +256,6 @@ class ContentBundleList extends React.Component<any, any> {
   }
 
   gridOptions: GridOptions = {
-    components: { bundleGroupCellInnerRenderer: getHomeScreenBundleListGroupCellInnerRenderer() },
     frameworkComponents: {agColumnHeader: CustomHeader},
     rowHeight: 35,
     headerHeight: 35,
@@ -278,7 +277,7 @@ class ContentBundleList extends React.Component<any, any> {
       headerComponentParams: { enableCheck: true },
       cellRenderer: 'agGroupCellRenderer',
       cellRendererParams: {
-        innerRenderer: 'bundleGroupCellInnerRenderer',
+        innerRenderer: getHomeScreenBundleListGroupCellInnerRenderer,
       }
     },
     treeData: true,
