@@ -78,12 +78,12 @@ task :acceptance_test_mac do
     #update test result to rally
     shell_command! "node rally/updateE2EResultsToClientAutoData.js -c \"#{ENV['APPLICATION_VERSION']}\" \"#{ENV['BUILD_URL']}\"", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
     shell_command! "node rally/updateE2EResultsToRally.js -c \"#{ENV['APPLICATION_VERSION']}\" \"#{ENV['BUILD_URL']}\"", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
-    post_process_mac("pass")
+    post_process_workstation_ci(result:"pass", update_nexus:true, update_rally:false, coverage_report:false, platform:'mac', platform_os:nil)
   rescue => e
     #update test result to rally
     shell_command! "node rally/updateE2EResultsToClientAutoData.js -c \"#{ENV['APPLICATION_VERSION']}\" \"#{ENV['BUILD_URL']}\"", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
     shell_command! "node rally/updateE2EResultsToRally.js -c \"#{ENV['APPLICATION_VERSION']}\" \"#{ENV['BUILD_URL']}\"", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
     error "exception from test:\n #{e}"
-    post_process_mac("fail")
+    post_process_workstation_ci(result:"fail", update_nexus:true, update_rally:false, coverage_report:false, platform:"mac", platform_os:nil)
   end
 end

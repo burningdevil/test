@@ -145,13 +145,13 @@ task :acceptance_test_win do |t,args|
     info "update rally test results"
     shell_command! "node rally/updateE2EResultsToClientAutoData.js -c \"#{ENV['APPLICATION_VERSION']}\" \"#{ENV['BUILD_URL']}\"", cwd: "I:/tests/acceptance"
     shell_command! "node rally/updateE2EResultsToRally.js -c \"#{ENV['APPLICATION_VERSION']}\" \"#{ENV['BUILD_URL']}\"", cwd: "I:/tests/acceptance"
-    post_process_win("pass")
+    post_process_workstation_ci(result:"pass", update_nexus:true, update_rally:false, coverage_report:false, platform:'win', platform_os:nil)
   rescue => e
     info "update rally test results"
     shell_command! "node rally/updateE2EResultsToClientAutoData.js -c \"#{ENV['APPLICATION_VERSION']}\" \"#{ENV['BUILD_URL']}\"", cwd: "I:/tests/acceptance"
     shell_command! "node rally/updateE2EResultsToRally.js -c \"#{ENV['APPLICATION_VERSION']}\" \"#{ENV['BUILD_URL']}\"", cwd: "I:/tests/acceptance"
     error "exception from test:\n #{e}"
-    post_process_win("fail")
+    post_process_workstation_ci(result:"fail", update_nexus:true, update_rally:false, coverage_report:false, platform:'win', platform_os:nil)
   end
 end
 
@@ -173,9 +173,9 @@ task :sanity_test_win do |t,args|
   info "====== starting test ======"
   begin
     shell_command! "node trigger_test.js  \"#{workstation_path}\"  \"https://#{library_service_fqdn}/MicroStrategyLibrary/\" \"@Sanity\" 54213 \"#{ENV['ghprbSourceBranch']}\"", cwd: "I:/tests/acceptance"
-    post_process_win("pass")
+    post_process_workstation_ci(result:"pass", update_nexus:true, update_rally:false, coverage_report:false, platform:'win', platform_os:nil)
   rescue => e
     error "exception from test:\n #{e}"
-    post_process_win("fail")
+    post_process_workstation_ci(result:"fail", update_nexus:true, update_rally:false, coverage_report:false, platform:'win', platform_os:nil)
   end
 end
