@@ -208,11 +208,16 @@
     "colorPaletteTabDesc": "To specify color palettes at the application level, select the option below. The palette defined as the default will automatically be applied to all dossiers in this application.",
     "paletteCount": "Palettes: {{count}}",
 
+    "customAppScreenTitle": "THEME AND APPEARANCE",
+    "newThemeDesc": "Customize the look of your application",
+    "newThemeText": "Enter Design Studio",
     "pasteImageUrl": "Paste image URL",
-    "enterValidImageUrlErrMessage": "Please enter a valid image URL.",
-    "imageUrlWithHttpErrMessage": "Please enter a URL with HTTP or HTTPS protocol.",
-    "svgAndPngImageErrMessage": "Only SVG and PNG image files are supported.",
-    "pngImageErrMessage": "Only PNG image file is supported.",
+
+    "enterImageUrlErrMessage": "This field cannot be blank.",
+    "imageUrlWithHttpErrMessage": "Enter a URL with http or https protocol.",
+    "svgAndPngImageErrMessage": "Only .svg and .png file types are supported",
+    "pngImageErrMessage": "Only .png file type is supported",
     "imageOnLoadErrMessage": "Please ensure that the URL points to a valid image file.",
-    "incorrrectImageDimensionErrMessage": "Incorrect image dimensions. Please upload an image of minimum {{logoMinDimension}} * {{logoMinDimension}} pixels."
+    "incorrrectImageDimensionErrMessage": "Image dimensions do not meet the minimum requirements."
+   
 }
