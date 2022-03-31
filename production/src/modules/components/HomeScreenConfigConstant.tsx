@@ -280,7 +280,7 @@ export const localizedStrings = {
     ERR_APP_SAVE: t('errAppSave'),
     ERR_APP_LOAD: t('errAppLoad'),
     ERR_APP_DELETE: t('errAppDelete'),
-
+    ERR_PALETTE_DELETE: t('errPaletteDelete'),
     AND: t('andStr'),
 
     ENVIRONMENT: t('environment'),
