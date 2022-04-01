@@ -393,7 +393,7 @@ const CustomPaletteModalGrid: React.FC<PaletteGridProps> = (
                 api.loadColorPaletteList();
             },
             (err: any) => {
-                processErrorResponse(err, localizedStrings.ERR_APP_DELETE);
+                processErrorResponse(err, localizedStrings.ERR_PALETTE_DELETE);
             }
         );
     }, [toBeDeleteData]);
