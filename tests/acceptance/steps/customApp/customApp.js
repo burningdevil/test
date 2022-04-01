@@ -125,6 +125,43 @@ When('I choose the user access {string}', async function (mode) {
 }
 );
 
+When('I enable the custom palette mode {string}', async function (mode) {
+    await settingPage.chooseCustomPaletteMode(mode)
+    return mainWindow.app.sleep(500)
+}
+);
+
+When('I enter the palette pick panel', async function () {
+    await settingPage.enterPalettePickPanel()
+    return mainWindow.app.sleep(500)
+}
+);
+
+When('I enter the palette create panel', async function () {
+    await settingPage.enterPaletteCreatePanel()
+    return mainWindow.app.sleep(500)
+}
+);
+
+Then('I pick color {string}', async function (color) {
+    await settingPage.pickColor(color)
+    return mainWindow.app.sleep(500)
+}
+);
+       
+
+Then('I pick palette {string}', async function (palettename) {
+    await settingPage.pickPaletteByName(palettename)
+    return mainWindow.app.sleep(500)
+}
+);
+
+Then('I comfirm the palette selection', async function () {
+    await settingPage.confirmPickPalette()
+    return mainWindow.app.sleep(500)
+}
+);
+
 
 Then('check the screenshot by comparing {string}', async function (screenshot) {
     await applicationPage.takeScreenshotOnPage(screenshot)
@@ -141,14 +178,18 @@ When('I input the params by number in the more setting {string} {string}', async
     await settingPage.inputMoreSetting(number, val)
     return mainWindow.app.sleep(500)}
 );
+
 When('I change the logging level {string}', async function (level) {
     await settingPage.changeLoggingLevel(level)
     return mainWindow.app.sleep(500)}
 );
+
 When('I check the cache setting', async function () {
     await settingPage.checkCache()
     return mainWindow.app.sleep(500)}
 );
+
+
 
 
 
