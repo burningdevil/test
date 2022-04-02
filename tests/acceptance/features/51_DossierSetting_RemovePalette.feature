@@ -1,4 +1,4 @@
-@TC82189 @Regression @51_3
+@TC82189 @Regression 
 Feature: 51_DossierSetting_RemovePalette
     1. add Environment
     2. add new application
