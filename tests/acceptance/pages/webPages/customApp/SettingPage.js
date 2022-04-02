@@ -139,6 +139,20 @@ export default class SettingPage extends BasePage {
     return this.element(by.xpath(`//button[@title='${color}']`))
   }
 
+  getPaleteNameInListView(palettename) {
+    return this.element(by.xpath(`//div[@class='overflow' and text() = '${palettename}']`))
+  }
+
+  getDefaultOption() {
+    return this.element(by.xpath(`//div[@class='set-default-col operation-item' and text() = 'Set as Default']`))
+  }
+
+  getRemoveOption() {
+    return this.element(by.xpath(`//div[@class='icon-pnl_close operation-item']`))
+  }
+
+
+
   // connectivity, to be added the id
   getInputBoxByNumber(number = '180') {
     return this.element(by.xpath(`//input[@class='ant-input' and @value='${number}']`))
@@ -311,5 +325,21 @@ export default class SettingPage extends BasePage {
     await browser.sleep(6000 * this.ratio)
     await this.getColor(color).click()
     await this.enterClick()
+  }
+
+  async setDefaultPalette(palettename) {
+    await browser.sleep(6000 * this.ratio)
+    const paletteItem = await this.getPaleteNameInListView(palettename)
+    await this.hover({ elem: paletteItem })
+    await this.getDefaultOption().click()
+    await browser.sleep(2000 * this.ratio)
+  }
+
+  async removePaletteFromList(palettename) {
+    await browser.sleep(6000 * this.ratio)
+    const paletteItem = await this.getPaleteNameInListView(palettename)
+    await this.hover({ elem: paletteItem })
+    await this.getRemoveOption().click()
+    await browser.sleep(2000 * this.ratio)
   }
 }

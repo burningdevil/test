@@ -143,6 +143,18 @@ When('I enter the palette create panel', async function () {
 }
 );
 
+When('I choose the {string} as the default palette', async function (palettename) {
+    await settingPage.setDefaultPalette(palettename)
+    return mainWindow.app.sleep(500)
+}
+);
+
+When('I remove the {string} from the list', async function (palettename) {
+    await settingPage.removePaletteFromList(palettename)
+    return mainWindow.app.sleep(500)
+}
+);
+
 Then('I pick color {string}', async function (color) {
     await settingPage.pickColor(color)
     return mainWindow.app.sleep(500)
