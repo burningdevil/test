@@ -49,7 +49,7 @@ end
 
 desc "run acceptance test on cucumber"
 task :acceptance_test_mac do
-  stop_workstation_app_mac
+  stop_workstaion_app_mac
   #make sure plist is clean
   workstation_plist = '~/Library/Preferences/com.microstrategy.Workstation.plist'
   if shell_true? "ls #{workstation_plist}"
@@ -59,7 +59,7 @@ task :acceptance_test_mac do
     sleep(10)
   end
   start_workstation_app_mac
-  stop_workstation_app_mac
+  stop_workstaion_app_mac
   sleep(5)
 
   find_avaliable_cef_port
