@@ -2,7 +2,7 @@ import { t } from "../../i18n/i18next";
 
 // URL errors
 const URLErrorTypes = {
-    emptyError: t('enterImageUrlErrMessage'),
+    emptyError: t('emptyImageUrlErrMessage'),
     protocalSyntaxError: t('imageUrlWithHttpErrMessage'),
     imageTypeErrorPS: t('svgAndPngImageErrMessage'),
     imageTypeErrorP: t('pngImageErrMessage'),
@@ -12,22 +12,17 @@ const URLErrorTypes = {
 
 // mininum dimension requirement for different Logo images
 const getLogoMinDimension = (currLogoCategory: string): number => {
-  let min: number;
   switch (currLogoCategory) {
     case 'web': {
-      min = 64;
-      break;
+      return 64;
     }
     case 'favicon': {
-      min = 32;
-      break;
+      return 32;
     }
     case 'mobile': {
-      min = 75;
-      break;
+      return 75;
     }
   }
-  return min;
 }
 
 // check strings beginning with 'http(s)://'
@@ -73,15 +68,7 @@ export const validateUrl = (url: string, callback: any, currLogoCategory: string
     return false;
   }
 
-  if ((currLogoCategory === 'web') && !url.match(/\.(svg|png)$/)) {
-    callback(false, URLErrorTypes.imageTypeErrorPS);
-    return false;
-  } 
-
-  if ((currLogoCategory === 'favicon' || currLogoCategory === 'mobile') && !url.match(/\.png$/)) {
-    callback(false, URLErrorTypes.imageTypeErrorP);
-    return false;
-  } 
+  // todo: implement image format check
 
   validateImageDimensionFromUrl(url, callback, currLogoCategory);
   return true;
