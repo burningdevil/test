@@ -52,9 +52,10 @@ rake acceptance_test_win
   end
 
   publishers do
-    cucumber do
-      json_report_directory 'tests/acceptance/reports/rallyReport'
-      file_include_pattern 'execReport.json'
+    html do
+      report_name 'Cucumber HTML report'
+      report_directory_path "tests/acceptance/cucumber_report"
+      index_file_name 'index.html'
     end
   end
 
