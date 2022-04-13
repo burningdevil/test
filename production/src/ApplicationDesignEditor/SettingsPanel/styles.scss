@@ -1,3 +1,5 @@
+@import '../../modules/components/scss/variables.scss';
+
 .mstr-app-theme-settings-panel {
   background: #FFFFFF;
 
@@ -44,8 +46,8 @@
 // Dialog for uploading logo
 .mstr-app-theme-upload-logo {
   .ant-modal-content {
-    width: 500px;
-    height: 164px;
+    width: $logo-popup-width;
+    height: $logo-popup-height;
     border-radius: 8px;
     box-shadow: 0px 1px 12px rgba(0, 0, 0, 0.23);
   }
