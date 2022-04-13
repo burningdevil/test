@@ -210,5 +210,14 @@
     "errPaletteDelete": "Delete palette error:",
     "customAppScreenTitle": "THEME AND APPEARANCE",
     "newThemeDesc": "Customize the look of your application",
-    "newThemeText": "Enter Design Studio"
+    "newThemeText": "Enter Design Studio",
+
+    "pasteImageUrl": "Paste image URL",
+    "emptyImageUrlErrMessage": "This field cannot be blank.",
+    "imageUrlWithHttpErrMessage": "Enter a URL with http or https protocol.",
+    "svgAndPngImageErrMessage": "Only .svg and .png file types are supported.",
+    "pngImageErrMessage": "Only .png file type is supported.",
+    "imageOnLoadErrMessage": "Ensure that the URL points to a valid image file.",
+    "incorrrectImageDimensionErrMessage": "Image dimensions do not meet the minimum requirements."
+   
 }
