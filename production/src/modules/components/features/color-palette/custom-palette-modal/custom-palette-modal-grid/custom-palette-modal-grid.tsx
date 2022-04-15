@@ -44,12 +44,13 @@ interface PaletteGridProps {
 }
 const renderPaletteColors = (colors: Array<string>) => {
     return colors?.map((c, index) => {
+        const colorStr = toHex(c);
         return (
             <div
-                className="color-block"
+                className={colorStr === '#ffffff' ? "color-block white-cell" : "color-block"}
                 key={index}
                 style={{
-                    backgroundColor: toHex(c),
+                    backgroundColor: colorStr,
                     width: '20px',
                     height: '20px',
                     float: 'left',
@@ -229,6 +230,7 @@ const CustomPaletteModalGrid: React.FC<PaletteGridProps> = (
             .concat(
                 currentList
                     .filter((v: any) => v.paletteType === 1)
+                    .sort((a: any,b: any) => {return a.name < b.name ? -1 : 1})
                     .map((one: any) => {
                         return {
                             ...one,
@@ -391,7 +393,7 @@ const CustomPaletteModalGrid: React.FC<PaletteGridProps> = (
                 api.loadColorPaletteList();
             },
             (err: any) => {
-                processErrorResponse(err, localizedStrings.ERR_APP_DELETE);
+                processErrorResponse(err, localizedStrings.ERR_PALETTE_DELETE);
             }
         );
     }, [toBeDeleteData]);
@@ -453,6 +455,7 @@ const CustomPaletteModalGrid: React.FC<PaletteGridProps> = (
                             rowMultiSelectWithClick={true}
                             suppressRowClickSelection={true}
                             suppressContextMenu={true}
+                            suppressCellSelection = {true}
                             groupSelectsFiltered={true}
                             onSelectionChanged={onSelectionChanged}
                             postSort={onPostSort}
