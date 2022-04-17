@@ -59,7 +59,7 @@ import {
     isUserHasManageContentGroupPrivilege,
     LIBRARY_SERVER_SUPPORT_COLOR_PALETTE_VERSION,
     LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION,
-    APPLICATION_THEME_VERSION
+    LIBRARY_SERVER_SUPPORT_APPEARENCE_DESIGN_VERSION
 } from '../../../utils';
 import ColorPaletteBlade from '../features/color-palette/color-palette-blade';
 declare var workstation: WorkstationModule;
@@ -256,7 +256,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             !!this.state.currentEnv.webVersion &&
             isLibraryServerVersionMatch(
                 this.state.currentEnv.webVersion,
-                APPLICATION_THEME_VERSION
+                LIBRARY_SERVER_SUPPORT_APPEARENCE_DESIGN_VERSION
             );
         this.setState({
             colorPalettePreviewFeatureEnable:
