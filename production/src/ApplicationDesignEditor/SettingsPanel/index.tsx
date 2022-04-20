@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Button, Modal } from 'antd'
 import { connect } from 'react-redux'
 import { RootState } from '../../types/redux-state/HomeScreenConfigState'
-import { selectTheme } from '../../store/selectors/ApplicationDesignEditorSelector'
+import { selectCurrentTheme } from '../../store/selectors/ApplicationDesignEditorSelector'
 import { ApplicationTheme } from '../../types/data-model/HomeScreenConfigModels'
 import * as Actions from '../../store/actions/ActionsCreator'
 import { WorkstationModule } from '@mstr/workstation-types'
@@ -124,7 +124,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ theme, updateTheme, updat
 }
 
 const mapState = (state: RootState) => ({
-  theme: selectTheme(state)
+  theme: selectCurrentTheme(state)
 })
 
 const connector = connect(mapState, {

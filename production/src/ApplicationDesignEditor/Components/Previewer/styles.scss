@@ -1,0 +1,603 @@
+@import '~@mstr/rc/es/assets/scss/variables.scss';
+@import './variables.scss';
+
+$background-color: rgba(255, 255, 255, .7);
+$container-width: 274px;
+$container-width-phone: 103px;
+$preview-width: 241px;
+$preview-height: 162px;
+$preview-width-phone: 121px;
+$preview-header-height: 19px;
+$sidebar-width: 91px;
+
+$font-size-side: 7px;
+$line-height-side: 15px;
+
+$phone-scale: 0.85;
+$tablet-scale: 0.85;
+// put all icons here
+@mixin iconFeatures($color) {
+    .icon-tb_undoarrow {
+        float: none;
+        text-align: center;
+        position: absolute;
+        left: 124px;
+        font-size: 16px;
+    }
+    .icon-tb_home,
+    .icon-tb_appicon,
+    .icon-library{
+        float: left;
+        margin-left: 4.5px;
+        color: $mobile-primary-blue;
+    }
+    .icon-lib-login{
+        float: left;
+        color: $mobile-primary-blue;
+    }
+    .icon-tb_hamburger {
+        transform: scale(0.88); // the icon is bigger than others.
+    }
+    .icon-backarrow,
+    .icon-tb_hamburger,
+    .icon-tb_toc_n,
+    .icon-tb_bookmarks_n,
+    .icon-tb_undo,
+    .icon-tb_redo,
+    .icon-tb_reset {
+        float: left;
+        margin-left: 4.5px;
+        color: $color;
+    }
+    .icon-aa_font {
+        float: right;
+        vertical-align: middle;
+        width: 18px;
+        height: 18px;
+        transform: scale(0.75);
+        background: url("../images/18_18.svg");
+        background-repeat: no-repeat;
+        background-position: -540px -126px;
+    }
+    .icon-sidebar_preview_tablet {
+        float: left;
+        margin: 3px 4.5px 0 0;
+        vertical-align: middle;
+        width: 18px;
+        height: 18px;
+        transform: scale(0.75);
+        background: url("../images/18_18.svg");
+        background-repeat: no-repeat;
+        background-position: -414px -126px;
+    }
+    .icon-hyper,
+    .icon-info_edit,
+    .icon-tb_create_dossier,
+    .icon-searchfilter,
+    .icon-search_tb_box,
+    .icon-pnl_shared,
+    .icon-tb_select_n,
+    .icon-user-profile,
+    
+    .icon-tb_notif_n,
+    .icon-tb_comments_n,
+    .icon-tb_filter_n,
+    .icon-tb_share_n,
+    .icon-tb_profile_n {
+        float: right;
+        margin-right: 4.5px;
+        color: $color;
+    }
+}
+
+@mixin padOrWebSetting($color) {
+    margin-left: 16px;
+    margin-right: 16px;
+    margin-bottom: 8px;
+    height: $preview-height;
+    .ant-layout-header {
+        padding: 0 1px;
+        height: $preview-header-height;
+        text-align: center;
+        border: .07rem solid lightgrey;
+        border-radius: 4px 4px 0 0;
+        border-bottom: none;
+        line-height: $preview-header-height;
+        background-color: $background-color;
+        span {
+            float: right;
+            font-size: 10px;
+        }
+        @include iconFeatures($color)
+    }
+    &-content {
+        padding: 0;
+        flex: auto;
+        height: 100%;
+    }
+    &-container {
+        height: 100%;
+        padding: 0;
+        border: 1px solid lightgrey;
+        border-radius: 0 0 4px 4px;
+        align-self: center;
+    }
+    &-overview {
+        display: flex;
+        height: 100%;
+        width: 100%;
+        // padding: 8px;
+        &-left {
+            border-radius: 2px;
+            padding-left: 3px;
+            background-color: $background-color;
+            width: $sidebar-width;
+            border-right: .07rem solid lightgrey;
+            display: flex;
+            flex-direction: column;
+            justify-items: flex-start;
+            font-size: $font-size-side;
+            line-height: $line-height-side;
+            font-family: $font-family;
+
+            &-text {        
+                display: flex;
+                align-items: center;
+                max-width: 97px;
+                span {
+                    margin-left: 4px;
+                }
+            }
+            &-blank {
+                background-color: transparent;
+                height: 6px;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                padding-right: 5px;
+                &-fill {
+                    width: 70%;
+                    height: 4px;
+                    background-color: $right-background;
+                }
+            }
+            &-down {
+                margin-left: 4px;
+                margin-top: auto;
+                margin-bottom: 4px;
+                color: $mobile-primary-blue;
+                .icon-tb_profile_n {
+                    display: inline-block;
+                    transform: scale(1.25) !important;
+                }
+            }
+        }
+        &-right {
+            flex: auto;
+            flex-direction: row;
+            background-color: $background-color;
+            padding: 10px;
+            display: flex;  
+            justify-content: space-between;
+
+            &-library {
+                width: 50%;
+                height: 100%;
+                background: url('../images/library-home-dossiers.svg') repeat-y; 
+            }
+
+            &-library-nosidebar {
+                margin-left: 5px;
+                width: 33%;
+                height: 100%;
+                background: url('../images/library-home-dossiers.svg') repeat-y;
+            }
+
+            &-dossier {
+                width: 100%;
+                height: 100%;
+                background: url('../images/dossier-window-vis.svg') no-repeat; 
+            }
+
+            &-dossier-nobar {
+                width: 100%;
+                height: 100%;
+                margin-top: 5px;
+                background: url('../images/dossier-window-vis-notoolbar.svg') no-repeat;
+            }
+        }
+    }
+}
+
+.homeScreenPreviewer {
+    font-family: $font-family;
+    font-size: $font-size;
+    color: $msdl-black;
+    width: $container-width;
+
+    &-overlay {
+        position: absolute;
+        z-index: 102;
+
+        border-top: 10px solid rgba(63, 64, 66, .4);
+        border-right: 10px solid rgba(63, 64, 66, .4);
+        border-bottom: 10px solid transparent;
+        border-left: 10px solid transparent;
+    }
+    &-overlay-custom {
+        position: absolute;
+        z-index: 102;
+        top: 5px;
+        width: 20px;
+        height: 10px;
+        background-color: rgba(63, 64, 66, .4);
+    }
+    &-overlay-icon {
+        position: absolute;
+        z-index: 103; 
+
+        font-size: 9px;
+        padding: 3px 3px;
+    }
+    &-overlay-icon-custom {
+        position: absolute;
+        z-index: 103; 
+        margin-top: -2px;
+        font-size: 9px;
+        padding: 0 3px 5px 3px;
+    }
+    
+    .ant-radio-button-wrapper {
+        font-size: $font-size-mini;
+        font-weight: 400;
+    }
+
+    .ant-radio-group {
+        padding-top: 8px;
+    }
+
+    &-title {
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 6px;
+        font-size: $font-size;
+        font-family: $font-family;
+    }
+    &-preview-title {
+        text-align: center;
+        align-content: center;
+        font-weight: bold;
+        font-size: $font-size;
+        font-family: $font-family;
+        line-height: $line-height;
+    }
+
+    &-device-type-container {
+        text-align: center;
+        margin: 0 16px;
+    }
+    &-device-type-group {
+        width: 100%;
+        .ant-radio-button-wrapper {
+            box-shadow: none !important;
+        }
+    }
+    
+    &-horcontainer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+    &-tablet-horcontainer {
+        margin-left: 16px;
+        margin-right: 16px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+    &-pad {
+        @include padOrWebSetting($mobile-primary-blue);
+        .icon-tb_home,
+        .icon-tb_appicon,
+        .icon-tb_profile_n,
+        .icon-library {
+            color: $mobile-primary-blue !important;
+        }
+
+    }
+
+    &-web {
+        @include padOrWebSetting($msdl-black);
+        .library-header .icon-tb_filter_n {
+            float: left !important;
+            padding-left: 5px;
+        }
+        .icon-search_tb_box {
+            color: #575a5d !important;
+        }
+    }
+
+    &-phone {
+        width: $container-width-phone;
+        height: $preview-height;
+        flex: none;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: $font-size-side;
+        line-height: $line-height-side;
+        font-family: $font-family;
+
+        &-sidebar {
+            border-radius: 2px;
+            padding-left: 3px;
+            background-color: $background-color;
+            
+            border: .03rem solid lightgrey;
+            display: flex;
+            flex: auto;
+            height: 100%;
+            flex-direction: column;
+            justify-items: flex-start;
+        }
+
+        .ant-layout-header {
+            height: 20px;
+            padding: 0 2px 0 5px;
+            text-align: center;
+            border: .03rem solid lightgrey;
+            border-radius: 4px 4px 0 0;
+            border-bottom: 0;
+            line-height: 20px;
+            background-color: $background-color;
+            font-size: $font-size-mini;
+            @include iconFeatures($mobile-primary-blue);
+            span {
+                transform: scale($phone-scale);
+            }
+            .icon-backarrow {
+                margin-left: -2.5px;
+            }
+            .icon-tb_create_dossier {
+                margin-right: 0;
+            }
+
+            .icon-tb_share_n
+            {
+                margin-right: 4.5px;
+            }
+            .icon-aa_font {
+                margin-right: -2.5px;
+                margin-top: 2px;
+            }
+            .icon-tb_appicon {
+                margin-left: 0;
+            }
+        }
+        &-content {
+            flex: auto;
+            height: 100%;
+            padding: 0;
+        }
+        &-container {
+            flex: auto;
+            height: 100%;
+            padding: 4px;
+            border: .03rem solid lightgrey;
+            background-color: $background-color;
+             
+            &-library {
+                width: 100%;
+                height: 100%;
+                background: url('../images/dossier-list-on-phone.svg') repeat-y;
+            }
+
+            &-dossier {
+                width: 100%;
+                height: 100%;
+                margin: 10px 0;
+                background: url('../images/dossier-vis-on-phone.svg') no-repeat;
+            }
+
+            &-dossier-nobar {
+                width: 100%;
+                height: 100%;
+                margin: 10px 0;
+                background: url('../images/dossier-vis-on-phone.svg') repeat-y;
+            }
+        }
+        
+        &-footer {
+            padding: 0;
+            width: 100%;
+            height: 24px;
+            border: .03rem solid lightgrey;
+            border-top: 0;
+            border-radius: 0 0 4px 4px;
+            line-height: 24px;
+            background-color: $background-color;
+            display: flex;
+            justify-content: space-between;
+            span {
+                font-size: 10px;
+                color: $mobile-primary-blue;
+                transform: scale($phone-scale);
+            }
+        }
+    }
+    &-tablet-sidebar {
+        width: $sidebar-width;
+        height: $preview-height;
+        // flex: none;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: $font-size-side;
+        line-height: $line-height-side;
+        font-family: $font-family;
+
+        &-sidebar {
+            border-radius: 2px;
+            padding-left: 3px;
+            background-color: $background-color;
+            border: 0.5px solid lightgrey !important;
+            border-right: 0 !important;
+            display: flex;
+            flex: auto;
+            height: 100%;
+            flex-direction: column;
+            justify-items: flex-start;
+            .icon-tb_create_dossier {
+                margin-right: 0px !important;
+            }
+        }
+
+        .ant-layout-header {
+            flex: auto;
+            height: 24px;
+            padding: 0 5px;
+            text-align: center;
+            border: 1px solid lightgrey;
+            border-bottom: 0;
+            border-right: 0;
+            border-radius: 4px 0 0 0;
+            // border-left: 0;
+            line-height: 24px;
+            background-color: $background-color;
+            font-size: $font-size-mini;
+            @include iconFeatures($mobile-primary-blue);
+            span {
+                transform: scale($tablet-scale);
+            }
+            .icon-tb_create_dossier {
+                margin-right: 0px !important;
+            }
+        }
+        &-content {
+            flex: auto;
+            height: 100%;
+            padding: 0;
+        }
+        &-container {
+            flex: auto;
+            height: 100%;
+            padding: 4px;
+            // border: 1px solid lightgrey;
+            border-left: 0 !important;
+            background-color: $background-color;
+             
+            &-library {
+                width: 100%;
+                height: 100%;
+                background: url('../images/dossier-list-on-phone.svg') repeat-y;
+            }
+
+            &-dossier {
+                width: 100%;
+                height: 100%;
+                margin: 10px 0;
+                background: url('../images/dossier-vis-on-phone.svg') no-repeat;
+            }
+
+            &-dossier-nobar {
+                width: 100%;
+                height: 100%;
+                margin: 10px 0;
+                background: url('../images/dossier-vis-on-phone.svg') repeat-y;
+            }
+        }
+        
+        
+    }
+    &-tablet-content {
+        width: $container-width - $sidebar-width;
+        height: $preview-height;
+        // flex: none;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: $font-size-side;
+        line-height: $line-height-side;
+        font-family: $font-family;
+
+        &-sidebar {
+            border-radius: 2px;
+            padding-left: 3px;
+            background-color: $background-color;
+            border: 0.5px solid lightgrey !important;
+            border-left:0;
+            display: flex;
+            flex: auto;
+            height: 100%;
+            flex-direction: column;
+            justify-items: flex-start;
+        }
+
+        .ant-layout-header {
+            flex: auto;
+            height: 24px;
+            padding: 0 5px;
+            text-align: center;
+            border-top: 0.5px solid lightgrey !important;
+            border-right: 0.5px solid lightgrey !important;
+            border-left: 0.5px solid lightgrey !important;
+            border-radius: 0 4px 0 0;
+            line-height: 24px;
+            background-color: $background-color;
+            font-size: $font-size-mini;
+            @include iconFeatures($mobile-primary-blue) 
+        }
+        &-content {
+            flex: auto;
+            height: 100%;
+            padding: 0;
+        }
+        &-container {
+            flex: auto;
+            height: 100%;
+            padding: 4px;
+            border: 0.3px solid lightgrey;
+            background-color: $background-color;
+             
+            &-library {
+                width: 100%;
+                height: 100%;
+                background: url('../images/dossier-list-on-phone.svg') repeat-y;
+            }
+
+            &-dossier {
+                width: 100%;
+                height: 100%;
+                margin: 10px 0;
+                background: url('../images/dossier-vis-on-phone.svg') no-repeat;
+            }
+
+            &-dossier-nobar {
+                width: 100%;
+                height: 100%;
+                margin: 10px 0;
+                background: url('../images/dossier-vis-on-phone.svg') repeat-y;
+            }
+        }
+        
+        
+    }
+    &-pad {
+        .dossier-header {
+            .icon-aa_font {
+                margin-top: 1px;
+                margin-right: 2px;
+            }
+        }
+    }
+
+}
+.ellipsis {
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
+  }
+  

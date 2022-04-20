@@ -1,14 +1,13 @@
-import { Button, Image } from 'antd'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import 'antd/dist/antd.css';
 import * as _ from 'lodash'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
-import { selectCurrentConfigTheme, selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEditorSelector'
+import { selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEditorSelector'
 import * as Actions from '../../../store/actions/ActionsCreator'
 import { env } from '../../../main'
 import { default as VC, localizedStrings } from '../HomeScreenConfigConstant'
-import { ApplicationTheme } from '../../../types/data-model/HomeScreenConfigModels'
+import { HomeScreenConfigType } from '../../../types/data-model/HomeScreenConfigModels'
 import { ObjectEditorSettings, WorkstationModule, WindowEvent } from '@mstr/workstation-types'
 import { t } from '../../../i18n/i18next';
 import '../scss/HomeScreenAppearance.scss'
@@ -75,13 +74,13 @@ class HomeScreenAppearance extends React.Component<any, any> {
         })
     }
 
-    openAppDesignEditor = (theme?: ApplicationTheme) => {
+    openAppDesignEditor = (currentConfig?: HomeScreenConfigType) => {
         const objType = VC.APP_DESIGN_OBJTYPE;
 
         let options: ObjectEditorSettings = {
             objectType: objType,
             environment: this.state.currentEnv,
-            extraContext: JSON.stringify(theme)
+            extraContext: JSON.stringify(currentConfig)
         }
 
         workstation.dialogs.openObjectEditor(options).catch((e: any) =>
@@ -97,8 +96,10 @@ class HomeScreenAppearance extends React.Component<any, any> {
     }
 
     render() {
-        const { theme } = this.props;
-        console.log("App theme => ", theme)
+        const { currentConfig } = this.props
+        const { theme } = currentConfig.homeScreen
+
+        // console.log("App theme => ", theme)
         // TODO - Refactor/Implement UI to render list of themes
         return (
             <div className='mstr-custom-app-screen'>
@@ -108,7 +109,7 @@ class HomeScreenAppearance extends React.Component<any, any> {
                         <div className='existing-theme-icn' />
                         <div className='existing-theme-hover-overlay' />
                         <div className='existing-theme-options'>
-                            <div className="edit" onClick={() => this.openAppDesignEditor(theme)} />
+                            <div className="edit" onClick={() => this.openAppDesignEditor(currentConfig)} />
                             <div className="delete" onClick={() => this.removeTheme()} />
                         </div>
                     </div>
@@ -135,8 +136,7 @@ class HomeScreenAppearance extends React.Component<any, any> {
 }
 
 const mapState = (state: RootState) => ({
-    theme: selectCurrentConfigTheme(state),
-    config: selectCurrentConfig(state)
+    currentConfig: selectCurrentConfig(state)
 })
 
 const connector = connect(mapState, {

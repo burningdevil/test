@@ -8,7 +8,7 @@ import SettingsPanel from './SettingsPanel'
 import { WorkstationModule, WindowEvent, DialogValues } from '@mstr/workstation-types'
 import Resizer from './Components/Resizer'
 import './styles.scss'
-import { selectTheme } from '../store/selectors/ApplicationDesignEditorSelector'
+import { selectCurrent } from '../store/selectors/ApplicationDesignEditorSelector'
 import { ApplicationTheme } from '../types/data-model/HomeScreenConfigModels'
 
 type ApplicationDesignEditorProps = {
@@ -27,8 +27,8 @@ const ApplicationDesignEditor: React.FC<ApplicationDesignEditorProps> = ({ theme
 
   useEffect(() => {
     async function initEditor() {
-      const theme = await env.window.getExtraContext()
-      console.log(theme)
+      const currentConfig = await env.window.getExtraContext()
+      // console.log(theme)
       setAppTheme(JSON.parse(theme))
     }
     initEditor();

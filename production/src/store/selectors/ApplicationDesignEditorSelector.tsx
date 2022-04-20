@@ -4,7 +4,17 @@ import { createSelector } from 'reselect'
 
 export const selectAppDesignEditorRoot = (state: RootState) => state.appDesignEditor
 
-export const selectTheme = createSelector(
+export const selectCurrentConfig = createSelector(
   selectAppDesignEditorRoot,
-  (appDesignEditorRoot) => appDesignEditorRoot.theme
+  (appDesignEditorRoot) => appDesignEditorRoot.currentConfig
+)
+
+export const selectConfigTheme = createSelector(
+  selectCurrentConfig,
+  (currentConfig) => currentConfig.homeScreen.theme
+)
+
+export const selectCurrentTheme = createSelector(
+  selectAppDesignEditorRoot,
+  (appDesignEditorRoot) => appDesignEditorRoot.currentTheme
 )
