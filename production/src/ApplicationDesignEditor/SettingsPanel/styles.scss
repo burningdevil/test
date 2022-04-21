@@ -64,8 +64,8 @@
           }
   
           .theme-logo-img {
-            max-height: $logo-box-height;
-            max-width: $logo-box-width;
+            max-height: calc(#{$logo-box-height} - 2px); // subtract 2px to account for border size
+            max-width: calc(#{$logo-box-width} - 2px); // subtract 2px to account for border size
           }
         }
 
