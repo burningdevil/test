@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import createStore from '../../../store/createStore';
 import { selectCurrentConfigTheme } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import HomeScreenAppearance from '../views/HomeScreenAppearance';
-import rootState, { mockThemeExists } from './__mocks__/mock_state';
+import rootState from './__mocks__/mock_state';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 
 jest.mock('../../../services/Api');
@@ -35,15 +35,7 @@ describe('HomeScreenAppearance Component', () => {
   });
 
   it('Theme exists Test', () => {
-    const store = createStore(mockThemeExists);
-    // Render
-    const { queryByText, queryByLabelText } = render(
-      <Provider store={store}>
-        <HomeScreenAppearance />
-      </Provider>
-    );
 
-    // Check theme
     const  expectedTheme = {
       schemaVersion: 1,
       logos: {
@@ -62,6 +54,18 @@ describe('HomeScreenAppearance Component', () => {
       }
     }
 
+    const newRootState = { ...rootState };
+    newRootState.configEditor.currentConfig.homeScreen.theme = expectedTheme
+
+    const store = createStore(newRootState);
+    // Render
+    const { queryByText, queryByLabelText } = render(
+      <Provider store={store}>
+        <HomeScreenAppearance />
+      </Provider>
+    );
+
+    // Check theme
     expect(selectCurrentConfigTheme(store.getState() as RootState)).toEqual(expectedTheme);
   });
 

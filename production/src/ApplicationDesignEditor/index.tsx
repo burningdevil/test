@@ -27,8 +27,7 @@ const ApplicationDesignEditor: React.FC<ApplicationDesignEditorProps> = ({ theme
 
   useEffect(() => {
     async function initEditor() {
-      const theme = await env.window.getExtraContext()
-      console.log(theme)
+      const theme = await workstation.window.getExtraContext()
       setAppTheme(JSON.parse(theme))
     }
     initEditor();
@@ -40,7 +39,7 @@ const ApplicationDesignEditor: React.FC<ApplicationDesignEditorProps> = ({ theme
           theme
         }))
       }
-      workstation.window.close()
+      env.window.close()
       return { }
     });
   }, []);
