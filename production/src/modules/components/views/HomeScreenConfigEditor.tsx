@@ -78,7 +78,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             handleSaving: false,
             contentBundleFeatureEnable: false,
             colorPaletteFeatureEnable: false,
-            applicationThemePreviewFeatureEnabled: false,
+            appearancePreviewFeatureEnabled: false,
             colorPalettePreviewFeatureEnable: false,
             isCloseHanlderRegistered: false,
         };
@@ -264,7 +264,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                     GENERAL_PREVIEW_FEATURE_FLAG,
                     this.state.currentEnv
                 ) && colorPaletteLibrarySupport,
-            applicationThemePreviewFeatureEnabled:
+            appearancePreviewFeatureEnabled:
               getFeatureFlag(
                 GENERAL_PREVIEW_FEATURE_FLAG,
                 this.state.currentEnv
@@ -561,7 +561,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                                 </Tabs.TabPane>
                                 {
                                   this.state
-                                  .applicationThemePreviewFeatureEnabled && (
+                                  .appearancePreviewFeatureEnabled && (
                                     <Tabs.TabPane 
                                       tab={localizedStrings.NAVBAR_APPEARANCE} 
                                       key={VC.APPEARANCE}>
