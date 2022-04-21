@@ -69,19 +69,4 @@ describe('HomeScreenAppearance Component', () => {
     expect(selectCurrentConfigTheme(store.getState() as RootState)).toEqual(expectedTheme);
   });
 
-  it('No Theme Test', async () => {
-    const newRootState = { ...rootState };
-    newRootState.configEditor.currentConfig.homeScreen.theme = undefined
-
-    const store = createStore(newRootState);
-    // Render
-    const { queryByLabelText, queryAllByRole } = render(
-      <Provider store={store}>
-        <HomeScreenAppearance />
-      </Provider>
-    );
- 
-    // Disable Toolbar CheckBox
-    expect(selectCurrentConfigTheme(store.getState() as RootState)).toEqual(undefined);
-  });
 });
