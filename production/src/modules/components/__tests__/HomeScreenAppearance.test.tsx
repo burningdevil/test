@@ -70,6 +70,8 @@ describe('HomeScreenAppearance Component', () => {
   });
 
   it('No Theme Test', async () => {
+    const newRootState = { ...rootState };
+    newRootState.configEditor.currentConfig.homeScreen.theme = undefined
     
     const store = createStore(rootState);
     // Render
