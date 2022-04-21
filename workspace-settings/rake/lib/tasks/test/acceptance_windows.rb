@@ -78,7 +78,7 @@ def update_db_and_user(product)
     setting_node['name'] = 'Preferences'
     setting_node['serializeAs'] = 'String'
     value_node = Nokogiri::XML::Node.new("value",doc)
-    value_node.content = '{"show-hidden-objects":false,"use-contentbundle":true,"use-cubeeditor":false,"use-objectmigration":false,"use-microchart":true,"use-richtextbox":true,"support-info-window":true}'
+    value_node.content = '{"preview-features":true,"show-hidden-objects":false,"use-contentbundle":true,"use-cubeeditor":false,"use-objectmigration":false,"use-microchart":true,"use-richtextbox":true,"support-info-window":true}'
     setting_node << value_node
 
     # remove setting with name 'Preferences'

@@ -10,7 +10,7 @@ postgres-md:
     repository: postgres
     tags: 11.7
     pullPolicy: IfNotPresent
-  database_url: https://nexus.internal.microstrategy.com/repository/DBBackup/com/microstrategy/DBBackup/PSQL11/homescreenadmin/11.3.001/homescreenadmin-11.3.001.zip
+  database_url: https://nexus.internal.microstrategy.com/repository/DBBackup/com/microstrategy/DBBackup/PSQL11/homescreenadmin/11.3.002/homescreenadmin-11.3.002.zip
   database_name: poc_metadata
   postgres_password: mstr1234
   postgres_user: postgres
