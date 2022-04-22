@@ -1,6 +1,6 @@
+jest.mock('../../../services/Api');
 import ADEReducer from '../ApplicationDesignEditorReducer'
 import { setTheme, updateTheme } from '../../actions/ActionsCreator'
-import { SET_THEME, UPDATE_THEME } from '../../actions/ActionConstants'
 import { ApplicationDesignEditorState } from '../../../types/redux-state/HomeScreenConfigState'
 
 let initialState : ApplicationDesignEditorState = { }
@@ -27,13 +27,13 @@ const initalStateThemeExists : ApplicationDesignEditorState = {
 let state1 = {}
 
 describe('Application Design Editor Reducers setTheme', () => {
-  test('theme does not exist in config', () => {
+  it('theme does not exist in config', () => {
     state1 = ADEReducer(initialState, setTheme(undefined))
     expect(state1).toEqual({
       theme: {}
     })
   })
-  test('theme exists in config', () => {
+  it('theme exists in config', () => {
     const expectState = {
       theme: {
         schemaVersion: 1,
@@ -56,7 +56,7 @@ describe('Application Design Editor Reducers setTheme', () => {
 })
 
 describe('Application Design Editor Reducers updateTheme', () => {
-  test('theme exists in config', () => {
+  it('theme exists in config', () => {
     const mobileLogo = {
       mobile: {
         type: 'URL',
