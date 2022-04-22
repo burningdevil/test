@@ -39,20 +39,20 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ theme, updateTheme, updat
     {
       category: 'web',
       defn: web,
-      subtitle: 'Library Web', // TODO: i18n
-      desc: 'Minimum 64 * 64 pixels, png and svg format' // TODO: i18n
+      subtitle: t('libraryWebSubtitle'),
+      desc: t('libraryWebDesc')
     },
     {
       category: 'favicon',
       defn: favicon,
-      subtitle: 'Library Favicon', // TODO: i18n
-      desc: 'Minimum 32 * 32 pixels, png format' // TODO: i18n
+      subtitle: t('libraryFaviconSubtitle'),
+      desc: t('libraryFaviconDesc')
     },
     {
       category: 'mobile',
       defn: mobile,
-      subtitle: 'Library Mobile', // TODO: i18n
-      desc: 'Minimum 75 * 75 pixels, png format' // TODO: i18n
+      subtitle: t('libraryMobileSubtitle'),
+      desc: t('libraryMobileDesc')
     }
   ]
 
@@ -94,7 +94,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ theme, updateTheme, updat
       <div className='mstr-app-theme-settings-panel'>
         <div className='settings-panel-content'>
           <div className='mstr-app-theme-logos'>
-            <div className='theme-logos-title'>App Logo</div>
+            <div className='theme-logos-title'>{t('appLogoTitle')}</div>
             {
               logos.map(logo => (
                 <div className='theme-logo'>
@@ -109,7 +109,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ theme, updateTheme, updat
                       }
                     </div>
                     <div className='btn-wrapper'>
-                      <Button className='btn' type='primary' onClick={() => showModal(logo.defn, logo.category)}>Upload Logo</Button>
+                      <Button className='btn' type='primary' onClick={() => showModal(logo.defn, logo.category)}>{t('uploadLogo')}</Button>
                       <div className='desc'>{logo.desc}</div>
                     </div>
                   </div>
