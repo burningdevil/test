@@ -1,6 +1,6 @@
 import { validateUrl, validateImageDimensionFromUrl } from '../urlValidationHelper'
 
-const mockValidateImageDimensionFromUrl = jest.fn() as jest.MockedFunction<typeof validateImageDimensionFromUrl>
+const mockValidateImageDimensionFromUrl = validateImageDimensionFromUrl as jest.MockedFunction<typeof validateImageDimensionFromUrl>
 
 describe('validateUrl function test', () => {
 
