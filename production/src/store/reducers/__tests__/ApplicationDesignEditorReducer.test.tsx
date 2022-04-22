@@ -1,4 +1,3 @@
-jest.mock('../../../services/Api');
 import ADEReducer from '../ApplicationDesignEditorReducer'
 import { setTheme, updateTheme } from '../../actions/ActionsCreator'
 import { ApplicationDesignEditorState } from '../../../types/redux-state/HomeScreenConfigState'

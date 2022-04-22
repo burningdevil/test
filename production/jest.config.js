@@ -28,7 +28,7 @@ module.exports = {
   },
   collectCoverageFrom: [
     'src/modules/components/**/*.{js,jsx,ts,tsx}',
-    'src/store/reducers/**/*.{js,jsx,ts,tsx}',
+    'src/store/**/*.{js,jsx,ts,tsx}',
     '!**/__mock__/**/*.*',
     '!src/**/*.stories.{js,jsx,ts,tsx}',
     '!**/__mock__/**/*.*',
