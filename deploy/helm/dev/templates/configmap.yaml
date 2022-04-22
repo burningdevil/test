@@ -395,6 +395,7 @@ data:
 
         echo "Move database backup files to docker-entrypoint-initdb.d folder"
         mv -f *.sql /docker-entrypoint-initdb.d/
+        chmod -R 777 docker-entrypoint-initdb.d
         
         # echo "import DB to database $POSTGRES_DB "
         # export PGPASSWORD=mstr123&& psql -Upostgres -p5432 -d $POSTGRES_DB -f *.sql
