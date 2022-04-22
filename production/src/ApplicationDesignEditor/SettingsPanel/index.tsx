@@ -8,7 +8,7 @@ import * as Actions from '../../store/actions/ActionsCreator'
 import { WorkstationModule } from '@mstr/workstation-types'
 import './styles.scss'
 import { Input }  from '@mstr/rc'
-import { validateUrl } from '../ApplicationDesignHelper/urlValidationHelper'
+import { validateUrl } from '../utils/urlValidationHelper'
 import { localizedStrings } from '../../modules/components/HomeScreenConfigConstant';
 import { t } from "../../i18n/i18next";
 
