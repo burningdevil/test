@@ -26,6 +26,11 @@ const initalStateThemeExists : ApplicationDesignEditorState = {
 let state1 = {}
 
 describe('Application Design Editor Reducers setTheme', () => {
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   it('theme does not exist in config', () => {
     state1 = ADEReducer(initialState, setTheme(undefined))
     expect(state1).toEqual({

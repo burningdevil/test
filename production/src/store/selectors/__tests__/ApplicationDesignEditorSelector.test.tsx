@@ -96,6 +96,10 @@ storeStateWithTheme.appDesignEditor.theme = theme1
 
 describe('Application Design Editor Selectors selectTheme', () => {
 
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   it('theme does not exist in config - selectTheme', () => {
     const theme = selectTheme(storeState)
     expect(theme).toEqual(undefined)
