@@ -1,5 +1,5 @@
 import { selectTheme } from '../ApplicationDesignEditorSelector'
-import { CONSTANTS, localizedStrings, reviewType, iconValidKey, platformType, dossierIconKeys, libraryIconKeys, sidebarIconKeys, featureFlag, libraryCustomizedIconKeys, platformSpecificIconKeys } from '../../../modules/components/HomeScreenConfigConstant'
+import { CONSTANTS, localizedStrings, reviewType, platformType } from '../../../modules/components/HomeScreenConfigConstant'
 
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
 
@@ -8,15 +8,15 @@ const storeState : RootState = {
     currentConfig: {
       'name': '',
       'description': '',
-      'platforms': featureFlag.platformEnable ? [platformType.mobile, platformType.web, platformType.desktop] : [platformType.web, platformType.desktop],
+      'platforms': [platformType.mobile, platformType.web, platformType.desktop],
       'isDefault': false,
       'objectNames': [],
       'objectAcl': [],
       'homeScreen': {
         mode: CONSTANTS.MODE_USE_DEFAULT_HOME_SCREEN, 
         homeLibrary: { 
-          icons: libraryIconKeys.filter(key => !libraryCustomizedIconKeys.includes(key)).map((key) => iconValidKey(key)), 
-          sidebars: sidebarIconKeys.filter((key) => !_.includes(libraryCustomizedIconKeys, key)).map((key) => iconValidKey(key)),
+          icons: [], 
+          sidebars: [],
           customizedItems: {},
           contentBundleIds: [],
           defaultGroupsName: localizedStrings.DEFAULT_GROUPS,
@@ -25,7 +25,7 @@ const storeState : RootState = {
         }, 
         homeDocument: {
           url: '', 
-          icons: dossierIconKeys.concat(platformSpecificIconKeys).filter(key => !libraryCustomizedIconKeys.includes(key)).map((key) => iconValidKey(key)), 
+          icons: [], 
           toolbarMode: CONSTANTS.SHOW_TOOLBAR,
           toolbarEnabled: true,
         }
