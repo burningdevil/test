@@ -1,6 +1,6 @@
 import { selectTheme } from '../ApplicationDesignEditorSelector'
 import { CONSTANTS, localizedStrings, reviewType, platformType } from '../../../modules/components/HomeScreenConfigConstant'
-
+import { cloneDeep } from 'lodash'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
 
 const storeState : RootState = {
@@ -88,9 +88,7 @@ const theme1 = {
   }
 }
 
-const storeStateWithTheme = {
-  ...storeState
-}
+const storeStateWithTheme = cloneDeep(storeState)
 storeStateWithTheme.appDesignEditor.theme = theme1
 
 
