@@ -13,24 +13,6 @@ import { ObjectEditorSettings, WorkstationModule, WindowEvent } from '@mstr/work
 import { t } from '../../../i18n/i18next';
 import '../scss/HomeScreenAppearance.scss'
 
-const appThemeDefault = {
-    schemaVersion: 1,
-    logos: {
-        web: {
-            type: 'URL',
-            value: ''
-        },
-        favicon: {
-            type: 'URL',
-            value: ''
-        },
-        mobile: {
-            type: 'URL',
-            value: ''
-        }
-    }
-}
-
 declare var workstation: WorkstationModule;
 class HomeScreenAppearance extends React.Component<any, any> {
 

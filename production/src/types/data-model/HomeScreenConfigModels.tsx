@@ -82,9 +82,9 @@ export interface ThemePropObject {
     value: any
 }
 export interface ApplicationLogos {
-    web: ThemePropObject,
-    favicon: ThemePropObject,
-    mobile: ThemePropObject
+    web?: ThemePropObject,
+    favicon?: ThemePropObject,
+    mobile?: ThemePropObject
 }
 export interface ApplicationTheme {
     schemaVersion: number,

@@ -27,8 +27,8 @@ const ApplicationDesignEditor: React.FC<ApplicationDesignEditorProps> = ({ theme
 
   useEffect(() => {
     async function initEditor() {
-      const theme = await workstation.window.getExtraContext()
-      setAppTheme(JSON.parse(theme))
+      let appTheme = await workstation.window.getExtraContext()
+      setAppTheme(appTheme ? JSON.parse(appTheme) : appTheme)
     }
     initEditor();
 
