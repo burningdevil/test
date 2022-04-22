@@ -38,7 +38,7 @@ const isValidExternalLinkProtocol = (url: string): boolean => {
 }
 
 // check image dimension 
-export const  validateImageDimensionFromUrl = (url: string, callback: any, currLogoCategory: string): void => {
+const  validateImageDimensionFromUrl = (url: string, callback: any, currLogoCategory: string): void => {
   const logoMinDimension: number = getLogoMinDimension(currLogoCategory);
   const img = new Image();
  
