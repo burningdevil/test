@@ -1,7 +1,9 @@
 import { WindowModule, WindowEvent, CommandCallBack, CommandCallBackAsync } from '@mstr/workstation-types'
 
 class Window implements WindowModule {
-  getExtraContext = async () => JSON.stringify(null)
+  getExtraContext(): Promise<string> {
+    throw new Error('Method not implemented.')
+  }
 
   setCloseInfo(info: string): Promise<void> {
     throw new Error('Method not implemented.')

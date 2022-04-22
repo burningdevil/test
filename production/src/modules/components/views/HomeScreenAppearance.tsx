@@ -50,8 +50,7 @@ class HomeScreenAppearance extends React.Component<any, any> {
             currentEnv: currentEnvironment
         });
         workstation.window.addHandler(WindowEvent.ONCHILDCLOSE, (info) => {
-            console.log('response is ',info)
-            const { Message } = info || {}
+           const { Message } = info || {}
             const { ChildInfo } = Message || {} 
             const { theme } = ChildInfo || {}
             if (theme) {
@@ -63,7 +62,6 @@ class HomeScreenAppearance extends React.Component<any, any> {
             return {}
         })
         workstation.window.addHandler(WindowEvent.POSTMESSAGE, (info: any) => {
-            console.log('response is ',info)
             const { Message } = info || {}
             const { theme } = Message || {}
             if (theme) {
@@ -98,7 +96,6 @@ class HomeScreenAppearance extends React.Component<any, any> {
 
     render() {
         const { theme } = this.props;
-        console.log("App theme => ", theme)
         // TODO - Refactor/Implement UI to render list of themes
         return (
             <div className='mstr-custom-app-screen'>

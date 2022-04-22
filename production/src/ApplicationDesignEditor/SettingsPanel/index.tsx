@@ -138,7 +138,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ theme, updateTheme, updat
             onPressEnter={handleOk}
             onValidate={()=>isUrlValid(currLogo.value, currLogoCategory)&&urlValid}
             errorMessage={errMessage}
-            isErrorDisplayed
+            isErrorDisplayed={!urlValid}
         />
       </Modal>
     </React.Fragment>

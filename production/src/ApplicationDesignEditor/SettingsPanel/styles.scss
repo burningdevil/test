@@ -7,7 +7,7 @@
   background: #FFFFFF;
 
   .mstr-app-theme-logos {
-    font-family: 'Helvetica';
+    font-family: $font-family;
     font-size: $font-size;
 
     .theme-logos-title {
@@ -120,7 +120,6 @@
   }
 
   .logo-modal-url {
-    margin: 12px;
     background: #F2F3F5;
     width: 93%;
     margin: 0 12px;
