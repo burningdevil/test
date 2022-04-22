@@ -22,7 +22,7 @@ describe('validateUrl function test', () => {
 
   it('logo url valid', () => {
     const isValid = validateUrl('http://asas.com/asas.png', ()=>{}, 'web')
-    expect(isValid).toBe(false)
+    expect(isValid).toBe(true)
     expect(mockValidateImageDimensionFromUrl).toHaveBeenCalledTimes(1)
   })
 })
