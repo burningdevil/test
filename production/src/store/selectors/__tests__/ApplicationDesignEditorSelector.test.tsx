@@ -70,6 +70,30 @@ const storeState : RootState = {
   appDesignEditor: {}
 }
 
+const theme1 = {
+  schemaVersion: 1,
+  logos: {
+      web: {
+          type: 'URL',
+          value: 'https://www.imageRepo/web.png'
+      },
+      favicon: {
+          type: 'URL',
+          value: 'https://www.imageRepo/favicon.svg'
+      },
+      mobile: {
+        type: 'URL',
+        value: 'https://www.imageRepo/mobile.svg'
+      }
+  }
+}
+
+const storeStateWithTheme = {
+  ...storeState
+}
+storeStateWithTheme.appDesignEditor.theme = theme1
+
+
 describe('Application Design Editor Selectors selectTheme', () => {
 
   it('theme does not exist in config - selectTheme', () => {
@@ -78,26 +102,7 @@ describe('Application Design Editor Selectors selectTheme', () => {
   })
 
   it('theme exists in config - selectTheme', () => {
-    const expectedTheme = {
-        schemaVersion: 1,
-        logos: {
-            web: {
-                type: 'URL',
-                value: 'https://www.imageRepo/web.png'
-            },
-            favicon: {
-                type: 'URL',
-                value: 'https://www.imageRepo/favicon.svg'
-            },
-            mobile: {
-              type: 'URL',
-              value: 'https://www.imageRepo/mobile.svg'
-            }
-        }
-      }
-      
-    storeState.appDesignEditor.theme = expectedTheme
-    const theme = selectTheme(storeState)
-    expect(theme).toEqual(expectedTheme)
+    const theme = selectTheme(storeStateWithTheme)
+    expect(theme).toEqual(theme1)
   })
 })
