@@ -59,6 +59,7 @@ import {
     isUserHasManageContentGroupPrivilege,
     LIBRARY_SERVER_SUPPORT_COLOR_PALETTE_VERSION,
     LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION,
+    LIBRARY_SERVER_SUPPORT_APPEARANCE_DESIGN_VERSION
 } from '../../../utils';
 import ColorPaletteBlade from '../features/color-palette/color-palette-blade';
 declare var workstation: WorkstationModule;
@@ -77,6 +78,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             handleSaving: false,
             contentBundleFeatureEnable: false,
             colorPaletteFeatureEnable: false,
+            appearancePreviewFeatureEnabled: false,
             colorPalettePreviewFeatureEnable: false,
             isCloseHanlderRegistered: false,
         };
@@ -249,12 +251,24 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 this.state.currentEnv.webVersion,
                 LIBRARY_SERVER_SUPPORT_COLOR_PALETTE_VERSION
             );
+        
+          const applicationThemeLibrarySupport = 
+            !!this.state.currentEnv.webVersion &&
+            isLibraryServerVersionMatch(
+                this.state.currentEnv.webVersion,
+                LIBRARY_SERVER_SUPPORT_APPEARANCE_DESIGN_VERSION
+            );
         this.setState({
             colorPalettePreviewFeatureEnable:
                 getFeatureFlag(
                     GENERAL_PREVIEW_FEATURE_FLAG,
                     this.state.currentEnv
                 ) && colorPaletteLibrarySupport,
+            appearancePreviewFeatureEnabled:
+              getFeatureFlag(
+                GENERAL_PREVIEW_FEATURE_FLAG,
+                this.state.currentEnv
+                ) && applicationThemeLibrarySupport
         });
     };
     componentWillReceiveProps(nextProps: any) {
@@ -545,12 +559,18 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                                     <HomeScreenComponents />
                                     {this.buttonGroup()}
                                 </Tabs.TabPane>
-                                <Tabs.TabPane 
-                                    tab={localizedStrings.NAVBAR_APPEARANCE} 
-                                    key={VC.APPEARANCE}>
-                                    <HomeScreenAppearance />
-                                    {this.buttonGroup()}
-                                </Tabs.TabPane>
+                                {
+                                  this.state
+                                  .appearancePreviewFeatureEnabled && (
+                                    <Tabs.TabPane 
+                                      tab={localizedStrings.NAVBAR_APPEARANCE} 
+                                      key={VC.APPEARANCE}>
+                                      <HomeScreenAppearance />
+                                      {this.buttonGroup()}
+                                    </Tabs.TabPane>
+                                  )
+                                }
+                                
                                 {/* <Tabs.TabPane tab={localizedStrings.NAVBAR_APPEARANCE} key={VC.APPEARANCE}>
                                 {this.buttonGroup()}
                             </Tabs.TabPane> */}
