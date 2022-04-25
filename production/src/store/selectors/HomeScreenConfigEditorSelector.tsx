@@ -149,6 +149,11 @@ export const selectDefaultGroupsName = createSelector(
   }
 )
 
+export const selectCurrentConfigTheme = createSelector(
+  selectCurrentConfig,
+  (currentConfig) => currentConfig.homeScreen.theme
+)
+
 export const selectAllColorPalettes = createSelector(
   selectColorPaletteRoot,
   (config) =>  { 
@@ -182,7 +187,3 @@ export const selectColorPalettesSelected = createSelector(
     return !config.useConfigPalettes || config.useConfigPalettes && config.applicationPalettes?.length > 0
   }
 )
-
-
-
-

@@ -4,6 +4,7 @@ class Window implements WindowModule {
   getExtraContext(): Promise<string> {
     throw new Error('Method not implemented.')
   }
+
   setCloseInfo(info: string): Promise<void> {
     throw new Error('Method not implemented.')
   }

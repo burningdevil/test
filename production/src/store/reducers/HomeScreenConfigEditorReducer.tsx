@@ -74,6 +74,21 @@ const HomeScreenConfigEditorReducer = (state: HomeScreenConfigEditorState = init
       return {...state, isConfigNameError: data}
     case Actions.UPDATE_REVIEW_TYPE:
       return {...state, previewDeviceType: data}
+    case Actions.DELETE_THEME:
+      const currConfig = state.currentConfig
+      const homeScreen = state.currentConfig.homeScreen
+      const updatedHomeScreen: any = {}
+      for (const [key, value] of Object.entries(homeScreen)) {
+        if (key !== 'theme') {
+            updatedHomeScreen[key] = value;
+        }
+      }
+      const updatedConfig = { ...currConfig }
+      updatedConfig.homeScreen = updatedHomeScreen
+      return {
+        ...state,
+        currentConfig: updatedConfig
+      }
     default:
       return state
   }

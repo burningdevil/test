@@ -1,5 +1,5 @@
 import * as Actions from './ActionConstants'
-import { HomeScreenConfigType, MainViewContentBundleType, HomeScreenBundleContentListItem, HomeScreenConfigInfo } from '../../types/data-model/HomeScreenConfigModels'
+import { HomeScreenConfigType, MainViewContentBundleType, HomeScreenBundleContentListItem, HomeScreenConfigInfo, ApplicationTheme } from '../../types/data-model/HomeScreenConfigModels'
 
 export const loadConfigListSuccess = (configList: Array<HomeScreenConfigType>) => ({
   type: Actions.LOAD_CONFIG_LIST_SUCCESS,
@@ -25,6 +25,10 @@ export const setCurrentConfig = (config: HomeScreenConfigType) => ({
 export const updateCurrentConfig = (settings: Partial<HomeScreenConfigType>) => ({
   type: Actions.UPDATE_CURRENT_CONFIG,
   data: settings,
+})
+
+export const deleteThemeInCurrentConfig = () => ({
+  type: Actions.DELETE_THEME
 })
 
 export const updatePreviewDeviceType = (type: string) => ({
@@ -115,5 +119,18 @@ export const loadColorPaletteFail = () => ({
   type: Actions.LOAD_COLOR_PALETTE_LIST_FAIL,
 })
 
+/* ------------------------------ application design editor ----------------------------*/
+export const asyncInitAppDesignEditor = () => ({ 
+  type: Actions.ASYNC_INIT_APP_DESIGN_EDITOR 
+})
 
+export const setTheme = (theme: ApplicationTheme) => ({
+  type: Actions.SET_THEME,
+  data: theme
+})
+
+export const updateTheme = (data: any) => ({
+  type: Actions.UPDATE_THEME,
+  data
+})
 

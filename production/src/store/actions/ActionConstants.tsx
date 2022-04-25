@@ -15,6 +15,7 @@ export const UPDATE_REVIEW_TYPE = `${EDITOR_PREFIX}_UPDATE_REVIEW_TYPE`
 export const SET_CONFIG_INFO_LIST = `${EDITOR_PREFIX}_SET_CONFIG_INFO_LIST`
 export const SET_DUPLICATE_CONFIG = `${EDITOR_PREFIX}_SET_DUPLICATE_CONFIG`
 export const SET_CONFIG_NAME_ERROR = `${EDITOR_PREFIX}_SET_CONFIG_NAME_ERROR`
+export const DELETE_THEME = `${EDITOR_PREFIX}_DELETE_THEME`
 
 /* ------------------------------ Dossier/document fetch State ---------------------------- */
 
@@ -30,6 +31,11 @@ export const FINISH_LOADING_DOCUMENT_LIST_FAILURE = 'FINISH_LOADING_DOCUMENT_LIS
 /* ------------------------------ Content bundle fetch State ----------------------------*/
 export const START_LOADING_CONTENT_LIST = 'START_LOADING_CONTENT_LIST'
 export const FINISH_LOADING_CONTENT_LIST = 'FINISH_LOADING_CONTENT_LIST'
+
+/* ------------------------------ Application design editor store ------------------------------ */
+export const ASYNC_INIT_APP_DESIGN_EDITOR = 'ASYNC_INIT_APP_DESIGN_EDITOR'
+export const SET_THEME = 'SET_THEME'
+export const UPDATE_THEME = 'UPDATE_THEME'
 
 /* ------------------------------ Color palette fetch State ----------------------------*/
 export const START_LOADING_COLOR_PALETTE_LIST = 'START_LOADING_COLOR_PALETTE_LIST'

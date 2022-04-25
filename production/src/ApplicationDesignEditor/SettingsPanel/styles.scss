@@ -1,0 +1,93 @@
+@import '../../modules/components/scss/variables.scss';
+
+.mstr-app-theme-settings-panel {
+  background: #FFFFFF;
+
+  .mstr-app-theme-logos {
+    font-family: $font-family;
+
+    .theme-logos-title {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #4A4A4A;
+    }
+
+    .theme-logo {
+      display: flex;
+      margin: 20px;
+
+      &:nth-child(2) {
+        margin-top: 10px;
+      }
+
+      .logo-caption {
+        font-size: 15px;
+        font-weight: 400;
+        line-height: 1.2;
+        color: #4A4A4A;
+        display: flex;
+        align-items: center;
+        margin-right: 12px;
+      }
+    }
+  }
+
+  .settings-panel-footer {
+    display: flex;
+    margin-bottom: auto;
+    right: 0;
+    bottom: 0;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+// Dialog for uploading logo
+.mstr-app-theme-upload-logo {
+  .ant-modal-content {
+    width: $logo-popup-width;
+    height: $logo-popup-height;
+    border-radius: 8px;
+    box-shadow: 0px 1px 12px rgba(0, 0, 0, 0.23);
+  }
+
+  .logo-modal-label {
+    padding-top: 20px;
+    padding-left: 20px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .mstr-input-container {
+    padding-top: 10px;
+    padding-left: 8px;
+    .mstr-input-container__error-message-container {
+      padding-top: 4px;
+      padding-left: 11px;
+    }
+  }
+
+  .logo-modal-url {
+    background: #F2F3F5;
+    width: 93%;
+    margin: 0 12px;
+    color: #575A5D;
+    height: 36px;
+    font-size: 14px;
+  }
+
+  .ant-modal-footer {
+    padding-top: 24px;
+    border-top-width: 0;
+    padding-bottom: 0;
+    
+    .ant-btn {
+      border-radius: 4px;
+    }
+    .ant-btn+.ant-btn-primary {
+      margin-left: 68%;
+      margin-right: 6px;
+    }
+  }
+}

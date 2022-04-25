@@ -4,6 +4,7 @@ import {
     HomeScreenBundleContentListItem,
     HomeScreenConfigInfo,
     ColorPaletteType,
+    ApplicationTheme
 } from '../data-model/HomeScreenConfigModels';
 
 export interface HomeScreenConfigEditorState {
@@ -38,10 +39,16 @@ export interface HomeScreenEditorColorPaletteState {
     data: Array<ColorPaletteType>;
     loadingColorPalette: boolean;
 }
+
+export interface ApplicationDesignEditorState {
+    theme?: ApplicationTheme
+}
+
 export interface RootState {
     configEditor: HomeScreenConfigEditorState;
     configMain: HomeScreenMainViewState;
     bundleContent: HomeScreenBundleContentState;
     content: HomeScreenEditorContentBundleState;
     colorPalette?: HomeScreenEditorColorPaletteState;
+    appDesignEditor: ApplicationDesignEditorState;
 }

@@ -26,7 +26,8 @@ export default {
                   icons: dossierIconKeys.map((key) => iconValidKey(key)), 
                   toolbarMode: CONSTANTS.SHOW_TOOLBAR,
                   toolbarEnabled: true,
-                }
+                },
+                theme: undefined
             },
             'general': {
                 disableAdvancedSettings: false,
@@ -80,6 +81,7 @@ export default {
                 "toolbarMode": 0,
                 "toolbarEnabled": true
               },
+              
               "homeLibrary": {
                 "contentBundleIds": [
                   
@@ -121,6 +123,25 @@ export default {
         loadingDossiers: false,
         loadingDossiersFinish: false,
         loadingDocumentsFinish: false
+    },
+    appDesignEditor: {
+      theme: {
+        schemaVersion: 1,
+        logos: {
+          web: {
+            type: 'URL',
+            value: ''
+          },
+          favicon: {
+            type: 'URL',
+            value: ''
+          },
+          mobile: {
+            type: 'URL',
+            value: ''
+          }
+        }
+      }
     }
 }
 
@@ -208,6 +229,7 @@ export const mockLibraryAsHome: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": true
             },
+            
             "homeLibrary": {
               "contentBundleIds": [],
               "icons": [
@@ -248,6 +270,25 @@ export const mockLibraryAsHome: RootState = {
       loadingDossiersFinish: false,
       loadingDocuments: false,
       loadingDocumentsFinish: false
+  },
+  appDesignEditor: {
+    theme: {
+      schemaVersion: 1,
+      logos: {
+        web: {
+          type: 'URL',
+          value: ''
+        },
+        favicon: {
+          type: 'URL',
+          value: ''
+        },
+        mobile: {
+          type: 'URL',
+          value: ''
+        }
+      }
+    }
   }
 }
 
@@ -330,6 +371,7 @@ export const mockDossierAsHome: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": false
             },
+            
             "homeLibrary": {
               "contentBundleIds": [
                 
@@ -388,6 +430,7 @@ export const mockDossierAsHome: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": false,
             },
+            
             "homeLibrary": {
               "contentBundleIds": [
                 
@@ -439,6 +482,7 @@ export const mockDossierAsHome: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": false,
             },
+            
             "homeLibrary": {
               "contentBundleIds": [
                 
@@ -487,6 +531,7 @@ export const mockDossierAsHome: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": false,
             },
+            
             "homeLibrary": {
               "contentBundleIds": [
                 
@@ -524,6 +569,25 @@ export const mockDossierAsHome: RootState = {
     data: [],
     loadingContentBundle: false,
     loadingContentBundleFinish: true
+  },
+  appDesignEditor: {
+    theme: {
+      schemaVersion: 1,
+      logos: {
+        web: {
+          type: 'URL',
+          value: ''
+        },
+        favicon: {
+          type: 'URL',
+          value: ''
+        },
+        mobile: {
+          type: 'URL',
+          value: ''
+        }
+      }
+    }
   }
 }
 
@@ -557,6 +621,23 @@ export const mockDossierPicker: RootState = {
                 icons: dossierIconKeys.map((key) => iconValidKey(key)), 
                 toolbarMode: CONSTANTS.SHOW_TOOLBAR,
                 toolbarEnabled: true,
+              },
+              theme: {
+                schemaVersion: 1,
+                logos: {
+                  web: {
+                    type: 'URL',
+                    value: ''
+                  },
+                  favicon: {
+                    type: 'URL',
+                    value: ''
+                  },
+                  mobile: {
+                    type: 'URL',
+                    value: ''
+                  }
+                }
               }
           },
           'general': {
@@ -768,6 +849,7 @@ export const mockDossierPicker: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": false,
             },
+            
             "homeLibrary": {
               "contentBundleIds": [],
               "icons": [
@@ -885,6 +967,25 @@ export const mockDossierPicker: RootState = {
       loadingDossiersFinish: true,
       loadingDocuments: false,
       loadingDocumentsFinish: true
+  },
+  appDesignEditor: {
+    theme: {
+      schemaVersion: 1,
+      logos: {
+        web: {
+          type: 'URL',
+          value: ''
+        },
+        favicon: {
+          type: 'URL',
+          value: ''
+        },
+        mobile: {
+          type: 'URL',
+          value: ''
+        }
+      }
+    }
   }
 }
 export const mockColorPalette: RootState = {

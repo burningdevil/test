@@ -160,9 +160,12 @@ export const CONSTANTS = {
     MORESETTINGS: 'moreSettings',
     BACK: 'back',
     GENERATE: 'Generate',
-    CONFIG_EDITOR_OBJTYPE: 'HomeScreenConfig',
     JSONFILE_SUFFIX: '.json',
     CONFIG_PROJECT: '38A062302D4411D28E71006008960167',
+
+    // ObjectEditor Type
+    CONFIG_EDITOR_OBJTYPE: "HomeScreenConfig",
+    APP_DESIGN_OBJTYPE: 'ApplicationDesign'
 };
 
 export const featureFlag = {
@@ -217,12 +220,10 @@ export interface BundleRecipient {
     group: boolean;
     name: string;
 }
-
 export interface BundleOwner {
     id: string;
     name: string;
 }
-
 export interface BundleInfo {
     color: number;
     opacity: number;
