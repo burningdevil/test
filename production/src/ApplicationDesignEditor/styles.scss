@@ -1,5 +1,19 @@
+@import '../modules/components/scss/variables.scss';
+
 .mstr-app-design-editor {
+  height: $design-studio-height;
+  width: $design-studio-width;
+
+  .title-section {
+    height: $title-bar-height;
+    width: 100%;
+    text-align: center;
+    line-height: $title-bar-height;
+  }
+
   .content-section {
     display: flex;
+    height: calc(100% - #{$title-bar-height});
+    width: 100%;
   }
 }
