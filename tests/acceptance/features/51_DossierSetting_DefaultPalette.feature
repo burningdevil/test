@@ -19,12 +19,14 @@ Feature: 51_DossierSetting_DefaultPalette
         When I enable the custom palette mode "Specify color palettes for this application"
         When I enter the palette pick panel
         Then I pick palette "Agave"
-        Then I pick palette "Anemone"
         Then I pick palette "Arctic"
         Then I comfirm the palette selection
         Then check the screenshot by comparing "51_DossierSetting_DefaultPalette_1"
         When I choose the "Arctic" as the default palette
         Then check the screenshot by comparing "51_DossierSetting_DefaultPalette_2"
+        Then I switch to menu "Components"
+        Then I click "Save" button in the tab "components"
+        Then I delete the application "New Application"
 
 
 

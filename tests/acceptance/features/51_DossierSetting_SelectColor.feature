@@ -1,5 +1,5 @@
 @TC82189 @Regression
-Feature: 51_DossierSetting_PickColor
+Feature: 51_DossierSetting_SelectColor
     1. add Environment
     2. add new application
     3. switch to dossier setting tab
@@ -12,7 +12,7 @@ Feature: 51_DossierSetting_PickColor
     Background: Add Environment
         Given configure workstation engine test environment
 
-    Scenario: 51_DossierSetting_PickColor
+    Scenario: 51_DossierSetting_SelectColor
         When I select tab "Applications"
         When I click the application create entry
         Then I switch to menu "Dossier Settings"

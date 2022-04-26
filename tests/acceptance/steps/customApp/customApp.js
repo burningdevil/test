@@ -35,7 +35,7 @@ When('I copy link of the application {string}', async function (name) {
 }
 );
 
-Then('I click {string} button in the tab {string}', async function (text, pageId = 'components') {
+Then('I click {string} button in the tab {string}', async function (text, pageId) {
     await settingPage.clickButtonsByTextOnNewCustomAppPage(text, pageId)
     return mainWindow.app.sleep(500)
 }
