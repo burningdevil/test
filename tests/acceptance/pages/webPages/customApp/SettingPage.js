@@ -91,7 +91,7 @@ export default class SettingPage extends BasePage {
     return this.element(by.xpath(`//span[@class='home-screen-components-table-text' and text()='${text}']//ancestor::tr//button`))
   }
 
-  getSaveButton(pageId = 'components') {
+  getSaveButton(pageId) {
     // const elms = Array.from(this.element(by.xpath(`//div[@class='ant-tabs-tabpane-active']//span[text()='Save']`)));
     // return elms.filter((elem) => {
     //   return elem.isDisplayed()
@@ -99,7 +99,7 @@ export default class SettingPage extends BasePage {
     return this.element(by.xpath(`//div[@id='rc-tabs-0-panel-${pageId}']//span[text()='Save']`))
   }
 
-  getCancelButton(pageId = 'components') {
+  getCancelButton(pageId) {
     // return this.$('.home-screen-editor-layout-btn').element(by.cssContainingText('.ant-btn', 'Cancel'))
     //return this.$$('.ant-btn').filter(async (elem) => {
       //return elem.isDisplayed()
@@ -107,7 +107,7 @@ export default class SettingPage extends BasePage {
     return this.element(by.xpath(`//div[@id='rc-tabs-0-panel-${pageId}']//span[text()='Cancel']`))
   }
 
-  getConfirmCancelButton(pageId = 'components') {
+  getConfirmCancelButton(pageId) {
     const index = ['general','homeScreen','components'].findIndex(v => v === pageId)
     return this.element.all(by.xpath(`//div[@class='mstr-button-container']//span[text()='Yes']`)).get(index)
   }
@@ -182,10 +182,10 @@ export default class SettingPage extends BasePage {
     console.log('Switch to new WebView: ', await browser.getTitle())
   }
 
-  async clickButtonsByTextOnNewCustomAppPage(text, pageId= 'components') {
+  async clickButtonsByTextOnNewCustomAppPage(text, pageId) {
     if (text === 'Save') {
       // await browser.sleep(2000 * this.ratio)
-      await this.wait(this.EC.visibilityOf(this.getSaveButton()), 120000 * this.ratio, 'Save buton was not visible');
+      await this.wait(this.EC.visibilityOf(this.getSaveButton(pageId)), 120000 * this.ratio, 'Save buton was not visible');
       await this.getSaveButton(pageId).click()
       await browser.sleep(2000 * this.ratio)
     } else if (text === 'Cancel') {
