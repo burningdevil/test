@@ -70,8 +70,8 @@ task :acceptance_test_mac do
   shell_command! "defaults write com.microstrategy.Workstation IsCEFPluginMode -boolean YES"
   shell_command! "defaults write com.microstrategy.Workstation CefRemoteDebuggingPort -integer #{@cef_remote_debug_port}"
   #US417343; enable preview feature by default
-  customize_preferences = '<dict><key>preview-features</key><true/><key>support-info-window</key><true/><key>use-richtextbox</key><true/><key>use-microchart</key><true/></dict>'
-  shell_command! "defaults write com.microstrategy.Workstation ExtraPreferences -dict-add workstation #{customize_preferences}"
+  customize_preferences = "<dict><key>preview-features</key><true/><key>support-info-window</key><true/><key>use-richtextbox</key><true/><key>use-microchart</key><true/></dict>"
+  shell_command! "defaults write com.microstrategy.Workstation ExtraPreferences -dict-add workstation '#{customize_preferences}'"
   shell_command! "defaults read com.microstrategy.Workstation"
 
   begin
