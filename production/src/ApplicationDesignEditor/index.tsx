@@ -5,15 +5,17 @@ import { env } from '../main'
 import * as Actions from '../store/actions/ActionsCreator'
 import PreviewPanel from './PreviewPanel'
 import SettingsPanel from './SettingsPanel'
+import DesignStudioToolbar from './DesignStudioToolbar'
 import { WorkstationModule, WindowEvent, DialogValues } from '@mstr/workstation-types'
 import Resizer from './Components/Resizer'
 import './styles.scss'
 import { selectTheme } from '../store/selectors/ApplicationDesignEditorSelector'
-import { ApplicationTheme } from '../types/data-model/HomeScreenConfigModels'
+import { ApplicationTheme, HomeScreenConfigType } from '../types/data-model/HomeScreenConfigModels'
 
 type ApplicationDesignEditorProps = {
-  theme: ApplicationTheme
-  setAppTheme: any
+  theme: ApplicationTheme;
+  setAppTheme: (theme: ApplicationTheme) => {};
+  setConfig: (config: HomeScreenConfigType) => {};
 }
 
 const INIT_LEFT = 320
@@ -21,38 +23,43 @@ const MIN_LEFT = 180
 const MAX_LEFT = 378
 
 declare var workstation: WorkstationModule
-const ApplicationDesignEditor: React.FC<ApplicationDesignEditorProps> = ({ theme, setAppTheme }) => {
+const ApplicationDesignEditor: React.FC<ApplicationDesignEditorProps> = ({ theme, setAppTheme, setConfig }) => {
   const [settingsPanelWidth, setSettingsPanelWidth] = React.useState(INIT_LEFT)
   const useEffect = React.useEffect;
 
   useEffect(() => {
     async function initEditor() {
-      let appTheme = await workstation.window.getExtraContext()
-      setAppTheme(appTheme ? JSON.parse(appTheme) : appTheme)
+      const stringifiedExtraContext = await workstation.window.getExtraContext()
+      const { theme, config } = JSON.parse(stringifiedExtraContext) 
+      setAppTheme(theme)
+      setConfig(config)
+      await env.window.setTitle(`${config.name} - Appearance`)
     }
     initEditor();
 
-    workstation.window.addHandler(WindowEvent.CLOSE, async () => {
-      let returnVal = await workstation.dialogs.confirmation({message: 'Apply theme to Application?'});
-      if (returnVal == DialogValues.YES) {
-        await workstation.window.setCloseInfo(JSON.stringify({ 
+    env.window.addHandler(WindowEvent.CLOSE, async () => {
+      let returnVal = await env.dialogs.confirmation({message: 'Apply theme to Application?'});
+      if (returnVal === DialogValues.YES) {
+        await env.window.setCloseInfo(JSON.stringify({ 
           theme
         }))
+      } else if (returnVal === DialogValues.CANCEL) {
+        return false
       }
       env.window.close()
-      return { }
+      return true
     });
   }, []);
 
 
   return (
     <div className='mstr-app-design-editor'>
-      <div className='title-section'>
-        <div className='label' ></div>
-      </div>
+      <DesignStudioToolbar theme={theme} />
       <div className='content-section'>
-        <SettingsPanel />
-        <Resizer
+        <SettingsPanel theme={theme} />
+        {
+        // Temporarily disable resizer
+        /* <Resizer
           onStop={(e: any, ui: any) => setSettingsPanelWidth(ui.x)}
           position={{
             x: settingsPanelWidth,
@@ -67,8 +74,8 @@ const ApplicationDesignEditor: React.FC<ApplicationDesignEditorProps> = ({ theme
             left: MIN_LEFT,
             right: MAX_LEFT
           }}
-        />
-        <PreviewPanel previewStyle={{ width: 'calc(100% - ' + (settingsPanelWidth) + 'px)' }}/>
+        /> */}
+        <PreviewPanel theme={theme} previewStyle={{ width: 'calc(100% - ' + (settingsPanelWidth) + 'px)' }}/>
       </div>
     </div>
   )
@@ -79,7 +86,8 @@ const mapState = (state: RootState) => ({
 })
 
 const connector = connect(mapState, {
-  setAppTheme: Actions.setTheme
+  setAppTheme: Actions.setTheme,
+  setConfig: Actions.setCurrentConfig
 })
 
 export default connector(ApplicationDesignEditor)

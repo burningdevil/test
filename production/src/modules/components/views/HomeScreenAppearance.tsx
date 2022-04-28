@@ -8,7 +8,7 @@ import { selectCurrentConfigTheme, selectCurrentConfig } from '../../../store/se
 import * as Actions from '../../../store/actions/ActionsCreator'
 import { env } from '../../../main'
 import { default as VC, localizedStrings } from '../HomeScreenConfigConstant'
-import { ApplicationTheme } from '../../../types/data-model/HomeScreenConfigModels'
+import { ApplicationTheme, HomeScreenConfigType } from '../../../types/data-model/HomeScreenConfigModels'
 import { ObjectEditorSettings, WorkstationModule, WindowEvent } from '@mstr/workstation-types'
 import { t } from '../../../i18n/i18next';
 import '../scss/HomeScreenAppearance.scss'
@@ -55,13 +55,13 @@ class HomeScreenAppearance extends React.Component<any, any> {
         })
     }
 
-    openAppDesignEditor = (theme?: ApplicationTheme) => {
+    openAppDesignEditor = (config: HomeScreenConfigType, theme?: ApplicationTheme) => {
         const objType = VC.APP_DESIGN_OBJTYPE;
 
         let options: ObjectEditorSettings = {
             objectType: objType,
             environment: this.state.currentEnv,
-            extraContext: JSON.stringify(theme)
+            extraContext: JSON.stringify({ config, theme })
         }
 
         workstation.dialogs.openObjectEditor(options).catch((e: any) =>
@@ -77,7 +77,7 @@ class HomeScreenAppearance extends React.Component<any, any> {
     }
 
     render() {
-        const { theme } = this.props;
+        const { theme, config } = this.props;
         // TODO - Refactor/Implement UI to render list of themes
         return (
             <div className='mstr-custom-app-screen'>
@@ -87,7 +87,7 @@ class HomeScreenAppearance extends React.Component<any, any> {
                         <div className='existing-theme-icn' />
                         <div className='existing-theme-hover-overlay' />
                         <div className='existing-theme-options'>
-                            <div className="edit" onClick={() => this.openAppDesignEditor(theme)} />
+                            <div className="edit" onClick={() => this.openAppDesignEditor(config, theme)} />
                             <div className="delete" onClick={() => this.removeTheme()} />
                         </div>
                     </div>
@@ -96,10 +96,10 @@ class HomeScreenAppearance extends React.Component<any, any> {
                         <div className='new-theme-desc'>{t('newThemeDesc')}</div>
                         <div className="add-design"
                             tabIndex={0}
-                            onClick={() => this.openAppDesignEditor()}
+                            onClick={() => this.openAppDesignEditor(config)}
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter') {
-                                    this.openAppDesignEditor()
+                                    this.openAppDesignEditor(config)
                                 }
                             }}
                         >

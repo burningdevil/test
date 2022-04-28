@@ -1,0 +1,40 @@
+@import '../../modules/components/scss/variables.scss';
+
+.mstr-app-design-editor .title-section {
+  .label {
+    width: 100%;
+    text-align: center;
+  }
+
+  .btn-section {
+    display: flex;
+    position: absolute;
+    top: 0;
+    right: 0;
+    align-items: center;
+    height: $title-bar-height;
+    min-width: 168px;
+    margin-right: 24px;
+
+    .btn {
+      height: 30px;
+      min-width: 74px;
+      border: none;
+      box-shadow: none;
+      border-radius: 3px;
+      font-size: 13px;
+
+      &:not(:last-child) {
+        margin-right: 20px;
+      }
+
+      &.cancel {
+        color: #262626;
+      }
+
+      &.save {
+        background: linear-gradient(180deg, #69B1FA 0%, #0B7FFF 100%);
+      }
+    }
+  }
+}

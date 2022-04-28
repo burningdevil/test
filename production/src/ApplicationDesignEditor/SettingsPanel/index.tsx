@@ -74,10 +74,6 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ theme, updateTheme, updat
   const handleCancel = () => {
     setIsLogoModalVisible(false)
   };
-
-  const handleApply = () => {
-    workstation.window.postMessage({ theme })
-  }
  
   const isUrlValid = (url: string, currLogoCategory: string): boolean => {
 
@@ -145,11 +141,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ theme, updateTheme, updat
   )
 }
 
-const mapState = (state: RootState) => ({
-  theme: selectTheme(state)
-})
-
-const connector = connect(mapState, {
+const connector = connect(null, {
   updateTheme: Actions.updateTheme,
   updateCurrentConfig: Actions.updateCurrentConfig
 })

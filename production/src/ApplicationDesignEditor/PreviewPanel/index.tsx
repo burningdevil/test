@@ -25,12 +25,6 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({ theme, previewStyle }) => {
   )
 }
 
-const mapState = (state: RootState) => ({
-  theme: selectTheme(state)
-})
-
-const connector = connect(mapState, {
-  
-})
+const connector = connect(null, {})
 
 export default connector(PreviewPanel)
