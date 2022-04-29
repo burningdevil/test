@@ -39,6 +39,25 @@ task :package => [:build] do
   )
 end
 
+desc "run premerge"
+task :premerge do 
+  node_modules_folder = "#{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}/node_modules"
+  tests_node_modules_folder = "#{$WORKSPACE_SETTINGS[:paths][:project][:tests][:acceptance][:home]}/node_modules"
+  
+  FileUtils.rm_rf(node_modules_folder) if File.exist?(node_modules_folder)
+  FileUtils.rm_rf(tests_node_modules_folder) if File.exist?(tests_node_modules_folder)
+
+  docker_run!(
+    "docker run -v #{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}:/mnt/production -e APPLICATION_VERSION=#{Common::Version.application_version} --entrypoint '/bin/sh' #{DockerRegistry.image_from_nexus('node:12-alpine')} /mnt/production/premerge.sh",
+    cwd: $WORKSPACE_SETTINGS[:paths][:project][:production][:home]
+  )
+
+  docker_run!(
+    "docker run -v #{$WORKSPACE_SETTINGS[:paths][:project][:tests][:acceptance][:home]}:/mnt/tests/acceptance --entrypoint '/bin/sh' #{DockerRegistry.image_from_nexus('node:12-alpine')} /mnt/tests/acceptance/premerge.sh",
+    cwd: $WORKSPACE_SETTINGS[:paths][:project][:production][:home]
+  )
+end
+
 def generate_sonar_inclusions
   pull_request_id = ENV['ghprbPullId']
   org,repo = ENV['ghprbGhRepository'].split('/')
