@@ -1,4 +1,3 @@
-import { Button, Image } from 'antd'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import 'antd/dist/antd.css';
@@ -15,7 +14,6 @@ import '../scss/HomeScreenAppearance.scss'
 
 declare var workstation: WorkstationModule;
 class HomeScreenAppearance extends React.Component<any, any> {
-
     // Life cycle
     constructor(props: any) {
         super(props)
@@ -77,17 +75,17 @@ class HomeScreenAppearance extends React.Component<any, any> {
     }
 
     render() {
-        const { theme, config } = this.props;
+        const { currConfigTheme, currConfig } = this.props;
         // TODO - Refactor/Implement UI to render list of themes
         return (
             <div className='mstr-custom-app-screen'>
                 <div className='mstr-custom-app-screen-title'>{t('customAppScreenTitle')}</div>
                 {
-                    theme ? <div className="mstr-custom-app-theme-content">
+                    currConfigTheme ? <div className="mstr-custom-app-theme-content">
                         <div className='existing-theme-icn' />
                         <div className='existing-theme-hover-overlay' />
                         <div className='existing-theme-options'>
-                            <div className="edit" onClick={() => this.openAppDesignEditor(config, theme)} />
+                            <div className="edit" onClick={() => this.openAppDesignEditor(currConfig, currConfigTheme)} />
                             <div className="delete" onClick={() => this.removeTheme()} />
                         </div>
                     </div>
@@ -96,10 +94,10 @@ class HomeScreenAppearance extends React.Component<any, any> {
                         <div className='new-theme-desc'>{t('newThemeDesc')}</div>
                         <div className="add-design"
                             tabIndex={0}
-                            onClick={() => this.openAppDesignEditor(config)}
+                            onClick={() => this.openAppDesignEditor(currConfig)}
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter') {
-                                    this.openAppDesignEditor(config)
+                                    this.openAppDesignEditor(currConfig)
                                 }
                             }}
                         >
@@ -114,13 +112,13 @@ class HomeScreenAppearance extends React.Component<any, any> {
 }
 
 const mapState = (state: RootState) => ({
-    theme: selectCurrentConfigTheme(state),
-    config: selectCurrentConfig(state)
+    currConfigTheme: selectCurrentConfigTheme(state),
+    currConfig: selectCurrentConfig(state)
 })
 
 const connector = connect(mapState, {
     deleteThemeInCurrentConfig: Actions.deleteThemeInCurrentConfig,
-    updateCurrentConfig :Actions.updateCurrentConfig
+    updateCurrentConfig: Actions.updateCurrentConfig
 })
 
 export default connector(HomeScreenAppearance)

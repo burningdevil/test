@@ -1,20 +1,11 @@
 import * as React from 'react'
 import { Button } from 'antd'
-import { connect } from 'react-redux'
 import { env } from '../../main'
 import classnames from 'classnames'
-import { RootState } from '../../types/redux-state/HomeScreenConfigState'
-import { selectTheme } from '../../store/selectors/ApplicationDesignEditorSelector'
-import { ApplicationLogos, ApplicationTheme } from '../../types/data-model/HomeScreenConfigModels'
-import * as Actions from '../../store/actions/ActionsCreator'
-import { WorkstationModule } from '@mstr/workstation-types'
+import { ApplicationTheme } from '../../types/data-model/HomeScreenConfigModels'
 import './styles.scss'
-import { Input } from '@mstr/rc'
-import { validateUrl } from '../utils/urlValidationHelper'
-import { localizedStrings } from '../../modules/components/HomeScreenConfigConstant';
 import { t } from "../../i18n/i18next";
 
-declare var workstation: WorkstationModule
 
 type DesignStudioToolbarProps = {
     theme: ApplicationTheme
