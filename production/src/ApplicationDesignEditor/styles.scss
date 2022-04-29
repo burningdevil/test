@@ -9,8 +9,8 @@
     height: $title-bar-height;
     width: 100%;
     line-height: $title-bar-height;
-    background-color: #323852;
-    color: #fff;
+    background-color: $title-bar-bg-color;
+    color: $white;
   }
 
   .content-section {

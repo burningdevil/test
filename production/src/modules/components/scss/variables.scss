@@ -10,6 +10,7 @@ $line-height-mini: 13px;
 // Color
 $right-background: #f4f4f4;
 $mobile-primary-blue: #0E6FF9;
+$white: #fff;
 
 // Custom Apps/Design Studio Styling
 $custom-apps-screen-height: 708px;
@@ -25,10 +26,20 @@ $design-studio-width: 1440px;
 $design-studio-height: 878px;
 
 $title-bar-height: 62px;
+$title-bar-bg-color: #323852;
+$title-bar-btn-section-min-width: 168px;
+$title-bar-btn-min-width: 74px;
+$title-bar-cancel-btn-font-color: #262626;
+$title-bar-save-btn-bg: linear-gradient(180deg, #69B1FA 0%, #0B7FFF 100%);;
+
 $content-height: 816px;
 $settings-panel-width: 505px;
 $preview-panel-width: 935px;
 $settings-panel-padding: 24px 39px 176px 24px;
+$settings-panel-title-subtitle-color: #4A4A4A;
+$settings-panel-logo-box-border-color: #F2F3F5;
+$settings-panel-btn-bg-color: #3492ED;
+$settings-panel-logo-desc-color: #888;
 
 $logo-box-height: 48px;
 $logo-box-width: 48px;

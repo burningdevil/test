@@ -4,7 +4,7 @@
   height: 100%;
   width: $settings-panel-width;
   padding: $settings-panel-padding;
-  background: #FFFFFF;
+  background: $white;
 
   .mstr-app-theme-logos {
     font-family: $font-family;
@@ -15,7 +15,7 @@
       line-height: 28px;
       font-weight: 700;
       text-align: left;
-      color: #4A4A4A;
+      color: $settings-panel-title-subtitle-color;
     }
 
     .theme-logo {
@@ -27,7 +27,7 @@
 
       .logo-subtitle {
         line-height: $line-height;
-        color: #4A4A4A;
+        color: $settings-panel-title-subtitle-color;
         margin-bottom: 8px;
       }
 
@@ -39,7 +39,7 @@
           height: $logo-box-height;
           width: $logo-box-width;
           margin-right: 10px;
-          border: 1px solid #F2F3F5;
+          border: 1px solid $settings-panel-logo-box-border-color;
           border-radius: 4px;
           justify-content: center;
           align-items: center;
@@ -75,7 +75,7 @@
           .btn {
             height: 24px;
             min-width: 89px;
-            background-color: #3492ED;
+            background-color: $settings-panel-btn-bg-color;
             padding: 0;
             border-radius: 3px;
             margin-bottom: 8px;
@@ -86,7 +86,7 @@
 
           .desc {
             line-height: $line-height;
-            color: #888;
+            color: $settings-panel-logo-desc-color;
           }
         }
       }

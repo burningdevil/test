@@ -13,12 +13,12 @@
     right: 0;
     align-items: center;
     height: $title-bar-height;
-    min-width: 168px;
+    min-width: $title-bar-btn-section-min-width;
     margin-right: 24px;
 
     .btn {
       height: 30px;
-      min-width: 74px;
+      min-width: $title-bar-btn-min-width;
       border: none;
       box-shadow: none;
       border-radius: 3px;
@@ -29,11 +29,11 @@
       }
 
       &.cancel {
-        color: #262626;
+        color: $title-bar-cancel-btn-font-color;
       }
 
       &.save {
-        background: linear-gradient(180deg, #69B1FA 0%, #0B7FFF 100%);
+        background: $title-bar-save-btn-bg;
       }
     }
   }
