@@ -7,6 +7,7 @@ import PreviewPanel from './PreviewPanel'
 import SettingsPanel from './SettingsPanel'
 import DesignStudioToolbar from './DesignStudioToolbar'
 import { WorkstationModule, WindowEvent, DialogValues } from '@mstr/workstation-types'
+import { t } from '../i18n/i18next';
 import './styles.scss'
 import { selectDesignStudioTheme } from '../store/selectors/ApplicationDesignEditorSelector'
 import { ApplicationTheme, HomeScreenConfigType } from '../types/data-model/HomeScreenConfigModels'
@@ -26,12 +27,12 @@ const ApplicationDesignEditor: React.FC<ApplicationDesignEditorProps> = ({ currS
       const { theme: prevTheme, config: prevConfig } = JSON.parse(stringifiedExtraContext) 
       setCurrStudioTheme(prevTheme)
       setCurrConfig(prevConfig)
-      await env.window.setTitle(`${prevConfig.name} - Appearance`)
+      await env.window.setTitle(t('designStudioWindowTitle').replace('{{application}}', prevConfig.name))
     }
     initEditor();
 
     env.window.addHandler(WindowEvent.CLOSE, async () => {
-      let returnVal = await env.dialogs.confirmation({message: 'Apply theme to Application?'});
+      let returnVal = await env.dialogs.confirmation({message: t('applyThemeConfirmationStr')});
       if (returnVal === DialogValues.YES) {
         await env.window.setCloseInfo(JSON.stringify({ 
           currStudioTheme

@@ -3,9 +3,8 @@ import { Button } from 'antd'
 import { env } from '../../main'
 import classnames from 'classnames'
 import { ApplicationTheme } from '../../types/data-model/HomeScreenConfigModels'
-import './styles.scss'
 import { t } from "../../i18n/i18next";
-
+import './styles.scss'
 
 type DesignStudioToolbarProps = {
     theme: ApplicationTheme
@@ -26,7 +25,7 @@ const DesignStudioToolbar: React.FC<DesignStudioToolbarProps> = ({ theme }) => {
 
     return (
         <div className='title-section'>
-            <div className='label'>Library Home - Web Interface</div>
+            <div className='label'>{t('designStudioWindowSubtitle')}</div>
             <div className='btn-section'>
                 <Button className={classnames('btn', 'cancel')} type='default' onClick={handleCancelTheme}>{t('cancel')}</Button>
                 <Button className={classnames('btn', 'save')} type='primary' onClick={handleSaveTheme} loading={saving}>{t('save')}</Button>
