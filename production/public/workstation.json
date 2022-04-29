@@ -42,7 +42,8 @@
           "command": "openAppDesignEditor",
           "windowKey": "appDesignEditor",
           "isVisible": "isHomeScreenConfigEnabled",
-          "canExecute": "isHomeScreenConfigEnabled"
+          "canExecute": "isHomeScreenConfigEnabled",
+          "displayName": "Application - Appearance"
         }
       ]
     },

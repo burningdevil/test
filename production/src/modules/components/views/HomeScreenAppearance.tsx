@@ -1,4 +1,3 @@
-import { Button, Image } from 'antd'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import 'antd/dist/antd.css';
@@ -8,14 +7,13 @@ import { selectCurrentConfigTheme, selectCurrentConfig } from '../../../store/se
 import * as Actions from '../../../store/actions/ActionsCreator'
 import { env } from '../../../main'
 import { default as VC, localizedStrings } from '../HomeScreenConfigConstant'
-import { ApplicationTheme } from '../../../types/data-model/HomeScreenConfigModels'
+import { ApplicationTheme, HomeScreenConfigType } from '../../../types/data-model/HomeScreenConfigModels'
 import { ObjectEditorSettings, WorkstationModule, WindowEvent } from '@mstr/workstation-types'
 import { t } from '../../../i18n/i18next';
 import '../scss/HomeScreenAppearance.scss'
 
 declare var workstation: WorkstationModule;
 class HomeScreenAppearance extends React.Component<any, any> {
-
     // Life cycle
     constructor(props: any) {
         super(props)
@@ -55,13 +53,13 @@ class HomeScreenAppearance extends React.Component<any, any> {
         })
     }
 
-    openAppDesignEditor = (theme?: ApplicationTheme) => {
+    openAppDesignEditor = (config: HomeScreenConfigType, theme?: ApplicationTheme) => {
         const objType = VC.APP_DESIGN_OBJTYPE;
 
         let options: ObjectEditorSettings = {
             objectType: objType,
             environment: this.state.currentEnv,
-            extraContext: JSON.stringify(theme)
+            extraContext: JSON.stringify({ config, theme })
         }
 
         workstation.dialogs.openObjectEditor(options).catch((e: any) =>
@@ -77,17 +75,17 @@ class HomeScreenAppearance extends React.Component<any, any> {
     }
 
     render() {
-        const { theme } = this.props;
+        const { currConfigTheme, currConfig } = this.props;
         // TODO - Refactor/Implement UI to render list of themes
         return (
             <div className='mstr-custom-app-screen'>
                 <div className='mstr-custom-app-screen-title'>{t('customAppScreenTitle')}</div>
                 {
-                    theme ? <div className="mstr-custom-app-theme-content">
+                    currConfigTheme ? <div className="mstr-custom-app-theme-content">
                         <div className='existing-theme-icn' />
                         <div className='existing-theme-hover-overlay' />
                         <div className='existing-theme-options'>
-                            <div className="edit" onClick={() => this.openAppDesignEditor(theme)} />
+                            <div className="edit" onClick={() => this.openAppDesignEditor(currConfig, currConfigTheme)} />
                             <div className="delete" onClick={() => this.removeTheme()} />
                         </div>
                     </div>
@@ -96,10 +94,10 @@ class HomeScreenAppearance extends React.Component<any, any> {
                         <div className='new-theme-desc'>{t('newThemeDesc')}</div>
                         <div className="add-design"
                             tabIndex={0}
-                            onClick={() => this.openAppDesignEditor()}
+                            onClick={() => this.openAppDesignEditor(currConfig)}
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter') {
-                                    this.openAppDesignEditor()
+                                    this.openAppDesignEditor(currConfig)
                                 }
                             }}
                         >
@@ -114,13 +112,13 @@ class HomeScreenAppearance extends React.Component<any, any> {
 }
 
 const mapState = (state: RootState) => ({
-    theme: selectCurrentConfigTheme(state),
-    config: selectCurrentConfig(state)
+    currConfigTheme: selectCurrentConfigTheme(state),
+    currConfig: selectCurrentConfig(state)
 })
 
 const connector = connect(mapState, {
     deleteThemeInCurrentConfig: Actions.deleteThemeInCurrentConfig,
-    updateCurrentConfig :Actions.updateCurrentConfig
+    updateCurrentConfig: Actions.updateCurrentConfig
 })
 
 export default connector(HomeScreenAppearance)

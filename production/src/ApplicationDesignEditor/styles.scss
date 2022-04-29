@@ -5,10 +5,12 @@
   width: $design-studio-width;
 
   .title-section {
+    display: flex;
     height: $title-bar-height;
     width: 100%;
-    text-align: center;
     line-height: $title-bar-height;
+    background-color: $title-bar-bg-color;
+    color: $white;
   }
 
   .content-section {

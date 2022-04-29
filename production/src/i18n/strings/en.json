@@ -212,6 +212,9 @@
     "newThemeDesc": "Customize the look of your application",
     "newThemeText": "Enter Design Studio",
 
+    "designStudioWindowTitle": "{{application}} - Appearance",
+    "designStudioWindowSubtitle": "Library Home - Web Interface",
+
     "pasteImageUrl": "Paste image URL",
     "emptyImageUrlErrMessage": "This field cannot be blank.",
     "imageUrlWithHttpErrMessage": "Enter a URL with http or https protocol.",
@@ -227,5 +230,7 @@
     "libraryFaviconSubtitle": "Library Favicon",
     "libraryFaviconDesc": "Minimum 32 * 32 pixels, png format",
     "libraryMobileSubtitle": "Library Mobile",
-    "libraryMobileDesc": "Minimum 75 * 75 pixels, png format"
+    "libraryMobileDesc": "Minimum 75 * 75 pixels, png format",
+
+    "applyThemeConfirmationStr": "Apply theme to Application?"
 }

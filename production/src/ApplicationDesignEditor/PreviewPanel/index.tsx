@@ -1,18 +1,13 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { selectTheme } from '../../store/selectors/ApplicationDesignEditorSelector'
-import { RootState } from '../../types/redux-state/HomeScreenConfigState'
 import { ApplicationTheme } from '../../types/data-model/HomeScreenConfigModels'
 import './styles.scss'
  
 type PreviewPanelProps = {
-  theme: ApplicationTheme,
-  previewStyle: {
-    width: string
-  }
+  theme: ApplicationTheme
 }
 
-const PreviewPanel: React.FC<PreviewPanelProps> = ({ theme, previewStyle }) => {
+const PreviewPanel: React.FC<PreviewPanelProps> = ({ theme }) => {
   
   return (
     <div className='mstr-app-theme-preview-panel'>
@@ -25,12 +20,6 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({ theme, previewStyle }) => {
   )
 }
 
-const mapState = (state: RootState) => ({
-  theme: selectTheme(state)
-})
-
-const connector = connect(mapState, {
-  
-})
+const connector = connect(null, {})
 
 export default connector(PreviewPanel)

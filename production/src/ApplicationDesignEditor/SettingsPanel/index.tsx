@@ -2,26 +2,20 @@ import * as React from 'react'
 import { Button, Modal } from 'antd'
 import { connect } from 'react-redux'
 import classnames from 'classnames'
-import { RootState } from '../../types/redux-state/HomeScreenConfigState'
-import { selectTheme } from '../../store/selectors/ApplicationDesignEditorSelector'
 import { ApplicationLogos, ApplicationTheme } from '../../types/data-model/HomeScreenConfigModels'
 import * as Actions from '../../store/actions/ActionsCreator'
-import { WorkstationModule } from '@mstr/workstation-types'
 import './styles.scss'
 import { Input }  from '@mstr/rc'
 import { validateUrl } from '../utils/urlValidationHelper'
 import { localizedStrings } from '../../modules/components/HomeScreenConfigConstant';
 import { t } from "../../i18n/i18next";
 
-declare var workstation: WorkstationModule
-
 type SettingsPanelProps = {
   theme: ApplicationTheme,
-  updateTheme: (logo: { type: string, value: string}) => {},
-  updateCurrentConfig: (settings: any) => {}
+  updateTheme: (logo: { type: string, value: string}) => {}
 }
 
-const SettingsPanel: React.FC<SettingsPanelProps> = ({ theme, updateTheme, updateCurrentConfig }) => {
+const SettingsPanel: React.FC<SettingsPanelProps> = ({ theme, updateTheme }) => {
   const [isLogoModalVisible, setIsLogoModalVisible] = React.useState(false);
   const [currLogo, setCurrLogo] = React.useState({ type: 'URL', value: '' })
   const [currLogoCategory, setCurrLogoCategory] = React.useState('')
@@ -74,10 +68,6 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ theme, updateTheme, updat
   const handleCancel = () => {
     setIsLogoModalVisible(false)
   };
-
-  const handleApply = () => {
-    workstation.window.postMessage({ theme })
-  }
  
   const isUrlValid = (url: string, currLogoCategory: string): boolean => {
 
@@ -145,13 +135,8 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ theme, updateTheme, updat
   )
 }
 
-const mapState = (state: RootState) => ({
-  theme: selectTheme(state)
-})
-
-const connector = connect(mapState, {
-  updateTheme: Actions.updateTheme,
-  updateCurrentConfig: Actions.updateCurrentConfig
+const connector = connect(null, {
+  updateTheme: Actions.updateTheme
 })
 
 export default connector(SettingsPanel)

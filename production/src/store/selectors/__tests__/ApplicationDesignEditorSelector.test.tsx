@@ -1,4 +1,4 @@
-import { selectTheme } from '../ApplicationDesignEditorSelector'
+import { selectDesignStudioTheme } from '../ApplicationDesignEditorSelector'
 import { CONSTANTS, localizedStrings, reviewType, platformType } from '../../../modules/components/HomeScreenConfigConstant'
 import { cloneDeep } from 'lodash'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
@@ -99,12 +99,12 @@ describe('Application Design Editor Selectors selectTheme', () => {
   });
 
   it('theme does not exist in config - selectTheme', () => {
-    const theme = selectTheme(storeState)
+    const theme = selectDesignStudioTheme(storeState)
     expect(theme).toEqual(undefined)
   })
 
   it('theme exists in config - selectTheme', () => {
-    const theme = selectTheme(storeStateWithTheme)
+    const theme = selectDesignStudioTheme(storeStateWithTheme)
     expect(theme).toEqual(theme1)
   })
 })
