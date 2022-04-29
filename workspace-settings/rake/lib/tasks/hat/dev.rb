@@ -48,12 +48,12 @@ task :premerge do
   FileUtils.rm_rf(tests_node_modules_folder) if File.exist?(tests_node_modules_folder)
 
   shell_command!(
-    "docker run -v #{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}:/mnt/production -e APPLICATION_VERSION=#{Common::Version.application_version} --entrypoint '/bin/sh' #{DockerRegistry.image_from_nexus('node:12-alpine')} /mnt/production/premerge.sh",
+    "docker run -v #{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}:/mnt/production -e APPLICATION_VERSION=#{Common::Version.application_version} --entrypoint '/bin/sh' node:12-alpine /mnt/production/premerge.sh",
     cwd: $WORKSPACE_SETTINGS[:paths][:project][:production][:home]
   )
 
   shell_command!(
-    "docker run -v #{$WORKSPACE_SETTINGS[:paths][:project][:tests][:acceptance][:home]}:/mnt/tests/acceptance --entrypoint '/bin/sh' #{DockerRegistry.image_from_nexus('node:12-alpine')} /mnt/tests/acceptance/premerge.sh",
+    "docker run -v #{$WORKSPACE_SETTINGS[:paths][:project][:tests][:acceptance][:home]}:/mnt/tests/acceptance --entrypoint '/bin/sh' node:12-alpine /mnt/tests/acceptance/premerge.sh",
     cwd: $WORKSPACE_SETTINGS[:paths][:project][:production][:home]
   )
 end
