@@ -4,7 +4,10 @@ import * as Actions from '../actions/ActionConstants'
 import * as _ from 'lodash'
 
 const initialState: ApplicationDesignEditorState = {
-  
+  theme: {
+    schemaVersion: 1,
+    logos: {}
+  }
 }
 
 const ApplicationDesignEditorReducer = (state: ApplicationDesignEditorState = initialState, action: ActionTypes) => {

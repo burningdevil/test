@@ -21,7 +21,7 @@ import {
 } from '../../../modules/components/HomeScreenConfigConstant';
 import { Layout, Radio } from 'antd';
 import { PlusCircleOutlined, DownOutlined } from '@ant-design/icons';
-import '../scss/HomeScreenPreviewer.scss';
+import './styles.scss';
 import * as _ from 'lodash';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { connect } from 'react-redux';
@@ -571,136 +571,27 @@ class Previewer extends React.Component<any, any> {
                   deviceType,
                   '-overview-right-library-nosidebar'
               );
-        switch (deviceType) {
-            case reviewType.TABLET:
-                return (
-                    <div>
-                        <div className={`${classNamePrefix}-preview-title`}>
-                            {localizedStrings.PREVIEW}
-                        </div>
-                        {this.deviceTypesRender(deviceType)}
-
-                        {/* library */}
-                        {!isDossierHome &&
-                            this.titleRender(localizedStrings.LIBRARY_WINDOW)}
-
-                        <div style={{ position: 'relative' }}>
-                            <div
-                                className={`${classNamePrefix}-tablet-horcontainer`}
-                            >
-                                {/* library sidebar */}
-                                {!isDossierHome && showSideBar && (
-                                    <Layout
-                                        className={`${classNamePrefix}-tablet-sidebar`}
-                                    >
-                                        {
-                                            // Should always show header for phone sidebar even when toolbar collapse
-                                            <Layout.Header
-                                                style={{ height: '40px' }}
-                                            >
-                                                {this.toolbarIconsRender(
-                                                    sidebarHeaderIcons
-                                                )}
-                                                {this.placeHolderRender(
-                                                    'auto',
-                                                    true,
-                                                    '22px'
-                                                )}
-                                            </Layout.Header>
-                                        }
-                                        <Layout.Content
-                                            className={`${classNamePrefix}-tablet-sidebar-content`}
-                                        >
-                                            {this.sidebarIconsRender(
-                                                childrenIcons,
-                                                `${classNamePrefix}-tablet-sidebar-sidebar`,
-                                                deviceType
-                                            )}
-                                        </Layout.Content>
-                                    </Layout>
-                                )}
-
-                                {/* library toolbar */}
-                                {!isDossierHome && (
-                                    <Layout
-                                        className={`${classNamePrefix}-tablet-content`}
-                                    >
-                                        {!hideHeader && (
-                                            <Layout.Header>
-                                                {this.toolbarIconsRender(
-                                                    libraryHeaderIcons
-                                                )}
-                                            </Layout.Header>
-                                        )}
-                                        <Layout.Content
-                                            className={`${classNamePrefix}-tablet-content-content`}
-                                        >
-                                            <Layout
-                                                className={`${classNamePrefix}-tablet-content-container`}
-                                            >
-                                                <div
-                                                    className={this.previewerClassName(
-                                                        deviceType,
-                                                        '-overview-right'
-                                                    )}
-                                                >
-                                                    {
-                                                        <div
-                                                            className={
-                                                                padRightClassName
-                                                            }
-                                                        >
-                                                            {' '}
-                                                        </div>
-                                                    }
-                                                    {
-                                                        <div
-                                                            className={
-                                                                padRightClassName
-                                                            }
-                                                        >
-                                                            {' '}
-                                                        </div>
-                                                    }
-                                                    {!showSideBar && (
-                                                        <div
-                                                            className={
-                                                                padRightClassName
-                                                            }
-                                                        >
-                                                            {' '}
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </Layout>
-                                        </Layout.Content>
-                                    </Layout>
-                                )}
-                                {!isDossierHome &&
-                                    showExpanderOverlay &&
-                                    this.overlayRender(false, true)}
-                            </div>
-                        </div>
-                        {/* dossier toolbars */}
-                        {this.titleRender(
-                            isDossierHome
-                                ? localizedStrings.DOSSIER_WINDOW_HOME
-                                : localizedStrings.DOSSIER_WINDOW
-                        )}
-                        <div style={{ position: 'relative' }}>
-                            <Layout
-                                className={this.previewerClassName(
-                                    deviceType,
-                                    ''
-                                )}
-                            >
-                                {!hideHeader && (
-                                    <Layout.Header className="dossier-header">
-                                        {this.toolbarIconsRender(
-                                            dossierHeaderIcons
-                                        )}
-                                    </Layout.Header>
-                                )}
+        return (
+            <div>
+                {/* library toolbars */}
+                {!isDossierHome &&
+                    this.titleRender(localizedStrings.LIBRARY_WINDOW)}
+                {!isDossierHome && (
+                    <div style={{ position: 'relative' }}>
+                        <Layout
+                            className={this.previewerClassName(
+                                deviceType,
+                                ''
+                            )}
+                        >
+                            {!hideHeader && (
+                                <Layout.Header className="library-header">
+                                    {this.toolbarIconsRender(
+                                        libraryHeaderIcons
+                                    )}
+                                </Layout.Header>
+                            )}
+                            <Layout>
                                 <Layout.Content
                                     className={this.previewerClassName(
                                         deviceType,
@@ -719,363 +610,129 @@ class Previewer extends React.Component<any, any> {
                                                 '-overview'
                                             )}
                                         >
+                                            {showSideBar &&
+                                                this.sidebarIconsRender(
+                                                    childrenIcons,
+                                                    padLeftClassName,
+                                                    deviceType
+                                                )}
                                             <div
                                                 className={this.previewerClassName(
                                                     deviceType,
                                                     '-overview-right'
                                                 )}
                                             >
-                                                {!hideHeader && (
+                                                {
                                                     <div
-                                                        className={this.previewerClassName(
-                                                            deviceType,
-                                                            '-overview-right-dossier'
-                                                        )}
-                                                    />
-                                                )}
-                                                {hideHeader && (
-                                                    <div
-                                                        className={this.previewerClassName(
-                                                            deviceType,
-                                                            '-overview-right-dossier-nobar'
-                                                        )}
-                                                    />
-                                                )}
-                                            </div>
-                                        </div>
-                                    </Layout>
-                                </Layout.Content>
-                            </Layout>
-                            {showExpanderOverlay &&
-                                this.overlayRender(false, true)}
-                        </div>
-
-                        {/* notification panel */}
-                        {/* {this.titleRender(sectionTitle.notificationPanel)} */}
-                    </div>
-                );
-            case reviewType.WEB:
-            case reviewType.DESKTOP:
-                return (
-                    <div>
-                        <div className={`${classNamePrefix}-preview-title`}>
-                            {localizedStrings.PREVIEW}
-                        </div>
-                        {this.deviceTypesRender(deviceType)}
-
-                        {/* library toolbars */}
-                        {!isDossierHome &&
-                            this.titleRender(localizedStrings.LIBRARY_WINDOW)}
-                        {!isDossierHome && (
-                            <div style={{ position: 'relative' }}>
-                                <Layout
-                                    className={this.previewerClassName(
-                                        deviceType,
-                                        ''
-                                    )}
-                                >
-                                    {!hideHeader && (
-                                        <Layout.Header className="library-header">
-                                            {this.toolbarIconsRender(
-                                                libraryHeaderIcons
-                                            )}
-                                        </Layout.Header>
-                                    )}
-                                    <Layout>
-                                        <Layout.Content
-                                            className={this.previewerClassName(
-                                                deviceType,
-                                                '-content'
-                                            )}
-                                        >
-                                            <Layout
-                                                className={this.previewerClassName(
-                                                    deviceType,
-                                                    '-container'
-                                                )}
-                                            >
-                                                <div
-                                                    className={this.previewerClassName(
-                                                        deviceType,
-                                                        '-overview'
-                                                    )}
-                                                >
-                                                    {showSideBar &&
-                                                        this.sidebarIconsRender(
-                                                            childrenIcons,
-                                                            padLeftClassName,
-                                                            deviceType
-                                                        )}
-                                                    <div
-                                                        className={this.previewerClassName(
-                                                            deviceType,
-                                                            '-overview-right'
-                                                        )}
+                                                        className={
+                                                            padRightClassName
+                                                        }
                                                     >
-                                                        {
-                                                            <div
-                                                                className={
-                                                                    padRightClassName
-                                                                }
-                                                            >
-                                                                {' '}
-                                                            </div>
-                                                        }
-                                                        {
-                                                            <div
-                                                                className={
-                                                                    padRightClassName
-                                                                }
-                                                            >
-                                                                {' '}
-                                                            </div>
-                                                        }
-                                                        {!showSideBar && (
-                                                            <div
-                                                                className={
-                                                                    padRightClassName
-                                                                }
-                                                            >
-                                                                {' '}
-                                                            </div>
-                                                        )}
+                                                        {' '}
                                                     </div>
-                                                </div>
-                                            </Layout>
-                                        </Layout.Content>
-                                    </Layout>
-                                </Layout>
-                                {showExpanderOverlay &&
-                                    this.overlayRender(false, true)}
-                            </div>
-                        )}
-
-                        {/* dossier toolbars */}
-                        {this.titleRender(
-                            isDossierHome
-                                ? localizedStrings.DOSSIER_WINDOW_HOME
-                                : localizedStrings.DOSSIER_WINDOW
-                        )}
-                        <div style={{ position: 'relative' }}>
-                            <Layout
-                                className={this.previewerClassName(
-                                    deviceType,
-                                    ''
-                                )}
-                            >
-                                {!hideHeader && (
-                                    <Layout.Header className="dossier-header">
-                                        {this.toolbarIconsRender(
-                                            dossierHeaderIcons
-                                        )}
-                                    </Layout.Header>
-                                )}
-                                <Layout.Content
-                                    className={this.previewerClassName(
-                                        deviceType,
-                                        '-content'
-                                    )}
-                                >
-                                    <Layout
-                                        className={this.previewerClassName(
-                                            deviceType,
-                                            '-container'
-                                        )}
-                                    >
-                                        <div
-                                            className={this.previewerClassName(
-                                                deviceType,
-                                                '-overview'
-                                            )}
-                                        >
-                                            <div
-                                                className={this.previewerClassName(
-                                                    deviceType,
-                                                    '-overview-right'
-                                                )}
-                                            >
-                                                {!hideHeader && (
+                                                }
+                                                {
                                                     <div
-                                                        className={this.previewerClassName(
-                                                            deviceType,
-                                                            '-overview-right-dossier'
-                                                        )}
-                                                    />
-                                                )}
-                                                {hideHeader && (
+                                                        className={
+                                                            padRightClassName
+                                                        }
+                                                    >
+                                                        {' '}
+                                                    </div>
+                                                }
+                                                {!showSideBar && (
                                                     <div
-                                                        className={this.previewerClassName(
-                                                            deviceType,
-                                                            '-overview-right-dossier-nobar'
-                                                        )}
-                                                    />
+                                                        className={
+                                                            padRightClassName
+                                                        }
+                                                    >
+                                                        {' '}
+                                                    </div>
                                                 )}
                                             </div>
                                         </div>
                                     </Layout>
                                 </Layout.Content>
                             </Layout>
-                            {showExpanderOverlay &&
-                                this.overlayRender(false, true)}
-                        </div>
-
-                        {/* notification panel */}
-                        {/* {this.titleRender(sectionTitle.notificationPanel)} */}
+                        </Layout>
+                        {showExpanderOverlay &&
+                            this.overlayRender(false, true)}
                     </div>
-                );
-            case reviewType.PHONE:
-                return (
-                    <div>
-                        <div className={`${classNamePrefix}-preview-title`}>
-                            {localizedStrings.PREVIEW}
-                        </div>
-                        {this.deviceTypesRender(deviceType)}
+                )}
 
-                        {/* library */}
-                        {!isDossierHome &&
-                            this.titleRender(localizedStrings.LIBRARY_WINDOW)}
-
-                        <div style={{ position: 'relative' }}>
-                            <div className={`${classNamePrefix}-horcontainer`}>
-                                {/* library sidebar */}
-                                {!isDossierHome && showSideBar && (
-                                    <Layout
-                                        className={`${classNamePrefix}-phone`}
-                                    >
-                                        {
-                                            // Should always show header for phone sidebar even when toolbar collapse
-                                            <Layout.Header>
-                                                {this.toolbarIconsRender(
-                                                    sidebarHeaderIcons
-                                                )}
-                                                {this.placeHolderRender(
-                                                    'auto',
-                                                    true
-                                                )}
-                                            </Layout.Header>
-                                        }
-                                        <Layout.Content
-                                            className={`${classNamePrefix}-phone-content`}
-                                        >
-                                            {this.sidebarIconsRender(
-                                                childrenIcons,
-                                                `${classNamePrefix}-phone-sidebar`,
-                                                deviceType
-                                            )}
-                                        </Layout.Content>
-                                    </Layout>
-                                )}
-
-                                {/* library toolbar */}
-                                {!isDossierHome && (
-                                    <Layout
-                                        className={`${classNamePrefix}-phone`}
-                                    >
-                                        {!hideHeader && (
-                                            <Layout.Header>
-                                                {this.toolbarIconsRender(
-                                                    libraryHeaderIcons
-                                                )}
-                                                {this.placeHolderRender(
-                                                    showSideBar
-                                                        ? '190px'
-                                                        : '123px',
-                                                    false
-                                                )}
-                                            </Layout.Header>
-                                        )}
-                                        <Layout.Content
-                                            className={`${classNamePrefix}-phone-content`}
-                                        >
-                                            <Layout
-                                                className={`${classNamePrefix}-phone-container`}
-                                            >
-                                                <div
-                                                    className={`${classNamePrefix}-phone-container-library`}
-                                                />
-                                            </Layout>
-                                        </Layout.Content>
-                                        {!hideHeader && (
-                                            <footer
-                                                className={`${classNamePrefix}-phone-footer`}
-                                            >
-                                                <span />
-                                                {this.toolbarIconsRender(
-                                                    libraryFooterIcons
-                                                )}
-                                                <span />
-                                            </footer>
-                                        )}
-                                    </Layout>
-                                )}
-                                {!isDossierHome &&
-                                    showExpanderOverlay &&
-                                    this.overlayRender(!showSideBar, true)}
-                            </div>
-                        </div>
-
-                        {/* dossier toolbars */}
-                        {this.titleRender(
-                            isDossierHome
-                                ? localizedStrings.DOSSIER_WINDOW_HOME
-                                : localizedStrings.DOSSIER_WINDOW
+                {/* dossier toolbars */}
+                {this.titleRender(
+                    isDossierHome
+                        ? localizedStrings.DOSSIER_WINDOW_HOME
+                        : localizedStrings.DOSSIER_WINDOW
+                )}
+                <div style={{ position: 'relative' }}>
+                    <Layout
+                        className={this.previewerClassName(
+                            deviceType,
+                            ''
                         )}
-                        <div style={{ position: 'relative' }}>
-                            <Layout className={`${classNamePrefix}-phone`}>
-                                {!hideHeader && (
-                                    <Layout.Header>
-                                        {this.toolbarIconsRender(
-                                            dossierHeaderIcons
-                                        )}
-                                        {/* {showTocOnPhone && <span className={iconTypes.previewTocPhone.iconName}/>} */}
-                                        {showTocOnPhone &&
-                                            this.placeHolderRender(
-                                                '123px',
-                                                false,
-                                                '10px'
-                                            )}
-                                    </Layout.Header>
+                    >
+                        {!hideHeader && (
+                            <Layout.Header className="dossier-header">
+                                {this.toolbarIconsRender(
+                                    dossierHeaderIcons
                                 )}
-                                <Layout.Content
-                                    className={`${classNamePrefix}-phone-content`}
+                            </Layout.Header>
+                        )}
+                        <Layout.Content
+                            className={this.previewerClassName(
+                                deviceType,
+                                '-content'
+                            )}
+                        >
+                            <Layout
+                                className={this.previewerClassName(
+                                    deviceType,
+                                    '-container'
+                                )}
+                            >
+                                <div
+                                    className={this.previewerClassName(
+                                        deviceType,
+                                        '-overview'
+                                    )}
                                 >
-                                    <Layout
-                                        className={`${classNamePrefix}-phone-container`}
+                                    <div
+                                        className={this.previewerClassName(
+                                            deviceType,
+                                            '-overview-right'
+                                        )}
                                     >
                                         {!hideHeader && (
                                             <div
-                                                className={`${classNamePrefix}-phone-container-dossier`}
+                                                className={this.previewerClassName(
+                                                    deviceType,
+                                                    '-overview-right-dossier'
+                                                )}
                                             />
                                         )}
                                         {hideHeader && (
                                             <div
-                                                className={`${classNamePrefix}-phone-container-dossier-nobar`}
+                                                className={this.previewerClassName(
+                                                    deviceType,
+                                                    '-overview-right-dossier-nobar'
+                                                )}
                                             />
                                         )}
-                                    </Layout>
-                                </Layout.Content>
-                                {!hideHeader && (
-                                    <footer
-                                        className={`${classNamePrefix}-phone-footer`}
-                                    >
-                                        <span />
-                                        {this.toolbarIconsRender(
-                                            dossierFooterIcons
-                                        )}
-                                        <span />
-                                    </footer>
-                                )}
+                                    </div>
+                                </div>
                             </Layout>
-                            {showExpanderOverlay &&
-                                this.overlayRender(true, true)}
-                        </div>
-                        {/* notification panel */}
-                        {/* {this.titleRender(sectionTitle.notificationPanel)} */}
-                    </div>
-                );
-            default:
-                break;
-        }
+                        </Layout.Content>
+                    </Layout>
+                    {showExpanderOverlay &&
+                        this.overlayRender(false, true)}
+                </div>
+
+                {/* notification panel */}
+                {/* {this.titleRender(sectionTitle.notificationPanel)} */}
+            </div>
+        );
     }
 }
 
