@@ -26,7 +26,8 @@ export default {
                   icons: dossierIconKeys.map((key) => iconValidKey(key)), 
                   toolbarMode: CONSTANTS.SHOW_TOOLBAR,
                   toolbarEnabled: true,
-                }
+                },
+                theme: undefined
             },
             'general': {
                 disableAdvancedSettings: false,

@@ -1,26 +1,21 @@
 import * as React from 'react'
 import { Button, Modal } from 'antd'
 import { connect } from 'react-redux'
-import { RootState } from '../../types/redux-state/HomeScreenConfigState'
-import { selectCurrentTheme } from '../../store/selectors/ApplicationDesignEditorSelector'
-import { ApplicationTheme } from '../../types/data-model/HomeScreenConfigModels'
+import classnames from 'classnames'
+import { ApplicationLogos, ApplicationTheme } from '../../types/data-model/HomeScreenConfigModels'
 import * as Actions from '../../store/actions/ActionsCreator'
-import { WorkstationModule } from '@mstr/workstation-types'
 import './styles.scss'
 import { Input }  from '@mstr/rc'
-import { validateUrl } from '../ApplicationDesignHelper/urlValidationHelper'
+import { validateUrl } from '../utils/urlValidationHelper'
 import { localizedStrings } from '../../modules/components/HomeScreenConfigConstant';
 import { t } from "../../i18n/i18next";
 
-declare var workstation: WorkstationModule
-
 type SettingsPanelProps = {
   theme: ApplicationTheme,
-  updateTheme: (logo: { type: string, value: string}) => {},
-  updateCurrentConfig: (settings: any) => {}
+  updateTheme: (logo: { type: string, value: string}) => {}
 }
 
-const SettingsPanel: React.FC<SettingsPanelProps> = ({ theme, updateTheme, updateCurrentConfig }) => {
+const SettingsPanel: React.FC<SettingsPanelProps> = ({ theme, updateTheme }) => {
   const [isLogoModalVisible, setIsLogoModalVisible] = React.useState(false);
   const [currLogo, setCurrLogo] = React.useState({ type: 'URL', value: '' })
   const [currLogoCategory, setCurrLogoCategory] = React.useState('')
@@ -32,6 +27,28 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ theme, updateTheme, updat
     favicon = {type: 'URL', value: '' }, 
     mobile = { type: 'URL',value: '' }
   } = (theme && theme.logos) || {}
+
+  // list of logo types and their respective context
+  const logos = [
+    {
+      category: 'web',
+      defn: web,
+      subtitle: t('libraryWebSubtitle'),
+      desc: t('libraryWebDesc')
+    },
+    {
+      category: 'favicon',
+      defn: favicon,
+      subtitle: t('libraryFaviconSubtitle'),
+      desc: t('libraryFaviconDesc')
+    },
+    {
+      category: 'mobile',
+      defn: mobile,
+      subtitle: t('libraryMobileSubtitle'),
+      desc: t('libraryMobileDesc')
+    }
+  ]
 
   const showModal = (logo: { type: string, value: string }, logoCategory: string) => {
     setCurrLogo(logo)
@@ -51,10 +68,6 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ theme, updateTheme, updat
   const handleCancel = () => {
     setIsLogoModalVisible(false)
   };
-
-  const handleApply = () => {
-    workstation.window.postMessage({ theme })
-  }
  
   const isUrlValid = (url: string, currLogoCategory: string): boolean => {
 
@@ -67,32 +80,32 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ theme, updateTheme, updat
   }
 
   return (
-    <div>
+    <React.Fragment>
       <div className='mstr-app-theme-settings-panel'>
         <div className='settings-panel-content'>
           <div className='mstr-app-theme-logos'>
-        <div className='theme-logos-title'>
-          App Logo
-        </div>
-        <div className='theme-logo'>
-          <div className='logo-caption'>Library Web</div> 
-          <Button type="primary" onClick={()=>{showModal(web, 'web')}}>Upload Logo</Button>
-        </div>
-        <div className='theme-logo'>
-          <div className='logo-caption'>Library Favicon</div> 
-          <Button type="primary" onClick={()=>{showModal(favicon, 'favicon')}}>Upload Logo</Button>
-        </div>
-        <div className='theme-logo'>
-          <div className='logo-caption'>Library Mobile</div> 
-          <Button type="primary" onClick={()=>{showModal(mobile, 'mobile')}}>Upload Logo</Button>
-        </div>
-          </div>
-        </div>
-        <div className='settings-panel-footer'>
-          <div className='apply-btn'>
-            <Button type="primary" onClick={handleApply}>
-              Apply
-            </Button>
+            <div className='theme-logos-title'>{t('appLogoTitle')}</div>
+            {
+              logos.map(logo => (
+                <div className='theme-logo'>
+                  <div className='logo-subtitle'>{logo.subtitle}</div>
+                  <div className='theme-logo-inner-wrapper'>
+                    <div className='theme-logo-box'>
+                      {
+                        // if user defined a logo using URL, render it instead of placeholder
+                        theme && theme.logos && theme.logos[logo.category as keyof ApplicationLogos] && theme.logos[logo.category as keyof ApplicationLogos].type === 'URL'
+                          ? <img className='theme-logo-img' src={theme.logos[logo.category as keyof ApplicationLogos].value} />
+                          : <div className={classnames('theme-logo-icn', logo.category)} />
+                      }
+                    </div>
+                    <div className='btn-wrapper'>
+                      <Button className='btn' type='primary' onClick={() => showModal(logo.defn, logo.category)}>{t('uploadLogo')}</Button>
+                      <div className='desc'>{logo.desc}</div>
+                    </div>
+                  </div>
+                </div>
+              ))
+            }
           </div>
         </div>
       </div>
@@ -111,25 +124,19 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ theme, updateTheme, updat
             defaultValue={'https://'}
             placeholder={'https://'}
             value= {currLogo.value}
-            onChange={(e) => setCurrLogo({ type: 'URL', value: e.target.value })}
+            onChange={(e: { target: { value: any } }) => setCurrLogo({ type: 'URL', value: e.target.value })}
             onPressEnter={handleOk}
             onValidate={()=>isUrlValid(currLogo.value, currLogoCategory)&&urlValid}
             errorMessage={errMessage}
-            isErrorDisplayed
+            isErrorDisplayed={!urlValid}
         />
       </Modal>
-    </div>
-    
+    </React.Fragment>
   )
 }
 
-const mapState = (state: RootState) => ({
-  theme: selectCurrentTheme(state)
-})
-
-const connector = connect(mapState, {
-  updateTheme: Actions.updateTheme,
-  updateCurrentConfig: Actions.updateCurrentConfig
+const connector = connect(null, {
+  updateTheme: Actions.updateTheme
 })
 
 export default connector(SettingsPanel)

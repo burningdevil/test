@@ -1,9 +1,11 @@
+@import '../../modules/components/scss/variables.scss';
+
 .mstr-app-theme-preview-panel {
   display: flex;
   align-items: center;
   justify-content: center;
   background: #D9D9D9;
-  width: calc(100% - 320px);
+  width: $preview-panel-width;
 
   pre {
     margin: 14px 0;

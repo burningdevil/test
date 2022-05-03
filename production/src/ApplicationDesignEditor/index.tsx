@@ -5,82 +5,65 @@ import { env } from '../main'
 import * as Actions from '../store/actions/ActionsCreator'
 import PreviewPanel from './PreviewPanel'
 import SettingsPanel from './SettingsPanel'
+import DesignStudioToolbar from './DesignStudioToolbar'
 import { WorkstationModule, WindowEvent, DialogValues } from '@mstr/workstation-types'
-import Resizer from './Components/Resizer'
+import { t } from '../i18n/i18next';
 import './styles.scss'
-import { selectCurrent } from '../store/selectors/ApplicationDesignEditorSelector'
-import { ApplicationTheme } from '../types/data-model/HomeScreenConfigModels'
+import { selectDesignStudioTheme } from '../store/selectors/ApplicationDesignEditorSelector'
+import { ApplicationTheme, HomeScreenConfigType } from '../types/data-model/HomeScreenConfigModels'
 
 type ApplicationDesignEditorProps = {
-  theme: ApplicationTheme
-  setAppTheme: any
+  currStudioTheme: ApplicationTheme;
+  setCurrStudioTheme: (theme: ApplicationTheme) => {};
+  setCurrConfig: (config: HomeScreenConfigType) => {};
 }
 
-const INIT_LEFT = 320
-const MIN_LEFT = 180
-const MAX_LEFT = 378
-
 declare var workstation: WorkstationModule
-const ApplicationDesignEditor: React.FC<ApplicationDesignEditorProps> = ({ theme, setAppTheme }) => {
-  const [settingsPanelWidth, setSettingsPanelWidth] = React.useState(INIT_LEFT)
-  const useEffect = React.useEffect;
 
-  useEffect(() => {
+const ApplicationDesignEditor: React.FC<ApplicationDesignEditorProps> = ({ currStudioTheme, setCurrStudioTheme, setCurrConfig }) => {
+  React.useEffect(() => {
     async function initEditor() {
-      const currentConfig = await env.window.getExtraContext()
-      // console.log(theme)
-      setAppTheme(JSON.parse(theme))
+      const stringifiedExtraContext = await workstation.window.getExtraContext()
+      const { theme: prevTheme, config: prevConfig } = JSON.parse(stringifiedExtraContext) 
+      setCurrStudioTheme(prevTheme)
+      setCurrConfig(prevConfig)
+      await env.window.setTitle(t('designStudioWindowTitle').replace('{{application}}', prevConfig.name))
     }
     initEditor();
 
-    workstation.window.addHandler(WindowEvent.CLOSE, async () => {
-      let returnVal = await workstation.dialogs.confirmation({message: 'Apply theme to Application?'});
-      if (returnVal == DialogValues.YES) {
-        await workstation.window.setCloseInfo(JSON.stringify({ 
-          theme
+    env.window.addHandler(WindowEvent.CLOSE, async () => {
+      let returnVal = await env.dialogs.confirmation({message: t('applyThemeConfirmationStr')});
+      if (returnVal === DialogValues.YES) {
+        await env.window.setCloseInfo(JSON.stringify({ 
+          currStudioTheme
         }))
+      } else if (returnVal === DialogValues.CANCEL) {
+        return false
       }
-      workstation.window.close()
-      return { }
+      env.window.close()
+      return true
     });
   }, []);
 
 
   return (
     <div className='mstr-app-design-editor'>
-      <div className='title-section'>
-        <div className='label' ></div>
-      </div>
+      <DesignStudioToolbar theme={currStudioTheme} />
       <div className='content-section'>
-        <SettingsPanel />
-        <Resizer
-          onStop={(e: any, ui: any) => setSettingsPanelWidth(ui.x)}
-          position={{
-            x: settingsPanelWidth,
-            y: 0
-          }}
-          style={{
-            height: '100%',
-            left: -4
-          }}
-          axis='x'
-          bounds={{
-            left: MIN_LEFT,
-            right: MAX_LEFT
-          }}
-        />
-        <PreviewPanel previewStyle={{ width: 'calc(100% - ' + (settingsPanelWidth) + 'px)' }}/>
+        <SettingsPanel theme={currStudioTheme} />
+        <PreviewPanel theme={currStudioTheme} />
       </div>
     </div>
   )
 }
 
 const mapState = (state: RootState) => ({
-  theme: selectTheme(state)
+  currStudioTheme: selectDesignStudioTheme(state)
 })
 
 const connector = connect(mapState, {
-  setAppTheme: Actions.setTheme
+  setCurrStudioTheme: Actions.setTheme,
+  setCurrConfig: Actions.setCurrentConfig
 })
 
 export default connector(ApplicationDesignEditor)

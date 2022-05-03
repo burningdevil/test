@@ -71,6 +71,9 @@ export const validateUrl = (url: string, callback: any, currLogoCategory: string
   // todo: implement image format check
 
   validateImageDimensionFromUrl(url, callback, currLogoCategory);
+
+  // reset error message
+  callback(true, '');
   return true;
 }
 

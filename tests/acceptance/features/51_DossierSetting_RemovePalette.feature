@@ -24,6 +24,9 @@ Feature: 51_DossierSetting_RemovePalette
         Then check the screenshot by comparing "51_DossierSetting_RemovePalette_1"
         When I remove the "Arctic" from the list
         Then check the screenshot by comparing "51_DossierSetting_RemovePalette_2"
+        Then I switch to menu "Components"
+        Then I click "Save" button in the tab "components"
+        Then I delete the application "New Application"
         
 
 

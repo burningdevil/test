@@ -3,36 +3,17 @@ import { connect } from 'react-redux'
 import 'antd/dist/antd.css';
 import * as _ from 'lodash'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
-import { selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEditorSelector'
+import { selectCurrentConfig, selectCurrentConfigTheme } from '../../../store/selectors/HomeScreenConfigEditorSelector'
 import * as Actions from '../../../store/actions/ActionsCreator'
 import { env } from '../../../main'
 import { default as VC, localizedStrings } from '../HomeScreenConfigConstant'
-import { HomeScreenConfigType } from '../../../types/data-model/HomeScreenConfigModels'
+import { ApplicationTheme, HomeScreenConfigType } from '../../../types/data-model/HomeScreenConfigModels'
 import { ObjectEditorSettings, WorkstationModule, WindowEvent } from '@mstr/workstation-types'
 import { t } from '../../../i18n/i18next';
 import '../scss/HomeScreenAppearance.scss'
 
-const appThemeDefault = {
-    schemaVersion: 1,
-    logos: {
-        web: {
-            type: 'URL',
-            value: ''
-        },
-        favicon: {
-            type: 'URL',
-            value: ''
-        },
-        mobile: {
-            type: 'URL',
-            value: ''
-        }
-    }
-}
-
 declare var workstation: WorkstationModule;
 class HomeScreenAppearance extends React.Component<any, any> {
-
     // Life cycle
     constructor(props: any) {
         super(props)
@@ -49,8 +30,7 @@ class HomeScreenAppearance extends React.Component<any, any> {
             currentEnv: currentEnvironment
         });
         workstation.window.addHandler(WindowEvent.ONCHILDCLOSE, (info) => {
-            console.log('response is ',info)
-            const { Message } = info || {}
+           const { Message } = info || {}
             const { ChildInfo } = Message || {} 
             const { theme } = ChildInfo || {}
             if (theme) {
@@ -62,7 +42,6 @@ class HomeScreenAppearance extends React.Component<any, any> {
             return {}
         })
         workstation.window.addHandler(WindowEvent.POSTMESSAGE, (info: any) => {
-            console.log('response is ',info)
             const { Message } = info || {}
             const { theme } = Message || {}
             if (theme) {
@@ -74,13 +53,13 @@ class HomeScreenAppearance extends React.Component<any, any> {
         })
     }
 
-    openAppDesignEditor = (currentConfig?: HomeScreenConfigType) => {
+    openAppDesignEditor = (config: HomeScreenConfigType, theme?: ApplicationTheme) => {
         const objType = VC.APP_DESIGN_OBJTYPE;
 
         let options: ObjectEditorSettings = {
             objectType: objType,
             environment: this.state.currentEnv,
-            extraContext: JSON.stringify(currentConfig)
+            extraContext: JSON.stringify({ config, theme })
         }
 
         workstation.dialogs.openObjectEditor(options).catch((e: any) =>
@@ -96,20 +75,17 @@ class HomeScreenAppearance extends React.Component<any, any> {
     }
 
     render() {
-        const { currentConfig } = this.props
-        const { theme } = currentConfig.homeScreen
-
-        // console.log("App theme => ", theme)
+        const { currConfigTheme, currConfig } = this.props;
         // TODO - Refactor/Implement UI to render list of themes
         return (
             <div className='mstr-custom-app-screen'>
                 <div className='mstr-custom-app-screen-title'>{t('customAppScreenTitle')}</div>
                 {
-                    theme ? <div className="mstr-custom-app-theme-content">
+                    currConfigTheme ? <div className="mstr-custom-app-theme-content">
                         <div className='existing-theme-icn' />
                         <div className='existing-theme-hover-overlay' />
                         <div className='existing-theme-options'>
-                            <div className="edit" onClick={() => this.openAppDesignEditor(currentConfig)} />
+                            <div className="edit" onClick={() => this.openAppDesignEditor(currConfig, currConfigTheme)} />
                             <div className="delete" onClick={() => this.removeTheme()} />
                         </div>
                     </div>
@@ -118,10 +94,10 @@ class HomeScreenAppearance extends React.Component<any, any> {
                         <div className='new-theme-desc'>{t('newThemeDesc')}</div>
                         <div className="add-design"
                             tabIndex={0}
-                            onClick={() => this.openAppDesignEditor()}
+                            onClick={() => this.openAppDesignEditor(currConfig)}
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter') {
-                                    this.openAppDesignEditor()
+                                    this.openAppDesignEditor(currConfig)
                                 }
                             }}
                         >
@@ -136,12 +112,13 @@ class HomeScreenAppearance extends React.Component<any, any> {
 }
 
 const mapState = (state: RootState) => ({
-    currentConfig: selectCurrentConfig(state)
+    currConfigTheme: selectCurrentConfigTheme(state),
+    currConfig: selectCurrentConfig(state)
 })
 
 const connector = connect(mapState, {
     deleteThemeInCurrentConfig: Actions.deleteThemeInCurrentConfig,
-    updateCurrentConfig :Actions.updateCurrentConfig
+    updateCurrentConfig: Actions.updateCurrentConfig
 })
 
 export default connector(HomeScreenAppearance)

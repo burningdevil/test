@@ -16,5 +16,8 @@ Feature: 51_DossierSetting_EnablePalette
         Then check the screenshot by comparing "51_DossierSetting_EnablePalette_1"
         When I enable the custom palette mode "Specify color palettes for this application"
         Then check the screenshot by comparing "51_DossierSetting_EnablePalette_2"
+        Then I switch to menu "Components"
+        Then I click "Cancel" button in the tab "components"
+
 
 

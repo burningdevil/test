@@ -1,45 +1,96 @@
 @import '../../modules/components/scss/variables.scss';
 
 .mstr-app-theme-settings-panel {
-  background: #FFFFFF;
+  height: 100%;
+  width: $settings-panel-width;
+  padding: $settings-panel-padding;
+  background: $white;
 
   .mstr-app-theme-logos {
-    font-family: 'Helvetica';
+    font-family: $font-family;
+    font-size: $font-size;
 
     .theme-logos-title {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #4A4A4A;
+      height: 28px;
+      line-height: 28px;
+      font-weight: 700;
+      text-align: left;
+      color: $settings-panel-title-subtitle-color;
     }
 
     .theme-logo {
-      display: flex;
-      margin: 20px;
+      margin-top: 8px;
 
-      &:nth-child(2) {
-        margin-top: 10px;
+      &:not(:nth-child(2)) {
+        margin-top: 20px;
       }
 
-      .logo-caption {
-        font-size: 15px;
-        font-weight: 400;
-        line-height: 1.2;
-        color: #4A4A4A;
+      .logo-subtitle {
+        line-height: $line-height;
+        color: $settings-panel-title-subtitle-color;
+        margin-bottom: 8px;
+      }
+
+      .theme-logo-inner-wrapper {
         display: flex;
-        align-items: center;
-        margin-right: 12px;
+
+        .theme-logo-box {
+          display: flex;
+          height: $logo-box-height;
+          width: $logo-box-width;
+          margin-right: 10px;
+          border: 1px solid $settings-panel-logo-box-border-color;
+          border-radius: 4px;
+          justify-content: center;
+          align-items: center;
+
+          .theme-logo-icn {
+            height: 100%;
+            width: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+  
+            &.web {
+              background-image: url('../../modules/components/images/web-logo.svg');
+            }
+  
+            &.favicon {
+              background-image: url('../../modules/components/images/favicon-logo.svg');
+            }
+  
+            &.mobile {
+              background-image: url('../../modules/components/images/mobile-logo.svg');
+            }
+          }
+  
+          .theme-logo-img {
+            max-height: calc(#{$logo-box-height} - 2px); // subtract 2px to account for border size
+            max-width: calc(#{$logo-box-width} - 2px); // subtract 2px to account for border size
+          }
+        }
+
+        .btn-wrapper {
+          margin-top: 2px;
+          
+          .btn {
+            height: 24px;
+            min-width: 89px;
+            background-color: $settings-panel-btn-bg-color;
+            padding: 0;
+            border-radius: 3px;
+            margin-bottom: 8px;
+            font-size: $font-size;
+            box-shadow: none;
+            border: none;
+          }
+
+          .desc {
+            line-height: $line-height;
+            color: $settings-panel-logo-desc-color;
+          }
+        }
       }
     }
-  }
-
-  .settings-panel-footer {
-    display: flex;
-    margin-bottom: auto;
-    right: 0;
-    bottom: 0;
-    justify-content: center;
-    align-items: center;
   }
 }
 
@@ -69,7 +120,6 @@
   }
 
   .logo-modal-url {
-    margin: 12px;
     background: #F2F3F5;
     width: 93%;
     margin: 0 12px;

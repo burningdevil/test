@@ -1,5 +1,4 @@
 import { RootState } from '../../types/redux-state/HomeScreenConfigState'
-import * as Actions from '../actions/ActionConstants'
 import { createSelector } from 'reselect'
 
 export const selectAppDesignEditorRoot = (state: RootState) => state.appDesignEditor
@@ -14,7 +13,7 @@ export const selectConfigTheme = createSelector(
   (currentConfig) => currentConfig.homeScreen.theme
 )
 
-export const selectCurrentTheme = createSelector(
+export const selectDesignStudioTheme = createSelector(
   selectAppDesignEditorRoot,
   (appDesignEditorRoot) => appDesignEditorRoot.currentTheme
 )
