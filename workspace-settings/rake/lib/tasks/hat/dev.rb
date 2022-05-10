@@ -19,7 +19,7 @@ task :build do
     cwd: $WORKSPACE_SETTINGS[:paths][:project][:production][:home]
   )
   shell_command!(
-    "docker run -v #{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}:/mnt/production -e APPLICATION_VERSION=#{Common::Version.application_version} --entrypoint '/bin/sh' node:12-alpine /mnt/production/build.sh",
+    "docker run -v #{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}:/mnt/production -e APPLICATION_VERSION=#{Common::Version.application_version} --entrypoint '/bin/sh' node:16.15.0 /mnt/production/build.sh",
     cwd: $WORKSPACE_SETTINGS[:paths][:project][:production][:home]
   )
 #   shell_command!(
