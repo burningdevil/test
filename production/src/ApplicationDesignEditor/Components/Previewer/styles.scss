@@ -2,12 +2,12 @@
 @import '../../../modules/components/scss/variables.scss';
 
 $background-color: rgba(255, 255, 255, .7);
-$container-width: 274px;
+$container-width: 482px;
 $container-width-phone: 103px;
-$preview-width: 241px;
-$preview-height: 162px;
+$preview-width: 482px;
+$preview-height: 324px;
 $preview-width-phone: 121px;
-$preview-header-height: 19px;
+$preview-header-height: 38px;
 $sidebar-width: 91px;
 
 $font-size-side: 7px;
@@ -91,9 +91,6 @@ $tablet-scale: 0.85;
 }
 
 @mixin padOrWebSetting($color) {
-    margin-left: 16px;
-    margin-right: 16px;
-    margin-bottom: 8px;
     height: $preview-height;
     .ant-layout-header {
         padding: 0 1px;
@@ -103,10 +100,32 @@ $tablet-scale: 0.85;
         border-radius: 4px 4px 0 0;
         border-bottom: none;
         line-height: $preview-header-height;
-        background-color: $background-color;
+        background-color: $white;
         span {
             float: right;
-            font-size: 10px;
+            font-size: 14px;
+
+            // make library icon a little larger to emphasize it
+            &.icon-library {
+                font-size: 18px;
+            }
+        }
+        .replaced-logo-wrapper {
+            display: flex;
+            float: left;
+            height: 100%;
+            width: 25px;
+            align-items: center;
+            justify-content: center;
+            margin-left: 4.5px;
+
+            .replaced-logo {
+                height: $preview-panel-replaced-logo-height;
+                width: $preview-panel-replaced-logo-width;
+                &.web {
+                    border-radius: 50%;
+                }
+            }
         }
         @include iconFeatures($color)
     }
@@ -130,7 +149,7 @@ $tablet-scale: 0.85;
         &-left {
             border-radius: 2px;
             padding-left: 3px;
-            background-color: $background-color;
+            background-color: $white;
             width: $sidebar-width;
             border-right: .07rem solid lightgrey;
             display: flex;
@@ -158,7 +177,7 @@ $tablet-scale: 0.85;
                 &-fill {
                     width: 70%;
                     height: 4px;
-                    background-color: $right-background;
+                    background-color: $white;
                 }
             }
             &-down {
@@ -183,27 +202,27 @@ $tablet-scale: 0.85;
             &-library {
                 width: 50%;
                 height: 100%;
-                background: url('../../../modules/components/images/library-home-dossiers.svg') repeat-y; 
+                background: url('../../../modules/components/images/library-preview-sample.svg') no-repeat; 
             }
 
             &-library-nosidebar {
                 margin-left: 5px;
                 width: 33%;
                 height: 100%;
-                background: url('../../../modules/components/images/library-home-dossiers.svg') repeat-y;
+                background: url('../../../modules/components/images/library-preview-sample.svg') no-repeat;
             }
 
             &-dossier {
                 width: 100%;
                 height: 100%;
-                background: url('../../../modules/components/images/dossier-window-vis.svg') no-repeat; 
+                background: url('../../../modules/components/images/dossier-preview-sample.svg') no-repeat center;
             }
 
             &-dossier-nobar {
                 width: 100%;
                 height: 100%;
                 margin-top: 5px;
-                background: url('../../../modules/components/images/dossier-window-vis-notoolbar.svg') no-repeat;
+                background: url('../../../modules/components/images/dossier-preview-sample.svg') no-repeat center;
             }
         }
     }
@@ -333,7 +352,7 @@ $tablet-scale: 0.85;
         &-sidebar {
             border-radius: 2px;
             padding-left: 3px;
-            background-color: $background-color;
+            background-color: $white;
             
             border: .03rem solid lightgrey;
             display: flex;
@@ -351,7 +370,7 @@ $tablet-scale: 0.85;
             border-radius: 4px 4px 0 0;
             border-bottom: 0;
             line-height: 20px;
-            background-color: $background-color;
+            background-color: $white;
             font-size: $font-size-mini;
             @include iconFeatures($mobile-primary-blue);
             span {
@@ -440,7 +459,7 @@ $tablet-scale: 0.85;
         &-sidebar {
             border-radius: 2px;
             padding-left: 3px;
-            background-color: $background-color;
+            background-color: $white;
             border: 0.5px solid lightgrey !important;
             border-right: 0 !important;
             display: flex;
@@ -464,7 +483,7 @@ $tablet-scale: 0.85;
             border-radius: 4px 0 0 0;
             // border-left: 0;
             line-height: 24px;
-            background-color: $background-color;
+            background-color: $white;
             font-size: $font-size-mini;
             @include iconFeatures($mobile-primary-blue);
             span {
@@ -523,7 +542,7 @@ $tablet-scale: 0.85;
         &-sidebar {
             border-radius: 2px;
             padding-left: 3px;
-            background-color: $background-color;
+            background-color: $white;
             border: 0.5px solid lightgrey !important;
             border-left:0;
             display: flex;
@@ -543,7 +562,7 @@ $tablet-scale: 0.85;
             border-left: 0.5px solid lightgrey !important;
             border-radius: 0 4px 0 0;
             line-height: 24px;
-            background-color: $background-color;
+            background-color: $white;
             font-size: $font-size-mini;
             @include iconFeatures($mobile-primary-blue) 
         }

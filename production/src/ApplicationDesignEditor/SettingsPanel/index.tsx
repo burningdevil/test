@@ -94,7 +94,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ theme, updateTheme }) => 
                       {
                         // if user defined a logo using URL, render it instead of placeholder
                         theme && theme.logos && theme.logos[logo.category as keyof ApplicationLogos] && theme.logos[logo.category as keyof ApplicationLogos].type === 'URL'
-                          ? <img className='theme-logo-img' src={theme.logos[logo.category as keyof ApplicationLogos].value} />
+                          ? <img className={classnames('theme-logo-img', logo.category)} src={theme.logos[logo.category as keyof ApplicationLogos].value} />
                           : <div className={classnames('theme-logo-icn', logo.category)} />
                       }
                     </div>

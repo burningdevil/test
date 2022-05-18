@@ -38,6 +38,7 @@ import {
 } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import { Tooltip } from '@mstr/rc';
+import classnames from 'classnames';
 
 const classNamePrefix = 'Previewer';
 
@@ -181,14 +182,37 @@ class Previewer extends React.Component<any, any> {
 
     // render array of icons
     toolbarIconsRender = (iconsToRender: iconDetail[]) => {
+        const { 
+            web: webLogo = { type: 'URL', value: '' },
+            mobile: mobileLogo = { type: 'URL', value: '' }
+          } = (this.props.theme && this.props.theme.logos) || {}
         return iconsToRender.map((element, index) => {
-            return (
-                this.iconShouldShow(element) && (
+            if (!this.iconShouldShow(element)) {
+                return
+            } else {
+                const isLibraryWebLogo = element.iconName === VC.FONT_PREVIEWSIDEBAR;
+                const isLibraryMobileLogo = element.iconName === VC.FONT_LIBRARY_MOBILE;
+                let renderedLogo = (
                     <span className={element.iconName} key={index}>
                         {' '}
                     </span>
-                )
-            );
+                );
+                if (isLibraryWebLogo && webLogo.type === 'URL' && webLogo.value) {
+                    renderedLogo = (
+                        <div className='replaced-logo-wrapper'>
+                            <img className={classnames('replaced-logo web')} src={webLogo.value} />
+                        </div>
+                    );
+                }
+                if (isLibraryMobileLogo && mobileLogo.type === 'URL' && mobileLogo.value) {
+                    renderedLogo = (
+                        <div className='replaced-logo-wrapper'>
+                            <img className={classnames('replaced-logo mobile')} src={mobileLogo.value} />
+                        </div>
+                    );
+                }
+                return renderedLogo;
+            }
         });
     };
 
@@ -545,7 +569,7 @@ class Previewer extends React.Component<any, any> {
         this.hasContent = nextProps.hasContent;
     }
     render() {
-        const { deviceType, isDossierHome, toolbarHidden, toolbarCollapsed } =
+        const { theme, deviceType, isDossierHome, toolbarHidden, toolbarCollapsed } =
             this.props;
         const { libraryHeaderIcons, libraryFooterIcons } =
             this.libraryIconsToRender();
@@ -553,6 +577,11 @@ class Previewer extends React.Component<any, any> {
             this.dossierIconsToRender();
         const { sidebarHeaderIcons } = this.sidebarHeaderIconsToRender();
 
+        const { 
+            web: webLogo = { type: 'URL', value: '' }, 
+            favicon: faviconLogo = {type: 'URL', value: '' }, 
+            mobile: mobileLogo = { type: 'URL', value: '' }
+          } = (theme && theme.logos) || {}
         const showSideBar =
             this.iconShouldShow(iconTypes.sidebar) && !toolbarHidden; // when toolbar disabled, sidebar will hide as well
         const showTocOnPhone =
@@ -572,7 +601,7 @@ class Previewer extends React.Component<any, any> {
                   '-overview-right-library-nosidebar'
               );
         return (
-            <div>
+            <div className={classNamePrefix}>
                 {/* library toolbars */}
                 {!isDossierHome &&
                     this.titleRender(localizedStrings.LIBRARY_WINDOW)}
