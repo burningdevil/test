@@ -14,7 +14,6 @@ const LogoCustomizer: React.FC<LogoCustomizerProps> = ({ logo, updateTheme }) =>
   const [currLogo, setCurrLogo] = React.useState({ type: 'URL', value: '' })
   const [errMessage, setErrMessage] = React.useState('');
   const [urlValid, setUrlValid] = React.useState(true);
-  console.log('render logo uploader ' + logo.category);
 
   React.useEffect(() => {
     setCurrLogo(logo.defn)
@@ -33,7 +32,6 @@ const LogoCustomizer: React.FC<LogoCustomizerProps> = ({ logo, updateTheme }) =>
  
   const isUrlValid = (url: string, currLogoCategory: string): boolean => {
     const callback = (errorState: boolean, errorMessage: string): void => {
-        console.log('callback called')
         setUrlValid(errorState);
         setErrMessage(errorMessage);
     };
