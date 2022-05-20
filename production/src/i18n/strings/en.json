@@ -216,7 +216,6 @@
     "designStudioWindowSubtitle": "Library Home - Web Interface",
 
     "pasteImageUrl": "Paste image URL",
-    "emptyImageUrlErrMessage": "This field cannot be blank.",
     "imageUrlWithHttpErrMessage": "Enter a URL with http or https protocol.",
     "svgAndPngImageErrMessage": "Only .svg and .png file types are supported.",
     "pngImageErrMessage": "Only .png file type is supported.",
