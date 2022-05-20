@@ -1,15 +1,10 @@
 import * as React from 'react'
-import { Button, Modal } from 'antd'
 import { connect } from 'react-redux'
-import classnames from 'classnames'
-import { ApplicationLogos, ApplicationTheme } from '../../types/data-model/HomeScreenConfigModels'
+import { ApplicationTheme } from '../../types/data-model/HomeScreenConfigModels'
 import * as Actions from '../../store/actions/ActionsCreator'
+import { t } from "../../i18n/i18next"
+import LogoCustomizer from './LogoCustomizer'
 import './styles.scss'
-import { Input }  from '@mstr/rc'
-import { validateUrl } from '../utils/urlValidationHelper'
-import { localizedStrings } from '../../modules/components/HomeScreenConfigConstant';
-import { t } from "../../i18n/i18next";
-import LogoUploader from './LogoUploader'
 
 type SettingsPanelProps = {
   theme: ApplicationTheme,
@@ -53,7 +48,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ theme, updateTheme }) => 
             <div className='theme-logos-title'>{t('appLogoTitle')}</div>
             {
               logos.map((logo, index) => (
-                <LogoUploader logo={logo} updateTheme={updateTheme} key={index}/>
+                <LogoCustomizer logo={logo} updateTheme={updateTheme} key={index}/>
               ))
             }
           </div>

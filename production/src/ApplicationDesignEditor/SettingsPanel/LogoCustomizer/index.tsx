@@ -1,20 +1,16 @@
 import * as React from 'react'
-import { connect } from 'react-redux'
 import classnames from 'classnames'
-import { ApplicationLogos } from '../../../types/data-model/HomeScreenConfigModels'
-import * as Actions from '../../../store/actions/ActionsCreator'
-import './styles.scss'
 import { Input }  from '@mstr/rc'
 import { validateUrl } from '../../utils/urlValidationHelper'
-// import { localizedStrings } from '../../../modules/components/HomeScreenConfigConstant';
-// import { t } from "../../../i18n/i18next";
+import { t } from "../../../i18n/i18next"
+import './styles.scss'
 
-type LogoUploaderProps = {
+type LogoCustomizerProps = {
   logo: any,
   updateTheme: (logo: { type: string, value: string}) => {}
 }
 
-const LogoUploader: React.FC<LogoUploaderProps> = ({ logo, updateTheme }) => {
+const LogoCustomizer: React.FC<LogoCustomizerProps> = ({ logo, updateTheme }) => {
   const [currLogo, setCurrLogo] = React.useState({ type: 'URL', value: '' })
   const [errMessage, setErrMessage] = React.useState('');
   const [urlValid, setUrlValid] = React.useState(true);
@@ -62,7 +58,7 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({ logo, updateTheme }) => {
                 autoFocus={false}
                 className={`logo-modal-url-${logo.category}`}
                 defaultValue={'https://'}
-                placeholder={'Paste an image URL'}
+                placeholder={t('pasteImageUrl')}
                 value={currLogo.value}
                 onChange={(e: { target: { value: any } }) => {
                     setCurrLogo({ type: 'URL', value: e.target.value })
@@ -86,4 +82,4 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({ logo, updateTheme }) => {
   )
 }
 
-export default LogoUploader
+export default LogoCustomizer
