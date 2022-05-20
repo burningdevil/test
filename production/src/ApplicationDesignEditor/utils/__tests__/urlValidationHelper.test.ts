@@ -8,7 +8,7 @@ describe('validateUrl function test', () => {
 
   it('logo url empty', () => {
     const isValid = validateUrl('', ()=>{}, 'web')
-    expect(isValid).toBe(false)
+    expect(isValid).toBe(true)
   })
 
   it('logo url invalid', () => {
