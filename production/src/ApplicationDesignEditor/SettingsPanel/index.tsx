@@ -1,17 +1,14 @@
 import * as React from 'react'
-import { connect } from 'react-redux'
 import { ApplicationTheme } from '../../types/data-model/HomeScreenConfigModels'
-import * as Actions from '../../store/actions/ActionsCreator'
 import { t } from "../../i18n/i18next"
 import LogoCustomizer from './LogoCustomizer'
 import './styles.scss'
 
 type SettingsPanelProps = {
-  theme: ApplicationTheme,
-  updateTheme: (logo: { type: string, value: string}) => {}
+  theme: ApplicationTheme
 }
 
-const SettingsPanel: React.FC<SettingsPanelProps> = ({ theme, updateTheme }) => {
+const SettingsPanel: React.FC<SettingsPanelProps> = ({ theme }) => {
   const { 
     web = { type: 'URL', value: '' }, 
     favicon = {type: 'URL', value: '' }, 
@@ -47,9 +44,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ theme, updateTheme }) => 
           <div className='mstr-app-theme-logos'>
             <div className='theme-logos-title'>{t('appLogoTitle')}</div>
             {
-              logos.map((logo, index) => (
-                <LogoCustomizer logo={logo} updateTheme={updateTheme} key={index}/>
-              ))
+              logos.map((logo, index) => <LogoCustomizer logo={logo} key={index}/>)
             }
           </div>
         </div>
@@ -58,8 +53,4 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ theme, updateTheme }) => 
   )
 }
 
-const connector = connect(null, {
-  updateTheme: Actions.updateTheme
-})
-
-export default connector(SettingsPanel)
+export default SettingsPanel

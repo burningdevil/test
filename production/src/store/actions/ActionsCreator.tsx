@@ -134,3 +134,8 @@ export const updateTheme = (data: any) => ({
   data
 })
 
+export const deleteThemeLogo = (logoCategory: string) => ({
+  type: Actions.DELETE_THEME_LOGO,
+  data: logoCategory
+})
+

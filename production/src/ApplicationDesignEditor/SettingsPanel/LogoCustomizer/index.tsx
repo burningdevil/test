@@ -1,5 +1,7 @@
 import * as React from 'react'
+import { connect } from 'react-redux'
 import classnames from 'classnames'
+import * as Actions from '../../../store/actions/ActionsCreator'
 import { Input }  from '@mstr/rc'
 import { validateUrl } from '../../utils/urlValidationHelper'
 import { t } from "../../../i18n/i18next"
@@ -8,9 +10,10 @@ import './styles.scss'
 type LogoCustomizerProps = {
   logo: any,
   updateTheme: (logo: { type: string, value: string}) => {}
+  deleteThemeLogo: (logoCategory: string) => {}
 }
 
-const LogoCustomizer: React.FC<LogoCustomizerProps> = ({ logo, updateTheme }) => {
+const LogoCustomizer: React.FC<LogoCustomizerProps> = ({ logo, updateTheme, deleteThemeLogo }) => {
   const [currLogo, setCurrLogo] = React.useState({ type: 'URL', value: '' })
   const [errMessage, setErrMessage] = React.useState('');
   const [urlValid, setUrlValid] = React.useState(true);
@@ -24,11 +27,16 @@ const LogoCustomizer: React.FC<LogoCustomizerProps> = ({ logo, updateTheme }) =>
     if (!urlValid) {
         return
     }
-    const logoObj: any = {
-      logos: {}
+
+    if (currLogo.value) {    
+      const logoObj: any = {
+        logos: {}
+      };
+      logoObj.logos[logo.category] = currLogo;
+      updateTheme(logoObj);
+    } else if (!currLogo.value && userProvidedValidLogoURL) {
+      deleteThemeLogo(logo.category);
     }
-    logoObj.logos[logo.category] = currLogo
-    updateTheme(logoObj)
   };
  
   const isUrlValid = (url: string, currLogoCategory: string): boolean => {
@@ -81,4 +89,9 @@ const LogoCustomizer: React.FC<LogoCustomizerProps> = ({ logo, updateTheme }) =>
   )
 }
 
-export default LogoCustomizer
+const connector = connect(null, {
+  updateTheme: Actions.updateTheme,
+  deleteThemeLogo: Actions.deleteThemeLogo
+})
+
+export default connector(LogoCustomizer)
