@@ -14,6 +14,7 @@ const LogoCustomizer: React.FC<LogoCustomizerProps> = ({ logo, updateTheme }) =>
   const [currLogo, setCurrLogo] = React.useState({ type: 'URL', value: '' })
   const [errMessage, setErrMessage] = React.useState('');
   const [urlValid, setUrlValid] = React.useState(true);
+  const userProvidedValidLogoURL = logo && logo.defn && logo.defn.type === 'URL' && logo.defn.value;
 
   React.useEffect(() => {
     setCurrLogo(logo.defn)
@@ -46,7 +47,7 @@ const LogoCustomizer: React.FC<LogoCustomizerProps> = ({ logo, updateTheme }) =>
         <div className='theme-logo-box'>
             {
             // if user provided a logo using URL, render it instead of placeholder
-            logo && logo.defn && logo.defn.type === 'URL' && logo.defn.value
+            userProvidedValidLogoURL
                 ? <img className={classnames('theme-logo-img', logo.category)} src={logo.defn.value} />
                 : <div className={classnames('theme-logo-icn', logo.category)} />
             }
