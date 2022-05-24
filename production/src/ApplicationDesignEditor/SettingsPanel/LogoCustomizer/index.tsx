@@ -24,18 +24,24 @@ const LogoCustomizer: React.FC<LogoCustomizerProps> = ({ logo, updateTheme, dele
   }, [logo.defn.value]);
 
   const onEnter = () => {
+    // don't apply change if URL is invalid
     if (!urlValid) {
-        return
+      return
     }
 
+    // remove logo category obj and return if user clears input
+    if (!currLogo.value && userProvidedValidLogoURL) {
+      deleteThemeLogo(logo.category);
+      return;
+    }
+
+    // update logo object in theme if URL is valid
     if (currLogo.value) {    
       const logoObj: any = {
         logos: {}
       };
       logoObj.logos[logo.category] = currLogo;
       updateTheme(logoObj);
-    } else if (!currLogo.value && userProvidedValidLogoURL) {
-      deleteThemeLogo(logo.category);
     }
   };
  
