@@ -231,5 +231,6 @@
     "libraryMobileSubtitle": "Library Mobile",
     "libraryMobileDesc": "Minimum 75 * 75 pixels, png format",
 
+    "apply": "Apply",
     "applyThemeConfirmationStr": "Apply theme to Application?"
 }
