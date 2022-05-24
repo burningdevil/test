@@ -1,10 +1,14 @@
 import { ApplicationDesignEditorState } from '../../types/redux-state/HomeScreenConfigState'
+import { ApplicationLogos } from 'src/types/data-model/HomeScreenConfigModels'
 import { ActionTypes } from '../actions/ActionTypes'
 import * as Actions from '../actions/ActionConstants'
 import * as _ from 'lodash'
 
 const initialState: ApplicationDesignEditorState = {
-  
+  theme: {
+    schemaVersion: 1,
+    logos: {}
+  }
 }
 
 const ApplicationDesignEditorReducer = (state: ApplicationDesignEditorState = initialState, action: ActionTypes) => {
@@ -23,6 +27,17 @@ const ApplicationDesignEditorReducer = (state: ApplicationDesignEditorState = in
             return source
           }
         })
+      }
+    case Actions.DELETE_THEME_LOGO:
+      const currThemeLogos = state.theme.logos
+      const updatedThemeLogos: ApplicationLogos = _.cloneDeep(currThemeLogos)
+      delete updatedThemeLogos[data as keyof ApplicationLogos]
+      return {
+        ...state,
+        theme: {
+          ...state.theme,
+          logos: updatedThemeLogos
+        }
       }
     default:
   }

@@ -1,25 +1,51 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
+import * as _ from 'lodash'
+import { Environment } from '@mstr/workstation-types'
+import { RootState } from '../../types/redux-state/HomeScreenConfigState'
+import { env } from '../../main'
 import { ApplicationTheme } from '../../types/data-model/HomeScreenConfigModels'
+import Previewer from '../Components/Previewer'
 import './styles.scss'
+import { selectCurrentConfigContentBundleIds, selectIsDossierAsHome } from '../../store/selectors/HomeScreenConfigEditorSelector'
+import { isLibraryServerVersionMatch, isUserHasManageContentGroupPrivilege, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION } from '../../utils'
  
-type PreviewPanelProps = {
-  theme: ApplicationTheme
+interface PreviewPanelProps {
+  theme: ApplicationTheme;
+  isDossierHome?: boolean;
+  contentBundleIds?: String[];
 }
 
-const PreviewPanel: React.FC<PreviewPanelProps> = ({ theme }) => {
+const PreviewPanel: React.FC<PreviewPanelProps> = ({ theme, isDossierHome, contentBundleIds }) => {
+  const [contentBundleFeatureEnable, setContentBundleFeatureEnable] = React.useState(false);
+  const [defaultGroupFeatureEnable, setDefaultGroupFeatureEnable] = React.useState(false);
   
+  React.useEffect(() => {
+    async function initPreviewPanel() {
+      const currEnv : Environment = await env.environments.getCurrentEnvironment();
+      const contentBundleEnable = !!currEnv.webVersion && isLibraryServerVersionMatch(currEnv.webVersion, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION) && isUserHasManageContentGroupPrivilege(currEnv.privileges);
+      setContentBundleFeatureEnable(contentBundleEnable);
+      if (!isDossierHome) {
+        const defaultGroupEnable = !_.isEmpty(contentBundleIds) && (contentBundleIds.length > 0) && (contentBundleEnable === true);
+        setDefaultGroupFeatureEnable(defaultGroupEnable);
+      }
+    }
+
+    initPreviewPanel();
+  }, [])
+
   return (
     <div className='mstr-app-theme-preview-panel'>
-      <pre >
-        <code>
-        {JSON.stringify(theme, null, 2) }
-        </code>
-      </pre>
+      <Previewer theme={theme} contentBundleFeatureEnable={contentBundleFeatureEnable} hasContent={defaultGroupFeatureEnable}/>
     </div>
   )
 }
 
-const connector = connect(null, {})
+const mapState = (state: RootState) => ({
+  isDossierHome: selectIsDossierAsHome(state),
+  contentBundleIds: selectCurrentConfigContentBundleIds(state)
+})
+
+const connector = connect(mapState, {})
 
 export default connector(PreviewPanel)

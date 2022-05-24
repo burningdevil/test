@@ -11,16 +11,16 @@ type DesignStudioToolbarProps = {
 }
 
 const DesignStudioToolbar: React.FC<DesignStudioToolbarProps> = ({ theme }) => {
-    const [saving, setSaving] = React.useState(false)
+    const [applying, setApplying] = React.useState(false)
 
     const handleCancelTheme = async () => {
         await env.window.close()
     }
 
-    const handleSaveTheme = async () => {
-        setSaving(true)
+    const handleApplyTheme = async () => {
+        setApplying(true)
         await env.window.postMessage({ theme })
-        setSaving(false)
+        setApplying(false)
     }
 
     return (
@@ -28,7 +28,7 @@ const DesignStudioToolbar: React.FC<DesignStudioToolbarProps> = ({ theme }) => {
             <div className='label'>{t('designStudioWindowSubtitle')}</div>
             <div className='btn-section'>
                 <Button className={classnames('btn', 'cancel')} type='default' onClick={handleCancelTheme}>{t('cancel')}</Button>
-                <Button className={classnames('btn', 'save')} type='primary' onClick={handleSaveTheme} loading={saving}>{t('save')}</Button>
+                <Button className={classnames('btn', 'apply')} type='primary' onClick={handleApplyTheme} loading={applying}>{t('apply')}</Button>
             </div>
         </div>
     )

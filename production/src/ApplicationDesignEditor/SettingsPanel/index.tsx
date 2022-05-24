@@ -1,27 +1,14 @@
 import * as React from 'react'
-import { Button, Modal } from 'antd'
-import { connect } from 'react-redux'
-import classnames from 'classnames'
-import { ApplicationLogos, ApplicationTheme } from '../../types/data-model/HomeScreenConfigModels'
-import * as Actions from '../../store/actions/ActionsCreator'
+import { ApplicationTheme } from '../../types/data-model/HomeScreenConfigModels'
+import { t } from "../../i18n/i18next"
+import LogoCustomizer from './LogoCustomizer'
 import './styles.scss'
-import { Input }  from '@mstr/rc'
-import { validateUrl } from '../utils/urlValidationHelper'
-import { localizedStrings } from '../../modules/components/HomeScreenConfigConstant';
-import { t } from "../../i18n/i18next";
 
 type SettingsPanelProps = {
-  theme: ApplicationTheme,
-  updateTheme: (logo: { type: string, value: string}) => {}
+  theme: ApplicationTheme
 }
 
-const SettingsPanel: React.FC<SettingsPanelProps> = ({ theme, updateTheme }) => {
-  const [isLogoModalVisible, setIsLogoModalVisible] = React.useState(false);
-  const [currLogo, setCurrLogo] = React.useState({ type: 'URL', value: '' })
-  const [currLogoCategory, setCurrLogoCategory] = React.useState('')
-  const [errMessage, setErrMessage] = React.useState('');
-  const [urlValid, setUrlValid] = React.useState(true);
-
+const SettingsPanel: React.FC<SettingsPanelProps> = ({ theme }) => {
   const { 
     web = { type: 'URL', value: '' }, 
     favicon = {type: 'URL', value: '' }, 
@@ -50,35 +37,6 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ theme, updateTheme }) => 
     }
   ]
 
-  const showModal = (logo: { type: string, value: string }, logoCategory: string) => {
-    setCurrLogo(logo)
-    setCurrLogoCategory(logoCategory)
-    setIsLogoModalVisible(true)
-  };
-
-  const handleOk = () => {
-    const logoObj: any = {
-      logos: {}
-    }
-    logoObj.logos[currLogoCategory] = currLogo
-    updateTheme(logoObj)
-    setIsLogoModalVisible(false)
-  };
-
-  const handleCancel = () => {
-    setIsLogoModalVisible(false)
-  };
- 
-  const isUrlValid = (url: string, currLogoCategory: string): boolean => {
-
-    const callback = (errorState: boolean, errorMessage: string): void => {
-       setErrMessage(errorMessage);
-       setUrlValid(errorState);
-    };
-
-    return validateUrl(url, callback, currLogoCategory); 
-  }
-
   return (
     <React.Fragment>
       <div className='mstr-app-theme-settings-panel'>
@@ -86,57 +44,13 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ theme, updateTheme }) => 
           <div className='mstr-app-theme-logos'>
             <div className='theme-logos-title'>{t('appLogoTitle')}</div>
             {
-              logos.map(logo => (
-                <div className='theme-logo'>
-                  <div className='logo-subtitle'>{logo.subtitle}</div>
-                  <div className='theme-logo-inner-wrapper'>
-                    <div className='theme-logo-box'>
-                      {
-                        // if user defined a logo using URL, render it instead of placeholder
-                        theme && theme.logos && theme.logos[logo.category as keyof ApplicationLogos] && theme.logos[logo.category as keyof ApplicationLogos].type === 'URL'
-                          ? <img className='theme-logo-img' src={theme.logos[logo.category as keyof ApplicationLogos].value} />
-                          : <div className={classnames('theme-logo-icn', logo.category)} />
-                      }
-                    </div>
-                    <div className='btn-wrapper'>
-                      <Button className='btn' type='primary' onClick={() => showModal(logo.defn, logo.category)}>{t('uploadLogo')}</Button>
-                      <div className='desc'>{logo.desc}</div>
-                    </div>
-                  </div>
-                </div>
-              ))
+              logos.map((logo, index) => <LogoCustomizer logo={logo} key={index}/>)
             }
           </div>
         </div>
       </div>
-      <Modal className='mstr-app-theme-upload-logo' 
-        visible={isLogoModalVisible} 
-        onOk={handleOk} 
-        onCancel={handleCancel}
-        okText={localizedStrings.SAVE}
-        cancelText={localizedStrings.CANCEL}
-        okButtonProps={{disabled:!urlValid}}
-        cancelButtonProps={{style:{color:'#0661E0', backgroundColor:'#F2F3F5'}}}
-      >
-        <div className='logo-modal-label'>{t('pasteImageUrl')}</div>
-        <Input
-            className='logo-modal-url'
-            defaultValue={'https://'}
-            placeholder={'https://'}
-            value= {currLogo.value}
-            onChange={(e: { target: { value: any } }) => setCurrLogo({ type: 'URL', value: e.target.value })}
-            onPressEnter={handleOk}
-            onValidate={()=>isUrlValid(currLogo.value, currLogoCategory)&&urlValid}
-            errorMessage={errMessage}
-            isErrorDisplayed={!urlValid}
-        />
-      </Modal>
     </React.Fragment>
   )
 }
 
-const connector = connect(null, {
-  updateTheme: Actions.updateTheme
-})
-
-export default connector(SettingsPanel)
+export default SettingsPanel

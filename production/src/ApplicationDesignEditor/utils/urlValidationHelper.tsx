@@ -2,7 +2,6 @@ import { t } from "../../i18n/i18next";
 
 // URL errors
 const URLErrorTypes = {
-    emptyError: t('emptyImageUrlErrMessage'),
     protocalSyntaxError: t('imageUrlWithHttpErrMessage'),
     imageTypeErrorPS: t('svgAndPngImageErrMessage'),
     imageTypeErrorP: t('pngImageErrMessage'),
@@ -38,11 +37,11 @@ const isValidExternalLinkProtocol = (url: string): boolean => {
 }
 
 // check image dimension 
-const  validateImageDimensionFromUrl = (url: string, callback: any, currLogoCategory: string): void => {
+const validateImageDimensionFromUrl = (url: string, callback: any, currLogoCategory: string): void => {
   const logoMinDimension: number = getLogoMinDimension(currLogoCategory);
   const img = new Image();
  
-  img.onload = function () { 
+  img.onload = () => { 
     if (img.width < logoMinDimension || img.height < logoMinDimension) {
       callback(false, URLErrorTypes.imageSizeError);
     } else {
@@ -59,8 +58,8 @@ const  validateImageDimensionFromUrl = (url: string, callback: any, currLogoCate
 
 export const validateUrl = (url: string, callback: any, currLogoCategory: string): boolean => {
   if (!url) {
-    callback(false, URLErrorTypes.emptyError);
-    return false;
+    callback(true, '');
+    return true;
   }
 
   if (!isValidExternalLinkProtocol(url)) {
