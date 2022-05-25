@@ -205,10 +205,12 @@ const ColorPaletteEditor: React.FC<any> = (props: any) => {
      * @param {DOM Event} event - Keyboard event
      */
     const handleKeyDownEvent = (event: any) => {
+        event.stopPropagation();
+            event.preventDefault();
         if (event.key === 'Enter') {
             onChange(currentVal);
-            event.stopPropagation();
-            event.preventDefault();
+        }else if([8, 46].includes(event.keyCode)) {
+            onRemoveFavorite({key: hexToDecimal(currentVal)});
         }
     };
     const sortColors = () => {
@@ -329,7 +331,8 @@ const ColorPaletteEditor: React.FC<any> = (props: any) => {
                     colors={colors}
                     onRemoveFavorite={onRemoveFavorite}
                     handleKeyDownEvent={handleKeyDownEvent}
-                    onClick={onClick}
+                    onClick={ onClick }
+                    currentSelected = { hexToDecimal(currentVal) }
                     saveColorList={saveColorList}
                     onAddFavorite={onAddFavorite}
                 />

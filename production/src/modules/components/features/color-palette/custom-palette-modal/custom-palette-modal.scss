@@ -83,7 +83,7 @@
       flex-direction: row;
       padding-bottom: 14px;
       padding-top: 5px;
-      color: $msdl-gray;
+      color: $msdl-black;
     }
     &-search-container {
         display: flex;
@@ -194,8 +194,10 @@
 .modal-container {
   .ant-modal-header {
     background: #f0f0f0;
+    padding: 7px 24px !important;
   }
   .ant-modal-title {
+    line-height: 16px;
     font-size: 12px !important;
     font-weight: 700 !important;
   }

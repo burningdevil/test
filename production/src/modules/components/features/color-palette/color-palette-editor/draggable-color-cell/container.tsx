@@ -20,6 +20,7 @@ export interface ContainerState {
 export const Container: React.FC<any> = memo(function Container(props: any) {
     const {
         colors,
+        currentSelected,
         onAddFavorite,
         onRemoveFavorite,
         onClick,
@@ -36,6 +37,11 @@ export const Container: React.FC<any> = memo(function Container(props: any) {
         });
         setCards(temp);
     }, [colors]);
+    useEffect(() => {
+        if(currentSelected && currentSelected !== selected){
+            setSelected(currentSelected)
+        }
+    }, [currentSelected])
     const findCard = useCallback(
         (id: string) => {
             const card = cards.filter((c) => `${c.id}` === id)[0];
