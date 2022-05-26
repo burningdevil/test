@@ -2,23 +2,25 @@ import ADEReducer from '../ApplicationDesignEditorReducer'
 import { setTheme, updateTheme } from '../../actions/ActionsCreator'
 import { ApplicationDesignEditorState } from '../../../types/redux-state/HomeScreenConfigState'
 
-let initialState : ApplicationDesignEditorState = { }
+let initialState : ApplicationDesignEditorState = {
+  theme: undefined
+}
 const initalStateThemeExists : ApplicationDesignEditorState = {
   theme: {
     schemaVersion: 1,
     logos: {
-        web: {
-            type: 'URL',
-            value: 'https://www.imageRepo/web.png'
-        },
-        favicon: {
-            type: 'URL',
-            value: 'https://www.imageRepo/favicon.svg'
-        },
-        mobile: {
-          type: 'URL',
-          value: 'https://www.imageRepo/mobile.svg'
-        }
+      web: {
+        type: 'URL',
+        value: 'https://www.imageRepo/web.png'
+      },
+      favicon: {
+        type: 'URL',
+        value: 'https://www.imageRepo/favicon.svg'
+      },
+      mobile: {
+        type: 'URL',
+        value: 'https://www.imageRepo/mobile.svg'
+      }
     }
   }
 }

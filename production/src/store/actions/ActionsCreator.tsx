@@ -27,8 +27,13 @@ export const updateCurrentConfig = (settings: Partial<HomeScreenConfigType>) => 
   data: settings,
 })
 
+export const updateThemeInCurrentConfig = (theme: ApplicationTheme) => ({
+  type: Actions.UPDATE_HOMESCREEN_THEME,
+  data: theme
+})
+
 export const deleteThemeInCurrentConfig = () => ({
-  type: Actions.DELETE_THEME
+  type: Actions.DELETE_HOMESCREEN_THEME
 })
 
 export const updatePreviewDeviceType = (type: string) => ({
