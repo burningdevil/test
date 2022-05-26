@@ -21,7 +21,6 @@ import {
     PropertiesSettings,
     MstrObject,
     Project,
-    dialogs,
 } from '@mstr/workstation-types';
 import { HttpProxy } from '../../../main';
 import { RestApiError } from '../../../server/RestApiError';
