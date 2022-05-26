@@ -67,7 +67,7 @@ const ApplicationDesignEditor: React.FC<ApplicationDesignEditorProps> = ({ saved
       // TODO: should it prompt user to save when parent window closes or should it force close without warning? currently, we cannot save the config
       // due to parent window already being closed by the time this callback is called. therefore, updating the config won't make a difference since
       // we can't save to the server from the Design Studio window.
-      await confirmBeforeClosing();
+      env.window.close();
     });
     
     env.window.addHandler(WindowEvent.CLOSE, async () => {
