@@ -220,7 +220,7 @@
     "svgAndPngImageErrMessage": "Only .svg and .png file types are supported.",
     "pngImageErrMessage": "Only .png file type is supported.",
     "imageOnLoadErrMessage": "Ensure that the URL points to a valid image file.",
-    "incorrrectImageDimensionErrMessage": "Image dimensions do not meet the minimum requirements.",
+    "incorrectImageDimensionErrMessage": "Image dimensions do not meet the minimum requirements.",
 
     "appLogoTitle": "App Logo",
     "uploadLogo": "Upload Logo",
