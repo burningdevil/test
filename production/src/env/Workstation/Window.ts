@@ -6,9 +6,9 @@ class Window implements WindowModule {
   getExtraContext(): Promise<string> {
     throw new Error('Method not implemented.')
   }
-  setCloseInfo(info: string): Promise<void> {
-    throw new Error('Method not implemented.')
-  }
+  
+  setCloseInfo = (info: string) => workstation.window.setCloseInfo(info)
+
   addHandler = (event: WindowEvent,
     callback: CommandCallBack | CommandCallBackAsync) => workstation.window.addHandler(event, callback)
 

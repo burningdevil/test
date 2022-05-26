@@ -8,5 +8,8 @@ export default {
     })),
     use: jest.fn(() => ({
         init: jest.fn()
-    }))
+    })),
+    changeLanguage: jest.fn(() => ({
+        init: jest.fn()
+    })),
 }

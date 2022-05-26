@@ -10,7 +10,7 @@ import { ConfirmationDialogProps } from './interface'
 import './confirmation-dialog.scss'
 
 export const ConfirmationDialog = (props: ConfirmationDialogProps) => {
-  const { isConfirmationDialogDisplayed, triggerAction, closeDialog, wordings } = props
+  const { isConfirmationDialogDisplayed, triggerAction, closeDialog, wordings, elementId } = props
 
   /* State */
 
@@ -44,7 +44,7 @@ export const ConfirmationDialog = (props: ConfirmationDialogProps) => {
       className: `${prefix}-cancel-button`,
       onClick: handleCancel,
     },
-  ]
+  ].filter(v => v.title)
 
   /* Sub-Components */
 
@@ -65,7 +65,7 @@ export const ConfirmationDialog = (props: ConfirmationDialogProps) => {
   )
 
   return (
-      <div className={`${prefix}-wrapper`}>
+      <div id = {elementId} className={`${prefix}-wrapper`}>
         <InformationDialog
           isOpen={isConfirmationDialogDisplayed}
           title={wordings.title}

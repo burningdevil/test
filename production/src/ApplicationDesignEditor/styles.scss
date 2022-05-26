@@ -1,0 +1,21 @@
+@import '../modules/components/scss/variables.scss';
+
+.mstr-app-design-editor {
+  height: $design-studio-height;
+  width: $design-studio-width;
+
+  .title-section {
+    display: flex;
+    height: $title-bar-height;
+    width: 100%;
+    line-height: $title-bar-height;
+    background-color: $title-bar-bg-color;
+    color: $white;
+  }
+
+  .content-section {
+    display: flex;
+    height: calc(100% - #{$title-bar-height});
+    width: 100%;
+  }
+}

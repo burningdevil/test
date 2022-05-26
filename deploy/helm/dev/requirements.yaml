@@ -1,10 +1,12 @@
 ---
 dependencies:
   - name: postgres
-    version: 0.1.1
-    repository: file://./charts/postgres
+    version: 0.1.5
+    repository: s3://mstr-charts/charts
     alias: postgres-md
   - name: iserver
-    repository: file://./charts/iserver
+    version: 0.1.75
+    repository: s3://mstr-charts/charts
   - name: library
-    repository: file://./charts/library
+    version: 0.1.65
+    repository: s3://mstr-charts/charts

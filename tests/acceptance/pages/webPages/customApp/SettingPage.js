@@ -7,7 +7,7 @@ export default class SettingPage extends BasePage {
   // General Page
   getMenuTab(menu) {
     // return this.$$('.ant-tabs-tab').all(by.cssContainingText('.ant-tabs-tab-btn', menu)).first()
-    return this.element(by.xpath(`//div[@class='ant-tabs-tab-btn' and text()='${menu}']`));
+    return this.element(by.xpath(`//div[@class='ant-tabs-tab-btn' and text()='${menu}']`))
   }
 
   getNameInpuBox() {
@@ -50,11 +50,9 @@ export default class SettingPage extends BasePage {
   }
   */
 
-
   getDossierListPage() {
     return this.$(".ag-center-cols-container")
   }
-
 
   /*
   getDossierDocumentItemByName(name) {
@@ -68,6 +66,10 @@ export default class SettingPage extends BasePage {
     //   return text === gridCellValue
     // }).first()
     return this.element(by.xpath(`//span[@class='content-bundle-content-picker-grid-right-name-text' and text()='${gridCellValue}']`))
+  }
+
+  getGridCellInPaletteListView(gridCellValue) {
+    return this.element(by.xpath(`//div[@class='overflow' and text() = '${gridCellValue}']/../../../../div[@class='ag-selection-checkbox']`))
   }
 
   getSelectButton() {
@@ -85,55 +87,88 @@ export default class SettingPage extends BasePage {
     return this.$$('.home-screen-components-toolbar').all(by.cssContainingText('.ant-checkbox-wrapper', mode)).first()
   }
 
-
   getToolbarOptionSwitcher(text) {
-    return this.element(by.xpath(`//span[@class='home-screen-components-table-text' and text()='${text}']//ancestor::tr//button`));
+    return this.element(by.xpath(`//span[@class='home-screen-components-table-text' and text()='${text}']//ancestor::tr//button`))
   }
 
-  getSaveButton(pageId = 'components') {
+  getSaveButton(pageId) {
     // const elms = Array.from(this.element(by.xpath(`//div[@class='ant-tabs-tabpane-active']//span[text()='Save']`)));
     // return elms.filter((elem) => {
     //   return elem.isDisplayed()
     // })
-    return this.element(by.xpath(`//div[@id='rc-tabs-0-panel-${pageId}']//span[text()='Save']`));
+    return this.element(by.xpath(`//div[@id='rc-tabs-0-panel-${pageId}']//span[text()='Save']`))
   }
 
-  getCancelButton(pageId = 'components') {
+  getCancelButton(pageId) {
     // return this.$('.home-screen-editor-layout-btn').element(by.cssContainingText('.ant-btn', 'Cancel'))
     //return this.$$('.ant-btn').filter(async (elem) => {
       //return elem.isDisplayed()
     //}).first()
-    return this.element(by.xpath(`//div[@id='rc-tabs-0-panel-${pageId}']//span[text()='Cancel']`));
+    return this.element(by.xpath(`//div[@id='rc-tabs-0-panel-${pageId}']//span[text()='Cancel']`))
   }
 
-  getConfirmCancelButton(pageId = 'components') {
-    const index = ['general','homeScreen','components'].findIndex(v => v === pageId);
+  getConfirmCancelButton(pageId) {
+    const index = ['general','homeScreen','components'].findIndex(v => v === pageId)
     return this.element.all(by.xpath(`//div[@class='mstr-button-container']//span[text()='Yes']`)).get(index)
   }
 
   //More Setting page
   getAccessMode(mode) {
     // return this.$$('.home-screen-moresetting-box').all(by.cssContainingText('.ant-checkbox-wrapper', mode)).first()
-    return this.element(by.xpath(`//input[@id='${mode}']`));
-    
+    return this.element(by.xpath(`//input[@id='${mode}']`))
   }
+
+  //Dossier Setting page
+  getCustomPaletteMode(mode) {
+    return this.$$('.home-screen-dossiersetting-default-color-palette-container').all(by.cssContainingText('.ant-checkbox-wrapper', mode)).first()
+  }
+
+  getAddNewButton() {
+    return this.$('.home-screen-dossiersetting-custom-color-palette-new-text')
+  }
+
+  getCreateNewPaletteButton() {
+    return this.$('.custom-palette-add-container-custom-color-palette-new-text')
+  }
+
+  getOKButton() {
+    return this.element(by.xpath(`//span[text() = 'OK']`))
+  }
+
+  getColor(color) {
+    return this.element(by.xpath(`//button[@title='${color}']`))
+  }
+
+  getPaleteNameInListView(palettename) {
+    return this.element(by.xpath(`//div[@class='overflow' and text() = '${palettename}']`))
+  }
+
+  getDefaultOption() {
+    return this.element(by.xpath(`//div[@class='set-default-col operation-item' and text() = 'Set as Default']`))
+  }
+
+  getRemoveOption() {
+    return this.element(by.xpath(`//div[@class='icon-pnl_close operation-item']`))
+  }
+
+
 
   // connectivity, to be added the id
   getInputBoxByNumber(number = '180') {
-    return this.element(by.xpath(`//input[@class='ant-input' and @value='${number}']`));
+    return this.element(by.xpath(`//input[@class='ant-input' and @value='${number}']`))
   }
+
   getLoggingSelectDown() {
-    return this.element(by.xpath(`//span[@class='home-screen-moresetting-cfg-advance-input log-dropdown']//button`));
+    return this.element(by.xpath(`//span[@class='home-screen-moresetting-cfg-advance-input log-dropdown']//button`))
   }
+
   getSelectOptionByText(text) {
-    return this.element(by.xpath(`//span[@class='ant-dropdown-menu-title-content' and text() = '${text}']`));
-  }
-  getCacheCheckbox(){
-    return this.element(by.xpath(`//input[@id='clearCacheOnLogout']`));
+    return this.element(by.xpath(`//span[@class='ant-dropdown-menu-title-content' and text() = '${text}']`))
   }
 
-
-
+  getCacheCheckbox() {
+    return this.element(by.xpath(`//input[@id='clearCacheOnLogout']`))
+  }
 
   // actions
   // for WebView management
@@ -147,10 +182,10 @@ export default class SettingPage extends BasePage {
     console.log('Switch to new WebView: ', await browser.getTitle())
   }
 
-  async clickButtonsByTextOnNewCustomAppPage(text, pageId= 'components') {
+  async clickButtonsByTextOnNewCustomAppPage(text, pageId) {
     if (text === 'Save') {
       // await browser.sleep(2000 * this.ratio)
-      await this.wait(this.EC.visibilityOf(this.getSaveButton()), 120000 * this.ratio, 'Save buton was not visible');
+      await this.wait(this.EC.visibilityOf(this.getSaveButton(pageId)), 120000 * this.ratio, 'Save buton was not visible');
       await this.getSaveButton(pageId).click()
       await browser.sleep(2000 * this.ratio)
     } else if (text === 'Cancel') {
@@ -198,18 +233,15 @@ export default class SettingPage extends BasePage {
     await browser.sleep(3000 * this.ratio)
   }
 
-
   //async waitForDossierListWindow() {
     //await this.wait(this.EC.visibilityOf(this.getDossierListPage()), 60000, 'Dossier list window was not displayed');
   //}
-
 
   async chooseToolbarMode(toolbarmode) {
     await browser.sleep(2000 * this.ratio)
     await this.click({ elem: this.getToolbarMode(toolbarmode) })
     await browser.sleep(2000 * this.ratio)
   }
-
 
   async switchDossierDocumentTab(menu) {
     await browser.sleep(1000 * this.ratio)
@@ -231,7 +263,6 @@ export default class SettingPage extends BasePage {
     await browser.sleep(8000 * this.ratio)
   }
 
-
   async hideToolbarOption(text) {
     await this.getToolbarOptionSwitcher(text).click()
     await browser.sleep(2000 * this.ratio)
@@ -246,20 +277,69 @@ export default class SettingPage extends BasePage {
     await browser.sleep(3000 * this.ratio)
     await this.getAccessMode(mode).click()
   }
-  async inputMoreSetting(target, val) {
 
+  async inputMoreSetting(target, val) {
     await this.getInputBoxByNumber(target).click()
     await this.input(val)
   }
+
   async changeLoggingLevel(level) {
-    await browser.sleep(2000 * this.ratio);
-    await this.getLoggingSelectDown().click();
-    await browser.sleep(2000 * this.ratio);
+    await browser.sleep(2000 * this.ratio)
+    await this.getLoggingSelectDown().click()
+    await browser.sleep(2000 * this.ratio)
     await this.getSelectOptionByText(level).click()
   }
+
   async checkCache() {
-    await this.getCacheCheckbox().click();
-    await browser.sleep(1000 * this.ratio);
+    await this.getCacheCheckbox().click()
+    await browser.sleep(1000 * this.ratio)
   }
 
+  async chooseCustomPaletteMode(mode) {
+    await browser.sleep(3000 * this.ratio)
+    await this.getCustomPaletteMode(mode).click()
+  }
+
+  async enterPalettePickPanel() {
+    await browser.sleep(2000 * this.ratio)
+    await this.getAddNewButton().click()
+  }
+
+  async pickPaletteByName(name) {
+    await this.getGridCellInPaletteListView(name).click()
+    await browser.sleep(6000 * this.ratio)
+  }
+
+  async enterPaletteCreatePanel() {
+    await browser.sleep(2000 * this.ratio)
+    await this.getCreateNewPaletteButton().click()
+  }
+
+  async confirmPickPalette() {
+    await browser.sleep(2000 * this.ratio)
+    await this.getOKButton().click()
+    await browser.sleep(2000 * this.ratio)
+  }
+
+  async pickColor(color) {
+    await browser.sleep(6000 * this.ratio)
+    await this.getColor(color).click()
+    await this.enterClick()
+  }
+
+  async setDefaultPalette(palettename) {
+    await browser.sleep(6000 * this.ratio)
+    const paletteItem = await this.getPaleteNameInListView(palettename)
+    await this.hover({ elem: paletteItem })
+    await this.getDefaultOption().click()
+    await browser.sleep(2000 * this.ratio)
+  }
+
+  async removePaletteFromList(palettename) {
+    await browser.sleep(6000 * this.ratio)
+    const paletteItem = await this.getPaleteNameInListView(palettename)
+    await this.hover({ elem: paletteItem })
+    await this.getRemoveOption().click()
+    await browser.sleep(2000 * this.ratio)
+  }
 }

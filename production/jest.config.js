@@ -21,10 +21,14 @@ module.exports = {
     __MOCK__: true,
     __IS_WS__: false,
     __DEV__: true,
-    __TEST__: true
+    __TEST__: true,
+    'ts-jest': {
+      diagnostics: false
+    }
   },
   collectCoverageFrom: [
     'src/modules/components/**/*.{js,jsx,ts,tsx}',
+    'src/store/**/*.{js,jsx,ts,tsx}',
     '!**/__mock__/**/*.*',
     '!src/**/*.stories.{js,jsx,ts,tsx}',
     '!**/__mock__/**/*.*',

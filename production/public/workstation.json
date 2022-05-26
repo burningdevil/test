@@ -36,6 +36,14 @@
           "windowKey": "homescreenConfigEditor",
           "isVisible": "isHomeScreenConfigEnabled",
           "canExecute": "isHomeScreenConfigEnabled"
+        },
+        {
+          "key": "openAppDesign",
+          "command": "openAppDesignEditor",
+          "windowKey": "appDesignEditor",
+          "isVisible": "isHomeScreenConfigEnabled",
+          "canExecute": "isHomeScreenConfigEnabled",
+          "displayName": "Application - Appearance"
         }
       ]
     },
@@ -49,6 +57,11 @@
         "objectType": "HomeScreenConfig",
         "item": "newApplication",
         "editorTypes": ["Create"]
+      },
+      {
+        "objectType": "ApplicationDesign",
+        "item": "openAppDesign",
+        "editorTypes": ["Create", "Edit"]
       }
     ],
     "windows": [
@@ -61,6 +74,16 @@
           "minimumWidth": 962,
           "initialHeight": 708,
           "initialWidth": 962
+        }
+      },
+      {
+        "key": "appDesignEditor",
+        "isModal": true,
+        "showMenus": false,
+        "size": {
+          "allowResize": false,
+          "initialHeight": 878,
+          "initialWidth": 1440
         }
       }
     ]

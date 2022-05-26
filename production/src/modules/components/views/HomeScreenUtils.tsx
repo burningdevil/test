@@ -1,52 +1,62 @@
-import * as _ from "lodash";
+import * as _ from 'lodash';
 import { IServerSideGetRowsParams, ICellRendererFunc, ICellRendererParams } from 'ag-grid-community'
-import { EnumDSSXMLViewMedia, HomeScreenHomeObjectType, SPECIAL_CHARACTER_REGEX } from '../HomeScreenConfigConstant'
-import { Environment } from "@mstr/workstation-types";
+import {
+    EnumDSSXMLViewMedia,
+    HomeScreenHomeObjectType,
+    SPECIAL_CHARACTER_REGEX,
+} from '../HomeScreenConfigConstant';
+import { Environment } from '@mstr/workstation-types';
 
-export function getContentType (viewMedia: number) {
+export function getContentType(viewMedia: number) {
     const defModePosition = viewMedia >> 27;
     let defaultViewMedia;
     if (defModePosition == 0) {
         defaultViewMedia = 0;
     }
 
-    defaultViewMedia = EnumDSSXMLViewMedia.DssXmlViewMediaViewStatic << defModePosition - 1;
-    if (defaultViewMedia == EnumDSSXMLViewMedia.DssXmlViewMediaViewAnalysis || defaultViewMedia == EnumDSSXMLViewMedia.DssXmlViewMediaHTML5Dashboard) {
+    defaultViewMedia =
+        EnumDSSXMLViewMedia.DssXmlViewMediaViewStatic << (defModePosition - 1);
+    if (
+        defaultViewMedia == EnumDSSXMLViewMedia.DssXmlViewMediaViewAnalysis ||
+        defaultViewMedia == EnumDSSXMLViewMedia.DssXmlViewMediaHTML5Dashboard
+    ) {
         return HomeScreenHomeObjectType.DOSSIER;
     } else {
         return HomeScreenHomeObjectType.DOCUMENT;
     }
 }
 
-export function isContentTypeDossier (viewMedia: number) {
+export function isContentTypeDossier(viewMedia: number) {
     return getContentType(viewMedia) === HomeScreenHomeObjectType.DOSSIER;
 }
 
-export function hexIntToColorStr (hexIntColor: number) {
+export function hexIntToColorStr(hexIntColor: number) {
     const colorPrefix = '#';
     return colorPrefix + hexIntColor.toString(16).padStart(6, '0');
 }
 
-export function colorStrToHexInt (colorStr: string) {
+export function colorStrToHexInt(colorStr: string) {
     var hex = parseInt(colorStr.replace(/^#/, ''), 16);
     return hex;
 }
 
 export function HomeScreenBundleListDatasource(server: any) {
     return {
-      getRows: function (params: IServerSideGetRowsParams) {
-        console.log('[Datasource] - rows requested by grid: ', params.request);
-        var response = server.getData(params);
-        setTimeout(function () {
-          if (response?.success) {
-            params.success({
-              rowData: response.rows,
-              rowCount: response.lastRow,
-            });
-          } 
-          
-        }, 500);
-      },
+        getRows: function (params: IServerSideGetRowsParams) {
+            console.log(
+                '[Datasource] - rows requested by grid: ',
+                params.request
+            );
+            var response = server.getData(params);
+            setTimeout(function () {
+                if (response?.success) {
+                    params.success({
+                        rowData: response.rows,
+                        rowCount: response.lastRow,
+                    });
+                }
+            }, 500);
+        },
     };
   }
   
@@ -90,3 +100,9 @@ export function validName(name: string) {
  export function formatTime(timeString: string) {
    return new Date(timeString).toLocaleString('sv-SE')
  }
+ export function getFeatureFlag(key: string, env: any) {
+  if (!env?.preferences) {
+      return false;
+  }
+  return env.preferences?.[key];
+}

@@ -12,8 +12,8 @@ produces and publishes a versioned deployment package'
 
   triggers do
     pull_request_builder do
-      trigger_phrase 'ecosystem-premerge-test'
-      commit_status_context 'ecosystem-premerge-test'
+      trigger_phrase "#{Environment.project_name}-premerge-#{Environment.branch_name}.*"
+      commit_status_context "#{Environment.project_name}-premerge-#{Environment.branch_name}"
     end
   end
 
@@ -35,9 +35,33 @@ export SRCCLR_SCOPE=production
 export SRCCLR_SCAN_COLLECTORS=npm
 
 source .ecosystem
+rake pre_pipeline
 rake veracode
+rake generate_sonar_inclusions
 rake build
 '
+    end
+    sonarqube do
+      project './sonar-project.properties'
+      other_properties 'sonar.javascript.lcov.reportPaths=production/coverage/lcov.info
+                        sonar.exclusions=**/*.test.*
+                        sonar.coverage.exclusions=**/public/*'
+    end
+  end
+  publishers do
+    html do
+      report_name 'Code Coverage Report'
+      report_directory_path "production/coverage"
+      index_file_name 'index.html'
+    end
+    ext_mailer do
+      recipients_list '$ghprbActualCommitAuthorEmail $ghprbPullAuthorEmail'
+      subject 'workstation-homescreen-admin pre-merge sonarqube - $BUILD_STATUS'
+      content '$DEFAULT_CONTENT'
+      fail_trigger_recipients_list ''
+      fail_trigger_notify_developer 'true'
+      always_trigger 'true'
+      always_trigger_recipients_list ''
     end
   end
 end

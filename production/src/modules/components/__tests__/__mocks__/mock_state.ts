@@ -26,7 +26,8 @@ export default {
                   icons: dossierIconKeys.map((key) => iconValidKey(key)), 
                   toolbarMode: CONSTANTS.SHOW_TOOLBAR,
                   toolbarEnabled: true,
-                }
+                },
+                theme: undefined
             },
             'general': {
                 disableAdvancedSettings: false,
@@ -80,6 +81,7 @@ export default {
                 "toolbarMode": 0,
                 "toolbarEnabled": true
               },
+              
               "homeLibrary": {
                 "contentBundleIds": [
                   
@@ -121,6 +123,25 @@ export default {
         loadingDossiers: false,
         loadingDossiersFinish: false,
         loadingDocumentsFinish: false
+    },
+    appDesignEditor: {
+      theme: {
+        schemaVersion: 1,
+        logos: {
+          web: {
+            type: 'URL',
+            value: ''
+          },
+          favicon: {
+            type: 'URL',
+            value: ''
+          },
+          mobile: {
+            type: 'URL',
+            value: ''
+          }
+        }
+      }
     }
 }
 
@@ -208,6 +229,7 @@ export const mockLibraryAsHome: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": true
             },
+            
             "homeLibrary": {
               "contentBundleIds": [],
               "icons": [
@@ -248,6 +270,25 @@ export const mockLibraryAsHome: RootState = {
       loadingDossiersFinish: false,
       loadingDocuments: false,
       loadingDocumentsFinish: false
+  },
+  appDesignEditor: {
+    theme: {
+      schemaVersion: 1,
+      logos: {
+        web: {
+          type: 'URL',
+          value: ''
+        },
+        favicon: {
+          type: 'URL',
+          value: ''
+        },
+        mobile: {
+          type: 'URL',
+          value: ''
+        }
+      }
+    }
   }
 }
 
@@ -330,6 +371,7 @@ export const mockDossierAsHome: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": false
             },
+            
             "homeLibrary": {
               "contentBundleIds": [
                 
@@ -388,6 +430,7 @@ export const mockDossierAsHome: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": false,
             },
+            
             "homeLibrary": {
               "contentBundleIds": [
                 
@@ -439,6 +482,7 @@ export const mockDossierAsHome: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": false,
             },
+            
             "homeLibrary": {
               "contentBundleIds": [
                 
@@ -487,6 +531,7 @@ export const mockDossierAsHome: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": false,
             },
+            
             "homeLibrary": {
               "contentBundleIds": [
                 
@@ -524,6 +569,25 @@ export const mockDossierAsHome: RootState = {
     data: [],
     loadingContentBundle: false,
     loadingContentBundleFinish: true
+  },
+  appDesignEditor: {
+    theme: {
+      schemaVersion: 1,
+      logos: {
+        web: {
+          type: 'URL',
+          value: ''
+        },
+        favicon: {
+          type: 'URL',
+          value: ''
+        },
+        mobile: {
+          type: 'URL',
+          value: ''
+        }
+      }
+    }
   }
 }
 
@@ -557,6 +621,23 @@ export const mockDossierPicker: RootState = {
                 icons: dossierIconKeys.map((key) => iconValidKey(key)), 
                 toolbarMode: CONSTANTS.SHOW_TOOLBAR,
                 toolbarEnabled: true,
+              },
+              theme: {
+                schemaVersion: 1,
+                logos: {
+                  web: {
+                    type: 'URL',
+                    value: ''
+                  },
+                  favicon: {
+                    type: 'URL',
+                    value: ''
+                  },
+                  mobile: {
+                    type: 'URL',
+                    value: ''
+                  }
+                }
               }
           },
           'general': {
@@ -768,6 +849,7 @@ export const mockDossierPicker: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": false,
             },
+            
             "homeLibrary": {
               "contentBundleIds": [],
               "icons": [
@@ -885,5 +967,108 @@ export const mockDossierPicker: RootState = {
       loadingDossiersFinish: true,
       loadingDocuments: false,
       loadingDocumentsFinish: true
+  },
+  appDesignEditor: {
+    theme: {
+      schemaVersion: 1,
+      logos: {
+        web: {
+          type: 'URL',
+          value: ''
+        },
+        favicon: {
+          type: 'URL',
+          value: ''
+        },
+        mobile: {
+          type: 'URL',
+          value: ''
+        }
+      }
+    }
   }
+}
+export const mockColorPalette: RootState = {
+  content: {
+    data: [],
+    loadingContentBundle: false,
+    loadingContentBundleFinish: true
+  },
+  configEditor: {
+      currentConfig: {
+          'name': 'test application dossier as home',
+          'description': 'this is test application description for dossier as home',
+          'platforms': featureFlag.platformEnable ? [platformType.mobile, platformType.web, platformType.desktop] : [platformType.web],
+          'isDefault': false,
+          'objectNames': [],
+          'objectAcl': [],
+          'homeScreen': {
+              mode: CONSTANTS.MODE_USE_DOSSIER_AS_HOME_SCREEN, 
+              homeLibrary: { 
+                icons: libraryIconKeys.map((key) => iconValidKey(key)), 
+                sidebars: sidebarIconKeys.filter((key) => !_.includes([iconTypes.defaultGroup.key, iconTypes.myContent.key], key)).map((key) => iconValidKey(key)),
+                customizedItems: {},
+                contentBundleIds: [],
+                defaultGroupsName: '',
+                toolbarMode: CONSTANTS.SHOW_TOOLBAR,
+                toolbarEnabled: true,
+              },
+              homeDocument: {
+                url: "http://localhost:8282/consume-dev/app/B7CA92F04B9FAE8D941C3E9B7E0CD754/B7CA92F04B9FAE8D941C3E9B7E0CD753", 
+                icons: dossierIconKeys.map((key) => iconValidKey(key)), 
+                toolbarMode: CONSTANTS.SHOW_TOOLBAR,
+                toolbarEnabled: true,
+              }
+          },
+          'general': {
+              disableAdvancedSettings: false,
+              disablePreferences: false,
+              networkTimeout: CONSTANTS.DEFAULT_NETWORK_TIMEOUT, 
+              cacheClearMode: CONSTANTS.CLEAR_AUTOMATIC, 
+              clearCacheOnLogout: false, 
+              maxLogSize: CONSTANTS.DEFAULT_MAX_LOG_SIZE, 
+              logLevel: CONSTANTS.LOG_LEVEL_WARNING, 
+              updateInterval: CONSTANTS.DEFAULT_UPDATE_INTERVAL
+          },
+          applicationPalettes: ['1'],
+          applicationDefaultPalette: '1',
+          useConfigPalettes: true
+      },
+      isConfigNameError: false,
+      isDuplicateConfig: false,
+      isStateChangeByManual: false,
+      configInfoList: [],
+      previewDeviceType: featureFlag.platformEnable ? reviewType.TABLET : reviewType.WEB,
+  },
+  configMain: {
+      configList: [],
+      contentBundleList: [],
+      configLoading: false
+  },
+  bundleContent: {
+      dossiers: [],
+      documents: [],
+      loadingDossiers: false,
+      loadingDossiersFinish: true,
+      loadingDocuments: false,
+      loadingDocumentsFinish: true
+  },
+  colorPalette: {
+    data: [
+      {
+        name: 'Default',
+        paletteType: 1,
+        id: '1',
+        colors: ['123456']
+      },
+      {
+        name: 'Pepsi',
+        paletteType: 2,
+        id: '2',
+        colors: ['#ffffff']
+      }
+    ],
+    loadingColorPalette: false,
+    loadingColorPaletteFinish: false
+  },
 }
