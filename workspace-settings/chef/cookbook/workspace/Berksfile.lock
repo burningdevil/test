@@ -23,8 +23,8 @@ DEPENDENCIES
     tag: 0.1.21
   nodejs
     git: https://github.microstrategy.com/ecosystem-cookbooks/nodejs.git
-    revision: e39da16a582f0781eb9488b6542556fc4b0311f3
-    tag: 0.1.10
+    revision: 7987cc7d342974e793fddc32562572d32b924afd
+    tag: 0.1.20
   seven_zip (~> 2.0.0)
 
 GRAPH
@@ -43,7 +43,7 @@ GRAPH
   kube-config (0.1.21)
   mingw (2.1.1)
     seven_zip (>= 0.0.0)
-  nodejs (0.1.10)
+  nodejs (0.1.20)
   seven_zip (2.0.2)
     windows (>= 1.2.2)
   windows (7.0.2)
