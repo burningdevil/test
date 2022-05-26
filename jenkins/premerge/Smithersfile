@@ -35,6 +35,7 @@ export SRCCLR_SCOPE=production
 export SRCCLR_SCAN_COLLECTORS=npm
 
 source .ecosystem
+rake pre_pipeline
 rake veracode
 rake generate_sonar_inclusions
 rake build
