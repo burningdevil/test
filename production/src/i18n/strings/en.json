@@ -215,8 +215,7 @@
     "designStudioWindowTitle": "{{application}} - Appearance",
     "designStudioWindowSubtitle": "Library Home - Web Interface",
 
-    "pasteImageUrl": "Paste image URL",
-    "emptyImageUrlErrMessage": "This field cannot be blank.",
+    "pasteImageUrl": "Paste an image URL",
     "imageUrlWithHttpErrMessage": "Enter a URL with http or https protocol.",
     "svgAndPngImageErrMessage": "Only .svg and .png file types are supported.",
     "pngImageErrMessage": "Only .png file type is supported.",
@@ -232,5 +231,6 @@
     "libraryMobileSubtitle": "Library Mobile",
     "libraryMobileDesc": "Minimum 75 * 75 pixels, png format",
 
+    "apply": "Apply",
     "applyThemeConfirmationStr": "Apply theme to Application?"
 }

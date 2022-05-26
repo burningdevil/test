@@ -41,7 +41,7 @@ export interface HomeScreenEditorColorPaletteState {
 }
 
 export interface ApplicationDesignEditorState {
-    theme?: ApplicationTheme
+    theme?: ApplicationTheme;
 }
 
 export interface RootState {

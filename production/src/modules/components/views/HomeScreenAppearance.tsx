@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import 'antd/dist/antd.css';
 import * as _ from 'lodash'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
-import { selectCurrentConfigTheme, selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEditorSelector'
+import { selectCurrentConfig, selectCurrentConfigTheme } from '../../../store/selectors/HomeScreenConfigEditorSelector'
 import * as Actions from '../../../store/actions/ActionsCreator'
 import { env } from '../../../main'
 import { default as VC, localizedStrings } from '../HomeScreenConfigConstant'

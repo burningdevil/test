@@ -36,6 +36,7 @@ export const FINISH_LOADING_CONTENT_LIST = 'FINISH_LOADING_CONTENT_LIST'
 export const ASYNC_INIT_APP_DESIGN_EDITOR = 'ASYNC_INIT_APP_DESIGN_EDITOR'
 export const SET_THEME = 'SET_THEME'
 export const UPDATE_THEME = 'UPDATE_THEME'
+export const DELETE_THEME_LOGO = 'DELETE_THEME_LOGO'
 
 /* ------------------------------ Color palette fetch State ----------------------------*/
 export const START_LOADING_COLOR_PALETTE_LIST = 'START_LOADING_COLOR_PALETTE_LIST'

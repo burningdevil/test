@@ -1,0 +1,75 @@
+@import '../../../modules/components/scss/variables.scss';
+
+.theme-logo {
+  margin-top: 8px;
+
+  &:not(:nth-child(2)) {
+    margin-top: 20px;
+  }
+
+  .logo-subtitle {
+    line-height: $line-height;
+    color: $settings-panel-title-subtitle-color;
+    margin-bottom: 8px;
+  }
+
+  .theme-logo-inner-wrapper {
+    display: flex;
+
+    .theme-logo-box {
+      display: flex;
+      height: $logo-box-height;
+      width: $logo-box-width;
+      margin-right: 10px;
+      border: 1px solid $settings-panel-logo-box-border-color;
+      border-radius: 4px;
+      justify-content: center;
+      align-items: center;
+
+      .theme-logo-icn {
+        height: calc(#{$logo-box-height} - 2px); // subtract 2px to account for border size
+        width: calc(#{$logo-box-width} - 2px); // subtract 2px to account for border size
+        background-position: center;
+        background-repeat: no-repeat;
+
+        &.web {
+          background-image: url('../../../modules/components/images/web-logo.svg');
+        }
+
+        &.favicon {
+          background-image: url('../../../modules/components/images/favicon-logo.svg');
+        }
+
+        &.mobile {
+          background-image: url('../../../modules/components/images/mobile-logo.svg');
+        }
+      }
+
+      .theme-logo-img {
+        max-height: calc(#{$logo-box-height} - 2px); // subtract 2px to account for border size
+        max-width: calc(#{$logo-box-width} - 2px); // subtract 2px to account for border size
+
+        &.web {
+          border-radius: 50%;
+        }
+      }
+    }
+
+    .input-wrapper {
+      width: calc(100% - #{$logo-box-width});
+
+      .mstr-input-container__error-message-container {
+        font-size: $font-size;
+        line-height: $line-height;
+        padding: 0;
+        margin-top: 6px;
+      }
+
+      .desc {
+        line-height: $line-height;
+        color: $settings-panel-logo-desc-color;
+        margin-top: 6px;
+      }
+    }
+  }
+}
