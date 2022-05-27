@@ -8,7 +8,6 @@ default[:workspace][:nodejs][:package] = value_for_platform_family(
   'default' => 'nodejs'
 )
 
-default[:workspace][:nodejs][:version] = '10.15.0'
 default[:workspace][:nodejs][:packages] = {
   'yarn' => '1.12.3',
   'appium' => '1.22.0'
