@@ -20,8 +20,8 @@ Feature: 51_DossierSetting_SelectColor
         When I enter the palette pick panel
         When I enter the palette create panel
         Then check the screenshot by comparing "51_DossierSetting_PickColor_1"
-        Then I pick color "#FBDAD9"
-        Then I pick color "#FFF3B3"
+        Then I pick color "Rose #FBDAD9"
+        Then I pick color "Buttermilk #FFF3B3"
         Then check the screenshot by comparing "51_DossierSetting_PickColor_2"
 
 
