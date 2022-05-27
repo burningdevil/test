@@ -19,6 +19,7 @@ set +xe
 export PATH=/usr/local/sbin:/usr/local/bin:$PATH
 export WORKSPACE_SETTING=dev
 source .ecosystem
+rake pre_pipeline
 rake upload
 rake update_dep_db_from_file
 rake post_pipeline
