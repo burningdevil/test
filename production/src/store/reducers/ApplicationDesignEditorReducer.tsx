@@ -45,3 +45,5 @@ const ApplicationDesignEditorReducer = (state: ApplicationDesignEditorState = in
 }
 
 export default ApplicationDesignEditorReducer
+
+
