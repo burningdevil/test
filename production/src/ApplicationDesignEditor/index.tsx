@@ -27,6 +27,7 @@ const ApplicationDesignEditor: React.FC<ApplicationDesignEditorProps> = ({ saved
   // use refs so our confirmBeforeClosing function can be used as a callback without worrying about referencing stale variables
   const savedConfigThemeRef = React.useRef(savedConfigTheme);
   const currStudioThemeRef = React.useRef(currStudioTheme);
+  const currApplicationName = React.useRef('');
   savedConfigThemeRef.current = savedConfigTheme;
   currStudioThemeRef.current = currStudioTheme;
 
@@ -34,7 +35,7 @@ const ApplicationDesignEditor: React.FC<ApplicationDesignEditorProps> = ({ saved
   const confirmBeforeClosing = async () => {
     const isThemeDirty = !_.isEqual(savedConfigThemeRef, currStudioThemeRef);
     if (isThemeDirty) {
-      let res = await env.dialogs.confirmation({message: t('applyThemeConfirmationStr')});
+      let res = await env.dialogs.confirmation({message: t('applyThemeConfirmationStr').replace('{{application}}', currApplicationName.current)});
       if (res === DialogValues.YES) {
         // yes
         await env.window.setCloseInfo(JSON.stringify(currStudioThemeRef.current));
@@ -56,9 +57,10 @@ const ApplicationDesignEditor: React.FC<ApplicationDesignEditorProps> = ({ saved
     async function initEditor() {
       const stringifiedExtraContext = await workstation.window.getExtraContext();
       const { theme: prevTheme, config: prevConfig } = JSON.parse(stringifiedExtraContext);
+      currApplicationName.current = prevConfig.name;
       setCurrStudioTheme(prevTheme);
       setCurrConfig(prevConfig);
-      await env.window.setTitle(t('designStudioWindowTitle').replace('{{application}}', prevConfig.name));
+      await env.window.setTitle(t('designStudioWindowTitle').replace('{{application}}', currApplicationName.current));
     }
     initEditor();
 

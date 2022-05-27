@@ -232,5 +232,5 @@
     "libraryMobileDesc": "Minimum 75 * 75 pixels, png format",
 
     "apply": "Apply",
-    "applyThemeConfirmationStr": "Apply theme to Application?"
+    "applyThemeConfirmationStr": "Do you want to apply the appearance changes you made to Application {{application}}?"
 }
