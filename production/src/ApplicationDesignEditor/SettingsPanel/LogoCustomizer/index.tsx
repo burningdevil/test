@@ -45,13 +45,13 @@ const LogoCustomizer: React.FC<LogoCustomizerProps> = ({ logo, updateTheme, dele
     }
   };
  
-  const isUrlValid = (url: string, currLogoCategory: string): boolean => {
+  const isUrlValid = async (url: string, currLogoCategory: string): Promise<any> => {
     const callback = (errorState: boolean, errorMessage: string): void => {
         setUrlValid(errorState);
         setErrMessage(errorMessage);
     };
 
-    return validateUrl(url, callback, currLogoCategory); 
+    validateUrl(url, callback, currLogoCategory); 
   }
 
   return (
