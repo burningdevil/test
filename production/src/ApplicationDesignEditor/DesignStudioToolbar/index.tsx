@@ -16,7 +16,7 @@ const DesignStudioToolbar: React.FC<DesignStudioToolbarProps> = ({ theme, handle
 
     const handleApplyTheme = async () => {
         setApplying(true)
-        await env.window.postMessage({ theme })
+        await env.window.setCloseInfo(JSON.stringify(theme))
         setApplying(false)
         await env.window.close()
     }

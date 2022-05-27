@@ -39,14 +39,6 @@ class HomeScreenAppearance extends React.Component<any, any> {
             
             return {}
         })
-        workstation.window.addHandler(WindowEvent.POSTMESSAGE, (info: any) => {
-            const { Message } = info || {}
-            const { theme } = Message || {}
-            if (theme) {
-                this.props.updateThemeInCurrentConfig(theme)
-            }
-            return {}
-        })
     }
 
     openAppDesignEditor = (config: HomeScreenConfigType, theme?: ApplicationTheme) => {
