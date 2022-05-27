@@ -1,7 +1,7 @@
 import { t } from "../../i18n/i18next";
 
 // URL errors
-const URLErrorTypes = {
+export const URLErrorTypes = {
     protocalSyntaxError: t('imageUrlWithHttpErrMessage'),
     imageTypeErrorPS: t('svgAndPngImageErrMessage'),
     imageTypeErrorP: t('pngImageErrMessage'),
