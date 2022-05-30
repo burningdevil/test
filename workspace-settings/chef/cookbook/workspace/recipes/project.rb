@@ -58,9 +58,17 @@ when 'windows'
       action :create
     end
 
-    nodejs_npm 'yarn' do
-      version '1.12.3'
+    #nodejs_npm 'yarn' do
+    #  version '1.12.3'
+    #end
+    
+    puts ENV['NODE_HOME']
+    execute 'install_yarn' do
+        cwd ENV['NODE_HOME']
+        command "corepack enable"  #for Node.js >=16.10
+        not_if { ::File.exist?("#{ENV['NODE_HOME']}/yarn") }
     end
+    
   end
 else
   puts "To configure the npm default directory on this OS is not tested! Skip this step!"
