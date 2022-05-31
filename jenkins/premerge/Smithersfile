@@ -44,7 +44,7 @@ rake build
     sonarqube do
       project './sonar-project.properties'
       other_properties 'sonar.javascript.lcov.reportPaths=production/coverage/lcov.info
-                        sonar.exclusions=**/*.test.*
+                        sonar.exclusions=**/*.test.* production/src/assets/**
                         sonar.coverage.exclusions=**/public/*'
     end
   end
