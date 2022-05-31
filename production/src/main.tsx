@@ -6,9 +6,6 @@ import RestProxy from './httpProxy/RestProxy'
 import App from './App'
 import './styles/main.scss'
 import WorkStationProxy from './httpProxy/WorkStationProxy'
-import browser from './env/Browser'
-import workstation from './env/Workstation'
-import wsEvents from './env/WSEvents'
 
 declare var __IS_WS__: any
 declare var __DEV__: any
@@ -17,8 +14,6 @@ declare var window: any
 declare var module: any
 
 export const HttpProxy = (() => (__IS_WS__ ? WorkStationProxy : RestProxy))()
-export const env: any = __IS_WS__ ? workstation : browser
-wsEvents.init(env)
 // Store Initialization
 // ------------------------------------
 export const store = createStore(window.__INITIAL_STATE__)

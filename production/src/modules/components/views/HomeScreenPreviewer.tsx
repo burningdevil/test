@@ -234,7 +234,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                                     showContent
                                         ? defaultGroupName
                                         : element.displayText.replace(
-                                              /\(.*?\)/g,
+                                              /\(.*?\)/g,   // NOSONAR
                                               ''
                                           ) // replace the (Mobile only) => ''
                                 }

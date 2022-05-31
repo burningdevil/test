@@ -2,6 +2,7 @@
 const express = require('express');
 //启动expressServer
 const expressServer = express();
+expressServer.disable("x-powered-by");
 
 const normalizedPath = require("path").join(__dirname, "mock");
 
