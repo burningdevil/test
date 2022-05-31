@@ -185,7 +185,7 @@ if (__DEV__) {
     overlay: true,
     historyApiFallback: true,
     contentBase: path.resolve(project.basePath, 'public'),
-    headers: { 'Access-Control-Allow-Origin': '*' },
+    headers: { 'Access-Control-Allow-Origin': '*' },  // NOSONAR
     proxy: {
       context: '/api',
       target: serverConfig.host + serverConfig.path,
