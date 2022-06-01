@@ -7,27 +7,25 @@ import { t } from "../../i18n/i18next";
 import './styles.scss'
 
 type DesignStudioToolbarProps = {
-    theme: ApplicationTheme
+    theme: ApplicationTheme;
+    handleClose: () => void;
 }
 
-const DesignStudioToolbar: React.FC<DesignStudioToolbarProps> = ({ theme }) => {
+const DesignStudioToolbar: React.FC<DesignStudioToolbarProps> = ({ theme, handleClose }) => {
     const [applying, setApplying] = React.useState(false)
-
-    const handleCancelTheme = async () => {
-        await env.window.close()
-    }
 
     const handleApplyTheme = async () => {
         setApplying(true)
-        await env.window.postMessage({ theme })
+        await env.window.setCloseInfo(JSON.stringify(theme))
         setApplying(false)
+        await env.window.close()
     }
 
     return (
         <div className='title-section'>
             <div className='label'>{t('designStudioWindowSubtitle')}</div>
             <div className='btn-section'>
-                <Button className={classnames('btn', 'cancel')} type='default' onClick={handleCancelTheme}>{t('cancel')}</Button>
+                <Button className={classnames('btn', 'cancel')} type='default' onClick={handleClose}>{t('cancel')}</Button>
                 <Button className={classnames('btn', 'apply')} type='primary' onClick={handleApplyTheme} loading={applying}>{t('apply')}</Button>
             </div>
         </div>

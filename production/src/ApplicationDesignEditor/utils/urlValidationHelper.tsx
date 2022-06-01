@@ -6,7 +6,7 @@ const URLErrorTypes = {
     imageTypeErrorPS: t('svgAndPngImageErrMessage'),
     imageTypeErrorP: t('pngImageErrMessage'),
     imageOnLoadError: t('imageOnLoadErrMessage'),
-    imageSizeError: t('incorrrectImageDimensionErrMessage')
+    imageSizeError: t('incorrectImageDimensionErrMessage')
 }
 
 // mininum dimension requirement for different Logo images

@@ -29,26 +29,14 @@ class HomeScreenAppearance extends React.Component<any, any> {
         this.setState({
             currentEnv: currentEnvironment
         });
-        workstation.window.addHandler(WindowEvent.ONCHILDCLOSE, (info) => {
-           const { Message } = info || {}
-            const { ChildInfo } = Message || {} 
-            const { theme } = ChildInfo || {}
+        workstation.window.addHandler(WindowEvent.ONCHILDCLOSE, (info: any) => {
+            const { Message } = info || {}
+            const { CloseInfo } = Message || {} 
+            const theme = JSON.parse(CloseInfo)
             if (theme) {
-                this.props.updateCurrentConfig({ homeScreen: {
-                    theme
-                }})
+                this.props.updateThemeInCurrentConfig(theme)
             }
             
-            return {}
-        })
-        workstation.window.addHandler(WindowEvent.POSTMESSAGE, (info: any) => {
-            const { Message } = info || {}
-            const { theme } = Message || {}
-            if (theme) {
-                this.props.updateCurrentConfig({ homeScreen: {
-                    theme
-                }})
-            }
             return {}
         })
     }
@@ -118,7 +106,7 @@ const mapState = (state: RootState) => ({
 
 const connector = connect(mapState, {
     deleteThemeInCurrentConfig: Actions.deleteThemeInCurrentConfig,
-    updateCurrentConfig: Actions.updateCurrentConfig
+    updateThemeInCurrentConfig: Actions.updateThemeInCurrentConfig
 })
 
 export default connector(HomeScreenAppearance)
