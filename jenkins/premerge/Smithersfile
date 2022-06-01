@@ -35,6 +35,7 @@ export SRCCLR_SCOPE=production
 export SRCCLR_SCAN_COLLECTORS=npm
 
 source .ecosystem
+rake pre_pipeline
 rake veracode
 rake generate_sonar_inclusions
 rake build
@@ -43,7 +44,7 @@ rake build
     sonarqube do
       project './sonar-project.properties'
       other_properties 'sonar.javascript.lcov.reportPaths=production/coverage/lcov.info
-                        sonar.exclusions=**/*.test.*
+                        sonar.exclusions=**/*.test.* production/src/assets/**
                         sonar.coverage.exclusions=**/public/*'
     end
   end

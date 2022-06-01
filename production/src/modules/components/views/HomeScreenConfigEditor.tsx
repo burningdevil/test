@@ -44,7 +44,6 @@ import {
     CONTENT_BUNDLE_DEFAULT_GROUP_NAME,
     copyApplicationName,
     closeWindowConfirmationStr,
-    SUPPORT_CONFIGURATION_PALETTE,
     GENERAL_PREVIEW_FEATURE_FLAG,
     SUPPORT_CONFIGURATION_PALETTE_ID,
 } from '../HomeScreenConfigConstant';
@@ -260,10 +259,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             );
         this.setState({
             colorPalettePreviewFeatureEnable:
-                getFeatureFlag(
-                    GENERAL_PREVIEW_FEATURE_FLAG,
-                    this.state.currentEnv
-                ) && colorPaletteLibrarySupport,
+                colorPaletteLibrarySupport,
             appearancePreviewFeatureEnabled:
               getFeatureFlag(
                 GENERAL_PREVIEW_FEATURE_FLAG,

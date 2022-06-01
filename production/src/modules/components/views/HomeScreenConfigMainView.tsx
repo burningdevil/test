@@ -434,12 +434,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         if (objId) {
             options = _.merge(options, { objectId: objId });
         }
-        workstation.dialogs.openObjectEditor(options).catch((e) =>
-            workstation.dialogs.error({
-                message: localizedStrings.ERR_EDITOR_OPEN,
-                additionalInformation: JSON.stringify(e),
-            })
-        );
+        workstation.dialogs.openObjectEditor(options)
     };
 
     processErrorResponse = (e: any, errMsg: string = '') => {
