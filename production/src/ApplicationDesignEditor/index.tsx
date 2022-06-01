@@ -72,9 +72,7 @@ const ApplicationDesignEditor: React.FC<ApplicationDesignEditorProps> = ({ saved
       env.window.close();
     });
     
-    env.window.addHandler(WindowEvent.CLOSE, async () => {
-      await confirmBeforeClosing();
-    });
+    env.window.addHandler(WindowEvent.CLOSE, confirmBeforeClosing);
   }, []);
 
   return (
