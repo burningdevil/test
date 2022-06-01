@@ -1,23 +1,23 @@
-import { URLErrorTypes, validateUrl } from '../urlValidationHelper'
+import { validateUrl } from '../urlValidationHelper'
 
 describe('validateUrl function test', () => {
-  const mockFn = jest.fn()
+
   afterEach(() => {
     jest.restoreAllMocks();
   });
 
   it('logo url empty', () => {
-    validateUrl('', mockFn, 'web')
-    expect(mockFn).toHaveBeenCalledWith(true, '')
+    const isValid = validateUrl('', ()=>{}, 'web')
+    expect(isValid).toBe(true)
   })
 
   it('logo url invalid', () => {
-    validateUrl('http:/asas.com/asas.png', mockFn, 'web')
-    expect(mockFn).toHaveBeenCalledWith(false, URLErrorTypes.protocalSyntaxError)
+    const isValid = validateUrl('http:/asas.com/asas.png', ()=>{}, 'web')
+    expect(isValid).toBe(false)
   })
 
   it('logo url valid', () => {
-    validateUrl('https://www.svgrepo.com/show/419492/political.svg', mockFn, 'web')
-    expect(mockFn).toHaveBeenCalledWith(true, '')
+    const isValid = validateUrl('http://asas.com/asas.png', ()=>{}, 'web')
+    expect(isValid).toBe(true)
   })
 })
