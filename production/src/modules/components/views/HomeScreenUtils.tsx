@@ -5,6 +5,7 @@ import {
     HomeScreenHomeObjectType,
     SPECIAL_CHARACTER_REGEX,
 } from '../HomeScreenConfigConstant';
+import { Environment } from '@mstr/workstation-types';
 
 export function getContentType(viewMedia: number) {
     const defModePosition = viewMedia >> 27;

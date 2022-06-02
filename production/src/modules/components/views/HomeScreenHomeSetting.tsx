@@ -26,7 +26,6 @@ const classNamePrefix = `${classNamePrefixSimple}-settings`;
 const relativePath = 'app/';
 const dossierUrlPath = 'homeDocument.url';
 
-declare var workstation: WorkstationModule;
 class HomeScreenHomeSetting extends React.Component<any, any> {
   constructor(props: any) {
     super(props)

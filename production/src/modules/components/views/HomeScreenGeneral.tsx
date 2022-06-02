@@ -24,8 +24,6 @@ import {
 declare var workstation: WorkstationModule;
 const { TextArea } = Input;
 
-declare var workstation: WorkstationModule;
-
 const classNamePrefix = 'home-screen-general';
 class HomeScreenGeneral extends React.Component<any, any> {
     constructor(props: any) {
