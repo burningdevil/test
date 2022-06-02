@@ -39,9 +39,9 @@ export const isIServerVersionMatch = (version: string) => {
 };
 
 export const isUserHasManageApplicationPrivilege = (privileges: number[]) => {
-  return privileges.includes(USER_MANAGE_APPLICATIONS_PRIVILEGE);
+  return privileges?.includes(USER_MANAGE_APPLICATIONS_PRIVILEGE);
 }
 
 export const isUserHasManageContentGroupPrivilege = (privileges: number[]) => {
-  return privileges.includes(MANAGE_CONTENT_BUNDLE_PRIVILEGE);
+  return privileges?.includes(MANAGE_CONTENT_BUNDLE_PRIVILEGE);
 }

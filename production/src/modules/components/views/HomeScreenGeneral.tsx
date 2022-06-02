@@ -73,7 +73,7 @@ class HomeScreenGeneral extends React.Component<any, any> {
         const isEmptyName = !(name && name.trim());
         const currentConfigId = this.props.config.id;
         const isDuplicateName =
-            this.props.configInfoList.filter((appInfo: any) => {
+            this.props.configInfoList?.filter((appInfo: any) => {
                 // When same name with different config id OR same name with same id and when duplicate config
                 return (
                     appInfo.name.toLowerCase() === name.toLowerCase() &&

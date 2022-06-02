@@ -135,7 +135,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             _.get(this.props, 'location.search', undefined)
         );
         if (configId) {
-            api.loadCurrentEditConfig(configId).catch((e: any) => {
+            api.loadCurrentEditConfig(configId)?.catch((e: any) => {
                 this.processErrorResponse(e, localizedStrings.ERR_APP_LOAD);
             });
         } else {
@@ -204,20 +204,20 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         this.loadPreference();
         workstation.environments.onEnvironmentChange(
             (change: EnvironmentChangeArg) => {
-                console.log('editor environment change: ' + change.actionTaken);
+                console.log('editor environment change: ' + change?.actionTaken);
                 console.log(
                     'editor environment change: env name : ' +
-                        change.changedEnvironment.name
+                        change?.changedEnvironment?.name
                 );
                 console.log(
                     'editor environment change: env status : ' +
-                        change.changedEnvironment.status
+                        change?.changedEnvironment?.status
                 );
                 if (
-                    change.actionTaken === EnvironmentAction.Disconnect &&
-                    change.changedEnvironment.status ===
+                    change?.actionTaken === EnvironmentAction.Disconnect &&
+                    change?.changedEnvironment?.status ===
                         EnvironmentStatus.Disconnected &&
-                    change.changedEnvironment.url === this.state.currentEnv.url
+                    change?.changedEnvironment?.url === this.state.currentEnv.url
                 ) {
                     // Disconnect environment and Close current window
                     workstation.environments.disconnect(
@@ -286,7 +286,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
     generateDefaultAppName = (configInfoList: any) => {
         const defaultAppName = localizedStrings.DEFAULT_APP_NAME;
         if (
-            configInfoList.filter((appInfo: any) => {
+            configInfoList?.filter((appInfo: any) => {
                 return (
                     appInfo.name.toLowerCase() === defaultAppName.toLowerCase()
                 );
@@ -297,7 +297,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         for (let i = 1; i < 10000; i++) {
             const newAppName = `${defaultAppName} ${i}`;
             if (
-                configInfoList.filter((appInfo: any) => {
+                configInfoList?.filter((appInfo: any) => {
                     return (
                         appInfo.name.toLowerCase() === newAppName.toLowerCase()
                     );
