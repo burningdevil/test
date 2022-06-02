@@ -76,11 +76,13 @@ let workstation = {
           async () =>
             'http://www2.microstrategy.com/producthelp/2019/Workstation/WebHelp/Lang_1033/Content/'
         ),
-      addHandler: jest.fn()
+      addHandler: jest
+        .fn()
+        .mockImplementation()
     },
     window: {
       addHandler: jest.fn().mockImplementation((windowEvent, callback) => {
-        callback()
+        callback({'Message': {'CloseInfo': '{}'}})
         return true
       }),
       removeHandler: jest
