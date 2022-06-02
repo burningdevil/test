@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Button } from 'antd'
-import { env } from '../../main'
+import { WorkstationModule } from '@mstr/workstation-types'
 import classnames from 'classnames'
 import { ApplicationTheme } from '../../types/data-model/HomeScreenConfigModels'
 import { t } from "../../i18n/i18next";
@@ -11,14 +11,16 @@ type DesignStudioToolbarProps = {
     handleClose: () => void;
 }
 
+declare var workstation: WorkstationModule;
+
 const DesignStudioToolbar: React.FC<DesignStudioToolbarProps> = ({ theme, handleClose }) => {
     const [applying, setApplying] = React.useState(false)
 
     const handleApplyTheme = async () => {
         setApplying(true)
-        await env.window.setCloseInfo(JSON.stringify(theme))
+        await workstation.window.setCloseInfo(JSON.stringify(theme))
         setApplying(false)
-        await env.window.close()
+        await workstation.window.close()
     }
 
     return (

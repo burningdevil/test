@@ -10,18 +10,19 @@ import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 jest.mock('../../../services/Api');
 describe('HomeScreenAppearance Component', () => {
   beforeAll(() => {
-    Object.defineProperty(window, "matchMedia", {
-      writable: true,
-      value: jest.fn().mockImplementation(query => ({
-        matches: false,
-        media: query,
-        onchange: null,
-        addListener: jest.fn(), // Deprecated
-        removeListener: jest.fn(), // Deprecated
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn(),
-        dispatchEvent: jest.fn(),
-      }))
+    Object.defineProperty(window, "workstation", {
+      value: {
+        environments: {
+          getCurrentEnvironment: jest.fn()
+        },
+        dialogs: {
+          openObjectEditor: jest.fn(),
+          error: jest.fn()
+        },
+        window: {
+          addHandler: jest.fn()
+        }
+      }
     });
   });
 
@@ -34,7 +35,7 @@ describe('HomeScreenAppearance Component', () => {
     
   });
 
-  it('Theme exists Test', () => {
+  it('Theme exists Test', async () => {
 
     const  expectedTheme = {
       schemaVersion: 1,
@@ -66,7 +67,9 @@ describe('HomeScreenAppearance Component', () => {
     );
 
     // Check theme
-    expect(selectCurrentConfigTheme(store.getState() as RootState)).toEqual(expectedTheme);
+    await waitFor(() => {
+      expect(selectCurrentConfigTheme(store.getState() as RootState)).toEqual(expectedTheme);
+    });
   });
 
 });
