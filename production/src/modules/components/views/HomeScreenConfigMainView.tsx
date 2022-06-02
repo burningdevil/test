@@ -78,7 +78,7 @@ import {
     catchError,
 } from 'rxjs/operators';
 
-declare let workstation: WorkstationModule;
+declare var workstation: WorkstationModule;
 const classNamePrefix = 'home-screen-main';
 const appRootPath = 'app';
 const appRootPathWithConfig = 'app/config/';
