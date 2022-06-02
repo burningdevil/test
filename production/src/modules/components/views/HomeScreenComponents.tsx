@@ -10,10 +10,10 @@ import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
 import { selectCurrentConfig, selectIsDossierAsHome, selectIsToolbarHidden, selectIsToolbarCollapsed, selectSelectedSideBarIcons, selectSelectedLibraryCustomizedItems, selectSelectedLibraryIcons, selectSelectedDocumentIcons, selectCurrentConfigContentBundleIds, selectDefaultGroupsName } from '../../../store/selectors/HomeScreenConfigEditorSelector'
 import * as Actions from '../../../store/actions/ActionsCreator';
 import { Tooltip } from '@mstr/rc';
-import { env } from '../../../main';
 import { isLibraryServerVersionMatch, isUserHasManageContentGroupPrivilege, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION } from '../../../utils';
-import { Environment } from '@mstr/workstation-types'
+import { Environment, WorkstationModule } from '@mstr/workstation-types'
 
+declare var workstation: WorkstationModule;
 
 const childrenKeyOffset = 1000;
 /* ClassName */
@@ -396,7 +396,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         }
     }
     async componentDidMount() {
-        const curEnv: Environment = await env.environments.getCurrentEnvironment();
+        const curEnv: Environment = await workstation.environments.getCurrentEnvironment();
         const contentBundleEnable = !!curEnv.webVersion && isLibraryServerVersionMatch(curEnv.webVersion, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION) && isUserHasManageContentGroupPrivilege(curEnv.privileges);
         this.setState({
             contentBundleFeatureEnable: contentBundleEnable

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import '../scss/HomeScreenGeneral.scss';
-import { env } from '../../../main';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import * as _ from 'lodash';
 import { Input } from '@mstr/rc';
@@ -19,7 +18,10 @@ import {
     selectPreviewDeviceType,
 } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
+import { WorkstationModule } from '@mstr/workstation-types';
 const { TextArea } = Input;
+
+declare var workstation: WorkstationModule;
 
 const classNamePrefix = 'home-screen-general';
 class HomeScreenGeneral extends React.Component<any, any> {
@@ -34,7 +36,7 @@ class HomeScreenGeneral extends React.Component<any, any> {
     private nameInputRef = React.createRef<any>();
 
     async componentDidMount() {
-        const curEnv = await env.environments.getCurrentEnvironment();
+        const curEnv = await workstation.environments.getCurrentEnvironment();
         this.setState({
             currentEnv: curEnv,
         });
