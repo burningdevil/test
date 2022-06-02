@@ -78,7 +78,7 @@ import {
     catchError,
 } from 'rxjs/operators';
 
-declare var workstation: WorkstationModule;
+declare let workstation: WorkstationModule;
 const classNamePrefix = 'home-screen-main';
 const appRootPath = 'app';
 const appRootPathWithConfig = 'app/config/';
@@ -114,19 +114,19 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         this.checkHomeDcoumentModeRx();
         workstation.environments.onEnvironmentChange(
             (change: EnvironmentChangeArg) => {
-                console.log('enviornment change: ' + change.actionTaken);
+                console.log('enviornment change: ' + change?.actionTaken);
                 console.log(
                     'enviornment change: env name : ' +
-                        change.changedEnvironment.name
+                        change?.changedEnvironment.name
                 );
                 console.log(
                     'enviornment change: env status : ' +
-                        change.changedEnvironment.status
+                        change?.changedEnvironment.status
                 );
                 if (
-                    change.actionTaken ===
+                    change?.actionTaken ===
                         EnvironmentAction.ChangeEnvironmentSelection &&
-                    change.changedEnvironment.status ===
+                    change?.changedEnvironment.status ===
                         EnvironmentStatus.Connected
                 ) {
                     this.setState({
@@ -136,10 +136,10 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                     this.checkServerAndUserPrivilege();
                 }
                 if (
-                    change.actionTaken === EnvironmentAction.Disconnect &&
-                    change.changedEnvironment.status ===
+                    change?.actionTaken === EnvironmentAction.Disconnect &&
+                    change?.changedEnvironment?.status ===
                         EnvironmentStatus.Disconnected &&
-                    change.changedEnvironment.url === this.state.currentEnv.url
+                    change?.changedEnvironment?.url === this.state.currentEnv.url
                 ) {
                     // Except isConnected state, restore all other status.
                     this.setState({

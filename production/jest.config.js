@@ -35,4 +35,7 @@ module.exports = {
     '!**/mocks/**/*.*',
     '!**/*.eslintrc.js',
   ],
+  "setupFiles": [
+    "./src/modules/components/__tests__/__mocks__/ws.js"
+  ]
 }
