@@ -18,7 +18,10 @@ import {
     selectPreviewDeviceType,
 } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
-import { WorkstationModule } from '@mstr/workstation-types';
+import {
+    WorkstationModule
+} from '@mstr/workstation-types';
+declare var workstation: WorkstationModule;
 const { TextArea } = Input;
 
 declare var workstation: WorkstationModule;

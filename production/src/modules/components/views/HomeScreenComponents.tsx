@@ -14,7 +14,6 @@ import { isLibraryServerVersionMatch, isUserHasManageContentGroupPrivilege, LIBR
 import { Environment, WorkstationModule } from '@mstr/workstation-types'
 
 declare var workstation: WorkstationModule;
-
 const childrenKeyOffset = 1000;
 /* ClassName */
 const classNamePrefix = 'home-screen-components';

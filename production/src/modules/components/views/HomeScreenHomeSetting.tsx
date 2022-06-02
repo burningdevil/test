@@ -20,6 +20,7 @@ import { isContentTypeDossier } from './HomeScreenUtils';
 import { isLibraryServerVersionMatch, isUserHasManageContentGroupPrivilege, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION } from '../../../utils';
 import { Environment, WorkstationModule } from '@mstr/workstation-types';
 
+declare var workstation: WorkstationModule;
 const classNamePrefixSimple = 'home-screen-home';
 const classNamePrefix = `${classNamePrefixSimple}-settings`;
 const relativePath = 'app/';
