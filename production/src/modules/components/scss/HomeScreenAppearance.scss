@@ -23,7 +23,9 @@
     height: $theme-content-height;
 
     .existing-theme-icn {
-      background-image: url("../images/theme-icon.svg");
+      background-image: url("../images/theme-icon.png");
+      background-size: contain;
+      border: 1px solid #CFD1D3;
       width: 100%;
       height: 100%;
       z-index: 1;
