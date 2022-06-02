@@ -23,6 +23,20 @@ describe('HomeScreenAppearance Component', () => {
         dispatchEvent: jest.fn(),
       }))
     });
+    Object.defineProperty(window, "workstation", {
+      value: {
+        environments: {
+          getCurrentEnvironment: jest.fn()
+        },
+        dialogs: {
+          openObjectEditor: jest.fn(),
+          error: jest.fn()
+        },
+        window: {
+          addHandler: jest.fn()
+        }
+      }
+    });
   });
 
   afterEach(() => {
@@ -34,7 +48,7 @@ describe('HomeScreenAppearance Component', () => {
     
   });
 
-  it('Theme exists Test', () => {
+  it('Theme exists Test', async () => {
 
     const  expectedTheme = {
       schemaVersion: 1,
@@ -66,7 +80,9 @@ describe('HomeScreenAppearance Component', () => {
     );
 
     // Check theme
-    expect(selectCurrentConfigTheme(store.getState() as RootState)).toEqual(expectedTheme);
+    await waitFor(() => {
+      expect(selectCurrentConfigTheme(store.getState() as RootState)).toEqual(expectedTheme);
+    });
   });
 
 });
