@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import '../scss/HomeScreenHomeSetting.scss'
 import { Radio, Button, Layout, Space } from 'antd';
 import { Tooltip } from '@mstr/rc';
-import { env } from '../../../main'
 import { RadioChangeEvent } from 'antd/lib/radio';
 import * as _ from "lodash";
 import ContentBundleContentPicker from './ContentBundleContentPicker'
@@ -19,8 +18,9 @@ import selectedDossierIcon from '../images/icon_select_dossier.png';
 import selectedDocumentIcon from '../images/icon_select_document.png';
 import { isContentTypeDossier } from './HomeScreenUtils';
 import { isLibraryServerVersionMatch, isUserHasManageContentGroupPrivilege, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION } from '../../../utils';
-import { Environment } from '@mstr/workstation-types';
+import { Environment, WorkstationModule } from '@mstr/workstation-types';
 
+declare var workstation: WorkstationModule;
 const classNamePrefixSimple = 'home-screen-home';
 const classNamePrefix = `${classNamePrefixSimple}-settings`;
 const relativePath = 'app/';
@@ -40,7 +40,7 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
   }
 
   loadData = async () => {
-    const curEnv: Environment = await env.environments.getCurrentEnvironment();
+    const curEnv: Environment = await workstation.environments.getCurrentEnvironment();
     const contentBundleEnable = !!curEnv.webVersion && isLibraryServerVersionMatch(curEnv.webVersion, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION) && isUserHasManageContentGroupPrivilege(curEnv.privileges);
     const {contentBundleIds, isDossierHome} = this.props;
     let defaultGroupEnable = false;
