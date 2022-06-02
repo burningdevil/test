@@ -29,7 +29,7 @@ let workstation = {
           name: 'Test Environment',
           status: 2,
           subType: -1,
-          url: 'http://10.23.2.141:32880/web-dossier/',
+          url: 'https://10.23.2.141:32880/web-dossier/',
           webVersion: '20.0.0000.0000J',
           projects: [
             {
@@ -74,25 +74,25 @@ let workstation = {
         .fn()
         .mockImplementation(
           async () =>
-            'http://www2.microstrategy.com/producthelp/2019/Workstation/WebHelp/Lang_1033/Content/'
+            'https://www2.microstrategy.com/producthelp/2019/Workstation/WebHelp/Lang_1033/Content/'
         ),
       addHandler: jest
         .fn()
         .mockImplementation()
     },
     window: {
-      addHandler: jest.fn().mockImplementation((windowEvent, callback) => {
+      addHandler: jest.fn().mockImplementation((_windowEvent, callback) => {
         callback({'Message': {'CloseInfo': '{}'}})
         return true
       }),
       removeHandler: jest
         .fn()
-        .mockImplementation((windowEvent, callback) => {
+        .mockImplementation((_windowEvent, _callback) => {
           return true
         }),
       close: jest.fn().mockImplementation(),
-      postMessage: jest.fn().mockImplementation((message) => {}),
-      setTitle: jest.fn().mockImplementation((newTitle) => {}),
+      postMessage: jest.fn().mockImplementation(),
+      setTitle: jest.fn().mockImplementation(),
       getExtraContext: jest.fn().mockImplementation(() => {
         return '[{}]'
       }),
