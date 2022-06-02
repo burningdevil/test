@@ -1,9 +1,8 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import * as _ from 'lodash'
-import { Environment } from '@mstr/workstation-types'
+import { Environment, WorkstationModule } from '@mstr/workstation-types'
 import { RootState } from '../../types/redux-state/HomeScreenConfigState'
-import { env } from '../../main'
 import { ApplicationTheme } from '../../types/data-model/HomeScreenConfigModels'
 import Previewer from '../Components/Previewer'
 import './styles.scss'
@@ -16,13 +15,15 @@ interface PreviewPanelProps {
   contentBundleIds?: String[];
 }
 
+declare var workstation: WorkstationModule;
+
 const PreviewPanel: React.FC<PreviewPanelProps> = ({ theme, isDossierHome, contentBundleIds }) => {
   const [contentBundleFeatureEnable, setContentBundleFeatureEnable] = React.useState(false);
   const [defaultGroupFeatureEnable, setDefaultGroupFeatureEnable] = React.useState(false);
   
   React.useEffect(() => {
     async function initPreviewPanel() {
-      const currEnv : Environment = await env.environments.getCurrentEnvironment();
+      const currEnv : Environment = await workstation.environments.getCurrentEnvironment();
       const contentBundleEnable = !!currEnv.webVersion && isLibraryServerVersionMatch(currEnv.webVersion, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION) && isUserHasManageContentGroupPrivilege(currEnv.privileges);
       setContentBundleFeatureEnable(contentBundleEnable);
       if (!isDossierHome) {

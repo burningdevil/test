@@ -2,7 +2,6 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import * as _ from 'lodash'
 import { RootState } from '../types/redux-state/HomeScreenConfigState'
-import { env } from '../main'
 import * as Actions from '../store/actions/ActionsCreator'
 import PreviewPanel from './PreviewPanel'
 import SettingsPanel from './SettingsPanel'
@@ -35,20 +34,20 @@ const ApplicationDesignEditor: React.FC<ApplicationDesignEditorProps> = ({ saved
   const confirmBeforeClosing = async () => {
     const isThemeDirty = !_.isEqual(savedConfigThemeRef, currStudioThemeRef);
     if (isThemeDirty) {
-      let res = await env.dialogs.confirmation({message: t('applyThemeConfirmationStr').replace('{{application}}', currApplicationName.current)});
+      let res = await workstation.dialogs.confirmation({message: t('applyThemeConfirmationStr').replace('{{application}}', currApplicationName.current)});
       if (res === DialogValues.YES) {
         // yes
-        await env.window.setCloseInfo(JSON.stringify(currStudioThemeRef.current));
-        env.window.close();
+        await workstation.window.setCloseInfo(JSON.stringify(currStudioThemeRef.current));
+        workstation.window.close();
       } else if (res === DialogValues.NO) {
         // no
-        env.window.close();
+        workstation.window.close();
       } else {
         // cancel
         return;
       }
     } else {
-      env.window.close();
+      workstation.window.close();
     }
   };
   
@@ -60,19 +59,19 @@ const ApplicationDesignEditor: React.FC<ApplicationDesignEditorProps> = ({ saved
       currApplicationName.current = prevConfig.name;
       setCurrStudioTheme(prevTheme);
       setCurrConfig(prevConfig);
-      await env.window.setTitle(t('designStudioWindowTitle').replace('{{application}}', currApplicationName.current));
+      await workstation.window.setTitle(t('designStudioWindowTitle').replace('{{application}}', currApplicationName.current));
     }
     initEditor();
 
     // add handler so when parent window (Config Editor) closes, we should also close this window
-    env.window.addHandler(WindowEvent.ONPARENTCLOSE, async () => {
+    workstation.window.addHandler(WindowEvent.ONPARENTCLOSE, async () => {
       // TODO: should it prompt user to save when parent window closes or should it force close without warning? currently, we cannot save the config
       // due to parent window already being closed by the time this callback is called. therefore, updating the config won't make a difference since
       // we can't save to the server from the Design Studio window.
-      env.window.close();
+      workstation.window.close();
     });
     
-    env.window.addHandler(WindowEvent.CLOSE, confirmBeforeClosing);
+    workstation.window.addHandler(WindowEvent.CLOSE, confirmBeforeClosing);
   }, []);
 
   return (
