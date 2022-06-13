@@ -9,5 +9,5 @@ cookbook 'ark', '5.0.0'
 cookbook_from_git 'kube-config', '0.1.21'
 cookbook_from_git 'helm', '0.1.32'
 cookbook_from_git 'docker', '0.1.31'
-cookbook_from_git 'nodejs', '0.1.20'
+cookbook_from_git 'nodejs', '0.1.22'
 
