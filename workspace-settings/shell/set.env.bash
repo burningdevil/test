@@ -33,7 +33,7 @@ else
   export WS_TEST_PLATFORM=mac
 fi
 
-nodejs_version="16.15.0"
+nodejs_version="16.15.1"
 if uname -a | grep -q "Darwin"; then
   export NODE_HOME=/usr/local/nodejs-binary-$nodejs_version
   export PATH=$NODE_HOME/bin:$PATH
