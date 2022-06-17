@@ -1,5 +1,6 @@
 require 'shell-helper'
 require 'common/version'
+require 'docker-registry'
 
 include ShellHelper::Shell
 
