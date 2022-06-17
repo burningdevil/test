@@ -34,6 +34,7 @@ else
 fi
 
 nodejs_version="16.15.1"
+export nodejs_image_tag=$nodejs_version
 if uname -a | grep -q "Darwin"; then
   export NODE_HOME=/usr/local/nodejs-binary-$nodejs_version
   export PATH=$NODE_HOME/bin:$PATH

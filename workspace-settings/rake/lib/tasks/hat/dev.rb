@@ -1,7 +1,12 @@
 require 'shell-helper'
 require 'common/version'
+require 'docker-registry'
 
 include ShellHelper::Shell
+
+def docker_image_name
+  DockerRegistry.image_from_nexus("node:#{ENV['nodejs_image_tag']}")
+end
 
 desc "build project in #{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}"
 task :build do
@@ -19,7 +24,7 @@ task :build do
     cwd: $WORKSPACE_SETTINGS[:paths][:project][:production][:home]
   )
   shell_command!(
-    "docker run -v #{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}:/mnt/production -e APPLICATION_VERSION=#{Common::Version.application_version} --entrypoint '/bin/sh' node:16.15.0 /mnt/production/build.sh",
+    "docker run -v #{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}:/mnt/production -e APPLICATION_VERSION=#{Common::Version.application_version} --entrypoint '/bin/sh' #{docker_image_name} /mnt/production/build.sh",
     cwd: $WORKSPACE_SETTINGS[:paths][:project][:production][:home]
   )
 #   shell_command!(
@@ -48,12 +53,12 @@ task :premerge do
   FileUtils.rm_rf(tests_node_modules_folder) if File.exist?(tests_node_modules_folder)
 
   shell_command!(
-    "docker run -v #{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}:/mnt/production -e APPLICATION_VERSION=#{Common::Version.application_version} --entrypoint '/bin/sh' node:12-alpine /mnt/production/premerge.sh",
+    "docker run -v #{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}:/mnt/production -e APPLICATION_VERSION=#{Common::Version.application_version} --entrypoint '/bin/sh' #{docker_image_name} /mnt/production/premerge.sh",
     cwd: $WORKSPACE_SETTINGS[:paths][:project][:production][:home]
   )
 
   shell_command!(
-    "docker run -v #{$WORKSPACE_SETTINGS[:paths][:project][:tests][:acceptance][:home]}:/mnt/tests/acceptance --entrypoint '/bin/sh' node:12-alpine /mnt/tests/acceptance/premerge.sh",
+    "docker run -v #{$WORKSPACE_SETTINGS[:paths][:project][:tests][:acceptance][:home]}:/mnt/tests/acceptance --entrypoint '/bin/sh' #{docker_image_name} /mnt/tests/acceptance/premerge.sh",
     cwd: $WORKSPACE_SETTINGS[:paths][:project][:production][:home]
   )
 end
