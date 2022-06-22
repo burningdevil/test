@@ -61,7 +61,9 @@ const startupAppium = async () => {
       OS_APP_PATH = `--args.appPath.mac "${APP_PATH}"`
     }
     //execSync(`yarn test ${OS_APP_PATH} --args.cefPort=\"${CEF_PORT}\" --params.envInfo[0].envUrl=\"${ENV_URL}\" --cucumberOpts.tags=\"${TAG}\"`, { stdio: 'inherit', encoding: 'utf-8' })
-    execSync(`yarn test ${OS_APP_PATH} --args.cefPort ${CEF_PORT} --params.envInfo[0].envUrl ${ENV_URL} --cucumberOpts.tags ${TAG} --videoRecord true --uploadVideoPath ${VIDEO_PATH}`, { stdio: 'inherit', encoding: 'utf-8' })
+    //execSync(`yarn test ${OS_APP_PATH} --args.cefPort ${CEF_PORT} --params.envInfo[0].envUrl ${ENV_URL} --cucumberOpts.tags ${TAG} --videoRecord true --uploadVideoPath ${VIDEO_PATH}`, { stdio: 'inherit', encoding: 'utf-8' })
+
+    execSync(`npm run test -- ${OS_APP_PATH} --args.cefPort ${CEF_PORT} --params.envInfo[0].envUrl ${ENV_URL} --cucumberOpts.tags ${TAG} --videoRecord true --uploadVideoPath ${VIDEO_PATH}`, { stdio: 'inherit', encoding: 'utf-8' })
     // execSync(`yarn flakeTest '${APP_PATH}' '${ENV_URL}' '~@wip'`, { stdio: 'inherit', encoding: 'utf-8' })
   } catch (err) {
     console.error(err)
