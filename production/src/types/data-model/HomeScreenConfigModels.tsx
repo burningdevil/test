@@ -8,7 +8,8 @@ export interface ColorPaletteType {
     'colors': Array<string>,
     'name': string,
     'id': string,
-    'paletteType': number
+    'paletteType': number,
+    'isDefaultPalette'?: boolean
 }
 
 export interface HomeScreenConfigType {
@@ -40,7 +41,8 @@ export interface HomeScreenConfigType {
             toolbarMode: number,
             toolbarEnabled: boolean,
             homeDocumentType?: string
-        }
+        },
+        theme?: ApplicationTheme
     },
     'general': {
         disableAdvancedSettings: boolean,
@@ -53,7 +55,7 @@ export interface HomeScreenConfigType {
         updateInterval: number
     },
     // Color Palette
-    showBuiltinPalattes: boolean,
+    useConfigPalettes: boolean,
     applicationPalettes: Array<string>,
     applicationDefaultPalette: string
 }
@@ -74,3 +76,17 @@ export interface HomeScreenBundleContentListItem {
     acg: number,
     certifiedInfo: {certified: any}
 }
+
+export interface ThemePropObject {
+    type: string,
+    value: any
+}
+export interface ApplicationLogos {
+    web?: ThemePropObject,
+    favicon?: ThemePropObject,
+    mobile?: ThemePropObject
+}
+export interface ApplicationTheme {
+    schemaVersion: number,
+    logos: ApplicationLogos
+} 

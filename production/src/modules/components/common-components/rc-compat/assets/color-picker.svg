@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="313px" height="165px" viewBox="0 0 313 165" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Color Picker</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#D9D9D9" offset="0%"></stop>
+            <stop stop-color="#525252" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-2">
+            <stop stop-color="#B9DBFF" offset="0%"></stop>
+            <stop stop-color="#1178E4" offset="100%"></stop>
+        </linearGradient>
+        <rect id="path-3" x="0" y="0" width="18" height="18" rx="2"></rect>
+        <filter x="-27.8%" y="-22.2%" width="155.6%" height="155.6%" filterUnits="objectBoundingBox" id="filter-4">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0.266666667   0 0 0 0 0.274509804   0 0 0 0 0.28627451  0 0 0 0.05 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Color-Picker" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <text id="left-top-of-each-ico" font-family="Helvetica" font-size="9" font-weight="normal" fill="#444649">
+            <tspan x="0" y="11">left top of each icon(0+30n, 0+30n), each icon 18*18px</tspan>
+        </text>
+        <g id="Rectangle-Copy" transform="translate(30.000000, 30.000000)" fill="#3B92ED">
+            <rect x="2" y="2" width="14" height="14" rx="2"></rect>
+        </g>
+        <g id="Group" transform="translate(0.000000, 30.000000)">
+            <g id="Group-17" transform="translate(2.000000, 2.000000)">
+                <rect id="Rectangle" fill="#3B92ED" x="0" y="0" width="6" height="6" rx="1"></rect>
+                <rect id="Rectangle-Copy-50" stroke="#349A49" fill="#FFFFFF" x="0.5" y="8.5" width="5" height="5" rx="1"></rect>
+                <rect id="Rectangle-Copy-17" stroke="#EA674E" fill="#FFFFFF" x="8.5" y="0.5" width="5" height="5" rx="1"></rect>
+                <rect id="Rectangle-Copy-51" stroke="#F1AB4B" fill="#FFFFFF" x="8.5" y="8.5" width="5" height="5" rx="1"></rect>
+            </g>
+        </g>
+        <g id="Group" transform="translate(0.000000, 60.000000)" opacity="0.699497768" stroke="#444649">
+            <g id="Group-17" transform="translate(2.000000, 2.000000)">
+                <rect id="Rectangle" fill="#444649" x="0.5" y="0.5" width="5" height="5" rx="1"></rect>
+                <rect id="Rectangle-Copy-50" fill="#FFFFFF" x="0.5" y="8.5" width="5" height="5" rx="1"></rect>
+                <rect id="Rectangle-Copy-17" fill="#FFFFFF" x="8.5" y="0.5" width="5" height="5" rx="1"></rect>
+                <rect id="Rectangle-Copy-51" fill="#FFFFFF" x="8.5" y="8.5" width="5" height="5" rx="1"></rect>
+            </g>
+        </g>
+        <g id="Rectangle" transform="translate(30.000000, 60.000000)" fill="#8F8F8F">
+            <rect x="2" y="2" width="14" height="14" rx="2"></rect>
+        </g>
+        <g id="Rectangle-Copy" transform="translate(60.000000, 60.000000)" fill="url(#linearGradient-1)">
+            <rect x="2" y="2" width="14" height="14" rx="2"></rect>
+        </g>
+        <g id="Rectangle-Copy" transform="translate(60.000000, 30.000000)" fill="url(#linearGradient-2)">
+            <rect x="2" y="2" width="14" height="14" rx="2"></rect>
+        </g>
+        <g id="Group" transform="translate(0.000000, 90.000000)">
+            <rect id="Rectangle" fill="#444649" x="9" y="2" width="1" height="14"></rect>
+            <polygon id="Path-4" fill="#444649" points="3 4 8 9 3 14"></polygon>
+            <path d="M11.5,5.20710678 L15.2928932,9 L11.5,12.7928932 L11.5,5.20710678 Z" id="Path-4-Copy" stroke="#444649" transform="translate(13.500000, 9.000000) scale(-1, 1) translate(-13.500000, -9.000000) "></path>
+        </g>
+        <g id="Group" transform="translate(30.000000, 90.000000)" fill="#444649" fill-rule="nonzero">
+            <g id="Combined-Shape">
+                <path d="M6,6 L2,4.5 L6,3 L6,4 L12.5,4 C13.8254834,4 14.9100387,5.03153594 14.9946823,6.33562431 L15,6.5 L15,16 L14,16 L14,6.5 C14,5.72030388 13.4051119,5.07955132 12.64446,5.00686658 L12.5,5 L6,5 L6,6 Z"></path>
+            </g>
+        </g>
+        <g id="Group-8-Copy" transform="translate(60.000000, 90.000000)">
+            <rect id="Rectangle" x="0" y="0" width="18" height="18"></rect>
+            <g id="Group-8">
+                <g id="Rectangle">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use>
+                    <rect stroke-opacity="0.2" stroke="#444649" stroke-width="1" stroke-linejoin="square" fill="#FFFFFF" fill-rule="evenodd" x="0.5" y="0.5" width="17" height="17" rx="2"></rect>
+                </g>
+                <line x1="15" y1="3" x2="3" y2="15" id="Line-7" stroke="#C90202" stroke-linecap="round"></line>
+            </g>
+        </g>
+        <g id="Group" transform="translate(120.000000, 90.000000)">
+            <rect id="Rectangle" x="0" y="0" width="18" height="18"></rect>
+            <g id="Group-13">
+                <rect id="Rectangle-Copy-11" stroke-opacity="0.2" stroke="#35383A" fill="#FFFFFF" x="0.5" y="0.5" width="17" height="17" rx="2"></rect>
+                <path d="M9.5,4.5 L9.5,8.5 L13.5,8.5 L13.5,9.5 L9.5,9.5 L9.5,13.5 L8.5,13.5 L8.5,9.5 L4.5,9.5 L4.5,8.5 L8.5,8.5 L8.5,4.5 L9.5,4.5 Z" id="Combined-Shape" fill="#D8D8D8"></path>
+            </g>
+        </g>
+        <g id="reset_disable" transform="translate(159.000000, 99.000000) scale(-1, 1) translate(-159.000000, -99.000000) translate(150.000000, 90.000000)">
+            <rect id="Rectangle" fill-opacity="0" fill="#FFFFFF" x="0" y="0" width="18" height="18"></rect>
+            <path d="M12.5357292,10.25 C12.0208333,11.7063542 10.6326042,12.75 9,12.75 C6.92885417,12.75 5.25,11.0710417 5.25,9 C5.25,6.92895833 6.92885417,5.25 9,5.25 C10.0355208,5.25 10.9730208,5.6696875 11.6515625,6.34833333 L9.83333333,8.16666667 L12.6558333,8.16666667 L13.9294792,8.16666667 L14,8.16666667 L14,4 L12.5355208,5.46447917 C11.630625,4.5596875 10.380625,4 9,4 C6.23854167,4 4,6.23854167 4,9 C4,11.7614583 6.23854167,14 9,14 C11.3297917,14 13.2873958,12.4065625 13.8423958,10.25 L12.5357292,10.25 Z" id="reset" fill="#35383A"></path>
+        </g>
+        <g id="Group-5" transform="translate(90.000000, 90.000000)">
+            <rect id="Rectangle" stroke-opacity="0.2" stroke="#35383A" fill="#FFFFFF" x="0.5" y="0.5" width="17" height="17"></rect>
+            <line x1="1" y1="17" x2="17" y2="1" id="Path-2" stroke="#DB0000" stroke-linecap="round"></line>
+        </g>
+    </g>
+</svg>

@@ -39,12 +39,13 @@ const initialState: HomeScreenConfigEditorState = {
       maxLogSize: CONSTANTS.DEFAULT_MAX_LOG_SIZE, 
       logLevel: CONSTANTS.LOG_LEVEL_WARNING, 
       updateInterval: CONSTANTS.DEFAULT_UPDATE_INTERVAL
-    }
+    },
+    applicationPalettes: [],
+    useConfigPalettes: false
   },
   isDuplicateConfig: false,
   isConfigNameError: false,
   configInfoList: [],
-  colorPalettes: [],
   previewDeviceType: reviewType.WEB,
   isStateChangeByManual: false
 }
@@ -73,6 +74,32 @@ const HomeScreenConfigEditorReducer = (state: HomeScreenConfigEditorState = init
       return {...state, isConfigNameError: data}
     case Actions.UPDATE_REVIEW_TYPE:
       return {...state, previewDeviceType: data}
+    case Actions.UPDATE_HOMESCREEN_THEME:
+      return {
+        ...state,
+        currentConfig: {
+          ...state.currentConfig,
+          homeScreen: {
+            ...state.currentConfig.homeScreen,
+            theme: data
+          }
+        }
+      }
+    case Actions.DELETE_HOMESCREEN_THEME:
+      const currConfig = state.currentConfig
+      const homeScreen = state.currentConfig.homeScreen
+      const updatedHomeScreen: any = {}
+      for (const [key, value] of Object.entries(homeScreen)) {
+        if (key !== 'theme') {
+            updatedHomeScreen[key] = value;
+        }
+      }
+      const updatedConfig = { ...currConfig }
+      updatedConfig.homeScreen = updatedHomeScreen
+      return {
+        ...state,
+        currentConfig: updatedConfig
+      }
     default:
       return state
   }

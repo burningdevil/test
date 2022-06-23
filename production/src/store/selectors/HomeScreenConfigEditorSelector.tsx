@@ -8,7 +8,7 @@ export const selectConfigEditorRoot = (state: RootState) => state.configEditor
 export const selectConfigMainRoot = (state: RootState) => state.configMain
 export const selectBundleContentRoot = (state: RootState) => state.bundleContent
 export const selectContentRoot = (state: RootState) => state.content
-
+export const selectColorPaletteRoot = (state: RootState) => state.colorPalette
 export const selectCurrentConfig = createSelector(
     selectConfigEditorRoot,
   (configEditorRoot) => configEditorRoot.currentConfig
@@ -149,3 +149,41 @@ export const selectDefaultGroupsName = createSelector(
   }
 )
 
+export const selectCurrentConfigTheme = createSelector(
+  selectCurrentConfig,
+  (currentConfig) => currentConfig.homeScreen.theme
+)
+
+export const selectAllColorPalettes = createSelector(
+  selectColorPaletteRoot,
+  (config) =>  { 
+    return config.data
+  }
+)
+
+export const selectApplicationPalettes = createSelector(
+  selectCurrentConfig,
+  (config) =>  { 
+    return config.applicationPalettes
+  }
+)
+
+export const selectApplicationDefaultPalette = createSelector(
+  selectCurrentConfig,
+  (config) =>  { 
+    return config.applicationDefaultPalette
+  }
+)
+
+export const selectUseConfigPalettes = createSelector(
+  selectCurrentConfig,
+  (config) =>  { 
+    return config.useConfigPalettes
+  }
+)
+export const selectColorPalettesSelected = createSelector(
+  selectCurrentConfig,
+  (config) => {
+    return !config.useConfigPalettes || config.useConfigPalettes && config.applicationPalettes?.length > 0
+  }
+)

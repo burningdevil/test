@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "paths": { "*": ["types/*"], "@mstr/*": ["node_modules/@mstr/*"] },
+    "paths": { "*": ["types/*"], "@mstr/*": ["node_modules/@mstr/*"],  "src/*": ["src/*"] },
+    "typeRoots": [ "./types", "./node_modules/@types"],
     "outDir": "./dist/",
     "sourceMap": true,
     "noImplicitAny": true,
@@ -12,5 +13,6 @@
   },
   "include": [
     "./src/**/*"
-  ]
+  ],
+  "exclude": ["node_modules", "./types"]
 }

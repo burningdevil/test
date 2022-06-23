@@ -68,5 +68,9 @@ export default class BasePage {
     await this.brwsr.actions().mouseMove(offset).perform()
     return this.brwsr.actions().click(protractor.Button.RIGHT).perform()
   }
-  
+
+  async enterClick() {
+    return this.brwsr.actions().sendKeys(protractor.Key.ENTER).perform()
+  }
+
 }

@@ -1,5 +1,5 @@
 import * as Actions from './ActionConstants'
-import { HomeScreenConfigType, MainViewContentBundleType, HomeScreenBundleContentListItem, HomeScreenConfigInfo } from '../../types/data-model/HomeScreenConfigModels'
+import { HomeScreenConfigType, MainViewContentBundleType, HomeScreenBundleContentListItem, HomeScreenConfigInfo, ApplicationTheme } from '../../types/data-model/HomeScreenConfigModels'
 
 export const loadConfigListSuccess = (configList: Array<HomeScreenConfigType>) => ({
   type: Actions.LOAD_CONFIG_LIST_SUCCESS,
@@ -25,6 +25,15 @@ export const setCurrentConfig = (config: HomeScreenConfigType) => ({
 export const updateCurrentConfig = (settings: Partial<HomeScreenConfigType>) => ({
   type: Actions.UPDATE_CURRENT_CONFIG,
   data: settings,
+})
+
+export const updateThemeInCurrentConfig = (theme: ApplicationTheme) => ({
+  type: Actions.UPDATE_HOMESCREEN_THEME,
+  data: theme
+})
+
+export const deleteThemeInCurrentConfig = () => ({
+  type: Actions.DELETE_HOMESCREEN_THEME
 })
 
 export const updatePreviewDeviceType = (type: string) => ({
@@ -96,8 +105,42 @@ export const loadContentBundleListSuccess = (contentBundleList: Array<MainViewCo
 export const loadContentBundleListFail = () => ({
   type: Actions.LOAD_CONTENT_BUNDLE_LIST_FAIL,
 })
+ 
+/* ------------------------------ color palette list ----------------------------*/
+export const startLoadingColorPaletteList = () => ({
+  type: Actions.START_LOADING_COLOR_PALETTE_LIST
+})
 
+export const finishLoadingColorPaletteList = () => ({
+  type: Actions.FINISH_LOADING_COLOR_PALETTE_LIST
+})
 
+export const loadColorPaletteSuccess = (colorPaletteList: Array<any>) => ({
+  type: Actions.LOAD_COLOR_PALETTE_LIST_SUCCESS,
+  data: colorPaletteList,
+})
 
+export const loadColorPaletteFail = () => ({
+  type: Actions.LOAD_COLOR_PALETTE_LIST_FAIL,
+})
 
+/* ------------------------------ application design editor ----------------------------*/
+export const asyncInitAppDesignEditor = () => ({ 
+  type: Actions.ASYNC_INIT_APP_DESIGN_EDITOR 
+})
+
+export const setTheme = (theme: ApplicationTheme) => ({
+  type: Actions.SET_THEME,
+  data: theme
+})
+
+export const updateTheme = (data: any) => ({
+  type: Actions.UPDATE_THEME,
+  data
+})
+
+export const deleteThemeLogo = (logoCategory: string) => ({
+  type: Actions.DELETE_THEME_LOGO,
+  data: logoCategory
+})
 

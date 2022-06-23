@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 export APPLICATION_SHORT_VERSION_PREFIX="11.3."
-export APPLICATION_LONG_VERSION_PREFIX="${APPLICATION_SHORT_VERSION_PREFIX}0600."
+export APPLICATION_LONG_VERSION_PREFIX="${APPLICATION_SHORT_VERSION_PREFIX}0700."
 
 export GROUP_ID_BASE='com.microstrategy'
 export ARTIFACT_ID_BASE='workstation-homescreen-admin'
@@ -28,12 +28,24 @@ export PATH=/usr/local:$PATH
 if uname -a | grep -q "MSYS"; then
   export WS_TEST_PLATFORM=win
   SEVEN_ZIP_PATH="/c/Program Files/7-Zip/"
-  NODE_HOME=/c/node/node-v12.13.0-win-x64/
-  export PATH=$NODE_HOME:$SEVEN_ZIP_PATH:$PATH
+  export PATH=$SEVEN_ZIP_PATH:$PATH
 else
   export WS_TEST_PLATFORM=mac
+fi
+
+nodejs_version="16.15.1"
+export nodejs_image_tag=$nodejs_version
+if uname -a | grep -q "Darwin"; then
+  export NODE_HOME=/usr/local/nodejs-binary-$nodejs_version
+  export PATH=$NODE_HOME/bin:$PATH
+elif uname -a | grep -q "MSYS"; then
+  export NODE_HOME=/c/node/node-v$nodejs_version-win-x64/
+  export PATH=$NODE_HOME:$PATH
+else
+  export NODE_HOME=/usr/local/nodejs-binary-$nodejs_version
+  export PATH=$NODE_HOME/bin:$PATH
   export PATH=~/.npm-global/bin:$PATH
 fi
 
 export BASE_BRANCH="m2021"
-export BRANCH_OFF_COMMIT=7c19d8fca7e38ba815c8f70c09f14fddeec3e41d
+export BRANCH_OFF_COMMIT=5780d6b290a6b5ca828cabc82782a1ef334ba3a1
