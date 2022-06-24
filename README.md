@@ -19,17 +19,16 @@
 
 -->
 
-# <!-- Begin: Full Name -->Common name of repo (for example say "Library Server" not "web-dossier")<!-- End: Full Name -->
+# <!-- Begin: Full Name -->MicroStrategy Workstation Custom Application Plugin<!-- End: Full Name -->
 
 ## Summary
 
 ### Purpose
 
 <!-- Begin: Purpose -->
-
-_What does the material in this repository actually do?_
-
+This is the Workstation Plugin for Custom Applications Feature. Used to manage the custom application objects.
 <!-- End: Purpose -->
+
 
 ### How, if at all, do we ship the code in this repository
 
@@ -38,36 +37,33 @@ _What does the material in this repository actually do?_
     List all of the separately shipping products that include it.
     If (for low-level code) it is included in many projects then categorize them
 -->
-
 - [x] This project is shipped (included in some kind of install program)
-  - Product_1
-  - Product_2 etc.
-  <!-- Alternatively:
-      - [ ] This project is shipped (included in some kind of install program)
-  -->
-- [x] This project is containerized (it is included in some MicroStrategy generated container)
-  - Container_1
-  - Container_2 etc.
-  <!-- Alternatively:
-      - [ ] This project is containerized (it is included in some MicroStrategy generated container)
-  -->
-- [x] This project is actively used in-house. (For example it is a build tool, or it is used for testing.)
+  - Shipped as plugin of workstation installtion build
+<!-- Alternatively:
+    - [ ] This project is shipped (included in some kind of install program)
+-->
+- [ ] This project is containerized (it is included in some MicroStrategy generated container.
+<!-- Alternatively:
+    - [ ] This project is containerized (it is included in some MicroStrategy generated container.
+-->
+- [ ] This project is actively used in-house.  (For example it is a build tool, or it is used for testing.)
 <!-- Alternatively:
     - [ ] This project is actively used in-house.  (For example it is a build tool, or it is used for testing.)
 -->
-- [x] This is a throw away project (created for research)
+- [ ] This is a throw away project (created for research)
 <!-- Alternatively:
     - [ ] This is a throw away project (created for research)
 -->
-- [x] This code belongs to MicroStrategy (as against being open source)
-  <!-- Alternatively:
-      - [ ] This code belongs to MicroStrategy (as against being open source)
-  -->
-  <!-- End: Output -->
+- [x] This code belong to MicroStrategy (as against being open source)
+<!-- Alternatively:
+    - [ ] This is a throw away project (created for research)
+-->
+<!-- End: Output -->
+
 
 ### Ownership
 
-<!-- Begin: Owner
+<!-- Begin: Owner 
     If a repo belongs to several teams write down the team that owns the largest proportion.
     This information can be found here:
     https://microstrategy.atlassian.net/wiki/spaces/DevOps/pages/1070727930/CI+pipelines+Point+of+Contacts
@@ -76,53 +72,130 @@ _What does the material in this repository actually do?_
         Team: TEC-SR-Gateways-Framework
         Contact: Fred Bloggs
 -->
-
-Team: _State which team owns the repository. Use the BU name for the team._
-Contact: _State an individual within the team to use as a point of contact._
-
+        Team: CT-Applications-CTC  
+        Contact: @enli
 <!-- End: Owner -->
+
 
 ## Documentation
 
 <!-- Begin: Documentation -->
+It is the web app starter kit for Workstation. It uses React/Redux as its base technology to build the web app. Key technologies also include
 
-_Please provide a brief overview over how the contents of this repo are organized. If there exist documents in Confluence or Sharepoint that describe the top-level design of the repository please include them here. You might also link to documentation included in the repo using a relative link._
+- webpack (bundler)
+- saga (side effect)
+- scss
+- babel (ES6)
+- ant.design
+- eslint
+- Unit Tests: jest and enzyme
 
-_The goal here is to write enough to give someone looking at the repository for the first time some idea how to get started upon it._
-
+You can find some other features we are planning to add in the following Confluence page.
+https://microstrategy.atlassian.net/wiki/spaces/TTWA/pages/748590656/Workstation+Plugin+App+Template+High+Level+Requirements
 <!-- End: Documentation -->
 
+
 ## How to use this repository
+## Requirements
 
-<!-- Begin: Use -->
+* node `^16.0.0`
+* yarn `^0.23.0` or npm `^3.0.0`
 
-_For source code, describe what tool(s) an engineer should use to set up a development environment on this repository. Recommend an IDE to use and specify where to find the project file (or the equivalent) to set up the IDE correctly. If the program should be built from the command line describe what should be installed, and the correct command line command to execute._
+## Installation
 
-_If this repository contains executable code describe how one could execute and debug the code in the repository._
+## Building and Running the Project
 
-_If the repository implements a library then describe how to include the library in other projects (e.g. use this jar file etc.)._
+After completing the [installation](#installation) step, you're ready to start the project!
 
-_If the repository does not contain source code, then describe how it should be used._
+```
+$ yarn start  # Start the development server (or `npm start`)
+```
 
-<!-- End: Use -->
+### Configure the Library Server to connect to
 
-## Build Pipeline
+1. create a file named *.librc.json* under folder __production/server__
+2. specify the connection info with json structure like
 
-<!-- Begin: Build -->
+```json
+{
+  "server": "http://localhost:8282",
+  "base": "/consume-dev",
+  "username": "tqmsuser",
+  "password": "",
+  "projectID":"B628A31F11E7BD953EAE0080EF0583BD"
+}
+```
 
-_Repositories that contain code that we ship are intended to be integrated into the CI build pipeline. Describe how this is implemented._
+## Create You Own Application
+Under src/modules folder, you will find three example pages. Two of them are React based modules and Module 2 is actually a mojo based web application.
 
-_Describe trouble shooting steps one should take if there is a problem with this repository's build pipeline. If there is a slack channel that reports builds for this repo, please link to it here as well._
+If you look at App.tsx file, you will find the routes that are linked to each of the modules.
 
-<!-- End: Build -->
+    <div>
+      <Route path="/m1" component={Module1} />
+      <Route path="/m2" component={Module2} />
+      <Route path="/m3" component={Module3} />
+    </div>
 
-## Automated tests for this repository
+Then if you look at public/main.js file, you will something like below.
 
-<!-- Begin: Test -->
+    /index.html#/m1
 
-_Many repositories contain automated tests, or are intended to be tested by system tests. If the project contains automated tests specify where to find them and how to execute them. If other tests should be executed describe where to find them and how to execute them instead._
+This is hash based router we are using. In this way, you can define multiple targets in your plugin configuration. The use case can be you have different pages that could be opened by different entry points in Workstation.
 
-<!-- End: Test -->
+You can start deleting all the modules here and adding your own app implementation.
+
+One more thing you can remove is in the index.html file. This section is just an example of how you can add external JavaScript dependencies. Once you have these dependencies added, you can build your module similar to Module 2 in the examples to use these external dependencies.
+
+    <!-- Remove this section from this page if you don't have any mojo related modules. -->
+    <script src="./mojo/Module2-mojo-config.js"></script>
+    <script src="./mojo/Module2-mojo.js"></script>
+    <script src="./mojo/Module2-mojo-my-button.js"></script>
+    <!-- End mojo dependencies. -->
+
+## Update from Template
+From while to while, there might new common changes added to this template repository. If your application repository is derived from this template, you can use the following Git commands to inherit those latest changes from the template.
+
+    git remote add plugin-template git@github.microstrategy.com:ecosystem/react.mud.git
+    git fetch --all
+    git checkout m2020
+    git merge plugin-template/app
+
+## Build for Workstation
+
+```
+npm install
+npm run buildWS
+```
+
+## Deployment on Workstation
+
+TBD for plugin infrastructure
+
+## CI Metrics Generation
+
+```sh
+npm run metrics
+```
+
+
+## Mock Server
+
+### Prepare
+
+yarn add mockjs
+yarn add express
+yarn global add babel-cli
+yarn add --dev babel-preset-env
+
+### Start Script
+
+yarn serve
+
+### Mock Data Dir
+
+mock
+
 
 ## Security scanning integration
 
@@ -134,20 +207,17 @@ The scanning tools in use for this project:
     If the repo is scanned by SonarQube then fill in a link on where to see outcome
     If the repo is not scanned then uncheck the box and erase the link.
 -->
-
-- [x] This project is scanned by SonarQube. See [dashboard link](https://sonarqube.internal.microstrategy.com/dashboard)
+- [x] This project is scanned by SonarQube.  See [dashboard link](https://sonarqube.internal.microstrategy.com/dashboard?id=Kiai%3Aworkstation-homescreen-admin)
 
 <!--
     If the repo is scanned by Veracode then fill in a link on where to see outcome
     If the repo is not scanned then uncheck the box and erase the link.
 -->
-
-- [x] This project is scanned by Veracode. See [dashboard link](https://web.analysiscenter.veracode.com/)
+- [x] This project is scanned by Veracode.  See [dashboard link](https://sca.analysiscenter.veracode.com/workspaces/qWWImWd/projects/454942/vulnerabilities)
 
 <!-- End: Scanning -->
 
-<!--
+<!-- 
     Please make sure that this repo's information is up to date in this spreadsheet.
 -->
-
 [Link to spreadsheet containing information about automated security scanning](https://microstrategy-my.sharepoint.com/:x:/p/xchang/EZ1JApOcDZpGnwbkKLVnZ70BJfrnBSQbF26bXYLS5OntHw?e=ZMVpVe)
