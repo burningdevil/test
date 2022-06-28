@@ -18,6 +18,9 @@ export VAGRANT_BOXES_OSX_VERSION='1.0.0.next'
 export HELM=/usr/local/helm
 export PATH=$HELM:$PATH
 
+export FFMPEG=/usr/local/bin/ffmpeg
+export PATH=$FFMPEG:$PATH
+
 export AWS_IAM_AUTHENTICATOR=/usr/local/aws
 export PATH=$AWS_IAM_AUTHENTICATOR:$PATH
 
