@@ -49,7 +49,7 @@ rake replace_plugin_windows
 
 rake eks_deploy
 rake acceptance_test_win
-rake reboot_windows_slave
+#rake reboot_windows_slave
 '
     end
   end
