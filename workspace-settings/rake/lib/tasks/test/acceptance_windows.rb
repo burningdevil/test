@@ -137,8 +137,8 @@ task :acceptance_test_win do |t,args|
   #shell_command! "powershell -command 'Get-DisplayResolution'"
 
   info "====== yarn install starting ======"
-  shell_command! "yarn install", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
-  shell_command! 'yarn config set script-shell "C:/usr/bin/bash"', environment: {'MSYS' => 'winsymlinks:nativestrict'}
+  shell_command! "npm install", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
+  shell_command! 'npm config set script-shell "C:/usr/bin/bash"', environment: {'MSYS' => 'winsymlinks:nativestrict'}
 
   info "====== starting test ======"
   begin
@@ -168,8 +168,8 @@ task :sanity_test_win do |t,args|
   #shell_command! "powershell -command 'Get-DisplayResolution'"
 
   info "====== yarn install starting ======"
-  shell_command! "yarn install", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
-  shell_command! 'yarn config set script-shell "C:/usr/bin/bash"', environment: {'MSYS' => 'winsymlinks:nativestrict'}
+  shell_command! "npm install", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
+  shell_command! 'npm config set script-shell "C:/usr/bin/bash"', environment: {'MSYS' => 'winsymlinks:nativestrict'}
 
   info "====== starting test ======"
   begin
