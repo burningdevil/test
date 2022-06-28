@@ -64,9 +64,26 @@ when 'windows'
     
     puts ENV['NODE_HOME']
     execute 'install_yarn' do
-        cwd ENV['NODE_HOME']
-        command "corepack enable"  #for Node.js >=16.10
-        not_if { ::File.exist?("#{ENV['NODE_HOME']}/yarn") }
+      cwd ENV['NODE_HOME']
+      command "corepack enable"  #for Node.js >=16.10
+      not_if { ::File.exist?("#{ENV['NODE_HOME']}/yarn") }
+    end
+
+    directory "C:\\ffmpeg" do
+      recursive true
+      action :delete
+    end
+
+    remote_file "C:\\ffmpeg.zip" do
+      source "https://nexus.internal.microstrategy.com/repository/filerepo/org/ffmpeg/windows/ffmpeg-win64/20200330/ffmpeg-win64-20200330.zip"
+      not_if { ::File.exist?("C:\\ffmpeg.zip") }
+    end
+
+    execute 'unzip ffmpeg' do
+      command <<-EOH
+          "C:\\Program Files\\7-Zip\\7z.exe" x C:\\ffmpeg.zip -oC:\\ -r -y
+      EOH
+      only_if { ::File.exist?("C:\\ffmpeg.zip") }
     end
     
   end

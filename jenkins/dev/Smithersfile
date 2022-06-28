@@ -35,7 +35,7 @@ rake post_pipeline
   publishers do
     parameterized_trigger do
       job_short_names %w{
-        stage-2-postmerge-test-mac stage-2-init-postmerge-test-win
+        stage-2-postmerge-test-mac stage-2-postmerge-test-win
       }
     end
   end

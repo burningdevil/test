@@ -8,7 +8,8 @@ require 'nokogiri'
 
 @artifact_info = Compiler::Maven.artifact_info
 @wkstn_branch  = ENV['ghprbTargetBranch'] || Common::Version.application_branch
-@workstation_zip_path = "#{@artifact_info[:output_dir]}/workstation-windows.zip"
+@workstaion_install_path="#{$WORKSPACE_SETTINGS[:paths][:organization][:home]}/.workstation/#{get_application_prefix}"
+@workstation_zip_path = "#{@workstaion_install_path}/workstation-windows.zip"
 
 task :install_workstation_windows do
   install_workstation_windows
