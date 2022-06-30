@@ -8,7 +8,7 @@ const WIN_CAPABILITIES = {
   deviceName: 'WindowsPC',
   app: workstationPath,
   appArguments: '-p 54213',
-  newCommandTimeout: 300000
+  newCommandTimeout: 600000
 }
 
 // Mac Specific
@@ -16,7 +16,7 @@ const MAC_CAPABILITIES = {
   platformName: 'Mac',
   deviceName: 'Mac',
   app: workstationPath,
-  newCommandTimeout: 300000,
+  newCommandTimeout: 600000,
   cookies : [
     // for debug purpose
     { name:'command_delay', value: 0 },
@@ -75,4 +75,4 @@ export const MAC_XPATH_GENERAL = macXPath.general
 export const OSType = setValuePerPlatform('windows', 'mac')
 export const APP_CAPABILITIES = setValuePerPlatform(WIN_CAPABILITIES, MAC_CAPABILITIES)
 export const RESET_ENV = setValuePerPlatform(resetWinEnv, resetMacEnv)
-export const IMPLICIT_TIMEOUT = 20000
+export const IMPLICIT_TIMEOUT = 30000

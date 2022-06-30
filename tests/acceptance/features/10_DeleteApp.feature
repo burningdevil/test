@@ -8,6 +8,7 @@ Feature: 10_DeleteApp
 
     Scenario: 10_DeleteApp
         When I select tab "Applications"
+        
         When I click the application create entry
         Then I switch to menu "Components"
         Then I click "Save" button in the tab "components"
