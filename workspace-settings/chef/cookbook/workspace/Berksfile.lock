@@ -15,16 +15,16 @@ DEPENDENCIES
     tag: 0.1.70
   helm
     git: https://github.microstrategy.com/ecosystem-cookbooks/helm.git
-    revision: 52aa76cf58a3e328b5115cfa0456bb0899669498
-    tag: 0.1.34
+    revision: 2f388a2fe3c82e5602bbcff077a005705afc4701
+    tag: 0.1.35
   kube-config
     git: https://github.microstrategy.com/ecosystem-cookbooks/kube-config.git
     revision: c9e732d3383bf404dfa7f1838e4d6ceb6c6feecc
     tag: 0.1.21
   nodejs
     git: https://github.microstrategy.com/ecosystem-cookbooks/nodejs.git
-    revision: 7987cc7d342974e793fddc32562572d32b924afd
-    tag: 0.1.20
+    revision: e6ad120bcaed4196cfa955b402f1c68395b96a82
+    tag: 0.1.22
   seven_zip (~> 2.0.0)
 
 GRAPH
@@ -39,11 +39,11 @@ GRAPH
   docker (0.1.31)
   extras (0.1.70)
     dmg (>= 0.0.0)
-  helm (0.1.34)
+  helm (0.1.35)
   kube-config (0.1.21)
   mingw (2.1.0)
     seven_zip (>= 0.0.0)
-  nodejs (0.1.20)
+  nodejs (0.1.22)
   seven_zip (2.0.2)
     windows (>= 1.2.2)
   windows (7.0.2)
