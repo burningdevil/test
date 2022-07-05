@@ -10,7 +10,7 @@ Then('I first-time select tab {string} and wait for cache generation', async fun
 
 When('I select tab {string}', async function (tabName) {
   await mainWindow.smartTab.selectTab(tabName)
-  return mainWindow.app.sleep(500)
+  return mainWindow.app.sleep(4000)
 })
 
 When('I create a new item {string}', async function (itemName) {

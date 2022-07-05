@@ -149,6 +149,12 @@ export default class ApplicationPage extends BasePage {
     await this.wait(this.EC.visibilityOf(this.getCustomAppHomePage()), 600000 * this.ratio, 'Custom app main window was not displayed');
   }
 
+  async waitForWebElementToBeVisiable(object) {
+    await this.wait(this.EC.visibilityOf(object), 600000 * this.ratio, 'Web element was still not displayed!');
+  }
+
+
+
   async waitForContentMenu(text){
     await this.wait(this.EC.visibilityOf(this.element(by.xpath(`//div[@class='item-title-wrapper' and text()='${text}']`))), 60000 * this.ratio, 'Waiting for delete button in context menu int timeout.')
   }
@@ -200,16 +206,23 @@ export default class ApplicationPage extends BasePage {
 
   // assertions
   async takeScreenshotOnElement(webElement, screenshot) {
+    console.log('---stage1')
     await this.switchToCustomAppWindow()
+    console.log('---stage2')
     await browser.actions().mouseMove({ x: 0, y: 10000 }).perform()
     let elementLocator
     switch (webElement) {
       case 'detailGrid':
-        await this.waitForCustomAppMainWindow()
+        console.log('---stage3')
+        //await this.waitForCustomAppMainWindow()
         elementLocator = this.$('.ag-root')
+        await this.waitForWebElementToBeVisiable(elementLocator)
         break;
     }
-    expect(await browser.imageComparison.checkElement(elementLocator, screenshot)).to.below(0.02);
+    console.log('---stage4')
+    //expect(await browser.imageComparison.checkElement(elementLocator, screenshot)).to.below(0.02);
+    expect(await browser.imageComparison.checkScreen(screenshot)).to.below(0.02);
+    console.log('---stage5')
   }
 
   async takeScreenshotOnPage(screenshot) {
