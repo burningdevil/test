@@ -28,7 +28,7 @@ EOH
     end
   end
 
-  assigned_node_string 'win_vra_workstation_plugin_test_node'
+  assigned_node_string 'win_vra_workstation_plugin_test_node_ct'
 
   builders do
     bash do
