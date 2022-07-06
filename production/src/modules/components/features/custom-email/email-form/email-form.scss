@@ -1,0 +1,61 @@
+@import '~@mstr/rc/es/assets/scss/variables.scss';
+@import '../../../scss/variables.scss';
+
+.custom-email-form {
+    font-family: $font-family;
+    padding: 24px 30px 0;
+    position: relative;
+    font-size: $font-size;
+    line-height: $line-height;
+    &-box {
+        font-family: $font-family;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-items: center;
+        overflow: visible;
+        margin-top: 15px;
+        margin-left: 16px;
+        span {
+            flex: 0 0 30%;
+            max-width: 30%;
+            text-align: right;
+        }
+        .mstr-input-container {
+            margin-left: 20px;
+            width: 272px;
+        }
+        button {
+            margin-left: 20px;
+        }
+
+    }
+    &-title {
+        font-size: 11px;
+        line-height: 13px;
+        margin-bottom: 14px;
+        font-weight: 700; 
+    }
+    &-desc {
+        font-weight: 400;
+        font-size: 11px;
+        line-height: 14px;
+        margin-bottom: 8px;
+        margin-top: 2px;
+        opacity: .5;
+    }
+    &-checkbox {
+        margin-bottom: 14px;
+        line-height: 18px;
+    }
+    &-section-title {
+        font-weight: 700;
+        margin-bottom: 7px;
+    }
+    .ant-divider-horizontal {
+        margin-top: 23px;
+        margin-bottom: 15px;
+    }
+
+    
+}

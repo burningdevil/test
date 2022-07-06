@@ -1,0 +1,29 @@
+@import '~@mstr/rc/es/assets/scss/variables.scss';
+@import '../../scss/variables.scss';
+// @import '../../../styles/base';
+.home-screen-custom-email-setting {
+    padding: 0px;
+    position: relative;
+    display: flex , float;
+    height: 660px;
+    background-color: white;
+    text-align: left;
+    font-family: $font-family;
+    color: $msdl-black;
+
+    .ant-checkbox {
+        transform: scale(0.75);
+        font-size: $font-size !important;
+    }
+
+    &-left{
+        float: left;
+        margin: 24px 30px 0px 30px;
+    }
+
+    &-right{
+        float: right;
+        padding: 24px 0 0 0;
+        background-color: $right-background;
+    }
+}

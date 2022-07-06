@@ -11,6 +11,17 @@ export interface ColorPaletteType {
     'paletteType': number,
     'isDefaultPalette'?: boolean
 }
+export interface CustomEmailSettingType {
+    'enabled': boolean,
+    'hostPortal': string,
+    'showBrandingImage': boolean,
+    'showBrowserButton': boolean,
+    'showMobileButton': boolean,
+    'showReminder': boolean,
+    'showSentBy': boolean,
+    'sentByText': string,
+    'showSocialMedia': boolean
+}
 
 export interface HomeScreenConfigType {
     'id': string,
@@ -57,7 +68,9 @@ export interface HomeScreenConfigType {
     // Color Palette
     useConfigPalettes: boolean,
     applicationPalettes: Array<string>,
-    applicationDefaultPalette: string
+    applicationDefaultPalette: string,
+    // customize email
+    'emailSettings': CustomEmailSettingType
 }
 
 export interface HomeScreenConfigInfo {

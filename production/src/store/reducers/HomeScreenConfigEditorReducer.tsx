@@ -40,11 +40,23 @@ const initialState: HomeScreenConfigEditorState = {
       logLevel: CONSTANTS.LOG_LEVEL_WARNING, 
       updateInterval: CONSTANTS.DEFAULT_UPDATE_INTERVAL
     },
+    'emailSettings': {
+      'enabled': false,
+      'hostPortal': 'https://hostportal.com',
+      'showBrandingImage': true,
+      'showBrowserButton': true,
+      'showMobileButton': true,
+      'showReminder': true,
+      'showSentBy': true,
+      'sentByText': 'Host Inc',
+      'showSocialMedia': true
+    },
     applicationPalettes: [],
     useConfigPalettes: false
   },
   isDuplicateConfig: false,
   isConfigNameError: false,
+  isCustomEmailError: false,
   configInfoList: [],
   previewDeviceType: reviewType.WEB,
   isStateChangeByManual: false
@@ -72,6 +84,8 @@ const HomeScreenConfigEditorReducer = (state: HomeScreenConfigEditorState = init
       return {...state, isDuplicateConfig: data}
     case Actions.SET_CONFIG_NAME_ERROR:
       return {...state, isConfigNameError: data}
+      case Actions.SET_CUSTOM_EMAIL_ERROR:
+        return {...state, isCustomEmailError: data}
     case Actions.UPDATE_REVIEW_TYPE:
       return {...state, previewDeviceType: data}
     case Actions.UPDATE_HOMESCREEN_THEME:

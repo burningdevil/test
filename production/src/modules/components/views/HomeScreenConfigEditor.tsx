@@ -33,6 +33,7 @@ import {
     selectConfigInfoList,
     selectIsConfigChanged,
     selectColorPalettesSelected,
+    selectIsCustomEmailError,
 } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import * as api from '../../../services/Api';
@@ -61,6 +62,7 @@ import {
     LIBRARY_SERVER_SUPPORT_APPEARANCE_DESIGN_VERSION
 } from '../../../utils';
 import ColorPaletteBlade from '../features/color-palette/color-palette-blade';
+import CustomEmailBlade from '../features/custom-email/custom-email-blade';
 declare var workstation: WorkstationModule;
 
 const classNamePrefix = 'home-screen-editor';
@@ -375,6 +377,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                     loading={this.state.handleSaving}
                     disabled={
                         this.props.isConfigNameError ||
+                        this.props.isCustomEmailError ||
                         (isDossierHome && _.isEmpty(dossierUrl)) ||
                         !validName(this.props.defaultGroupsName) ||
                         !this.props.isColorPalettesSelected
@@ -599,6 +602,13 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                                     </Tabs.TabPane>
                                 )}
                                 <Tabs.TabPane
+                                    tab={localizedStrings.NAVBAR_CUSTOM_EMAIL_SETTINGS}
+                                    key={VC.CUSTOMEMAILSETTINGS}
+                                >
+                                    <CustomEmailBlade />
+                                    {this.buttonGroup()}
+                                </Tabs.TabPane>
+                                <Tabs.TabPane
                                     tab={localizedStrings.NAVBAR_MORE_SETTINGS}
                                     key={VC.MORESETTINGS}
                                 >
@@ -619,6 +629,7 @@ const mapState = (state: RootState) => ({
     isDossierHome: selectIsDossierAsHome(state),
     isDuplicateConfig: selectIsDuplicateConfig(state),
     isConfigNameError: selectIsConfigNameError(state),
+    isCustomEmailError: selectIsCustomEmailError(state),
     defaultGroupsName: selectDefaultGroupsName(state),
     configInfoList: selectConfigInfoList(state),
     isStateChanged: selectIsConfigChanged(state),

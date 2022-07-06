@@ -232,5 +232,29 @@
     "libraryMobileDesc": "Minimum 75 * 75 pixels, png format",
 
     "apply": "Apply",
-    "applyThemeConfirmationStr": "Do you want to apply the appearance changes you made to Application {{application}}?"
+    "applyThemeConfirmationStr": "Do you want to apply the appearance changes you made to Application {{application}}?",
+    "customEmailSettings": "Email Communication",
+    "customEmailTitle": "EMAIL COMMUNICATION",
+    "customEmailDesc": "Customize the distribution email of your application",
+    "customEmailImage": "Image",
+    "showBrandImage": "Show Branding Image",
+    "actionButton": "Action Button",
+    "showButton1": "Show Button 1",
+    "hostWebPortal": "Host Web Portal",
+    "showButton2": "Show Button 2",
+    "notificationReminder": "Notification Reminder",
+    "showReminder": "Show Reminder",
+    "sendBy": "Sent By",
+    "showSentByInfo": "Show Sent By Info",
+    "sendByOwner": "Sent By",
+    "socialMedia": "Social Media",
+    "showSocialMedia": "Show Social Media",
+    "sendPreview": "Send preview after saving",
+    "disableCustomEmail": "Customize distribution email for this application.",
+    "hostWebPortalPlaceholder": "e.g. https://www.yourcompany.com/",
+    "senderDefault": "MicroStrategy Inc",
+    "notificationReminderTooltip": "Remind the recipient there are notifications unread.",
+    "hostPortalTooltip": "If you are embedding Library, enter your host web portal URl.",
+    "hostInvalidTip": "Please enter a valid URl"
+
 }

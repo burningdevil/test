@@ -144,3 +144,8 @@ export const deleteThemeLogo = (logoCategory: string) => ({
   data: logoCategory
 })
 
+export const setCustomEmailError = (isNameError: boolean) => ({
+  type: Actions.SET_CUSTOM_EMAIL_ERROR,
+  data: isNameError,
+})
+
