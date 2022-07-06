@@ -282,6 +282,9 @@ export default class EnvSection extends RootApp {
     } catch (e) {
       console.log('[INFO] Add new env dialog was not show, try to click add new environment connection button again!')
       await this.moveToAndClick(await this.getAddNewEnv())
+      console.log('[INFO] Waiting for connect evn dialog')
+      const envDialog2 = await this.getConnectDialog()
+      console.log('[INFO] Connect evn dialog is shown')
     }
 
 

@@ -6,6 +6,22 @@ async function sleep(ms) {
   return new Promise((resolve, reject) => setTimeout(resolve, ms))
 }
 
+async function killWorkstation(){
+  const quitWorkstationPidList = await getWorkstationPID()
+  if (quitWorkstationPidList.length !== 0) {
+    console.log(`[INFO] force quiting workstation process, the workstation pid is: ${quitWorkstationPidList}`)
+    // kill workstation
+    const execSync = require('child_process').execSync
+    if (OSType === 'windows') {
+      execSync(`taskkill /F /PID ${quitWorkstationPidList}`, { encoding: 'utf-8' })
+    } else {
+      execSync(`kill -9 ${quitWorkstationPidList}`, { encoding: 'utf-8' })
+    }
+  } else {
+    console.log('[INFO] no workstation process, Trying the second time...')
+  }
+}
+
 async function startWorkstation() {
   console.log('Starting Workstation')
   console.log('using Capabilities: ', APP_CAPABILITIES)
@@ -14,6 +30,9 @@ async function startWorkstation() {
   if (OSType === 'windows') {
     // try to resolve the WAD splash screen problem in Windows
     try {
+      await workstationApp.init(APP_CAPABILITIES)
+      await sleep(5000)
+      await killWorkstation()
       await workstationApp.init(APP_CAPABILITIES)
       try{
         const envDialog = await workstationApp.elementByName('Connection')
@@ -24,19 +43,7 @@ async function startWorkstation() {
         }
     } catch (e) {
       console.log('[INFO] First application initialization failed.')
-      const quitWorkstationPidList = await getWorkstationPID()
-        if (quitWorkstationPidList.length !== 0) {
-          console.log(`[INFO] force quiting workstation process, the workstation pid is: ${quitWorkstationPidList}`)
-          // kill workstation
-          const execSync = require('child_process').execSync
-          if (OSType === 'windows') {
-            execSync(`taskkill /F /PID ${quitWorkstationPidList}`, { encoding: 'utf-8' })
-          } else {
-            execSync(`kill -9 ${quitWorkstationPidList}`, { encoding: 'utf-8' })
-          }
-        } else {
-          console.log('[INFO] no workstation process, Trying the second time...')
-        }
+      await killWorkstation()
       await sleep(5000)
       console.log('[INFO] trying the second time...')
       await workstationApp.init(APP_CAPABILITIES)
