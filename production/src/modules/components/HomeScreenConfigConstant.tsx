@@ -463,7 +463,8 @@ export const customEmailStringDict = {
             'label3': t('showButton2'),
             'placeholder': t('hostWebPortalPlaceholder'),
             'hostTooltip': t('hostPortalTooltip'),
-            'hostInvalidTip': t('hostInvalidTip')
+            'hostInvalidTip': t('hostInvalidTip'),
+            'hostTooltipHelp': t('hostPortalHelp')
         },
         'notificationReminder': {
             'title': t('notificationReminder'),

@@ -7,9 +7,10 @@ import { selectCustomizeEmailSetting } from '../../../../../../src/store/selecto
 import { CustomEmailSettingType } from '../../../../../../src/types/data-model/HomeScreenConfigModels';
 import { customEmailStringDict, localizedStrings } from '../../../../../../src/modules/components/HomeScreenConfigConstant';
 import './email-preview.scss';
+import { DEFAULT_EMAIL_SETTING } from '../../../../../../src/store/reducers/HomeScreenConfigEditorReducer';
 const classNamePrefix = 'custom-email-preview'
 const CustomEmailPreview: React.FC<any> = () => {
-    const emailSetting: CustomEmailSettingType = useSelector(selectCustomizeEmailSetting) ?? {} as CustomEmailSettingType;
+    const emailSetting: CustomEmailSettingType = useSelector(selectCustomizeEmailSetting) ?? DEFAULT_EMAIL_SETTING as CustomEmailSettingType;
     const [sendPreview, setSendPreview] = useState(false);
     const checkboxChange = useCallback((value: boolean) => {
         setSendPreview(value);

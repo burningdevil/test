@@ -3,7 +3,17 @@ import { CONSTANTS, localizedStrings, iconTypes, reviewType, iconValidKey, platf
 import { ActionTypes } from '../actions/ActionTypes'
 import * as Actions from '../actions/ActionConstants'
 import * as _ from 'lodash'
-
+export const DEFAULT_EMAIL_SETTING = {
+  'enabled': false,
+  'hostPortal': 'https://hostportal.com',
+  'showBrandingImage': true,
+  'showBrowserButton': true,
+  'showMobileButton': true,
+  'showReminder': true,
+  'showSentBy': true,
+  'sentByText': 'Host Inc',
+  'showSocialMedia': true
+}
 const initialState: HomeScreenConfigEditorState = {
   currentConfig: {
     'name': '',
@@ -40,17 +50,7 @@ const initialState: HomeScreenConfigEditorState = {
       logLevel: CONSTANTS.LOG_LEVEL_WARNING, 
       updateInterval: CONSTANTS.DEFAULT_UPDATE_INTERVAL
     },
-    'emailSettings': {
-      'enabled': false,
-      'hostPortal': 'https://hostportal.com',
-      'showBrandingImage': true,
-      'showBrowserButton': true,
-      'showMobileButton': true,
-      'showReminder': true,
-      'showSentBy': true,
-      'sentByText': 'Host Inc',
-      'showSocialMedia': true
-    },
+    'emailSettings': DEFAULT_EMAIL_SETTING,
     applicationPalettes: [],
     useConfigPalettes: false
   },

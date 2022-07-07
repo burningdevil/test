@@ -11,8 +11,9 @@ import { default as VC, customEmailStringDict } from '../../../../../../src/modu
 const classNamePrefix = 'custom-email-form'
 import './email-form.scss'
 import { validateHttpUrl } from '../custom-email.util';
+import { DEFAULT_EMAIL_SETTING } from '../../../../../../src/store/reducers/HomeScreenConfigEditorReducer';
 const CustomEmailForm: React.FC<any> = () => {
-    let stateData: CustomEmailSettingType = useSelector(selectCustomizeEmailSetting) ?? {} as CustomEmailSettingType;
+    let stateData: CustomEmailSettingType = useSelector(selectCustomizeEmailSetting) ?? DEFAULT_EMAIL_SETTING as CustomEmailSettingType;
     const dispatch = useDispatch();
 
     const [enableCustomEmail, setEnableCustomEmail] = useState(stateData.enabled);
@@ -110,7 +111,10 @@ const CustomEmailForm: React.FC<any> = () => {
     const hostTooltip = (
         <div>
             {customEmailStringDict.subTitle.actionButton.hostTooltip}
-            <a style = {{'marginLeft': '8px'}}>help</a>
+            <a 
+            target = "_blank"
+
+            href={'https://www2.microstrategy.com/producthelp/Current/Workstation/WebHelp/Lang_1033/Content/custom_application.htm#more'} style = {{'marginLeft': '8px'}}>{customEmailStringDict.subTitle.actionButton.hostTooltipHelp}</a>
         </div>
     )
     const renderForms = () => {
