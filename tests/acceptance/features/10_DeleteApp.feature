@@ -12,9 +12,7 @@ Feature: 10_DeleteApp
         When I click the application create entry
         Then I switch to menu "Components"
         Then I click "Save" button in the tab "components"
-        Then check the screenshot on element "detailGrid" by comparing "10_add_application"
         Then I delete the application "New Application"
-        Then check the screenshot on element "detailGrid" by comparing "10_delete_application"
 
 
 

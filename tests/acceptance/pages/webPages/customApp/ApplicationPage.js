@@ -206,33 +206,30 @@ export default class ApplicationPage extends BasePage {
 
   // assertions
   async takeScreenshotOnElement(webElement, screenshot) {
-    console.log('---stage1')
     await this.switchToCustomAppWindow()
-    console.log('---stage2')
     await browser.actions().mouseMove({ x: 0, y: 10000 }).perform()
     let elementLocator
     switch (webElement) {
       case 'detailGrid':
-        console.log('---stage3')
         //await this.waitForCustomAppMainWindow()
         elementLocator = this.$('.ag-root')
         await this.waitForWebElementToBeVisiable(elementLocator)
         break;
     }
-    console.log('---stage4')
     //expect(await browser.imageComparison.checkElement(elementLocator, screenshot)).to.below(0.02);
-    expect(await browser.imageComparison.checkScreen(screenshot)).to.below(0.02);
-    console.log('---stage5')
+    //expect(await browser.imageComparison.checkScreen(screenshot)).to.below(0.02);
+    await this.takeScreenshotOnPage(screenshot)
   }
 
   async takeScreenshotOnPage(screenshot) {
     await browser.sleep(1000 * this.ratio)
     // Ensure the mouse stay the same location
+    const fileName = `${screenshot}_${process.platform === 'win32' ? 'win32' : 'mac'}`
     await browser
       .actions()
       .mouseMove({ x: 0, y: 10000 })
       .perform()
-    expect(await browser.imageComparison.checkScreen(screenshot)).to.below(0.02);
+    expect(await browser.imageComparison.checkScreen(fileName)).to.below(0.02);
   }
 
 

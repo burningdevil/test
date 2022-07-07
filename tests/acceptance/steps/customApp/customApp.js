@@ -69,7 +69,7 @@ Then('I duplicate the application {string}', async function (name) {
 
 Then('I delete the application {string}', async function (name) {
     await applicationPage.deleteCustomAppFromCustomAppListPageByName(name)
-    return mainWindow.app.sleep(500)
+    return mainWindow.app.sleep(2000)
 }
 );
 
