@@ -221,18 +221,20 @@ export default class ApplicationPage extends BasePage {
     }
     console.log('---stage4')
     //expect(await browser.imageComparison.checkElement(elementLocator, screenshot)).to.below(0.02);
-    expect(await browser.imageComparison.checkScreen(screenshot)).to.below(0.02);
+    //expect(await browser.imageComparison.checkScreen(screenshot)).to.below(0.02);
+    await this.takeScreenshotOnPage(screenshot)
     console.log('---stage5')
   }
 
   async takeScreenshotOnPage(screenshot) {
     await browser.sleep(1000 * this.ratio)
     // Ensure the mouse stay the same location
+    const fileName = `${screenshot}_${process.platform === 'win32' ? 'win32' : 'mac'}`
     await browser
       .actions()
       .mouseMove({ x: 0, y: 10000 })
       .perform()
-    expect(await browser.imageComparison.checkScreen(screenshot)).to.below(0.02);
+    expect(await browser.imageComparison.checkScreen(fileName)).to.below(0.02);
   }
 
 
