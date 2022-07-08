@@ -6,5 +6,5 @@ export function validateHttpUrl(url: string) {
         return false;
     }
 
-    return newUrl.protocol === 'http:' || newUrl.protocol === 'https:';
+    return true;
 }

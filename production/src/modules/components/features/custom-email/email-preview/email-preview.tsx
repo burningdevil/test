@@ -51,7 +51,7 @@ const CustomEmailPreview: React.FC<any> = () => {
 
                                         <div className={`${classNamePrefix}-owner`}>
                                             <div></div>
-                                            <span>{'environment@xxxx.com'}</span>
+                                            <span>{'environment@xxx.com'}</span>
                                         </div>
 
                                         <div className = {`${classNamePrefix}-card`}>
@@ -64,7 +64,7 @@ const CustomEmailPreview: React.FC<any> = () => {
                                                         <span>{'View in Browser'}</span>
                                                 </div>}
                                                 {(!emailSetting.enabled || emailSetting.showMobileButton) && <div className = {`${classNamePrefix}-card-content-4`}>
-                                                        <span>{'View in Mobile App'}</span>
+                                                        <span>{'View in Mobile'}</span>
                                                 </div>}
                                                 {(!emailSetting.enabled || emailSetting.showBrowserButton) && emailSetting.showMobileButton && <div className = {`${classNamePrefix}-card-content-2 skeleton-item`}></div>}
                                                 <Divider/>
