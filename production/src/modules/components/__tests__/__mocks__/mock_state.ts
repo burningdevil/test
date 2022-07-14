@@ -54,6 +54,7 @@ export default {
         isConfigNameError: false,
         isDuplicateConfig: false,
         isCustomEmailError: false,
+        shouldSendPreviewEmail: false,
         isStateChangeByManual: false,
         configInfoList: [],
         colorPalettes: [],

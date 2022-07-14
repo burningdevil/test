@@ -16,6 +16,14 @@ import { PARSE_METHOD } from '../utils/ParseMethods';
 
 const CONFIG_ENDPOINTS = '/v2/applications/';
 
+export const getApiPathForSessions = () => {
+    return '/sessions'
+}
+
+export const getApiPathForSendingEmails = () => {
+    return '/emails'
+}
+
 export const getApiPathForNewApplication = () => {
     return CONFIG_ENDPOINTS;
 };

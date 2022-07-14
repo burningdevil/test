@@ -1,10 +1,92 @@
+import * as _ from 'lodash';
+
 export function validateHttpUrl(url: string) {
     let newUrl;
     try {
-        newUrl = new URL(url);
+        if (url.length > 0) {
+            newUrl = new URL(url);
+        } else {
+            return true
+        }
     } catch (err) {
         return false;
     }
 
-    return newUrl.protocol === 'http:' || newUrl.protocol === 'https:';
+    return true
 }
+
+export function getConfigIdFromHeader(headers: any) {
+    const location = headers.get('location');
+    const splitLocation = location.split('/');
+    const configId = splitLocation[splitLocation.length - 1];
+    return configId;
+}
+
+function getFirstName(fullName: string) {
+    let names,
+        commaIdx = fullName.indexOf(',');
+
+    if (commaIdx > 0) {
+        names = fullName.substring(commaIdx + 1, fullName.length).trim();
+    } else {
+        names = fullName.trim();
+    }
+
+    return names.split(' ')[0];
+}
+
+function getShareUrl(emailSettings:any, configId: string, currentEvnUrl: string, isDefaultApp: boolean) {
+    if (emailSettings.showBrowserButton && emailSettings.hostPortal) {
+        return emailSettings.hostPortal;
+    }
+    return currentEvnUrl+ (isDefaultApp ? '' : 'app/config/' + configId);
+}
+
+function getMobileLink(configId: string, currentEvnUrl: string, isDefaultApp: boolean) {
+    return 'dossier://?url=' + encodeURIComponent(currentEvnUrl + (isDefaultApp ? '' : 'app/config/' + configId));
+};
+
+function getNotificationLink(configId: string, currentEvnUrl: string, isDefaultApp: boolean) {
+    return currentEvnUrl + (isDefaultApp ? '' : 'app/config/' + configId + '/') + 'notification/share';
+};
+
+export function constructSendingEmailRequestBody(configId: string, userInfo: any, currentEnvUrl: string, isDefaultApp: boolean, emailSettings: any) {
+    const userId = _.get(userInfo, 'id', null)
+    if (userId) {
+        const mobileLink = getMobileLink(configId, currentEnvUrl, isDefaultApp);
+        const notificationLink = getNotificationLink(configId, currentEnvUrl, isDefaultApp);
+        const fullName = _.get(userInfo, 'fullName', '');
+        const firstName = getFirstName(fullName);
+        // TODO: remove shareLink when REST API is ready: REST will change shreLink to optional
+        let requestBody = {
+            "notificationType": "DOSSIER_COMMENT",
+            "userIds": [
+              userId
+            ],
+            "template": {
+              "templateName": "custom_email_preview",
+              "tokens": {
+                "dossierName": "[dossier name]",
+                "senderName": fullName,
+                "recipient": firstName,
+                "shareLink": "http://hardcodedlink.com",
+                "mobileLink": mobileLink,
+                "notificationLink": notificationLink
+              }
+            },
+            "isHTML": "true",
+            "applicationId": configId
+        }
+        const hostPortal = _.get(emailSettings, 'hostPortal', null);
+        if (!hostPortal) {
+            const shareLink = getShareUrl(emailSettings, configId, currentEnvUrl, isDefaultApp);
+            _.set(requestBody, 'template.tokens.shareLink', shareLink);
+        }
+        
+        return requestBody;
+    } else {
+        return null;
+    }
+};
+
+

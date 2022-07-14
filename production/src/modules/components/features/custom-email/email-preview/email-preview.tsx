@@ -2,25 +2,29 @@ import { Button, Divider, Layout, Checkbox } from 'antd';
 import * as React from 'react'
 import { useCallback } from 'react';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { selectCustomizeEmailSetting } from '../../../../../../src/store/selectors/HomeScreenConfigEditorSelector';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectCustomizeEmailSetting, selectShouldSendPreviewEmail } from '../../../../../../src/store/selectors/HomeScreenConfigEditorSelector';
 import { CustomEmailSettingType } from '../../../../../../src/types/data-model/HomeScreenConfigModels';
 import { customEmailStringDict, localizedStrings } from '../../../../../../src/modules/components/HomeScreenConfigConstant';
 import './email-preview.scss';
 import { DEFAULT_EMAIL_SETTING } from '../../../../../../src/store/reducers/HomeScreenConfigEditorReducer';
+import { setShouldSendPreviewEmail } from '../../../../../store/actions/ActionsCreator';
 const classNamePrefix = 'custom-email-preview'
 const CustomEmailPreview: React.FC<any> = () => {
+    const dispatch = useDispatch();
     const emailSetting: CustomEmailSettingType = useSelector(selectCustomizeEmailSetting) ?? DEFAULT_EMAIL_SETTING as CustomEmailSettingType;
-    const [sendPreview, setSendPreview] = useState(false);
-    const checkboxChange = useCallback((value: boolean) => {
-        setSendPreview(value);
-    }, [])
+    const shouldSendPreviewEmail: boolean = useSelector(selectShouldSendPreviewEmail) ?? false;
+
+    const onPreviewCheckboxChange = useCallback((shouldSend: boolean) => {
+        dispatch(setShouldSendPreviewEmail(shouldSend));
+    }, []);
+    
     const renderCheckbox = () => {
         return  (
             emailSetting.enabled && <div className={`${classNamePrefix}-checkbox`}>
                 <Checkbox
-                    checked={sendPreview}
-                    onChange={(e: any) => checkboxChange(e.target.checked)}
+                    checked={shouldSendPreviewEmail}
+                    onChange={(e: any) => onPreviewCheckboxChange(e.target.checked)}
                 >
                 {customEmailStringDict.sendPreview}
                 </Checkbox>

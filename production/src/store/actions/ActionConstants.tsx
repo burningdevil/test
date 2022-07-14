@@ -47,3 +47,4 @@ export const LOAD_COLOR_PALETTE_LIST_FAIL = `${EDITOR_PREFIX}_LOAD_COLOR_PALETTE
 
 /* ------------------------------ Customize Email State ----------------------------*/
 export const SET_CUSTOM_EMAIL_ERROR = `${EDITOR_PREFIX}_SET_CUSTOM_EMAIL_ERROR`
+export const SET_SHOULD_SEND_PREVIEW_EMAIL = `${EDITOR_PREFIX}_SET_SHOULD_SEND_PREVIEW_EMAIL`

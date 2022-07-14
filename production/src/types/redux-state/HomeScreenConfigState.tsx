@@ -13,6 +13,7 @@ export interface HomeScreenConfigEditorState {
     isDuplicateConfig: boolean;
     isConfigNameError: boolean;
     isCustomEmailError: boolean;
+    shouldSendPreviewEmail: boolean;
     previewDeviceType: string;
     isStateChangeByManual: boolean;
 }
