@@ -22,12 +22,19 @@ const CustomEmailPreview: React.FC<any> = () => {
                     checked={sendPreview}
                     onChange={(e: any) => checkboxChange(e.target.checked)}
                 >
-                {customEmailStringDict.sendPreview}
+                <span>{customEmailStringDict.sendPreview}</span>
                 </Checkbox>
             </div>
             
             )
     }
+    const getViewButtonClass = useCallback(() => {
+        if(emailSetting.showBrowserButton && emailSetting.showMobileButton){
+            return `${classNamePrefix}-card-content-3`
+        }else {
+            return `${classNamePrefix}-card-content-3 ${classNamePrefix}-card-content-btn`
+        }
+    }, [emailSetting.showBrowserButton, emailSetting.showMobileButton])
     return (
         <div
             id="custom-email-preview"
@@ -60,18 +67,18 @@ const CustomEmailPreview: React.FC<any> = () => {
                                                 <div className = {`${classNamePrefix}-card-content-1 skeleton-item`}></div>
                                                 <div className = {`${classNamePrefix}-card-content-2 skeleton-item`}></div>
                                                 
-                                                {(!emailSetting.enabled || emailSetting.showBrowserButton) && <div className = {`${classNamePrefix}-card-content-3`}>
-                                                        <span>{'View in Browser'}</span>
+                                                {(!emailSetting.enabled || emailSetting.showBrowserButton) && <div className = {getViewButtonClass()}>
+                                                        <div>{'View in Browser'}</div>
                                                 </div>}
-                                                {(!emailSetting.enabled || emailSetting.showMobileButton) && <div className = {`${classNamePrefix}-card-content-4`}>
-                                                        <span>{'View in Mobile'}</span>
+                                                {(!emailSetting.enabled || emailSetting.showMobileButton) && <div className = {getViewButtonClass()}>
+                                                        <div>{'View in Mobile'}</div>
                                                 </div>}
-                                                {(!emailSetting.enabled || emailSetting.showBrowserButton) && emailSetting.showMobileButton && <div className = {`${classNamePrefix}-card-content-2 skeleton-item`}></div>}
+                                                {(!emailSetting.enabled || emailSetting.showBrowserButton) && emailSetting.showMobileButton && <div className = {`${classNamePrefix}-card-content-5 skeleton-item`}></div>}
                                                 <Divider/>
                                                 {(!emailSetting.enabled || emailSetting.showReminder) && <div className = {`${classNamePrefix}-card-content-6 skeleton-item`}></div>}
                                             </div>
                                             {(!emailSetting.enabled || emailSetting.showSentBy) && <div className = {`${classNamePrefix}-card-sender`}>
-                                                {`Sent by ${emailSetting.sentByText}.`}
+                                                {`Sent by ${emailSetting.sentByText}`}
                                             </div>}
                                             {(!emailSetting.enabled || emailSetting.showSocialMedia) && <div className = {`${classNamePrefix}-card-social`}></div>}
                                         </div>
