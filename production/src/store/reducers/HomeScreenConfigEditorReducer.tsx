@@ -11,7 +11,7 @@ export const DEFAULT_EMAIL_SETTING = {
   'showMobileButton': true,
   'showReminder': true,
   'showSentBy': true,
-  'sentByText': 'Host Inc',
+  'sentByText': 'MicroStrategy Inc',
   'showSocialMedia': true
 }
 const initialState: HomeScreenConfigEditorState = {

@@ -74,9 +74,10 @@ const CustomEmailForm: React.FC<any> = () => {
             })
         )
     }
-    const switchRender = (checked: any, value: keyof CustomEmailSettingType,cb: React.Dispatch<React.SetStateAction<boolean>>) => {
+    const switchRender = (checked: any, value: keyof CustomEmailSettingType,cb: React.Dispatch<React.SetStateAction<boolean>>, ariaLabel: string) => {
         return <Switch
                     element-id = {value}
+                    aria-label = {ariaLabel}
                     checked={checked}
                     onChange={(e: any) => switchChange(value,e, cb)}
                     size = 'small'
@@ -96,6 +97,12 @@ const CustomEmailForm: React.FC<any> = () => {
             <div className={`${classNamePrefix}-checkbox`}>
                 <Checkbox
                     checked={enableCustomEmail}
+                    tabIndex = {0}
+                    onKeyDown = {evt => {
+                        if ((evt.keyCode === 13) || (evt.keyCode === 32)) {
+                            checkboxChange(!enableCustomEmail);
+                        }
+                    }}
                     onChange={(e: any) => checkboxChange(e.target.checked)}
                 >
                 {customEmailStringDict.featureFlag}
@@ -124,7 +131,7 @@ const CustomEmailForm: React.FC<any> = () => {
                 {sectionTitleRender(customEmailStringDict.subTitle.image.title)}
                 <div className={`${classNamePrefix}-box`}>
                     <span>{customEmailStringDict.subTitle.image.label}</span>
-                    {switchRender(showImage, 'showBrandingImage', setShowImage)}
+                    {switchRender(showImage, 'showBrandingImage', setShowImage, customEmailStringDict.subTitle.image.label)}
                 </div> 
                 <Divider/>
     
@@ -132,7 +139,7 @@ const CustomEmailForm: React.FC<any> = () => {
                 {sectionTitleRender(customEmailStringDict.subTitle.actionButton.title)}
                 <div className={`${classNamePrefix}-box`}>
                     <span>{customEmailStringDict.subTitle.actionButton.label1}</span>
-                    {switchRender(showButton1, 'showBrowserButton', setShowButton1)}
+                    {switchRender(showButton1, 'showBrowserButton', setShowButton1, customEmailStringDict.subTitle.actionButton.label1)}
                 </div>
                 <div className={`${classNamePrefix}-box`}>
                     <span>
@@ -150,7 +157,7 @@ const CustomEmailForm: React.FC<any> = () => {
                 </div>
                 <div className={`${classNamePrefix}-box`}>
                     <span>{customEmailStringDict.subTitle.actionButton.label3}</span>
-                    {switchRender(showButton2, 'showMobileButton', setShowButton2)}
+                    {switchRender(showButton2, 'showMobileButton', setShowButton2, customEmailStringDict.subTitle.actionButton.label3)}
                 </div>
 
                 <Divider/>
@@ -169,7 +176,7 @@ const CustomEmailForm: React.FC<any> = () => {
                 
                 <div className={`${classNamePrefix}-box`}>
                     <span>{customEmailStringDict.subTitle.notificationReminder.label}</span>
-                    {switchRender(showReminder, 'showReminder', setShowReminder)}
+                    {switchRender(showReminder, 'showReminder', setShowReminder, customEmailStringDict.subTitle.notificationReminder.label)}
                 </div>
 
                 
@@ -179,7 +186,7 @@ const CustomEmailForm: React.FC<any> = () => {
                 {sectionTitleRender(customEmailStringDict.subTitle.sentBy.title)}
                 <div className={`${classNamePrefix}-box`}>
                     <span>{customEmailStringDict.subTitle.sentBy.label1}</span>
-                    {switchRender(showSendByInfo, 'showSentBy', setShowSendByInfo)}
+                    {switchRender(showSendByInfo, 'showSentBy', setShowSendByInfo, customEmailStringDict.subTitle.sentBy.label1)}
                 </div>
                 <div className={`${classNamePrefix}-box`}>
                     <span>{customEmailStringDict.subTitle.sentBy.label2}</span>
@@ -190,7 +197,7 @@ const CustomEmailForm: React.FC<any> = () => {
                 {sectionTitleRender(customEmailStringDict.subTitle.socialMedia.title)}
                 <div className={`${classNamePrefix}-box`}>
                     <span>{customEmailStringDict.subTitle.socialMedia.label}</span>
-                    {switchRender(showSocialMedia, 'showSocialMedia', setShowSocialMedia)}
+                    {switchRender(showSocialMedia, 'showSocialMedia', setShowSocialMedia, customEmailStringDict.subTitle.socialMedia.label)}
                 </div>
             </>
         )

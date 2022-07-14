@@ -11,7 +11,7 @@ export function validateHttpUrl(url: string) {
     } catch (err) {
         return false;
     }
-
+    
     return true
 }
 
@@ -88,5 +88,3 @@ export function constructSendingEmailRequestBody(configId: string, userInfo: any
         return null;
     }
 };
-
-

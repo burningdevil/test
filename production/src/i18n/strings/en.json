@@ -255,7 +255,7 @@
     "senderDefault": "MicroStrategy Inc",
     "notificationReminderTooltip": "Remind the recipient there are notifications unread.",
     "hostPortalTooltip": "If you are embedding Library, enter your host web portal URl.",
-    "hostInvalidTip": "Please enter a valid URl",
+    "hostInvalidTip": "Please enter a valid URL",
     "hostPortalHelp": "Learn More"
 
 }

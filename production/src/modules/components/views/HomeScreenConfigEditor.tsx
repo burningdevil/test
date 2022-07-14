@@ -61,7 +61,8 @@ import {
     isUserHasManageContentGroupPrivilege,
     LIBRARY_SERVER_SUPPORT_COLOR_PALETTE_VERSION,
     LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION,
-    LIBRARY_SERVER_SUPPORT_APPEARANCE_DESIGN_VERSION
+    LIBRARY_SERVER_SUPPORT_APPEARANCE_DESIGN_VERSION,
+    LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_VERSION
 } from '../../../utils';
 import ColorPaletteBlade from '../features/color-palette/color-palette-blade';
 import CustomEmailBlade from '../features/custom-email/custom-email-blade';
@@ -85,6 +86,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             appearancePreviewFeatureEnabled: false,
             colorPalettePreviewFeatureEnable: false,
             isCloseHanlderRegistered: false,
+            customEmailFeatureEnabled: false,
         };
     }
 
@@ -187,6 +189,16 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             );
         };
         const colorPaletteFeatureFlagEnabled  = checkColorPaletteFeatureEnable(currentEnv);
+        const checkCustomEmailFeatureEnable = (currentEnv: Environment) => {
+            return (
+                !!currentEnv.webVersion &&
+                isLibraryServerVersionMatch(
+                    currentEnv.webVersion,
+                    LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_VERSION
+                )
+            );
+        };
+        const customEmailFeatureFlagEnabled  = checkCustomEmailFeatureEnable(currentEnv);
         let isNameCopied = false;
         if (
             isDuplicate &&
@@ -203,7 +215,8 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             configId: configId,
             isNameCopyed: isNameCopied,
             contentBundleFeatureEnable: contentBundleEnable,
-            colorPaletteFeatureEnable: colorPaletteFeatureFlagEnabled
+            colorPaletteFeatureEnable: colorPaletteFeatureFlagEnabled,
+            customEmailFeatureEnabled: customEmailFeatureFlagEnabled
 
         });
         this.loadPreference();
@@ -657,13 +670,15 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                                         {this.buttonGroup()}
                                     </Tabs.TabPane>
                                 )}
+
+                                {this.state.customEmailFeatureEnabled && (
                                 <Tabs.TabPane
                                     tab={localizedStrings.NAVBAR_CUSTOM_EMAIL_SETTINGS}
                                     key={VC.CUSTOMEMAILSETTINGS}
                                 >
                                     <CustomEmailBlade />
                                     {this.buttonGroup()}
-                                </Tabs.TabPane>
+                                </Tabs.TabPane>)}
                                 <Tabs.TabPane
                                     tab={localizedStrings.NAVBAR_MORE_SETTINGS}
                                     key={VC.MORESETTINGS}
