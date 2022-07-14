@@ -105,7 +105,7 @@ const CustomEmailForm: React.FC<any> = () => {
                     }}
                     onChange={(e: any) => checkboxChange(e.target.checked)}
                 >
-                {customEmailStringDict.featureFlag}
+                <span>{customEmailStringDict.featureFlag}</span>
                 </Checkbox>
             </div>
             

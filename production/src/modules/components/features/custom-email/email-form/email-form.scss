@@ -46,6 +46,15 @@
     &-checkbox {
         margin-bottom: 14px;
         line-height: 18px;
+        .ant-checkbox-wrapper {
+            align-items: center !important;
+        }
+        .ant-checkbox {
+            margin-bottom: 6px;
+        }
+        span {
+            font-size: 12px;
+        }
     }
     &-section-title {
         font-weight: 700;
