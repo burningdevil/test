@@ -615,7 +615,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                                     </Tabs.TabPane>
                                 )}
 
-                                {true && (
+                                {this.state.customEmailFeatureEnabled && (
                                 <Tabs.TabPane
                                     tab={localizedStrings.NAVBAR_CUSTOM_EMAIL_SETTINGS}
                                     key={VC.CUSTOMEMAILSETTINGS}
