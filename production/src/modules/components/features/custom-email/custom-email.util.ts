@@ -11,7 +11,7 @@ export function validateHttpUrl(url: string) {
     } catch (err) {
         return false;
     }
-    
+
     return true
 }
 
@@ -39,15 +39,15 @@ function getShareUrl(emailSettings:any, configId: string, currentEvnUrl: string,
     if (emailSettings.showBrowserButton && emailSettings.hostPortal) {
         return emailSettings.hostPortal;
     }
-    return currentEvnUrl+ (isDefaultApp ? '' : 'app/config/' + configId);
+    return currentEvnUrl + 'app' + (isDefaultApp ? '' : '/config/' + configId);
 }
 
 function getMobileLink(configId: string, currentEvnUrl: string, isDefaultApp: boolean) {
-    return 'dossier://?url=' + encodeURIComponent(currentEvnUrl + (isDefaultApp ? '' : 'app/config/' + configId));
+    return 'dossier://?url=' + encodeURIComponent(currentEvnUrl + 'app' + (isDefaultApp ? '' : '/config/' + configId));
 };
 
 function getNotificationLink(configId: string, currentEvnUrl: string, isDefaultApp: boolean) {
-    return currentEvnUrl + (isDefaultApp ? '' : 'app/config/' + configId + '/') + 'notification/share';
+    return currentEvnUrl + 'app' + (isDefaultApp ? '' : '/config/' + configId) + '/notification/share';
 };
 
 export function constructSendingEmailRequestBody(configId: string, userInfo: any, currentEnvUrl: string, isDefaultApp: boolean, emailSettings: any) {
@@ -57,7 +57,6 @@ export function constructSendingEmailRequestBody(configId: string, userInfo: any
         const notificationLink = getNotificationLink(configId, currentEnvUrl, isDefaultApp);
         const fullName = _.get(userInfo, 'fullName', '');
         const firstName = getFirstName(fullName);
-        // TODO: remove shareLink when REST API is ready: REST will change shreLink to optional
         let requestBody = {
             "notificationType": "DOSSIER_COMMENT",
             "userIds": [
@@ -69,7 +68,6 @@ export function constructSendingEmailRequestBody(configId: string, userInfo: any
                 "dossierName": "[dossier name]",
                 "senderName": fullName,
                 "recipient": firstName,
-                "shareLink": "http://hardcodedlink.com",
                 "mobileLink": mobileLink,
                 "notificationLink": notificationLink
               }
