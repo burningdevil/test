@@ -5,7 +5,7 @@ import * as Actions from '../actions/ActionConstants'
 import * as _ from 'lodash'
 export const DEFAULT_EMAIL_SETTING = {
   'enabled': false,
-  'hostPortal': 'https://hostportal.com',
+  'hostPortal': '',
   'showBrandingImage': true,
   'showBrowserButton': true,
   'showMobileButton': true,
@@ -57,6 +57,7 @@ const initialState: HomeScreenConfigEditorState = {
   isDuplicateConfig: false,
   isConfigNameError: false,
   isCustomEmailError: false,
+  shouldSendPreviewEmail: false,
   configInfoList: [],
   previewDeviceType: reviewType.WEB,
   isStateChangeByManual: false
@@ -84,8 +85,10 @@ const HomeScreenConfigEditorReducer = (state: HomeScreenConfigEditorState = init
       return {...state, isDuplicateConfig: data}
     case Actions.SET_CONFIG_NAME_ERROR:
       return {...state, isConfigNameError: data}
-      case Actions.SET_CUSTOM_EMAIL_ERROR:
-        return {...state, isCustomEmailError: data}
+    case Actions.SET_CUSTOM_EMAIL_ERROR:
+      return {...state, isCustomEmailError: data}
+    case Actions.SET_SHOULD_SEND_PREVIEW_EMAIL:
+      return {...state, shouldSendPreviewEmail: data}
     case Actions.UPDATE_REVIEW_TYPE:
       return {...state, previewDeviceType: data}
     case Actions.UPDATE_HOMESCREEN_THEME:

@@ -34,6 +34,8 @@ import {
     selectIsConfigChanged,
     selectColorPalettesSelected,
     selectIsCustomEmailError,
+    selectShouldSendPreviewEmail,
+    selectCustomizeEmailSetting,
 } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import * as api from '../../../services/Api';
@@ -64,6 +66,7 @@ import {
 } from '../../../utils';
 import ColorPaletteBlade from '../features/color-palette/color-palette-blade';
 import CustomEmailBlade from '../features/custom-email/custom-email-blade';
+import { constructSendingEmailRequestBody, getConfigIdFromHeader } from '../features/custom-email/custom-email.util';
 declare var workstation: WorkstationModule;
 
 const classNamePrefix = 'home-screen-editor';
@@ -410,6 +413,58 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             </div>
         );
     };
+
+    getUserInfo = () => {
+        return HttpProxy.get(
+            api.getApiPathForSessions()
+        )
+            .then((res: any) => {
+                return {
+                    id: res.id,
+                    fullName: res.fullName
+                };
+            })
+            .catch((e: any) => {
+                const error = e as RestApiError;
+                console.log(error.errorMsg);
+            });
+    };
+
+    closeEditorWindow = () => {
+        // trigger load config list and close window
+        workstation.window
+        .postMessage({ homeConfigSaveSuccess: true })
+        .then(() => {
+            workstation.window.close();
+        });
+    };
+
+    sendPreviewEmail = (configId: string) => {
+        this.getUserInfo()
+            .then((userInfo: any) => {
+                const requestBody = constructSendingEmailRequestBody(configId, userInfo, this.state.currentEnv.url, this.props.config.isDefault, this.props.emailSettings);
+                if (requestBody) {
+                    HttpProxy.post(
+                        api.getApiPathForSendingEmails(),
+                        requestBody
+                    )
+                    .then(() => {
+                        this.closeEditorWindow();
+                    })
+                    .catch((e: any) => {
+                        const error = e as RestApiError;
+                        console.log(error.errorMsg);
+                        this.closeEditorWindow();
+                    })
+                }
+            })
+            .catch((e: any) => {
+                const error = e as RestApiError;
+                console.log(error.errorMsg);
+                this.closeEditorWindow();
+            })
+    };
+
     handleSaveConfig = () => {
         this.setState({
             handleSaving: true,
@@ -459,12 +514,11 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 PARSE_METHOD.BLOB
             )
                 .then(() => {
-                    // trigger load config list and close window
-                    workstation.window
-                        .postMessage({ homeConfigSaveSuccess: true })
-                        .then(() => {
-                            workstation.window.close();
-                        });
+                    if (this.props.emailSettings.enabled && this.props.shouldSendPreviewEmail) {
+                        this.sendPreviewEmail(configId);
+                    } else {
+                        this.closeEditorWindow();
+                    }
                 })
                 .catch((e: any) => {
                     // request error handle, if 401, need re-authrioze, disconnect current environment and close current sub-window. Else, show error message
@@ -492,12 +546,14 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 {},
                 PARSE_METHOD.BLOB
             )
-                .then(() => {
-                    workstation.window
-                        .postMessage({ homeConfigSaveSuccess: true })
-                        .then(() => {
-                            workstation.window.close();
-                        });
+                .then((res: any) => {
+                    if (this.props.emailSettings.enabled && this.props.shouldSendPreviewEmail) {
+                        const configId = getConfigIdFromHeader(res);
+                        this.sendPreviewEmail(configId);
+                    } else {
+                        this.closeEditorWindow();
+                    }
+                    
                 })
                 .catch((err: any) => {
                     this.processErrorResponse(
@@ -645,6 +701,9 @@ const mapState = (state: RootState) => ({
     isDuplicateConfig: selectIsDuplicateConfig(state),
     isConfigNameError: selectIsConfigNameError(state),
     isCustomEmailError: selectIsCustomEmailError(state),
+    shouldSendPreviewEmail: selectShouldSendPreviewEmail(state),
+    emailSettings: selectCustomizeEmailSetting(state),
+
     defaultGroupsName: selectDefaultGroupsName(state),
     configInfoList: selectConfigInfoList(state),
     isStateChanged: selectIsConfigChanged(state),

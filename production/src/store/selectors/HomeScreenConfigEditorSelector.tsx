@@ -199,3 +199,8 @@ export const selectIsCustomEmailError = createSelector(
   selectConfigEditorRoot,
   (configEditorRoot) => configEditorRoot.isCustomEmailError
 )
+
+export const selectShouldSendPreviewEmail = createSelector(
+  selectConfigEditorRoot,
+  (configEditorRoot) => configEditorRoot.shouldSendPreviewEmail
+)

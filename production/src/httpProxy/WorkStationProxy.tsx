@@ -6,10 +6,29 @@ declare var workstation: any
 
 const parseJsonFunc = PARSE_METHOD.JSON
 
-function parseResponse(response: Response, responseType: PARSE_METHOD = PARSE_METHOD.JSON) {
+function parseHeaders(response: Response) {
+  return response.headers
+}
+
+function parseBody(response: Response, responseType: PARSE_METHOD = PARSE_METHOD.JSON) {
   return response[responseType]()
-    .then(data => data)
-    .catch((err: any) => console.error(err))
+    .then(data => {
+      console.log(responseType)
+      console.log(data)
+      return data
+    })
+    .catch((err: any) => {
+      console.error(err)
+    })
+}
+
+
+function parseResponse(response: Response, responseType: PARSE_METHOD = PARSE_METHOD.JSON) {
+  if (response.status == 204) {
+    return parseHeaders(response)
+  } else {
+    return parseBody(response, responseType)
+  }
 }
 
 function checkResponseStatus(response: any) {
