@@ -36,9 +36,6 @@ function getFirstName(fullName: string) {
 }
 
 function getShareUrl(emailSettings:any, configId: string, currentEvnUrl: string, isDefaultApp: boolean) {
-    if (emailSettings.showBrowserButton && emailSettings.hostPortal) {
-        return emailSettings.hostPortal;
-    }
     return currentEvnUrl + 'app' + (isDefaultApp ? '' : '/config/' + configId);
 }
 
