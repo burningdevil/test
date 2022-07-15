@@ -121,7 +121,7 @@ const CustomEmailForm: React.FC<any> = () => {
             <a 
             target = "_blank"
 
-            href={'https://www2.microstrategy.com/producthelp/Current/Workstation/WebHelp/Lang_1033/Content/custom_application.htm#more'} style = {{'marginLeft': '8px'}}>{customEmailStringDict.subTitle.actionButton.hostTooltipHelp}</a>
+            href={'https://www2.microstrategy.com/producthelp/2021/EmbeddingSDK/Content/topics/use_custom_dossier_link.htm'} style = {{'marginLeft': '8px'}}>{customEmailStringDict.subTitle.actionButton.hostTooltipHelp}</a>
         </div>
     )
     const renderForms = () => {

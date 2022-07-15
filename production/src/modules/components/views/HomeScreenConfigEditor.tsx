@@ -192,6 +192,10 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         const checkCustomEmailFeatureEnable = (currentEnv: Environment) => {
             return (
                 !!currentEnv.webVersion &&
+                getFeatureFlag(
+                    GENERAL_PREVIEW_FEATURE_FLAG,
+                    currentEnv
+                    ) && 
                 isLibraryServerVersionMatch(
                     currentEnv.webVersion,
                     LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_VERSION
