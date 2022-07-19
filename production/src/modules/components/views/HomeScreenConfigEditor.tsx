@@ -460,6 +460,8 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                         console.log(error.errorMsg);
                         this.closeEditorWindow();
                     })
+                } else {
+                    this.closeEditorWindow();
                 }
             })
             .catch((e: any) => {

@@ -1,10 +1,9 @@
 import * as _ from 'lodash';
 
 export function validateHttpUrl(url: string) {
-    let newUrl;
     try {
         if (url.length > 0) {
-            newUrl = new URL(url);
+            new URL(url);
         } else {
             return true
         }
@@ -18,8 +17,7 @@ export function validateHttpUrl(url: string) {
 export function getConfigIdFromHeader(headers: any) {
     const location = headers.get('location');
     const splitLocation = location.split('/');
-    const configId = splitLocation[splitLocation.length - 1];
-    return configId;
+    return splitLocation[splitLocation.length - 1];
 }
 
 function getFirstName(fullName: string) {
@@ -35,17 +33,17 @@ function getFirstName(fullName: string) {
     return names.split(' ')[0];
 }
 
-function getShareUrl(emailSettings:any, configId: string, currentEvnUrl: string, isDefaultApp: boolean) {
+function getShareUrl(configId: string, currentEvnUrl: string, isDefaultApp: boolean) {
     return currentEvnUrl + 'app' + (isDefaultApp ? '' : '/config/' + configId);
 }
 
 function getMobileLink(configId: string, currentEvnUrl: string, isDefaultApp: boolean) {
     return 'dossier://?url=' + encodeURIComponent(currentEvnUrl + 'app' + (isDefaultApp ? '' : '/config/' + configId));
-};
+}
 
 function getNotificationLink(configId: string, currentEvnUrl: string, isDefaultApp: boolean) {
     return currentEvnUrl + 'app' + (isDefaultApp ? '' : '/config/' + configId) + '/notification/share';
-};
+}
 
 export function constructSendingEmailRequestBody(configId: string, userInfo: any, currentEnvUrl: string, isDefaultApp: boolean, emailSettings: any) {
     const userId = _.get(userInfo, 'id', null)
@@ -74,7 +72,7 @@ export function constructSendingEmailRequestBody(configId: string, userInfo: any
         }
         const hostPortal = _.get(emailSettings, 'hostPortal', null);
         if (!hostPortal) {
-            const shareLink = getShareUrl(emailSettings, configId, currentEnvUrl, isDefaultApp);
+            const shareLink = getShareUrl(configId, currentEnvUrl, isDefaultApp);
             _.set(requestBody, 'template.tokens.shareLink', shareLink);
         }
         
@@ -82,4 +80,4 @@ export function constructSendingEmailRequestBody(configId: string, userInfo: any
     } else {
         return null;
     }
-};
+}

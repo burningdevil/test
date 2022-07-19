@@ -1,7 +1,6 @@
-import { Button, Divider, Layout, Checkbox } from 'antd';
+import { Divider, Layout, Checkbox } from 'antd';
 import * as React from 'react'
 import { useCallback } from 'react';
-import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectCustomizeEmailSetting, selectShouldSendPreviewEmail } from '../../../../../../src/store/selectors/HomeScreenConfigEditorSelector';
 import { CustomEmailSettingType } from '../../../../../../src/types/data-model/HomeScreenConfigModels';
