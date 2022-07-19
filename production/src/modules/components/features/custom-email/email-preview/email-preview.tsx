@@ -31,6 +31,25 @@ const CustomEmailPreview: React.FC<any> = () => {
             
             )
     }
+
+    const renderCardContent = () => {
+        return (
+            <div className = {`${classNamePrefix}-card-content`}>
+                <div className = {`${classNamePrefix}-card-content-1 skeleton-item`}></div>
+                <div className = {`${classNamePrefix}-card-content-2 skeleton-item`}></div>
+                
+                {(!emailSetting.enabled || emailSetting.showBrowserButton) && <div className = {getViewButtonClass()}>
+                        <div>{'View in Browser'}</div>
+                </div>}
+                {(!emailSetting.enabled || emailSetting.showMobileButton) && <div className = {getViewButtonClass()}>
+                        <div>{'View in Mobile'}</div>
+                </div>}
+                {(!emailSetting.enabled || emailSetting.showBrowserButton) && emailSetting.showMobileButton && <div className = {`${classNamePrefix}-card-content-5 skeleton-item`}></div>}
+                <Divider/>
+                {(!emailSetting.enabled || emailSetting.showReminder) && <div className = {`${classNamePrefix}-card-content-6 skeleton-item`}></div>}
+            </div>
+        )
+    }
     const getViewButtonClass = useCallback(() => {
         if(emailSetting.showBrowserButton && emailSetting.showMobileButton){
             return `${classNamePrefix}-card-content-3`
@@ -58,41 +77,22 @@ const CustomEmailPreview: React.FC<any> = () => {
                                             <span >{'Subject'}</span>
                                             <div className = {`${classNamePrefix}-subject-item skeleton-item` }></div>
                                         </div>
-
                                         <div className={`${classNamePrefix}-owner`}>
                                             <div></div>
                                             <span>{'environment@xxx.com'}</span>
                                         </div>
-
                                         <div className = {`${classNamePrefix}-card`}>
                                             {(!emailSetting.enabled || emailSetting.showBrandingImage) && <div className = {`${classNamePrefix}-card-logo`}></div>}
-                                            <div className = {`${classNamePrefix}-card-content`}>
-                                                <div className = {`${classNamePrefix}-card-content-1 skeleton-item`}></div>
-                                                <div className = {`${classNamePrefix}-card-content-2 skeleton-item`}></div>
-                                                
-                                                {(!emailSetting.enabled || emailSetting.showBrowserButton) && <div className = {getViewButtonClass()}>
-                                                        <div>{'View in Browser'}</div>
-                                                </div>}
-                                                {(!emailSetting.enabled || emailSetting.showMobileButton) && <div className = {getViewButtonClass()}>
-                                                        <div>{'View in Mobile'}</div>
-                                                </div>}
-                                                {(!emailSetting.enabled || emailSetting.showBrowserButton) && emailSetting.showMobileButton && <div className = {`${classNamePrefix}-card-content-5 skeleton-item`}></div>}
-                                                <Divider/>
-                                                {(!emailSetting.enabled || emailSetting.showReminder) && <div className = {`${classNamePrefix}-card-content-6 skeleton-item`}></div>}
-                                            </div>
+                                            {renderCardContent()}
                                             {(!emailSetting.enabled || emailSetting.showSentBy) && <div className = {`${classNamePrefix}-card-sender`}>
                                                 {`Sent by ${emailSetting.sentByText}`}
                                             </div>}
                                             {(!emailSetting.enabled || emailSetting.showSocialMedia) && <div className = {`${classNamePrefix}-card-social`}></div>}
                                         </div>
                                     </div>
-                                    
-
                                 </Layout.Content>
                             </Layout>
-
                         </div>
-
                         {renderCheckbox()}
                     </div>
     );

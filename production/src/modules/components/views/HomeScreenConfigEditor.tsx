@@ -189,15 +189,15 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             );
         };
         const colorPaletteFeatureFlagEnabled  = checkColorPaletteFeatureEnable(currentEnv);
-        const checkCustomEmailFeatureEnable = (currentEnv: Environment) => {
+        const checkCustomEmailFeatureEnable = (curEnv: Environment) => {
             return (
-                !!currentEnv.webVersion &&
+                !!curEnv.webVersion &&
                 getFeatureFlag(
                     GENERAL_PREVIEW_FEATURE_FLAG,
-                    currentEnv
+                    curEnv
                     ) && 
                 isLibraryServerVersionMatch(
-                    currentEnv.webVersion,
+                    curEnv.webVersion,
                     LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_VERSION
                 )
             );
@@ -554,8 +554,8 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             )
                 .then((res: any) => {
                     if (this.props.emailSettings.enabled && this.props.shouldSendPreviewEmail) {
-                        const configId = getConfigIdFromHeader(res);
-                        this.sendPreviewEmail(configId);
+                        const configHeaderId = getConfigIdFromHeader(res);
+                        this.sendPreviewEmail(configHeaderId);
                     } else {
                         this.closeEditorWindow();
                     }
