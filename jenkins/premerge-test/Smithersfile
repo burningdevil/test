@@ -42,7 +42,7 @@ powershell -command \'Get-DisplayResolution\'
 powershell -command \'Set-DisplayResolution -Width 1920 -Height 1080 -Force\'
 powershell -command \'Get-DisplayResolution\'
 
-rake do_test_when_test_file_changed
+rake do_test_pre_merge_ui_test
 
 '
     end
