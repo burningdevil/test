@@ -34,7 +34,7 @@ def map_I
   shell_command!("cmd /c \"subst I: #{$WORKSPACE_SETTINGS[:paths][:project][:home]}\"")
 end
 
-task :do_test_pre_merge_ui_test do |t,args|
+task :do_test_when_test_file_changed do |t,args|
   info "====== Run UI automation tests ======"
   Rake::Task['eks_deploy'].invoke
   Rake::Task['install_workstation_windows'].invoke
