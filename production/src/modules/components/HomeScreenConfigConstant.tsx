@@ -90,6 +90,7 @@ export const CONSTANTS = {
     ICON_EDIT_DOSSIER: 'edit_dossier',
     ICON_ADD_LIBRARY: 'add_library_server',
     ICON_UNDO_REDO: 'undo_and_redo',
+    ICON_WATCH_LIST: 'insights',
 
     // icon font code
     FONT_SIDEBAR: 'icon-tb_hamburger',
@@ -126,6 +127,7 @@ export const CONSTANTS = {
     FONT_UNDO_REDO: 'icon-tb_undo',
     FONT_REDO: 'icon-tb_redo',
     FONT_SIDEBAR_PREVIEW_TABLET: 'icon-sidebar_preview_tablet',
+    FONT_WATCH_LIST: 'icon-watch_list',
 
     // preview use only
     FONT_HOME: 'icon-tb_home',
@@ -677,6 +679,11 @@ export const iconTypes: IconTypes = {
         iconName: CONSTANTS.FONT_REDO,
         key: CONSTANTS.ICON_UNDO_REDO,
     },
+    insights: {
+        displayText: t('insights'),
+        iconName: CONSTANTS.FONT_WATCH_LIST,
+        key: CONSTANTS.ICON_WATCH_LIST,
+    },
     //// for preview. Localization not needed.
     // home button
     home: {
@@ -795,6 +802,7 @@ export const childrenIcons = [
     iconTypes.myContent,
     iconTypes.favorites,
     iconTypes.recents,
+    iconTypes.insights,
     iconTypes.mySubscribe,
     iconTypes.defaultGroup,
     iconTypes.myGroup,
@@ -821,6 +829,7 @@ export const libraryCustomizedIcons = [
     iconTypes.hyper,
     iconTypes.aaFont,
     iconTypes.undoRedo,
+    iconTypes.insights
 ];
 export const libraryCustomizedIconKeys = libraryCustomizedIcons.map(
     (element) => element.key
@@ -836,6 +845,7 @@ export const libraryCustomizedIconDefaultValues = Object.freeze({
     [iconTypes.hyper.key]: true,
     [iconTypes.aaFont.key]: true,
     [iconTypes.undoRedo.key]: true,
+    [iconTypes.insights.key]: true,
 });
 
 export const mobileOnlyIconKeys = [

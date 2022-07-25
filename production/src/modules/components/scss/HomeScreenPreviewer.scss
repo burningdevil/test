@@ -87,7 +87,7 @@ $tablet-scale: 0.85;
         float: right;
         margin-right: 4.5px;
         color: $color;
-    }
+    } 
 }
 
 @mixin padOrWebSetting($color) {
@@ -170,6 +170,15 @@ $tablet-scale: 0.85;
                     display: inline-block;
                     transform: scale(1.25) !important;
                 }
+            }
+            .icon-watch_list {
+                vertical-align: middle;
+                width: 13px;
+                height: 14px;
+                transform: scale(0.49);
+                margin-left: 3px;
+                margin-right: -2px;
+                background: url("../images/watchlist-icon.svg");
             }
         }
         &-right {
@@ -590,6 +599,7 @@ $tablet-scale: 0.85;
             }
         }
     }
+
 
 }
 .ellipsis {
