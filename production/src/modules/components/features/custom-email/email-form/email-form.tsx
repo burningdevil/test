@@ -1,8 +1,7 @@
 import { Input, Tooltip } from '@mstr/rc';
 import { Checkbox, Divider, Switch } from 'antd';
 import * as React from 'react'
-import { useCallback } from 'react';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCustomizeEmailSetting } from '../../../../../../src/store/selectors/HomeScreenConfigEditorSelector';
 import { CustomEmailSettingType } from '../../../../../../src/types/data-model/HomeScreenConfigModels';
@@ -57,7 +56,6 @@ const CustomEmailForm: React.FC<any> = () => {
                     return true
                 }
             }}
-            ref={() => {}}
             maxLength={250}
             placeholder = {placeholder}
             errorMessage={customEmailStringDict.subTitle.actionButton.hostInvalidTip}
@@ -99,7 +97,7 @@ const CustomEmailForm: React.FC<any> = () => {
                     checked={enableCustomEmail}
                     tabIndex = {0}
                     onKeyDown = {evt => {
-                        if ((evt.keyCode === 13) || (evt.keyCode === 32)) {
+                        if ((evt.key === 'Enter') || (evt.key === 'Space')) {
                             checkboxChange(!enableCustomEmail);
                         }
                     }}
@@ -147,7 +145,6 @@ const CustomEmailForm: React.FC<any> = () => {
                         <Tooltip
                             title={hostTooltip}
                             placement='rightTop'
-                            onVisibleChange={(visible) =>{}}
                         >
                             <span className={VC.FONT_MSG_INFO}> </span>
                         </Tooltip>
@@ -168,7 +165,6 @@ const CustomEmailForm: React.FC<any> = () => {
                     <Tooltip
                             title={customEmailStringDict.subTitle.notificationReminder.tooltip}
                             placement='rightTop'
-                            onVisibleChange={(visible) =>{}}
                         >
                             <span className={VC.FONT_MSG_INFO}> </span>
                         </Tooltip>

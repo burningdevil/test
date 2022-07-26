@@ -13,8 +13,6 @@ function parseHeaders(response: Response) {
 function parseBody(response: Response, responseType: PARSE_METHOD = PARSE_METHOD.JSON) {
   return response[responseType]()
     .then(data => {
-      console.log(responseType)
-      console.log(data)
       return data
     })
     .catch((err: any) => {
