@@ -451,7 +451,7 @@ export const metricStr = {
 export const customEmailStringDict = {
     'title': t('customEmailTitle'),
     'desc': t('customEmailDesc'),
-    'subTitle': {
+    'formGroup': {
         'image': {
             'title': t('customEmailImage'),
             'label': t('showBrandImage')

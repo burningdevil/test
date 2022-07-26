@@ -82,12 +82,15 @@ const CustomEmailPreview: React.FC<any> = () => {
                                             <span>{'environment@xxx.com'}</span>
                                         </div>
                                         <div className = {`${classNamePrefix}-card`}>
-                                            {(!emailSetting.enabled || emailSetting.showBrandingImage) && <div className = {`${classNamePrefix}-card-logo`}></div>}
+                                            {(!emailSetting.enabled || emailSetting.showBrandingImage) && <div className = {`${classNamePrefix}-card-logo-container`}><div className = {`${classNamePrefix}-card-logo`}/></div>}
                                             {renderCardContent()}
+                                            <div className = {`${classNamePrefix}-card-footer`}>
                                             {(!emailSetting.enabled || emailSetting.showSentBy) && <div className = {`${classNamePrefix}-card-sender`}>
                                                 {`Sent by ${emailSetting.sentByText}`}
                                             </div>}
                                             {(!emailSetting.enabled || emailSetting.showSocialMedia) && <div className = {`${classNamePrefix}-card-social`}></div>}
+                                            </div>
+                                            
                                         </div>
                                     </div>
                                 </Layout.Content>

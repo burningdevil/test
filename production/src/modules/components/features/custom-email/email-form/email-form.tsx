@@ -46,19 +46,19 @@ const CustomEmailForm: React.FC<any> = () => {
                 if(key === 'hostPortal'){
                     const isValid = validateHttpUrl(e);
                     if(!isValid){
-                        dispatch(Actions.setCustomEmailError(true))
+                        dispatch(Actions.setCustomEmailNameError(true))
                     }else {
-                        dispatch(Actions.setCustomEmailError(false))
+                        dispatch(Actions.setCustomEmailNameError(false))
                     }
-                    
                     return isValid;
                 }else{
                     return true
                 }
             }}
+            autoFocus = {false}
             maxLength={250}
             placeholder = {placeholder}
-            errorMessage={customEmailStringDict.subTitle.actionButton.hostInvalidTip}
+            errorMessage={customEmailStringDict.formGroup.actionButton.hostInvalidTip}
             isErrorDisplayed="true"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {inputChange(key, e.target.value, cb)}}
     />
@@ -115,33 +115,33 @@ const CustomEmailForm: React.FC<any> = () => {
     }
     const hostTooltip = (
         <div>
-            {customEmailStringDict.subTitle.actionButton.hostTooltip}
+            {customEmailStringDict.formGroup.actionButton.hostTooltip}
             <a 
             target = "_blank"
 
-            href={'https://www2.microstrategy.com/producthelp/2021/EmbeddingSDK/Content/topics/use_custom_dossier_link.htm'} style = {{'marginLeft': '8px'}}>{customEmailStringDict.subTitle.actionButton.hostTooltipHelp}</a>
+            href={'https://www2.microstrategy.com/producthelp/2021/EmbeddingSDK/Content/topics/use_custom_dossier_link.htm'} style = {{'marginLeft': '8px'}}>{customEmailStringDict.formGroup.actionButton.hostTooltipHelp}</a>
         </div>
     )
     const renderForms = () => {
         return (
             enableCustomEmail && <>
                 {/* Image section */}
-                {sectionTitleRender(customEmailStringDict.subTitle.image.title)}
+                {sectionTitleRender(customEmailStringDict.formGroup.image.title)}
                 <div className={`${classNamePrefix}-box`}>
-                    <span>{customEmailStringDict.subTitle.image.label}</span>
-                    {switchRender(showImage, 'showBrandingImage', setShowImage, customEmailStringDict.subTitle.image.label)}
+                    <span>{customEmailStringDict.formGroup.image.label}</span>
+                    {switchRender(showImage, 'showBrandingImage', setShowImage, customEmailStringDict.formGroup.image.label)}
                 </div> 
                 <Divider/>
     
                 {/* Action button section */}
-                {sectionTitleRender(customEmailStringDict.subTitle.actionButton.title)}
+                {sectionTitleRender(customEmailStringDict.formGroup.actionButton.title)}
                 <div className={`${classNamePrefix}-box`}>
-                    <span>{customEmailStringDict.subTitle.actionButton.label1}</span>
-                    {switchRender(showButton1, 'showBrowserButton', setShowButton1, customEmailStringDict.subTitle.actionButton.label1)}
+                    <span>{customEmailStringDict.formGroup.actionButton.label1}</span>
+                    {switchRender(showButton1, 'showBrowserButton', setShowButton1, customEmailStringDict.formGroup.actionButton.label1)}
                 </div>
                 <div className={`${classNamePrefix}-box`}>
                     <span>
-                        {customEmailStringDict.subTitle.actionButton.label2}
+                        {customEmailStringDict.formGroup.actionButton.label2}
                         <Tooltip
                             title={hostTooltip}
                             placement='rightTop'
@@ -150,20 +150,20 @@ const CustomEmailForm: React.FC<any> = () => {
                         </Tooltip>
                     </span>
                     
-                    {inputRender(hostWebPortal, 'hostPortal', setHostWebPortal, customEmailStringDict.subTitle.actionButton.placeholder)}
+                    {inputRender(hostWebPortal, 'hostPortal', setHostWebPortal, customEmailStringDict.formGroup.actionButton.placeholder)}
                 </div>
                 <div className={`${classNamePrefix}-box`}>
-                    <span>{customEmailStringDict.subTitle.actionButton.label3}</span>
-                    {switchRender(showButton2, 'showMobileButton', setShowButton2, customEmailStringDict.subTitle.actionButton.label3)}
+                    <span>{customEmailStringDict.formGroup.actionButton.label3}</span>
+                    {switchRender(showButton2, 'showMobileButton', setShowButton2, customEmailStringDict.formGroup.actionButton.label3)}
                 </div>
 
                 <Divider/>
         
                 {/* Notification Reminder section */}
                 <div className={`${classNamePrefix}-section-title`} >
-                    {customEmailStringDict.subTitle.notificationReminder.title}
+                    {customEmailStringDict.formGroup.notificationReminder.title}
                     <Tooltip
-                            title={customEmailStringDict.subTitle.notificationReminder.tooltip}
+                            title={customEmailStringDict.formGroup.notificationReminder.tooltip}
                             placement='rightTop'
                         >
                             <span className={VC.FONT_MSG_INFO}> </span>
@@ -171,29 +171,29 @@ const CustomEmailForm: React.FC<any> = () => {
                 </div>
                 
                 <div className={`${classNamePrefix}-box`}>
-                    <span>{customEmailStringDict.subTitle.notificationReminder.label}</span>
-                    {switchRender(showReminder, 'showReminder', setShowReminder, customEmailStringDict.subTitle.notificationReminder.label)}
+                    <span>{customEmailStringDict.formGroup.notificationReminder.label}</span>
+                    {switchRender(showReminder, 'showReminder', setShowReminder, customEmailStringDict.formGroup.notificationReminder.label)}
                 </div>
 
                 
                 <Divider/>
 
                 {/* Send by section */}
-                {sectionTitleRender(customEmailStringDict.subTitle.sentBy.title)}
+                {sectionTitleRender(customEmailStringDict.formGroup.sentBy.title)}
                 <div className={`${classNamePrefix}-box`}>
-                    <span>{customEmailStringDict.subTitle.sentBy.label1}</span>
-                    {switchRender(showSendByInfo, 'showSentBy', setShowSendByInfo, customEmailStringDict.subTitle.sentBy.label1)}
+                    <span>{customEmailStringDict.formGroup.sentBy.label1}</span>
+                    {switchRender(showSendByInfo, 'showSentBy', setShowSendByInfo, customEmailStringDict.formGroup.sentBy.label1)}
                 </div>
                 <div className={`${classNamePrefix}-box`}>
-                    <span>{customEmailStringDict.subTitle.sentBy.label2}</span>
-                    {inputRender(sentByOwner, 'sentByText', setSentByOwner, customEmailStringDict.subTitle.sentBy.defaultSender)}
+                    <span>{customEmailStringDict.formGroup.sentBy.label2}</span>
+                    {inputRender(sentByOwner, 'sentByText', setSentByOwner, customEmailStringDict.formGroup.sentBy.defaultSender)}
                 </div>
                 <Divider/>
                 {/* Social media section */}
-                {sectionTitleRender(customEmailStringDict.subTitle.socialMedia.title)}
+                {sectionTitleRender(customEmailStringDict.formGroup.socialMedia.title)}
                 <div className={`${classNamePrefix}-box`}>
-                    <span>{customEmailStringDict.subTitle.socialMedia.label}</span>
-                    {switchRender(showSocialMedia, 'showSocialMedia', setShowSocialMedia, customEmailStringDict.subTitle.socialMedia.label)}
+                    <span>{customEmailStringDict.formGroup.socialMedia.label}</span>
+                    {switchRender(showSocialMedia, 'showSocialMedia', setShowSocialMedia, customEmailStringDict.formGroup.socialMedia.label)}
                 </div>
             </>
         )
