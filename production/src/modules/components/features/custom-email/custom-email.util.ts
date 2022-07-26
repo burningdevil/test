@@ -20,6 +20,7 @@ export function getConfigIdFromHeader(headers: any) {
     return splitLocation[splitLocation.length - 1];
 }
 
+// logic from collab server
 function getFirstName(fullName: string) {
     let names,
         commaIdx = fullName.indexOf(',');
@@ -33,16 +34,20 @@ function getFirstName(fullName: string) {
     return names.split(' ')[0];
 }
 
-function getShareUrl(configId: string, currentEvnUrl: string, isDefaultApp: boolean) {
+function getLibraryApplicationUrl(configId: string, currentEvnUrl: string, isDefaultApp: boolean) {
     return currentEvnUrl + 'app' + (isDefaultApp ? '' : '/config/' + configId);
 }
 
+function getShareUrl(configId: string, currentEvnUrl: string, isDefaultApp: boolean) {
+    return getLibraryApplicationUrl(configId, currentEvnUrl, isDefaultApp);
+}
+
 function getMobileLink(configId: string, currentEvnUrl: string, isDefaultApp: boolean) {
-    return 'dossier://?url=' + encodeURIComponent(currentEvnUrl + 'app' + (isDefaultApp ? '' : '/config/' + configId));
+    return 'dossier://?url=' + encodeURIComponent(getLibraryApplicationUrl(configId, currentEvnUrl, isDefaultApp));
 }
 
 function getNotificationLink(configId: string, currentEvnUrl: string, isDefaultApp: boolean) {
-    return currentEvnUrl + 'app' + (isDefaultApp ? '' : '/config/' + configId) + '/notification/share';
+    return getLibraryApplicationUrl(configId, currentEvnUrl, isDefaultApp) + '/notification/share';
 }
 
 export function constructSendingEmailRequestBody(configId: string, userInfo: any, currentEnvUrl: string, isDefaultApp: boolean, emailSettings: any) {
