@@ -67,6 +67,7 @@ import {
 import ColorPaletteBlade from '../features/color-palette/color-palette-blade';
 import CustomEmailBlade from '../features/custom-email/custom-email-blade';
 import { constructSendingEmailRequestBody, getConfigIdFromHeader } from '../features/custom-email/custom-email.util';
+import { DEFAULT_EMAIL_SETTING } from '../../../../src/store/reducers/HomeScreenConfigEditorReducer';
 declare var workstation: WorkstationModule;
 
 const classNamePrefix = 'home-screen-editor';
@@ -494,6 +495,13 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                     },
                 },
             });
+        }
+        /**
+         * customize email related
+         * if enabled is false, should use the default value instead.
+         */
+        if(config.emailSettings && !config.emailSettings?.enabled){
+            config.emailSettings = DEFAULT_EMAIL_SETTING;
         }
         /* color palette related.
       if useConfigPalette is false, delete the selected applicationPalettes.
