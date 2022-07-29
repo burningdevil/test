@@ -528,7 +528,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 PARSE_METHOD.BLOB
             )
                 .then(() => {
-                    if (this.props.emailSettings.enabled && this.props.shouldSendPreviewEmail) {
+                    if (this.props.emailSettings?.enabled && this.props.shouldSendPreviewEmail) {
                         this.sendPreviewEmail(configId);
                     } else {
                         this.closeEditorWindow();
@@ -561,7 +561,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 PARSE_METHOD.BLOB
             )
                 .then((res: any) => {
-                    if (this.props.emailSettings.enabled && this.props.shouldSendPreviewEmail) {
+                    if (this.props.emailSettings?.enabled && this.props.shouldSendPreviewEmail) {
                         const configHeaderId = getConfigIdFromHeader(res);
                         this.sendPreviewEmail(configHeaderId);
                     } else {
