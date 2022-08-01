@@ -79,7 +79,8 @@ function FakeHomeScreenBundleListServer(allData: BundleInfo[]) {
               return {
                 name: d.name,
                 expand: false,
-                viewMedia: d.viewMedia
+                viewMedia: d.viewMedia,
+                certified: d.isCertified
               };
             });
             lastRow = arr.length;
@@ -312,7 +313,25 @@ class ContentBundleList extends React.Component<any, any> {
 
     columnDefs: [
       { field: VC.NAME, rowGroup: true, hide: true },
-
+      {
+        field: VC.CERTIFIED,
+        sortable: false,
+        maxWidth: 100,
+        headerName: localizedStrings.CERTIFIED,
+        cellRendererFramework: (params: any) => {
+          const data = params.data;
+          if (data.certified) {
+            return (
+              <span
+                className={VC.FONT_CERTIFIED}
+                style={{ color: '#FF6214', fontSize: '14px' }}
+              />
+            );
+          } else {
+            return '';
+          }
+        },
+      },
       {
         field: VC.RECIPIENT_STR, headerName: localizedStrings.RECIPIENTS, 
         cellRendererFramework: (params: any) => {
