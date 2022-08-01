@@ -33,6 +33,9 @@ import {
     selectConfigInfoList,
     selectIsConfigChanged,
     selectColorPalettesSelected,
+    selectIsCustomEmailError,
+    selectShouldSendPreviewEmail,
+    selectCustomizeEmailSetting,
 } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import * as api from '../../../services/Api';
@@ -58,9 +61,13 @@ import {
     isUserHasManageContentGroupPrivilege,
     LIBRARY_SERVER_SUPPORT_COLOR_PALETTE_VERSION,
     LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION,
-    LIBRARY_SERVER_SUPPORT_APPEARANCE_DESIGN_VERSION
+    LIBRARY_SERVER_SUPPORT_APPEARANCE_DESIGN_VERSION,
+    LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_VERSION
 } from '../../../utils';
 import ColorPaletteBlade from '../features/color-palette/color-palette-blade';
+import CustomEmailBlade from '../features/custom-email/custom-email-blade';
+import { constructSendingEmailRequestBody, getConfigIdFromHeader } from '../features/custom-email/custom-email.util';
+import { DEFAULT_EMAIL_SETTING } from '../../../../src/store/reducers/HomeScreenConfigEditorReducer';
 declare var workstation: WorkstationModule;
 
 const classNamePrefix = 'home-screen-editor';
@@ -80,6 +87,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             appearancePreviewFeatureEnabled: false,
             colorPalettePreviewFeatureEnable: false,
             isCloseHanlderRegistered: false,
+            customEmailFeatureEnabled: false,
         };
     }
 
@@ -182,6 +190,20 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             );
         };
         const colorPaletteFeatureFlagEnabled  = checkColorPaletteFeatureEnable(currentEnv);
+        const checkCustomEmailFeatureEnable = (curEnv: Environment) => {
+            return (
+                !!curEnv.webVersion &&
+                getFeatureFlag(
+                    GENERAL_PREVIEW_FEATURE_FLAG,
+                    curEnv
+                    ) && 
+                isLibraryServerVersionMatch(
+                    curEnv.webVersion,
+                    LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_VERSION
+                )
+            );
+        };
+        const customEmailFeatureFlagEnabled  = checkCustomEmailFeatureEnable(currentEnv);
         let isNameCopied = false;
         if (
             isDuplicate &&
@@ -198,7 +220,8 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             configId: configId,
             isNameCopyed: isNameCopied,
             contentBundleFeatureEnable: contentBundleEnable,
-            colorPaletteFeatureEnable: colorPaletteFeatureFlagEnabled
+            colorPaletteFeatureEnable: colorPaletteFeatureFlagEnabled,
+            customEmailFeatureEnabled: customEmailFeatureFlagEnabled
 
         });
         this.loadPreference();
@@ -375,6 +398,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                     loading={this.state.handleSaving}
                     disabled={
                         this.props.isConfigNameError ||
+                        this.props.isCustomEmailError ||
                         (isDossierHome && _.isEmpty(dossierUrl)) ||
                         !validName(this.props.defaultGroupsName) ||
                         !this.props.isColorPalettesSelected
@@ -394,6 +418,60 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             </div>
         );
     };
+
+    getUserInfo = () => {
+        return HttpProxy.get(
+            api.getApiPathForSessions()
+        )
+            .then((res: any) => {
+                return {
+                    id: res.id,
+                    fullName: res.fullName
+                };
+            })
+            .catch((e: any) => {
+                const error = e as RestApiError;
+                console.log(error.errorMsg);
+            });
+    };
+
+    closeEditorWindow = () => {
+        // trigger load config list and close window
+        workstation.window
+        .postMessage({ homeConfigSaveSuccess: true })
+        .then(() => {
+            workstation.window.close();
+        });
+    };
+
+    sendPreviewEmail = (configId: string) => {
+        this.getUserInfo()
+            .then((userInfo: any) => {
+                const requestBody = constructSendingEmailRequestBody(configId, userInfo, this.state.currentEnv.url, this.props.config.isDefault, this.props.emailSettings);
+                if (requestBody) {
+                    HttpProxy.post(
+                        api.getApiPathForSendingEmails(),
+                        requestBody
+                    )
+                    .then(() => {
+                        this.closeEditorWindow();
+                    })
+                    .catch((e: any) => {
+                        const error = e as RestApiError;
+                        console.log(error.errorMsg);
+                        this.closeEditorWindow();
+                    })
+                } else {
+                    this.closeEditorWindow();
+                }
+            })
+            .catch((e: any) => {
+                const error = e as RestApiError;
+                console.log(error.errorMsg);
+                this.closeEditorWindow();
+            })
+    };
+
     handleSaveConfig = () => {
         this.setState({
             handleSaving: true,
@@ -417,6 +495,13 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                     },
                 },
             });
+        }
+        /**
+         * customize email related
+         * if enabled is false, should use the default value instead.
+         */
+        if(config.emailSettings && !config.emailSettings?.enabled){
+            config.emailSettings = DEFAULT_EMAIL_SETTING;
         }
         /* color palette related.
       if useConfigPalette is false, delete the selected applicationPalettes.
@@ -443,12 +528,11 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 PARSE_METHOD.BLOB
             )
                 .then(() => {
-                    // trigger load config list and close window
-                    workstation.window
-                        .postMessage({ homeConfigSaveSuccess: true })
-                        .then(() => {
-                            workstation.window.close();
-                        });
+                    if (this.props.emailSettings?.enabled && this.props.shouldSendPreviewEmail) {
+                        this.sendPreviewEmail(configId);
+                    } else {
+                        this.closeEditorWindow();
+                    }
                 })
                 .catch((e: any) => {
                     // request error handle, if 401, need re-authrioze, disconnect current environment and close current sub-window. Else, show error message
@@ -476,12 +560,14 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 {},
                 PARSE_METHOD.BLOB
             )
-                .then(() => {
-                    workstation.window
-                        .postMessage({ homeConfigSaveSuccess: true })
-                        .then(() => {
-                            workstation.window.close();
-                        });
+                .then((res: any) => {
+                    if (this.props.emailSettings?.enabled && this.props.shouldSendPreviewEmail) {
+                        const configHeaderId = getConfigIdFromHeader(res);
+                        this.sendPreviewEmail(configHeaderId);
+                    } else {
+                        this.closeEditorWindow();
+                    }
+                    
                 })
                 .catch((err: any) => {
                     this.processErrorResponse(
@@ -598,6 +684,15 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                                         {this.buttonGroup()}
                                     </Tabs.TabPane>
                                 )}
+
+                                {this.state.customEmailFeatureEnabled && (
+                                <Tabs.TabPane
+                                    tab={localizedStrings.NAVBAR_CUSTOM_EMAIL_SETTINGS}
+                                    key={VC.CUSTOMEMAILSETTINGS}
+                                >
+                                    <CustomEmailBlade />
+                                    {this.buttonGroup()}
+                                </Tabs.TabPane>)}
                                 <Tabs.TabPane
                                     tab={localizedStrings.NAVBAR_MORE_SETTINGS}
                                     key={VC.MORESETTINGS}
@@ -619,6 +714,10 @@ const mapState = (state: RootState) => ({
     isDossierHome: selectIsDossierAsHome(state),
     isDuplicateConfig: selectIsDuplicateConfig(state),
     isConfigNameError: selectIsConfigNameError(state),
+    isCustomEmailError: selectIsCustomEmailError(state),
+    shouldSendPreviewEmail: selectShouldSendPreviewEmail(state),
+    emailSettings: selectCustomizeEmailSetting(state),
+
     defaultGroupsName: selectDefaultGroupsName(state),
     configInfoList: selectConfigInfoList(state),
     isStateChanged: selectIsConfigChanged(state),

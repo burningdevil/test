@@ -38,10 +38,23 @@ export default {
                 maxLogSize: CONSTANTS.DEFAULT_MAX_LOG_SIZE, 
                 logLevel: CONSTANTS.LOG_LEVEL_WARNING, 
                 updateInterval: CONSTANTS.DEFAULT_UPDATE_INTERVAL
-            }
+            },
+            'emailSettings': {
+              'enabled': true,
+              'hostPortal': 'https://hostportal.com',
+              'showBrandingImage': true,
+              'showBrowserButton': true,
+              'showMobileButton': true,
+              'showReminder': true,
+              'showSentBy': true,
+              'sentByText': 'Host Inc',
+              'showSocialMedia': true
+            },
         },
         isConfigNameError: false,
         isDuplicateConfig: false,
+        isCustomEmailError: false,
+        shouldSendPreviewEmail: false,
         isStateChangeByManual: false,
         configInfoList: [],
         colorPalettes: [],

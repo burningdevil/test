@@ -187,3 +187,20 @@ export const selectColorPalettesSelected = createSelector(
     return !config.useConfigPalettes || config.useConfigPalettes && config.applicationPalettes?.length > 0
   }
 )
+
+export const selectCustomizeEmailSetting  = createSelector(
+  selectCurrentConfig,
+  (config) => {
+    return config.emailSettings
+  }
+)
+
+export const selectIsCustomEmailError = createSelector(
+  selectConfigEditorRoot,
+  (configEditorRoot) => configEditorRoot.isCustomEmailError
+)
+
+export const selectShouldSendPreviewEmail = createSelector(
+  selectConfigEditorRoot,
+  (configEditorRoot) => configEditorRoot.shouldSendPreviewEmail
+)

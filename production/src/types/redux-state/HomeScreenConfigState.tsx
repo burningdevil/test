@@ -12,6 +12,8 @@ export interface HomeScreenConfigEditorState {
     configInfoList: Array<HomeScreenConfigInfo>;
     isDuplicateConfig: boolean;
     isConfigNameError: boolean;
+    isCustomEmailError: boolean;
+    shouldSendPreviewEmail: boolean;
     previewDeviceType: string;
     isStateChangeByManual: boolean;
 }

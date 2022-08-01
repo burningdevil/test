@@ -158,6 +158,7 @@ export const CONSTANTS = {
     APPEARANCE: 'appearance',
     DOSSIERSETTINGS: 'dossierSettings',
     MORESETTINGS: 'moreSettings',
+    CUSTOMEMAILSETTINGS: 'customEmailSettings',
     BACK: 'back',
     GENERATE: 'Generate',
     JSONFILE_SUFFIX: '.json',
@@ -276,6 +277,7 @@ export const localizedStrings = {
     NAVBAR_DOSSIERSETTINGS: t('dossierSettings'),
     NAVBAR_CONTENT_BUNDLES: t('content'),
     NAVBAR_MORE_SETTINGS: t('moreSettings'),
+    NAVBAR_CUSTOM_EMAIL_SETTINGS: t('customEmailSettings'),
     CANCEL: t('cancel'),
     SAVE: t('save'),
     ERR_APP_SAVE: t('errAppSave'),
@@ -445,6 +447,44 @@ export const metricStr = {
     ENTRY: t('item'),
     ENTRIES: t('items'),
 };
+
+export const customEmailStringDict = {
+    'title': t('customEmailTitle'),
+    'desc': t('customEmailDesc'),
+    'formGroup': {
+        'image': {
+            'title': t('customEmailImage'),
+            'label': t('showBrandImage')
+        },
+        'actionButton': {
+            'title': t('actionButton'),
+            'label1': t('showButton1'),
+            'label2': t('hostWebPortal'),
+            'label3': t('showButton2'),
+            'placeholder': t('hostWebPortalPlaceholder'),
+            'hostTooltip': t('hostPortalTooltip'),
+            'hostInvalidTip': t('hostInvalidTip'),
+            'hostTooltipHelp': t('hostPortalHelp')
+        },
+        'notificationReminder': {
+            'title': t('notificationReminder'),
+            'label': t('showReminder'),
+            'tooltip': t('notificationReminderTooltip')
+        },
+        'sentBy': {
+            'title': t('sendBy'),
+            'label1': t('showSentByInfo'),
+            'label2': t('sendByOwner'),
+            'defaultSender': t('senderDefault')
+        },
+        'socialMedia': {
+            'title': t('socialMedia'),
+            'label': t('showSocialMedia')
+        }
+    },
+    'sendPreview': t('sendPreview'),
+    'featureFlag': t('disableCustomEmail')
+}
 
 export const tooltipStr = (min: string, max: string) => {
     return t('tooltipStr', { min, max });
