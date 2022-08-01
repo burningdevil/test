@@ -21,6 +21,7 @@ data:
     iserver.maxPoolSize = 100
     session.searchWorkingSet = 3
     iserver.initialPoolSize = 10
+    feature.storage-service.read-db-config-from-env-variable.enabled=false
 
   odbc.ini: |-
     [ODBC Data Sources]
