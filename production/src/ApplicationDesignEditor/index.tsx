@@ -5,11 +5,11 @@ import { RootState } from '../types/redux-state/HomeScreenConfigState'
 import * as Actions from '../store/actions/ActionsCreator'
 import PreviewPanel from './PreviewPanel'
 import SettingsPanel from './SettingsPanel'
-import DesignStudioToolbar from './DesignStudioToolbar'
+import AppearanceEditorToolbar from './AppearanceEditorToolbar'
 import { WorkstationModule, WindowEvent, DialogValues } from '@mstr/workstation-types'
 import { t } from '../i18n/i18next';
 import { selectCurrentConfigTheme } from '../store/selectors/HomeScreenConfigEditorSelector'
-import { selectDesignStudioTheme } from '../store/selectors/ApplicationDesignEditorSelector'
+import { selectAppearanceEditorTheme } from '../store/selectors/ApplicationDesignEditorSelector'
 import { ApplicationTheme, HomeScreenConfigType } from '../types/data-model/HomeScreenConfigModels'
 import './styles.scss'
 
@@ -50,7 +50,7 @@ const ApplicationDesignEditor: React.FC<ApplicationDesignEditorProps> = ({ saved
       workstation.window.close();
     }
   };
-  
+
   React.useEffect(() => {
     // initiate Redux Store with information passed from Config Editor window
     async function initEditor() {
@@ -59,7 +59,7 @@ const ApplicationDesignEditor: React.FC<ApplicationDesignEditorProps> = ({ saved
       currApplicationName.current = prevConfig.name;
       setCurrStudioTheme(prevTheme);
       setCurrConfig(prevConfig);
-      await workstation.window.setTitle(t('designStudioWindowTitle').replace('{{application}}', currApplicationName.current));
+      await workstation.window.setTitle(t('appearanceEditorWindowTitle').replace('{{application}}', currApplicationName.current));
     }
     initEditor();
 
@@ -67,16 +67,16 @@ const ApplicationDesignEditor: React.FC<ApplicationDesignEditorProps> = ({ saved
     workstation.window.addHandler(WindowEvent.ONPARENTCLOSE, async () => {
       // TODO: should it prompt user to save when parent window closes or should it force close without warning? currently, we cannot save the config
       // due to parent window already being closed by the time this callback is called. therefore, updating the config won't make a difference since
-      // we can't save to the server from the Design Studio window.
+      // we can't save to the server from the Appearance Editor window.
       workstation.window.close();
     });
-    
+
     workstation.window.addHandler(WindowEvent.CLOSE, confirmBeforeClosing);
   }, []);
 
   return (
     <div className='mstr-app-design-editor'>
-      <DesignStudioToolbar theme={currStudioTheme} handleClose={confirmBeforeClosing} />
+      <AppearanceEditorToolbar theme={currStudioTheme} handleClose={confirmBeforeClosing} />
       <div className='content-section'>
         <SettingsPanel theme={currStudioTheme} />
         <PreviewPanel theme={currStudioTheme} />
@@ -87,7 +87,7 @@ const ApplicationDesignEditor: React.FC<ApplicationDesignEditorProps> = ({ saved
 
 const mapState = (state: RootState) => ({
   savedConfigTheme: selectCurrentConfigTheme(state),
-  currStudioTheme: selectDesignStudioTheme(state)
+  currStudioTheme: selectAppearanceEditorTheme(state)
 })
 
 const connector = connect(mapState, {

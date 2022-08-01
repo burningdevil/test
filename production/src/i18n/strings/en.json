@@ -210,10 +210,10 @@
     "errPaletteDelete": "Delete palette error:",
     "customAppScreenTitle": "THEME AND APPEARANCE",
     "newThemeDesc": "Customize the look of your application",
-    "newThemeText": "Enter Design Studio",
+    "newThemeText": "Enter Appearance Editor",
 
-    "designStudioWindowTitle": "{{application}} - Appearance",
-    "designStudioWindowSubtitle": "Library Home - Web Interface",
+    "appearanceEditorWindowTitle": "{{application}} - Appearance",
+    "appearanceEditorWindowSubtitle": "Library Home - Web Interface",
 
     "pasteImageUrl": "Paste an image URL",
     "imageUrlWithHttpErrMessage": "Enter a URL with http or https protocol.",

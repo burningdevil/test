@@ -1,4 +1,4 @@
-import { selectDesignStudioTheme } from '../ApplicationDesignEditorSelector'
+import { selectAppearanceEditorTheme } from '../ApplicationDesignEditorSelector'
 import { CONSTANTS, localizedStrings, reviewType, platformType } from '../../../modules/components/HomeScreenConfigConstant'
 import { cloneDeep } from 'lodash'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
@@ -13,19 +13,19 @@ const storeState : RootState = {
       'objectNames': [],
       'objectAcl': [],
       'homeScreen': {
-        mode: CONSTANTS.MODE_USE_DEFAULT_HOME_SCREEN, 
-        homeLibrary: { 
-          icons: [], 
+        mode: CONSTANTS.MODE_USE_DEFAULT_HOME_SCREEN,
+        homeLibrary: {
+          icons: [],
           sidebars: [],
           customizedItems: {},
           contentBundleIds: [],
           defaultGroupsName: localizedStrings.DEFAULT_GROUPS,
           toolbarMode: CONSTANTS.SHOW_TOOLBAR,
           toolbarEnabled: true,
-        }, 
+        },
         homeDocument: {
-          url: '', 
-          icons: [], 
+          url: '',
+          icons: [],
           toolbarMode: CONSTANTS.SHOW_TOOLBAR,
           toolbarEnabled: true,
         }
@@ -33,11 +33,11 @@ const storeState : RootState = {
       'general': {
         disableAdvancedSettings: false,
         disablePreferences: false,
-        networkTimeout: CONSTANTS.DEFAULT_NETWORK_TIMEOUT, 
-        cacheClearMode: CONSTANTS.CLEAR_AUTOMATIC, 
-        clearCacheOnLogout: false, 
-        maxLogSize: CONSTANTS.DEFAULT_MAX_LOG_SIZE, 
-        logLevel: CONSTANTS.LOG_LEVEL_WARNING, 
+        networkTimeout: CONSTANTS.DEFAULT_NETWORK_TIMEOUT,
+        cacheClearMode: CONSTANTS.CLEAR_AUTOMATIC,
+        clearCacheOnLogout: false,
+        maxLogSize: CONSTANTS.DEFAULT_MAX_LOG_SIZE,
+        logLevel: CONSTANTS.LOG_LEVEL_WARNING,
         updateInterval: CONSTANTS.DEFAULT_UPDATE_INTERVAL
       },
       applicationPalettes: [],
@@ -99,12 +99,12 @@ describe('Application Design Editor Selectors selectTheme', () => {
   });
 
   it('theme does not exist in config - selectTheme', () => {
-    const theme = selectDesignStudioTheme(storeState)
+    const theme = selectAppearanceEditorTheme(storeState)
     expect(theme).toEqual(undefined)
   })
 
   it('theme exists in config - selectTheme', () => {
-    const theme = selectDesignStudioTheme(storeStateWithTheme)
+    const theme = selectAppearanceEditorTheme(storeStateWithTheme)
     expect(theme).toEqual(theme1)
   })
 })

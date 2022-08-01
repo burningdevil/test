@@ -3,7 +3,7 @@ import { createSelector } from 'reselect'
 
 export const selectAppDesignEditorRoot = (state: RootState) => state.appDesignEditor
 
-export const selectDesignStudioTheme = createSelector(
+export const selectAppearanceEditorTheme = createSelector(
   selectAppDesignEditorRoot,
   (appDesignEditorRoot) => appDesignEditorRoot.theme
 )
