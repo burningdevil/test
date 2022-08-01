@@ -253,7 +253,7 @@
     "disableCustomEmail": "Configure email content for this application.",
     "hostWebPortalPlaceholder": "e.g. https://www.yourcompany.com/",
     "senderDefault": "MicroStrategy Inc.",
-    "notificationReminderTooltip": "Remind the recipient there are unread notifications.",
+    "notificationReminderTooltip": "Remind recipient if there are unread notifications.",
     "hostPortalTooltip": "If you are embedding Library, enter your host web portal URL.",
     "hostInvalidTip": "Please enter a valid URL",
     "hostPortalHelp": "Learn More"
