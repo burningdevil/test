@@ -1,4 +1,4 @@
-import { selectAppearanceEditorTheme } from '../ApplicationDesignEditorSelector'
+import { selectAppearanceEditorTheme } from '../AppearanceEditorSelector'
 import { CONSTANTS, localizedStrings, reviewType, platformType } from '../../../modules/components/HomeScreenConfigConstant'
 import { cloneDeep } from 'lodash'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
@@ -67,7 +67,7 @@ const storeState : RootState = {
     loadingContentBundle: false,
     loadingContentBundleFinish: false
   },
-  appDesignEditor: {}
+  appearanceEditor: {}
 }
 
 const theme1 = {
@@ -89,10 +89,10 @@ const theme1 = {
 }
 
 const storeStateWithTheme = cloneDeep(storeState)
-storeStateWithTheme.appDesignEditor.theme = theme1
+storeStateWithTheme.appearanceEditor.theme = theme1
 
 
-describe('Application Design Editor Selectors selectTheme', () => {
+describe('Application Appearance Editor Selectors selectTheme', () => {
 
   afterEach(() => {
     jest.restoreAllMocks();

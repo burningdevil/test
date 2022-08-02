@@ -9,35 +9,35 @@ import AppearanceEditorToolbar from './AppearanceEditorToolbar'
 import { WorkstationModule, WindowEvent, DialogValues } from '@mstr/workstation-types'
 import { t } from '../i18n/i18next';
 import { selectCurrentConfigTheme } from '../store/selectors/HomeScreenConfigEditorSelector'
-import { selectAppearanceEditorTheme } from '../store/selectors/ApplicationDesignEditorSelector'
+import { selectAppearanceEditorTheme } from '../store/selectors/AppearanceEditorSelector'
 import { ApplicationTheme, HomeScreenConfigType } from '../types/data-model/HomeScreenConfigModels'
 import './styles.scss'
 
-type ApplicationDesignEditorProps = {
+type AppearanceEditorProps = {
   savedConfigTheme: ApplicationTheme;
-  currStudioTheme: ApplicationTheme;
-  setCurrStudioTheme: (theme: ApplicationTheme) => {};
+  currEditorTheme: ApplicationTheme;
+  setCurrEditorTheme: (theme: ApplicationTheme) => {};
   setCurrConfig: (config: HomeScreenConfigType) => {};
 }
 
 declare var workstation: WorkstationModule;
 
-const ApplicationDesignEditor: React.FC<ApplicationDesignEditorProps> = ({ savedConfigTheme, currStudioTheme, setCurrStudioTheme, setCurrConfig }) => {
+const AppearanceEditor: React.FC<AppearanceEditorProps> = ({ savedConfigTheme, currEditorTheme, setCurrEditorTheme, setCurrConfig }) => {
   // use refs so our confirmBeforeClosing function can be used as a callback without worrying about referencing stale variables
   const savedConfigThemeRef = React.useRef(savedConfigTheme);
-  const currStudioThemeRef = React.useRef(currStudioTheme);
+  const currEditorThemeRef = React.useRef(currEditorTheme);
   const currApplicationName = React.useRef('');
   savedConfigThemeRef.current = savedConfigTheme;
-  currStudioThemeRef.current = currStudioTheme;
+  currEditorThemeRef.current = currEditorTheme;
 
   // if saved config (aka previous config) is different from curr config, prompt user to save on close
   const confirmBeforeClosing = async () => {
-    const isThemeDirty = !_.isEqual(savedConfigThemeRef, currStudioThemeRef);
+    const isThemeDirty = !_.isEqual(savedConfigThemeRef, currEditorThemeRef);
     if (isThemeDirty) {
       let res = await workstation.dialogs.confirmation({message: t('applyThemeConfirmationStr').replace('{{application}}', currApplicationName.current)});
       if (res === DialogValues.YES) {
         // yes
-        await workstation.window.setCloseInfo(JSON.stringify(currStudioThemeRef.current));
+        await workstation.window.setCloseInfo(JSON.stringify(currEditorThemeRef.current));
         workstation.window.close();
       } else if (res === DialogValues.NO) {
         // no
@@ -57,7 +57,7 @@ const ApplicationDesignEditor: React.FC<ApplicationDesignEditorProps> = ({ saved
       const stringifiedExtraContext = await workstation.window.getExtraContext();
       const { theme: prevTheme, config: prevConfig } = JSON.parse(stringifiedExtraContext);
       currApplicationName.current = prevConfig.name;
-      setCurrStudioTheme(prevTheme);
+      setCurrEditorTheme(prevTheme);
       setCurrConfig(prevConfig);
       await workstation.window.setTitle(t('appearanceEditorWindowTitle').replace('{{application}}', currApplicationName.current));
     }
@@ -75,11 +75,11 @@ const ApplicationDesignEditor: React.FC<ApplicationDesignEditorProps> = ({ saved
   }, []);
 
   return (
-    <div className='mstr-app-design-editor'>
-      <AppearanceEditorToolbar theme={currStudioTheme} handleClose={confirmBeforeClosing} />
+    <div className='mstr-app-appearance-editor'>
+      <AppearanceEditorToolbar theme={currEditorTheme} handleClose={confirmBeforeClosing} />
       <div className='content-section'>
-        <SettingsPanel theme={currStudioTheme} />
-        <PreviewPanel theme={currStudioTheme} />
+        <SettingsPanel theme={currEditorTheme} />
+        <PreviewPanel theme={currEditorTheme} />
       </div>
     </div>
   )
@@ -87,12 +87,12 @@ const ApplicationDesignEditor: React.FC<ApplicationDesignEditorProps> = ({ saved
 
 const mapState = (state: RootState) => ({
   savedConfigTheme: selectCurrentConfigTheme(state),
-  currStudioTheme: selectAppearanceEditorTheme(state)
+  currEditorTheme: selectAppearanceEditorTheme(state)
 })
 
 const connector = connect(mapState, {
-  setCurrStudioTheme: Actions.setTheme,
+  setCurrEditorTheme: Actions.setTheme,
   setCurrConfig: Actions.setCurrentConfig
 })
 
-export default connector(ApplicationDesignEditor)
+export default connector(AppearanceEditor)

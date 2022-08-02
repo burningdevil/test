@@ -105,7 +105,7 @@ export const loadContentBundleListSuccess = (contentBundleList: Array<MainViewCo
 export const loadContentBundleListFail = () => ({
   type: Actions.LOAD_CONTENT_BUNDLE_LIST_FAIL,
 })
- 
+
 /* ------------------------------ color palette list ----------------------------*/
 export const startLoadingColorPaletteList = () => ({
   type: Actions.START_LOADING_COLOR_PALETTE_LIST
@@ -124,9 +124,9 @@ export const loadColorPaletteFail = () => ({
   type: Actions.LOAD_COLOR_PALETTE_LIST_FAIL,
 })
 
-/* ------------------------------ application design editor ----------------------------*/
-export const asyncInitAppDesignEditor = () => ({ 
-  type: Actions.ASYNC_INIT_APP_DESIGN_EDITOR 
+/* ------------------------------ application appearance editor ----------------------------*/
+export const asyncInitAppearanceEditor = () => ({
+  type: Actions.ASYNC_INIT_APPEARANCE_EDITOR
 })
 
 export const setTheme = (theme: ApplicationTheme) => ({

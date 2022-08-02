@@ -11,9 +11,9 @@ export default {
             'objectNames': [],
             'objectAcl': [],
             'homeScreen': {
-                mode: CONSTANTS.MODE_USE_DOSSIER_AS_HOME_SCREEN, 
-                homeLibrary: { 
-                  icons: libraryIconKeys.map((key) => iconValidKey(key)), 
+                mode: CONSTANTS.MODE_USE_DOSSIER_AS_HOME_SCREEN,
+                homeLibrary: {
+                  icons: libraryIconKeys.map((key) => iconValidKey(key)),
                   sidebars: sidebarIconKeys.filter((key) => !_.includes([iconTypes.defaultGroup.key, iconTypes.myContent.key], key)).map((key) => iconValidKey(key)),
                   customizedItems: {},
                   contentBundleIds: [],
@@ -22,8 +22,8 @@ export default {
                   toolbarEnabled: true,
                 },
                 homeDocument: {
-                  url: "", 
-                  icons: dossierIconKeys.map((key) => iconValidKey(key)), 
+                  url: "",
+                  icons: dossierIconKeys.map((key) => iconValidKey(key)),
                   toolbarMode: CONSTANTS.SHOW_TOOLBAR,
                   toolbarEnabled: true,
                 },
@@ -32,11 +32,11 @@ export default {
             'general': {
                 disableAdvancedSettings: false,
                 disablePreferences: false,
-                networkTimeout: CONSTANTS.DEFAULT_NETWORK_TIMEOUT, 
-                cacheClearMode: CONSTANTS.CLEAR_AUTOMATIC, 
-                clearCacheOnLogout: false, 
-                maxLogSize: CONSTANTS.DEFAULT_MAX_LOG_SIZE, 
-                logLevel: CONSTANTS.LOG_LEVEL_WARNING, 
+                networkTimeout: CONSTANTS.DEFAULT_NETWORK_TIMEOUT,
+                cacheClearMode: CONSTANTS.CLEAR_AUTOMATIC,
+                clearCacheOnLogout: false,
+                maxLogSize: CONSTANTS.DEFAULT_MAX_LOG_SIZE,
+                logLevel: CONSTANTS.LOG_LEVEL_WARNING,
                 updateInterval: CONSTANTS.DEFAULT_UPDATE_INTERVAL
             },
             'emailSettings': {
@@ -94,10 +94,10 @@ export default {
                 "toolbarMode": 0,
                 "toolbarEnabled": true
               },
-              
+
               "homeLibrary": {
                 "contentBundleIds": [
-                  
+
                 ],
                 "icons": [
                   "sidebars",
@@ -137,7 +137,7 @@ export default {
         loadingDossiersFinish: false,
         loadingDocumentsFinish: false
     },
-    appDesignEditor: {
+    appearanceEditor: {
       theme: {
         schemaVersion: 1,
         logos: {
@@ -173,9 +173,9 @@ export const mockLibraryAsHome: RootState = {
           'objectNames': [],
           'objectAcl': [],
           'homeScreen': {
-              mode: CONSTANTS.MODE_USE_DEFAULT_HOME_SCREEN, 
-              homeLibrary: { 
-                icons: libraryIconKeys.map((key) => iconValidKey(key)), 
+              mode: CONSTANTS.MODE_USE_DEFAULT_HOME_SCREEN,
+              homeLibrary: {
+                icons: libraryIconKeys.map((key) => iconValidKey(key)),
                 sidebars: sidebarIconKeys.filter((key) => !_.includes([iconTypes.defaultGroup.key, iconTypes.myContent.key], key)).map((key) => iconValidKey(key)),
                 customizedItems: {},
                 contentBundleIds: [],
@@ -184,8 +184,8 @@ export const mockLibraryAsHome: RootState = {
                 toolbarEnabled: true,
               },
               homeDocument: {
-                url: "", 
-                icons: dossierIconKeys.map((key) => iconValidKey(key)), 
+                url: "",
+                icons: dossierIconKeys.map((key) => iconValidKey(key)),
                 toolbarMode: CONSTANTS.SHOW_TOOLBAR,
                 toolbarEnabled: true,
               }
@@ -193,11 +193,11 @@ export const mockLibraryAsHome: RootState = {
           'general': {
               disableAdvancedSettings: false,
               disablePreferences: false,
-              networkTimeout: CONSTANTS.DEFAULT_NETWORK_TIMEOUT, 
-              cacheClearMode: CONSTANTS.CLEAR_AUTOMATIC, 
-              clearCacheOnLogout: false, 
-              maxLogSize: CONSTANTS.DEFAULT_MAX_LOG_SIZE, 
-              logLevel: CONSTANTS.LOG_LEVEL_WARNING, 
+              networkTimeout: CONSTANTS.DEFAULT_NETWORK_TIMEOUT,
+              cacheClearMode: CONSTANTS.CLEAR_AUTOMATIC,
+              clearCacheOnLogout: false,
+              maxLogSize: CONSTANTS.DEFAULT_MAX_LOG_SIZE,
+              logLevel: CONSTANTS.LOG_LEVEL_WARNING,
               updateInterval: CONSTANTS.DEFAULT_UPDATE_INTERVAL
           }
       },
@@ -242,7 +242,7 @@ export const mockLibraryAsHome: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": true
             },
-            
+
             "homeLibrary": {
               "contentBundleIds": [],
               "icons": [
@@ -284,7 +284,7 @@ export const mockLibraryAsHome: RootState = {
       loadingDocuments: false,
       loadingDocumentsFinish: false
   },
-  appDesignEditor: {
+  appearanceEditor: {
     theme: {
       schemaVersion: 1,
       logos: {
@@ -315,9 +315,9 @@ export const mockDossierAsHome: RootState = {
           'objectNames': [],
           'objectAcl': [],
           'homeScreen': {
-              mode: CONSTANTS.MODE_USE_DOSSIER_AS_HOME_SCREEN, 
-              homeLibrary: { 
-                icons: libraryIconKeys.map((key) => iconValidKey(key)), 
+              mode: CONSTANTS.MODE_USE_DOSSIER_AS_HOME_SCREEN,
+              homeLibrary: {
+                icons: libraryIconKeys.map((key) => iconValidKey(key)),
                 sidebars: sidebarIconKeys.filter((key) => !_.includes([iconTypes.defaultGroup.key, iconTypes.myContent.key], key)).map((key) => iconValidKey(key)),
                 customizedItems: {},
                 contentBundleIds: [],
@@ -326,8 +326,8 @@ export const mockDossierAsHome: RootState = {
                 toolbarEnabled: true
               },
               homeDocument: {
-                url: "http://localhost:8282/consume-dev/app/B7CA92F04B9FAE8D941C3E9B7E0CD754/B7CA92F04B9FAE8D941C3E9B7E0CD753", 
-                icons: dossierIconKeys.map((key) => iconValidKey(key)), 
+                url: "http://localhost:8282/consume-dev/app/B7CA92F04B9FAE8D941C3E9B7E0CD754/B7CA92F04B9FAE8D941C3E9B7E0CD753",
+                icons: dossierIconKeys.map((key) => iconValidKey(key)),
                 toolbarMode: CONSTANTS.SHOW_TOOLBAR,
                 toolbarEnabled: true
               }
@@ -335,11 +335,11 @@ export const mockDossierAsHome: RootState = {
           'general': {
               disableAdvancedSettings: false,
               disablePreferences: false,
-              networkTimeout: CONSTANTS.DEFAULT_NETWORK_TIMEOUT, 
-              cacheClearMode: CONSTANTS.CLEAR_AUTOMATIC, 
-              clearCacheOnLogout: false, 
-              maxLogSize: CONSTANTS.DEFAULT_MAX_LOG_SIZE, 
-              logLevel: CONSTANTS.LOG_LEVEL_WARNING, 
+              networkTimeout: CONSTANTS.DEFAULT_NETWORK_TIMEOUT,
+              cacheClearMode: CONSTANTS.CLEAR_AUTOMATIC,
+              clearCacheOnLogout: false,
+              maxLogSize: CONSTANTS.DEFAULT_MAX_LOG_SIZE,
+              logLevel: CONSTANTS.LOG_LEVEL_WARNING,
               updateInterval: CONSTANTS.DEFAULT_UPDATE_INTERVAL
           }
       },
@@ -384,10 +384,10 @@ export const mockDossierAsHome: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": false
             },
-            
+
             "homeLibrary": {
               "contentBundleIds": [
-                
+
               ],
               "customizedItems": {},
               "icons": [
@@ -443,10 +443,10 @@ export const mockDossierAsHome: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": false,
             },
-            
+
             "homeLibrary": {
               "contentBundleIds": [
-                
+
               ],
               "customizedItems": {},
               "icons": [
@@ -495,10 +495,10 @@ export const mockDossierAsHome: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": false,
             },
-            
+
             "homeLibrary": {
               "contentBundleIds": [
-                
+
               ],
               "customizedItems": {},
               "icons": [
@@ -544,10 +544,10 @@ export const mockDossierAsHome: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": false,
             },
-            
+
             "homeLibrary": {
               "contentBundleIds": [
-                
+
               ],
               "icons": [
                 "string"
@@ -583,7 +583,7 @@ export const mockDossierAsHome: RootState = {
     loadingContentBundle: false,
     loadingContentBundleFinish: true
   },
-  appDesignEditor: {
+  appearanceEditor: {
     theme: {
       schemaVersion: 1,
       logos: {
@@ -619,9 +619,9 @@ export const mockDossierPicker: RootState = {
           'objectNames': [],
           'objectAcl': [],
           'homeScreen': {
-              mode: CONSTANTS.MODE_USE_DOSSIER_AS_HOME_SCREEN, 
-              homeLibrary: { 
-                icons: libraryIconKeys.map((key) => iconValidKey(key)), 
+              mode: CONSTANTS.MODE_USE_DOSSIER_AS_HOME_SCREEN,
+              homeLibrary: {
+                icons: libraryIconKeys.map((key) => iconValidKey(key)),
                 sidebars: sidebarIconKeys.filter((key) => !_.includes([iconTypes.defaultGroup.key, iconTypes.myContent.key], key)).map((key) => iconValidKey(key)),
                 customizedItems: {},
                 contentBundleIds: [],
@@ -630,8 +630,8 @@ export const mockDossierPicker: RootState = {
                 toolbarEnabled: true,
               },
               homeDocument: {
-                url: "http://localhost:8282/consume-dev/app/B7CA92F04B9FAE8D941C3E9B7E0CD754/B7CA92F04B9FAE8D941C3E9B7E0CD753", 
-                icons: dossierIconKeys.map((key) => iconValidKey(key)), 
+                url: "http://localhost:8282/consume-dev/app/B7CA92F04B9FAE8D941C3E9B7E0CD754/B7CA92F04B9FAE8D941C3E9B7E0CD753",
+                icons: dossierIconKeys.map((key) => iconValidKey(key)),
                 toolbarMode: CONSTANTS.SHOW_TOOLBAR,
                 toolbarEnabled: true,
               },
@@ -656,11 +656,11 @@ export const mockDossierPicker: RootState = {
           'general': {
               disableAdvancedSettings: false,
               disablePreferences: false,
-              networkTimeout: CONSTANTS.DEFAULT_NETWORK_TIMEOUT, 
-              cacheClearMode: CONSTANTS.CLEAR_AUTOMATIC, 
-              clearCacheOnLogout: false, 
-              maxLogSize: CONSTANTS.DEFAULT_MAX_LOG_SIZE, 
-              logLevel: CONSTANTS.LOG_LEVEL_WARNING, 
+              networkTimeout: CONSTANTS.DEFAULT_NETWORK_TIMEOUT,
+              cacheClearMode: CONSTANTS.CLEAR_AUTOMATIC,
+              clearCacheOnLogout: false,
+              maxLogSize: CONSTANTS.DEFAULT_MAX_LOG_SIZE,
+              logLevel: CONSTANTS.LOG_LEVEL_WARNING,
               updateInterval: CONSTANTS.DEFAULT_UPDATE_INTERVAL
           }
       },
@@ -707,7 +707,7 @@ export const mockDossierPicker: RootState = {
             },
             "homeLibrary": {
               "contentBundleIds": [
-                
+
               ],
               "customizedItems": {},
               "icons": [
@@ -765,7 +765,7 @@ export const mockDossierPicker: RootState = {
             },
             "homeLibrary": {
               "contentBundleIds": [
-                
+
               ],
               "icons": [
                 "string"
@@ -816,7 +816,7 @@ export const mockDossierPicker: RootState = {
             },
             "homeLibrary": {
               "contentBundleIds": [
-                
+
               ],
               "icons": [
                 "string"
@@ -862,7 +862,7 @@ export const mockDossierPicker: RootState = {
               "toolbarMode": 0,
               "toolbarEnabled": false,
             },
-            
+
             "homeLibrary": {
               "contentBundleIds": [],
               "icons": [
@@ -981,7 +981,7 @@ export const mockDossierPicker: RootState = {
       loadingDocuments: false,
       loadingDocumentsFinish: true
   },
-  appDesignEditor: {
+  appearanceEditor: {
     theme: {
       schemaVersion: 1,
       logos: {
@@ -1016,9 +1016,9 @@ export const mockColorPalette: RootState = {
           'objectNames': [],
           'objectAcl': [],
           'homeScreen': {
-              mode: CONSTANTS.MODE_USE_DOSSIER_AS_HOME_SCREEN, 
-              homeLibrary: { 
-                icons: libraryIconKeys.map((key) => iconValidKey(key)), 
+              mode: CONSTANTS.MODE_USE_DOSSIER_AS_HOME_SCREEN,
+              homeLibrary: {
+                icons: libraryIconKeys.map((key) => iconValidKey(key)),
                 sidebars: sidebarIconKeys.filter((key) => !_.includes([iconTypes.defaultGroup.key, iconTypes.myContent.key], key)).map((key) => iconValidKey(key)),
                 customizedItems: {},
                 contentBundleIds: [],
@@ -1027,8 +1027,8 @@ export const mockColorPalette: RootState = {
                 toolbarEnabled: true,
               },
               homeDocument: {
-                url: "http://localhost:8282/consume-dev/app/B7CA92F04B9FAE8D941C3E9B7E0CD754/B7CA92F04B9FAE8D941C3E9B7E0CD753", 
-                icons: dossierIconKeys.map((key) => iconValidKey(key)), 
+                url: "http://localhost:8282/consume-dev/app/B7CA92F04B9FAE8D941C3E9B7E0CD754/B7CA92F04B9FAE8D941C3E9B7E0CD753",
+                icons: dossierIconKeys.map((key) => iconValidKey(key)),
                 toolbarMode: CONSTANTS.SHOW_TOOLBAR,
                 toolbarEnabled: true,
               }
@@ -1036,11 +1036,11 @@ export const mockColorPalette: RootState = {
           'general': {
               disableAdvancedSettings: false,
               disablePreferences: false,
-              networkTimeout: CONSTANTS.DEFAULT_NETWORK_TIMEOUT, 
-              cacheClearMode: CONSTANTS.CLEAR_AUTOMATIC, 
-              clearCacheOnLogout: false, 
-              maxLogSize: CONSTANTS.DEFAULT_MAX_LOG_SIZE, 
-              logLevel: CONSTANTS.LOG_LEVEL_WARNING, 
+              networkTimeout: CONSTANTS.DEFAULT_NETWORK_TIMEOUT,
+              cacheClearMode: CONSTANTS.CLEAR_AUTOMATIC,
+              clearCacheOnLogout: false,
+              maxLogSize: CONSTANTS.DEFAULT_MAX_LOG_SIZE,
+              logLevel: CONSTANTS.LOG_LEVEL_WARNING,
               updateInterval: CONSTANTS.DEFAULT_UPDATE_INTERVAL
           },
           applicationPalettes: ['1'],
