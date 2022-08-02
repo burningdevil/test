@@ -292,4 +292,24 @@
 .icon-subscrip_snapshot:before { content: '\e922'; } /* '' */
 .icon-pnl_alarm:before { content: '\e923'; } /* '' */
 .icon-tb_create_dossier:before { content: '\e924'; } /* '' */
+.icon-tb_switchapp:before { content: '\e925'; } /* '' */
 .icon-group_my-content:before { content: '\e926'; } /* '' */
+.icon-certify_a:before { content: '\e927'; } /* '' */
+.icon-certify_i:before { content: '\e928'; } /* '' */
+.icon-timezone:before { content: '\e929'; } /* '' */
+.icon-timezone-link:before { content: '\e92a'; } /* '' */
+.icon-barcode:before { content: '\e92b'; } /* '' */
+.icon-infowindow:before { content: '\e92c'; } /* '' */
+.icon-page-by_n:before { content: '\e92d'; } /* '' */
+.icon-page-by_a:before { content: '\e92e'; } /* '' */
+.icon-insights:before { content: '\e92f'; } /* '' */
+.icon-watchlist:before { content: '\e930'; } /* '' */
+.icon-report-cover:before { content: '\e931'; } /* '' */
+.icon-auth-dataset:before { content: '\e932'; } /* '' */
+.icon-wl-dossier:before { content: '\e933'; } /* '' */
+.icon-wl-metric:before { content: '\e934'; } /* '' */
+.icon-wl-attribute:before { content: '\e935'; } /* '' */
+.icon-auth-report:before { content: '\e936'; } /* '' */
+.icon-stream_pause:before { content: '\e937'; } /* '' */
+.icon-stream_resume:before { content: '\e938'; } /* '' */
+.icon-re-execute:before { content: '\e93b'}/* '' */

@@ -127,7 +127,7 @@ export const CONSTANTS = {
     FONT_UNDO_REDO: 'icon-tb_undo',
     FONT_REDO: 'icon-tb_redo',
     FONT_SIDEBAR_PREVIEW_TABLET: 'icon-sidebar_preview_tablet',
-    FONT_WATCH_LIST: 'icon-watch_list',
+    FONT_WATCH_LIST: 'icon-watchlist',
 
     // preview use only
     FONT_HOME: 'icon-tb_home',
