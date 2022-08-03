@@ -166,7 +166,7 @@ export const CONSTANTS = {
 
     // ObjectEditor Type
     CONFIG_EDITOR_OBJTYPE: "HomeScreenConfig",
-    APP_DESIGN_OBJTYPE: 'ApplicationDesign'
+    APPEARANCE_OBJ_TYPE: 'Appearance'
 };
 
 export const featureFlag = {

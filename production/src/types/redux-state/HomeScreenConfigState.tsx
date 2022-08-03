@@ -42,7 +42,7 @@ export interface HomeScreenEditorColorPaletteState {
     loadingColorPalette: boolean;
 }
 
-export interface ApplicationDesignEditorState {
+export interface AppearanceEditorState {
     theme: ApplicationTheme;
 }
 
@@ -52,5 +52,5 @@ export interface RootState {
     bundleContent: HomeScreenBundleContentState;
     content: HomeScreenEditorContentBundleState;
     colorPalette?: HomeScreenEditorColorPaletteState;
-    appDesignEditor: ApplicationDesignEditorState;
+    appearanceEditor: AppearanceEditorState;
 }

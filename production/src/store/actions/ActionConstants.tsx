@@ -33,8 +33,8 @@ export const FINISH_LOADING_DOCUMENT_LIST_FAILURE = 'FINISH_LOADING_DOCUMENT_LIS
 export const START_LOADING_CONTENT_LIST = 'START_LOADING_CONTENT_LIST'
 export const FINISH_LOADING_CONTENT_LIST = 'FINISH_LOADING_CONTENT_LIST'
 
-/* ------------------------------ Application design editor store ------------------------------ */
-export const ASYNC_INIT_APP_DESIGN_EDITOR = 'ASYNC_INIT_APP_DESIGN_EDITOR'
+/* ------------------------------ Application Appearance Editor store ------------------------------ */
+export const ASYNC_INIT_APPEARANCE_EDITOR = 'ASYNC_INIT_APPEARANCE_EDITOR'
 export const SET_THEME = 'SET_THEME'
 export const UPDATE_THEME = 'UPDATE_THEME'
 export const DELETE_THEME_LOGO = 'DELETE_THEME_LOGO'

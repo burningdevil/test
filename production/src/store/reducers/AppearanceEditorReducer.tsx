@@ -1,17 +1,17 @@
-import { ApplicationDesignEditorState } from '../../types/redux-state/HomeScreenConfigState'
+import { AppearanceEditorState } from '../../types/redux-state/HomeScreenConfigState'
 import { ApplicationLogos } from 'src/types/data-model/HomeScreenConfigModels'
 import { ActionTypes } from '../actions/ActionTypes'
 import * as Actions from '../actions/ActionConstants'
 import * as _ from 'lodash'
 
-const initialState: ApplicationDesignEditorState = {
+const initialState: AppearanceEditorState = {
   theme: {
     schemaVersion: 1,
     logos: {}
   }
 }
 
-const ApplicationDesignEditorReducer = (state: ApplicationDesignEditorState = initialState, action: ActionTypes) => {
+const AppearanceEditorReducer = (state: AppearanceEditorState = initialState, action: ActionTypes) => {
   const { type, data } = action
   switch(type) {
     case Actions.SET_THEME:
@@ -44,6 +44,6 @@ const ApplicationDesignEditorReducer = (state: ApplicationDesignEditorState = in
   return state
 }
 
-export default ApplicationDesignEditorReducer
+export default AppearanceEditorReducer
 
 

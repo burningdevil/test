@@ -38,9 +38,9 @@
           "canExecute": "isHomeScreenConfigEnabled"
         },
         {
-          "key": "openAppDesign",
-          "command": "openAppDesignEditor",
-          "windowKey": "appDesignEditor",
+          "key": "openAppearance",
+          "command": "openAppearanceEditor",
+          "windowKey": "appearanceEditor",
           "isVisible": "isHomeScreenConfigEnabled",
           "canExecute": "isHomeScreenConfigEnabled",
           "displayName": "Application - Appearance"
@@ -59,8 +59,8 @@
         "editorTypes": ["Create"]
       },
       {
-        "objectType": "ApplicationDesign",
-        "item": "openAppDesign",
+        "objectType": "Appearance",
+        "item": "openAppearance",
         "editorTypes": ["Create", "Edit"]
       }
     ],
@@ -77,7 +77,7 @@
         }
       },
       {
-        "key": "appDesignEditor",
+        "key": "appearanceEditor",
         "isModal": true,
         "showMenus": false,
         "size": {
