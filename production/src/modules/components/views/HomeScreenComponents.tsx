@@ -12,7 +12,7 @@ import * as Actions from '../../../store/actions/ActionsCreator';
 import { Tooltip } from '@mstr/rc';
 import { isLibraryServerVersionMatch, isUserHasManageContentGroupPrivilege, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION } from '../../../utils';
 import { Environment, WorkstationModule } from '@mstr/workstation-types'
-import { filterCustomizedIconDefaultValue, getNonsupportIconKeys } from './HomeScreenUtils'
+import { getNonsupportIconKeys } from './HomeScreenUtils'
 
 declare var workstation: WorkstationModule;
 const childrenKeyOffset = 1000;

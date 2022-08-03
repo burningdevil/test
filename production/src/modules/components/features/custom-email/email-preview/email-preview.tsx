@@ -87,7 +87,7 @@ const CustomEmailPreview: React.FC<any> = () => {
                                             {renderCardContent()}
                                             <div className = {`${classNamePrefix}-card-footer`}>
                                             {(!emailSetting.enabled || emailSetting.showSentBy) && <div className = {`${classNamePrefix}-card-sender`}>
-                                                {`Sent by ${!emailSetting.enabled ?  DEFAULT_EMAIL_SETTING.sentByText : _.unescape(emailSetting.sentByText)}`}
+                                                {`Sent by ${(!emailSetting.enabled || !emailSetting.sentByText) ?  DEFAULT_EMAIL_SETTING.sentByText : _.unescape(emailSetting.sentByText)}`}
                                             </div>}
                                             {(!emailSetting.enabled || emailSetting.showSocialMedia) && <div className = {`${classNamePrefix}-card-social`}></div>}
                                             </div>

@@ -43,7 +43,6 @@ import {
     default as VC,
     localizedStrings,
     editorSize,
-    libraryCustomizedIconDefaultValues,
     CONTENT_BUNDLE_DEFAULT_GROUP_NAME,
     copyApplicationName,
     closeWindowConfirmationStr,

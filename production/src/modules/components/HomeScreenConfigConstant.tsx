@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { isLibraryServerVersionMatch, LIBRARY_SERVER_SUPPORT_INSIGHTS_CONTROL } from '../../utils';
+import { LIBRARY_SERVER_SUPPORT_INSIGHTS_CONTROL } from '../../utils';
 import { t } from '../../i18n/i18next';
 
 export const CONSTANTS = {

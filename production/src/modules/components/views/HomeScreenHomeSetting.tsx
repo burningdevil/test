@@ -16,7 +16,7 @@ import * as api from '../../../services/Api';
 import selectedDossierIcon from '../images/icon_select_dossier.png';
 // @ts-ignore: RC Component Support error
 import selectedDocumentIcon from '../images/icon_select_document.png';
-import { filterCustomizedIconDefaultValue, getNonsupportIconKeys, isContentTypeDossier } from './HomeScreenUtils';
+import { getNonsupportIconKeys, isContentTypeDossier } from './HomeScreenUtils';
 import { isLibraryServerVersionMatch, isUserHasManageContentGroupPrivilege, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION } from '../../../utils';
 import { Environment, WorkstationModule } from '@mstr/workstation-types';
 
