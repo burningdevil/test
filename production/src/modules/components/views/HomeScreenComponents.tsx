@@ -12,6 +12,7 @@ import * as Actions from '../../../store/actions/ActionsCreator';
 import { Tooltip } from '@mstr/rc';
 import { isLibraryServerVersionMatch, isUserHasManageContentGroupPrivilege, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION } from '../../../utils';
 import { Environment, WorkstationModule } from '@mstr/workstation-types'
+import { filterCustomizedIconDefaultValue, getNonsupportIconKeys } from './HomeScreenUtils'
 
 declare var workstation: WorkstationModule;
 const childrenKeyOffset = 1000;
@@ -31,6 +32,7 @@ interface HomeScreenComponentsState {
     defaultGroupEnable: boolean,
     mobileOptionsVisible: boolean,
     webOptionsVisible: boolean,
+    nonsupportIconKeys: string[]
 }
 
 class HomeScreenComponents extends React.Component<any, HomeScreenComponentsState> {
@@ -172,6 +174,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
    
         const extraIcons = _.concat(platforms.includes(platformType.desktop) ? extraDesktopIcons : [], platforms.includes(platformType.mobile) ? extraMobileIcons : [])
         state.extraIcons = extraIcons
+        state.nonsupportIconKeys = [];
         return state
     }
 
@@ -246,7 +249,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
     }
 
     renderTable = (icons: Array<iconDetail>) => {
-        let tarChildIcons = childrenIcons;
+        let tarChildIcons = childrenIcons.filter(v => !this.state.nonsupportIconKeys?.includes(v.key));
         if (!this.state.contentBundleFeatureEnable){
             tarChildIcons = childrenIcons.filter(item => item.key !== iconTypes.defaultGroup.key);
         }
@@ -398,7 +401,9 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         const curEnv: Environment = await workstation.environments.getCurrentEnvironment();
         const contentBundleEnable = !!curEnv.webVersion && isLibraryServerVersionMatch(curEnv.webVersion, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION) && isUserHasManageContentGroupPrivilege(curEnv.privileges);
         this.setState({
-            contentBundleFeatureEnable: contentBundleEnable
+            contentBundleFeatureEnable: contentBundleEnable,
+            nonsupportIconKeys: getNonsupportIconKeys(curEnv),
+             
         });
       }
     
@@ -442,7 +447,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                 </Layout.Content>
                 {/* previewer */}
                 <Layout.Sider className={`${classNamePrefix}-right`} width={previewerWidth}>
-                    <HomeScreenPreviewer contentBundleFeatureEnable = {this.state.contentBundleFeatureEnable} hasContent = {this.state.defaultGroupEnable}/>
+                    <HomeScreenPreviewer contentBundleFeatureEnable = {this.state.contentBundleFeatureEnable} hasContent = {this.state.defaultGroupEnable} nonsupportIconKeys = {this.state.nonsupportIconKeys}/>
                 </Layout.Sider>
             </Layout>
         )

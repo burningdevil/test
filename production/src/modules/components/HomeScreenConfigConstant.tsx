@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import { isLibraryServerVersionMatch, LIBRARY_SERVER_SUPPORT_INSIGHTS_CONTROL } from '../../utils';
 import { t } from '../../i18n/i18next';
 
 export const CONSTANTS = {
@@ -90,7 +91,7 @@ export const CONSTANTS = {
     ICON_EDIT_DOSSIER: 'edit_dossier',
     ICON_ADD_LIBRARY: 'add_library_server',
     ICON_UNDO_REDO: 'undo_and_redo',
-    ICON_WATCH_LIST: 'insights',
+    ICON_INSIGHT_LIST: 'insights',
 
     // icon font code
     FONT_SIDEBAR: 'icon-tb_hamburger',
@@ -119,7 +120,7 @@ export const CONSTANTS = {
     FONT_GROUP: 'icon-group_groups_a',
     FONT_DOSSIER: 'icon-dossier',
     FONT_DOCUMENT: 'icon-rsd-cover',
-    FONT_CERTIFIED: 'icon-home_certified',
+    FONT_CERTIFIED: 'iconCertified',
     FONT_MSG_INFO: 'icon-msg_info',
     FONT_NEW_DOSSIER: 'icon-tb_create_dossier',
     FONT_EDIT_DOSSIER: 'icon-info_edit',
@@ -127,7 +128,7 @@ export const CONSTANTS = {
     FONT_UNDO_REDO: 'icon-tb_undo',
     FONT_REDO: 'icon-tb_redo',
     FONT_SIDEBAR_PREVIEW_TABLET: 'icon-sidebar_preview_tablet',
-    FONT_WATCH_LIST: 'icon-watchlist',
+    FONT_INSIGHT_LIST: 'icon-watchlist',
 
     // preview use only
     FONT_HOME: 'icon-tb_home',
@@ -681,8 +682,8 @@ export const iconTypes: IconTypes = {
     },
     insights: {
         displayText: t('insights'),
-        iconName: CONSTANTS.FONT_WATCH_LIST,
-        key: CONSTANTS.ICON_WATCH_LIST,
+        iconName: CONSTANTS.FONT_INSIGHT_LIST,
+        key: CONSTANTS.ICON_INSIGHT_LIST,
     },
     //// for preview. Localization not needed.
     // home button
@@ -847,6 +848,11 @@ export const libraryCustomizedIconDefaultValues = Object.freeze({
     [iconTypes.undoRedo.key]: true,
     [iconTypes.insights.key]: true,
 });
+
+export const libraryCustomizedIconStartVersion = {
+    [iconTypes.insights.key]: LIBRARY_SERVER_SUPPORT_INSIGHTS_CONTROL,
+};
+
 
 export const mobileOnlyIconKeys = [
     iconTypes.accountMobile,

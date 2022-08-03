@@ -3,9 +3,13 @@ import { IServerSideGetRowsParams, ICellRendererFunc, ICellRendererParams } from
 import {
     EnumDSSXMLViewMedia,
     HomeScreenHomeObjectType,
+    libraryCustomizedIconDefaultValues,
+    libraryCustomizedIconKeys,
+    libraryCustomizedIconStartVersion,
     SPECIAL_CHARACTER_REGEX,
 } from '../HomeScreenConfigConstant';
 import { Environment } from '@mstr/workstation-types';
+import { isLibraryServerVersionMatch } from '../../../utils';
 
 export function getContentType(viewMedia: number) {
     const defModePosition = viewMedia >> 27;
@@ -106,3 +110,18 @@ export function validName(name: string) {
   }
   return env.preferences?.[key];
 }
+export function getNonsupportIconKeys(currentEnv: any) {
+  return Object.keys(libraryCustomizedIconStartVersion).filter(v => !isLibraryServerVersionMatch(currentEnv.webVersion, libraryCustomizedIconStartVersion[v]))
+}
+export function filterCustomizedIconDefaultValue(currentEnv: any){
+  const res: any = {};
+  const nonsupportIcons = getNonsupportIconKeys(currentEnv);
+  const targetIcons = libraryCustomizedIconKeys.filter(v => !nonsupportIcons.includes(v));
+  targetIcons.forEach(icon => res[icon] = libraryCustomizedIconDefaultValues[icon])
+  return {
+    'iconsKey': targetIcons,
+    'defaultValues': res,
+    'nonsupportIconKeys': nonsupportIcons
+  };
+}
+

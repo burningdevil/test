@@ -16,7 +16,7 @@ import * as api from '../../../services/Api';
 import selectedDossierIcon from '../images/icon_select_dossier.png';
 // @ts-ignore: RC Component Support error
 import selectedDocumentIcon from '../images/icon_select_document.png';
-import { isContentTypeDossier } from './HomeScreenUtils';
+import { filterCustomizedIconDefaultValue, getNonsupportIconKeys, isContentTypeDossier } from './HomeScreenUtils';
 import { isLibraryServerVersionMatch, isUserHasManageContentGroupPrivilege, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION } from '../../../utils';
 import { Environment, WorkstationModule } from '@mstr/workstation-types';
 
@@ -35,7 +35,8 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
       dossierName: '',
       isDossier: false,
       contentBundleFeatureEnable: false,
-      defaultGroupEnable: false
+      defaultGroupEnable: false,
+      nonsupportIconKeys: []
     };
   }
 
@@ -49,7 +50,8 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
     }
     this.setState({
         currentEnv: curEnv,
-        contentBundleFeatureEnable: contentBundleEnable
+        contentBundleFeatureEnable: contentBundleEnable,
+        nonsupportIconKeys: getNonsupportIconKeys(curEnv)
     });
     const { homeScreen } = this.props.config;
     const dossierUrl = _.get(homeScreen, dossierUrlPath, '');
@@ -277,7 +279,7 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
                 <ContentBundleContentPicker visible={this.state.showContentPicker} handleClose={this.handleDismissAdd} handleChange={this.handleDossierChange}/>
             </Layout.Content>
             <Layout.Sider className={`${classNamePrefixSimple}-preview`} width={previewerWidth}>
-              <HomeScreenPreviewer contentBundleFeatureEnable = {this.state.contentBundleFeatureEnable} hasContent = {this.state.defaultGroupEnable}/>
+              <HomeScreenPreviewer contentBundleFeatureEnable = {this.state.contentBundleFeatureEnable} hasContent = {this.state.defaultGroupEnable} nonsupportIconKeys = {this.state.nonsupportIconKeys}/>
             </Layout.Sider>
         </Layout>
     );

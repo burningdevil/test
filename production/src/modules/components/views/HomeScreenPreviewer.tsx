@@ -51,8 +51,11 @@ class HomeScreenPreviewer extends React.Component<any, any> {
         };
     }
     iconShouldShow(icon: iconDetail) {
-        const { libraryIcons, documentIcons, sidebarIcons, isDossierHome } =
+        const { libraryIcons, documentIcons, sidebarIcons, isDossierHome, nonsupportIconKeys } =
             this.props;
+        if(nonsupportIconKeys.includes(icon.key)){
+            return false;
+        }
         const validKey = iconValidKey(icon.key);
         if (libraryCustomizedIconKeys.includes(icon.key)) {
             return _.get(
