@@ -8,6 +8,7 @@ import { customEmailStringDict, localizedStrings } from '../../../../../../src/m
 import './email-preview.scss';
 import { DEFAULT_EMAIL_SETTING } from '../../../../../../src/store/reducers/HomeScreenConfigEditorReducer';
 import { setShouldSendPreviewEmail } from '../../../../../store/actions/ActionsCreator';
+import * as _ from 'lodash';
 const classNamePrefix = 'custom-email-preview'
 const CustomEmailPreview: React.FC<any> = () => {
     const dispatch = useDispatch();
@@ -45,7 +46,7 @@ const CustomEmailPreview: React.FC<any> = () => {
                         <div>{'View in Mobile'}</div>
                 </div>}
                 {(!emailSetting.enabled || emailSetting.showBrowserButton) && emailSetting.showMobileButton && <div className = {`${classNamePrefix}-card-content-5 skeleton-item`}></div>}
-                <Divider/>
+                {(!emailSetting.enabled || emailSetting.showReminder) && <Divider/>}
                 {(!emailSetting.enabled || emailSetting.showReminder) && <div className = {`${classNamePrefix}-card-content-6 skeleton-item`}></div>}
             </div>
         )
@@ -86,7 +87,7 @@ const CustomEmailPreview: React.FC<any> = () => {
                                             {renderCardContent()}
                                             <div className = {`${classNamePrefix}-card-footer`}>
                                             {(!emailSetting.enabled || emailSetting.showSentBy) && <div className = {`${classNamePrefix}-card-sender`}>
-                                                {`Sent by ${!emailSetting.enabled ?  DEFAULT_EMAIL_SETTING.sentByText : emailSetting.sentByText}`}
+                                                {`Sent by ${(!emailSetting.enabled || !emailSetting.sentByText) ?  DEFAULT_EMAIL_SETTING.sentByText : _.unescape(emailSetting.sentByText)}`}
                                             </div>}
                                             {(!emailSetting.enabled || emailSetting.showSocialMedia) && <div className = {`${classNamePrefix}-card-social`}></div>}
                                             </div>

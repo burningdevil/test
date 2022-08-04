@@ -43,7 +43,6 @@ import {
     default as VC,
     localizedStrings,
     editorSize,
-    libraryCustomizedIconDefaultValues,
     CONTENT_BUNDLE_DEFAULT_GROUP_NAME,
     copyApplicationName,
     closeWindowConfirmationStr,
@@ -54,7 +53,7 @@ import {
     ConfirmationDialog,
     ConfirmationDialogWordings,
 } from '../common-components/confirmation-dialog';
-import { getFeatureFlag, validName } from './HomeScreenUtils';
+import { filterCustomizedIconDefaultValue, getFeatureFlag, validName } from './HomeScreenUtils';
 import { store } from '../../../main';
 import {
     isLibraryServerVersionMatch,
@@ -137,7 +136,8 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         const isDuplicate = extraContextJson.isDuplicate;
         this.props.setDuplicateConfig(isDuplicate);
         this.props.setConfigInfoList(extraContextJson.configInfoList);
-
+        const currentEnv =
+            await workstation.environments.getCurrentEnvironment();
         // Handle Edit config
         const configId = this.parseConfigId(
             _.get(this.props, 'location.search', undefined)
@@ -151,12 +151,14 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 extraContextJson.configInfoList
             );
             // init the customized icon when create new application.
+            // besides need to filter the library version not supported.
+            const libraryCustomizedIconDefaultValuesSupported = filterCustomizedIconDefaultValue(currentEnv?.webVersion)?.defaultValues;
             let config = {
                 name: newApplicationName,
                 [VC.HOME_SCREEN]: {
                     [VC.HOME_LIBRARY]: {
                         [VC.CUSTOMIZED_ITEMS]:
-                            libraryCustomizedIconDefaultValues,
+                        libraryCustomizedIconDefaultValuesSupported,
                     },
                 },
             };
@@ -172,8 +174,6 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 isUserHasManageContentGroupPrivilege(currentEnv.privileges)
             );
         };
-        const currentEnv =
-            await workstation.environments.getCurrentEnvironment();
         const contentBundleEnable = checkContentGroupEnable(currentEnv);
         // check the color palette feature flag.
         const checkColorPaletteFeatureEnable = (currentEnv: Environment) => {

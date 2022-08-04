@@ -11,6 +11,7 @@ const classNamePrefix = 'custom-email-form'
 import './email-form.scss'
 import { validateHttpUrl } from '../custom-email.util';
 import { DEFAULT_EMAIL_SETTING } from '../../../../../../src/store/reducers/HomeScreenConfigEditorReducer';
+import * as _ from 'lodash';
 const CustomEmailForm: React.FC<any> = () => {
     let stateData: CustomEmailSettingType = useSelector(selectCustomizeEmailSetting) ?? DEFAULT_EMAIL_SETTING as CustomEmailSettingType;
     const dispatch = useDispatch();
@@ -24,7 +25,7 @@ const CustomEmailForm: React.FC<any> = () => {
     const [showSendByInfo, setShowSendByInfo] = useState(stateData.showSentBy);
     const [showSocialMedia, setShowSocialMedia] = useState(stateData.showSocialMedia);
     const [hostWebPortal, setHostWebPortal] = useState(stateData.hostPortal);
-    const [sentByOwner, setSentByOwner]  = useState(stateData.sentByText);
+    const [sentByOwner, setSentByOwner]  = useState(_.unescape(stateData.sentByText));
     const inputChange = (key:  keyof CustomEmailSettingType, value: string, cb: React.Dispatch<React.SetStateAction<string>>) =>{
         cb(value);
         // valid data
@@ -33,6 +34,9 @@ const CustomEmailForm: React.FC<any> = () => {
             if(!isValid) return;
         }
         (stateData as any)[key] = value;
+        if(key === 'sentByText'){
+            (stateData as any)[key] = _.escape(value);
+        }
         dispatch(
             Actions.updateCurrentConfig({
                 emailSettings: stateData

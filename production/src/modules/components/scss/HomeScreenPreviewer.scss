@@ -87,7 +87,7 @@ $tablet-scale: 0.85;
         float: right;
         margin-right: 4.5px;
         color: $color;
-    }
+    } 
 }
 
 @mixin padOrWebSetting($color) {
@@ -590,6 +590,7 @@ $tablet-scale: 0.85;
             }
         }
     }
+
 
 }
 .ellipsis {

@@ -213,8 +213,8 @@ class ContentBundleList extends React.Component<any, any> {
   }
 
   getContextMenuItems = (params: GetContextMenuItemsParams) => {
-    if(!params.node.isSelected() && params.api.getSelectedNodes().length > 0){
-      params.api.getSelectedNodes().forEach(node => node.setSelected(false));
+    if(!params.node?.isSelected() && params.api?.getSelectedNodes().length > 0){
+      params.api?.getSelectedNodes().forEach(node => node.setSelected(false));
     }
     if (!this.props.allowDelete || !params.node || !params.node.group) {
       return [];

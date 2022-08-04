@@ -277,7 +277,7 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
                 <ContentBundleContentPicker visible={this.state.showContentPicker} handleClose={this.handleDismissAdd} handleChange={this.handleDossierChange}/>
             </Layout.Content>
             <Layout.Sider className={`${classNamePrefixSimple}-preview`} width={previewerWidth}>
-              <HomeScreenPreviewer contentBundleFeatureEnable = {this.state.contentBundleFeatureEnable} hasContent = {this.state.defaultGroupEnable}/>
+              <HomeScreenPreviewer contentBundleFeatureEnable = {this.state.contentBundleFeatureEnable} hasContent = {this.state.defaultGroupEnable} webVersion = {this.state.currentEnv?.webVersion}/>
             </Layout.Sider>
         </Layout>
     );

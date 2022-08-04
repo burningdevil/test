@@ -3,9 +3,13 @@ import { IServerSideGetRowsParams, ICellRendererFunc, ICellRendererParams } from
 import {
     EnumDSSXMLViewMedia,
     HomeScreenHomeObjectType,
+    libraryCustomizedIconDefaultValues,
+    libraryCustomizedIconKeys,
+    libraryCustomizedIconStartVersion,
     SPECIAL_CHARACTER_REGEX,
 } from '../HomeScreenConfigConstant';
 import { Environment } from '@mstr/workstation-types';
+import { isLibraryServerVersionMatch } from '../../../utils';
 
 export function getContentType(viewMedia: number) {
     const defModePosition = viewMedia >> 27;
@@ -106,3 +110,22 @@ export function validName(name: string) {
   }
   return env.preferences?.[key];
 }
+export function getNonsupportIconKeys(webVersion: string = '0.0.0') {
+  return Object.keys(libraryCustomizedIconStartVersion).filter(v => !isLibraryServerVersionMatch(webVersion, libraryCustomizedIconStartVersion[v]))
+}
+export function filterCustomizedIconDefaultValue(webVersion: string = '0.0.0'){
+  const res: any = {};
+  const nonsupportIcons = getNonsupportIconKeys(webVersion);
+  const targetIcons = libraryCustomizedIconKeys.filter(v => !nonsupportIcons.includes(v));
+  targetIcons.forEach(icon => res[icon] = libraryCustomizedIconDefaultValues[icon])
+  return {
+    'iconsKey': targetIcons,
+    'defaultValues': res
+  };
+}
+
+export function filterNonsupportIcons(targetIcons: any[], webVersion: string = '0.0.0') {
+  const nonsupportIcons = getNonsupportIconKeys(webVersion);
+  return targetIcons.filter(v => !nonsupportIcons.includes(v.key));
+}
+

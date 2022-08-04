@@ -38,6 +38,7 @@ import {
 } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import { Tooltip } from '@mstr/rc';
+import { getNonsupportIconKeys } from './HomeScreenUtils';
 
 const classNamePrefix = 'homeScreenPreviewer';
 
@@ -51,8 +52,12 @@ class HomeScreenPreviewer extends React.Component<any, any> {
         };
     }
     iconShouldShow(icon: iconDetail) {
-        const { libraryIcons, documentIcons, sidebarIcons, isDossierHome } =
+        const { libraryIcons, documentIcons, sidebarIcons, isDossierHome, webVersion } =
             this.props;
+        const nonsupportIconKeys = getNonsupportIconKeys(webVersion);
+        if(nonsupportIconKeys.includes(icon.key)){
+            return false;
+        }
         const validKey = iconValidKey(icon.key);
         if (libraryCustomizedIconKeys.includes(icon.key)) {
             return _.get(
@@ -201,6 +206,11 @@ class HomeScreenPreviewer extends React.Component<any, any> {
         if (!this.contentBundleEnable) {
             iconsToRender = iconsToRender.filter(
                 (v) => v.key !== iconTypes.defaultGroup.key
+            );
+        }
+        if(previewType !== reviewType.WEB){
+            iconsToRender = iconsToRender.filter(
+                (v) => v.key !== iconTypes.insights.key
             );
         }
         iconsToRender = iconsToRender.filter(

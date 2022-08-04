@@ -12,6 +12,7 @@ import * as Actions from '../../../store/actions/ActionsCreator';
 import { Tooltip } from '@mstr/rc';
 import { isLibraryServerVersionMatch, isUserHasManageContentGroupPrivilege, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION } from '../../../utils';
 import { Environment, WorkstationModule } from '@mstr/workstation-types'
+import { filterNonsupportIcons } from './HomeScreenUtils'
 
 declare var workstation: WorkstationModule;
 const childrenKeyOffset = 1000;
@@ -31,6 +32,7 @@ interface HomeScreenComponentsState {
     defaultGroupEnable: boolean,
     mobileOptionsVisible: boolean,
     webOptionsVisible: boolean,
+    webVersion: string;
 }
 
 class HomeScreenComponents extends React.Component<any, HomeScreenComponentsState> {
@@ -246,9 +248,9 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
     }
 
     renderTable = (icons: Array<iconDetail>) => {
-        let tarChildIcons = childrenIcons;
+        let tarChildIcons = filterNonsupportIcons(childrenIcons, this.state.webVersion);
         if (!this.state.contentBundleFeatureEnable){
-            tarChildIcons = childrenIcons.filter(item => item.key !== iconTypes.defaultGroup.key);
+            tarChildIcons = tarChildIcons.filter(item => item.key !== iconTypes.defaultGroup.key);
         }
         const expandChildren = tarChildIcons
             .map( (icon, index) =>  {
@@ -398,7 +400,9 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         const curEnv: Environment = await workstation.environments.getCurrentEnvironment();
         const contentBundleEnable = !!curEnv.webVersion && isLibraryServerVersionMatch(curEnv.webVersion, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION) && isUserHasManageContentGroupPrivilege(curEnv.privileges);
         this.setState({
-            contentBundleFeatureEnable: contentBundleEnable
+            contentBundleFeatureEnable: contentBundleEnable,
+            webVersion: curEnv.webVersion
+             
         });
       }
     
@@ -442,7 +446,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                 </Layout.Content>
                 {/* previewer */}
                 <Layout.Sider className={`${classNamePrefix}-right`} width={previewerWidth}>
-                    <HomeScreenPreviewer contentBundleFeatureEnable = {this.state.contentBundleFeatureEnable} hasContent = {this.state.defaultGroupEnable}/>
+                    <HomeScreenPreviewer contentBundleFeatureEnable = {this.state.contentBundleFeatureEnable} hasContent = {this.state.defaultGroupEnable} webVersion = {this.state.webVersion}/>
                 </Layout.Sider>
             </Layout>
         )
