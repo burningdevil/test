@@ -4,21 +4,8 @@ require 'socket'
 require 'timeout'
 require 'octokit_github'
 require_relative 'acceptance_windows'
-
-desc "Deploy the environment to kubernetes"
-task :eks_deploy do
-  info "=== Deploy test servers ==="
-  library_ingress_host = library_service_fqdn
-  iserver_rest_ingress_host = iserver_service_fqdn
-  base_image_version = "#{get_base_image_branch}-.-latest"
-  puts "base_image_version is #{base_image_version}"
-  override_values = "library.ingress.host=#{library_ingress_host},"+
-                    "iserver.image.version=#{base_image_version},"+
-                    "library.image.version=#{base_image_version},"+
-                    "iserver.ingress.host=#{iserver_rest_ingress_host}"
-
-  eks_deploy_workstation(override_values)
-end
+require 'tanzu'
+require 'common/version'
 
 @workstation_folder = "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/.workstation"
 @workstation_dmg_path = "#{@workstation_folder}/workstation-mac.dmg"
@@ -26,6 +13,9 @@ end
 @workstation_installation_folder = '/Applications/MicroStrategy Workstation.app'
 @artifact_info = Compiler::Maven.artifact_info
 @cef_remote_debug_port = 54213
+@config_file = "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance/protractorArgs.json"
+@mstrbakUrl = "s3://mci-dev-mstrbak/workstation-drillmap.tar.gz"
+@tanzu_env = "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance/tanzu-env.json"
 
 task :install_latest_workstation_mac_os_x do
   install_latest_workstation_mac_os_x
@@ -74,20 +64,27 @@ task :acceptance_test_mac do
   shell_command! "defaults write com.microstrategy.Workstation ExtraPreferences -dict-add workstation '#{customize_preferences}'"
   shell_command! "defaults read com.microstrategy.Workstation"
 
+  environmentName = ""
   begin
+    libraryUrl, environmentName = prepare_for_workstation_test(@tanzu_env, @config_file)
+    if libraryUrl.nil? || libraryUrl.empty?
+      raise "invalid library url #{libraryUrl}"
+    end
     info "====== Executing tests ======"
     app_path = "\'MicroStrategy Workstation\'"
     shell_command! "npm install --frozen-lockfile", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
-    shell_command! "node #{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance/trigger_test.js #{app_path} \'https://#{library_service_fqdn}/MicroStrategyLibrary/\' \'@Regression\' #{@cef_remote_debug_port} \'#{ENV['APPLICATION_VERSION']}\'", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
+    shell_command! "node #{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance/trigger_test.js #{app_path} \'#{libraryUrl}\' \'@Regression\' #{@cef_remote_debug_port} \'#{Common::Version.application_version}\'", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
     #update test result to rally
-    shell_command! "node rally/updateE2EResultsToClientAutoData.js -c \"#{ENV['APPLICATION_VERSION']}\" \"#{ENV['BUILD_URL']}\"", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
-    shell_command! "node rally/updateE2EResultsToRally.js -c \"#{ENV['APPLICATION_VERSION']}\" \"#{ENV['BUILD_URL']}\"", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
+    shell_command! "node rally/updateE2EResultsToClientAutoData.js -c \"#{Common::Version.application_version}\" \"#{ENV['BUILD_URL']}\"", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
+    shell_command! "node rally/updateE2EResultsToRally.js -c \"#{Common::Version.application_version}\" \"#{ENV['BUILD_URL']}\"", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
+    do_delete_tanzu_environment(environmentName)
     post_process_workstation_ci(result:"pass", update_nexus:true, update_rally:false, coverage_report:false, platform:'mac', platform_os:nil)
   rescue => e
     #update test result to rally
-    shell_command! "node rally/updateE2EResultsToClientAutoData.js -c \"#{ENV['APPLICATION_VERSION']}\" \"#{ENV['BUILD_URL']}\"", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
-    shell_command! "node rally/updateE2EResultsToRally.js -c \"#{ENV['APPLICATION_VERSION']}\" \"#{ENV['BUILD_URL']}\"", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
+    shell_command! "node rally/updateE2EResultsToClientAutoData.js -c \"#{Common::Version.application_version}\" \"#{ENV['BUILD_URL']}\"", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
+    shell_command! "node rally/updateE2EResultsToRally.js -c \"#{Common::Version.application_version}\" \"#{ENV['BUILD_URL']}\"", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
     error "exception from test:\n #{e}"
+    do_delete_tanzu_environment(environmentName)
     post_process_workstation_ci(result:"fail", update_nexus:true, update_rally:false, coverage_report:false, platform:"mac", platform_os:nil)
   end
 end

@@ -16,6 +16,12 @@ designed to execute @Sanity tests'
 
   assigned_node_string 'win_vra_workstation_plugin_test_node_ct'
 
+  build_wrappers do
+    secret_text do
+      credentialsId 'tanzu_corp_svc_jenkins'
+      variable 'TANZU_CORP_PASSWORD'
+    end
+  end
 
   properties do
     inject do

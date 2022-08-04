@@ -7,15 +7,9 @@ designed to execute all acceptance tests'
   properties do
     parameters do
       string_parameter do
-        name 'APPLICATION_COMMIT_HASH'
-        description 'the git commit hash paired with the application version (tip: choose the same list item index as the application version)'
-        default_value 'None'
-      end
-
-      string_parameter do
-        name 'APPLICATION_VERSION'
-        description 'the version of the application to deploy and test'
-        default_value 'None'
+        name 'Container_Build_NO'
+        description 'the version of mstrBuild for tanzu env, default empty to use latest build'
+        default_value ''
       end
     end
 
@@ -29,6 +23,23 @@ EOH
   end
 
   assigned_node_string 'win_vra_workstation_plugin_test_node_ct'
+
+  triggers do
+    schedule do
+      minute 'H'
+      hour '4'
+      month '*'
+      day_of_week '*'
+      day_of_month '*'
+    end
+  end
+
+  build_wrappers do
+    secret_text do
+      credentialsId 'tanzu_corp_svc_jenkins'
+      variable 'TANZU_CORP_PASSWORD'
+    end
+  end
 
   builders do
     bash do
@@ -47,9 +58,8 @@ rake pre_pipeline
 rake install_workstation_windows
 rake replace_plugin_windows
 
-rake eks_deploy
+rake prepare_tanzu_environment
 rake acceptance_test_win
-#rake reboot_windows_slave
 '
     end
   end

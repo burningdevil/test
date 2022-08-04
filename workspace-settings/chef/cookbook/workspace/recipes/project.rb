@@ -6,7 +6,6 @@
 include_recipe 'chef_commons'
 include_recipe 'workspace::attributes_overrides'
 
-include_recipe 'helm'
 include_recipe 'kube-config'
 include_recipe 'nodejs'
 
