@@ -110,18 +110,22 @@ export function validName(name: string) {
   }
   return env.preferences?.[key];
 }
-export function getNonsupportIconKeys(currentEnv: any) {
-  return Object.keys(libraryCustomizedIconStartVersion).filter(v => !isLibraryServerVersionMatch(currentEnv.webVersion, libraryCustomizedIconStartVersion[v]))
+export function getNonsupportIconKeys(webVersion: string = '0.0.0') {
+  return Object.keys(libraryCustomizedIconStartVersion).filter(v => !isLibraryServerVersionMatch(webVersion, libraryCustomizedIconStartVersion[v]))
 }
-export function filterCustomizedIconDefaultValue(currentEnv: any){
+export function filterCustomizedIconDefaultValue(webVersion: string = '0.0.0'){
   const res: any = {};
-  const nonsupportIcons = getNonsupportIconKeys(currentEnv);
+  const nonsupportIcons = getNonsupportIconKeys(webVersion);
   const targetIcons = libraryCustomizedIconKeys.filter(v => !nonsupportIcons.includes(v));
   targetIcons.forEach(icon => res[icon] = libraryCustomizedIconDefaultValues[icon])
   return {
     'iconsKey': targetIcons,
-    'defaultValues': res,
-    'nonsupportIconKeys': nonsupportIcons
+    'defaultValues': res
   };
+}
+
+export function filterNonsupportIcons(targetIcons: any[], webVersion: string = '0.0.0') {
+  const nonsupportIcons = getNonsupportIconKeys(webVersion);
+  return targetIcons.filter(v => !nonsupportIcons.includes(v.key));
 }
 

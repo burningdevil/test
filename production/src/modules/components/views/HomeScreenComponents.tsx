@@ -12,7 +12,7 @@ import * as Actions from '../../../store/actions/ActionsCreator';
 import { Tooltip } from '@mstr/rc';
 import { isLibraryServerVersionMatch, isUserHasManageContentGroupPrivilege, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION } from '../../../utils';
 import { Environment, WorkstationModule } from '@mstr/workstation-types'
-import { getNonsupportIconKeys } from './HomeScreenUtils'
+import { filterNonsupportIcons, getNonsupportIconKeys } from './HomeScreenUtils'
 
 declare var workstation: WorkstationModule;
 const childrenKeyOffset = 1000;
@@ -32,7 +32,7 @@ interface HomeScreenComponentsState {
     defaultGroupEnable: boolean,
     mobileOptionsVisible: boolean,
     webOptionsVisible: boolean,
-    nonsupportIconKeys: string[]
+    webVersion: string;
 }
 
 class HomeScreenComponents extends React.Component<any, HomeScreenComponentsState> {
@@ -174,7 +174,6 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
    
         const extraIcons = _.concat(platforms.includes(platformType.desktop) ? extraDesktopIcons : [], platforms.includes(platformType.mobile) ? extraMobileIcons : [])
         state.extraIcons = extraIcons
-        state.nonsupportIconKeys = [];
         return state
     }
 
@@ -249,9 +248,9 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
     }
 
     renderTable = (icons: Array<iconDetail>) => {
-        let tarChildIcons = childrenIcons.filter(v => !this.state.nonsupportIconKeys?.includes(v.key));
+        let tarChildIcons = filterNonsupportIcons(childrenIcons, this.state.webVersion);
         if (!this.state.contentBundleFeatureEnable){
-            tarChildIcons = childrenIcons.filter(item => item.key !== iconTypes.defaultGroup.key);
+            tarChildIcons = tarChildIcons.filter(item => item.key !== iconTypes.defaultGroup.key);
         }
         const expandChildren = tarChildIcons
             .map( (icon, index) =>  {
@@ -402,7 +401,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         const contentBundleEnable = !!curEnv.webVersion && isLibraryServerVersionMatch(curEnv.webVersion, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION) && isUserHasManageContentGroupPrivilege(curEnv.privileges);
         this.setState({
             contentBundleFeatureEnable: contentBundleEnable,
-            nonsupportIconKeys: getNonsupportIconKeys(curEnv),
+            webVersion: curEnv.webVersion
              
         });
       }
@@ -447,7 +446,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                 </Layout.Content>
                 {/* previewer */}
                 <Layout.Sider className={`${classNamePrefix}-right`} width={previewerWidth}>
-                    <HomeScreenPreviewer contentBundleFeatureEnable = {this.state.contentBundleFeatureEnable} hasContent = {this.state.defaultGroupEnable} nonsupportIconKeys = {this.state.nonsupportIconKeys}/>
+                    <HomeScreenPreviewer contentBundleFeatureEnable = {this.state.contentBundleFeatureEnable} hasContent = {this.state.defaultGroupEnable} webVersion = {this.state.webVersion}/>
                 </Layout.Sider>
             </Layout>
         )

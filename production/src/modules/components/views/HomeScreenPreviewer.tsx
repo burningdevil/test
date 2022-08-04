@@ -38,6 +38,7 @@ import {
 } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import { Tooltip } from '@mstr/rc';
+import { getNonsupportIconKeys } from './HomeScreenUtils';
 
 const classNamePrefix = 'homeScreenPreviewer';
 
@@ -51,8 +52,9 @@ class HomeScreenPreviewer extends React.Component<any, any> {
         };
     }
     iconShouldShow(icon: iconDetail) {
-        const { libraryIcons, documentIcons, sidebarIcons, isDossierHome, nonsupportIconKeys } =
+        const { libraryIcons, documentIcons, sidebarIcons, isDossierHome, webVersion } =
             this.props;
+        const nonsupportIconKeys = getNonsupportIconKeys(webVersion);
         if(nonsupportIconKeys.includes(icon.key)){
             return false;
         }

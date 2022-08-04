@@ -61,8 +61,7 @@ import {
     LIBRARY_SERVER_SUPPORT_COLOR_PALETTE_VERSION,
     LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION,
     LIBRARY_SERVER_SUPPORT_APPEARANCE_DESIGN_VERSION,
-    LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_VERSION,
-    LIBRARY_SERVER_SUPPORT_INSIGHTS_CONTROL
+    LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_VERSION
 } from '../../../utils';
 import ColorPaletteBlade from '../features/color-palette/color-palette-blade';
 import CustomEmailBlade from '../features/custom-email/custom-email-blade';
@@ -153,7 +152,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             );
             // init the customized icon when create new application.
             // besides need to filter the library version not supported.
-            const libraryCustomizedIconDefaultValuesSupported = filterCustomizedIconDefaultValue(currentEnv)?.defaultValues;
+            const libraryCustomizedIconDefaultValuesSupported = filterCustomizedIconDefaultValue(currentEnv?.webVersion)?.defaultValues;
             let config = {
                 name: newApplicationName,
                 [VC.HOME_SCREEN]: {
