@@ -30,18 +30,18 @@ class HomeScreenAppearance extends React.Component<any, any> {
         });
         workstation.window.addHandler(WindowEvent.ONCHILDCLOSE, (info: any) => {
             const { Message } = info || {}
-            const { CloseInfo } = Message || {} 
+            const { CloseInfo } = Message || {}
             const theme = JSON.parse(CloseInfo)
             if (theme) {
                 this.props.updateThemeInCurrentConfig(theme)
             }
-            
+
             return {}
         })
     }
 
-    openAppDesignEditor = (config: HomeScreenConfigType, theme?: ApplicationTheme) => {
-        const objType = VC.APP_DESIGN_OBJTYPE;
+    openAppearanceEditor = (config: HomeScreenConfigType, theme?: ApplicationTheme) => {
+        const objType = VC.APPEARANCE_OBJ_TYPE;
 
         let options: ObjectEditorSettings = {
             objectType: objType,
@@ -72,24 +72,24 @@ class HomeScreenAppearance extends React.Component<any, any> {
                         <div className='existing-theme-icn' />
                         <div className='existing-theme-hover-overlay' />
                         <div className='existing-theme-options'>
-                            <div className="edit" onClick={() => this.openAppDesignEditor(currConfig, currConfigTheme)} />
+                            <div className="edit" onClick={() => this.openAppearanceEditor(currConfig, currConfigTheme)} />
                             <div className="delete" onClick={() => this.removeTheme()} />
                         </div>
                     </div>
                     : <div className='mstr-custom-app-no-theme-content'>
                         <div className='new-theme-icn' />
                         <div className='new-theme-desc'>{t('newThemeDesc')}</div>
-                        <div className="add-design"
+                        <div className="add-appearance"
                             tabIndex={0}
-                            onClick={() => this.openAppDesignEditor(currConfig)}
+                            onClick={() => this.openAppearanceEditor(currConfig)}
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter') {
-                                    this.openAppDesignEditor(currConfig)
+                                    this.openAppearanceEditor(currConfig)
                                 }
                             }}
                         >
-                            <div className='add-design-icn' />
-                            <div className='add-design-text'>{t('newThemeText')}</div>
+                            <div className='add-appearance-icn' />
+                            <div className='add-appearance-text'>{t('newThemeText')}</div>
                         </div>
                     </div>
                 }

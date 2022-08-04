@@ -1,11 +1,11 @@
-import ADEReducer from '../ApplicationDesignEditorReducer'
+import ADEReducer from '../AppearanceEditorReducer'
 import { setTheme, updateTheme } from '../../actions/ActionsCreator'
-import { ApplicationDesignEditorState } from '../../../types/redux-state/HomeScreenConfigState'
+import { AppearanceEditorState } from '../../../types/redux-state/HomeScreenConfigState'
 
-let initialState : ApplicationDesignEditorState = {
+let initialState : AppearanceEditorState = {
   theme: undefined
 }
-const initalStateThemeExists : ApplicationDesignEditorState = {
+const initalStateThemeExists : AppearanceEditorState = {
   theme: {
     schemaVersion: 1,
     logos: {
@@ -27,7 +27,7 @@ const initalStateThemeExists : ApplicationDesignEditorState = {
 
 let state1 = {}
 
-describe('Application Design Editor Reducers setTheme', () => {
+describe('Application Appearance Editor Reducers setTheme', () => {
 
   afterEach(() => {
     jest.restoreAllMocks();
@@ -55,13 +55,13 @@ describe('Application Design Editor Reducers setTheme', () => {
         }
       }
     }
-  
+
     state1 = ADEReducer(initialState, setTheme(expectState.theme))
     expect(state1).toEqual(expectState)
   })
 })
 
-describe('Application Design Editor Reducers updateTheme', () => {
+describe('Application Appearance Editor Reducers updateTheme', () => {
   it('theme exists in config', () => {
     const mobileLogo = {
       mobile: {
@@ -76,7 +76,7 @@ describe('Application Design Editor Reducers updateTheme', () => {
     }
     const expectState = { ...initalStateThemeExists }
     expectState.theme.logos.mobile = mobileLogo.mobile
-  
+
     state1 = ADEReducer(initalStateThemeExists, updateTheme(updateLogo))
     expect(state1).toEqual(expectState)
   })

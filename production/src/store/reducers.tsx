@@ -3,7 +3,7 @@ import configEditorReducer from './reducers/HomeScreenConfigEditorReducer'
 import configMainReducer from './reducers/HomeScreenConfigMainReducer'
 import bundleContentReducer from './reducers/HomeScreenBundleContentReducer'
 import contentReducer from './reducers/HomeScreenContentBundleReducer'
-import appDesignEditorReducer from './reducers/ApplicationDesignEditorReducer'
+import appearanceEditorReducer from './reducers/AppearanceEditorReducer'
 import colorPaletteReducer from './reducers/HomeScreenColorPaletteReducer';
 
 export const rootReducer = combineReducers({
@@ -11,6 +11,6 @@ export const rootReducer = combineReducers({
   configMain: configMainReducer,
   bundleContent: bundleContentReducer,
   content: contentReducer,
-  appDesignEditor: appDesignEditorReducer,
+  appearanceEditor: appearanceEditorReducer,
   colorPalette: colorPaletteReducer
 })
