@@ -41,6 +41,7 @@ set +xe
 # do something to find there if is a change
 
 export PATH=/usr/local/sbin:/usr/local/bin:$PATH
+export USE_ADMINISTRATOR=YES
 export WORKSPACE_SETTING=dev
 source .ecosystem
 
