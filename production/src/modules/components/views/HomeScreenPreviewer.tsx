@@ -208,7 +208,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                 (v) => v.key !== iconTypes.defaultGroup.key
             );
         }
-        if(previewType !== reviewType.WEB){
+        if(previewType !== reviewType.WEB && previewType !== reviewType.DESKTOP){
             iconsToRender = iconsToRender.filter(
                 (v) => v.key !== iconTypes.insights.key
             );
