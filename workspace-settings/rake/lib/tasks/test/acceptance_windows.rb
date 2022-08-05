@@ -12,7 +12,7 @@ require 'common/version'
 @workstaion_install_path="#{$WORKSPACE_SETTINGS[:paths][:organization][:home]}/.workstation/#{get_application_prefix}"
 @workstation_zip_path = "#{@workstaion_install_path}/workstation-windows.zip"
 @config_file = "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance/protractorArgs.json"
-@mstrbakUrl = "s3://mci-dev-mstrbak/workstation-drillmap.tar.gz"
+@mstrbakUrl = "s3://mci-dev-mstrbak/workstation-home-admin-ci-mstrbak.tar.gz"
 @tanzu_env = "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance/tanzu-env.json"
 
 task :install_workstation_windows do

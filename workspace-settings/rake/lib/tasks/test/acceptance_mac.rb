@@ -14,7 +14,7 @@ require 'common/version'
 @artifact_info = Compiler::Maven.artifact_info
 @cef_remote_debug_port = 54213
 @config_file = "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance/protractorArgs.json"
-@mstrbakUrl = "s3://mci-dev-mstrbak/workstation-drillmap.tar.gz"
+@mstrbakUrl = "s3://mci-dev-mstrbak/workstation-home-admin-ci-mstrbak.tar.gz"
 @tanzu_env = "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance/tanzu-env.json"
 
 task :install_latest_workstation_mac_os_x do
