@@ -257,5 +257,5 @@
     "hostPortalTooltip": "If you are embedding Library, enter your host web portal URL.",
     "hostInvalidTip": "Please enter a valid URL",
     "hostPortalHelp": "Learn More",
-    "insights": "Insights (Web Only)"
+    "insights": "Insights (Web and Desktop)"
 }
