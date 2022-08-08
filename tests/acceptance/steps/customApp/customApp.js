@@ -160,7 +160,7 @@ Then('I pick color {string}', async function (color) {
     return mainWindow.app.sleep(500)
 }
 );
-       
+
 
 Then('I pick palette {string}', async function (palettename) {
     await settingPage.pickPaletteByName(palettename)
@@ -188,17 +188,20 @@ Then('check the screenshot on element {string} by comparing {string}', async fun
 
 When('I input the params by number in the more setting {string} {string}', async function (number, val) {
     await settingPage.inputMoreSetting(number, val)
-    return mainWindow.app.sleep(500)}
+    return mainWindow.app.sleep(500)
+}
 );
 
 When('I change the logging level {string}', async function (level) {
     await settingPage.changeLoggingLevel(level)
-    return mainWindow.app.sleep(500)}
+    return mainWindow.app.sleep(500)
+}
 );
 
 When('I check the cache setting', async function () {
     await settingPage.checkCache()
-    return mainWindow.app.sleep(500)}
+    return mainWindow.app.sleep(500)
+}
 );
 
 
