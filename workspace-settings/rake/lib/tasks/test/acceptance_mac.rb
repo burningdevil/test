@@ -66,7 +66,7 @@ task :acceptance_test_mac do
 
   environmentName = ""
   begin
-    libraryUrl, environmentName = prepare_for_workstation_test(@tanzu_env, @config_file)
+    libraryUrl, environmentName = prepare_for_workstation_test(@tanzu_env, @config_file, keywords=nil,replace_json=true)
     if libraryUrl.nil? || libraryUrl.empty?
       raise "invalid library url #{libraryUrl}"
     end

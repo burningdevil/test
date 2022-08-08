@@ -151,7 +151,7 @@ task :acceptance_test_win do |t,args|
   info "====== starting test ======"
   environmentName = ""
   begin
-    libraryUrl, environmentName = prepare_for_workstation_test(@tanzu_env, @config_file)
+    libraryUrl, environmentName = prepare_for_workstation_test(@tanzu_env, @config_file, keywords=nil,replace_json=true)
     if libraryUrl.nil? || libraryUrl.empty?
       raise "invalid library url #{libraryUrl}"
     end
@@ -189,7 +189,7 @@ task :sanity_test_win do |t,args|
   info "====== starting test ======"
   environmentName = ""
   begin
-    libraryUrl, environmentName = prepare_for_workstation_test(@tanzu_env, @config_file)
+    libraryUrl, environmentName = prepare_for_workstation_test(@tanzu_env, @config_file, keywords=nil,replace_json=true)
     if libraryUrl.nil? || libraryUrl.empty?
       raise "invalid library url #{libraryUrl}"
     end
