@@ -22,6 +22,9 @@ export default class ContentsPage extends BasePage {
     getCollapseIcon(name) {
         return this.element(by.xpath(`//span[@class='content-bundle-list-custom-name' and text()='${name}']//ancestor::div[@class='ag-cell-wrapper']//span[@class='ag-icon ag-icon-small-right']`))
     }
+    getContentGroupGrid() {
+        return this.$('.ag-center-cols-viewport')
+    }
     async inputName(name) {
         await this.getDefaultGroupInput().click();
         await this.getDefaultGroupInput().clear();
@@ -71,4 +74,5 @@ export default class ContentsPage extends BasePage {
         await this.getSelectButton().click()
         await browser.sleep(8000 * this.ratio)
     }
+
 }

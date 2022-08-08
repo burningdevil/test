@@ -35,9 +35,9 @@ async function initVideoRecorder() {
     const cmd = OSSwitch(() => {
         return `rmdir /q /s video`
     },
-    () => {
-        return 'rm -r video'
-    });
+        () => {
+            return 'rm -r video'
+        });
     try {
         execSync(cmd, () => {
             console.log(`input cmd: ${cmd}`)
@@ -69,9 +69,9 @@ function isVideoRecorderAvailable() {
             const cmdHelp2 = OSSwitch(() => {
                 return `c:/ffmpeg/bin/ffmpeg -h`
             },
-            () => {
-                return `/user/local/bin/ffmpeg -h`
-            });
+                () => {
+                    return `/user/local/bin/ffmpeg -h`
+                });
             const exeCmd2 = execSync(cmdHelp2);
         } catch (error) {
             console.log(`full path ffmpeg ${cmdHelp2} is not available the error message is: ${error}`)
@@ -102,9 +102,9 @@ async function recordVideo(filePath, fileName) {
     const cmd = OSSwitch(() => {
         return `c:/ffmpeg/bin/ffmpeg -f dshow -rtbufsize 1024M -framerate 30 -t 300 -i video="screen-capture-recorder"  -c:v libx264 -crf 0 -preset ultrafast ${filePath}/${fileName}.mkv`
     },
-    () => {
-        return `ffmpeg -f avfoundation -t 300 -i "${mac_capture_screen_index}" ${filePath}/${fileName}.mkv`
-    });
+        () => {
+            return `ffmpeg -f avfoundation -t 300 -i "${mac_capture_screen_index}" ${filePath}/${fileName}.mkv`
+        });
     console.log(`input cmd: ${cmd}`)
     const process = exec(cmd, (error) => {
         if (error) {
@@ -123,9 +123,9 @@ async function stopRecord(process) {
     const cmd = OSSwitch(() => {
         return `tasklist`
     },
-    () => {
-        return `ps -p ${process.pid}`
-    });
+        () => {
+            return `ps -p ${process.pid}`
+        });
     console.log(`process id: ${process.pid}`)
     for (let waitTime = 0; waitTime <= 10000; waitTime += 500) {
         try {
@@ -163,7 +163,7 @@ async function uploadVideo(file, path) {
     const GOFASTFDS = 'http://tlserver.labs.microstrategy.com:8080/upload'
     return new Promise((resolve, reject) => {
         // https://nodejs.org/api/events.html#events_error_events
-        if(!fs.existsSync(file)) {
+        if (!fs.existsSync(file)) {
             reject(new Error(`no such file or directory, '${file}'`))
         } else {
             const form = new FormData();

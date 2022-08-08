@@ -43,6 +43,11 @@ Then('I finished select content bundle', async () => {
     await contentPage.finishedSelectContentGroupByClickSelect();
     return mainWindow.app.sleep(500);
 })
+Then('I move mouse to content bundle grid and right click', async () => {
+    const contentBundlesGrid = await contentPage.getContentGroupGrid()
+    await contentPage.rightClick({ elem: contentBundlesGrid })
+    return mainWindow.app.sleep(500);
+})
 
 
 
