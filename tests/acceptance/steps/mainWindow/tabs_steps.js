@@ -1,5 +1,7 @@
 const { When, Then } = require('cucumber')
 const { registerNewWindow, switchToWindow } = require('../../utils/wsUtils/windowHelper')
+import ApplicationPage from '../../pages/webPages/customApp/ApplicationPage'
+const applicationPage = new ApplicationPage()
 const { mainWindow } = pageObj
 
 // ** Navigations in Main Window ** //
@@ -10,6 +12,7 @@ Then('I first-time select tab {string} and wait for cache generation', async fun
 
 When('I select tab {string}', async function (tabName) {
   await mainWindow.smartTab.selectTab(tabName)
+  await applicationPage.switchToCustomAppWindow()
   return mainWindow.app.sleep(4000)
 })
 

@@ -50,7 +50,9 @@
     "regenerator-runtime": "^0.13.2",
     "screenshot-desktop": "^1.10.0",
     "wd": "^1.11.1",
-    "yargs": "^13.2.4"
+    "yargs": "^13.2.4",
+    "request": "^2.88.2",
+    "chalk": "^2.4.1"
   },
   "dependencies": {
     "yarn": "^1.22.15"

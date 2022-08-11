@@ -1,5 +1,6 @@
 import BasePage from '../../basePages/BasePage'
 import { OSType } from '../../../utils/envUtils/constants'
+import { protractor } from 'protractor'
 const { registerNewWindow, switchToWindow, unregisterWindow } = require('../../../utils/wsUtils/windowHelper')
 
 export default class SettingPage extends BasePage {
@@ -78,7 +79,7 @@ export default class SettingPage extends BasePage {
   }
 
   //Preview
-  getPreview(client, pageId='components') {
+  getPreview(client, pageId = 'components') {
     return this.$$(`#rc-tabs-0-panel-${pageId} .ant-radio-group.ant-radio-group-solid`).all(by.cssContainingText('.ant-radio-button-wrapper', client)).first()
   }
 
@@ -102,13 +103,13 @@ export default class SettingPage extends BasePage {
   getCancelButton(pageId) {
     // return this.$('.home-screen-editor-layout-btn').element(by.cssContainingText('.ant-btn', 'Cancel'))
     //return this.$$('.ant-btn').filter(async (elem) => {
-      //return elem.isDisplayed()
+    //return elem.isDisplayed()
     //}).first()
     return this.element(by.xpath(`//div[@id='rc-tabs-0-panel-${pageId}']//span[text()='Cancel']`))
   }
 
   getConfirmCancelButton(pageId) {
-    const index = ['general','homeScreen','components'].findIndex(v => v === pageId)
+    const index = ['general', 'homeScreen', 'components'].findIndex(v => v === pageId)
     return this.element.all(by.xpath(`//div[@class='mstr-button-container']//span[text()='Yes']`)).get(index)
   }
 
@@ -213,9 +214,23 @@ export default class SettingPage extends BasePage {
   */
 
   async inputName(name) {
+    await this.wait(this.EC.elementToBeClickable(this.getNameInpuBox()), 30000 * this.ratio, 'The target application name inputbox was not clickable yet.');
     await this.getNameInpuBox().click()
-    await this.getNameInpuBox().clear()
-    await this.input(name)
+    if(name !== ''){
+      await this.input('Placehoder')
+      if (OSType === 'mac') {
+        await this.getNameInpuBox().clear()
+      }else{
+       // await this.getNameInpuBox()
+       await this.getNameInpuBox().sendKeys(protractor.Key.chord(protractor.Key.CONTROL, "a"))
+       await this.getNameInpuBox().sendKeys(protractor.Key.DELETE)
+
+      }
+
+      await browser.sleep(10000 * this.ratio)
+      await this.input(name)
+    }
+
   }
 
   async inputDescription(description) {
@@ -234,7 +249,7 @@ export default class SettingPage extends BasePage {
   }
 
   //async waitForDossierListWindow() {
-    //await this.wait(this.EC.visibilityOf(this.getDossierListPage()), 60000, 'Dossier list window was not displayed');
+  //await this.wait(this.EC.visibilityOf(this.getDossierListPage()), 60000, 'Dossier list window was not displayed');
   //}
 
   async chooseToolbarMode(toolbarmode) {

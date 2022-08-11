@@ -102,6 +102,7 @@ exports.config = {
         await initVideoRecorder()
         global.uploadVideoPath = customArgObj.uploadVideoPath
         if (global.uploadVideoPath !== undefined) global.enableUplodaVideo = true
+        global.videoRecorderProcess = await recordVideo('video/before_launch', 'prepareEnv')
       }
 
       // //Reset Environment
@@ -109,19 +110,42 @@ exports.config = {
         RESET_ENV()
       }
 
-      // Start Workstation.
-      // This workstation driver is stored globally to be used anywhere else.
-      // For windows, the Main Workstation Window handle is registered globally
-      const startWorkstation = require('./utils/wsUtils/startWorkstation')
-      global.workstationApp = await startWorkstation()
-      // if (OSType === 'windows') {
-      const { registerWindow, maximizeWindowByWindowName } = require('./utils/wsUtils/windowHelper')
-      await registerWindow('Workstation Main Window')
-      // if (OSType === 'windows') await maximizeWindowByWindowName('Workstation Main Window')
-      // Initialize a CEF webview for Windows
-      // For Mac, as long as the Main Window is launched, there will be Quick Search WebView
-      const initializeWebView = require('./utils/wsUtils/initializeWebView')
-      await initializeWebView()
+      try {
+        // Start Workstation.
+        // This workstation driver is stored globally to be used anywhere else.
+        // For windows, the Main Workstation Window handle is registered globally
+        const startWorkstation = require('./utils/wsUtils/startWorkstation')
+        global.workstationApp = await startWorkstation()
+        // if (OSType === 'windows') {
+        const { registerWindow, maximizeWindowByWindowName } = require('./utils/wsUtils/windowHelper')
+        await registerWindow('Workstation Main Window')
+        // if (OSType === 'windows') await maximizeWindowByWindowName('Workstation Main Window')
+        // Initialize a CEF webview for Windows
+        // For Mac, as long as the Main Window is launched, there will be Quick Search WebView
+        const initializeWebView = require('./utils/wsUtils/initializeWebView')
+        await initializeWebView()
+      } catch (e) {
+        if (global.videoRecord) {
+          const { uploadVideo, stopRecord } = require('./utils/ciUtils/video-helper')
+          await stopRecord(global.videoRecorderProcess)
+          if (global.enableUplodaVideo) {
+            // upload prepareEnv video
+            try {
+              await sleep(1000)
+              const videoMetadata = await uploadVideo(`video/before_launch/prepareEnv.mkv`, global.uploadVideoPath)
+              console.log('upload video info: ', videoMetadata)
+              const { url } = JSON.parse(videoMetadata)
+              if (global.videoUploadURL === undefined) {
+                global.videoUploadURL = url.substring(0, url.lastIndexOf('/'))
+              }
+            } catch (e) {
+              console.log('upload video failed: ', e)
+            }
+          }
+        }
+        throw e
+      }
+
     }
   },
 
@@ -132,52 +156,77 @@ exports.config = {
     const PageBuilder = require('./pages/PageBuilder')
     global.pageObj = PageBuilder()
     const { mainWindow } = pageObj
+    try {
+      if (customArgObj.args.connectEnv) {
+        // TODO: remove exiting environment
+        // connect to environment
+        for (let envIndex = 0; envIndex < browser.params.envInfo.length; envIndex++) {
+          const { envName, envUrl, loginMode, userName, userPwd, projects } = browser.params.envInfo[envIndex]
+          // this check should timeout quick
+          const envNotExist = await mainWindow.mainCanvas.envSection.isEnvRemoved(envName, 1000)
+          if (!envNotExist) {
+            console.log(`remove exsiting env ${envName}`)
+            await mainWindow.mainCanvas.envSection.removeEnv(envName)
+            // this one should have bigger timeout as the actual remove may take some time
+            await mainWindow.mainCanvas.envSection.isEnvRemoved(envName, 4000)
+          }
+          console.log(`connect to env ${envName} with url ${envUrl}`)
+          await mainWindow.mainCanvas.envSection.connectEnv(envName, envUrl)
+          await sleep(10000) // wait for login mode
+          console.log('set login, password and login mode')
+          await mainWindow.mainCanvas.envSection.loginToEnv(loginMode, userName, userPwd)
+          await sleep(30000) // wait for project list
+          console.log('choose projects')
+          for (let projectIndex = 0; projectIndex < projects.length; projectIndex++) {
+            await mainWindow.mainCanvas.envSection.chooseProject(projects[projectIndex])
+          }
+          console.log('confirm connection')
+          await mainWindow.mainCanvas.envSection.clickOkToConnect()
 
-    if (customArgObj.args.connectEnv) {
-      // TODO: remove exiting environment
-      // connect to environment
-      for (let envIndex = 0; envIndex < browser.params.envInfo.length; envIndex++) {
-        const { envName, envUrl, loginMode, userName, userPwd, projects } = browser.params.envInfo[envIndex]
-        // this check should timeout quick
-        const envNotExist = await mainWindow.mainCanvas.envSection.isEnvRemoved(envName, 1000)
-        if (!envNotExist) {
-          console.log(`remove exsiting env ${envName}`)
-          await mainWindow.mainCanvas.envSection.removeEnv(envName)
-          // this one should have bigger timeout as the actual remove may take some time
-          await mainWindow.mainCanvas.envSection.isEnvRemoved(envName, 4000)
+          if (OSType === 'mac') {
+            mainWindow.mainCanvas.envSection.closeExtraEnvWindow()
+          }
         }
-        console.log(`connect to env ${envName} with url ${envUrl}`)
-        await mainWindow.mainCanvas.envSection.connectEnv(envName, envUrl)
-        await sleep(10000) // wait for login mode
-        console.log('set login, password and login mode')
-        await mainWindow.mainCanvas.envSection.loginToEnv(loginMode, userName, userPwd)
-        await sleep(30000) // wait for project list
-        console.log('choose projects')
-        for (let projectIndex = 0; projectIndex < projects.length; projectIndex++) {
-          await mainWindow.mainCanvas.envSection.chooseProject(projects[projectIndex])
-        }
-        console.log('confirm connection')
-        await mainWindow.mainCanvas.envSection.clickOkToConnect()
+      }
 
-        if (OSType === 'mac') {
-          mainWindow.mainCanvas.envSection.closeExtraEnvWindow()
+      // get PID list of workstation and workstation helpers
+      if (customArgObj.args.ubConf.enableUB) {
+        const { getWorkstationPID, getWorkstationHelpersPID } = require('./utils/wsUtils/getPIDs')
+        const workstationPidList = await getWorkstationPID()
+        const workstationHelperPidList = await getWorkstationHelpersPID()
+        global.workstationPidLists = {
+          workstationPidList,
+          workstationHelperPidList
+        }
+        console.log('global: the pid of workstation is: ' + workstationPidList)
+        // init ubData
+        global.ubData = []
+      }
+      const { stopRecord } = require('./utils/ciUtils/video-helper')
+      await stopRecord(global.videoRecorderProcess)
+
+    } catch (e) {
+      console.log(`=========${e}===========`)
+      if (global.videoRecord) {
+        const { uploadVideo, stopRecord } = require('./utils/ciUtils/video-helper')
+        await stopRecord(global.videoRecorderProcess)
+        if (global.enableUplodaVideo) {
+          // upload prepareEnv video
+          try {
+            await sleep(1000)
+            const videoMetadata = await uploadVideo(`video/before_launch/prepareEnv.mkv`, global.uploadVideoPath)
+            console.log('upload video info: ', videoMetadata)
+            const { url } = JSON.parse(videoMetadata)
+            if (global.videoUploadURL === undefined) {
+              global.videoUploadURL = url.substring(0, url.lastIndexOf('/'))
+            }
+          } catch (e) {
+            console.log('upload video failed: ', e)
+          }
         }
       }
     }
 
-    // get PID list of workstation and workstation helpers
-    if (customArgObj.args.ubConf.enableUB) {
-      const { getWorkstationPID, getWorkstationHelpersPID } = require('./utils/wsUtils/getPIDs')
-      const workstationPidList = await getWorkstationPID()
-      const workstationHelperPidList = await getWorkstationHelpersPID()
-      global.workstationPidLists = {
-        workstationPidList,
-        workstationHelperPidList
-      }
-      console.log('global: the pid of workstation is: ' + workstationPidList)
-      // init ubData
-      global.ubData = []
-    }
   },
 
   onComplete: async () => {

@@ -12,8 +12,8 @@ When('I input default group name {string}', async function (name) {
 }
 );
 
-Then('I add the content {string}', async function (name) {
-    await contentPage.addContent(name)
+Then('I add the content', async function () {
+    await contentPage.addContent()
     return mainWindow.app.sleep(500)
 }
 );
@@ -31,12 +31,21 @@ Then('I select the all checkbox', async () => {
     await contentPage.selectAll();
     return mainWindow.app.sleep(500);
 })
-Then('I collapse the content bundle {string}', async (name) => {
+Then('I expand the content bundle {string}', async (name) => {
     await contentPage.collapseContent(name);
     return mainWindow.app.sleep(500);
 })
 Then('I remove the content bundle {string}', async (name) => {
     await contentPage.removeContent(name);
+    return mainWindow.app.sleep(500);
+})
+Then('I finished select content bundle', async () => {
+    await contentPage.finishedSelectContentGroupByClickSelect();
+    return mainWindow.app.sleep(500);
+})
+Then('I move mouse to content bundle grid and right click', async () => {
+    const contentBundlesGrid = await contentPage.getContentGroupGrid()
+    await contentPage.rightClick({ elem: contentBundlesGrid })
     return mainWindow.app.sleep(500);
 })
 

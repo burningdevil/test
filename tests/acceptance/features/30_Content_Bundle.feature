@@ -22,7 +22,7 @@ Feature: 30_Content_Bundle
         Then I add the content "Automation-Used-Not-Delete"
         Then I pick the dossier "Automation-Used-Not-Delete" in the add content dialog
         Then I select the all checkbox
-        Then I collapse the content bundle "Automation-Used-Not-Delete"
+        Then I expand the content bundle "Automation-Used-Not-Delete"
          Then check the screenshot by comparing "30_content_bundle_collapse"
         Then I remove the content bundle "Automation-Used-Not-Delete"
         Then check the screenshot by comparing "30_content_bundle_remove"
