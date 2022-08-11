@@ -193,7 +193,7 @@ const CustomPaletteModalGrid: React.FC<PaletteGridProps> = (
     }, []);
     const initData = useCallback((paletteList: ColorPaletteType[]) => {
         const data = [...paletteList];
-        if (data.map((v: any) => v.id).includes(defaultPaletteId)) {
+        if (data.map((v: any) => v.id)?.includes(defaultPaletteId)) {
             data.find((v: any) => v.id === defaultPaletteId).isDefaultPalette =
                 true;
         }
@@ -255,7 +255,7 @@ const CustomPaletteModalGrid: React.FC<PaletteGridProps> = (
     useEffect(() => {
         setTimeout(() => {
             gridRef.current?.api?.forEachNode((node: RowNode) => {
-                node.setSelected(selectedCustomPalettes.includes(node.data.id));
+                node.setSelected(selectedCustomPalettes?.includes(node.data.id));
             });
         }, 0);
     }, [selectedCustomPalettes, rowData]);

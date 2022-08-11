@@ -32,10 +32,11 @@ export PATH=/usr/local/sbin:/usr/local/bin:$PATH
 export WORKSPACE_SETTING=dev
 export DEBUG=0
 export SRCCLR_SCOPE=production
-export SRCCLR_SCAN_COLLECTORS=npm
+export SRCCLR_SCAN_COLLECTORS=yarn
 
 source .ecosystem
 rake pre_pipeline
+rake run_unit_test
 rake veracode
 rake generate_sonar_inclusions
 rake build
