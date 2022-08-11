@@ -144,10 +144,7 @@ task :acceptance_test_win do |t,args|
   #shell_command! "powershell -command 'Set-DisplayResolution -Width 1920 -Height 1080 -Force'"
   #shell_command! "powershell -command 'Get-DisplayResolution'"
 
-  info "====== yarn install starting ======"
-  shell_command! "npm install", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
-  shell_command! 'npm config set script-shell "C:/usr/bin/bash"', environment: {'MSYS' => 'winsymlinks:nativestrict'}
-
+  
   info "====== starting test ======"
   environmentName = ""
   begin
@@ -155,6 +152,11 @@ task :acceptance_test_win do |t,args|
     if libraryUrl.nil? || libraryUrl.empty?
       raise "invalid library url #{libraryUrl}"
     end
+
+    info "====== yarn install starting ======"
+    shell_command! "npm install", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
+    shell_command! 'npm config set script-shell "C:/usr/bin/bash"', environment: {'MSYS' => 'winsymlinks:nativestrict'}
+
     shell_command! "node trigger_test.js  \"#{workstation_path}\"  \"#{libraryUrl}\" \"@Regression\" 54213 \"#{Common::Version.application_version}\"", cwd: "I:/tests/acceptance"
     info "update rally test results"
     shell_command! "node rally/updateE2EResultsToClientAutoData.js -c \"#{Common::Version.application_version}\" \"#{ENV['BUILD_URL']}\"", cwd: "I:/tests/acceptance"
@@ -182,10 +184,7 @@ task :sanity_test_win do |t,args|
   #shell_command! "powershell -command 'Set-DisplayResolution -Width 1920 -Height 1080 -Force'"
   #shell_command! "powershell -command 'Get-DisplayResolution'"
 
-  info "====== yarn install starting ======"
-  shell_command! "npm install", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
-  shell_command! 'npm config set script-shell "C:/usr/bin/bash"', environment: {'MSYS' => 'winsymlinks:nativestrict'}
-
+  
   info "====== starting test ======"
   environmentName = ""
   begin
@@ -193,6 +192,11 @@ task :sanity_test_win do |t,args|
     if libraryUrl.nil? || libraryUrl.empty?
       raise "invalid library url #{libraryUrl}"
     end
+
+    info "====== yarn install starting ======"
+    shell_command! "npm install", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
+    shell_command! 'npm config set script-shell "C:/usr/bin/bash"', environment: {'MSYS' => 'winsymlinks:nativestrict'}
+
     shell_command! "node trigger_test.js  \"#{workstation_path}\"  \"#{libraryUrl}\" \"@Sanity\" 54213 \"#{ENV['ghprbSourceBranch']}\"", cwd: "I:/tests/acceptance"
     do_delete_tanzu_environment(environmentName)
     post_process_workstation_ci(result:"pass", update_nexus:true, update_rally:false, coverage_report:false, platform:'win', platform_os:nil)
