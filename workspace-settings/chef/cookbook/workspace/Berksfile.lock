@@ -13,10 +13,6 @@ DEPENDENCIES
     git: https://github.microstrategy.com/ecosystem-cookbooks/extras.git
     revision: 661ebc3fe837aa1b13271d663cbbe0a3724c8039
     tag: 0.1.70
-  helm
-    git: https://github.microstrategy.com/ecosystem-cookbooks/helm.git
-    revision: 2f388a2fe3c82e5602bbcff077a005705afc4701
-    tag: 0.1.35
   kube-config
     git: https://github.microstrategy.com/ecosystem-cookbooks/kube-config.git
     revision: c9e732d3383bf404dfa7f1838e4d6ceb6c6feecc
@@ -39,7 +35,6 @@ GRAPH
   docker (0.1.31)
   extras (0.1.70)
     dmg (>= 0.0.0)
-  helm (0.1.35)
   kube-config (0.1.21)
   mingw (2.1.0)
     seven_zip (>= 0.0.0)

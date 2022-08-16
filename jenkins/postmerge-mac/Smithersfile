@@ -6,27 +6,37 @@ designed to execute all acceptance tests'
 
   properties do
     parameters do
-      upstream_parameter do
-        upstream_job_name 'stage-1-dev'
-        name 'APPLICATION_VERSION'
-        description 'the version of the application to deploy and test'
-      end
-
-      upstream_parameter do
-        upstream_job_name 'stage-1-dev'
-        name 'APPLICATION_COMMIT_HASH'
-        description 'the git commit hash paired with the application version (tip: choose the same list item index as the application version)'
+      string_parameter do
+        name 'Container_Build_NO'
+        description 'the version of mstrBuild for tanzu env, default empty to use latest build'
+        default_value ''
       end
     end
   end
 
   scm do
     git do
-      commit_hash '${APPLICATION_COMMIT_HASH}'
     end
   end
 
   assigned_node_string 'macpro1_devops_vm8'
+
+  triggers do
+    schedule do
+      minute 'H'
+      hour '4'
+      month '*'
+      day_of_week '*'
+      day_of_month '*'
+    end
+  end
+
+  build_wrappers do
+    secret_text do
+      credentialsId 'tanzu_corp_svc_jenkins'
+      variable 'TANZU_CORP_PASSWORD'
+    end
+  end
 
   builders do
     bash do
@@ -34,13 +44,14 @@ designed to execute all acceptance tests'
 set +xe
 export TERM_PROGRAM=jenkins
 export PATH=/usr/local/sbin:/usr/local/bin:$PATH
-
+export USE_ADMINISTRATOR=YES
 export WORKSPACE_SETTING=dev
 source .ecosystem
+rake pre_pipeline
 
-rake eks_deploy
 rake install_latest_workstation_mac_os_x
 rake replace_workstation_plugin_mac
+rake prepare_tanzu_environment
 rake acceptance_test_mac
 '
     end
