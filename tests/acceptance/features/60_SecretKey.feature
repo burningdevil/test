@@ -1,8 +1,8 @@
-@60
+@Regression
 Feature: 60_SecretKey
     1. add Environment
     2. enter property panel
-    3. edit secret key in library panel
+    3. check secret key property existence in library panel
     
     
     Background: Add Environment
