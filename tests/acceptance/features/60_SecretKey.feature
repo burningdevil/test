@@ -1,0 +1,21 @@
+@60
+Feature: 60_SecretKey
+    1. add Environment
+    2. enter property panel
+    3. edit secret key in library panel
+    
+    
+    Background: Add Environment
+        Given configure workstation engine test environment
+
+    Scenario: 60_SecretKey
+        When I enter the env "shared" property panel
+        When I enter the library tab in property panel 
+        When I collapse "Library Server" in the library property panel
+        When I collapse "Intelligence Server" in the library property panel
+        When I expand the collab security setting in the library property panel
+        Then check the screenshot by comparing "60_SecretKeyEnable"
+
+
+
+        
