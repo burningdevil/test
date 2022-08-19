@@ -2,6 +2,9 @@ const { After, Before, Status, setDefaultTimeout } = require('cucumber');
 const { recordVideoForScenario, removeVideo, stopRecord, uploadVideo } = require('../utils/ciUtils/video-helper')
 const { sleep } = require('../utils/ciUtils/os-helper')
 const { clearJoints } = require('./mimo')
+const { appInfo, appWindow } = pageObj
+const { registerNewWindow, switchToWindow, unregisterWindow } = require('../utils/wsUtils/windowHelper')
+
 
 Before({ timeout: 30000 }, async function (scenario) {
     // clear mimo cache before each scenario
@@ -9,18 +12,20 @@ Before({ timeout: 30000 }, async function (scenario) {
     // https://github.com/cucumber/cucumber-js/blob/master/docs/support_files/world.md
     clearJoints()
 
+
     if (global.videoRecord) {
         const { process, path, name } = await recordVideoForScenario(scenario);
         this.process = process
         this.path = path
         this.name = name
     }
+    console.log('[INFO] [Sceanrio] Start ' + scenario.pickle.name)
     // TODO: investigate why it fails on Windows 10
     // await guaranteeEnvironmentsExist()
 })
 
 After(async function (scenario) {
-    console.log('Hook: Global after hook applied')
+    console.log('[INFO] [Sceanrio] End ' + scenario.pickle.name)
     console.log(`the scenarios '${scenario.pickle.name}' is ${scenario.result.status}`)
     if (global.videoRecord) {
         if (scenario.result.status === Status.PASSED) {
@@ -33,14 +38,14 @@ After(async function (scenario) {
                 try {
                     await sleep(1000)
                     const videoMetadata = await uploadVideo(`${this.path}/${this.name}`, global.uploadVideoPath)
-                    console.log('upload video info: ' +videoMetadata)
+                    console.log('upload video info: ' + videoMetadata)
                     const { url } = JSON.parse(videoMetadata)
                     if (global.videoUploadURL === undefined) {
                         global.videoUploadURL = url.substring(0, url.lastIndexOf('/'))
                     }
                     this.attach(`<a href="${url}">Download video: ${this.name}</a>`, 'text/html')
                 } catch (e) {
-                    console.log('[Error] upload video failed: '+ e)
+                    console.log('[Error] upload video failed: ' + e)
                 }
             }
         }
@@ -93,3 +98,38 @@ After(async function (scenario) {
     //     }
     // }
 });
+
+
+After({ tags: '@hook_close_application_info_window1' }, async function () {
+    try {
+        await appInfo.closeApplicationInfoWindow("New Application updated")
+        console.log('[INFO] application info window is open, close it.')
+    } catch (e) {
+        console.log('[INFO] application info window is already closed.')
+    }
+
+    await workstationApp.sleep(1000)
+})
+
+After({ tags: '@hook_close_application_info_window2' }, async function () {
+    try {
+        await appInfo.closeApplicationInfoWindow("New Application")
+        console.log('[INFO] application info window is open, close it.')
+    } catch (e) {
+        console.log('[INFO] application info window is already closed.')
+    }
+
+    await workstationApp.sleep(1000)
+})
+
+After({ tags: '@hook_close_new_application_dialog_if_necessary' }, async function () {
+    try {
+        await switchToWindow('New Application')
+        await appWindow.clickCloseDialogButton()
+        await unregisterWindow('New Application')
+        console.log('[INFO] New application window is open, close it.')
+    } catch (e) {
+        console.log('[INFO] New application window is already closed.')
+    }
+    await workstationApp.sleep(1000)
+})

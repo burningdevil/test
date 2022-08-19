@@ -55,7 +55,7 @@ When('I input application description {string}', async function (description) {
 
 
 
-Then('I edit the application {string}', async function (name) {
+When('I edit the application {string}', async function (name) {
     await applicationPage.editCustomAppFromCustomAppListPageByName(name)
     return mainWindow.app.sleep(500)
 }
@@ -73,7 +73,7 @@ Then('I delete the application {string}', async function (name) {
 }
 );
 
-Then('I getinfo the application {string}', async function (name) {
+Then('I click getinfo of the application {string}', async function (name) {
     await applicationPage.getinfoCustomAppFromCustomAppListPageByName(name)
     return mainWindow.app.sleep(500)
 }
@@ -111,6 +111,11 @@ Then('I hide toolbar icon {string}', async function (text) {
     return mainWindow.app.sleep(500)
 }
 );
+
+When('I show toolbar icon {string}', async function (text) {
+    await settingPage.showToolbarOption(text)
+    return mainWindow.app.sleep(500)
+});
 
 When('I choose the {string} client preview in the tab {string}', async function (client, pageId) {
     await settingPage.choosePreview(client, pageId)

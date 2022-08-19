@@ -6,8 +6,10 @@ Feature: 32_Content_Bundle_No_Certify
     4. add the content
 
     Background: Add Environment
+        Given I remove all custom apps except "MicroStrategy" by api
         Given configure workstation engine test environment
 
+    @hook_close_new_application_dialog_if_necessary
     Scenario: 32_Content_Bundle_No_Certify
         When I decertify dossier is "11EA496611E751FB1E9A0080EF25C29E" by project is "B7CA92F04B9FAE8D941C3E9B7E0CD754" by api
         When I select tab "Applications"

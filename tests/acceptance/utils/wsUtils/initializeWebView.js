@@ -4,8 +4,8 @@ async function initializeWebView() {
   // for windows switch to Getting Started tab
   if (OSType === 'windows') {
     console.log('Initializing Webview for Workstation Windows...')
-    // const maxworksation = await workstationApp.elementByAccessibilityId("WindowRestoreButton")
-    // await maxworksation.click()
+    const maxworksation = await workstationApp.elementByAccessibilityId("WindowRestoreButton")
+    await maxworksation.click()
     // const tabDossier = await workstationApp.elementByName('Dossiers')
     // const createDossierButton = await tabDossier.elementByClassName('Button')
     // await createDossierButton.click()

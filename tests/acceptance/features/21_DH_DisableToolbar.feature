@@ -7,8 +7,10 @@ Feature: 21_DH_DisableToolbar
     5. check the preview of tablet, phone, web and desktop
 
     Background: Add Environment
+        Given I remove all custom apps except "MicroStrategy" by api
         Given configure workstation engine test environment
 
+    @hook_close_new_application_dialog_if_necessary
     Scenario: 21_DH_DisableToolbar
         When I select tab "Applications"
         When I click the application create entry

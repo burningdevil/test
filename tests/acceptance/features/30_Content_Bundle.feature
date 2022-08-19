@@ -6,8 +6,10 @@ Feature: 30_Content_Bundle
     4. add the content
 
     Background: Add Environment
+        Given I remove all custom apps except "MicroStrategy" by api
         Given configure workstation engine test environment
 
+    @hook_close_new_application_dialog_if_necessary
     Scenario: 30_Content_Bundle
         When I select tab "Applications"
         When I click the application create entry

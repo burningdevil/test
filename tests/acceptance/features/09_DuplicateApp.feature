@@ -4,8 +4,10 @@ Feature: 09_DuplicateApp
     3. duplicate application
 
     Background: Add Environment
+        Given I remove all custom apps except "MicroStrategy" by api
         Given configure workstation engine test environment
 
+    @hook_close_new_application_dialog_if_necessary
     Scenario: 09_DuplicateApp
         When I select tab "Applications"
         When I click the application create entry

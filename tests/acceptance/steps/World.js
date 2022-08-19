@@ -126,6 +126,10 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
     }
 
     try {
+      if (pattern !== undefined) {
+        const params =  typeof arguments[0] === 'string'?arguments[0]:''
+        console.log('[INFO] [Step] ' + pattern + '; ' + params)
+      }
       await fn.apply(this, arguments)
       await attachImages('base',arguments[0],this)
     } catch (e) {
@@ -151,12 +155,13 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
 
 async function attachImages(type,name,step){
   let fileName;
+  const folder = process.platform === 'win32' ? 'win' : 'mac';
   if(type==='base'){
-    fileName = join(process.cwd(), './results/baseline/desktop_chrome/',name+'.png')
+    fileName = join(process.cwd(), './results/baseline/desktop_chrome/',folder,name+'.png')
   }else if(type==='actual'){
-    fileName = join(process.cwd(), './results/actual/desktop_chrome/',name+'.png')
+    fileName = join(process.cwd(), './results/actual/desktop_chrome/',folder,name+'.png')
   }else{
-    fileName = join(process.cwd(), './results/diff/desktop_chrome/',name+'.png')
+    fileName = join(process.cwd(), './results/diff/desktop_chrome/',folder,name+'.png')
   }
 
   if(fs.existsSync(fileName)){

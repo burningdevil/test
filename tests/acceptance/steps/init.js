@@ -1,7 +1,7 @@
 const { Given, When } = require('cucumber')
 const { Return } = require('wd/lib/special-keys')
-const { mainWindow } = pageObj
-const { registerNewWindow, switchToWindow } = require('../utils/wsUtils/windowHelper')
+const { mainWindow, appWindow } = pageObj
+const { registerNewWindow, switchToWindow, unregisterWindow } = require('../utils/wsUtils/windowHelper')
 
 /**
  * 1. Remove 'test' environment if it is existed
@@ -16,10 +16,10 @@ Given('configure workstation engine test environment', async function () {
   try {
     if (OSType === 'mac') {
       await mainWindow.mainCanvas.envSection.removeEnv(envName)
-    }else{
+    } else {
       await mainWindow.mainCanvas.envSection.removeAllEnv()
     }
-    
+
   } catch (err) {
     console.log('[INFO] [Remove User] Target env already removed.')
   }
@@ -56,6 +56,19 @@ Given('configure workstation engine test environment', async function () {
     await mainWindow.app.sleep(500)
     await mainWindow.smartTab.scrollOnSmartTab('down')
     await mainWindow.app.sleep(500)
+  }
+
+})
+
+
+Given('close application dialog if necessary', async function () {
+  try {
+    await switchToWindow('New Application')
+    await appWindow.clickCloseDialogButton()
+    await unregisterWindow('New Application')
+    console.log('[INFO] New application window is open, close it.')
+  } catch (e) {
+    console.log('[INFO] New application window is already closed.')
   }
 
 })

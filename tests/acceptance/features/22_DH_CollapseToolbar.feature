@@ -7,8 +7,10 @@ Feature: 22_DH_CollapseToolbar
     5. check the preview of tablet, phone, web and desktop
 
     Background: Add Environment
+        Given I remove all custom apps except "MicroStrategy" by api
         Given configure workstation engine test environment
-
+        
+    @hook_close_new_application_dialog_if_necessary
     Scenario: 22_DH_CollapseToolbar
         When I select tab "Applications"
         When I click the application create entry
