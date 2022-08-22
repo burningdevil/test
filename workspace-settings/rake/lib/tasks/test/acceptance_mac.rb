@@ -73,7 +73,7 @@ task :acceptance_test_mac do
     info "====== Executing tests ======"
     app_path = "\'MicroStrategy Workstation\'"
     shell_command! "npm install --frozen-lockfile", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
-    shell_command! "node #{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance/trigger_test.js #{app_path} \'#{libraryUrl}\' \'@Regression\' #{@cef_remote_debug_port} \'#{Common::Version.application_version}\'", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
+    shell_command! "node #{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance/trigger_test.js #{app_path} \'#{libraryUrl}/\' \'@Regression\' #{@cef_remote_debug_port} \'#{Common::Version.application_version}\'", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
     #update test result to rally
     shell_command! "node rally/updateE2EResultsToClientAutoData.js -c \"#{Common::Version.application_version}\" \"#{ENV['BUILD_URL']}\"", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
     shell_command! "node rally/updateE2EResultsToRally.js -c \"#{Common::Version.application_version}\" \"#{ENV['BUILD_URL']}\"", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
