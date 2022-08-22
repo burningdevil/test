@@ -157,7 +157,7 @@ task :acceptance_test_win do |t,args|
     shell_command! "npm install", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
     shell_command! 'npm config set script-shell "C:/usr/bin/bash"', environment: {'MSYS' => 'winsymlinks:nativestrict'}
 
-    shell_command! "node trigger_test.js  \"#{workstation_path}\"  \"#{libraryUrl}\" \"@Regression\" 54213 \"#{Common::Version.application_version}\"", cwd: "I:/tests/acceptance"
+    shell_command! "node trigger_test.js  \"#{workstation_path}\"  \"#{libraryUrl}/\" \"@Regression\" 54213 \"#{Common::Version.application_version}\"", cwd: "I:/tests/acceptance"
     info "update rally test results"
     shell_command! "node rally/updateE2EResultsToClientAutoData.js -c \"#{Common::Version.application_version}\" \"#{ENV['BUILD_URL']}\"", cwd: "I:/tests/acceptance"
     shell_command! "node rally/updateE2EResultsToRally.js -c \"#{Common::Version.application_version}\" \"#{ENV['BUILD_URL']}\"", cwd: "I:/tests/acceptance"
