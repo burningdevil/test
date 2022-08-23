@@ -58,58 +58,116 @@ async function sendSlackMessage(resultData) {
   }
 
   const options = {
-    url: 'https://hooks.slack.com/services/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',
+    url: 'https://microstrategy.webhook.office.com/webhookb2/ab1919e2-c4eb-46fd-9472-de3de2f44ede@901c038b-4638-4259-b115-c1753c7735aa/IncomingWebhook/94fb07bb53d745a7bab5375d845afee6/56f852fa-265a-4f48-9620-eaff30c9b61e',
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     json: {
-      "blocks": [
+      "type": "message",
+      "attachmentLayout": "builder.AttachmentLayout.list",
+      "attachments": [
         {
-          "type": "header",
-          "text": {
-            "type": "plain_text",
-            "text": "Workstation Custom App Automation Summary on " + ostype,
-            "emoji": true
-          }
-        },
-        {
-          "type": "divider"
-        },
-        {
-          "type": "section",
-          "fields": [
-            {
-              "type": "mrkdwn",
-              "text": "Build " + resultData.buildNumber
-            }
-          ]
-        },
-        {
-          "type": "section",
-          "fields": [
-            {
-              "type": "mrkdwn",
-              "text": "*Pass:* " + totalPass + ";   *Fail:* `" + totalFail + "`;    Total: " + (totalPass + totalFail)
-            }
-          ]
-        },
-        {
-          "type": "section",
-          "text": {
-            "type": "mrkdwn",
-            "text": "<" + buildUrl + "|View jobs on CI>"
-          }
-        },
-        {
-          "type": "section",
-          "text": {
-            "type": "mrkdwn",
-            "text": "<https://aqueduct.microstrategy.com/MicroStrategyLibrary/app/0730F68F4B8B4B52AA23F0AAB46F3CA8/FE3ADDA23C4F3DC67C7C7892C0346CCF/bookmarks?ids=7FE6708F264CE96909FAE4BDC0118B2C|View details on dossier>"
+          "contentType": "application/vnd.microsoft.card.adaptive",
+          "content": {
+            "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+            "type": "AdaptiveCard",
+            "version": "1.3",
+            "msteams": {
+              "width": "Full",
+              "entities": [
+                {
+                  "type": "mention",
+                  "text": "<at>Xu, Bin</at>",
+                  "mentioned": {
+                    "id": "bxu@microstrategy.com",
+                    "name": "Xu, Bin"
+                  }
+                }]
+            },
+            "body": [
+              {
+                "type": "Container",
+                "items": [
+                  {
+                    "type": "Container",
+                    "items": [
+                      {
+                        "type": "TextBlock",
+                        "text": "Workstation Custom App Automation Summary on " + ostype,
+                        "style": "default",
+                        "fontType": "Default",
+                        "size": "Default",
+                        "weight": "Bolder"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Container",
+                    "style": "default",
+                    "items": [
+                      {
+                        "type": "TextBlock",
+                        "text": "Build: " + resultData.buildNumber,
+                        "wrap": true
+                      },
+                      {
+                        "type": "RichTextBlock",
+                        "inlines": [
+                          {
+                            "type": "TextRun",
+                            "text": "Pass: "
+                          },
+                          {
+                            "type": "TextRun",
+                            "color": "Good",
+                            "text": ` ${totalPass}`
+                          },
+                          {
+                            "type": "TextRun",
+                            "text": "   Fail:"
+                          },
+                          {
+                            "type": "TextRun",
+                            "color": "Attention",
+                            "text": ` ${totalFail}`
+                          },
+                          {
+                            "type": "TextRun",
+                            "text": "   Total:"
+                          },
+                          {
+                            "type": "TextRun",
+                            "text": ` ${(totalPass + totalFail)}`
+                          }
+                        ]
+                      },
+                      {
+                        "type": "TextBlock",
+                        "text": "[View job on CI](" + buildUrl + ")",
+                        "wrap": true
+                      },
+                      {
+                        "type": "TextBlock",
+                        "text": "[View details on dossier](https://aqueduct.microstrategy.com/MicroStrategyLibrary/app/0730F68F4B8B4B52AA23F0AAB46F3CA8/FE3ADDA23C4F3DC67C7C7892C0346CCF/bookmarks?ids=7FE6708F264CE96909FAE4BDC0118B2C)",
+                        "wrap": true
+                      },
+                      {
+                        "type": "TextBlock",
+                        "text": "CC <at>Xu, Bin</at>",
+                        "wrap": true
+                      }
+                    ],
+                    "horizontalAlignment": "Left"
+                  }
+                ]
+              }
+            ]
           }
         }
       ]
     }
+
   }
 
   return new Promise((resolve, reject) => {
@@ -204,7 +262,7 @@ if (fs.existsSync(resultReport)) {
   const file = JSON.parse(fs.readFileSync(filePath))
   e2eResultsParserForDumpClientData({ file, resultMap })
   console.info(`Complete analyzing file: ${filePath}`)
-  updateToClientAutoDataDB(resultMap)
+  //updateToClientAutoDataDB(resultMap)
   sendSlackMessage(resultMap)
 
 } else {

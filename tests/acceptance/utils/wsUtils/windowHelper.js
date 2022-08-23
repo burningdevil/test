@@ -13,7 +13,7 @@ async function registerNewWindow(windowName) {
 
 async function switchToWindow(windowName) {
   const windowhandle = windowsMap.get(windowName)
-  await workstationApp.window(windowhandle)
+  if (windowhandle !== undefined) await workstationApp.window(windowhandle)
   return workstationApp.sleep(1000)
 }
 

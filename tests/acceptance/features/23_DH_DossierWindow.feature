@@ -11,8 +11,10 @@ Feature: 23_DH_DossierWindow
     10. check the preview of tablet, phone, web and desktop when off Edit Dossier
 
     Background: Add Environment
+        Given I remove all custom apps except "MicroStrategy" by api
         Given configure workstation engine test environment
 
+    @hook_close_new_application_dialog_if_necessary
     Scenario: 23_DH_DossierWindow
         When I select tab "Applications"
         When I click the application create entry

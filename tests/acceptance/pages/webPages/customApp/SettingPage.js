@@ -195,6 +195,8 @@ export default class SettingPage extends BasePage {
       await this.getConfirmCancelButton(pageId).click()
     }
     await browser.sleep(6000 * this.ratio)
+    await unregisterWindow('New Application')
+    await switchToWindow('Workstation Main Window')
     await this.switchToNewWebView()
   }
 
@@ -216,14 +218,14 @@ export default class SettingPage extends BasePage {
   async inputName(name) {
     await this.wait(this.EC.elementToBeClickable(this.getNameInpuBox()), 30000 * this.ratio, 'The target application name inputbox was not clickable yet.');
     await this.getNameInpuBox().click()
-    if(name !== ''){
+    if (name !== '') {
       await this.input('Placehoder')
       if (OSType === 'mac') {
         await this.getNameInpuBox().clear()
-      }else{
-       // await this.getNameInpuBox()
-       await this.getNameInpuBox().sendKeys(protractor.Key.chord(protractor.Key.CONTROL, "a"))
-       await this.getNameInpuBox().sendKeys(protractor.Key.DELETE)
+      } else {
+        // await this.getNameInpuBox()
+        await this.getNameInpuBox().sendKeys(protractor.Key.chord(protractor.Key.CONTROL, "a"))
+        await this.getNameInpuBox().sendKeys(protractor.Key.DELETE)
 
       }
 

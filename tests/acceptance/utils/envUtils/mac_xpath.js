@@ -138,6 +138,20 @@ const macXPath = {
     settings: {
       button: `${stdWindow}/AXButton[@AXTitle='ReplaceMe']`,
       confirmErrorMessageButton: `${application}/AXWindow[@AXSubrole='AXStandardWindow']/AXSheet/AXButton[@AXTitle='OK']`
+    },
+    applicationinfo: {
+      smarttab: `${stdWindow}/AXScrollArea[0]/AXTable[0]/AXRow[@AXSubrole='AXTableRow']/AXCell[0]/AXStaticText[@AXValue='ReplaceMe']`,
+      userorusergroup: `${stdWindow}/AXScrollArea[1]/AXTable[0]/AXRow[@AXSubrole='AXTableRow']/AXCell[1]/AXStaticText[@AXValue='ReplaceMe']`,
+      adduserorusergroup: `${stdWindow}/AXButton[0]`,
+      removeuserorusergroup: `${stdWindow}/AXButton[1]`,
+      savebutton: `${stdWindow}/AXButton[@AXTitle='OK']`,
+      cancelbutton: `${stdWindow}/AXButton[@AXTitle='Cancel']`,
+      closewindowbutton: `${application}/AXWindow[@AXTitle='ReplaceMe' and @AXSubrole='AXStandardWindow']/AXButton[@AXSubrole='AXCloseButton']`
+    },
+    customapp: {
+      newcustomappwindow: `${application}/AXWindow[@AXTitle='New Application' and @AXSubrole='AXStandardWindow']`,
+      closewindowbutton: `${application}/AXWindow[@AXTitle='New Application' and @AXSubrole='AXStandardWindow']/AXButton[@AXSubrole='AXCloseButton']`,
+      confirmclosewindowbutton: `${application}/AXWindow[@AXTitle='New Application' and @AXSubrole='AXStandardWindow']/AXSheet[@AXIdentifier='_NS:79']/AXButton[@AXTitle='No']`
     }
   }
 }

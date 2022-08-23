@@ -4,8 +4,10 @@ Feature: 12_CreateApp
     2. create application
 
     Background: Add Environment
+        Given I remove all custom apps except "MicroStrategy" by api
         Given configure workstation engine test environment
 
+    @hook_close_new_application_dialog_if_necessary
     Scenario: 12_CreateApp
         When I select tab "Applications"
         When I click the application create entry

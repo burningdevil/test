@@ -1,6 +1,7 @@
 
 import BasePage from '../../basePages/BasePage'
 import { OSType } from '../../../utils/envUtils/constants'
+const { join } = require('path');
 const { registerNewWindow, switchToWindow, unregisterWindow } = require('../../../utils/wsUtils/windowHelper')
 
 export default class ApplicationPage extends BasePage {
@@ -128,21 +129,27 @@ export default class ApplicationPage extends BasePage {
 
   async switchToNewApplicationWindow() {
     await browser.sleep(1000 * this.ratio)
-    // await registerNewWindow('New Application')
-    // await switchToWindow('New Application')
+    await registerNewWindow('New Application')
+    await switchToWindow('New Application')
     await this.switchToNewWebView()
   }
 
   async switchToEditApplicationWindow() {
     await browser.sleep(1000 * this.ratio)
-    // await registerNewWindow('Edit Application')
-    // await switchToWindow('Edit Application')
+    await registerNewWindow('Edit Application')
+    await switchToWindow('Edit Application')
     await this.switchToNewWebView()
   }
 
   async switchToCustomAppWindow() {
     await browser.sleep(1000 * this.ratio)
     await this.switchToNewWebView()
+  }
+
+  async switchToApplicationInfoWindow() {
+    await browser.sleep(10000 * this.ratio)
+    await registerNewWindow('Application info')
+    await switchToWindow('Application info')
   }
 
   async waitForCustomAppMainWindow() {
@@ -155,7 +162,7 @@ export default class ApplicationPage extends BasePage {
 
 
 
-  async waitForContentMenu(text){
+  async waitForContentMenu(text) {
     await this.wait(this.EC.visibilityOf(this.element(by.xpath(`//div[@class='item-title-wrapper' and text()='${text}']`))), 60000 * this.ratio, 'Waiting for delete button in context menu int timeout.')
   }
 
@@ -197,6 +204,15 @@ export default class ApplicationPage extends BasePage {
     await this.switchToEditApplicationWindow()
   }
 
+  async getinfoCustomAppFromCustomAppListPageByName(name) {
+    await this.waitForCustomAppMainWindow();
+    const appItem = await this.getGridCellInCustomAppListView(name)
+    await this.rightClick({ elem: appItem })
+    await this.waitForContentMenu('Get Info')
+    await this.getContentMenuInCustomAppListView('Get Info').click()
+    await this.switchToApplicationInfoWindow()
+  }
+
   async sortColumn(columnname) {
     // await this.waitForCustomAppMainWindow()
     await browser.sleep(3000 * this.ratio)
@@ -224,7 +240,8 @@ export default class ApplicationPage extends BasePage {
   async takeScreenshotOnPage(screenshot) {
     await browser.sleep(1000 * this.ratio)
     // Ensure the mouse stay the same location
-    const fileName = `${screenshot}_${process.platform === 'win32' ? 'win32' : 'mac'}`
+    // const fileName = `${screenshot}_${process.platform === 'win32' ? 'win32' : 'mac'}`
+    const fileName = join(process.platform === 'win32' ? 'win' : 'mac', screenshot)
     await browser
       .actions()
       .mouseMove({ x: 0, y: 10000 })

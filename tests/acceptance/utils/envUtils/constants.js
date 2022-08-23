@@ -17,15 +17,15 @@ const MAC_CAPABILITIES = {
   deviceName: 'Mac',
   app: workstationPath,
   newCommandTimeout: 600000,
-  cookies : [
+  cookies: [
     // for debug purpose
-    { name:'command_delay', value: 0 },
+    { name: 'command_delay', value: 0 },
     // try to locate element every 'loop_delay' within 'implicit_timeout'
     // this value will be set when starting workstation
     // {'name':'implicit_timeout', 'value': 0 },
-    { name:'loop_delay', value: 1 },
+    { name: 'loop_delay', value: 1 },
     // mouse speed
-    { name:'mouse_speed', value:400 },
+    { name: 'mouse_speed', value: 400 },
     // take screenshots on errors locating elements
     // {'name':'global_diagnostics_directory', 'value':'/Users/qfan/ws-app-automation/screenshots'},
     // {'name':'screen_shot_on_error', 'value': true }
@@ -37,12 +37,12 @@ const MAC_CAPABILITIES = {
 //    this function helps to set different values based on the platform
 const setValuePerPlatform = (winValue, macValue) => {
   switch (process.platform) {
-      case 'win32':
-        return winValue
-      case 'darwin':
-        return macValue
-      default:
-        throw Error('Test is running in an unexpected environment!')
+    case 'win32':
+      return winValue
+    case 'darwin':
+      return macValue
+    default:
+      throw Error('Test is running in an unexpected environment!')
   }
 }
 
@@ -75,4 +75,4 @@ export const MAC_XPATH_GENERAL = macXPath.general
 export const OSType = setValuePerPlatform('windows', 'mac')
 export const APP_CAPABILITIES = setValuePerPlatform(WIN_CAPABILITIES, MAC_CAPABILITIES)
 export const RESET_ENV = setValuePerPlatform(resetWinEnv, resetMacEnv)
-export const IMPLICIT_TIMEOUT = 30000
+export const IMPLICIT_TIMEOUT = 10000

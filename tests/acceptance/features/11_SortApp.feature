@@ -4,8 +4,10 @@ Feature: 11_SortApp
     2. sort application
 
     Background: Add Environment
+        Given I remove all custom apps except "MicroStrategy" by api
         Given configure workstation engine test environment
 
+    @hook_close_new_application_dialog_if_necessary
     Scenario: 11_SortApp
         When I select tab "Applications"
         Then I sort the application list by "Name"
