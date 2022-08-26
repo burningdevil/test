@@ -90,3 +90,26 @@ desc "generate sonarqube incluesion for PR changed files"
 task :generate_sonar_inclusions do
   generate_sonar_inclusions
 end
+
+def run_unit_test
+  node_modules_folder = "#{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}/node_modules"
+
+  FileUtils.rm_rf(node_modules_folder) if File.exist?(node_modules_folder)
+
+  shell_command!(
+    "yarn install",
+    cwd: $WORKSPACE_SETTINGS[:paths][:project][:production][:home]
+  )
+  shell_command!(
+    "npm run compile",
+    cwd: $WORKSPACE_SETTINGS[:paths][:project][:production][:home]
+  )
+  shell_command!(
+    "npm run unit-test",
+    cwd: $WORKSPACE_SETTINGS[:paths][:project][:production][:home]
+  )
+end
+desc "run unit test premerge"
+task :run_unit_test do
+  run_unit_test
+end
