@@ -14,7 +14,7 @@ designed to execute @Sanity tests'
   end
 
 
-  assigned_node_string 'win_vra_workstation_plugin_test_node_ct'
+  assigned_node_string 'win_vra_workstation_plugin_test_node'
 
   build_wrappers do
     secret_text do
