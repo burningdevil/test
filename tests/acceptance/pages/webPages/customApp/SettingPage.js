@@ -152,6 +152,10 @@ export default class SettingPage extends BasePage {
     return this.element(by.xpath(`//div[@class='icon-pnl_close operation-item']`))
   }
 
+  getOKButtonInColorPaletteEditor() {
+    return this.element(by.xpath(`//div[@class='color-palette-editor-btn']//span[text()='OK']`))
+  }
+
 
 
   // connectivity, to be added the id
@@ -357,6 +361,11 @@ export default class SettingPage extends BasePage {
     const paletteItem = await this.getPaleteNameInListView(palettename)
     await this.hover({ elem: paletteItem })
     await this.getRemoveOption().click()
+    await browser.sleep(2000 * this.ratio)
+  }
+
+  async conformInColorPaletteEditor() {
+    await this.getOKButtonInColorPaletteEditor().click()
     await browser.sleep(2000 * this.ratio)
   }
 }

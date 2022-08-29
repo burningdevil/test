@@ -25,6 +25,9 @@ Feature: 51_DossierSetting_SelectColor
         Then I pick color "Rose #FBDAD9"
         Then I pick color "Buttermilk #FFF3B3"
         Then check the screenshot by comparing "51_DossierSetting_PickColor_2"
+        Then I confirm in color palette editor
+        Then I comfirm the palette selection
+        Then I click "Save" button in the tab "dossierSettings"
 
 
         
