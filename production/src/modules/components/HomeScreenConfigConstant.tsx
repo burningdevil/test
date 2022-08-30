@@ -33,6 +33,7 @@ export const CONSTANTS = {
     TOOLBAR_ENABLED: 'toolbarEnabled',
     DEFAULT_GROUPS_NAME: 'defaultGroupsName',
     CONTENT_BUNDLES: 'contentBundles',
+    AUTHENTICATION_MODES: 'authModeDisplay',
     //Advanced Settings
     AUTH_MODES: 'authModes',
     DISABLE_ADVANCED_SETTINGS: 'disableAdvancedSettings',
@@ -403,6 +404,8 @@ export const localizedStrings = {
     NEW_PALETTE_DEFAULT_NAME: t('newPaletteDefaultName'),
     ADD_CUSTOM_COLOR_PALETTE_MESSAGE: t('addCustomColorPalettesMessage'),
     PALETTE_COUNT: t('paletteCount'),
+    AUTH_MODES: t('authModes'),
+    FOLLOW_LIBRARY_SERVER: t('followLibraryServer')
 };
 
 export const sectionTitle = {
@@ -505,6 +508,9 @@ export const closeWindowConfirmationStr = (name: string) => {
 export const paletteCountsStr = (count: number) => {
   return t('paletteCount', { count });
 };
+export const serverRestartStr = (icon: string) => {
+    return t('serverRestartTip', { icon: icon})
+}
 export interface IconType {
     displayText: string;
     iconName: string;

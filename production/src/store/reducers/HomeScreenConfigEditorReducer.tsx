@@ -3,6 +3,7 @@ import { CONSTANTS, localizedStrings, iconTypes, reviewType, iconValidKey, platf
 import { ActionTypes } from '../actions/ActionTypes'
 import * as Actions from '../actions/ActionConstants'
 import * as _ from 'lodash'
+import { DEFAULT_AUTH_MODE } from '../../../src/modules/components/features/custom-auth/custom-auth.model'
 export const DEFAULT_EMAIL_SETTING = {
   'enabled': false,
   'hostPortal': '',
@@ -14,6 +15,7 @@ export const DEFAULT_EMAIL_SETTING = {
   'sentByText': 'MicroStrategy Inc.',
   'showSocialMedia': true
 }
+
 const initialState: HomeScreenConfigEditorState = {
   currentConfig: {
     'name': '',
@@ -51,6 +53,7 @@ const initialState: HomeScreenConfigEditorState = {
       updateInterval: CONSTANTS.DEFAULT_UPDATE_INTERVAL
     },
     'emailSettings': DEFAULT_EMAIL_SETTING,
+    'authModes': DEFAULT_AUTH_MODE,
     applicationPalettes: [],
     useConfigPalettes: false
   },

@@ -1,3 +1,5 @@
+import { CustomAuthModes } from "src/modules/components/features/custom-auth/custom-auth.model";
+
 export interface MainViewContentBundleType {
     'id': string,
     'name': string,
@@ -70,7 +72,8 @@ export interface HomeScreenConfigType {
     applicationPalettes: Array<string>,
     applicationDefaultPalette: string,
     // customize email
-    'emailSettings': CustomEmailSettingType
+    'emailSettings': CustomEmailSettingType,
+    'authModes': CustomAuthModes
 }
 
 export interface HomeScreenConfigInfo {

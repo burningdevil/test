@@ -36,6 +36,7 @@ import * as api from '../../../services/Api';
 import * as _ from 'lodash';
 import {
     formatTime,
+    getFeatureFlag,
     hexIntToColorStr,
     isContentTypeDossier,
 } from './HomeScreenUtils';
@@ -51,6 +52,7 @@ import {
     LIBRARY_SERVER_SUPPORT_DOC_TYPE_VERSION,
     LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION,
     isUserHasManageContentGroupPrivilege,
+    LIBRARY_SERVER_SUPPORT_AUTH_MODE,
 } from '../../../utils';
 import classNames from 'classnames';
 import {
@@ -65,6 +67,7 @@ import CONSTANTS, {
     APPLICATION_OBJECT_SUBTYPE,
     HOME_DOCUMENT_TYPE_DOSSIER,
     HOME_DOCUMENT_TYPE_DOCUMENT,
+    GENERAL_PREVIEW_FEATURE_FLAG,
 } from '../HomeScreenConfigConstant';
 import { t } from '../../../i18n/i18next';
 import { store } from '../../../main';
@@ -77,6 +80,8 @@ import {
     map,
     catchError,
 } from 'rxjs/operators';
+import { HomeScreenConfigType } from 'src/types/data-model/HomeScreenConfigModels';
+import { supportCustomAuthModes } from '../features/custom-auth/custom-auth.model';
 
 declare var workstation: WorkstationModule;
 const classNamePrefix = 'home-screen-main';
@@ -104,6 +109,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
             isInitialLoading: true,
             deleteApplicationsToBeConfirmed: [],
             contentBundleFeatureEnable: true,
+            authModesFeatureEnable: true
         };
         // this.initOption();
     }
@@ -200,6 +206,15 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                     LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION
                 ) &&
                 isUserHasManageContentGroupPrivilege(currentEnv.privileges);
+            const isLibraryVersionSupportAuthMode = !!status.webVersion && 
+                getFeatureFlag(
+                    GENERAL_PREVIEW_FEATURE_FLAG,
+                    currentEnv
+                    ) &&
+                isLibraryServerVersionMatch(
+                    status.webVersion,
+                    LIBRARY_SERVER_SUPPORT_AUTH_MODE
+                )
             // Server version and User privilige
             this.setState({
                 isLibraryVersionMatched: isLibraryVersionMatched,
@@ -208,6 +223,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                 isLibraryVersionSupportDocumentType:
                     isLibraryVersionSupportDocumentType,
                 contentBundleFeatureEnable: isLibraryVersionSupportContentGroup,
+                authModesFeatureEnable: isLibraryVersionSupportAuthMode
             });
             const isMDVersionMatched = await this.loadApplicationsFolder();
             // MD version
@@ -606,6 +622,11 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                     dateCreated: formatTime(resultConfig.dateCreated),
                 });
             }
+            if (_.has(resultConfig, VC.AUTH_MODES)) {
+                _.assign(resultConfig, {
+                    [VC.AUTHENTICATION_MODES]: resultConfig.authModes?.availableModes?.join('-'),
+                });
+            }
 
             return resultConfig;
         });
@@ -652,6 +673,47 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                 width: 100,
                 // flex: 1,
                 resizable: false,
+            },
+            {
+                field: VC.AUTHENTICATION_MODES,
+                headerName: localizedStrings.AUTH_MODES,
+                sortable: false,
+                resizable: true,
+                // flex: 2.5,
+                hide: true,
+                width: 150,
+                cellRendererFramework: (rendererParam: any) => {
+                    const d = rendererParam.data as HomeScreenConfigType;
+                    if (!d.authModes || d.authModes?.defaultMode === 0) {
+                        return (
+                            <div
+                                className={`${classNamePrefix}-auth-mode`}
+                            >
+                                <span>
+                                    {localizedStrings.FOLLOW_LIBRARY_SERVER}
+                                </span>
+                            </div>
+                        );
+                    }
+                    return (
+                        <div className={`${classNamePrefix}-auth-mode`}>
+                            <span>
+                            {
+                            d.authModes?.availableModes?.sort((a: number,b: number) => {
+                                return b === d.authModes?.defaultMode ? 1 : -1 
+                            })
+                            .map(
+                                    (mode: number) => {
+                                        const label = supportCustomAuthModes.find(v => v.value === mode)?.label;
+                                        return label
+                                    }
+                                )
+                                .join(', ')
+                            }
+                            </span>
+                        </div>
+                    );
+                },
             },
             {
                 field: VC.CONTENT_BUNDLES,
@@ -728,6 +790,18 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                 initialHide: true,
             },
         ] as ColumnDef[];
+        if (this.state.authModesFeatureEnable) {
+            cols.find((v) => v.field === VC.AUTHENTICATION_MODES).hide = false;
+            cols.find((v) => v.field === VC.DESC).width = 160;
+        } else {
+            if (
+                Object.keys(this.state.currentEnv)?.length &&
+                !this.state.authModesFeatureEnable
+            ) {
+                cols.splice(3, 1); // splice the auth mode
+            }
+            cols.find((v) => v.field === VC.DESC).width = 420;
+        }
         if (this.state.contentBundleFeatureEnable) {
             cols.find((v) => v.field === VC.CONTENT_BUNDLES).hide = false;
             cols.find((v) => v.field === VC.DESC).width = 160;
@@ -736,7 +810,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                 Object.keys(this.state.currentEnv)?.length &&
                 !this.state.contentBundleFeatureEnable
             ) {
-                cols.splice(3, 1);
+                cols.splice(4, 1); // splice the content bundle
             }
             cols.find((v) => v.field === VC.DESC).width = 420;
         }

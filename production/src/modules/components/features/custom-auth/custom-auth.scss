@@ -1,0 +1,63 @@
+@import '~@mstr/rc/es/assets/scss/variables.scss';
+@import '../../scss/variables.scss';
+
+.custom-auth-form {
+    display: flex;
+    &-title {
+        width: 20%;
+        padding-right: 20px;
+    }
+    &-content {
+        flex: auto;
+        padding-right: 50px;
+        margin-bottom: 15px;
+        text-align: left;
+    }
+    &-option-container {
+        border: 1px solid rgba(53, 56, 58, 0.2);
+        border-radius: 2px;
+        // padding-right: 50px;
+    }
+    .ant-check-group {
+        margin: 0 !important;
+    }
+}
+.wsicon {
+    background-image: url('../../images/18_18.svg');
+    background-repeat: no-repeat;
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    margin-bottom: -5px; // to shift image down when used inline
+}
+.wsicon.wsicon-restart {
+    background-position: -252px 0;
+}
+.defaultClass {
+    color: gray;
+    float: right;
+    margin-top: 5px;
+    margin-right: 15px;
+}
+.operation-item {
+    display: none;
+    float: right;
+    margin-top: 5px;
+    margin-right: 15px;
+}
+.operation-row {
+    display: inline-block;
+}
+.group-row {
+    line-height: 30px;
+}
+.group-row:hover {
+    background-color: #E9F2FE;
+    .operation-item {
+        display: inline-block;
+        cursor: pointer;
+        &:hover {
+            color: $mobile-primary-blue;
+        }
+    }
+}

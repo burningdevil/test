@@ -8,6 +8,7 @@ import {
     platformType,
     reviewType,
     localizedStrings,
+    GENERAL_PREVIEW_FEATURE_FLAG,
 } from '../HomeScreenConfigConstant';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import {
@@ -21,6 +22,10 @@ import * as Actions from '../../../store/actions/ActionsCreator';
 import {
     WorkstationModule
 } from '@mstr/workstation-types';
+import CustomAuth from '../features/custom-auth/custom-auth';
+import CustomAuthBanner from '../features/custom-auth/custom-auth-banner';
+import { getFeatureFlag } from './HomeScreenUtils';
+import { isLibraryServerVersionMatch } from 'src/utils';
 declare var workstation: WorkstationModule;
 const { TextArea } = Input;
 
@@ -167,6 +172,8 @@ class HomeScreenGeneral extends React.Component<any, any> {
 
     render() {
         const { name, description, platforms } = this.props.config;
+        
+        const isShowAuthMode = !!name && this.props.authModeEnable;
         return (
             <div className={`${classNamePrefix}`}>
                 <div className={`${classNamePrefix}-environment`}>
@@ -220,6 +227,9 @@ class HomeScreenGeneral extends React.Component<any, any> {
                         />
                     </div>
                 </div>
+                {
+                    isShowAuthMode && <CustomAuth config = {this.props.config}></CustomAuth>
+                }
                 {/* <div className={`${classNamePrefix}-platform`}>
                 <div className={`${classNamePrefix}-platform-title`}>
                     {localizedStrings.PLATFORMS}
