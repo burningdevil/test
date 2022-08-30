@@ -234,10 +234,17 @@ exports.config = {
     if (customArgObj.args.removeEnv) {
       try {
         // remove environment
+        const { switchToWindow } = require('./utils/wsUtils/windowHelper')
+        await switchToWindow('Workstation Main Window')
+        await mainWindow.smartTab.scrollOnSmartTab('up')
         await mainWindow.smartTab.selectTab('Environments')
-        for (let envIndex = 0; envIndex < browser.params.envInfo.length; envIndex++) {
-          await mainWindow.mainCanvas.envSection.removeEnv(browser.params.envInfo[envIndex].envName)
-          await mainWindow.mainCanvas.envSection.isEnvRemoved(browser.params.envInfo[envIndex].envName, 4000)
+        if (OSType === 'mac') {
+          for (let envIndex = 0; envIndex < browser.params.envInfo.length; envIndex++) {
+            await mainWindow.mainCanvas.envSection.removeEnv(browser.params.envInfo[envIndex].envName)
+            await mainWindow.mainCanvas.envSection.isEnvRemoved(browser.params.envInfo[envIndex].envName, 4000)
+          }
+        } else {
+          await mainWindow.mainCanvas.envSection.removeAllEnv()
         }
       } catch (e) {
         console.info('Failed to manually remove environment, moving to afterLaunch')

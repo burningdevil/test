@@ -8,6 +8,7 @@ Feature: 60_SecretKey
     Background: Add Environment
         Given configure workstation engine test environment
 
+    @hook_close_environment_info_window
     Scenario: 60_SecretKey
         When I enter the env "shared" property panel
         When I enter the library tab in property panel 

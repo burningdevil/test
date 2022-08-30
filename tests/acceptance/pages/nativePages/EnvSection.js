@@ -158,7 +158,7 @@ export default class EnvSection extends RootApp {
     return this.getNativeElement({
       windows: {
         locators: [
-          { method: 'Name', value: 'Available Environments' },
+          { method: 'Name', value: 'EnvIconBrowsingUserControl' },
           { method: 'Name', value: `${environmentName}\nRestEnvironment` }
         ]
       },
@@ -429,7 +429,7 @@ export default class EnvSection extends RootApp {
       status = await this.nativeWaitForDisappear({
         windows: {
           locators: [
-            { method: 'Name', value: 'Available Environments' },
+            { method: 'Name', value: 'EnvIconBrowsingUserControl' },
             { method: 'Name', value: `${environmentName}\nRestEnvironment` }
           ]
         },
