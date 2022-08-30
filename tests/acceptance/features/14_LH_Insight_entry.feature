@@ -17,7 +17,7 @@ Feature: 14_LH_DisableInsight_entry
         Then I switch to menu "Components"
         Then I open the sidebar collapse
 
-        Then I hide toolbar icon "Insights (Web Only)"
+        Then I hide toolbar icon "Insights(Web and Desktop)"
         When I choose the "Tablet" client preview in the tab "components"
         Then check the screenshot by comparing "14_lh_off_insight_tablet01"
         When I choose the "Phone" client preview in the tab "components"
@@ -27,7 +27,7 @@ Feature: 14_LH_DisableInsight_entry
         When I choose the "Desktop" client preview in the tab "components"
         Then check the screenshot by comparing "14_lh_off_insight_desktop04"
 
-        When I show toolbar icon "Insights (Web Only)"
+        When I show toolbar icon "Insights(Web and Desktop)"
         When I choose the "Tablet" client preview in the tab "components"
         Then check the screenshot by comparing "14_lh_on_insight_tablet05"
         When I choose the "Phone" client preview in the tab "components"

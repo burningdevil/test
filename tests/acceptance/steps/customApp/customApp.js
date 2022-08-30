@@ -179,6 +179,11 @@ Then('I comfirm the palette selection', async function () {
 }
 );
 
+Then('I confirm in color palette editor', async function () {
+    await settingPage.conformInColorPaletteEditor()
+    return mainWindow.app.sleep(500)
+});
+
 
 Then('check the screenshot by comparing {string}', async function (screenshot) {
     await applicationPage.takeScreenshotOnPage(screenshot)

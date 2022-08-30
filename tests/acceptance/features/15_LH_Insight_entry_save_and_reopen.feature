@@ -18,7 +18,7 @@ Feature: 15_LH_Insight_entry_save_and_reopen
         Then I switch to menu "Components"
         Then I open the sidebar collapse
 
-        Then I hide toolbar icon "Insights (Web Only)"
+        Then I hide toolbar icon "Insights(Web and Desktop)"
         Then I click "Save" button in the tab "components"
         When I edit the application "New Application"
         Then I switch to menu "Components"
