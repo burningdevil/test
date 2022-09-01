@@ -2,7 +2,7 @@ const { After, Before, Status, setDefaultTimeout } = require('cucumber');
 const { recordVideoForScenario, removeVideo, stopRecord, uploadVideo } = require('../utils/ciUtils/video-helper')
 const { sleep } = require('../utils/ciUtils/os-helper')
 const { clearJoints } = require('./mimo')
-const { appInfo, appWindow } = pageObj
+const { appInfo, appWindow, envWindow } = pageObj
 const { registerNewWindow, switchToWindow, unregisterWindow } = require('../utils/wsUtils/windowHelper')
 
 
@@ -117,6 +117,17 @@ After({ tags: '@hook_close_application_info_window2' }, async function () {
         console.log('[INFO] application info window is open, close it.')
     } catch (e) {
         console.log('[INFO] application info window is already closed.')
+    }
+
+    await workstationApp.sleep(1000)
+})
+
+After({ tags: '@hook_close_environment_info_window' }, async function () {
+    try {
+        await envWindow.clickCloseDialogButton("shared")
+        console.log('[INFO] environment info window is open, close it.')
+    } catch (e) {
+        console.log('[INFO] environment info window is already closed.')
     }
 
     await workstationApp.sleep(1000)

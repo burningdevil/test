@@ -1,6 +1,7 @@
 import { MAC_XPATH_GENERAL } from '../../utils/envUtils/constants'
 import { sleep } from '../../utils/generalUtils'
 import RootApp from '../basePages/RootApp'
+const { registerNewWindow, switchToWindow, unregisterWindow } = require('../../utils/wsUtils/windowHelper')
 const mainCanvas = MAC_XPATH_GENERAL.mainCanvas
 const wd = require('wd')
 const { mainWindow } = pageObj
@@ -12,7 +13,7 @@ export default class Collab extends RootApp {
     return this.getNativeElement({
       windows: {
         locators: [
-          { method: 'Name', value: 'Available Environments' },
+          { method: 'ClassName', value: 'EnvIconBrowsingUserControl' },
           { method: 'Name', value: `${environmentName}\nRestEnvironment` }
         ]
       },
@@ -50,6 +51,9 @@ export default class Collab extends RootApp {
     await this.moveToAndClick(existingEnv)
     await this.rightClick()
     await this.moveToAndClick(await this.getEnvPropertyOption())
+    await this.app.sleep(2000)
+    await registerNewWindow(`env ${name} info window`)
+    await switchToWindow(`env ${name} info window`)
   }
 
   async enterLibraryTabOfPropertyPanel() {
