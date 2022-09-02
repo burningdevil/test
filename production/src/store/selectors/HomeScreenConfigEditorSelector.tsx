@@ -195,6 +195,14 @@ export const selectCustomizeEmailSetting  = createSelector(
   }
 )
 
+export const selectCustomizeEmailContent  = createSelector(
+  selectCurrentConfig,
+  (config) => {
+    return config.emailSettings?.sentByText
+  }
+)
+
+
 export const selectIsCustomEmailError = createSelector(
   selectConfigEditorRoot,
   (configEditorRoot) => configEditorRoot.isCustomEmailError
@@ -203,4 +211,11 @@ export const selectIsCustomEmailError = createSelector(
 export const selectShouldSendPreviewEmail = createSelector(
   selectConfigEditorRoot,
   (configEditorRoot) => configEditorRoot.shouldSendPreviewEmail
+)
+
+export const selectCustomizeEmailLogo  = createSelector(
+  selectCurrentConfig,
+  (config) => {
+    return config.emailSettings?.brandingImage?.imageUrl
+  }
 )

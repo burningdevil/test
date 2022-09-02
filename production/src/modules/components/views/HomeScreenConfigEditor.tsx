@@ -61,12 +61,15 @@ import {
     LIBRARY_SERVER_SUPPORT_COLOR_PALETTE_VERSION,
     LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION,
     LIBRARY_SERVER_SUPPORT_APPEARANCE_EDITOR_VERSION,
-    LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_VERSION
+    LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_VERSION,
+    LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_V2
 } from '../../../utils';
 import ColorPaletteBlade from '../features/color-palette/color-palette-blade';
 import CustomEmailBlade from '../features/custom-email/custom-email-blade';
 import { constructSendingEmailRequestBody, getConfigIdFromHeader } from '../features/custom-email/custom-email.util';
 import { DEFAULT_EMAIL_SETTING } from '../../../../src/store/reducers/HomeScreenConfigEditorReducer';
+import CustomEmailBladeV2 from '../features/custom-email-v2/custom-email-blade';
+import { filterEmailConfig, SubjectBodyEnum } from '../features/custom-email-v2/custom-email.util';
 declare var workstation: WorkstationModule;
 
 const classNamePrefix = 'home-screen-editor';
@@ -87,6 +90,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             colorPalettePreviewFeatureEnable: false,
             isCloseHanlderRegistered: false,
             customEmailFeatureEnabled: false,
+            customEmailV2Enabled: false,
         };
     }
 
@@ -190,7 +194,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             );
         };
         const colorPaletteFeatureFlagEnabled  = checkColorPaletteFeatureEnable(currentEnv);
-        const checkCustomEmailFeatureEnable = (curEnv: Environment) => {
+        const checkCustomEmailFeatureEnable = (curEnv: Environment, supportVersion: string) => {
             return (
                 !!curEnv.webVersion &&
                 getFeatureFlag(
@@ -199,11 +203,12 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                     ) &&
                 isLibraryServerVersionMatch(
                     curEnv.webVersion,
-                    LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_VERSION
+                    supportVersion
                 )
             );
         };
-        const customEmailFeatureFlagEnabled  = checkCustomEmailFeatureEnable(currentEnv);
+        const customEmailFeatureFlagEnabled  = checkCustomEmailFeatureEnable(currentEnv, LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_VERSION);
+        const customEmailV2Enabled = checkCustomEmailFeatureEnable(currentEnv, LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_V2);
         let isNameCopied = false;
         if (
             isDuplicate &&
@@ -221,7 +226,8 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             isNameCopyed: isNameCopied,
             contentBundleFeatureEnable: contentBundleEnable,
             colorPaletteFeatureEnable: colorPaletteFeatureFlagEnabled,
-            customEmailFeatureEnabled: customEmailFeatureFlagEnabled
+            customEmailFeatureEnabled: customEmailFeatureFlagEnabled,
+            customEmailV2Enabled: customEmailV2Enabled
 
         });
         this.loadPreference();
@@ -503,6 +509,9 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         if(config.emailSettings && !config.emailSettings?.enabled){
             config.emailSettings = DEFAULT_EMAIL_SETTING;
         }
+        if(config.emailSettings && config.emailSettings?.enabled) {
+            config = filterEmailConfig(config);
+        }
         /* color palette related.
       if useConfigPalette is false, delete the selected applicationPalettes.
       */
@@ -685,7 +694,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                                     </Tabs.TabPane>
                                 )}
 
-                                {this.state.customEmailFeatureEnabled && (
+                                {this.state.customEmailFeatureEnabled && !this.state.customEmailV2Enabled&& (
                                 <Tabs.TabPane
                                     tab={localizedStrings.NAVBAR_CUSTOM_EMAIL_SETTINGS}
                                     key={VC.CUSTOMEMAILSETTINGS}
@@ -693,6 +702,13 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                                     <CustomEmailBlade />
                                     {this.buttonGroup()}
                                 </Tabs.TabPane>)}
+                                {this.state.customEmailV2Enabled  && this.props.config?.name && <Tabs.TabPane
+                                    tab={localizedStrings.NAVBAR_CUSTOM_EMAIL_SETTINGS}
+                                    key={VC.CUSTOMEMAILSETTINGS}
+                                >
+                                    <CustomEmailBladeV2 env = {this.state.currentEnv}/>
+                                    {this.buttonGroup()}
+                                </Tabs.TabPane>}
                                 <Tabs.TabPane
                                     tab={localizedStrings.NAVBAR_MORE_SETTINGS}
                                     key={VC.MORESETTINGS}
