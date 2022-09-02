@@ -48,7 +48,7 @@ export USE_ADMINISTRATOR=YES
 export WORKSPACE_SETTING=dev
 source .ecosystem
 rake pre_pipeline
-
+rake veracode
 rake install_latest_workstation_mac_os_x
 rake replace_workstation_plugin_mac
 rake prepare_tanzu_environment
