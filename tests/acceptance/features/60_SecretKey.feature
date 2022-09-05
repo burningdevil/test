@@ -1,4 +1,4 @@
-@Regression
+@TC85576 @Regression
 Feature: 60_SecretKey
     1. add Environment
     2. enter property panel

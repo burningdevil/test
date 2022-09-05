@@ -23,7 +23,7 @@ export default async function deleteCustomApp({ baseUrl, session, appId, appName
                     reject(body);
                 }
             } else {
-                errorLog(`Get object info of object '${appId}' failed. Error: ${error}`);
+                errorLog(`Delete custom app of object '${appId}' name='${appName} failed. Error: ${error}`);
                 reject(error);
             }
         });

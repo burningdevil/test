@@ -175,6 +175,10 @@ export default class SettingPage extends BasePage {
     return this.element(by.xpath(`//input[@id='clearCacheOnLogout']`))
   }
 
+  getAddCustomColorPalettesWindow() {
+    return this.element(by.xpath(`//div[@class='ant-modal-title' and text()='Add Custom Color Palettes']`))
+  }
+
   // actions
   // for WebView management
   async switchToNewWebView() {
@@ -324,6 +328,8 @@ export default class SettingPage extends BasePage {
   async enterPalettePickPanel() {
     await browser.sleep(2000 * this.ratio)
     await this.getAddNewButton().click()
+    await this.wait(this.EC.visibilityOf(this.getAddCustomColorPalettesWindow()), 120000 * this.ratio, 'Add custom color palettes modal is not visible');
+    await browser.sleep(3000 * this.ratio)
   }
 
   async pickPaletteByName(name) {

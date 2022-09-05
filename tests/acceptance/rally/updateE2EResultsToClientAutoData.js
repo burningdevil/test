@@ -262,7 +262,7 @@ if (fs.existsSync(resultReport)) {
   const file = JSON.parse(fs.readFileSync(filePath))
   e2eResultsParserForDumpClientData({ file, resultMap })
   console.info(`Complete analyzing file: ${filePath}`)
-  //updateToClientAutoDataDB(resultMap)
+  updateToClientAutoDataDB(resultMap)
   sendSlackMessage(resultMap)
 
 } else {
