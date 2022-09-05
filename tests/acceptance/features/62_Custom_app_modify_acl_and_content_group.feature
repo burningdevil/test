@@ -1,4 +1,4 @@
-@DE236952_1 @Regression
+@DE236952_1 @TC78815 @Regression
 Feature: 62_Custom_app_modify_acl_and_content_group
     1. add Environment
     2. add new application

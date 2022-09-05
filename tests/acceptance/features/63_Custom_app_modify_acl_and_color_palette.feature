@@ -1,4 +1,4 @@
-@DE236952_2 @Regression
+@DE236952_2 @TC78815 @Regression
 Feature: 63_Custom_app_modify_acl_and_color_palette
     1. add Environment
     2. add new application
@@ -10,6 +10,7 @@ Feature: 63_Custom_app_modify_acl_and_color_palette
 
     Background: Add Environment
         Given I remove all custom apps except "MicroStrategy" by api
+        Given I remove all custom color palettes by api
         Given configure workstation engine test environment
         #Given close application dialog if necessary
 

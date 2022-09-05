@@ -19,7 +19,7 @@ let patternAndID
 
 // Wrap around each step
 setDefinitionFunctionWrapper(function (fn, opts, pattern) {
-  return async function() {
+  return async function () {
     patternAndID = {
       pattern: pattern,
       patternID: patternID
@@ -127,17 +127,18 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
 
     try {
       if (pattern !== undefined) {
-        const params =  typeof arguments[0] === 'string'?arguments[0]:''
+        const params = typeof arguments[0] === 'string' ? arguments[0] : ''
+
         console.log('[INFO] [Step] ' + pattern + '; ' + params)
       }
       await fn.apply(this, arguments)
-      await attachImages('base',arguments[0],this)
+      await attachImages('base', arguments[0], this)
     } catch (e) {
-      const imgBuffer = await screenshot({ format:'png' })
+      const imgBuffer = await screenshot({ format: 'png' })
       this.attach(imgBuffer, 'image/png')
-      await attachImages('base',arguments[0],this)
-      await attachImages('actual',arguments[0],this)
-      await attachImages('diff',arguments[0],this)
+      await attachImages('base', arguments[0], this)
+      await attachImages('actual', arguments[0], this)
+      await attachImages('diff', arguments[0], this)
       throw new Error(`Error happened in the function wrapper: ${e.stack}`)
     } finally {
       if (enableUB) {
@@ -153,18 +154,18 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
   }
 })
 
-async function attachImages(type,name,step){
+async function attachImages(type, name, step) {
   let fileName;
   const folder = process.platform === 'win32' ? 'win' : 'mac';
-  if(type==='base'){
-    fileName = join(process.cwd(), './results/baseline/desktop_chrome/',folder,name+'.png')
-  }else if(type==='actual'){
-    fileName = join(process.cwd(), './results/actual/desktop_chrome/',folder,name+'.png')
-  }else{
-    fileName = join(process.cwd(), './results/diff/desktop_chrome/',folder,name+'.png')
+  if (type === 'base') {
+    fileName = join(process.cwd(), './results/baseline/desktop_chrome/', folder, name + '.png')
+  } else if (type === 'actual') {
+    fileName = join(process.cwd(), './results/actual/desktop_chrome/', folder, name + '.png')
+  } else {
+    fileName = join(process.cwd(), './results/diff/desktop_chrome/', folder, name + '.png')
   }
 
-  if(fs.existsSync(fileName)){
+  if (fs.existsSync(fileName)) {
     //screenshot action and screenshot file exists
     const baseImgBuff = await fs.readFileSync(fileName)
     step.attach(baseImgBuff, 'image/png')
@@ -191,7 +192,7 @@ After(async function () {
   if (enableUB) {
     // ubData is defined in global
     ubData.push({
-      workstation : wsUBData,
+      workstation: wsUBData,
       workstationHelper: wsHelperData
     })
   }
