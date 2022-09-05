@@ -11,8 +11,8 @@ export default async function cleanCustomPalettesAPI({ baseUrl, credentials }) {
     const session = await authentication({ baseUrl, authMode: 1, credentials })
     const colorPalettes = await getColorPalettesAPI({ baseUrl, session })
 
-    for (let i = 16; i < colorPalettes.length; i++) {
-        const item = colorPalettes[i];
+    for (const item of colorPalettes) {
+        if (item.paletteType === 1) continue;
         await deleteColorPalettesAPI({ baseUrl, session, paletteId: item.id, paletteName: item.name })
     }
 
