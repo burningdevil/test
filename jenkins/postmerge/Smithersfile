@@ -1,18 +1,17 @@
 job 'stage-2-postmerge' do
 
-  description 'the first stage in the pipeline
-designed to complete quickly, < 10 mins
-produces and publishes a versioned deployment package'
+  description 'the second stage to run veracode'
 
   configure_common_items{}
 
   assigned_node_string 'amazon_linux'
 
-  concurrent_build true
-
-  triggers do
-    pull_request_builder do
+  scm do
+    git do
     end
+  end
+  
+  triggers do
   end
 
   build_wrappers do
