@@ -10,7 +10,7 @@ job 'stage-2-postmerge' do
     git do
     end
   end
-  
+
   triggers do
   end
 
@@ -38,5 +38,8 @@ rake veracode
     end
   end
   publishers do
+    mailer do
+      recipients 'bxu@microstrategy.com haoxu@microstrategy.com'
+    end
   end
 end
