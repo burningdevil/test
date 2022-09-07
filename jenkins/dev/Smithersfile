@@ -33,6 +33,15 @@ rake post_pipeline
   end
 
   publishers do
+    mailer do
+      recipients 'bxu@microstrategy.com'
+    end
+     
+    parameterized_trigger do
+      job_short_names %w{
+        stage-2-postmerge
+      }
+    end
   end
 
 end
