@@ -1,0 +1,45 @@
+job 'stage-2-postmerge' do
+
+  description 'the second stage to run veracode'
+
+  configure_common_items{}
+
+  assigned_node_string 'amazon_linux'
+
+  scm do
+    git do
+    end
+  end
+
+  triggers do
+  end
+
+  build_wrappers do
+    secret_text do
+      credentialsId 'Workstation'
+      variable 'SRCCLR_API_TOKEN'
+    end
+  end
+
+  builders do
+    bash do
+      script '#!/usr/bin/env bash
+set +xe
+export PATH=/usr/local/sbin:/usr/local/bin:$PATH
+export WORKSPACE_SETTING=dev
+export DEBUG=0
+export SRCCLR_SCOPE=production
+export SRCCLR_SCAN_COLLECTORS=yarn
+
+source .ecosystem
+rake pre_pipeline
+rake veracode
+'
+    end
+  end
+  publishers do
+    mailer do
+      recipients 'bxu@microstrategy.com haoxu@microstrategy.com'
+    end
+  end
+end

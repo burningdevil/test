@@ -38,13 +38,6 @@ designed to execute all acceptance tests'
     end
   end
 
-  build_wrappers do
-    secret_text do
-      credentialsId 'Workstation'
-      variable 'SRCCLR_API_TOKEN'
-    end
-  end
-
   builders do
     bash do
       script '#!/usr/bin/env bash
@@ -53,13 +46,9 @@ export TERM_PROGRAM=jenkins
 export PATH=/usr/local/sbin:/usr/local/bin:$PATH
 export USE_ADMINISTRATOR=YES
 export WORKSPACE_SETTING=dev
-export DEBUG=0
-export SRCCLR_SCOPE=production
-export SRCCLR_SCAN_COLLECTORS=yarn
 
 source .ecosystem
 rake pre_pipeline
-rake veracode
 rake install_latest_workstation_mac_os_x
 rake replace_workstation_plugin_mac
 rake prepare_tanzu_environment

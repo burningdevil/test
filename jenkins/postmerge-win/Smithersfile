@@ -41,13 +41,6 @@ EOH
     end
   end
 
-  build_wrappers do
-    secret_text do
-      credentialsId 'Workstation'
-      variable 'SRCCLR_API_TOKEN'
-    end
-  end
-
   builders do
     bash do
       script '#!/usr/bin/env bash
@@ -56,16 +49,12 @@ set +xe
 export PATH=/usr/local/sbin:/usr/local/bin:$PATH
 export USE_ADMINISTRATOR=YES
 export WORKSPACE_SETTING=dev
-export DEBUG=0
-export SRCCLR_SCOPE=production
-export SRCCLR_SCAN_COLLECTORS=yarn
 source .ecosystem
 
 powershell -command \'Get-DisplayResolution\'
 powershell -command \'Set-DisplayResolution -Width 1920 -Height 1080 -Force\'
 powershell -command \'Get-DisplayResolution\'
 rake pre_pipeline
-rake veracode
 rake install_workstation_windows
 rake replace_plugin_windows
 

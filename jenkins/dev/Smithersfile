@@ -33,6 +33,11 @@ rake post_pipeline
   end
 
   publishers do
+    parameterized_trigger do
+      job_short_names %w{
+        stage-2-postmerge
+      }
+    end
   end
 
 end
