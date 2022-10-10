@@ -1,26 +1,19 @@
-import { Input, Tooltip } from '@mstr/rc';
-import { Checkbox, Divider, Switch } from 'antd';
+import { Checkbox } from 'antd';
 import * as React from 'react'
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import type { RadioChangeEvent } from 'antd';
-import { Radio, Space } from 'antd';
+import {RadioChangeEvent, Radio, Space} from 'antd';
 
 
 import * as Actions from '../../../../store/actions/ActionsCreator';
 const classNamePrefix = 'custom-auth-form'
 import './custom-auth.scss'
-import * as _ from 'lodash';
 import { AuthModeConstants, CustomAuthModes, supportCustomAuthModes } from './custom-auth.model';
-import { selectAuthMode, selectDefaultAuthMode, selectEnableAuthMods } from '../../../../../src/store/selectors/HomeScreenConfigEditorSelector';
-
-import { HomeScreenConfigType } from '../../../../../src/types/data-model/HomeScreenConfigModels';
+import { selectAuthMode, selectEnableAuthMods } from '../../../../../src/store/selectors/HomeScreenConfigEditorSelector';
 import { localizedStrings } from '../../HomeScreenConfigConstant';
-const CustomAuth: React.FC<any> = (props: {config: HomeScreenConfigType}) => {
+const CustomAuth: React.FC<any> = () => {
     let stateData: CustomAuthModes = useSelector(selectAuthMode);
-    let authModesData = props.config.authModes;
     const dispatch = useDispatch();
-    const defaultMode = useSelector(selectDefaultAuthMode);
     const isEnableAuthMode = useSelector(selectEnableAuthMods);
     const [enableAuth, setEnableAuth] = useState(isEnableAuthMode);
     
@@ -81,7 +74,7 @@ const CustomAuth: React.FC<any> = (props: {config: HomeScreenConfigType}) => {
             })
         )
       };
-    const onOptionChange = (checkedValues: Number[]) => {
+    const onOptionChange = (checkedValues: number[]) => {
         // should judge whether uncheck the default one. if true, will slip to the first select one.
         let defaultMode = dm;
         if( checkedValues.length && checkedValues?.length < saveSelected?.length && !checkedValues.includes(dm)){
@@ -98,7 +91,7 @@ const CustomAuth: React.FC<any> = (props: {config: HomeScreenConfigType}) => {
             Actions.updateCurrentConfig({
                 authModes: {
                     enabled: enableAuth,
-                    availableModes: checkedValues as Number[],
+                    availableModes: checkedValues as number[],
                     defaultMode: defaultMode
                 }
             })
@@ -117,7 +110,7 @@ const CustomAuth: React.FC<any> = (props: {config: HomeScreenConfigType}) => {
             Actions.updateCurrentConfig({
                 authModes: {
                     enabled: enableAuth,
-                    availableModes: saveSelected as Number[],
+                    availableModes: saveSelected as number[],
                     defaultMode: option.value
                 }
             })

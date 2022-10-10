@@ -576,7 +576,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         THIS.props.contentBundleList.forEach((v: any) => {
             record[v.id] = v;
         });
-        const configList = this.props.configList.map((config: any) => {
+        return this.props.configList.map((config: any) => {
             let resultConfig = _.cloneDeep(config);
             if (!_.has(resultConfig, VC.PLATFORM)) {
                 _.assign(resultConfig, {
@@ -624,13 +624,12 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
             }
             if (_.has(resultConfig, VC.AUTH_MODES)) {
                 _.assign(resultConfig, {
-                    [VC.AUTHENTICATION_MODES]: resultConfig.authModes?.availableModes?.join('-'),
+                    [VC.AUTHENTICATION_MODES]: resultConfig.authModes?.availableModes?.join('-') + resultConfig.authModes?.defaultMode, // aim to trigger the ag-grid to re-render the cell;
                 });
             }
 
             return resultConfig;
         });
-        return configList;
     };
 
     getColumnDef = () => {
@@ -699,16 +698,16 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                         <div className={`${classNamePrefix}-auth-mode`}>
                             <span>
                             {
-                            d.authModes?.availableModes?.sort((a: number,b: number) => {
+                            d.authModes?.availableModes
+                            ?.sort((_a: number,b: number) => {
                                 return b === d.authModes?.defaultMode ? 1 : -1 
                             })
                             .map(
                                     (mode: number) => {
-                                        const label = supportCustomAuthModes.find(v => v.value === mode)?.label;
-                                        return label
+                                        return supportCustomAuthModes.find(v => v.value === mode)?.label;
                                     }
                                 )
-                                .join(', ')
+                            .join(', ')
                             }
                             </span>
                         </div>

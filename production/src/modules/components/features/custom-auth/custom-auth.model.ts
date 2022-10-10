@@ -1,4 +1,3 @@
-import { boolean } from "yargs";
 
 
 export enum AuthModeConstants {
@@ -12,7 +11,7 @@ export enum AuthModeConstants {
     Kerberos = 128,
     SAML = 1048576,
     OIDC =  4194304
-};
+}
 
 export const supportCustomAuthModes: any[] = [
     {
@@ -34,8 +33,8 @@ export const supportCustomAuthModes: any[] = [
 ]
  export interface CustomAuthModes {
     enabled: boolean;
-    availableModes: Number[];
-    defaultMode: Number;
+    availableModes: number[];
+    defaultMode: number;
  }
 
  export const DEFAULT_AUTH_MODE: CustomAuthModes =  {

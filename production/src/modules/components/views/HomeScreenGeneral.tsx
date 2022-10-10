@@ -224,7 +224,7 @@ class HomeScreenGeneral extends React.Component<any, any> {
                     </div>
                 </div>
                 {
-                    isShowAuthMode && <CustomAuth config = {this.props.config}></CustomAuth>
+                    isShowAuthMode && <CustomAuth></CustomAuth>
                 }
                 {/* <div className={`${classNamePrefix}-platform`}>
                 <div className={`${classNamePrefix}-platform-title`}>
