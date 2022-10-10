@@ -1,8 +1,7 @@
-import { Checkbox } from 'antd';
 import * as React from 'react'
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {RadioChangeEvent, Radio, Space} from 'antd';
+import {Checkbox, RadioChangeEvent, Radio, Space} from 'antd';
 
 
 import * as Actions from '../../../../store/actions/ActionsCreator';
@@ -31,7 +30,7 @@ const CustomAuth: React.FC<any> = () => {
                 Actions.updateCurrentConfig({
                     authModes: {
                         enabled: enableAuth,
-                        availableModes: saveSelected as number[],
+                        availableModes: saveSelected,
                         defaultMode: saveSelected[0]
                     }
                 })
@@ -68,7 +67,7 @@ const CustomAuth: React.FC<any> = () => {
             Actions.updateCurrentConfig({
                 authModes: {
                     enabled: e.target.value,
-                    availableModes: saveSelected as number[],
+                    availableModes: saveSelected,
                     defaultMode: dm
                 }
             })
@@ -86,12 +85,12 @@ const CustomAuth: React.FC<any> = () => {
             defaultMode = 0;
             setDm(0);
         }
-        setSelected(checkedValues as number[]);
+        setSelected(checkedValues);
         dispatch(
             Actions.updateCurrentConfig({
                 authModes: {
                     enabled: enableAuth,
-                    availableModes: checkedValues as number[],
+                    availableModes: checkedValues,
                     defaultMode: defaultMode
                 }
             })
@@ -110,7 +109,7 @@ const CustomAuth: React.FC<any> = () => {
             Actions.updateCurrentConfig({
                 authModes: {
                     enabled: enableAuth,
-                    availableModes: saveSelected as number[],
+                    availableModes: saveSelected,
                     defaultMode: option.value
                 }
             })

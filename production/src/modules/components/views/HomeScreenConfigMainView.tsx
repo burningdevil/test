@@ -683,6 +683,10 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                 width: 150,
                 cellRendererFramework: (rendererParam: any) => {
                     const d = rendererParam.data as HomeScreenConfigType;
+                    const availableModes = d.authModes?.availableModes
+                    ?.sort((_a: number,b: number) => {
+                        return b === d.authModes?.defaultMode ? 1 : -1 
+                    }) ?? [];
                     if (!d.authModes || d.authModes?.defaultMode === 0) {
                         return (
                             <div
@@ -698,10 +702,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                         <div className={`${classNamePrefix}-auth-mode`}>
                             <span>
                             {
-                            d.authModes?.availableModes
-                            ?.sort((_a: number,b: number) => {
-                                return b === d.authModes?.defaultMode ? 1 : -1 
-                            })
+                            availableModes
                             .map(
                                     (mode: number) => {
                                         return supportCustomAuthModes.find(v => v.value === mode)?.label;
