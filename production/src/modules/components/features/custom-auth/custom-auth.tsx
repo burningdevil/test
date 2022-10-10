@@ -5,12 +5,9 @@ import { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RadioChangeEvent } from 'antd';
 import { Radio, Space } from 'antd';
-import { Col, Row } from 'antd';
-import type { CheckboxValueType } from 'antd/es/checkbox/Group'
 
 
 import * as Actions from '../../../../store/actions/ActionsCreator';
-import { default as VC } from '../../../../../src/modules/components/HomeScreenConfigConstant';
 const classNamePrefix = 'custom-auth-form'
 import './custom-auth.scss'
 import * as _ from 'lodash';
@@ -18,13 +15,13 @@ import { AuthModeConstants, CustomAuthModes, supportCustomAuthModes } from './cu
 import { selectAuthMode, selectDefaultAuthMode, selectEnableAuthMods } from '../../../../../src/store/selectors/HomeScreenConfigEditorSelector';
 
 import { HomeScreenConfigType } from '../../../../../src/types/data-model/HomeScreenConfigModels';
+import { localizedStrings } from '../../HomeScreenConfigConstant';
 const CustomAuth: React.FC<any> = (props: {config: HomeScreenConfigType}) => {
     let stateData: CustomAuthModes = useSelector(selectAuthMode);
     let authModesData = props.config.authModes;
     const dispatch = useDispatch();
     const defaultMode = useSelector(selectDefaultAuthMode);
     const isEnableAuthMode = useSelector(selectEnableAuthMods);
-    console.log(stateData, isEnableAuthMode);
     const [enableAuth, setEnableAuth] = useState(isEnableAuthMode);
     
     const [dm, setDm] = useState(stateData?.defaultMode);
@@ -85,7 +82,6 @@ const CustomAuth: React.FC<any> = (props: {config: HomeScreenConfigType}) => {
         )
       };
     const onOptionChange = (checkedValues: Number[]) => {
-        console.log('checked = ', checkedValues, saveSelected, dm);
         // should judge whether uncheck the default one. if true, will slip to the first select one.
         let defaultMode = dm;
         if( checkedValues.length && checkedValues?.length < saveSelected?.length && !checkedValues.includes(dm)){
@@ -162,18 +158,13 @@ const CustomAuth: React.FC<any> = (props: {config: HomeScreenConfigType}) => {
             </div>
         )
     }
-    const renderServerMode = () => {
-        return (
-            <div style = {{'fontSize': '12px', 'marginLeft': '10px'}}>Standard, OIDC</div>
-        )
-    }
     return (
         <div
             id="custom-auth-form"
             className={`${classNamePrefix}`}
         >
                     <div className={`${classNamePrefix}-title`}>
-                        {'Authentication Modes'}
+                        {localizedStrings.AUTH_MODES}
                     </div>
                     <div className={`${classNamePrefix}-content`} >
                         <Radio.Group onChange={onChange} value={enableAuth} style = {{lineHeight: '15px', width: '100%'}}>

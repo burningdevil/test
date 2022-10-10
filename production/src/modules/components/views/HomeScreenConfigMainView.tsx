@@ -798,7 +798,8 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                 Object.keys(this.state.currentEnv)?.length &&
                 !this.state.authModesFeatureEnable
             ) {
-                cols.splice(3, 1); // splice the auth mode
+                const index = cols.findIndex(v => v.field === VC.AUTHENTICATION_MODES);
+                cols.splice(index, 1); // splice the auth mode
             }
             cols.find((v) => v.field === VC.DESC).width = 420;
         }
@@ -810,7 +811,8 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                 Object.keys(this.state.currentEnv)?.length &&
                 !this.state.contentBundleFeatureEnable
             ) {
-                cols.splice(4, 1); // splice the content bundle
+                const index = cols.findIndex(v => v.field === VC.CONTENT_BUNDLES);
+                cols.splice(index, 1); // splice the content bundle
             }
             cols.find((v) => v.field === VC.DESC).width = 420;
         }
