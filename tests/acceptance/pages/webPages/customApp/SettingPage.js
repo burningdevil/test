@@ -31,7 +31,8 @@ export default class SettingPage extends BasePage {
 
   //Home Screen Page
   getHomeScreenOption(mode) {
-    return this.$$('.ant-space-item').all(by.cssContainingText('.ant-radio-wrapper', mode)).first()
+    //return this.$$('.ant-space-item').all(by.cssContainingText('.ant-radio-wrapper', mode)).first()
+    return this.element(by.xpath(`//div[@class='ant-space-item']//label[contains(@class,'ant-radio-wrapper')]//span[text()='${mode}']`))
   }
 
   getDossierPickbutton() {
@@ -39,10 +40,11 @@ export default class SettingPage extends BasePage {
   }
 
   getDossierDocumentTab(menu) {
-    return this.$$('.ant-menu-title-content').filter(async (elem) => {
-      const text = await elem.getText()
-      return text === menu
-    }).first()
+    // return this.$$('.ant-menu-title-content').filter(async (elem) => {
+    //   const text = await elem.getText()
+    //   return text === menu
+    // }).first()
+    return this.element(by.xpath(`//span[@class='ant-menu-title-content']//span[text()='${menu}']`))
   }
 
   /*
@@ -85,7 +87,8 @@ export default class SettingPage extends BasePage {
 
   //Components Page
   getToolbarMode(mode) {
-    return this.$$('.home-screen-components-toolbar').all(by.cssContainingText('.ant-checkbox-wrapper', mode)).first()
+    //return this.$$('.home-screen-components-toolbar').all(by.cssContainingText('.ant-checkbox-wrapper', mode)).first()
+    return this.element(by.xpath(`//div[@class='home-screen-components-toolbar']//span[text()='${mode}']`))
   }
 
   getToolbarOptionSwitcher(text) {

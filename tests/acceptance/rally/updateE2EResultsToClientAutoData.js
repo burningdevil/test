@@ -248,7 +248,7 @@ async function e2eResultsParserForDumpClientData({ file, resultMap }) {
 const resultMap = {
   testSuitName: 'Workstation Custom App End to End Tests on ' + ostype,
   buildNumber: build,
-  owner: 'Li,Meng',
+  owner: 'Xu,Bin',
   product: 'Workstation',
   team: 'CT-Applications-CTC',
   testResults: []
