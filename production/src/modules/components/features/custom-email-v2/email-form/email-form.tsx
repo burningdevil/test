@@ -5,7 +5,7 @@ import * as React from 'react'
 import { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCustomizeEmailSetting } from '../../../../../store/selectors/HomeScreenConfigEditorSelector';
-import { ActionButtonInterface, CustomEmailSettingType, EmailContentInterface, MobileButtonLinkEnum } from '../../../../../types/data-model/HomeScreenConfigModels';
+import { ActionButtonInterface, CustomEmailSettingType, MobileButtonLinkEnum } from '../../../../../types/data-model/HomeScreenConfigModels';
 import * as Actions from '../../../../../store/actions/ActionsCreator';
 import { default as VC, customEmailStringDict, localizedStrings } from '../../../HomeScreenConfigConstant';
 const classNamePrefix = 'custom-email-form-v2'
@@ -16,8 +16,8 @@ import * as _ from 'lodash';
 import MacroEditor from '../macro-editor/macro-editor';
 import { Macros } from '../macro-editor/macro-types';
 import SubSection from './form-components/sub-section/sub-section.component';
-import { validName } from '../../../../../../src/modules/components/views/HomeScreenUtils';
 import MacroQuillBlot from '../macro-editor/macro-quill-blot';
+import { FormBtnColorInputModel, FormInputModel, FormMobileButtonLinkInputModel, FormSocialItemInputModel } from './form-components/form-input.model';
 const { Panel } = Collapse;
 const { TextArea} = Input;
 const { Option } = Select;
@@ -60,7 +60,7 @@ const CustomEmailForm: React.FC<any> = (props: any) => {
     /*
     * if the Q3 scope enable the customize email and disable the show social media button. There should be handled in special.
     */
-    const [showSocialMedia, setShowSocialMedia] = useState( Reflect.has(stateData, 'showSocialMedia') ? stateData.showSocialMedia : true);
+    const [showSocialMedia, ] = useState( Reflect.has(stateData, 'showSocialMedia') ? stateData.showSocialMedia : true);
     const [showFb, setShowFb] = useState(_.has(stateData, 'socialMedia.showFacebook') ? stateData?.socialMedia?.showFacebook : showSocialMedia);
     const [fbLink, setFbLink] = useState(_.unescape(stateData?.socialMedia?.facebookLink?.replace(customEmailStringDict.formGroup.socialMedia.fb_prefix, '')));
     const [showTwitter, setShowTwitter] = useState(_.has(stateData, 'socialMedia.showTwitter') ? stateData?.socialMedia?.showTwitter : showSocialMedia);
@@ -246,7 +246,8 @@ const CustomEmailForm: React.FC<any> = (props: any) => {
         }
         return isValid;
     }
-    const renderInputSection = (label: string, value: string, cb: Function, elementId: keyof CustomEmailSettingType | string, placeholder: string, propertyPath: string, tooltip?: boolean, enableValidate?: boolean, errorMessage?: string, validateCb?: Function, isNotEncode?:boolean, tooltipStr?: any) => {
+    const renderInputSection = (formInput: FormInputModel) => {
+        const {label, value, cb, elementId, placeholder, propertyPath, tooltip, enableValidate, errorMessage, validateCb, isNotEncode, tooltipStr} = formInput;
         return (
             <div className={`${classNamePrefix}-box`}>
                 <span>{label}
@@ -303,7 +304,8 @@ const CustomEmailForm: React.FC<any> = (props: any) => {
         )
     }
 
-    const renderBtnColorSection  = (label: string, value: string, cb: Function, elementId: keyof ActionButtonInterface, placeholder: string, fontColor: string, fontColorCb: Function, bgColor: string, bgColorCb: Function) => {
+    const renderBtnColorSection  = (formBtnColorInput: FormBtnColorInputModel) => {
+        const {label, value, cb, elementId, placeholder, fontColor, fontColorCb, bgColor, bgColorCb} = formBtnColorInput;
         return (
             <div className={`${classNamePrefix}-box btn-color-box`}>
                 <span>{label}</span>
@@ -358,10 +360,10 @@ const CustomEmailForm: React.FC<any> = (props: any) => {
                             )
                             }
                     }
-                    onChangeFavorite={function noRefCheck(){}}
-                    onChangeGradient={function noRefCheck(){}}
-                    onChangeOpacity={function noRefCheck(){}}
-                    onPopoverVisibleChange={function noRefCheck(){}}
+                    onChangeFavorite={_.noop}
+                    onChangeGradient={_.noop}
+                    onChangeOpacity={_.noop}
+                    onPopoverVisibleChange={_.noop}
                     />
                 <ColorPickerDropdown
                     value = {fontColor}
@@ -375,9 +377,9 @@ const CustomEmailForm: React.FC<any> = (props: any) => {
                             if(!stateData?.button){
                                 stateData['button'] = JSON.parse(JSON.stringify(DEFAULT_EMAIL_SETTING.button));
                             }
-                            // if(!stateData?.button?.[elementId]){
-                            //     stateData['button'][elementId] = JSON.parse(JSON.stringify((DEFAULT_EMAIL_SETTING.button as any)[elementId]))
-                            // }
+                            if(!stateData?.button?.[elementId]){
+                                stateData['button'][elementId] = JSON.parse(JSON.stringify((DEFAULT_EMAIL_SETTING.button as any)[elementId]))
+                            }
                             (stateData['button'][elementId] as any)['fontColor'] = v;
                             dispatch(
                                 Actions.updateCurrentConfig({
@@ -386,10 +388,10 @@ const CustomEmailForm: React.FC<any> = (props: any) => {
                             )
                             }
                     }
-                    onChangeFavorite={function noRefCheck(){}}
-                    onChangeGradient={function noRefCheck(){}}
-                    onChangeOpacity={function noRefCheck(){}}
-                    onPopoverVisibleChange={function noRefCheck(){}}
+                    onChangeFavorite={_.noop}
+                    onChangeGradient={_.noop}
+                    onChangeOpacity={_.noop}
+                    onPopoverVisibleChange={_.noop}
                     />
                     <div className = {'font-color-icon-container'}>
                         <p className = {'font-color-icon'}></p>
@@ -401,10 +403,11 @@ const CustomEmailForm: React.FC<any> = (props: any) => {
         
     }
 
-    const renderMobileButtonLink = (label: string, value: string, cb: Function, elementId: keyof CustomEmailSettingType | string, placeholder: string, propertyPath: string, tooltip?: boolean, enableValidate?: boolean, errorMessage?: string, validateCb?: Function) => {
-        const handleChange = (value: MobileButtonLinkEnum) => {
-            setMobileBtnLinkType(value);
-            _.set(stateData, 'button.mobileButtonLinkType', value);
+    const renderMobileButtonLink = (mobileButtonLinkInput: FormMobileButtonLinkInputModel) => {
+        const {label, value, cb, elementId, placeholder, propertyPath, enableValidate, errorMessage, validateCb} = mobileButtonLinkInput;
+        const handleChange = (val: MobileButtonLinkEnum) => {
+            setMobileBtnLinkType(val);
+            _.set(stateData, 'button.mobileButtonLinkType', val);
             dispatch(
                 Actions.updateCurrentConfig({
                     emailSettings: stateData
@@ -422,15 +425,11 @@ const CustomEmailForm: React.FC<any> = (props: any) => {
                 </Select>
                 {(mobileBtnLinkType === MobileButtonLinkEnum.APP_SCHEME) && <Input
                     style={{width: '68px'}}
-                    value={mobileButtonScheme}
+                    value={value}
                     onValidate={(e: string) => {
-                        if(enableValidate){
-                            return validate(e, elementId, validateCb)
-                        }else {
-                            return true;
-                        }
+                        return enableValidate ? validate(e, elementId, validateCb) : true;
                     }}
-                    errorMessage={customEmailStringDict.mobileLinkValidTip}
+                    errorMessage={errorMessage}
                     isErrorDisplayed="true"
                     autoFocus = {false}
                     maxLength={250}
@@ -513,7 +512,8 @@ const CustomEmailForm: React.FC<any> = (props: any) => {
         )
     }
 
-    const renderSocialItemSection = (label: string, check: boolean, value: string, cb: Function | any, cb_link: Function,  elementId: keyof CustomEmailSettingType | any, placeholder: string, className: string, propertyPath: string, buttonPath: string, linkPrefix: string) => {
+    const renderSocialItemSection = (socialItemInput: FormSocialItemInputModel) => {
+        const {label, check, value, cb, cb_link, elementId, placeholder, className, propertyPath, buttonPath, linkPrefix} = socialItemInput;
         return (
             <div className={`${classNamePrefix}-box`}>
                 
@@ -532,8 +532,6 @@ const CustomEmailForm: React.FC<any> = (props: any) => {
                 <AntdInput
                     value={value}
                     style = {{'marginLeft': '5px', 'lineHeight': '18px'}}
-                    // onValidate={(e: string) => {
-                    // }}
                     disabled = {!check}
                     autoFocus = {false}
                     maxLength={250}
@@ -589,7 +587,7 @@ const CustomEmailForm: React.FC<any> = (props: any) => {
     const notificationTooltip = (
         <div>
             <div>
-                <span className = 'tip-label'>
+                <span>
                     {customEmailStringDict.formGroup.notificationReminder.notificationMsgTip}
                 </span>
             </div>
@@ -712,25 +710,25 @@ const CustomEmailForm: React.FC<any> = (props: any) => {
                     </Panel>
                     {/* Sender section */}
                     <Panel extra = {renderExtraHeader(false, true, 'sender',resetEmailSender)} header={customEmailStringDict.formGroup.emailSender.title} key="2" className="site-collapse-custom-panel">
-                        {renderInputSection(customEmailStringDict.formGroup.emailSender.labelName, emailSenderName, setEmailSenderName,'emailSenderName','', 'sender.displayName', false, true, customEmailStringDict.emailNameInvalidTip, validEmailName, true)}
-                        {renderInputSection(customEmailStringDict.formGroup.emailSender.labelAddress, emailSenderAddr, setEmailSenderAddr, 'emailSenderAddress',customEmailStringDict.formGroup.emailSender.placeholder, 'sender.address', false, true, customEmailStringDict.emailAddressInvalidTip, validateEmail)}
+                        {renderInputSection({'label': customEmailStringDict.formGroup.emailSender.labelName, 'value': emailSenderName, 'cb': setEmailSenderName,'elementId': 'emailSenderName','placeholder': '', 'propertyPath': 'sender.displayName', 'tooltip': false, 'enableValidate': true, 'errorMessage': customEmailStringDict.emailNameInvalidTip, 'validateCb': validEmailName, 'isNotEncode': true})}
+                        {renderInputSection({'label': customEmailStringDict.formGroup.emailSender.labelAddress, 'value': emailSenderAddr, 'cb': setEmailSenderAddr,'elementId': 'emailSenderAddress','placeholder': customEmailStringDict.formGroup.emailSender.placeholder, 'propertyPath': 'sender.address', 'tooltip': false, 'enableValidate': true, 'errorMessage': customEmailStringDict.emailAddressInvalidTip, 'validateCb': validateEmail, 'isNotEncode': false})}
                     </Panel>
                     {/* Image section */}
                     <Panel extra = {renderExtraHeader(false, true, 'brandingImage', resetBrandImage)} header={customEmailStringDict.formGroup.image.brandImageTitle} key="3" className="site-collapse-custom-panel">
                         {renderSwitchSection(customEmailStringDict.formGroup.image.brandImageLabel, showImage, setShowImage, 'showBrandingImage',)}
-                        {showImage && renderInputSection(customEmailStringDict.formGroup.image.brandImageUrl, imageUrl, setImageUrl, 'brandingImage', '', 'brandingImage.url', false, true, customEmailStringDict.formGroup.actionButton.hostInvalidTip, validateHttpUrl)}
+                        {showImage && renderInputSection({'label': customEmailStringDict.formGroup.image.brandImageUrl, 'value': imageUrl, 'cb': setImageUrl,'elementId': 'brandingImage','placeholder': '', 'propertyPath': 'brandingImage.url', 'tooltip': false, 'enableValidate': true, 'errorMessage': customEmailStringDict.formGroup.actionButton.hostInvalidTip, 'validateCb': validateHttpUrl, 'isNotEncode': false})}
                     </Panel>
                     {/* Action button section */}
                     <Panel header={customEmailStringDict.formGroup.actionButton.title} key="4" className="site-collapse-custom-panel">
                         {/*button 1*/}
                         {renderSwitchSection(customEmailStringDict.formGroup.actionButton.label1, showButton1, setShowButton1, 'showBrowserButton',)}
-                        {showButton1 && renderBtnColorSection(customEmailStringDict.formGroup.actionButton.button1, button1Text, setButton1Text, 'browserButtonStyle', customEmailStringDict.formGroup.actionButton.button1_default,button1FontColor,setButton1FontColor, button1BgColor, setButton1BgColor)}
-                        {showButton1 && renderInputSection(customEmailStringDict.formGroup.actionButton.label2, hostWebPortal, setHostWebPortal, 'hostPortal', customEmailStringDict.formGroup.actionButton.placeholder, 'hostPortal',true, true, customEmailStringDict.formGroup.actionButton.hostInvalidTip, validateHttpUrl, false, hostTooltip)}
+                        
+                        {showButton1 && renderBtnColorSection({label: customEmailStringDict.formGroup.actionButton.button1, value: button1Text, cb: setButton1Text, elementId: 'browserButtonStyle', placeholder: customEmailStringDict.formGroup.actionButton.button1_default, fontColor: button1FontColor, fontColorCb: setButton1FontColor, bgColor: button1BgColor, bgColorCb: setButton1BgColor})}
+                        {showButton1 && renderInputSection({'label': customEmailStringDict.formGroup.actionButton.label2, 'value': hostWebPortal, 'cb': setHostWebPortal, 'elementId': 'hostPortal','placeholder': customEmailStringDict.formGroup.actionButton.placeholder, 'propertyPath': 'hostPortal', 'tooltip': true, 'enableValidate': true, 'errorMessage': customEmailStringDict.formGroup.actionButton.hostInvalidTip, 'validateCb': validateHttpUrl, 'isNotEncode': false, tooltipStr: hostTooltip})}
                         {/*button 2*/}
                         {renderSwitchSection(customEmailStringDict.formGroup.actionButton.label3, showButton2, setShowButton2, 'showMobileButton')}
-
-                        {showButton2 && renderBtnColorSection(customEmailStringDict.formGroup.actionButton.button2,button2Text, setButton2Text, 'mobileButtonStyle', customEmailStringDict.formGroup.actionButton.button2_default, button2FontColor, setButton2FontColor, button2BgColor, setButton2BgColor)}
-                        {showButton2 && renderMobileButtonLink(customEmailStringDict.formGroup.actionButton.button2Link, mobileButtonScheme, setMobileButtonScheme, 'mobileButtonScheme', customEmailStringDict.formGroup.actionButton.placeholder,'button.mobileButtonScheme',false, true, customEmailStringDict.formGroup.actionButton.hostInvalidTip, validateScheme )}
+                        {showButton2 && renderBtnColorSection({label: customEmailStringDict.formGroup.actionButton.button2, value: button2Text, cb: setButton2Text, elementId: 'mobileButtonStyle', placeholder: customEmailStringDict.formGroup.actionButton.button2_default, fontColor: button2FontColor, fontColorCb: setButton2FontColor, bgColor: button2BgColor, bgColorCb: setButton2BgColor})}
+                        {showButton2 && renderMobileButtonLink({label: customEmailStringDict.formGroup.actionButton.button2Link, value: mobileButtonScheme, cb: setMobileButtonScheme, elementId: 'mobileButtonScheme', placeholder: customEmailStringDict.formGroup.actionButton.placeholder, propertyPath: 'button.mobileButtonScheme', enableValidate: true, errorMessage: customEmailStringDict.mobileLinkValidTip, validateCb: validateScheme})}
                         {/*button desc*/}
                         {renderSwitchSection(customEmailStringDict.formGroup.actionButton.showDescription, showDescription, setShowDescription, 'showButtonDescription')}
                         {showDescription && renderTextareaSection(actionDescription,setActionDescription, customEmailStringDict.formGroup.actionButton.descriptionDefaultStr, 'button.description')}
@@ -738,17 +736,17 @@ const CustomEmailForm: React.FC<any> = (props: any) => {
                     <Panel extra = {renderExtraHeader(true, true, 'reminder', resetReminder, notificationTooltip)} header={customEmailStringDict.formGroup.notificationReminder.title} key="5" className="site-collapse-custom-panel">
                         {renderSwitchSection(customEmailStringDict.formGroup.notificationReminder.label, showReminder, setShowReminder, 'showReminder')}
                         {showReminder && renderSingleMacroSection(customEmailStringDict.formGroup.notificationReminder.labelReminder, reminderContent, setReminderContent, customEmailStringDict.formGroup.notificationReminder.defaultReminder, true, [Macros.NOTIFICATION_COUNT])}
-                        {showReminder && renderInputSection(customEmailStringDict.formGroup.notificationReminder.reminderLinkText, reminderLinkText, setReminderLinkText, 'reminderLinkText', customEmailStringDict.formGroup.notificationReminder.reminderLinkText, 'reminder.linkText', true,false, '', null, false, customEmailStringDict.formGroup.notificationReminder.notificationLinkTip)}
+                        {showReminder && renderInputSection({'label': customEmailStringDict.formGroup.notificationReminder.reminderLinkText, 'value': reminderLinkText, 'cb': setReminderLinkText, 'elementId': 'reminderLinkText','placeholder': customEmailStringDict.formGroup.notificationReminder.reminderLinkText, 'propertyPath': 'reminder.linkText', 'tooltip': true, 'enableValidate': false, 'errorMessage': '', 'validateCb': null, 'isNotEncode': false, tooltipStr: customEmailStringDict.formGroup.notificationReminder.notificationLinkTip})}
                     </Panel>
                     <Panel header={customEmailStringDict.formGroup.sentBy.title} key="6" className="site-collapse-custom-panel">
                          {renderSwitchSection(customEmailStringDict.formGroup.sentBy.label1, showSendByInfo, setShowSendByInfo, 'showSentBy')}
-                         {showSendByInfo && renderInputSection(customEmailStringDict.formGroup.sentBy.label2, sentByOwner, setSentByOwner, 'sendByOwner', customEmailStringDict.formGroup.sentBy.defaultSender, 'sentByText')}
+                         {showSendByInfo && renderInputSection({'label': customEmailStringDict.formGroup.sentBy.label2, 'value': sentByOwner, 'cb': setSentByOwner,'elementId': 'sendByOwner','placeholder': customEmailStringDict.formGroup.sentBy.defaultSender, 'propertyPath': 'sentByText', 'tooltip': false, 'enableValidate': false, 'errorMessage': '', 'validateCb': null, 'isNotEncode': false})}
                     </Panel>
                     <Panel header={customEmailStringDict.formGroup.socialMedia.title} key="7" className="site-collapse-custom-panel">
-                         {renderSocialItemSection(customEmailStringDict.formGroup.socialMedia.fb, showFb,fbLink, setShowFb, setFbLink, 'showFacebookBtn', customEmailStringDict.formGroup.socialMedia.placeholder, 'font-facebook-icon social-item', 'socialMedia.facebookLink', 'socialMedia.showFacebook', customEmailStringDict.formGroup.socialMedia.fb_prefix)}
-                         {renderSocialItemSection(customEmailStringDict.formGroup.socialMedia.twitter, showTwitter, twitterLink, setShowTwitter,setTwitterLink, 'showTwitterBtn', customEmailStringDict.formGroup.socialMedia.placeholder, 'font-twitter-icon social-item', 'socialMedia.twitterLink', 'socialMedia.showTwitter', customEmailStringDict.formGroup.socialMedia.twitter_prefix)}
-                         {renderSocialItemSection(customEmailStringDict.formGroup.socialMedia.linked, showLinked, linkedLink, setShowLinked,setLinkedLink, 'showLinkedBtn', customEmailStringDict.formGroup.socialMedia.placeholder, 'font-linked-icon social-item', 'socialMedia.linkedInLink', 'socialMedia.showLinkedIn', customEmailStringDict.formGroup.socialMedia.linked_prefix)}
-                         {renderSocialItemSection(customEmailStringDict.formGroup.socialMedia.yt, showYt, ytLink, setShowYt, setYtLink, 'showYouTubeBtn', customEmailStringDict.formGroup.socialMedia.placeholder, 'font-yt-icon social-item', 'socialMedia.youTubeLink', 'socialMedia.showYouTube', customEmailStringDict.formGroup.socialMedia.yt_prefix)}
+                         {renderSocialItemSection({label: customEmailStringDict.formGroup.socialMedia.fb, check: showFb, value: fbLink, cb: setShowFb, cb_link: setFbLink, elementId: 'showFacebookBtn', placeholder: customEmailStringDict.formGroup.socialMedia.placeholder, className: 'font-facebook-icon social-item', propertyPath: 'socialMedia.facebookLink', buttonPath: 'socialMedia.showFacebook', linkPrefix: customEmailStringDict.formGroup.socialMedia.fb_prefix})} 
+                         {renderSocialItemSection({label: customEmailStringDict.formGroup.socialMedia.twitter, check: showTwitter, value: twitterLink, cb: setShowTwitter, cb_link: setTwitterLink, elementId: 'showTwitterBtn', placeholder: customEmailStringDict.formGroup.socialMedia.placeholder, className: 'font-twitter-icon social-item', propertyPath: 'socialMedia.twitterLink', buttonPath: 'socialMedia.showTwitter', linkPrefix: customEmailStringDict.formGroup.socialMedia.twitter_prefix})}
+                         {renderSocialItemSection({label: customEmailStringDict.formGroup.socialMedia.linked, check: showLinked, value: linkedLink, cb: setShowLinked, cb_link: setLinkedLink, elementId: 'showLinkedBtn', placeholder: customEmailStringDict.formGroup.socialMedia.placeholder, className: 'font-linked-icon social-item', propertyPath: 'socialMedia.linkedInLink', buttonPath: 'socialMedia.showLinkedIn', linkPrefix: customEmailStringDict.formGroup.socialMedia.linked_prefix})}
+                         {renderSocialItemSection({label: customEmailStringDict.formGroup.socialMedia.yt, check: showYt, value: ytLink, cb: setShowYt, cb_link: setYtLink, elementId: 'showYouTubeBtn', placeholder: customEmailStringDict.formGroup.socialMedia.placeholder, className: 'font-yt-icon social-item', propertyPath: 'socialMedia.youTubeLink', buttonPath: 'socialMedia.showYouTube', linkPrefix: customEmailStringDict.formGroup.socialMedia.yt_prefix})}
                     </Panel> 
                 </Collapse>
             </div>

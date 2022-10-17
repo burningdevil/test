@@ -111,6 +111,13 @@
     background-image: url(../images/18_18.svg);
     background-position: -504px -54px;
   }
+.ant-tooltip-arrow-content {
+    width: 5px;
+    height: 5px;
+    &:before {
+        background: #fff;
+    }
+}
 
 
 

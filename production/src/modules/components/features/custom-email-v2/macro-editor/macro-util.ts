@@ -2,8 +2,6 @@ import boldingHelper from "./bolding-helper";
 import { BlotDefinition, DenotationChars, ListObject, Macros, MatchedMacro, MentionObject } from "./macro-types";
 const createRenderList = (macros: Macros[]): ListObject[] => macros.map((value, id) => ({ value, id }));
 const getBracketList = (
-    isMultiContent: boolean,
-    isNotificationReminder: string,
     availableMacros: Macros[]
   ): ListObject[] => {
     return createRenderList(availableMacros);
@@ -17,7 +15,7 @@ const getBracketList = (
    * @param insertItem value to be inserted to editor
    */
  const onSelect = (item: MentionObject, insertItem: (item: MentionObject) => void): void => {
-    const { OPENING_BRACKET, AMPERSAND, CLOSING_BRACKET, OPENING_SQUARE_BRACKET, CLOSING_SQUARE_BRACKET, AT } =
+    const { OPENING_BRACKET, AMPERSAND, CLOSING_BRACKET, OPENING_SQUARE_BRACKET } =
       DenotationChars;
 
     const { denotationChar } = item;
@@ -65,8 +63,6 @@ const getBracketList = (
   };
 
 export const getConfig = (
-    isMultiContent = false,
-    isNotificationReminder = '',
     availableMacros: Macros[]
   ): unknown => {
     const allowedChars = /^[A-Za-z0-9@]*$/;
@@ -78,8 +74,6 @@ export const getConfig = (
       ];
 
     const bracketList = getBracketList(
-      isMultiContent,
-      isNotificationReminder,
       availableMacros
     );
     const blotName = BlotDefinition.NAME;

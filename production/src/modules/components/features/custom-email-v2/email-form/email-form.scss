@@ -161,6 +161,36 @@
     .mstr-input-container {
         position: relative!important;
     }
+    //ant related
+    .ant-input-group-wrapper{
+        margin-left: 10px;
+        .ant-input-wrapper {
+            max-width: 70% !important;
+            .ant-input {
+                text-align: left;
+                font-size: 12px;
+            }
+        }
+    }
+    .ant-collapse-extra {
+        display: inline-flex;
+        margin-left: 8px !important;
+        float: none !important;
+    }
+    .ant-collapse-header {
+        font-weight: 600;
+        font-size: 12px;  
+    }
+    .ant-collapse-header-text {
+        margin-left: -6px;
+    }
+    .ant-divider-horizontal {
+        margin-top: 23px;
+        margin-bottom: 15px;
+    }
+    .ant-collapse-content-box {
+        margin-top: -24px;
+    }
 
     
 }
@@ -210,48 +240,14 @@
     }
 }
 
-.custom-email-form-v2 {
-    .ant-input-group-wrapper{
-        margin-left: 10px;
-        .ant-input-wrapper {
-            max-width: 70% !important;
-            .ant-input {
-                text-align: left;
-                font-size: 12px;
-            }
-        }
-    }
-    .ant-collapse-extra {
-        display: inline-flex;
-        margin-left: 8px !important;
-        float: none !important;
-    }
-    .ant-collapse-header {
-        font-weight: 600;
-        font-size: 12px;  
-    }
-    .ant-collapse-header-text {
-        margin-left: -6px;
-    }
-    .ant-divider-horizontal {
-        margin-top: 23px;
-        margin-bottom: 15px;
-    }
-    .ant-collapse-content-box {
-        margin-top: -24px;
-    }
-    // div:not(.custom-email-form-v2-box) + .custom-email-form-v2-box {
-    //     margin-top: 8px;
-    // }
-    // div[class*="custom-email-form-v2-box"]:last-of-type{
-    //     margin-bottom: 100px;
-    // }
-}
 .ant-select-item-option-content {
     font-size: 12px !important;
 }
 .tip-label {
     color: #757575;
+}
+.ant-tooltip {
+    max-width: 280px !important;
 }
 
 

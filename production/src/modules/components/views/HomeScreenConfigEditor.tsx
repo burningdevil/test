@@ -69,7 +69,7 @@ import CustomEmailBlade from '../features/custom-email/custom-email-blade';
 import { constructSendingEmailRequestBody, getConfigIdFromHeader } from '../features/custom-email/custom-email.util';
 import { DEFAULT_EMAIL_SETTING } from '../../../../src/store/reducers/HomeScreenConfigEditorReducer';
 import CustomEmailBladeV2 from '../features/custom-email-v2/custom-email-blade';
-import { filterEmailConfig, SubjectBodyEnum } from '../features/custom-email-v2/custom-email.util';
+import { filterEmailConfig } from '../features/custom-email-v2/custom-email.util';
 declare var workstation: WorkstationModule;
 
 const classNamePrefix = 'home-screen-editor';

@@ -109,7 +109,7 @@ class MacroQuillBlot extends Embed {
    * @param isMultiContent flag to indicate if plugin is in multicontent mode
    * @param areMultiContentMacrosSupported whether env version is 11.3.5 or above
    */
-  static getRegularMacroRegExp(isMultiContent: boolean, isNotificationReminder: string, availableMacros: Macros[]): RegExp {
+  static getRegularMacroRegExp(availableMacros: Macros[]): RegExp {
     const { OPENING_BRACKET, AMPERSAND, CLOSING_BRACKET } = DenotationChars;
     let bracketMacros = availableMacros;
     const bracketOpen = OPENING_BRACKET + AMPERSAND;
@@ -129,13 +129,12 @@ class MacroQuillBlot extends Embed {
    */
   static getHtmlFromText(
     isMultiContent: boolean,
-    isNotificationReminder: string,
-    text = '',
+    text: string,
     availableMacros: Macros[]
   ): string {
     let str = MacroQuillBlot.escapeHTMLBlot(text);
 
-    const macroRegExp = this.getRegularMacroRegExp(isMultiContent, isNotificationReminder, availableMacros);
+    const macroRegExp = this.getRegularMacroRegExp(availableMacros);
 
     const replacerMacro = `<span class="macro" data-value="$& " contenteditable="false">$&  </span>`;
     str = str
@@ -193,7 +192,7 @@ class MacroQuillBlot extends Embed {
    * @param multiline flag to indicate if plugin is in multi-content mode
    * @param range the current cursor location
    */
-   static getExtendRangeFromSelection(delta: DeltaStatic | any, multiline: boolean, range: Range): boolean[] {
+   static getExtendRangeFromSelection(delta: DeltaStatic | any, range: Range): boolean[] {
     if(!range) return null;
     const { ops } = delta;
     let res = range.index;
@@ -212,11 +211,11 @@ class MacroQuillBlot extends Embed {
               // judge the previous and next op whether is \n;
               let previous = i > 1 ? ops[i-1] : null;
               let next = i < ops.length - 1 ? ops[i + 1] : null;
-              const judge = (op: any) => {
-                if(typeof op?.insert !== 'string'){
+              const judge = (p: any) => {
+                if(typeof p?.insert !== 'string'){
                   return true;
                 }else {
-                  return /[\r\n]+/gm.test(op.insert);
+                  return /[\r\n]+/gm.test(p.insert);
                 }
               }
               return [true, judge(previous), judge(next)];
@@ -233,11 +232,9 @@ class MacroQuillBlot extends Embed {
   }
 
   static judgeTextFromSelection(
-    isMultiContent: boolean,
-    isNotificationReminder: string,
     text: string,
     availableMacros: Macros[]) {
-    const macroRegExp = this.getRegularMacroRegExp(isMultiContent, isNotificationReminder, availableMacros);
+    const macroRegExp = this.getRegularMacroRegExp(availableMacros);
     if(macroRegExp.test(text) && (text[0] !== ' ' || text[text.length - 1] !== ' ')){
       return true;
     }

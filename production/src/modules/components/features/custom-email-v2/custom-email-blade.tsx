@@ -6,6 +6,7 @@ import CustomEmailPreview from './email-preview/email-preview';
 import './custom-email.scss'
 import { CaretRightOutlined } from '@ant-design/icons';
 import { CSSTransition } from 'react-transition-group';
+import * as _ from 'lodash';
 const classNamePrefix = 'home-screen-custom-email-setting-v2';
 const CustomEmailBladeV2: React.FC<any> = (props: any) => {
     const [openPreview, setPreview] = React.useState(false);
@@ -27,8 +28,8 @@ const CustomEmailBladeV2: React.FC<any> = (props: any) => {
                 timeout={500}
                 classNames="preview"
                 unmountOnExit
-                onEnter={() => {}}
-                onExited={() => {}}
+                onEnter={_.noop}
+                onExited={_.noop}
             >
                 { 
                 <Layout.Sider className={`${classNamePrefix}-right`} width={previewerWidth}>

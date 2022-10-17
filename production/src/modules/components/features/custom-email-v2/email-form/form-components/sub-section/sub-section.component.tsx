@@ -1,9 +1,7 @@
-import { Divider, Layout, Checkbox } from 'antd';
 import * as React from 'react'
 import { useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import * as _ from 'lodash';
 import * as Actions from '../../../../../../../store/actions/ActionsCreator';
 import MacroEditor from '../../../macro-editor/macro-editor';
 import { CustomEmailSettingType, EmailContentInterface } from '../../../../../../../../src/types/data-model/HomeScreenConfigModels';

@@ -4,7 +4,7 @@ import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectCustomizeEmailSetting, selectShouldSendPreviewEmail } from '../../../../../store/selectors/HomeScreenConfigEditorSelector';
 import { CustomEmailSettingType } from '../../../../../types/data-model/HomeScreenConfigModels';
-import { customEmailStringDict, localizedStrings } from '../../../HomeScreenConfigConstant';
+import { customEmailStringDict } from '../../../HomeScreenConfigConstant';
 import './email-preview.scss';
 import { DEFAULT_EMAIL_SETTING } from '../../../../../store/reducers/HomeScreenConfigEditorReducer';
 import { setShouldSendPreviewEmail } from '../../../../../store/actions/ActionsCreator';

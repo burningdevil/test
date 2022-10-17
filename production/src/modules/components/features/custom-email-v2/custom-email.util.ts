@@ -32,8 +32,7 @@ export enum EmailSettingKeyEnum {
 
 export function validateScheme(name: string) {
     const pattern = /^[0-9a-zA-Z]+$/g;
-    const isInvalidCharacter = pattern.test(name);
-    return isInvalidCharacter;  
+    return pattern.test(name);  
 }
 
 export function validateEmail(email: string) 

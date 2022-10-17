@@ -1,5 +1,5 @@
 import { HomeScreenConfigEditorState } from '../../types/redux-state/HomeScreenConfigState'
-import { CONSTANTS, localizedStrings, iconTypes, reviewType, iconValidKey, platformType, dossierIconKeys, libraryIconKeys, sidebarIconKeys, featureFlag, libraryCustomizedIconKeys, platformSpecificIconKeys, customEmailStringDict } from '../../modules/components/HomeScreenConfigConstant'
+import { CONSTANTS, localizedStrings, reviewType, iconValidKey, platformType, dossierIconKeys, libraryIconKeys, sidebarIconKeys, featureFlag, libraryCustomizedIconKeys, platformSpecificIconKeys, customEmailStringDict } from '../../modules/components/HomeScreenConfigConstant'
 import { ActionTypes } from '../actions/ActionTypes'
 import * as Actions from '../actions/ActionConstants'
 import * as _ from 'lodash'
