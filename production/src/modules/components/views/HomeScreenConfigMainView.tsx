@@ -694,7 +694,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                             </div>
                         );
                     }
-                    const availableModes = d.authModes?.availableModes
+                    const availableModes = [...d.authModes?.availableModes]
                     ?.sort((_a: number,b: number) => {
                         return b === d.authModes?.defaultMode ? 1 : -1 
                     }) ?? [];

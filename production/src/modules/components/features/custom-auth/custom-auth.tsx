@@ -19,29 +19,29 @@ const CustomAuth: React.FC<any> = () => {
     const [dm, setDm] = useState(stateData?.defaultMode);
     const [savedSelected, setSelected] = useState(stateData?.availableModes ?? []);
     
-    const [optionData, setOptions] = useState(supportCustomAuthModes);
+    const [optionsData, setOptions] = useState(supportCustomAuthModes);
     
     
     React.useEffect(() => {
         if(!savedSelected) return;
         // update the default mode automatically depends on the selected options.
         const isDefaultSelected = savedSelected?.find(v => v === dm);
-        if(!isDefaultSelected){
+        if(!isDefaultSelected && savedSelected?.length){
             setDm(savedSelected[0]);
         }
         if(savedSelected.includes(AuthModeConstants.OIDC)){
-            optionData.find(v => v.value === AuthModeConstants.SAML).disabled = true;
-            setOptions(JSON.parse(JSON.stringify(optionData)))
+            optionsData.find(v => v.value === AuthModeConstants.SAML).disabled = true;
+            setOptions(JSON.parse(JSON.stringify(optionsData)))
         }else {
-            optionData.find(v => v.value === AuthModeConstants.SAML).disabled = false;
-            setOptions(JSON.parse(JSON.stringify(optionData)))
+            optionsData.find(v => v.value === AuthModeConstants.SAML).disabled = false;
+            setOptions(JSON.parse(JSON.stringify(optionsData)))
         }
         if(savedSelected.includes(AuthModeConstants.SAML)){
-            optionData.find(v => v.value === AuthModeConstants.OIDC).disabled = true;
-            setOptions(JSON.parse(JSON.stringify(optionData)))
+            optionsData.find(v => v.value === AuthModeConstants.OIDC).disabled = true;
+            setOptions(JSON.parse(JSON.stringify(optionsData)))
         }else {
-            optionData.find(v => v.value === AuthModeConstants.OIDC).disabled = false;
-            setOptions(JSON.parse(JSON.stringify(optionData)))
+            optionsData.find(v => v.value === AuthModeConstants.OIDC).disabled = false;
+            setOptions(JSON.parse(JSON.stringify(optionsData)))
         }
     }, [savedSelected])
 
@@ -96,7 +96,7 @@ const CustomAuth: React.FC<any> = () => {
         return (
             <>
             {                
-                optionData.map((option: any) => {
+                optionsData.map((option: any) => {
                     return (
                         <div className = "group-row" key = {option.value}>
                                 <div className = "option-row">
