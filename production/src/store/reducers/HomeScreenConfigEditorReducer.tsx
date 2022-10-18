@@ -59,6 +59,7 @@ const initialState: HomeScreenConfigEditorState = {
   },
   isDuplicateConfig: false,
   isConfigNameError: false,
+  isCustomAuthError: false,
   isCustomEmailError: false,
   shouldSendPreviewEmail: false,
   configInfoList: [],
@@ -88,6 +89,8 @@ const HomeScreenConfigEditorReducer = (state: HomeScreenConfigEditorState = init
       return {...state, isDuplicateConfig: data}
     case Actions.SET_CONFIG_NAME_ERROR:
       return {...state, isConfigNameError: data}
+    case Actions.SET_CUSTOM_AUTH_ERROR:
+      return {...state, isCustomAuthError: data}
     case Actions.SET_CUSTOM_EMAIL_ERROR:
       return {...state, isCustomEmailError: data}
     case Actions.SET_SHOULD_SEND_PREVIEW_EMAIL:

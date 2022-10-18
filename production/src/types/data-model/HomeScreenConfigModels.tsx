@@ -72,8 +72,8 @@ export interface HomeScreenConfigType {
     applicationPalettes: Array<string>,
     applicationDefaultPalette: string,
     // customize email
-    'emailSettings': CustomEmailSettingType,
-    'authModes': CustomAuthModes
+    emailSettings: CustomEmailSettingType,
+    authModes: CustomAuthModes
 }
 
 export interface HomeScreenConfigInfo {

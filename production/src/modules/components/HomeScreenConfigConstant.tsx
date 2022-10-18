@@ -33,7 +33,7 @@ export const CONSTANTS = {
     TOOLBAR_ENABLED: 'toolbarEnabled',
     DEFAULT_GROUPS_NAME: 'defaultGroupsName',
     CONTENT_BUNDLES: 'contentBundles',
-    AUTHENTICATION_MODES: 'authModeDisplay',
+    AUTHENTICATION_MODES: 'authModesDisplay',
     //Advanced Settings
     AUTH_MODES: 'authModes',
     DISABLE_ADVANCED_SETTINGS: 'disableAdvancedSettings',
@@ -405,7 +405,9 @@ export const localizedStrings = {
     ADD_CUSTOM_COLOR_PALETTE_MESSAGE: t('addCustomColorPalettesMessage'),
     PALETTE_COUNT: t('paletteCount'),
     AUTH_MODES: t('authModes'),
-    FOLLOW_LIBRARY_SERVER: t('followLibraryServer')
+    FOLLOW_LIBRARY_SERVER: t('followLibraryServer'),
+    USE_EXIST_SERVER_LEVEL_AUTH: t('useExistServerLevelAuth'),
+    USE_SPECIFIC_AUTH: t('useSpecificAuth')
 };
 
 export const sectionTitle = {

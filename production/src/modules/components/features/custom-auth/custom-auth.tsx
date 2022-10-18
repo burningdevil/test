@@ -8,55 +8,59 @@ import * as Actions from '../../../../store/actions/ActionsCreator';
 const classNamePrefix = 'custom-auth-form'
 import './custom-auth.scss'
 import { AuthModeConstants, CustomAuthModes, supportCustomAuthModes } from './custom-auth.model';
-import { selectAuthMode, selectEnableAuthMods } from '../../../../../src/store/selectors/HomeScreenConfigEditorSelector';
+import { selectAuthModes, selectAuthModesEnabled } from '../../../../../src/store/selectors/HomeScreenConfigEditorSelector';
 import { localizedStrings } from '../../HomeScreenConfigConstant';
 const CustomAuth: React.FC<any> = () => {
-    let stateData: CustomAuthModes = useSelector(selectAuthMode);
+    let stateData: CustomAuthModes = useSelector(selectAuthModes);
     const dispatch = useDispatch();
-    const isEnableAuthMode = useSelector(selectEnableAuthMods);
-    const [enableAuth, setEnableAuth] = useState(isEnableAuthMode);
+    const isAuthModesEnabled = useSelector(selectAuthModesEnabled);
+    const [enableAuth, setEnableAuth] = useState(isAuthModesEnabled);
     
     const [dm, setDm] = useState(stateData?.defaultMode);
-    const [saveSelected, setSelected] = useState(stateData?.availableModes ?? []);
+    const [savedSelected, setSelected] = useState(stateData?.availableModes ?? []);
     
     const [optionData, setOptions] = useState(supportCustomAuthModes);
     React.useEffect(() => {
-        if(!saveSelected) return;
+        if(!savedSelected) return;
         // update the default mode automatically depends on the selected options.
-        const isDefaultSelected = saveSelected?.find(v => v === dm);
+        const isDefaultSelected = savedSelected?.find(v => v === dm);
         if(!isDefaultSelected){
-            setDm(saveSelected[0]);
+            setDm(savedSelected[0]);
             dispatch(
                 Actions.updateCurrentConfig({
                     authModes: {
                         enabled: enableAuth,
-                        availableModes: saveSelected,
-                        defaultMode: saveSelected[0]
+                        availableModes: savedSelected,
+                        defaultMode: savedSelected[0]
                     }
                 })
             )
         }
-        if(saveSelected.includes(AuthModeConstants.OIDC)){
+        if(savedSelected.includes(AuthModeConstants.OIDC)){
             optionData.find(v => v.value === AuthModeConstants.SAML).disabled = true;
             setOptions(JSON.parse(JSON.stringify(optionData)))
         }else {
             optionData.find(v => v.value === AuthModeConstants.SAML).disabled = false;
             setOptions(JSON.parse(JSON.stringify(optionData)))
         }
-        if(saveSelected.includes(AuthModeConstants.SAML)){
+        if(savedSelected.includes(AuthModeConstants.SAML)){
             optionData.find(v => v.value === AuthModeConstants.OIDC).disabled = true;
             setOptions(JSON.parse(JSON.stringify(optionData)))
         }else {
             optionData.find(v => v.value === AuthModeConstants.OIDC).disabled = false;
             setOptions(JSON.parse(JSON.stringify(optionData)))
         }
-        if(saveSelected?.length === 0 && enableAuth){
+    }, [savedSelected])
+
+    React.useEffect(() => {
+        if(savedSelected?.length === 0 && enableAuth){
             setDm(0);
-            dispatch(Actions.setCustomEmailNameError(true))
+            dispatch(Actions.setCustomAuthError(true))
         }else {
-            dispatch(Actions.setCustomEmailNameError(false))
+            dispatch(Actions.setCustomAuthError(false))
         }
-    }, [saveSelected, enableAuth])
+
+     }, [savedSelected, enableAuth])
     React.useEffect(() => {
        setDm(stateData?.defaultMode);
        setSelected(stateData?.availableModes);
@@ -67,31 +71,20 @@ const CustomAuth: React.FC<any> = () => {
             Actions.updateCurrentConfig({
                 authModes: {
                     enabled: e.target.value,
-                    availableModes: saveSelected,
+                    availableModes: savedSelected,
                     defaultMode: dm
                 }
             })
         )
       };
     const onOptionChange = (checkedValues: number[]) => {
-        // should judge whether uncheck the default one. if true, will slip to the first select one.
-        let defaultMode = dm;
-        if( checkedValues.length && checkedValues?.length < saveSelected?.length && !checkedValues.includes(dm)){
-            let d = supportCustomAuthModes.find(v => checkedValues.includes(v.value));
-            defaultMode = d.value;
-            setDm(d.value);
-        }
-        if(!checkedValues?.length){
-            defaultMode = 0;
-            setDm(0);
-        }
         setSelected(checkedValues);
         dispatch(
             Actions.updateCurrentConfig({
                 authModes: {
                     enabled: enableAuth,
                     availableModes: checkedValues,
-                    defaultMode: defaultMode
+                    defaultMode: checkedValues?.length ? dm : 0
                 }
             })
         )
@@ -101,15 +94,15 @@ const CustomAuth: React.FC<any> = () => {
     const onDefaultChange = (option: any) => {
         setDm(option.value);
         // if current option is not checked, automatic check it.
-        if(!saveSelected.includes(option.value)){
-            saveSelected.push(option.value);
-            setSelected(saveSelected.slice());
+        if(!savedSelected.includes(option.value)){
+            savedSelected.push(option.value);
+            setSelected(savedSelected.slice());
         }
         dispatch(
             Actions.updateCurrentConfig({
                 authModes: {
                     enabled: enableAuth,
-                    availableModes: saveSelected,
+                    availableModes: savedSelected,
                     defaultMode: option.value
                 }
             })
@@ -144,7 +137,7 @@ const CustomAuth: React.FC<any> = () => {
     const renderCustomList = () => {
         return (
             <div className = {`${classNamePrefix}-option-container`}>
-                <Checkbox.Group style={{ width: '100%' }} defaultValue= {saveSelected} value = {saveSelected} onChange={onOptionChange}>
+                <Checkbox.Group style={{ width: '100%' }} defaultValue= {savedSelected} value = {savedSelected} onChange={onOptionChange}>
                     {renderOption()}
                 </Checkbox.Group>
             </div>
@@ -161,9 +154,9 @@ const CustomAuth: React.FC<any> = () => {
                     <div className={`${classNamePrefix}-content`} >
                         <Radio.Group onChange={onChange} value={enableAuth} style = {{lineHeight: '15px', width: '100%'}}>
                             <Space direction="vertical" style = {{ width: '100%'}}>
-                                <Radio value={false}>{'Use existing server level authentication modes.'}</Radio>
+                                <Radio value={false}>{localizedStrings.USE_EXIST_SERVER_LEVEL_AUTH}</Radio>
                                 
-                                <Radio value={true}>{'Choose specific authentication modes for the app'}</Radio>
+                                <Radio value={true}>{localizedStrings.USE_SPECIFIC_AUTH}</Radio>
                                 
                                 {
                                     enableAuth === true ? 

@@ -36,6 +36,7 @@ import {
     selectIsCustomEmailError,
     selectShouldSendPreviewEmail,
     selectCustomizeEmailSetting,
+    selectIsCustomAuthError,
 } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import * as api from '../../../services/Api';
@@ -411,6 +412,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                     loading={this.state.handleSaving}
                     disabled={
                         this.props.isConfigNameError ||
+                        this.props.isCustomAuthError ||
                         this.props.isCustomEmailError ||
                         (isDossierHome && _.isEmpty(dossierUrl)) ||
                         !validName(this.props.defaultGroupsName) ||
@@ -739,6 +741,7 @@ const mapState = (state: RootState) => ({
     isDuplicateConfig: selectIsDuplicateConfig(state),
     isConfigNameError: selectIsConfigNameError(state),
     isCustomEmailError: selectIsCustomEmailError(state),
+    isCustomAuthError: selectIsCustomAuthError(state),
     shouldSendPreviewEmail: selectShouldSendPreviewEmail(state),
     emailSettings: selectCustomizeEmailSetting(state),
 
