@@ -20,21 +20,14 @@ const CustomAuth: React.FC<any> = () => {
     const [savedSelected, setSelected] = useState(stateData?.availableModes ?? []);
     
     const [optionData, setOptions] = useState(supportCustomAuthModes);
+    
+    
     React.useEffect(() => {
         if(!savedSelected) return;
         // update the default mode automatically depends on the selected options.
         const isDefaultSelected = savedSelected?.find(v => v === dm);
         if(!isDefaultSelected){
             setDm(savedSelected[0]);
-            dispatch(
-                Actions.updateCurrentConfig({
-                    authModes: {
-                        enabled: enableAuth,
-                        availableModes: savedSelected,
-                        defaultMode: savedSelected[0]
-                    }
-                })
-            )
         }
         if(savedSelected.includes(AuthModeConstants.OIDC)){
             optionData.find(v => v.value === AuthModeConstants.SAML).disabled = true;
@@ -59,35 +52,34 @@ const CustomAuth: React.FC<any> = () => {
         }else {
             dispatch(Actions.setCustomAuthError(false))
         }
-
      }, [savedSelected, enableAuth])
+    
     React.useEffect(() => {
-       setDm(stateData?.defaultMode);
-       setSelected(stateData?.availableModes);
-    }, [stateData])
-    const onChange = (e: RadioChangeEvent) => {
-        setEnableAuth(e.target.value);
         dispatch(
             Actions.updateCurrentConfig({
                 authModes: {
-                    enabled: e.target.value,
+                    enabled: enableAuth,
                     availableModes: savedSelected,
                     defaultMode: dm
                 }
             })
         )
+     }, [savedSelected, enableAuth, dm])
+    
+    const onChange = (e: RadioChangeEvent) => {
+        setEnableAuth(e.target.value);
       };
     const onOptionChange = (checkedValues: number[]) => {
+        // follow the sequence as the UI options.
+        checkedValues.sort((a: number,b: number) => {
+            let a_index = supportCustomAuthModes?.findIndex(m => m.value === a);
+            let b_index = supportCustomAuthModes?.findIndex(m => m.value === b);
+            return a_index < b_index ? -1 : 1;
+        })
         setSelected(checkedValues);
-        dispatch(
-            Actions.updateCurrentConfig({
-                authModes: {
-                    enabled: enableAuth,
-                    availableModes: checkedValues,
-                    defaultMode: checkedValues?.length ? dm : 0
-                }
-            })
-        )
+        if(!checkedValues?.length){
+            setDm(0)
+        }
 
     };
 
@@ -98,15 +90,6 @@ const CustomAuth: React.FC<any> = () => {
             savedSelected.push(option.value);
             setSelected(savedSelected.slice());
         }
-        dispatch(
-            Actions.updateCurrentConfig({
-                authModes: {
-                    enabled: enableAuth,
-                    availableModes: savedSelected,
-                    defaultMode: option.value
-                }
-            })
-        )
     }
     
     const renderOption = () => {

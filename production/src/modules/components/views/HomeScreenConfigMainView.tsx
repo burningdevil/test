@@ -792,7 +792,6 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         ] as ColumnDef[];
         if (this.state.authModesFeatureEnable) {
             cols.find((v) => v.field === VC.AUTHENTICATION_MODES).hide = false;
-            cols.find((v) => v.field === VC.DESC).width = 160;
         } else {
             if (
                 Object.keys(this.state.currentEnv)?.length &&
@@ -801,7 +800,6 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                 const index = cols.findIndex(v => v.field === VC.AUTHENTICATION_MODES);
                 cols.splice(index, 1); // splice the auth mode
             }
-            cols.find((v) => v.field === VC.DESC).width = 420;
         }
         if (this.state.contentBundleFeatureEnable) {
             cols.find((v) => v.field === VC.CONTENT_BUNDLES).hide = false;
