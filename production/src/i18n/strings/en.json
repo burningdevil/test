@@ -260,7 +260,7 @@
     "insights": "Insights (Web and Desktop)",
     "serverRestartTip": "Changes made to the settings marked with <0>{{icon}}</0> will require a server restart.",
     "authModes": "Authentication Modes",
-    "followLibraryServer": "Follow Library server",
+    "followLibraryServer": "Library Server Default",
     "useExistServerLevelAuth": "Use existing server level authentication modes",
     "useSpecificAuth": "Choose specific authentication modes for the app",
     "defaultAuth": "default",
