@@ -38,7 +38,7 @@ export function validateScheme(name: string) {
 export function validateEmail(email: string) 
 {   // email can be set empty
     if(!email) return true;
-    const re = /\S+@\S+\.\S+/;
+    const re = /\S+@\S+\.\S+/; // NOSONAR
     return re.test(email);
 }
 export function validEmailName(name: string) {
@@ -62,7 +62,7 @@ export const filterEmailConfig = (config: HomeScreenConfigType) => {
             if(content?.[p]?.subject === DEFAULT_EMAIL_SETTING['content'][p].subject || content?.[p]?.subject === ''){
                 content[p].subject = null;
             }
-            if(content?.[p]?.body === DEFAULT_EMAIL_SETTING['content'][p].body){
+            if(content?.[p]?.body === DEFAULT_EMAIL_SETTING['content'][p].body || content?.[p]?.body === ''){
                 content[p].body = null;
             }
             if(content?.[p]?.subject === null && content?.[p]?.body === null){

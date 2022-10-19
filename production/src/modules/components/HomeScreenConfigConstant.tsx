@@ -543,22 +543,22 @@ export const customEmailStringDict = {
                 'title': t('shareDossierToTheRecipentWithBookmark'),
                 'label1': t('subject'),
                 'label2': t('bodyText'),
-                'placeholder1': 'You have been invited to view {&DossierName} with share',
-                'placeholder2': 'Hi {&RecipientName}!<br> {&SenderName} shared {&DossierName} and {&BookmarkCount} bookmark with you. '
+                'placeholder1': 'You have been invited to view {&DossierName} with shared bookmarks in your library',
+                'placeholder2': 'Hi, {&RecipientName}!<br> {&SenderName} shared {&DossierName} and {&BookmarkCount} bookmark with you. '
             },
             'subsection3': {
                 'title': t('inviteOneRecipientDiscussion'),
                 'label1': t('subject'),
                 'label2': t('bodyText'),
                 'placeholder1': 'You have been invited to a discussion',
-                'placeholder2': 'Hi {&RecipientName}!<br>{&SenderName} invited you to a discussion in a dossier.'
+                'placeholder2': 'Hi, {&RecipientName}!<br>{&SenderName} invited you to a discussion in a dossier.'
             },
             'subsection4': {
                 'title': t('mentionRecipientComment'),
                 'label1': t('subject'),
                 'label2': t('bodyText'),
                 'placeholder1': 'You have been mentioned in a {&MentionTarget} ',
-                'placeholder2': 'Hi {&RecipientName}!<br>{&SenderName} mentioned you in a comment in {&DossierName}.'
+                'placeholder2': 'Hi, {&RecipientName}!<br>{&SenderName} mentioned you in a comment in {&DossierName}.'
             },
             'dossierTip': t('DossierNameTip'),
             'recipientNameTip': t('RecipientNameTip'),

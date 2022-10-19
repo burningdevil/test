@@ -178,7 +178,7 @@ class MacroQuillBlot extends Embed {
     }
 
     if (multiline) {
-      return `${text.replace(/[\r\n]+$/g, '')}`; // remove the new empty lines.
+      return `${text.replace(/[\r\n]+$/g, '')}`; // NOSONAR
     }
     // Removes all new lines, return characters and whitespaces
     return text.replace(/[\r\n]+/gm, '').trim();

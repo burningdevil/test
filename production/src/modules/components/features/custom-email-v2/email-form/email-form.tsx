@@ -5,7 +5,7 @@ import * as React from 'react'
 import { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCustomizeEmailSetting } from '../../../../../store/selectors/HomeScreenConfigEditorSelector';
-import { ActionButtonInterface, CustomEmailSettingType, MobileButtonLinkEnum } from '../../../../../types/data-model/HomeScreenConfigModels';
+import { CustomEmailSettingType, MobileButtonLinkEnum } from '../../../../../types/data-model/HomeScreenConfigModels';
 import * as Actions from '../../../../../store/actions/ActionsCreator';
 import { default as VC, customEmailStringDict, localizedStrings } from '../../../HomeScreenConfigConstant';
 const classNamePrefix = 'custom-email-form-v2'
@@ -18,6 +18,7 @@ import { Macros } from '../macro-editor/macro-types';
 import SubSection from './form-components/sub-section/sub-section.component';
 import MacroQuillBlot from '../macro-editor/macro-quill-blot';
 import { FormBtnColorInputModel, FormInputModel, FormMobileButtonLinkInputModel, FormSocialItemInputModel } from './form-components/form-input.model';
+import OverflowText from '../../../../../../src/modules/components/common-components/overflow-text/overflow-text';
 const { Panel } = Collapse;
 const { TextArea} = Input;
 const { Option } = Select;
@@ -73,7 +74,7 @@ const CustomEmailForm: React.FC<any> = (props: any) => {
     const [resetSubAndBody, setResetSubAndBody] = useState(false);
     // share dossier
     const [shareDossierSub, setShareDossierSub] = useState(decodeContent(stateData.content?.SHARE_DOSSIER?.subject ?? JSON.parse(JSON.stringify(DEFAULT_EMAIL_SETTING.content.SHARE_DOSSIER.subject))));
-    const [shareDossierBody, setShareDossierBody] = useState(decodeContent(stateData.content?.SHARE_DOSSIER?.body ?? JSON.parse(JSON.stringify(DEFAULT_EMAIL_SETTING.content.SHARE_DOSSIER.body))));
+    const [shareDossierBody, setShareDossierBody] = useState(decodeContent(stateData.content?.SHARE_DOSSIER?.body ?? customEmailStringDict.formGroup.subjectAndBody.subsection1.placeholder2));
     // share bookmark
     const [shareBookmarkSub, setShareBookmarkSub] = useState(decodeContent(stateData.content?.SHARE_BOOKMARK?.subject ?? JSON.parse(JSON.stringify(DEFAULT_EMAIL_SETTING.content.SHARE_BOOKMARK.subject))));
     const [shareBookmarkBody, setShareBookmarkBody] = useState(decodeContent(stateData.content?.SHARE_BOOKMARK?.body ?? JSON.parse(JSON.stringify(DEFAULT_EMAIL_SETTING.content.SHARE_BOOKMARK.body))));
@@ -447,9 +448,8 @@ const CustomEmailForm: React.FC<any> = (props: any) => {
                         
                     }}
                 />}
-                <span className = {`${classNamePrefix}-desc ml8 mt6 overflow`}>
-                    {mobileButtonLinkDefault}
-                </span>
+                <OverflowText text = {mobileButtonLinkDefault}>
+                </OverflowText>
             </div>
         )
     }

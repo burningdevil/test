@@ -280,7 +280,7 @@
     "defaultReminderLinkText": "View Notification Center",
     "reminderMacroTip": "Notification Count: ",
     "notificationMsgTip": "Remind recipient if there are unread notifications.",
-    "notificationLinkTip": "Click the Link Text in the email will navigate to the Notification Center in default Library or in the configured Web Host Portal.",
+    "notificationLinkTip": "Clicking the Link Text in the email will navigate to the Notification Center in default Library or in the configured Host Web Portal.",
     "brandingImageTitle": "Branding Image",
     "brandImageUrl": "Image URL",
     "actionButtonDescription": "'View in Mobile App' may not work for all mobile mail apps. Use 'View in Browser' option for such cases.",

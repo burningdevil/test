@@ -8,6 +8,7 @@ import { CustomEmailSettingType, EmailContentInterface } from '../../../../../..
 import { Macros } from '../../../macro-editor/macro-types';
 import { DEFAULT_EMAIL_SETTING } from '../../../../../../../../src/store/reducers/HomeScreenConfigEditorReducer';
 import MacroQuillBlot from '../../../macro-editor/macro-quill-blot';
+import { decodeContent } from '../../../custom-email.util';
 const classNamePrefix = 'custom-email-form-v2'
 
 interface SubSectionProps {
@@ -55,7 +56,7 @@ const SubSection: React.FC<SubSectionProps> = (props: SubSectionProps
                                 isNotificationReminder = {props.stateKey + 1}
                                 reset = {resetSubAndBody}
                                 availableMacros = {availableMacros}
-                                placeholder={sectionObj.placeholder1}
+                                placeholder={decodeContent(sectionObj.placeholder1)}
                                 onChangeHandler={(v: any) => {
                                     if(!Reflect.has(stateData, 'content')){
                                         stateData.content = JSON.parse(JSON.stringify(DEFAULT_EMAIL_SETTING.content)); 
@@ -89,7 +90,7 @@ const SubSection: React.FC<SubSectionProps> = (props: SubSectionProps
                                 reset = {resetSubAndBody}
                                 isContentAdded = {needRefresh}
                                 availableMacros = {availableMacros}
-                                placeholder={sectionObj.placeholder2}
+                                placeholder={decodeContent(sectionObj.placeholder2)}
                                 onChangeHandler={(v: any) => {
                                     if(!Reflect.has(stateData, 'content')){
                                         stateData.content = JSON.parse(JSON.stringify(DEFAULT_EMAIL_SETTING.content)); 
