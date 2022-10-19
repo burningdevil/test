@@ -262,5 +262,8 @@
     "authModes": "Authentication Modes",
     "followLibraryServer": "Follow Library server",
     "useExistServerLevelAuth": "Use existing server level authentication modes",
-    "useSpecificAuth": "Choose specific authentication modes for the app"
+    "useSpecificAuth": "Choose specific authentication modes for the app",
+    "defaultAuth": "default",
+    "setAsDefaultAuth": "set as default"
+
 }

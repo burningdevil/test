@@ -407,7 +407,9 @@ export const localizedStrings = {
     AUTH_MODES: t('authModes'),
     FOLLOW_LIBRARY_SERVER: t('followLibraryServer'),
     USE_EXIST_SERVER_LEVEL_AUTH: t('useExistServerLevelAuth'),
-    USE_SPECIFIC_AUTH: t('useSpecificAuth')
+    USE_SPECIFIC_AUTH: t('useSpecificAuth'),
+    SET_AS_DEFAULT: t('setAsDefaultAuth'),
+    DEFAULT_AUTH: t('defaultAuth'),
 };
 
 export const sectionTitle = {

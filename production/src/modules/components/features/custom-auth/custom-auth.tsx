@@ -102,10 +102,10 @@ const CustomAuth: React.FC<any> = () => {
                                 <div className = "option-row">
                                     <Checkbox value={option.value} disabled = {option.disabled} style = {{'margin': '5px 8px 2px 15px'}}> {option.label}</Checkbox>
                                     {
-                                        option.value === dm && <span className = "defaultClass">default</span>
+                                        option.value === dm && <span className = "defaultClass">{localizedStrings.DEFAULT_AUTH}</span>
                                     }
                                     {
-                                        option.value !== dm && !option.disabled&& <span className = "operation-item" onClick={() => onDefaultChange(option)}>set as default</span>
+                                        option.value !== dm && !option.disabled&& <span className = "operation-item" onClick={() => onDefaultChange(option)}>{localizedStrings.SET_AS_DEFAULT}</span>
                                     }
                                 </div>
                                 
