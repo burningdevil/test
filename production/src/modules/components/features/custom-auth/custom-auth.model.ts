@@ -1,3 +1,4 @@
+import { localizedStrings } from "../../HomeScreenConfigConstant"
 
 
 export enum AuthModeConstants {
@@ -15,7 +16,7 @@ export enum AuthModeConstants {
 
 export const supportCustomAuthModes: any[] = [
     {
-        'label': 'Standard',
+        'label': localizedStrings.STANDARD,
         'value': AuthModeConstants.Standard
     },
     {

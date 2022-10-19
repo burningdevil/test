@@ -264,6 +264,7 @@
     "useExistServerLevelAuth": "Use existing server level authentication modes",
     "useSpecificAuth": "Choose specific authentication modes for the app",
     "defaultAuth": "default",
-    "setAsDefaultAuth": "set as default"
+    "setAsDefaultAuth": "set as default",
+    "standard": "Standard"
 
 }

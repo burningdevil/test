@@ -793,10 +793,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         if (this.state.authModesFeatureEnable) {
             cols.find((v) => v.field === VC.AUTHENTICATION_MODES).hide = false;
         } else {
-            if (
-                Object.keys(this.state.currentEnv)?.length &&
-                !this.state.authModesFeatureEnable
-            ) {
+            if (Object.keys(this.state.currentEnv)?.length) {
                 const index = cols.findIndex(v => v.field === VC.AUTHENTICATION_MODES);
                 cols.splice(index, 1); // splice the auth mode
             }
