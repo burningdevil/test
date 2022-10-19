@@ -36,6 +36,7 @@ import {
     selectIsCustomEmailError,
     selectShouldSendPreviewEmail,
     selectCustomizeEmailSetting,
+    selectIsCustomAuthError,
 } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import * as api from '../../../services/Api';
@@ -61,12 +62,14 @@ import {
     LIBRARY_SERVER_SUPPORT_COLOR_PALETTE_VERSION,
     LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION,
     LIBRARY_SERVER_SUPPORT_APPEARANCE_EDITOR_VERSION,
-    LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_VERSION
+    LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_VERSION,
+    LIBRARY_SERVER_SUPPORT_AUTH_MODE
 } from '../../../utils';
 import ColorPaletteBlade from '../features/color-palette/color-palette-blade';
 import CustomEmailBlade from '../features/custom-email/custom-email-blade';
 import { constructSendingEmailRequestBody, getConfigIdFromHeader } from '../features/custom-email/custom-email.util';
 import { DEFAULT_EMAIL_SETTING } from '../../../../src/store/reducers/HomeScreenConfigEditorReducer';
+import { DEFAULT_AUTH_MODE } from '../features/custom-auth/custom-auth.model';
 declare var workstation: WorkstationModule;
 
 const classNamePrefix = 'home-screen-editor';
@@ -87,6 +90,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             colorPalettePreviewFeatureEnable: false,
             isCloseHanlderRegistered: false,
             customEmailFeatureEnabled: false,
+            authModesFeatureEnable: false
         };
     }
 
@@ -204,6 +208,15 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             );
         };
         const customEmailFeatureFlagEnabled  = checkCustomEmailFeatureEnable(currentEnv);
+        const isLibraryVersionSupportAuthMode = !!currentEnv.webVersion && 
+                getFeatureFlag(
+                    GENERAL_PREVIEW_FEATURE_FLAG,
+                    currentEnv
+                    ) &&
+                isLibraryServerVersionMatch(
+                    currentEnv.webVersion,
+                    LIBRARY_SERVER_SUPPORT_AUTH_MODE
+                )
         let isNameCopied = false;
         if (
             isDuplicate &&
@@ -221,7 +234,8 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             isNameCopyed: isNameCopied,
             contentBundleFeatureEnable: contentBundleEnable,
             colorPaletteFeatureEnable: colorPaletteFeatureFlagEnabled,
-            customEmailFeatureEnabled: customEmailFeatureFlagEnabled
+            customEmailFeatureEnabled: customEmailFeatureFlagEnabled,
+            authModesFeatureEnable: isLibraryVersionSupportAuthMode
 
         });
         this.loadPreference();
@@ -398,6 +412,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                     loading={this.state.handleSaving}
                     disabled={
                         this.props.isConfigNameError ||
+                        this.props.isCustomAuthError ||
                         this.props.isCustomEmailError ||
                         (isDossierHome && _.isEmpty(dossierUrl)) ||
                         !validName(this.props.defaultGroupsName) ||
@@ -502,6 +517,17 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
          */
         if(config.emailSettings && !config.emailSettings?.enabled){
             config.emailSettings = DEFAULT_EMAIL_SETTING;
+        }
+        /**
+         * custom auth mode related
+         * if the default mode is 0, will empty the ava list, 
+         * besides delete the enabled key if has the authModes property.
+         */
+        if(config.authModes){
+            if(config.authModes?.enabled === false){
+                config.authModes = DEFAULT_AUTH_MODE;
+            }
+            delete config.authModes.enabled;
         }
         /* color palette related.
       if useConfigPalette is false, delete the selected applicationPalettes.
@@ -620,7 +646,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                                     tab={localizedStrings.NAVBAR_GENERAL}
                                     key={VC.GENERAL}
                                 >
-                                    <HomeScreenGeneral />
+                                    <HomeScreenGeneral authModeEnable = {this.state.authModesFeatureEnable}/>
                                     {this.buttonGroup()}
                                 </Tabs.TabPane>
                                 <Tabs.TabPane
@@ -715,6 +741,7 @@ const mapState = (state: RootState) => ({
     isDuplicateConfig: selectIsDuplicateConfig(state),
     isConfigNameError: selectIsConfigNameError(state),
     isCustomEmailError: selectIsCustomEmailError(state),
+    isCustomAuthError: selectIsCustomAuthError(state),
     shouldSendPreviewEmail: selectShouldSendPreviewEmail(state),
     emailSettings: selectCustomizeEmailSetting(state),
 

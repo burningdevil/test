@@ -204,3 +204,28 @@ export const selectShouldSendPreviewEmail = createSelector(
   selectConfigEditorRoot,
   (configEditorRoot) => configEditorRoot.shouldSendPreviewEmail
 )
+export const selectIsCustomAuthError = createSelector(
+  selectConfigEditorRoot,
+  (configEditorRoot) => configEditorRoot.isCustomAuthError
+)
+export const selectAuthModes = createSelector(
+  selectConfigEditorRoot,
+  (configEditorRoot) => configEditorRoot.currentConfig?.authModes
+)
+
+export const selectDefaultAuthMode = createSelector(
+  selectConfigEditorRoot,
+  (configEditorRoot) => configEditorRoot.currentConfig?.authModes?.defaultMode
+)
+
+export const selectAuthModesEnabled = createSelector(
+  selectConfigEditorRoot,
+  (configEditorRoot) => {
+    if(configEditorRoot.currentConfig?.authModes){
+      return configEditorRoot.currentConfig?.authModes?.defaultMode !== 0
+    }
+    return false;
+  }
+)
+
+
