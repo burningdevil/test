@@ -3,6 +3,7 @@ import { CONSTANTS, localizedStrings, reviewType, iconValidKey, platformType, do
 import { ActionTypes } from '../actions/ActionTypes'
 import * as Actions from '../actions/ActionConstants'
 import * as _ from 'lodash'
+import { DEFAULT_AUTH_MODE } from '../../../src/modules/components/features/custom-auth/custom-auth.model'
 export const DEFAULT_EMAIL_SETTING = {
   'enabled': false,
   'hostPortal': '',
@@ -71,6 +72,7 @@ export const DEFAULT_EMAIL_SETTING = {
 }
 
 }
+
 const initialState: HomeScreenConfigEditorState = {
   currentConfig: {
     'name': '',
@@ -108,11 +110,13 @@ const initialState: HomeScreenConfigEditorState = {
       updateInterval: CONSTANTS.DEFAULT_UPDATE_INTERVAL
     },
     'emailSettings': DEFAULT_EMAIL_SETTING,
+    'authModes': DEFAULT_AUTH_MODE,
     applicationPalettes: [],
     useConfigPalettes: false
   },
   isDuplicateConfig: false,
   isConfigNameError: false,
+  isCustomAuthError: false,
   isCustomEmailError: false,
   shouldSendPreviewEmail: false,
   configInfoList: [],
@@ -142,6 +146,8 @@ const HomeScreenConfigEditorReducer = (state: HomeScreenConfigEditorState = init
       return {...state, isDuplicateConfig: data}
     case Actions.SET_CONFIG_NAME_ERROR:
       return {...state, isConfigNameError: data}
+    case Actions.SET_CUSTOM_AUTH_ERROR:
+      return {...state, isCustomAuthError: data}
     case Actions.SET_CUSTOM_EMAIL_ERROR:
       return {...state, isCustomEmailError: data}
     case Actions.SET_SHOULD_SEND_PREVIEW_EMAIL:

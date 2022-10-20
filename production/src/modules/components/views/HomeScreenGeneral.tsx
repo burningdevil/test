@@ -21,6 +21,7 @@ import * as Actions from '../../../store/actions/ActionsCreator';
 import {
     WorkstationModule
 } from '@mstr/workstation-types';
+import CustomAuth from '../features/custom-auth/custom-auth';
 declare var workstation: WorkstationModule;
 const { TextArea } = Input;
 
@@ -167,6 +168,8 @@ class HomeScreenGeneral extends React.Component<any, any> {
 
     render() {
         const { name, description, platforms } = this.props.config;
+        
+        const isShowAuthMode = !!name && this.props.authModeEnable; // in order to reduce the rendering when the application object is not ready.
         return (
             <div className={`${classNamePrefix}`}>
                 <div className={`${classNamePrefix}-environment`}>
@@ -220,6 +223,9 @@ class HomeScreenGeneral extends React.Component<any, any> {
                         />
                     </div>
                 </div>
+                {
+                    isShowAuthMode && <CustomAuth></CustomAuth>
+                }
                 {/* <div className={`${classNamePrefix}-platform`}>
                 <div className={`${classNamePrefix}-platform-title`}>
                     {localizedStrings.PLATFORMS}

@@ -102,4 +102,16 @@
     .error-message-container__error-message {
         float: left;
     }
+    .ant-radio {
+        transform: scale(0.85);
+    }
+    .ant-radio-wrapper {
+        font-size: 12px !important;
+    }
+    .ant-checkbox {
+        transform: scale(0.75);
+    }
+    .ant-checkbox-wrapper {
+        font-size: 12px;
+    }
 }

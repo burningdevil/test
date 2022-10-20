@@ -154,3 +154,8 @@ export const setShouldSendPreviewEmail = (shouldSend: boolean) => ({
   data: shouldSend
 })
 
+export const setCustomAuthError = (isError: boolean) => ({
+  type: Actions.SET_CUSTOM_AUTH_ERROR,
+  data: isError
+})
+
