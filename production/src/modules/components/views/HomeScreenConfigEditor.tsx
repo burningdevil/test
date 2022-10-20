@@ -538,8 +538,8 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             delete config.authModes.enabled;
         }
         /* color palette related.
-      if useConfigPalette is false, delete the selected applicationPalettes.
-      */
+         * if useConfigPalette is false, delete the selected applicationPalettes.
+         */
         if (!config.useConfigPalettes && config.applicationPalettes?.length) {
             config.applicationPalettes = [];
             config.applicationDefaultPalette = '';
@@ -616,6 +616,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 });
         }
     };
+    }
 
     processErrorResponse = (e: any, errorMsg: string) => {
         const error = e as RestApiError;
