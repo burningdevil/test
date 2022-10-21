@@ -68,6 +68,7 @@ import CONSTANTS, {
     HOME_DOCUMENT_TYPE_DOSSIER,
     HOME_DOCUMENT_TYPE_DOCUMENT,
     GENERAL_PREVIEW_FEATURE_FLAG,
+    APPLICATIONS_AUTH_MODES_FLAG,
 } from '../HomeScreenConfigConstant';
 import { t } from '../../../i18n/i18next';
 import { store } from '../../../main';
@@ -206,6 +207,9 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                     LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION
                 ) &&
                 isUserHasManageContentGroupPrivilege(currentEnv.privileges);
+            const authModeFlagItem = (currentEnv as any).configFeatureFlags?.find(
+                (v: any) => v.id === APPLICATIONS_AUTH_MODES_FLAG
+            );
             const isLibraryVersionSupportAuthMode = !!status.webVersion && 
                 getFeatureFlag(
                     GENERAL_PREVIEW_FEATURE_FLAG,
@@ -214,7 +218,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                 isLibraryServerVersionMatch(
                     status.webVersion,
                     LIBRARY_SERVER_SUPPORT_AUTH_MODE
-                )
+                ) && authModeFlagItem?.enabled
             // Server version and User privilige
             this.setState({
                 isLibraryVersionMatched: isLibraryVersionMatched,

@@ -49,6 +49,7 @@ import {
     closeWindowConfirmationStr,
     GENERAL_PREVIEW_FEATURE_FLAG,
     SUPPORT_CONFIGURATION_PALETTE_ID,
+    APPLICATIONS_AUTH_MODES_FLAG,
 } from '../HomeScreenConfigConstant';
 import {
     ConfirmationDialog,
@@ -208,6 +209,9 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             );
         };
         const customEmailFeatureFlagEnabled  = checkCustomEmailFeatureEnable(currentEnv);
+        const authModeFlagItem = (currentEnv as any).configFeatureFlags?.find(
+            (v: any) => v.id === APPLICATIONS_AUTH_MODES_FLAG
+        );
         const isLibraryVersionSupportAuthMode = !!currentEnv.webVersion && 
                 getFeatureFlag(
                     GENERAL_PREVIEW_FEATURE_FLAG,
@@ -216,7 +220,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 isLibraryServerVersionMatch(
                     currentEnv.webVersion,
                     LIBRARY_SERVER_SUPPORT_AUTH_MODE
-                )
+                ) && authModeFlagItem?.enabled 
         let isNameCopied = false;
         if (
             isDuplicate &&
