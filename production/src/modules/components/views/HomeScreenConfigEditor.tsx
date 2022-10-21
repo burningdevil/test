@@ -97,7 +97,8 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             customEmailFeatureEnabled: false,
             authModesFeatureEnable: false,
             customEmailV2Enabled: false,
-            isNewApplication: false
+            isNewApplication: false,
+            authModesBackendFlagEnabled: false // stands for the feature flag from the backend.
         };
     }
 
@@ -208,6 +209,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         const authModeFlagItem = (currentEnv as any).configFeatureFlags?.find(
             (v: any) => v.id === APPLICATIONS_AUTH_MODES_FLAG
         );
+        const isAuthModesBackendFlagEnabled = authModeFlagItem?.enabled;
         const isLibraryVersionSupportAuthMode = !!currentEnv.webVersion && 
                 getFeatureFlag(
                     GENERAL_PREVIEW_FEATURE_FLAG,
@@ -216,7 +218,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 isLibraryServerVersionMatch(
                     currentEnv.webVersion,
                     LIBRARY_SERVER_SUPPORT_AUTH_MODE
-                ) && authModeFlagItem?.enabled
+                ) && isAuthModesBackendFlagEnabled
         
         const checkCustomEmailFeatureEnable = (curEnv: Environment, supportVersion: string) => {
             return (
@@ -252,7 +254,8 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             colorPaletteFeatureEnable: colorPaletteFeatureFlagEnabled,
             customEmailFeatureEnabled: customEmailFeatureFlagEnabled,
             authModesFeatureEnable: isLibraryVersionSupportAuthMode,
-            customEmailV2Enabled: customEmailV2Enabled
+            customEmailV2Enabled: customEmailV2Enabled,
+            authModesBackendFlagEnabled: isAuthModesBackendFlagEnabled
 
         });
         this.loadPreference();
@@ -548,6 +551,11 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 config.authModes = DEFAULT_AUTH_MODE;
             }
             delete config.authModes.enabled;
+            // if the backend feature flag is not open, should delete the authModes property.
+            if(!this.state.authModesBackendFlagEnabled){
+                delete config.authModes;
+            }
+
         }
         /* color palette related.
          * if useConfigPalette is false, delete the selected applicationPalettes.
