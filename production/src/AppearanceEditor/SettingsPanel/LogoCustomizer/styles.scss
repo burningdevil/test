@@ -52,7 +52,7 @@
     }
 
     .input-wrapper {
-      width: calc(100% - #{$logo-box-width});
+      width: calc(100% - (#{$logo-box-width} + 10px)); // account for logo box AND 10px margin
 
       .mstr-input-container__error-message-container {
         font-size: $font-size;
