@@ -39,7 +39,6 @@ tests/acceptance/reports/*.json
 
 production/src/i18n/languages.ts
 production/locale
-production/lib/*.zip
+production/*.zip
 /deploy/helm/dev/requirements.lock
 /deploy/helm/dev/charts/*.tgz
-*.zip

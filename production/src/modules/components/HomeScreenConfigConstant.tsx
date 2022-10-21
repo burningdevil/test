@@ -887,3 +887,4 @@ export const HOME_DOCUMENT_TYPE_DOCUMENT = 'document';
 export const SUPPORT_CONFIGURATION_PALETTE = 'Support Configuration Palette';
 export const SUPPORT_CONFIGURATION_PALETTE_ID = 'F6E46AFF44AC27FCEA1B5D93451BE4FC';
 export const GENERAL_PREVIEW_FEATURE_FLAG = 'preview-features';
+export const APPLICATIONS_AUTH_MODES_FLAG = 'features.auth.applicationAuthModes.enabled'
