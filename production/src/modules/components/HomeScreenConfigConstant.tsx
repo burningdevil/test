@@ -490,12 +490,8 @@ export const customEmailStringDict = {
             'descriptionDefaultStr': t('actionButtonDescription'),
             'button1': t('actionButton1'),
             'button1_default': 'View in Browser',
-            'button1_fontColor': '#ffffff',
-            'button1_bg_color': '#3492ed',
             'button2': t('actionButton2'),
             'button2_default': 'View in Mobile',
-            'button2_fontColor': '#ffffff',
-            'button2_bg_color': '#3492ed',
             'button2Link': t('actionButton2Link'),
             'scheme_default': t('actionButtonSchemeTypeDefault'),
             'scheme_app': t('actionButtonSchemeTypeApp'),
@@ -544,15 +540,15 @@ export const customEmailStringDict = {
                 'title': t('shareDossierToTheRecipent'),
                 'label1': t('subject'),
                 'label2': t('bodyText'),
-                'placeholder1': 'You have been invited to view {&DossierName}\n',
-                'placeholder2': 'Hi, {&RecipientName}!<br> {&SenderName} shared {&DossierName} with you. '
+                'placeholder1': 'You have been invited to view {&DossierName}',
+                'placeholder2': 'Hi, {&RecipientName}!<br> {&SenderName} shared {&DossierName} with you.'
             },
             'subsection2': {
                 'title': t('shareDossierToTheRecipentWithBookmark'),
                 'label1': t('subject'),
                 'label2': t('bodyText'),
                 'placeholder1': 'You have been invited to view {&DossierName} with shared bookmarks in your library',
-                'placeholder2': 'Hi, {&RecipientName}!<br> {&SenderName} shared {&DossierName} and {&BookmarkCount} bookmark with you. '
+                'placeholder2': 'Hi, {&RecipientName}!<br> {&SenderName} shared {&DossierName} and {&BookmarkCount} bookmark with you.'
             },
             'subsection3': {
                 'title': t('inviteOneRecipientDiscussion'),
@@ -565,7 +561,7 @@ export const customEmailStringDict = {
                 'title': t('mentionRecipientComment'),
                 'label1': t('subject'),
                 'label2': t('bodyText'),
-                'placeholder1': 'You have been mentioned in a {&MentionTarget} ',
+                'placeholder1': 'You have been mentioned in a {&MentionTarget}',
                 'placeholder2': 'Hi, {&RecipientName}!<br>{&SenderName} mentioned you in a comment in {&DossierName}.'
             },
             'dossierTip': t('DossierNameTip'),

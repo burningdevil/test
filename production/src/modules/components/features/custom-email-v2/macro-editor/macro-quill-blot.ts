@@ -139,9 +139,6 @@ class MacroQuillBlot extends Embed {
     const replacerMacro = `<span class="macro" data-value="$& " contenteditable="false">$&  </span>`;
     str = str
       .replace(macroRegExp, replacerMacro)
-    if(availableMacros.join('-') === ['DossierName', 'RecipientName', 'SenderName'].join('-')){
-      console.log('get html from text', str, availableMacros)
-    }
     if (isMultiContent) {
       return `${str.replace(/\n/g, '<br>')}`;
     }

@@ -12,7 +12,9 @@ export interface FormInputModel {
     errorMessage?: string, 
     validateCb?: Function, 
     isNotEncode?: boolean, 
-    tooltipStr?: any
+    tooltipStr?: any,
+    stateData?: CustomEmailSettingType,
+    validate?: Function
 }
 export interface FormBtnColorInputModel {
     label: string, 
@@ -23,7 +25,9 @@ export interface FormBtnColorInputModel {
     fontColor: string, 
     fontColorCb: Function, 
     bgColor: string, 
-    bgColorCb: Function
+    bgColorCb: Function,
+    stateData?: CustomEmailSettingType,
+    validate?: Function
 }
 
 export interface FormMobileButtonLinkInputModel {
@@ -36,7 +40,9 @@ export interface FormMobileButtonLinkInputModel {
     tooltip?: boolean, 
     enableValidate?: boolean, 
     errorMessage?: string, 
-    validateCb?: Function
+    validateCb?: Function,
+    stateData?: CustomEmailSettingType,
+    validate?: Function,
 }
 
 export interface FormSocialItemInputModel {
@@ -49,5 +55,15 @@ export interface FormSocialItemInputModel {
     placeholder: string, className: string, 
     propertyPath: string, 
     buttonPath: string, 
-    linkPrefix: string
+    linkPrefix: string,
+    stateData?: CustomEmailSettingType,
+    validate?: Function
+}
+
+export interface FormSwitchInputModel {
+    label: string, 
+    value: boolean, 
+    cb: Function | any, 
+    elementId: keyof CustomEmailSettingType | any,
+    stateData: CustomEmailSettingType,
 }

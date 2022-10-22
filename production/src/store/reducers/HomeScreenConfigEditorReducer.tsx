@@ -121,7 +121,8 @@ const initialState: HomeScreenConfigEditorState = {
   shouldSendPreviewEmail: false,
   configInfoList: [],
   previewDeviceType: reviewType.WEB,
-  isStateChangeByManual: false
+  isStateChangeByManual: false,
+  loadingAppConfigFinish: false
 }
 
 const HomeScreenConfigEditorReducer = (state: HomeScreenConfigEditorState = initialState, action: ActionTypes) => {
@@ -139,7 +140,7 @@ const HomeScreenConfigEditorReducer = (state: HomeScreenConfigEditorState = init
         })
       }
     case Actions.SET_CURRENT_CONFIG:
-      return {...state, currentConfig: data}
+      return {...state, currentConfig: data, loadingAppConfigFinish: true}
     case Actions.SET_CONFIG_INFO_LIST:
       return {...state, configInfoList: data}
     case Actions.SET_DUPLICATE_CONFIG:

@@ -37,6 +37,7 @@ import {
     selectShouldSendPreviewEmail,
     selectCustomizeEmailSetting,
     selectIsCustomAuthError,
+    selectApplicationConfigLoadingFinish,
 } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import * as api from '../../../services/Api';
@@ -95,6 +96,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             customEmailFeatureEnabled: false,
             authModesFeatureEnable: false,
             customEmailV2Enabled: false,
+            isNewApplication: false
         };
     }
 
@@ -155,6 +157,9 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 this.processErrorResponse(e, localizedStrings.ERR_APP_LOAD);
             });
         } else {
+            this.setState({
+                isNewApplication: true
+            })
             const newApplicationName = this.generateDefaultAppName(
                 extraContextJson.configInfoList
             );
@@ -536,6 +541,9 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 config.authModes = DEFAULT_AUTH_MODE;
             }
             delete config.authModes.enabled;
+            if(!this.state.authModesFeatureEnable){
+                delete config.authModes;
+            }
         }
         /* color palette related.
          * if useConfigPalette is false, delete the selected applicationPalettes.
@@ -728,7 +736,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                                     <CustomEmailBlade />
                                     {this.buttonGroup()}
                                 </Tabs.TabPane>)}
-                                {this.state.customEmailV2Enabled  && this.props.config?.name && <Tabs.TabPane
+                                {this.state.customEmailV2Enabled  && (this.props.configLoadingFinish || this.state.isNewApplication) && <Tabs.TabPane
                                     tab={localizedStrings.NAVBAR_CUSTOM_EMAIL_SETTINGS}
                                     key={VC.CUSTOMEMAILSETTINGS}
                                 >
@@ -760,6 +768,7 @@ const mapState = (state: RootState) => ({
     isCustomAuthError: selectIsCustomAuthError(state),
     shouldSendPreviewEmail: selectShouldSendPreviewEmail(state),
     emailSettings: selectCustomizeEmailSetting(state),
+    configLoadingFinish: selectApplicationConfigLoadingFinish(state),
 
     defaultGroupsName: selectDefaultGroupsName(state),
     configInfoList: selectConfigInfoList(state),
