@@ -20,7 +20,7 @@
       display: flex;
       height: $logo-box-height;
       width: $logo-box-width;
-      margin-right: 10px;
+      margin-right: $logo-box-margin-right;
       border: 1px solid $settings-panel-logo-box-border-color;
       border-radius: 4px;
       justify-content: center;
@@ -52,7 +52,7 @@
     }
 
     .input-wrapper {
-      width: calc(100% - #{$logo-box-width});
+      width: calc(100% - (#{$logo-box-width} + #{$logo-box-margin-right})); // account for logo box width and margin
 
       .mstr-input-container__error-message-container {
         font-size: $font-size;

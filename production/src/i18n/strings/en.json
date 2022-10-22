@@ -227,7 +227,7 @@
     "libraryWebSubtitle": "Library Web",
     "libraryWebDesc": "Minimum 64 * 64 pixels, png and svg format",
     "libraryFaviconSubtitle": "Library Favicon",
-    "libraryFaviconDesc": "Minimum 32 * 32 pixels, png format",
+    "libraryFaviconDesc": "Minimum 16 * 16 pixels, png format",
     "libraryMobileSubtitle": "Library Mobile",
     "libraryMobileDesc": "Minimum 75 * 75 pixels, png format",
 

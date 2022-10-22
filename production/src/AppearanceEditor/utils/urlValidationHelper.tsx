@@ -16,7 +16,7 @@ const getLogoMinDimension = (currLogoCategory: string): number => {
       return 64;
     }
     case 'favicon': {
-      return 32;
+      return 16;
     }
     case 'mobile': {
       return 75;
@@ -36,19 +36,19 @@ const isValidExternalLinkProtocol = (url: string): boolean => {
   return validProtocolsRegex.test(trimmedUrl);
 }
 
-// check image dimension 
+// check image dimension
 const validateImageDimensionFromUrl = (url: string, callback: any, currLogoCategory: string): void => {
   const logoMinDimension: number = getLogoMinDimension(currLogoCategory);
   const img = new Image();
- 
-  img.onload = () => { 
+
+  img.onload = () => {
     if (img.width < logoMinDimension || img.height < logoMinDimension) {
       callback(false, URLErrorTypes.imageSizeError);
     } else {
       callback(true, '');
     }
   }
-  
+
   img.onerror = () => {
     callback(false, URLErrorTypes.imageOnLoadError);
   };

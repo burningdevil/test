@@ -50,6 +50,7 @@ import {
     closeWindowConfirmationStr,
     GENERAL_PREVIEW_FEATURE_FLAG,
     SUPPORT_CONFIGURATION_PALETTE_ID,
+    APPLICATIONS_AUTH_MODES_FLAG,
 } from '../HomeScreenConfigConstant';
 import {
     ConfirmationDialog,
@@ -203,6 +204,20 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             );
         };
         const colorPaletteFeatureFlagEnabled  = checkColorPaletteFeatureEnable(currentEnv);
+
+        const authModeFlagItem = (currentEnv as any).configFeatureFlags?.find(
+            (v: any) => v.id === APPLICATIONS_AUTH_MODES_FLAG
+        );
+        const isLibraryVersionSupportAuthMode = !!currentEnv.webVersion && 
+                getFeatureFlag(
+                    GENERAL_PREVIEW_FEATURE_FLAG,
+                    currentEnv
+                    ) &&
+                isLibraryServerVersionMatch(
+                    currentEnv.webVersion,
+                    LIBRARY_SERVER_SUPPORT_AUTH_MODE
+                ) && authModeFlagItem?.enabled
+        
         const checkCustomEmailFeatureEnable = (curEnv: Environment, supportVersion: string) => {
             return (
                 !!curEnv.webVersion &&
@@ -216,15 +231,6 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 )
             );
         };
-        const isLibraryVersionSupportAuthMode = !!currentEnv.webVersion && 
-                getFeatureFlag(
-                    GENERAL_PREVIEW_FEATURE_FLAG,
-                    currentEnv
-                    ) &&
-                isLibraryServerVersionMatch(
-                    currentEnv.webVersion,
-                    LIBRARY_SERVER_SUPPORT_AUTH_MODE
-                )
         const customEmailFeatureFlagEnabled  = checkCustomEmailFeatureEnable(currentEnv, LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_VERSION);
         const customEmailV2Enabled = checkCustomEmailFeatureEnable(currentEnv, LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_V2);
         let isNameCopied = false;
