@@ -157,7 +157,7 @@ const CustomEmailForm: React.FC<any> = (props: any) => {
         }
         return isValid;
     }  
-    const renderSingleMacroSection = (label: string, value: string, cb: Function, placeholder: string, isNotificationReminder?: boolean, availableMacros?: Macros[]) => {
+    const renderSingleMacroSection = (label: string, value: string, cb: Function, placeholder: string, availableMacros?: Macros[]) => {
         return (
             <div className={`${classNamePrefix}-box`}>
                             
@@ -166,7 +166,6 @@ const CustomEmailForm: React.FC<any> = (props: any) => {
                                 <MacroEditor
                                     defaultValue={value}
                                     isMultiContent={true}
-                                    isNotificationReminder = {isNotificationReminder}
                                     reset = {resetSubAndBody}
                                     availableMacros = {availableMacros}
                                     placeholder={placeholder}
@@ -332,7 +331,7 @@ const CustomEmailForm: React.FC<any> = (props: any) => {
                     </Panel>
                     <Panel extra = {renderExtraHeader(true, true, 'reminder', resetReminder, notificationTooltip)} header={customEmailStringDict.formGroup.notificationReminder.title} key="5" className="site-collapse-custom-panel">
                         <FormSwitch {...{label: customEmailStringDict.formGroup.notificationReminder.label, value: showReminder, cb: setShowReminder, elementId: 'showReminder', stateData: stateData}}/>
-                        {showReminder && renderSingleMacroSection(customEmailStringDict.formGroup.notificationReminder.labelReminder, reminderContent, setReminderContent, customEmailStringDict.formGroup.notificationReminder.defaultReminder, true, [Macros.NOTIFICATION_COUNT])}
+                        {showReminder && renderSingleMacroSection(customEmailStringDict.formGroup.notificationReminder.labelReminder, reminderContent, setReminderContent, customEmailStringDict.formGroup.notificationReminder.defaultReminder, [Macros.NOTIFICATION_COUNT])}
                         {showReminder && <FormInput {...{'label': customEmailStringDict.formGroup.notificationReminder.reminderLinkText, 'value': reminderLinkText, 'cb': setReminderLinkText, 'elementId': 'reminderLinkText','placeholder': customEmailStringDict.formGroup.notificationReminder.reminderLinkText, 'propertyPath': 'reminder.linkText', 'tooltip': true, 'enableValidate': false, 'errorMessage': '', 'validateCb': null, 'isNotEncode': false, tooltipStr: customEmailStringDict.formGroup.notificationReminder.notificationLinkTip, 'validate': validate, 'stateData': stateData}}></FormInput>}
                     </Panel>
                     <Panel header={customEmailStringDict.formGroup.sentBy.title} key="6" className="site-collapse-custom-panel">

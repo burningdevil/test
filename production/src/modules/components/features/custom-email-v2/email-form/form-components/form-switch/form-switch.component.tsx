@@ -11,21 +11,21 @@ const FormSwitch: React.FC<FormSwitchInputModel> = (props: FormSwitchInputModel
     ) => {
         const dispatch = useDispatch();
         const {label, value, cb, elementId, stateData} = props;
-        const switchChange = (key:  string, value: boolean, cb: React.Dispatch<React.SetStateAction<boolean>>) =>{
-            cb(value);
-            _.set(stateData, key, value);
+        const switchChange = (key:  string, val: boolean, callback: React.Dispatch<React.SetStateAction<boolean>>) =>{
+            callback(val);
+            _.set(stateData, key, val);
             dispatch(
                 Actions.updateCurrentConfig({
                     emailSettings: stateData
                 })
             )
         }
-        const switchRender = (checked: any, value: string,cb: React.Dispatch<React.SetStateAction<boolean>>, ariaLabel: string) => {
+        const switchRender = (checked: any, val: string,callback: React.Dispatch<React.SetStateAction<boolean>>, ariaLabel: string) => {
             return <Switch
-                        element-id = {value}
+                        element-id = {val}
                         aria-label = {ariaLabel}
                         checked={checked}
-                        onChange={(e: any) => switchChange(value,e, cb)}
+                        onChange={(e: any) => switchChange(val,e, callback)}
                         size = 'small'
                     />
         }

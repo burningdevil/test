@@ -63,7 +63,6 @@ const MacroEditor: React.FC<MacroEditorProps> = ({
   placeholder = '',
   defaultValue = '',
   isMultiContent = true,
-  isNotificationReminder = '', 
   reset = false,
   isContentAdded = false,
   availableMacros = [Macros.DOSSIER_NAME, Macros.BOOKMARK_COUNT, Macros.MENTION_TARGET, Macros.RECIPIENT_NAME, Macros.SENDER_NAME],

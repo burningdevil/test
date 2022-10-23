@@ -8,7 +8,7 @@ import { CustomEmailSettingType, MobileButtonLinkEnum } from '../../../../../../
 import { PRIMARY_BLUE_HEX_COLOR, validateHttpUrl, validateScheme, WHITE_HEX_COLOR } from '../../../custom-email.util';
 import { FormMobileButtonLinkInputModel } from '../form-input.model';
 import * as _ from 'lodash';
-import { default as VC, customEmailStringDict } from '../../../../../HomeScreenConfigConstant';
+import { customEmailStringDict } from '../../../../../HomeScreenConfigConstant';
 import OverflowText from '../../../../../../../../src/modules/components/common-components/overflow-text/overflow-text';
 import FormInput from '../form-input/form-input.component';
 import FormBtnColor from '../form-btn-color/form-btn-color.component';

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useDispatch } from 'react-redux';
-import { ColorPickerDropdown, Input, Tooltip } from '@mstr/rc';
+import { ColorPickerDropdown, Input } from '@mstr/rc';
 
 import * as Actions from '../../../../../../../store/actions/ActionsCreator';
 import { DEFAULT_EMAIL_SETTING } from '../../../../../../../../src/store/reducers/HomeScreenConfigEditorReducer';

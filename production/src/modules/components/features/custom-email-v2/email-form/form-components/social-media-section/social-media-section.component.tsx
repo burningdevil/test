@@ -16,7 +16,7 @@ interface SocialMediaSectionInput {
 const SocialMediaSection: React.FC<SocialMediaSectionInput> = (props: SocialMediaSectionInput
     ) => {
         const dispatch = useDispatch();
-        const {env, validate, stateData} = props;
+        const {stateData} = props;
         // social media
         /*
         * if the Q3 scope enable the customize email and disable the show social media button. There should be handled in special.
@@ -50,7 +50,7 @@ const SocialMediaSection: React.FC<SocialMediaSectionInput> = (props: SocialMedi
                     />
         }
         const renderSocialItemSection = (socialItemInput: FormSocialItemInputModel) => {
-            const {label, check, value, cb, cb_link, elementId, placeholder, className, propertyPath, buttonPath, linkPrefix} = socialItemInput;
+            const {label, check, value, cb, cb_link, placeholder, className, propertyPath, buttonPath, linkPrefix} = socialItemInput;
             return (
                 <div className={`${classNamePrefix}-box`}>
                     
