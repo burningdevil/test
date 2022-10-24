@@ -243,11 +243,6 @@ export const selectAuthModesEnabled = createSelector(
   }
 )
 
-export const select = createSelector(
-  selectConfigEditorRoot,
-  (configEditorRoot) => configEditorRoot.currentConfig?.authModes?.defaultMode
-) 
-
 export const selectApplicationConfigLoadingFinish = createSelector(
   selectConfigEditorRoot,
   (configEditorRoot) => configEditorRoot.loadingAppConfigFinish
