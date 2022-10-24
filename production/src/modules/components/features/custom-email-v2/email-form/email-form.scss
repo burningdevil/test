@@ -1,0 +1,262 @@
+@import '~@mstr/rc/es/assets/scss/variables.scss';
+@import '../../../scss/variables.scss';
+
+.custom-email-form-v2 {
+    font-family: $font-family;
+    position: relative;
+    font-size: $font-size;
+    line-height: $line-height;
+    &-box {
+        font-family: $font-family;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-items: center;
+        overflow: visible;
+        margin-top: 12px;
+        margin-left: 16px;
+        font-size: 12px;
+        span:first-child {
+            flex: 0 0 20%;
+            max-width: 30%;
+            text-align: right;
+        }
+        .mstr-input-container {
+            margin-left: 20px;
+            width: 272px;
+        }
+        .ant-select {
+            margin-left: 20px;
+            font-size: 12px !important;
+        }
+        .ant-select-selection-item {
+            // margin-left: -13px;
+        }
+        > button {
+            margin-left: 20px;
+        }
+        textarea {
+            margin-left: 20px;
+            font-size: 12px !important;
+        }
+
+    }
+    &-title {
+        font-size: 11px;
+        line-height: 13px;
+        margin-bottom: 14px;
+        font-weight: 700; 
+        @include msdl-h3;
+    }
+    &-title-box {
+        margin-top: 18px;
+        margin-left: 25px;
+        font-size: 12px;
+        @include msdl-label-bold;
+    }
+    &-desc {
+        font-weight: 400;
+        margin-bottom: 8px;
+        margin-top: 2px;
+        opacity: .5;
+        @include msdl-paragraph;
+    }
+    &-form-container {
+        max-height: 500px;
+        overflow: scroll;
+    }
+    &-checkbox {
+        margin-bottom: 14px;
+        line-height: 18px;
+        .ant-checkbox-wrapper {
+            align-items: center !important;
+        }
+        .ant-checkbox {
+            margin-bottom: 6px;
+        }
+        span {
+            font-size: 12px;
+        }
+    }
+    &-section-title {
+        font-weight: 700;
+        margin-bottom: 7px;
+    }
+    .confirm-container {
+        display: inline-flex;
+        .confirm-tip {
+            @include msdl-label;
+        }
+        .confirm-yes {
+            margin-left: 16px;
+            @include msdl-label;
+            color: $msdl-blue;
+            cursor: pointer;
+            &:hover {
+                color: $mobile-primary-blue;
+            }
+        }
+        .confirm-no {
+            @include msdl-label;
+            margin-left: 12px;
+            color: $msdl-blue;
+            cursor: pointer;
+            &:hover {
+                color: $mobile-primary-blue;
+            }
+        }
+    }
+    .btn-color-box {
+        .mstr-input-container {
+            width: 154px !important;
+        }
+    }
+    .message-editor-wrapper {
+        width: 100%;
+        margin-left: 20px;
+    }
+    .font-color-icon-container {
+        background-color: white;
+        width: 27px;
+        height: 18px;
+        margin-left: -46px;
+        margin-top: -9px;
+        z-index: 99;
+        pointer-events: none;
+    }
+    .font-color-picker {
+        margin-left: 10px;
+    }
+    
+    .social-item {
+        margin-right: 5px;
+        vertical-align: top;
+    }
+    .selection-option {
+        line-height: 24px;
+        font-size: 12px;
+    }
+    .mobile-link-box {
+        .mstr-input-container {
+            width: 68px;
+            margin-left: 0px !important;
+            .mstr-input-container__error-message-container {
+                width: 100% !important;
+            }
+        }
+    }
+    .social-url-prefix {
+        margin-left: 8px;
+    }
+    .social-url-gray {
+        color: #757575;
+    }
+    .ml8 {
+        margin-left: 8px;
+    }
+    .mt8 {
+        margin-top: 8px;
+    }
+    .mt6 {
+        margin-top: 6px;
+    }
+    .mstr-input-container {
+        position: relative!important;
+    }
+    //ant related
+    .ant-input-group-wrapper{
+        margin-left: 10px;
+        .ant-input-wrapper {
+            max-width: 70% !important;
+            .ant-input {
+                text-align: left;
+                font-size: 12px;
+            }
+        }
+    }
+    .ant-input {
+        font-size: 12px !important;
+    }
+    .ant-collapse-extra {
+        display: inline-flex;
+        margin-left: 8px !important;
+        float: none !important;
+    }
+    .ant-collapse-header {
+        font-weight: 600;
+        font-size: 12px;  
+    }
+    .ant-collapse-expand-icon {
+        cursor: pointer;
+    }
+    .ant-collapse-header-text {
+        margin-left: -6px;
+    }
+    
+    .ant-divider-horizontal {
+        margin-top: 23px;
+        margin-bottom: 15px;
+    }
+    .ant-collapse-content-box {
+        margin-top: -12px;
+    }
+
+    
+}
+
+[data-theme='compact'] .site-collapse-custom-collapse .site-collapse-custom-panel,
+.site-collapse-custom-collapse .site-collapse-custom-panel {
+  margin-left: -16px;
+  // margin-bottom: 24px;
+  overflow: hidden;
+  background: white;
+  border: 0px;
+  border-radius: 2px;
+}
+
+.font-color-icon {
+    // margin-left: -46px;
+    background: url("../../../images/18_18.svg");
+    // z-index: 99;
+    cursor: pointer;
+    display: inline-block;
+    width: 20px;
+    height: 18px;
+    background-repeat: no-repeat;
+    background-position: -252px -216px;
+    border-bottom: 1px solid #d9d9d9; 
+    
+}
+.font-reset-icon {
+    background: url("../../../images/18_18.svg");
+    cursor: pointer;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin-left: -2px;
+    background-repeat: no-repeat;
+    background-position: -216px -216px; 
+    vertical-align: top;
+    transform: scale(0.8);
+    &:hover {
+        background: url("../../../images/18_18.svg");
+        cursor: pointer;
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        background-repeat: no-repeat;
+        background-position: -234px -216px;
+    }
+}
+
+.ant-select-item-option-content {
+    font-size: 12px !important;
+}
+.tip-label {
+    color: #757575;
+}
+.ant-tooltip {
+    max-width: 280px !important;
+}
+
+

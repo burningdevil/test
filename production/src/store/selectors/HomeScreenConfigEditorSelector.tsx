@@ -204,6 +204,13 @@ export const selectShouldSendPreviewEmail = createSelector(
   selectConfigEditorRoot,
   (configEditorRoot) => configEditorRoot.shouldSendPreviewEmail
 )
+
+export const selectCustomizeEmailLogo  = createSelector(
+  selectCurrentConfig,
+  (config) => {
+    return config.emailSettings?.brandingImage?.imageUrl
+  }
+)
 export const selectIsCustomAuthError = createSelector(
   selectConfigEditorRoot,
   (configEditorRoot) => configEditorRoot.isCustomAuthError
@@ -226,6 +233,11 @@ export const selectAuthModesEnabled = createSelector(
     }
     return false;
   }
+)
+
+export const selectApplicationConfigLoadingFinish = createSelector(
+  selectConfigEditorRoot,
+  (configEditorRoot) => configEditorRoot.loadingAppConfigFinish
 )
 
 

@@ -15,6 +15,7 @@ export const LIBRARY_SERVER_SUPPORT_APPEARANCE_EDITOR_VERSION = '11.3.0600';
 export const LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_VERSION = '11.3.0760';
 export const LIBRARY_SERVER_SUPPORT_INSIGHTS_CONTROL = '11.3.0760';
 export const LIBRARY_SERVER_SUPPORT_AUTH_MODE = '11.3.0830';
+export const LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_V2 = '11.3.0830';
 
 /**
  * a function to judge whether the version is matched requirement

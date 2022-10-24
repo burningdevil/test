@@ -1,4 +1,5 @@
 @import '~@mstr/rc/es/assets/scss/variables.scss';
+@import '~@mstr/react-ws-grid/lib/styles.scss';
 @import '../../../../scss/variables.scss';
 .color-palette-modal-grid-container {
     height: 420px;
@@ -33,7 +34,6 @@
     .ag-icon-tree-open,
     .ag-icon-tree-closed {
         margin-left: -10px;
-        transform: scale(1.1);
     }
     .icon-info_edit {
         margin-left: 20px;
@@ -84,6 +84,28 @@
     .ag-row-level-1 .ag-row-group-leaf-indent {
         margin-left: 10px !important;
     }
+    .ag-theme-alpine .ag-root-wrapper-body .ag-checkbox-input-wrapper::after {
+        // background: none;
+        background: url("../../../../images/ws-icons-18_18.svg");
+        margin-right: 3px;
+        cursor: pointer;
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        background-repeat: no-repeat;
+        background-position: -360px 0;
+      }
+  
+      .ag-theme-alpine .ag-root-wrapper-body .ag-checkbox-input-wrapper.ag-checked::after {
+          background: url("../../../../images/ws-icons-18_18.svg");
+          margin-right: 3px;
+          cursor: pointer;
+          display: inline-block;
+          width: 18px;
+          height: 18px;
+          background-repeat: no-repeat;
+          background-position: -324px 0;
+      }
     
 }
 

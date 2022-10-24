@@ -44,6 +44,11 @@
     padding-left: 15px !important;
     padding-right: 15px !important;
 }
+// ant checkbox
+.ant-radio-inner:after {
+    margin-top: 0px !important;
+    margin-left: 0px !important;
+}
 
 // mstr rc
 .mstr-ws-icons-copy {
@@ -106,6 +111,13 @@
     background-image: url(../images/18_18.svg);
     background-position: -504px -54px;
   }
+.ant-tooltip-arrow-content {
+    width: 5px;
+    height: 5px;
+    &:before {
+        background: #fff;
+    }
+}
 
 
 
