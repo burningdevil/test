@@ -195,14 +195,6 @@ export const selectCustomizeEmailSetting  = createSelector(
   }
 )
 
-export const selectCustomizeEmailContent  = createSelector(
-  selectCurrentConfig,
-  (config) => {
-    return config.emailSettings?.sentByText
-  }
-)
-
-
 export const selectIsCustomEmailError = createSelector(
   selectConfigEditorRoot,
   (configEditorRoot) => configEditorRoot.isCustomEmailError
