@@ -537,6 +537,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         }
         if(config.emailSettings && config.emailSettings?.enabled) {
             config = filterEmailConfig(config);
+        }
         /**
          * custom auth mode related
          * if the default mode is 0, will empty the ava list, 
@@ -547,9 +548,6 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 config.authModes = DEFAULT_AUTH_MODE;
             }
             delete config.authModes.enabled;
-            if(!this.state.authModesFeatureEnable){
-                delete config.authModes;
-            }
         }
         /* color palette related.
          * if useConfigPalette is false, delete the selected applicationPalettes.
@@ -630,7 +628,6 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 });
         }
     };
-    }
 
     processErrorResponse = (e: any, errorMsg: string) => {
         const error = e as RestApiError;
