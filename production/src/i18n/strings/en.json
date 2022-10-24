@@ -290,7 +290,6 @@
     "notificationLinkTip": "Clicking the Link Text in the email will navigate to the Notification Center in default Library or in the configured Host Web Portal.",
     "brandingImageTitle": "Branding Image",
     "brandImageUrl": "Image URL",
-    "actionButtonDescription": "'View in Mobile App' may not work for all mobile mail apps. Use 'View in Browser' option for such cases.",
     "actionButton1": "Button 1",
     "actionButton2": "Button 2",
     "actionButton2Link": "Link",

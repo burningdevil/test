@@ -487,7 +487,7 @@ export const customEmailStringDict = {
             'hostInvalidTip': t('hostInvalidTip'),
             'hostTooltipHelp': t('hostPortalHelp'),
             'showDescription': t('showDescription'),
-            'descriptionDefaultStr': t('actionButtonDescription'),
+            'descriptionDefaultStr': "'View in Mobile App' may not work for all mobile mail apps. Use 'View in Browser' option for such cases.",
             'button1': t('actionButton1'),
             'button1_default': 'View in Browser',
             'button2': t('actionButton2'),
