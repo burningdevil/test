@@ -14,10 +14,10 @@ const CustomAuth: React.FC<any> = () => {
     let stateData: CustomAuthModes = useSelector(selectAuthModes);
     const dispatch = useDispatch();
     const isAuthModesEnabled = useSelector(selectAuthModesEnabled);
-    const [enableAuth, setEnableAuth] = useState(false);
+    const [enableAuth, setEnableAuth] = useState(isAuthModesEnabled);
     
-    const [dm, setDm] = useState(0);
-    const [savedSelected, setSelected] = useState([]);
+    const [dm, setDm] = useState(stateData?.defaultMode);
+    const [savedSelected, setSelected] = useState(stateData?.availableModes ?? []);
     
     const [optionsData, setOptions] = useState(supportCustomAuthModes);
 
