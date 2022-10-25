@@ -67,6 +67,8 @@ import {
     LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_VERSION,
     LIBRARY_SERVER_SUPPORT_AUTH_MODE,
     LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_V2,
+    isIServerVersionMatch,
+    ISERVER_SUPPORT_AUTH_MODE,
 } from '../../../utils';
 import ColorPaletteBlade from '../features/color-palette/color-palette-blade';
 import CustomEmailBlade from '../features/custom-email/custom-email-blade';
@@ -148,6 +150,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         const isDuplicate = extraContextJson.isDuplicate;
         this.props.setDuplicateConfig(isDuplicate);
         this.props.setConfigInfoList(extraContextJson.configInfoList);
+        const status: any = await api.getServerStatus();
         const currentEnv =
             await workstation.environments.getCurrentEnvironment();
         // Handle Edit config
@@ -210,7 +213,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             (v: any) => v.id === APPLICATIONS_AUTH_MODES_FLAG
         );
         const isAuthModesBackendFlagEnabled = authModeFlagItem?.enabled;
-        const isLibraryVersionSupportAuthMode = !!currentEnv.webVersion && 
+        const isVersionSupportAuthMode = !!currentEnv.webVersion && 
                 getFeatureFlag(
                     GENERAL_PREVIEW_FEATURE_FLAG,
                     currentEnv
@@ -219,6 +222,10 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                     currentEnv.webVersion,
                     LIBRARY_SERVER_SUPPORT_AUTH_MODE
                 ) && isAuthModesBackendFlagEnabled
+                && isIServerVersionMatch(
+                    status.iServerVersion,
+                    ISERVER_SUPPORT_AUTH_MODE
+                )
         
         const checkCustomEmailFeatureEnable = (curEnv: Environment, supportVersion: string) => {
             return (
@@ -253,7 +260,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             contentBundleFeatureEnable: contentBundleEnable,
             colorPaletteFeatureEnable: colorPaletteFeatureFlagEnabled,
             customEmailFeatureEnabled: customEmailFeatureFlagEnabled,
-            authModesFeatureEnable: isLibraryVersionSupportAuthMode,
+            authModesFeatureEnable: isVersionSupportAuthMode,
             customEmailV2Enabled: customEmailV2Enabled,
             authModesBackendFlagEnabled: isAuthModesBackendFlagEnabled
 

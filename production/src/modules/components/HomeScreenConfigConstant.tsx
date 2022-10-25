@@ -491,7 +491,7 @@ export const customEmailStringDict = {
             'button1': t('actionButton1'),
             'button1_default': 'View in Browser',
             'button2': t('actionButton2'),
-            'button2_default': 'View in Mobile',
+            'button2_default': 'View in Mobile App',
             'button2Link': t('actionButton2Link'),
             'scheme_default': t('actionButtonSchemeTypeDefault'),
             'scheme_app': t('actionButtonSchemeTypeApp'),
