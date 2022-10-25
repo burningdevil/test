@@ -8,7 +8,7 @@ import { CustomEmailSettingType, MobileButtonLinkEnum } from '../../../../../../
 import { PRIMARY_BLUE_HEX_COLOR, validateHttpUrl, validateScheme, WHITE_HEX_COLOR } from '../../../custom-email.util';
 import { FormMobileButtonLinkInputModel } from '../form-input.model';
 import * as _ from 'lodash';
-import { customEmailStringDict } from '../../../../../HomeScreenConfigConstant';
+import { customEmailStringDict, CUSTOM_EMAIL_HOST_PORTAL_HELP_LINK } from '../../../../../HomeScreenConfigConstant';
 import OverflowText from '../../../../../../../../src/modules/components/common-components/overflow-text/overflow-text';
 import FormInput from '../form-input/form-input.component';
 import FormBtnColor from '../form-btn-color/form-btn-color.component';
@@ -73,7 +73,7 @@ const ActionButtonSection: React.FC<ActionButtonSectionInput> = (props: ActionBu
                 <a 
                 target = "_blank"
     
-                href={'https://www2.microstrategy.com/producthelp/2021/EmbeddingSDK/Content/topics/use_custom_dossier_link.htm'} style = {{'marginLeft': '8px'}}>{customEmailStringDict.formGroup.actionButton.hostTooltipHelp}</a>
+                href={CUSTOM_EMAIL_HOST_PORTAL_HELP_LINK} style = {{'marginLeft': '8px'}}>{customEmailStringDict.formGroup.actionButton.hostTooltipHelp}</a>
             </div>
         )
           const renderMobileButtonLink = (mobileButtonLinkInput: FormMobileButtonLinkInputModel) => {
