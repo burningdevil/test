@@ -11,6 +11,7 @@ import {
 } from '../HomeScreenConfigConstant';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import {
+    selectApplicationConfigLoadingFinish,
     selectConfigInfoList,
     selectCurrentConfig,
     selectIsConfigNameError,
@@ -168,7 +169,7 @@ class HomeScreenGeneral extends React.Component<any, any> {
 
     render() {
         const { name, description, platforms } = this.props.config;
-        const isShowAuthMode = this.props.authModeEnable;
+        const isShowAuthMode = this.props.authModeEnable && this.props.configLoadingFinish;
         return (
             <div className={`${classNamePrefix}`}>
                 <div className={`${classNamePrefix}-environment`}>
@@ -275,6 +276,7 @@ const mapState = (state: RootState) => ({
     isDuplicateConfig: selectIsDuplicateConfig(state),
     isConfigNameError: selectIsConfigNameError(state),
     previewDeviceType: selectPreviewDeviceType(state),
+    configLoadingFinish: selectApplicationConfigLoadingFinish(state),
 });
 
 const connector = connect(mapState, {

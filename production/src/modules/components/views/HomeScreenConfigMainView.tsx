@@ -53,6 +53,7 @@ import {
     LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION,
     isUserHasManageContentGroupPrivilege,
     LIBRARY_SERVER_SUPPORT_AUTH_MODE,
+    ISERVER_SUPPORT_AUTH_MODE,
 } from '../../../utils';
 import classNames from 'classnames';
 import {
@@ -210,7 +211,10 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
             const authModeFlagItem = (currentEnv as any).configFeatureFlags?.find(
                 (v: any) => v.id === APPLICATIONS_AUTH_MODES_FLAG
             );
-            const isLibraryVersionSupportAuthMode = !!status.webVersion && 
+            const isIServerVersionSupportAuthMode =
+                !!status.iServerVersion &&
+                isIServerVersionMatch(status.iServerVersion, ISERVER_SUPPORT_AUTH_MODE);
+            const isVersionSupportAuthMode = !!status.webVersion && 
                 getFeatureFlag(
                     GENERAL_PREVIEW_FEATURE_FLAG,
                     currentEnv
@@ -219,6 +223,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                     status.webVersion,
                     LIBRARY_SERVER_SUPPORT_AUTH_MODE
                 ) && authModeFlagItem?.enabled
+                && isIServerVersionSupportAuthMode
             // Server version and User privilige
             this.setState({
                 isLibraryVersionMatched: isLibraryVersionMatched,
@@ -227,7 +232,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                 isLibraryVersionSupportDocumentType:
                     isLibraryVersionSupportDocumentType,
                 contentBundleFeatureEnable: isLibraryVersionSupportContentGroup,
-                authModesFeatureEnable: isLibraryVersionSupportAuthMode
+                authModesFeatureEnable: isVersionSupportAuthMode
             });
             const isMDVersionMatched = await this.loadApplicationsFolder();
             // MD version
