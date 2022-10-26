@@ -53,6 +53,7 @@ import {
     LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION,
     isUserHasManageContentGroupPrivilege,
     LIBRARY_SERVER_SUPPORT_AUTH_MODE,
+    ISERVER_SUPPORT_AUTH_MODE,
 } from '../../../utils';
 import classNames from 'classnames';
 import {
@@ -68,6 +69,7 @@ import CONSTANTS, {
     HOME_DOCUMENT_TYPE_DOSSIER,
     HOME_DOCUMENT_TYPE_DOCUMENT,
     GENERAL_PREVIEW_FEATURE_FLAG,
+    APPLICATIONS_AUTH_MODES_FLAG,
 } from '../HomeScreenConfigConstant';
 import { t } from '../../../i18n/i18next';
 import { store } from '../../../main';
@@ -206,7 +208,13 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                     LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION
                 ) &&
                 isUserHasManageContentGroupPrivilege(currentEnv.privileges);
-            const isLibraryVersionSupportAuthMode = !!status.webVersion && 
+            const authModeFlagItem = (currentEnv as any).configFeatureFlags?.find(
+                (v: any) => v.id === APPLICATIONS_AUTH_MODES_FLAG
+            );
+            const isIServerVersionSupportAuthMode =
+                !!status.iServerVersion &&
+                isIServerVersionMatch(status.iServerVersion, ISERVER_SUPPORT_AUTH_MODE);
+            const isVersionSupportAuthMode = !!status.webVersion && 
                 getFeatureFlag(
                     GENERAL_PREVIEW_FEATURE_FLAG,
                     currentEnv
@@ -214,7 +222,8 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                 isLibraryServerVersionMatch(
                     status.webVersion,
                     LIBRARY_SERVER_SUPPORT_AUTH_MODE
-                )
+                ) && authModeFlagItem?.enabled
+                && isIServerVersionSupportAuthMode
             // Server version and User privilige
             this.setState({
                 isLibraryVersionMatched: isLibraryVersionMatched,
@@ -223,7 +232,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                 isLibraryVersionSupportDocumentType:
                     isLibraryVersionSupportDocumentType,
                 contentBundleFeatureEnable: isLibraryVersionSupportContentGroup,
-                authModesFeatureEnable: isLibraryVersionSupportAuthMode
+                authModesFeatureEnable: isVersionSupportAuthMode
             });
             const isMDVersionMatched = await this.loadApplicationsFolder();
             // MD version

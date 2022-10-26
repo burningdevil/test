@@ -17,6 +17,7 @@ export interface HomeScreenConfigEditorState {
     shouldSendPreviewEmail: boolean;
     previewDeviceType: string;
     isStateChangeByManual: boolean;
+    loadingAppConfigFinish: boolean;
 }
 
 export interface HomeScreenMainViewState {

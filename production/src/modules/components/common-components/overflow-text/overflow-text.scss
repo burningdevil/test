@@ -1,0 +1,10 @@
+@import '~@mstr/rc/es/assets/scss/variables.scss';
+.overflow-text {
+    &-desc {
+        font-weight: 400;
+        margin-bottom: 8px;
+        margin-top: 2px;
+        opacity: .5;
+        @include msdl-paragraph;
+    }
+}

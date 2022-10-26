@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectCustomizeEmailSetting } from '../../../../../../src/store/selectors/HomeScreenConfigEditorSelector';
 import { CustomEmailSettingType } from '../../../../../../src/types/data-model/HomeScreenConfigModels';
 import * as Actions from '../../../../../store/actions/ActionsCreator';
-import { default as VC, customEmailStringDict } from '../../../../../../src/modules/components/HomeScreenConfigConstant';
+import { default as VC, customEmailStringDict, CUSTOM_EMAIL_HOST_PORTAL_HELP_LINK } from '../../../../../../src/modules/components/HomeScreenConfigConstant';
 const classNamePrefix = 'custom-email-form'
 import './email-form.scss'
 import { validateHttpUrl } from '../custom-email.util';
@@ -123,7 +123,7 @@ const CustomEmailForm: React.FC<any> = () => {
             <a 
             target = "_blank"
 
-            href={'https://www2.microstrategy.com/producthelp/2021/EmbeddingSDK/Content/topics/use_custom_dossier_link.htm'} style = {{'marginLeft': '8px'}}>{customEmailStringDict.formGroup.actionButton.hostTooltipHelp}</a>
+            href={CUSTOM_EMAIL_HOST_PORTAL_HELP_LINK} style = {{'marginLeft': '8px'}}>{customEmailStringDict.formGroup.actionButton.hostTooltipHelp}</a>
         </div>
     )
     const renderForms = () => {

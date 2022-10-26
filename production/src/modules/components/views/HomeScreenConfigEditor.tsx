@@ -37,6 +37,7 @@ import {
     selectShouldSendPreviewEmail,
     selectCustomizeEmailSetting,
     selectIsCustomAuthError,
+    selectApplicationConfigLoadingFinish,
 } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import * as api from '../../../services/Api';
@@ -49,12 +50,13 @@ import {
     closeWindowConfirmationStr,
     GENERAL_PREVIEW_FEATURE_FLAG,
     SUPPORT_CONFIGURATION_PALETTE_ID,
+    APPLICATIONS_AUTH_MODES_FLAG,
 } from '../HomeScreenConfigConstant';
 import {
     ConfirmationDialog,
     ConfirmationDialogWordings,
 } from '../common-components/confirmation-dialog';
-import { filterCustomizedIconDefaultValue, getFeatureFlag, validName } from './HomeScreenUtils';
+import { awaitWrap, filterCustomizedIconDefaultValue, getFeatureFlag, validName } from './HomeScreenUtils';
 import { store } from '../../../main';
 import {
     isLibraryServerVersionMatch,
@@ -63,12 +65,17 @@ import {
     LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION,
     LIBRARY_SERVER_SUPPORT_APPEARANCE_EDITOR_VERSION,
     LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_VERSION,
-    LIBRARY_SERVER_SUPPORT_AUTH_MODE
+    LIBRARY_SERVER_SUPPORT_AUTH_MODE,
+    LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_V2,
+    isIServerVersionMatch,
+    ISERVER_SUPPORT_AUTH_MODE,
 } from '../../../utils';
 import ColorPaletteBlade from '../features/color-palette/color-palette-blade';
 import CustomEmailBlade from '../features/custom-email/custom-email-blade';
 import { constructSendingEmailRequestBody, getConfigIdFromHeader } from '../features/custom-email/custom-email.util';
 import { DEFAULT_EMAIL_SETTING } from '../../../../src/store/reducers/HomeScreenConfigEditorReducer';
+import CustomEmailBladeV2 from '../features/custom-email-v2/custom-email-blade';
+import { filterEmailConfig } from '../features/custom-email-v2/custom-email.util';
 import { DEFAULT_AUTH_MODE } from '../features/custom-auth/custom-auth.model';
 declare var workstation: WorkstationModule;
 
@@ -90,7 +97,10 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             colorPalettePreviewFeatureEnable: false,
             isCloseHanlderRegistered: false,
             customEmailFeatureEnabled: false,
-            authModesFeatureEnable: false
+            authModesFeatureEnable: false,
+            customEmailV2Enabled: false,
+            isNewApplication: false,
+            authModesBackendFlagEnabled: false // stands for the feature flag from the backend.
         };
     }
 
@@ -142,6 +152,8 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         this.props.setConfigInfoList(extraContextJson.configInfoList);
         const currentEnv =
             await workstation.environments.getCurrentEnvironment();
+        const isConnected = currentEnv.status === EnvironmentStatus.Connected;
+        // let status;
         // Handle Edit config
         const configId = this.parseConfigId(
             _.get(this.props, 'location.search', undefined)
@@ -151,6 +163,9 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 this.processErrorResponse(e, localizedStrings.ERR_APP_LOAD);
             });
         } else {
+            this.setState({
+                isNewApplication: true
+            })
             const newApplicationName = this.generateDefaultAppName(
                 extraContextJson.configInfoList
             );
@@ -194,7 +209,33 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             );
         };
         const colorPaletteFeatureFlagEnabled  = checkColorPaletteFeatureEnable(currentEnv);
-        const checkCustomEmailFeatureEnable = (curEnv: Environment) => {
+
+        const authModeFlagItem = (currentEnv as any).configFeatureFlags?.find(
+            (v: any) => v.id === APPLICATIONS_AUTH_MODES_FLAG
+        );
+        const isAuthModesBackendFlagEnabled = authModeFlagItem?.enabled;
+        // fetch status
+        let isIServerSupportAuthModes = false;
+        if(isConnected){
+            const [ , status] = await awaitWrap(api.getServerStatus());
+            isIServerSupportAuthModes = !!status?.iServerVersion
+            && isIServerVersionMatch(
+                status.iServerVersion,
+                ISERVER_SUPPORT_AUTH_MODE
+            )
+        }
+        const isVersionSupportAuthMode = !!currentEnv.webVersion && 
+                getFeatureFlag(
+                    GENERAL_PREVIEW_FEATURE_FLAG,
+                    currentEnv
+                    ) &&
+                isLibraryServerVersionMatch(
+                    currentEnv.webVersion,
+                    LIBRARY_SERVER_SUPPORT_AUTH_MODE
+                ) && isAuthModesBackendFlagEnabled
+                && isIServerSupportAuthModes
+        
+        const checkCustomEmailFeatureEnable = (curEnv: Environment, supportVersion: string) => {
             return (
                 !!curEnv.webVersion &&
                 getFeatureFlag(
@@ -203,20 +244,12 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                     ) &&
                 isLibraryServerVersionMatch(
                     curEnv.webVersion,
-                    LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_VERSION
+                    supportVersion
                 )
             );
         };
-        const customEmailFeatureFlagEnabled  = checkCustomEmailFeatureEnable(currentEnv);
-        const isLibraryVersionSupportAuthMode = !!currentEnv.webVersion && 
-                getFeatureFlag(
-                    GENERAL_PREVIEW_FEATURE_FLAG,
-                    currentEnv
-                    ) &&
-                isLibraryServerVersionMatch(
-                    currentEnv.webVersion,
-                    LIBRARY_SERVER_SUPPORT_AUTH_MODE
-                )
+        const customEmailFeatureFlagEnabled  = checkCustomEmailFeatureEnable(currentEnv, LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_VERSION);
+        const customEmailV2Enabled = checkCustomEmailFeatureEnable(currentEnv, LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_V2);
         let isNameCopied = false;
         if (
             isDuplicate &&
@@ -235,7 +268,9 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             contentBundleFeatureEnable: contentBundleEnable,
             colorPaletteFeatureEnable: colorPaletteFeatureFlagEnabled,
             customEmailFeatureEnabled: customEmailFeatureFlagEnabled,
-            authModesFeatureEnable: isLibraryVersionSupportAuthMode
+            authModesFeatureEnable: isVersionSupportAuthMode,
+            customEmailV2Enabled: customEmailV2Enabled,
+            authModesBackendFlagEnabled: isAuthModesBackendFlagEnabled
 
         });
         this.loadPreference();
@@ -518,6 +553,9 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         if(config.emailSettings && !config.emailSettings?.enabled){
             config.emailSettings = DEFAULT_EMAIL_SETTING;
         }
+        if(config.emailSettings && config.emailSettings?.enabled) {
+            config = filterEmailConfig(config);
+        }
         /**
          * custom auth mode related
          * if the default mode is 0, will empty the ava list, 
@@ -528,10 +566,15 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 config.authModes = DEFAULT_AUTH_MODE;
             }
             delete config.authModes.enabled;
+            // if the backend feature flag is not open, should delete the authModes property.
+            if(!this.state.authModesBackendFlagEnabled){
+                delete config.authModes;
+            }
+
         }
         /* color palette related.
-      if useConfigPalette is false, delete the selected applicationPalettes.
-      */
+         * if useConfigPalette is false, delete the selected applicationPalettes.
+         */
         if (!config.useConfigPalettes && config.applicationPalettes?.length) {
             config.applicationPalettes = [];
             config.applicationDefaultPalette = '';
@@ -711,7 +754,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                                     </Tabs.TabPane>
                                 )}
 
-                                {this.state.customEmailFeatureEnabled && (
+                                {this.state.customEmailFeatureEnabled && !this.state.customEmailV2Enabled&& (
                                 <Tabs.TabPane
                                     tab={localizedStrings.NAVBAR_CUSTOM_EMAIL_SETTINGS}
                                     key={VC.CUSTOMEMAILSETTINGS}
@@ -719,6 +762,13 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                                     <CustomEmailBlade />
                                     {this.buttonGroup()}
                                 </Tabs.TabPane>)}
+                                {this.state.customEmailV2Enabled  && (this.props.configLoadingFinish || this.state.isNewApplication) && <Tabs.TabPane
+                                    tab={localizedStrings.NAVBAR_CUSTOM_EMAIL_SETTINGS}
+                                    key={VC.CUSTOMEMAILSETTINGS}
+                                >
+                                    <CustomEmailBladeV2 env = {this.state.currentEnv}/>
+                                    {this.buttonGroup()}
+                                </Tabs.TabPane>}
                                 <Tabs.TabPane
                                     tab={localizedStrings.NAVBAR_MORE_SETTINGS}
                                     key={VC.MORESETTINGS}
@@ -744,6 +794,7 @@ const mapState = (state: RootState) => ({
     isCustomAuthError: selectIsCustomAuthError(state),
     shouldSendPreviewEmail: selectShouldSendPreviewEmail(state),
     emailSettings: selectCustomizeEmailSetting(state),
+    configLoadingFinish: selectApplicationConfigLoadingFinish(state),
 
     defaultGroupsName: selectDefaultGroupsName(state),
     configInfoList: selectConfigInfoList(state),

@@ -1,0 +1,144 @@
+@import '~@mstr/rc/es/assets/scss/variables.scss';
+
+@mixin msdl-font-family-size-primary {
+  font-family: $msdl-font-family;
+  font-size: $msdl-font-primary;
+}
+
+.quill {
+  width: 100%;
+  height: 100%;
+
+  &.ql-singleline {
+    // Disable new lines
+    p {
+      display: inline-block;
+
+      &:first-of-type {
+        width: 1px; // To show blinking text cursor
+      }
+    }
+
+    // Disable line breaks
+    br {
+      display: none;
+    }
+
+    .ql-editor {
+      white-space: pre;
+      max-width: 100%;
+      text-overflow: clip;
+      @include msdl-label;
+    }
+
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  &.ql-multiline {
+    .ql-editor {
+      min-height: 64px; // expand the height when multi-line.
+    }
+  }
+
+  .ql-container {
+    @include msdl-font-family-size-primary;
+    background-color: $msdl-white;
+    border-radius: $msdl-border-radius;
+    box-shadow: none;
+    border: 1px solid $msdl-border-gray;
+    transition: border 0.3s ease;
+
+    &:hover {
+      border: 1px solid $msdl-border-dark-gray;
+    }
+
+    .ql-editor {
+      outline: 1px solid transparent;
+      transition: outline 0.3s ease;
+      padding: 5px 10px;
+      max-height: 200px;
+      max-width: 500px;
+      &.focus-visible {
+        border: none;
+        border-radius: $msdl-border-radius;
+        box-shadow: none;
+        outline: 1px solid $msdl-blue;
+      }
+
+      &:hover:not(.focus-visible) {
+        box-shadow: none;
+        border: none;
+      }
+
+      &.ql-blank::before {
+        font-style: normal;
+        color: #d7d7d7;
+        left: 10px;
+      }
+    }
+
+    a,
+    a:visited {
+      color: $msdl-blue;
+    }
+
+    .macro {
+      color: $msdl-blue;
+      // user-select: none;
+
+      > span {
+        margin: 0;
+      }
+    }
+  }
+
+  .ql-disabled {
+    cursor: not-allowed;
+    color: $msdl-gray;
+    background-color: $msdl-fill-gray;
+
+    &:hover {
+      border: 1px solid $msdl-border-gray;
+    }
+  }
+}
+
+/* Styles for quil mention list */
+.ql-mention-list-container {
+  min-width: 130px;
+  border: 1px solid $msdl-border-gray;
+  background-color: $msdl-white;
+  box-shadow: 0 1px 7px 0 $msdl-shadow-gray;
+  padding: 3px 0px;
+  z-index: 99;
+  overflow-y: auto;
+
+  .ql-mention-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    .ql-mention-list-item {
+      cursor: pointer;
+      min-height: 26px;
+      line-height: 26px;
+      font-size: 12px;
+      padding: 0 9px;
+      vertical-align: middle;
+
+      &.disabled {
+        cursor: auto;
+      }
+
+      &.selected {
+        background-color: $msdl-fill-gray;
+        text-decoration: none;
+      }
+
+      .ql-mention-list-item-search-string-matched {
+        font-weight: $msdl-font-heavy;
+      }
+    }
+  }
+}

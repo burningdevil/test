@@ -463,9 +463,19 @@ export const customEmailStringDict = {
     'title': t('customEmailTitle'),
     'desc': t('customEmailDesc'),
     'formGroup': {
+        'emailSender': {
+            'title': t('emailSender'),
+            'labelName': t('emailSenderDisplayName'),
+            'labelAddress': t('emailSenderAddress'),
+            'placeholder': 'library@microstrategy.com',
+            'defaultName': 'MicroStrategy Library'
+        },
         'image': {
             'title': t('customEmailImage'),
-            'label': t('showBrandImage')
+            'label': t('showBrandImage'),
+            'brandImageTitle': t('brandingImageTitle'),
+            'brandImageLabel': t('brandImageLabel'),
+            'brandImageUrl': t('brandImageUrl')
         },
         'actionButton': {
             'title': t('actionButton'),
@@ -475,26 +485,99 @@ export const customEmailStringDict = {
             'placeholder': t('hostWebPortalPlaceholder'),
             'hostTooltip': t('hostPortalTooltip'),
             'hostInvalidTip': t('hostInvalidTip'),
-            'hostTooltipHelp': t('hostPortalHelp')
+            'hostTooltipHelp': t('hostPortalHelp'),
+            'showDescription': t('showDescription'),
+            'descriptionDefaultStr': "'View in Mobile App' may not work for all mobile mail apps. Use 'View in Browser' option for such cases.",
+            'button1': t('actionButton1'),
+            'button1_default': 'View in Browser',
+            'button2': t('actionButton2'),
+            'button2_default': 'View in Mobile App',
+            'button2Link': t('actionButton2Link'),
+            'scheme_default': t('actionButtonSchemeTypeDefault'),
+            'scheme_app': t('actionButtonSchemeTypeApp'),
+            'scheme_universal': t('actionButtonSchemeTypeUni'),
         },
         'notificationReminder': {
             'title': t('notificationReminder'),
             'label': t('showReminder'),
-            'tooltip': t('notificationReminderTooltip')
+            'tooltip': t('notificationReminderTooltip'),
+            'labelReminder': t('reminder'),
+            'reminderLinkText': t('reminderLinkText'),
+            'defaultReminderLinkText': t('defaultReminderLinkText'),
+            'defaultReminder': 'Since you last checked, {&NewNotificationCount} notification has been sent to you.',
+            'reminderMacroTip': t('reminderMacroTip'),
+            'notificationMsgTip': t('notificationMsgTip'),
+            'notificationLinkTip': t('notificationLinkTip')
         },
         'sentBy': {
             'title': t('sendBy'),
             'label1': t('showSentByInfo'),
             'label2': t('sendByOwner'),
             'defaultSender': t('senderDefault')
+
         },
         'socialMedia': {
             'title': t('socialMedia'),
-            'label': t('showSocialMedia')
+            'label': t('showSocialMedia'),
+            'fb': t('facebook'),
+            'fb_default': "https://facebook.com/microstrategy",
+            'fb_prefix': "https://facebook.com/",
+            'placeholder': 'microstrategy',
+            'twitter': t('twitter'),
+            'twitter_default': 'https://twitter.com/microstrategy',
+            'twitter_prefix': 'https://twitter.com/',
+            'linked': t('linkedIn'),
+            'linked_default': 'https://linked.com/microstrategy',
+            'linked_prefix': 'https://linked.com/',
+            'yt': t('youTube'),
+            'yt_default': 'https://youtube.com/microstrategy',
+            'yt_prefix': 'https://youtube.com/'
+
+        },
+        'subjectAndBody': {
+            'title': t('subjectAndBodyText'),
+            'subsection1': {
+                'title': t('shareDossierToTheRecipent'),
+                'label1': t('subject'),
+                'label2': t('bodyText'),
+                'placeholder1': 'You have been invited to view {&DossierName}',
+                'placeholder2': 'Hi, {&RecipientName}!<br> {&SenderName} shared {&DossierName} with you.'
+            },
+            'subsection2': {
+                'title': t('shareDossierToTheRecipentWithBookmark'),
+                'label1': t('subject'),
+                'label2': t('bodyText'),
+                'placeholder1': 'You have been invited to view {&DossierName} with shared bookmarks in your library',
+                'placeholder2': 'Hi, {&RecipientName}!<br> {&SenderName} shared {&DossierName} and {&BookmarkCount} bookmark with you.'
+            },
+            'subsection3': {
+                'title': t('inviteOneRecipientDiscussion'),
+                'label1': t('subject'),
+                'label2': t('bodyText'),
+                'placeholder1': 'You have been invited to a discussion',
+                'placeholder2': 'Hi, {&RecipientName}!<br>{&SenderName} invited you to a discussion in a dossier.'
+            },
+            'subsection4': {
+                'title': t('mentionRecipientComment'),
+                'label1': t('subject'),
+                'label2': t('bodyText'),
+                'placeholder1': 'You have been mentioned in a {&MentionTarget}',
+                'placeholder2': 'Hi, {&RecipientName}!<br>{&SenderName} mentioned you in a comment in {&DossierName}.'
+            },
+            'dossierTip': t('DossierNameTip'),
+            'recipientNameTip': t('RecipientNameTip'),
+            'senderNameTip': t('SenderNameTip'),
+            'bookmarkCountTip': t('BookmarkCountTip'),
+            'commentDiscussionTip': t('CommentDiscussionTip')
         }
     },
+    'emptyValidTip': t('emptyValidTip'),
+    'mobileLinkValidTip': t('mobileLinkValidTip'),
+    'emailNameInvalidTip': t('invalidEmailName'),
+    'emailAddressInvalidTip': t('invalidEmailAddress'),
     'sendPreview': t('sendPreview'),
-    'featureFlag': t('disableCustomEmail')
+    'featureFlag': t('disableCustomEmail'),
+    'resetHeaderTip': t('resetTip')
 }
 
 export const tooltipStr = (min: string, max: string) => {
@@ -887,3 +970,5 @@ export const HOME_DOCUMENT_TYPE_DOCUMENT = 'document';
 export const SUPPORT_CONFIGURATION_PALETTE = 'Support Configuration Palette';
 export const SUPPORT_CONFIGURATION_PALETTE_ID = 'F6E46AFF44AC27FCEA1B5D93451BE4FC';
 export const GENERAL_PREVIEW_FEATURE_FLAG = 'preview-features';
+export const APPLICATIONS_AUTH_MODES_FLAG = 'features.auth.applicationAuthModes.enabled';
+export const CUSTOM_EMAIL_HOST_PORTAL_HELP_LINK = 'https://microstrategy.github.io/embedding-sdk-docs/add-functionality/use-custom-dossier-link/';

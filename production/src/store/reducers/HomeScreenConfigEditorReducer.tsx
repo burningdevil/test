@@ -1,5 +1,5 @@
 import { HomeScreenConfigEditorState } from '../../types/redux-state/HomeScreenConfigState'
-import { CONSTANTS, localizedStrings, iconTypes, reviewType, iconValidKey, platformType, dossierIconKeys, libraryIconKeys, sidebarIconKeys, featureFlag, libraryCustomizedIconKeys, platformSpecificIconKeys } from '../../modules/components/HomeScreenConfigConstant'
+import { CONSTANTS, localizedStrings, reviewType, iconValidKey, platformType, dossierIconKeys, libraryIconKeys, sidebarIconKeys, featureFlag, libraryCustomizedIconKeys, platformSpecificIconKeys, customEmailStringDict } from '../../modules/components/HomeScreenConfigConstant'
 import { ActionTypes } from '../actions/ActionTypes'
 import * as Actions from '../actions/ActionConstants'
 import * as _ from 'lodash'
@@ -13,7 +13,64 @@ export const DEFAULT_EMAIL_SETTING = {
   'showReminder': true,
   'showSentBy': true,
   'sentByText': 'MicroStrategy Inc.',
-  'showSocialMedia': true
+  'showSocialMedia': true,
+  // added by the version v2
+  'content': {
+    'SHARE_DOSSIER': {
+      'subject': customEmailStringDict.formGroup.subjectAndBody.subsection1.placeholder1,
+      'body': customEmailStringDict.formGroup.subjectAndBody.subsection1.placeholder2
+    },
+    'SHARE_BOOKMARK': {
+      'subject': customEmailStringDict.formGroup.subjectAndBody.subsection2.placeholder1,
+      'body': customEmailStringDict.formGroup.subjectAndBody.subsection2.placeholder2
+    },
+    'MEMBER_ADDED': {
+      'subject': customEmailStringDict.formGroup.subjectAndBody.subsection3.placeholder1,
+      'body': customEmailStringDict.formGroup.subjectAndBody.subsection3.placeholder2
+    },
+    'USER_MENTION': {
+      'subject': customEmailStringDict.formGroup.subjectAndBody.subsection4.placeholder1,
+      'body': customEmailStringDict.formGroup.subjectAndBody.subsection4.placeholder2
+    },
+  },
+  'showButtonDescription': true,
+  'sender': {
+    'displayName': customEmailStringDict.formGroup.emailSender.defaultName,
+    'address': customEmailStringDict.formGroup.emailSender.placeholder
+},
+'brandingImage': {
+    'url': ''
+},
+'button': {
+      "browserButtonStyle": {
+        "backgroundColor": customEmailStringDict.formGroup.actionButton.button1_bg_color,
+        "fontColor": customEmailStringDict.formGroup.actionButton.button1_fontColor,
+        "text": customEmailStringDict.formGroup.actionButton.button1_default
+      },
+      "mobileButtonStyle": {
+          "backgroundColor": customEmailStringDict.formGroup.actionButton.button2_bg_color,
+          "fontColor": customEmailStringDict.formGroup.actionButton.button2_fontColor,
+          "text": customEmailStringDict.formGroup.actionButton.button2_default
+      },
+      "mobileButtonScheme": "dossier",
+      "mobileButtonLinkType": "DEFAULT",
+      "description": customEmailStringDict.formGroup.actionButton.descriptionDefaultStr
+},
+"reminder": {
+  "text": customEmailStringDict.formGroup.notificationReminder.defaultReminder,
+  "linkText": customEmailStringDict.formGroup.notificationReminder.defaultReminderLinkText
+},
+"socialMedia": {
+  "showFacebook": true,
+  "facebookLink": customEmailStringDict.formGroup.socialMedia.fb_default,
+  "showTwitter": true,
+  "twitterLink": customEmailStringDict.formGroup.socialMedia.twitter_default,
+  "showLinkedIn": true,
+  "linkedInLink": customEmailStringDict.formGroup.socialMedia.linked_default,
+  "showYouTube": true,
+  "youTubeLink": customEmailStringDict.formGroup.socialMedia.yt_default
+}
+
 }
 
 const initialState: HomeScreenConfigEditorState = {
@@ -64,7 +121,8 @@ const initialState: HomeScreenConfigEditorState = {
   shouldSendPreviewEmail: false,
   configInfoList: [],
   previewDeviceType: reviewType.WEB,
-  isStateChangeByManual: false
+  isStateChangeByManual: false,
+  loadingAppConfigFinish: false
 }
 
 const HomeScreenConfigEditorReducer = (state: HomeScreenConfigEditorState = initialState, action: ActionTypes) => {
@@ -82,7 +140,7 @@ const HomeScreenConfigEditorReducer = (state: HomeScreenConfigEditorState = init
         })
       }
     case Actions.SET_CURRENT_CONFIG:
-      return {...state, currentConfig: data}
+      return {...state, currentConfig: data, loadingAppConfigFinish: true}
     case Actions.SET_CONFIG_INFO_LIST:
       return {...state, configInfoList: data}
     case Actions.SET_DUPLICATE_CONFIG:

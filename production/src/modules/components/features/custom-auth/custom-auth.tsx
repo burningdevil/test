@@ -20,15 +20,19 @@ const CustomAuth: React.FC<any> = () => {
     const [savedSelected, setSelected] = useState(stateData?.availableModes ?? []);
     
     const [optionsData, setOptions] = useState(supportCustomAuthModes);
+
+    React.useEffect( () => {
+        if(!stateData) return;
+        setEnableAuth(Reflect.has(stateData, 'enabled') ? stateData?.enabled : stateData?.defaultMode !== 0);
+        setSelected(stateData?.availableModes ?? []);
+        setDm(stateData?.defaultMode ?? 0);
+    }, [stateData])
     
     
     React.useEffect(() => {
         if(!savedSelected) return;
         // update the default mode automatically depends on the selected options.
-        const isDefaultSelected = savedSelected?.find(v => v === dm);
-        if(!isDefaultSelected && savedSelected?.length){
-            setDm(savedSelected[0]);
-        }
+        
         if(savedSelected.includes(AuthModeConstants.OIDC)){
             optionsData.find(v => v.value === AuthModeConstants.SAML).disabled = true;
             setOptions(JSON.parse(JSON.stringify(optionsData)))
@@ -47,49 +51,71 @@ const CustomAuth: React.FC<any> = () => {
 
     React.useEffect(() => {
         if(savedSelected?.length === 0 && enableAuth){
-            setDm(0);
             dispatch(Actions.setCustomAuthError(true))
         }else {
             dispatch(Actions.setCustomAuthError(false))
         }
      }, [savedSelected, enableAuth])
     
-    React.useEffect(() => {
-        dispatch(
-            Actions.updateCurrentConfig({
-                authModes: {
-                    enabled: enableAuth,
-                    availableModes: savedSelected,
-                    defaultMode: dm
-                }
-            })
-        )
-     }, [savedSelected, enableAuth, dm])
-    
     const onChange = (e: RadioChangeEvent) => {
-        setEnableAuth(e.target.value);
+        dispatch(
+        Actions.updateCurrentConfig({
+            authModes: {
+                enabled: e.target.value,
+                availableModes: savedSelected,
+                defaultMode: dm
+            }
+        })
+    )
       };
     const onOptionChange = (checkedValues: number[]) => {
         // follow the sequence as the UI options.
+        
         checkedValues.sort((a: number,b: number) => {
             let a_index = supportCustomAuthModes?.findIndex(m => m.value === a);
             let b_index = supportCustomAuthModes?.findIndex(m => m.value === b);
             return a_index < b_index ? -1 : 1;
         })
-        setSelected(checkedValues);
+        let defaultMode = dm;
         if(!checkedValues?.length){
-            setDm(0)
+            defaultMode = 0;
         }
+        const isDefaultSelected = checkedValues?.find(v => v === dm);
+        if(!isDefaultSelected && checkedValues?.length){
+            defaultMode = checkedValues[0];
+        }
+        dispatch(
+            Actions.updateCurrentConfig({
+                authModes: {
+                    enabled: enableAuth,
+                    availableModes: checkedValues,
+                    defaultMode: defaultMode
+                }
+            })
+        )
 
     };
 
     const onDefaultChange = (option: any) => {
-        setDm(option.value);
         // if current option is not checked, automatic check it.
-        if(!savedSelected.includes(option.value)){
-            savedSelected.push(option.value);
-            setSelected(savedSelected.slice());
+        let checkedSelected = [...savedSelected];
+        if(!checkedSelected.includes(option.value)){
+            checkedSelected.push(option.value);
         }
+        checkedSelected.sort((a: number,b: number) => {
+            let a_index = supportCustomAuthModes?.findIndex(m => m.value === a);
+            let b_index = supportCustomAuthModes?.findIndex(m => m.value === b);
+            return a_index < b_index ? -1 : 1;
+        })
+        dispatch(
+            Actions.updateCurrentConfig({
+                authModes: {
+                    enabled: enableAuth,
+                    availableModes: checkedSelected,
+                    defaultMode: option.value
+                }
+            })
+        )
     }
     
     const renderOption = () => {

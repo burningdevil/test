@@ -13,6 +13,37 @@ export interface ColorPaletteType {
     'paletteType': number,
     'isDefaultPalette'?: boolean
 }
+export enum MobileButtonLinkEnum {
+    DEFAULT = 'DEFAULT',
+    APP_SCHEME = 'APP_SCHEME',
+    UNIVERSAL_LINK = 'UNIVERSAL_LINK'
+}
+export interface ActionButtonInterface {
+    "browserButtonStyle": {
+        "backgroundColor": string,
+        "fontColor": string,
+        "text": string
+        },
+    "mobileButtonStyle": {
+        "backgroundColor": string,
+        "fontColor": string,
+        "text": string
+    },
+    "mobileButtonLink": string,
+    "mobileButtonLinkType": MobileButtonLinkEnum,
+    "mobileButtonScheme": string,
+    "description": string
+}
+export interface EmailBodyInterface {
+    'subject': string,
+    'body': string
+}
+export interface EmailContentInterface {
+    'SHARE_DOSSIER': EmailBodyInterface,
+    'SHARE_BOOKMARK': EmailBodyInterface,
+    'MEMBER_ADDED': EmailBodyInterface,
+    'USER_MENTION': EmailBodyInterface
+}
 export interface CustomEmailSettingType {
     'enabled': boolean,
     'hostPortal': string,
@@ -22,7 +53,32 @@ export interface CustomEmailSettingType {
     'showReminder': boolean,
     'showSentBy': boolean,
     'sentByText': string,
-    'showSocialMedia': boolean
+    'showSocialMedia': boolean,
+
+    'showButtonDescription': boolean,
+    'content': EmailContentInterface,
+    'sender': {
+        'displayName': string,
+        'address': string
+    },
+    'brandingImage': {
+        'url': string
+    },
+    'button': ActionButtonInterface,
+    "reminder": {
+        "text": string,
+        "linkText": string
+    },
+    "socialMedia": {
+        "showFacebook": boolean,
+        "facebookLink": string,
+        "showTwitter": boolean,
+        "twitterLink": string,
+        "showLinkedIn": boolean,
+        "linkedInLink": string,
+        "showYouTube": boolean,
+        "youTubeLink": string
+    }
 }
 
 export interface HomeScreenConfigType {

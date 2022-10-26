@@ -1,0 +1,97 @@
+@import '~@mstr/rc/es/assets/scss/variables.scss';
+@import '../../scss/variables.scss';
+// @import '../../../styles/base';
+.home-screen-custom-email-setting-v2 {
+    padding: 0px;
+    position: relative;
+    display: flex;
+    height: 660px;
+    background-color: white;
+    text-align: left;
+    font-family: $font-family;
+    color: $msdl-black;
+
+    .ant-checkbox {
+        transform: scale(0.75);
+        font-size: $font-size !important;
+    }
+
+    &-left{
+        float: left;
+        padding: 24px 0px 0px 30px;
+    }
+
+    &-right{
+        float: right;
+        padding: 24px 0 0 0;
+        background-color: $right-background;
+    }
+    &-previewBtn {
+        position: fixed;
+        right: 20px;
+        z-index: 999;
+        margin-top: 20px;
+        cursor: pointer;
+        @include msdl-h3;
+        .anticon {
+            margin-right: 5px;
+        }
+    }
+}
+.pr30 {
+    padding-right: 30px;
+}
+.preview-enter {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  .preview-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 1000ms, transform 1000ms;
+  }
+  .preview-exit {
+    opacity: 1;
+  }
+  .preview-exit-active {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 500ms, transform 500ms;
+  }
+  .font-facebook-icon {
+    background: url("../../images/18_18.svg");
+    cursor: pointer;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background-repeat: no-repeat;
+    background-position: -144px -216px;
+}
+
+.font-twitter-icon {
+    background: url("../../images/18_18.svg");
+    cursor: pointer;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background-repeat: no-repeat;
+    background-position: -162px -216px;
+}
+.font-linked-icon {
+    background: url("../../images/18_18.svg");
+    cursor: pointer;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background-repeat: no-repeat;
+    background-position: -180px -216px;
+}
+.font-yt-icon {
+    background: url("../../images/18_18.svg");
+    cursor: pointer;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background-repeat: no-repeat;
+    background-position: -198px -216px;
+}
