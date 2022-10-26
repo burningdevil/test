@@ -6,16 +6,8 @@
   padding: $settings-panel-padding;
   background: $white;
 
-  .mstr-app-theme-logos {
-    font-family: $font-family;
-    font-size: $font-size;
-
-    .theme-logos-title {
-      height: 28px;
-      line-height: 28px;
-      font-weight: 700;
-      text-align: left;
-      color: $settings-panel-title-subtitle-color;
-    }
+  .mstr-divider {
+    margin: 20px 0 8px;
+    border: 1px solid rgba(87, 90, 93, 0.1);
   }
 }

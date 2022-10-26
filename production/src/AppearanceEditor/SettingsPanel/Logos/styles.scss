@@ -1,0 +1,14 @@
+@import '../../../modules/components/scss/variables.scss';
+
+.mstr-app-theme-logos {
+  font-family: $font-family;
+  font-size: $font-size;
+
+  .theme-logos-title {
+    height: $settings-panel-title-height;
+    line-height: $settings-panel-title-line-height;
+    font-weight: $settings-panel-title-font-weight;
+    text-align: left;
+    color: $settings-panel-title-subtitle-color;
+  }
+}
