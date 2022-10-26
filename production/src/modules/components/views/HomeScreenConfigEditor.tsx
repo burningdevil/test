@@ -56,7 +56,7 @@ import {
     ConfirmationDialog,
     ConfirmationDialogWordings,
 } from '../common-components/confirmation-dialog';
-import { filterCustomizedIconDefaultValue, getFeatureFlag, validName } from './HomeScreenUtils';
+import { awaitWrap, filterCustomizedIconDefaultValue, getFeatureFlag, validName } from './HomeScreenUtils';
 import { store } from '../../../main';
 import {
     isLibraryServerVersionMatch,
@@ -150,9 +150,10 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         const isDuplicate = extraContextJson.isDuplicate;
         this.props.setDuplicateConfig(isDuplicate);
         this.props.setConfigInfoList(extraContextJson.configInfoList);
-        const status: any = await api.getServerStatus();
         const currentEnv =
             await workstation.environments.getCurrentEnvironment();
+        const isConnected = currentEnv.status === EnvironmentStatus.Connected;
+        // let status;
         // Handle Edit config
         const configId = this.parseConfigId(
             _.get(this.props, 'location.search', undefined)
@@ -213,6 +214,16 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             (v: any) => v.id === APPLICATIONS_AUTH_MODES_FLAG
         );
         const isAuthModesBackendFlagEnabled = authModeFlagItem?.enabled;
+        // fetch status
+        let isIServerSupportAuthModes = false;
+        if(isConnected){
+            const [ , status] = await awaitWrap(api.getServerStatus());
+            isIServerSupportAuthModes = !!status?.iServerVersion
+            && isIServerVersionMatch(
+                status.iServerVersion,
+                ISERVER_SUPPORT_AUTH_MODE
+            )
+        }
         const isVersionSupportAuthMode = !!currentEnv.webVersion && 
                 getFeatureFlag(
                     GENERAL_PREVIEW_FEATURE_FLAG,
@@ -222,10 +233,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                     currentEnv.webVersion,
                     LIBRARY_SERVER_SUPPORT_AUTH_MODE
                 ) && isAuthModesBackendFlagEnabled
-                && isIServerVersionMatch(
-                    status.iServerVersion,
-                    ISERVER_SUPPORT_AUTH_MODE
-                )
+                && isIServerSupportAuthModes
         
         const checkCustomEmailFeatureEnable = (curEnv: Environment, supportVersion: string) => {
             return (
