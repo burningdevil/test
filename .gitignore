@@ -42,3 +42,4 @@ production/locale
 production/*.zip
 /deploy/helm/dev/requirements.lock
 /deploy/helm/dev/charts/*.tgz
+production/test-report.html

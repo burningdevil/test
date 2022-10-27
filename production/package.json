@@ -124,6 +124,7 @@
     "jest-css-modules": "^2.1.0",
     "jest-environment-jsdom-sixteen": "^2.0.0",
     "jest-enzyme": "^7.0.2",
+    "jest-html-reporter": "^3.7.0",
     "karma": "^6.3.0",
     "karma-coverage": "^2.1.1",
     "karma-mocha": "^2.0.0",

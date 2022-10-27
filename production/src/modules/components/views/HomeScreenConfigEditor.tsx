@@ -689,7 +689,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                                     tab={localizedStrings.NAVBAR_GENERAL}
                                     key={VC.GENERAL}
                                 >
-                                    <HomeScreenGeneral authModeEnable = {this.state.authModesFeatureEnable}/>
+                                    <HomeScreenGeneral authModeEnable = {this.state.authModesFeatureEnable} isNewApplication = {this.state.isNewApplication}/>
                                     {this.buttonGroup()}
                                 </Tabs.TabPane>
                                 <Tabs.TabPane
