@@ -546,6 +546,10 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 },
             });
         }
+        if (!dossierUrl && this.props.isDossierHome) {
+            delete config.homeScreen.homeDocument.homeDocumentType;
+            config.homeScreen.mode = VC.MODE_USE_DEFAULT_HOME_SCREEN;
+        }
         /**
          * customize email related
          * if enabled is false, should use the default value instead.
@@ -584,6 +588,10 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             !config.applicationDefaultPalette
         ) {
             config.applicationDefaultPalette = config.applicationPalettes[0];
+        }
+        if(config.useConfigPalettes && !config.applicationPalettes?.length){
+            config.useConfigPalettes = false;
+            delete config.applicationPalettes;
         }
 
         if (this.props.isDossierHome) {
