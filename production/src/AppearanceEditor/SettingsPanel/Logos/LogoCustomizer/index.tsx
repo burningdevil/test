@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
-import * as Actions from '../../../store/actions/ActionsCreator';
+import * as Actions from '../../../../store/actions/ActionsCreator';
 import { Input } from '@mstr/rc';
-import { validateUrl } from '../../utils/urlValidationHelper';
-import { t } from '../../../i18n/i18next';
+import { validateUrl } from '../../../utils/urlValidationHelper';
+import { t } from '../../../../i18n/i18next';
 import './styles.scss';
 
 type LogoCustomizerProps = {
