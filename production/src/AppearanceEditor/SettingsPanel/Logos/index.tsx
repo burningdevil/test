@@ -4,7 +4,7 @@ import { ApplicationLogos } from '../../../types/data-model/HomeScreenConfigMode
 import { t } from '../../../i18n/i18next';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { selectCurrentThemeLogos } from '../../../store/selectors/AppearanceEditorSelector';
-import LogoCustomizer from '../LogoCustomizer';
+import LogoCustomizer from './LogoCustomizer';
 import './styles.scss';
 
 type LogosProps = {
