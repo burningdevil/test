@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import classnames from 'classnames';
 import { Radio, Space } from 'antd';
 import {
     ApplicationColor,
@@ -47,9 +48,11 @@ const Color: React.FC<ColorProps> = ({ color, updateTheme }) => {
     };
 
     const getColorRadioOption = (value: string, label: string) => (
-        <Radio className={`${classNamePrefix}-${value}`} value={value}>
+        <Radio className={`${classNamePrefix}-option`} value={value}>
             <div className={`${colorBoxClassNamePrefix}-wrapper`}>
-                <div className={colorBoxClassNamePrefix}></div>
+                <div
+                    className={classnames(colorBoxClassNamePrefix, value)}
+                ></div>
                 <div className={`${colorBoxClassNamePrefix}-label`}>
                     {label}
                 </div>
@@ -77,10 +80,6 @@ const Color: React.FC<ColorProps> = ({ color, updateTheme }) => {
                             direction="vertical"
                             className={`${classNamePrefix}-option-group`}
                         >
-                            {getColorRadioOption(
-                                EnumSelectedThemes.USE_SYSTEM_SETTING,
-                                EnumSelectedThemeLabels.USE_SYSTEM_SETTING
-                            )}
                             {getColorRadioOption(
                                 EnumSelectedThemes.LIGHT,
                                 EnumSelectedThemeLabels.LIGHT
