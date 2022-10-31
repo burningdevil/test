@@ -540,7 +540,7 @@ export const customEmailStringDict = {
                 'title': t('shareDossierToTheRecipent'),
                 'label1': t('subject'),
                 'label2': t('bodyText'),
-                'placeholder1': 'You have been invited to view {&DossierName}',
+                'placeholder1': 'You have been invited to view {&DossierName} in your library',
                 'placeholder2': 'Hi, {&RecipientName}!<br> {&SenderName} shared {&DossierName} with you.'
             },
             'subsection2': {
