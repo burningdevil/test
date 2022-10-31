@@ -78,7 +78,7 @@ const AppearanceEditor: React.FC<AppearanceEditorProps> = ({ savedConfigTheme, c
     <div className='mstr-appearance-editor'>
       <AppearanceEditorToolbar theme={currEditorTheme} handleClose={confirmBeforeClosing} />
       <div className='content-section'>
-        <SettingsPanel theme={currEditorTheme} />
+        <SettingsPanel />
         <PreviewPanel theme={currEditorTheme} />
       </div>
     </div>
