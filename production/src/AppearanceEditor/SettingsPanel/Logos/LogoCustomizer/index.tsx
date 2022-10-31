@@ -60,7 +60,7 @@ const LogoCustomizer: React.FC<LogoCustomizerProps> = ({
     };
 
     return (
-        <div className="theme-logo">
+        <div className="mstr-app-theme-logo">
             <div className="logo-subtitle">{logo.subtitle}</div>
             <div className="theme-logo-inner-wrapper">
                 <div className="theme-logo-box">
