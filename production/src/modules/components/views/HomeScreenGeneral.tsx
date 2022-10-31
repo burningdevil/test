@@ -169,7 +169,7 @@ class HomeScreenGeneral extends React.Component<any, any> {
 
     render() {
         const { name, description, platforms } = this.props.config;
-        const isShowAuthMode = this.props.authModeEnable && this.props.configLoadingFinish;
+        const isShowAuthMode = this.props.authModeEnable && (this.props.configLoadingFinish || this.props.isNewApplication);
         return (
             <div className={`${classNamePrefix}`}>
                 <div className={`${classNamePrefix}-environment`}>

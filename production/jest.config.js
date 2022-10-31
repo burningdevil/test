@@ -35,6 +35,12 @@ module.exports = {
     '!**/mocks/**/*.*',
     '!**/*.eslintrc.js',
   ],
+  "reporters": [
+    "default",
+    ["./node_modules/jest-html-reporter", {
+      "pageTitle": "Unit Test Report"
+    }]
+  ],
   "setupFiles": [
     "./src/modules/components/__tests__/__mocks__/ws.js"
   ]
