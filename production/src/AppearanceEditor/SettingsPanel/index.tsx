@@ -4,12 +4,7 @@ import Logos from './Logos';
 import Color from './Color';
 import './styles.scss';
 
-type SettingsPanelProps = {
-    theme: ApplicationTheme;
-};
-
-const SettingsPanel: React.FC<SettingsPanelProps> = ({ theme }) => {
-    console.log('theme in settings panel ->', theme);
+const SettingsPanel: React.FC = () => {
     return (
         <React.Fragment>
             <div className="mstr-app-theme-settings-panel">

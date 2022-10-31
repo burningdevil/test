@@ -2,29 +2,39 @@ import { t } from '../../i18n/i18next';
 
 // all the available Theme Color
 // useSystemSetting, light, dark, darkBlue, blue, red, green, yellow, custom
+
+export const EnumThemeTypes = {
+    LIGHT: 'LIGHT',
+    DARK: 'DARK',
+    DARK_BLUE: 'DARK_BLUE',
+    BLUE: 'BLUE',
+    RED: 'RED',
+    GREEN: 'GREEN',
+    YELLOW: 'YELLOW',
+    CUSTOM: 'CUSTOM'
+};
+
 export const EnumSelectedThemes = {
-    USE_SYSTEM_SETTING: 'useSystemSetting',
-    LIGHT: 'light',
-    DARK: 'dark',
-    DARK_BLUE: 'darkBlue',
-    BLUE: 'blue',
-    RED: 'red',
-    GREEN: 'green',
-    YELLOW: 'yellow',
-    CUSTOM: 'custom',
+    [EnumThemeTypes.LIGHT]: 'light',
+    [EnumThemeTypes.DARK]: 'dark',
+    [EnumThemeTypes.DARK_BLUE]: 'darkBlue',
+    [EnumThemeTypes.BLUE]: 'blue',
+    [EnumThemeTypes.RED]: 'red',
+    [EnumThemeTypes.GREEN]: 'green',
+    [EnumThemeTypes.YELLOW]: 'yellow',
+    [EnumThemeTypes.CUSTOM]: 'custom',
 };
 
 // color option labels in the settings panel
 export const EnumSelectedThemeLabels = {
-    USE_SYSTEM_SETTING: t('Use System Setting (Desktop App and iOS only)'),
-    LIGHT: t('Light'),
-    DARK: t('Dark'),
-    DARK_BLUE: t('Dark Blue'),
-    BLUE: t('Blue'),
-    RED: t('Red'),
-    GREEN: t('Green'),
-    YELLOW: t('Yellow'),
-    CUSTOM: t('Custom color'),
+    [EnumThemeTypes.LIGHT]: t('Light'),
+    [EnumThemeTypes.DARK]: t('Dark'),
+    [EnumThemeTypes.DARK_BLUE]: t('Dark Blue'),
+    [EnumThemeTypes.BLUE]: t('Blue'),
+    [EnumThemeTypes.RED]: t('Red'),
+    [EnumThemeTypes.GREEN]: t('Green'),
+    [EnumThemeTypes.YELLOW]: t('Yellow'),
+    [EnumThemeTypes.CUSTOM]: t('Custom color'),
 };
 
 // theme color formatting properties of an application object (stored inside Metadata)
