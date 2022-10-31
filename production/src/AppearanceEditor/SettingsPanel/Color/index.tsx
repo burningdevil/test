@@ -74,12 +74,12 @@ const Color: React.FC<ColorProps> = ({ color, updateTheme }) => {
                         direction="vertical"
                         className={`${classNamePrefix}-option-group`}
                     >
-                        {Object.values(EnumThemeTypes).map((color: string) => {
+                        {Object.values(EnumThemeTypes).map((color: string) =>
                             getColorRadioOption(
                                 EnumSelectedThemes[color],
                                 EnumSelectedThemeLabels[color]
-                            );
-                        })}
+                            )
+                        )}
                     </Space>
                 </Radio.Group>
             </div>

@@ -1,4 +1,4 @@
-@import '../../../modules/components/scss/variables.scss';
+@import "../../../modules/components/scss/variables.scss";
 
 .mstr-app-theme-colors {
   font-family: $font-family;
@@ -27,12 +27,9 @@
   }
 
   &-options {
-
     .ant-radio {
       transform: scale(0.85);
     }
-
-    
 
     .color-box-wrapper {
       display: inline-flex;
@@ -48,12 +45,12 @@
         width: 18px;
 
         &.light {
-          background: #FFFFFF;
+          background: #ffffff;
           border: 1px solid rgba(41, 49, 59, 0.4);
         }
 
         &.dark {
-          color: #29313B;
+          background: #29313b;
           border: 1px solid rgba(41, 49, 59, 0.4);
         }
 
@@ -62,15 +59,15 @@
         }
 
         &.blue {
-          background: #0074E7;
+          background: #0074e7;
         }
 
         &.red {
-          background: #C90E24;
+          background: #c90e24;
         }
 
         &.yellow {
-          background: #FFBD30;
+          background: #ffbd30;
         }
 
         &.green {
@@ -85,8 +82,6 @@
         border-radius: 4px;
         margin: 0 10px 0 2px;
       }
-      
     }
-
   }
 }
