@@ -41,14 +41,12 @@ const Logos: React.FC<LogosProps> = ({ logos }) => {
     ];
 
     return (
-        <React.Fragment>
-            <div className="mstr-app-theme-logos">
-                <div className="theme-logos-title">{t('appLogoTitle')}</div>
-                {appThemeLogos.map((logo, index) => (
-                    <LogoCustomizer logo={logo} key={index} />
-                ))}
-            </div>
-        </React.Fragment>
+        <div className="mstr-app-theme-logos">
+            <div className="theme-logos-title">{t('appLogoTitle')}</div>
+            {appThemeLogos.map((logo, index) => (
+                <LogoCustomizer logo={logo} key={index} />
+            ))}
+        </div>
     );
 };
 
