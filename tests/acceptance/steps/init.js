@@ -32,10 +32,10 @@ Given('configure workstation engine test environment', async function () {
   await browser.sleep(5000)
 
   //comment out the choose project since all rhe project will be auto choosed now.
-  // for (let projectIndex = 0; projectIndex < projects.length; projectIndex++) {
-  //   await mainWindow.mainCanvas.envSection.chooseProject(projects[projectIndex])
-  // }
-  // await mainWindow.mainCanvas.envSection.clickOkToConnect()
+  for (let projectIndex = 0; projectIndex < projects.length; projectIndex++) {
+    await mainWindow.mainCanvas.envSection.chooseProject(projects[projectIndex])
+  }
+  await mainWindow.mainCanvas.envSection.clickOkToConnect()
 
   await workstationApp.sleep(2000)
   await browser.sleep(5000)
