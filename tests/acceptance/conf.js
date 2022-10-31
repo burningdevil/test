@@ -122,6 +122,8 @@ exports.config = {
         // if (OSType === 'windows') await maximizeWindowByWindowName('Workstation Main Window')
         // Initialize a CEF webview for Windows
         // For Mac, as long as the Main Window is launched, there will be Quick Search WebView
+        const killMstrService = require('./utils/wsUtils/quitBackgroundService')
+        await killMstrService()
         const initializeWebView = require('./utils/wsUtils/initializeWebView')
         await initializeWebView()
       } catch (e) {
@@ -240,6 +242,7 @@ exports.config = {
         await mainWindow.smartTab.selectTab('Environments')
         if (OSType === 'mac') {
           for (let envIndex = 0; envIndex < browser.params.envInfo.length; envIndex++) {
+            await mainWindow.mainCanvas.envSection.disconnectEnv(browser.params.envInfo[envIndex].envName)
             await mainWindow.mainCanvas.envSection.removeEnv(browser.params.envInfo[envIndex].envName)
             await mainWindow.mainCanvas.envSection.isEnvRemoved(browser.params.envInfo[envIndex].envName, 4000)
           }

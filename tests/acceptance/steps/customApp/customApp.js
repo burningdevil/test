@@ -1,6 +1,7 @@
 import { Return } from 'wd/lib/special-keys'
 import ApplicationPage from '../../pages/webPages/customApp/ApplicationPage'
 import SettingPage from '../../pages/webPages/customApp/SettingPage'
+const { expect } = require('chai')
 const { Given, When, Then, setDefaultTimeout } = require('cucumber')
 const applicationPage = new ApplicationPage()
 const settingPage = new SettingPage()
@@ -213,6 +214,56 @@ When('I check the cache setting', async function () {
     return mainWindow.app.sleep(500)
 }
 );
+
+When('I select option {string} for auth mode', async function (option) {
+    await settingPage.setAuthModeOption(option)
+    return mainWindow.app.sleep(500)
+});
+
+Then('I verify auth mode option {string} is selected', async function (option) {
+    const isChecked = await settingPage.getAuthModeSelectionCheckBoxByOption(option).isSelected()
+    expect(isChecked).to.equal(true)
+})
+
+When('I select custom auth modes {string} for auth mode', async function (options) {
+    await settingPage.setCustomAuthModes(options, false)
+    return mainWindow.app.sleep(500)
+});
+
+When('I deselect custom auth modes {string} for auth mode', async function (options) {
+    await settingPage.setCustomAuthModes(options, true)
+    return mainWindow.app.sleep(500)
+});
+
+Then('I verify auth modes {string} are selected', async function (options) {
+    const opts = options.split(',');
+    for (const opt of opts) {
+        const isChecked = await settingPage.getCheckBoxByAuthModeOption(opt).isSelected()
+        expect(isChecked).to.equal(true)
+    }
+});
+
+When('I set custom auth mode option {string} as default mode', async function (options) {
+    await settingPage.getOptionLabelByAuthModeOption(options, 'set as default').click()
+    return mainWindow.app.sleep(500)
+});
+
+Then('I verify custom auth mode option {string} is default mode', async function (option) {
+    const isDisplayed = await settingPage.getOptionLabelByAuthModeOption(option, 'default').isDisplayed()
+    expect(isDisplayed).to.equal(true)
+});
+
+Then('I verify {string} button is {string} in the tab {string}', async function (text, status, pageId) {
+    const isEnabled = await settingPage.getButtonByNameByTab(text, pageId).isEnabled()
+    expect(isEnabled).to.equal(status !== 'disabled')
+});
+
+Then('I verify auth mode of custom app {string} in detail grid is {string}', async function (name, authModes) {
+    const value = await applicationPage.getAuthModesInApplicationDetailsGridByAppName(name, authModes).getText()
+    expect(authModes === value).to.equal(true)
+});
+
+
 
 
 

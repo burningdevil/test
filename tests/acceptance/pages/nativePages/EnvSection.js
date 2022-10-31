@@ -181,10 +181,10 @@ export default class EnvSection extends RootApp {
     return this.getNativeElement({
       windows: {
         locators: [
-          { method: 'Name', value: 'Disconnect Environment' }
+          { method: 'Name', value: 'Disconnect' }
         ]
       },
-      mac: { xpath: MAC_XPATH[MAC_VIEWMODE].mainCanvas.env.envContextOption.replace(/ReplaceMe/g, 'Disconnect') }
+      mac: { xpath: MAC_XPATH[MAC_VIEWMODE].mainCanvas.contextOption.replace(/ReplaceOption/g, 'Disconnect') }
     })
   }
 
@@ -321,7 +321,17 @@ export default class EnvSection extends RootApp {
     await this.moveToAndClickAtPosition(await this.getRememberMe())
     await this.moveToAndSendKey(await this.getInputUserName(), userName)
     await this.moveToAndSendKey(await this.getInputUserPwd(), userPwd)
-    return this.moveToAndClick(await this.getLoginToConnect())
+    await this.moveToAndClick(await this.getLoginToConnect())
+    await this.nativeWaitForDisappear({
+      windows: {
+        locators: [
+          { method: 'Name', value: 'Connection' },
+          { method: 'AccessibilityId', value: 'LoadingAnimationImage' }
+        ]
+      },
+      mac: { xpath: mainCanvas.env.userName }
+    },30000, 'It is still connecting to environment in add env dialog after 30s.')
+    return  this.app.sleep(1000)
   }
 
   async chooseProject(projectName) {
@@ -353,6 +363,9 @@ export default class EnvSection extends RootApp {
       for (let i = 1; i < elm.length; i++) {
         await this.moveToAndClick(elm[i])
         await this.rightClick()
+        await this.moveToAndClick(await this.getDisconnectEnvOption())
+        await this.moveToAndClick(elm[i])
+        await this.rightClick()
         await this.moveToAndClick(await this.getRemoveEnvOption())
         this.app.sleep(1000)
       }
@@ -370,9 +383,13 @@ export default class EnvSection extends RootApp {
 
   async disconnectEnv(name) {
     const existingEnv = await this.getExistingEnv(name)
-    await this.moveToAndClick(existingEnv)
-    await this.rightClick()
-    await this.moveToAndClick(await this.getDisconnectEnvOption())
+    try {
+      await this.moveToAndClick(existingEnv)
+      await this.rightClick()
+      await this.moveToAndClick(await this.getDisconnectEnvOption())
+    } catch (err) {
+      console.log(err)
+    }
     return this.app.sleep(8000)
   }
 
