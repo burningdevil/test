@@ -322,20 +322,29 @@ export default class EnvSection extends RootApp {
     await this.moveToAndSendKey(await this.getInputUserName(), userName)
     await this.moveToAndSendKey(await this.getInputUserPwd(), userPwd)
     await this.moveToAndClick(await this.getLoginToConnect())
-    await this.nativeWaitForDisappear({
-      windows: {
-        locators: [
-          { method: 'Name', value: 'Connection' },
-          { method: 'AccessibilityId', value: 'LoadingAnimationImage' }
-        ]
-      },
-      mac: { xpath: mainCanvas.env.userName }
-    },30000, 'It is still connecting to environment in add env dialog after 30s.')
+    // await this.nativeWaitForDisappear({
+    //   windows: {
+    //     locators: [
+    //       { method: 'Name', value: 'Connection' },
+    //       { method: 'AccessibilityId', value: 'LoadingAnimationImage' }
+    //     ]
+    //   },
+    //   mac: { xpath: mainCanvas.env.userName }
+    // },120000, 'It is still connecting to environment in add env dialog after 30s.')
     return  this.app.sleep(1000)
   }
 
   async chooseProject(projectName) {
     // select application
+    await this.nativeWaitFor({
+      windows: {
+        locators: [
+          { method: 'Name', value: 'Select Projects' },
+          { method: 'Name', value: projectName }
+        ]
+      },
+      mac: { xpath: mainCanvas.env.selectProject.replace(/ReplaceProjectName/g, projectName) }
+    },120000, 'It is still connecting to environment in add env dialog after 120s.')
     await this.moveToAndClick(await this.getProjectByName(projectName))
     await this.moveToAndClickAtPosition(await this.getRememberProjectSelections())
     return this.app.sleep(100)
