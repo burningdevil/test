@@ -31,11 +31,8 @@ type ColorProps = {
 
 const Color: React.FC<ColorProps> = ({ color, updateTheme }) => {
     const { selectedTheme = '', formatting = null } = color || {};
-    const [selectedThemeColor, setSelectedThemeColor] =
-        React.useState(selectedTheme);
 
     const onColorChange = (selectedTheme: string) => {
-        setSelectedThemeColor(selectedTheme);
         if (!isCustomColorTheme(selectedTheme)) {
             const colorObj: any = {
                 color: { selectedTheme },
@@ -67,7 +64,7 @@ const Color: React.FC<ColorProps> = ({ color, updateTheme }) => {
             </div>
             <div className={`${classNamePrefix}-options`}>
                 <Radio.Group
-                    value={selectedThemeColor}
+                    value={selectedTheme}
                     onChange={(e) => onColorChange(e.target.value)}
                 >
                     <Space

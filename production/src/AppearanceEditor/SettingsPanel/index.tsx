@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { ApplicationTheme } from '../../types/data-model/HomeScreenConfigModels';
 import Logos from './Logos';
 import Color from './Color';
 import './styles.scss';
