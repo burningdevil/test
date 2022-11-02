@@ -38,7 +38,7 @@ export function validateScheme(name: string) {
 export function validateEmail(email: string) 
 {   // email can be set empty
     if(!email) return true;
-    const re = /\S+@\S+\.\S+/; // NOSONAR
+    const re = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/; // NOSONAR
     return re.test(email);
 }
 export function validEmailName(name: string) {

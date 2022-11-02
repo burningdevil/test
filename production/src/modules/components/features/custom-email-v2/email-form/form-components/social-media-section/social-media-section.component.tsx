@@ -75,7 +75,7 @@ const SocialMediaSection: React.FC<SocialMediaSectionInput> = (props: SocialMedi
                         placeholder = {placeholder}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                             cb_link(e.target.value);
-                            _.set(stateData, propertyPath, linkPrefix + e.target.value);
+                            _.set(stateData, propertyPath, linkPrefix + _.escape(e.target.value));
                             dispatch(
                                 Actions.updateCurrentConfig({
                                     emailSettings: stateData
