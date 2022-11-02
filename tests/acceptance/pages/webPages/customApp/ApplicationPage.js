@@ -50,6 +50,10 @@ export default class ApplicationPage extends BasePage {
     return this.element(by.xpath(`//span[@class='ag-header-cell-text' and text()='${columnname}']`))
   }
 
+  getAuthModesInApplicationDetailsGridByAppName(name) {
+    return this.element(by.xpath(`//span[@class='home-screen-main-application-name-text' and text() = '${name}']//ancestor::div[@role='row']//div[@class='home-screen-main-auth-mode']//span`))
+  }
+
 
   // return: none, ascending, descending
   /*
@@ -95,7 +99,7 @@ export default class ApplicationPage extends BasePage {
   }
 
   getSettingSection(setting) {
-    return this.getSettingsPanel().$$('.mstr-filter-item-row-label').elemennt(by.cssContainingText('.mstr-filter-item-row-text', setting))
+    return this.getSettingsPanel().$$('.mstr-filter-item-row-label').element(by.cssContainingText('.mstr-filter-item-row-text', setting))
   }
 
   getSettingsCheckedStatus(setting) {

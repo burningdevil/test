@@ -103,6 +103,10 @@ export default class SettingPage extends BasePage {
     return this.element(by.xpath(`//div[@id='rc-tabs-0-panel-${pageId}']//span[text()='Save']`))
   }
 
+  getButtonByNameByTab(name, tab) {
+    return this.element(by.xpath(`//div[@id='rc-tabs-0-panel-${tab}']//span[text()='${name}']//ancestor::button`))
+  }
+
   getCancelButton(pageId) {
     // return this.$('.home-screen-editor-layout-btn').element(by.cssContainingText('.ant-btn', 'Cancel'))
     //return this.$$('.ant-btn').filter(async (elem) => {
@@ -181,6 +185,32 @@ export default class SettingPage extends BasePage {
   getAddCustomColorPalettesWindow() {
     return this.element(by.xpath(`//div[@class='ant-modal-title' and text()='Add Custom Color Palettes']`))
   }
+
+  getAuthModeSelectionOption(text) {
+    return this.element(by.xpath(`//div[@class='custom-auth-form-content']//span[text()='${text}']`))
+  }
+
+  getAuthModeSelectionCheckBoxByOption(text) {
+    return this.element(by.xpath(`//div[@class='custom-auth-form-content']//span[text()='${text}']/preceding-sibling::span//input`))
+  }
+
+  getCustomAuthModeOption(text) {
+    return this.element(by.xpath(`//div[@class='custom-auth-form-option-container']//span[text()='${text}']`))
+  }
+
+  getCustomAuthModeOptionRow(text) {
+    return this.element(by.xpath(`//div[@class='custom-auth-form-option-container']//span[text()='${text}']//ancestor::div[@class='option-row']`))
+  }
+
+  getOptionLabelByAuthModeOption(option, label) {
+    return this.element(by.xpath(`//div[@class='custom-auth-form-option-container']//span[text()='${option}']//ancestor::div[@class='option-row']//span[text()='${label}']`))
+  }
+
+  getCheckBoxByAuthModeOption(text) {
+    return this.element(by.xpath(`//div[@class='custom-auth-form-option-container']//span[text()='${text}']//ancestor::div[@class='option-row']//input`))
+  }
+
+
 
   // actions
   // for WebView management
@@ -375,6 +405,20 @@ export default class SettingPage extends BasePage {
 
   async conformInColorPaletteEditor() {
     await this.getOKButtonInColorPaletteEditor().click()
+    await browser.sleep(2000 * this.ratio)
+  }
+
+  async setAuthModeOption(option) {
+    await this.getAuthModeSelectionOption(option).click()
+    await browser.sleep(2000 * this.ratio)
+  }
+
+  async setCustomAuthModes(options, flag) {
+    const opts = options.split(',');
+    for (const opt of opts) {
+      const isChecked = await this.getCheckBoxByAuthModeOption(opt).isSelected()
+      if (isChecked === flag) await this.getCustomAuthModeOption(opt).click();
+    }
     await browser.sleep(2000 * this.ratio)
   }
 }

@@ -15,6 +15,7 @@ Given('configure workstation engine test environment', async function () {
 
   try {
     if (OSType === 'mac') {
+      await mainWindow.mainCanvas.envSection.disconnectEnv(envName)
       await mainWindow.mainCanvas.envSection.removeEnv(envName)
     } else {
       await mainWindow.mainCanvas.envSection.removeAllEnv()
