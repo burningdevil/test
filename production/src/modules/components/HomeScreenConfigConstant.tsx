@@ -503,7 +503,7 @@ export const customEmailStringDict = {
             'tooltip': t('notificationReminderTooltip'),
             'labelReminder': t('reminder'),
             'reminderLinkText': t('reminderLinkText'),
-            'defaultReminderLinkText': t('defaultReminderLinkText'),
+            'defaultReminderLinkText': 'View Notification Center',
             'defaultReminder': 'Since you last checked, {&NewNotificationCount} notification has been sent to you.',
             'reminderMacroTip': t('reminderMacroTip'),
             'notificationMsgTip': t('notificationMsgTip'),
