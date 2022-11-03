@@ -36,7 +36,9 @@ $content-height: 816px;
 $settings-panel-width: 505px;
 $preview-panel-width: 935px;
 
-$settings-panel-padding: 24px 39px 176px 24px;
+$settings-panel-padding-right: 39px;
+$settings-panel-padding-left: 24px;
+$settings-panel-padding: 24px $settings-panel-padding-right 176px $settings-panel-padding-left;
 $settings-panel-title-subtitle-color: #4A4A4A;
 $settings-panel-logo-box-border-color: #F2F3F5;
 $settings-panel-btn-bg-color: #3492ED;

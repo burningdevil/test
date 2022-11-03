@@ -1,0 +1,55 @@
+@import "../../../../modules/components/scss/variables.scss";
+
+$color-editor-font-size: 11px;
+
+.mstr-app-theme-color-prop-editor {
+  width: #{$settings-panel-width - $settings-panel-padding-right - $settings-panel-padding-left - 22.6px};
+
+  .color-prop-list {
+
+    .ant-col.in-focus{
+      background: #F3F3F3;
+      mix-blend-mode: multiply;
+    }
+    
+    .color-prop-item {
+      height: 58px;
+
+      .ant-form-item-label {
+        width: 100%;
+        font-weight: 400;
+        padding: 7px 0 5px;
+
+        label {
+          font-family: $font-family;
+          font-size: $color-editor-font-size;
+        }
+      }
+
+      .color-prop-item-content {
+        display: flex;
+        align-items: center;
+        border: 1px solid rgba(87, 90, 93, 0.1);
+        border-radius: 2px;
+        width: 90%;
+        padding: 4px;
+
+        .color-box {
+          height: 20px;
+          width: 20px;
+          border: 0.5px solid #E0E4E7;
+          border-radius: 1px;
+        }
+
+        .color-value-input {
+          width: 72px;
+          height: 13px;
+          margin: 0 9px 0 6px;
+          font-size: $color-editor-font-size;
+          padding: 0;
+        }
+      }
+
+    }
+  }
+}

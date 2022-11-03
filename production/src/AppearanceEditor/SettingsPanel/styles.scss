@@ -5,6 +5,7 @@
   width: $settings-panel-width;
   padding: $settings-panel-padding;
   background: $white;
+  overflow: scroll;
 
   .mstr-divider {
     margin: 20px 0 8px;

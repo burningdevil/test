@@ -12,11 +12,14 @@ import {
     EnumSelectedThemes,
     EnumSelectedThemeLabels,
     isCustomColorTheme,
+    prefinedColorSets,
+    isPredefinedColorTheme,
 } from '../../utils/appThemeColorHelper';
 import { selectCurrentThemeColor } from '../../../store/selectors/AppearanceEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import { t } from '../../../i18n/i18next';
 import './styles.scss';
+import ColorPropEditor from './ColorPropEditor';
 
 const classNamePrefix = 'mstr-app-theme-colors';
 const colorBoxClassNamePrefix = 'color-box';
@@ -30,26 +33,36 @@ type ColorProps = {
 };
 
 const Color: React.FC<ColorProps> = ({ color, updateTheme }) => {
-    const { selectedTheme = '', formatting = null } = color || {};
+    const { selectedTheme = '' } = color || {};
+    const [isColorPropEditorOpen, setIsColorPropEditorOpen] = React.useState(isCustomColorTheme(selectedTheme));
+
+    React.useEffect(() => {
+        setIsColorPropEditorOpen(isCustomColorTheme(selectedTheme));
+    }, [color]);
 
     const onColorChange = (selectedTheme: string) => {
-        if (!isCustomColorTheme(selectedTheme)) {
-            const colorObj: any = {
-                color: { selectedTheme },
-            };
-            updateTheme(colorObj);
-        }
+        const colorObj: any = { color: { selectedTheme, formatting: null } };
+        if (isCustomColorTheme(selectedTheme)) {
+            colorObj.color.formatting = prefinedColorSets[isPredefinedColorTheme(color.selectedTheme) ? color.selectedTheme : EnumSelectedThemes.RED]
+            setIsColorPropEditorOpen(true);
+        } 
+        updateTheme(colorObj);
     };
 
     const getColorRadioOption = (value: string, label: string) => (
         <Radio className={`${classNamePrefix}-option`} value={value}>
-            <div className={`${colorBoxClassNamePrefix}-wrapper`}>
-                <div
-                    className={classnames(colorBoxClassNamePrefix, value)}
-                ></div>
-                <div className={`${colorBoxClassNamePrefix}-label`}>
-                    {label}
+            <div className={`${classNamePrefix}-option-content`}>
+                <div className={`${colorBoxClassNamePrefix}-wrapper`}>
+                    <div
+                        className={classnames(colorBoxClassNamePrefix, value)}
+                    ></div>
+                    <div className={`${colorBoxClassNamePrefix}-label`}>
+                        {label}
+                    </div>
                 </div>
+                { (isCustomColorTheme(value) && isColorPropEditorOpen) ? (
+                    <ColorPropEditor />
+                ) : null}
             </div>
         </Radio>
     );

@@ -1,3 +1,4 @@
+import { ThemeColorFormats } from 'src/types/data-model/HomeScreenConfigModels';
 import { t } from '../../i18n/i18next';
 
 // all the available Theme Color
@@ -11,7 +12,7 @@ export const EnumThemeTypes = {
     RED: 'RED',
     GREEN: 'GREEN',
     YELLOW: 'YELLOW',
-    CUSTOM: 'CUSTOM'
+    CUSTOM: 'CUSTOM',
 };
 
 export const EnumSelectedThemes = {
@@ -38,7 +39,7 @@ export const EnumSelectedThemeLabels = {
 };
 
 // theme color formatting properties of an application object (stored inside Metadata)
-const EnumFormattingPropNames = {
+export const EnumFormattingPropNames = {
     toolbarFill: 'toolbarFill',
     toolbarColor: 'toolbarColor',
 
@@ -59,7 +60,7 @@ const EnumFormattingPropNames = {
 };
 
 // color set for library predefined themes, coming from UX
-const prefinedColorSets = {
+export const prefinedColorSets = {
     [EnumSelectedThemes.RED]: {
         [EnumFormattingPropNames.toolbarFill]: '#C90E24',
         [EnumFormattingPropNames.toolbarColor]: '#FFEAEA',
@@ -176,5 +177,52 @@ const prefinedColorSets = {
     },
 };
 
-export const isCustomColorTheme = (theme: string) => theme === EnumSelectedThemes.CUSTOM
-    
+export const colorPropTitles = [
+    [EnumFormattingPropNames.toolbarFill, 'Toolbar BG'],
+    [EnumFormattingPropNames.toolbarColor, 'Toolbar Icon'],
+
+    [EnumFormattingPropNames.sidebarFill, 'Sidebar BG'],
+    [EnumFormattingPropNames.sidebarColor, 'Sidebar Text'],
+
+    [EnumFormattingPropNames.sidebarActiveFill, 'Sidebar Active'],
+    [EnumFormattingPropNames.sidebarActiveColor, 'Sidebar Active Text'],
+
+    [EnumFormattingPropNames.panelFill, 'Panel BG'],
+    [EnumFormattingPropNames.panelColor, 'Panel Text'],
+
+    [EnumFormattingPropNames.accentFill, 'Accent Color'],
+
+    [EnumFormattingPropNames.buttonColor, 'Button Text'],
+
+    [EnumFormattingPropNames.notificationBadgeFill, 'Notification Badge'],
+];
+
+export const isCustomColorTheme = (theme: string) =>
+    theme === EnumSelectedThemes.CUSTOM;
+
+export const isPredefinedColorTheme = (theme: string) =>
+    [
+        EnumSelectedThemes.DARK_BLUE,
+        EnumSelectedThemes.BLUE,
+        EnumSelectedThemes.YELLOW,
+        EnumSelectedThemes.RED,
+        EnumSelectedThemes.GREEN,
+        EnumSelectedThemes.DARK
+    ].some((t) => theme === t);
+
+export const getPredefinedThemeColorFormat = (
+    theme: string
+): ThemeColorFormats => ({
+    toolbarFill: prefinedColorSets[theme].toolbarFill,
+    toolbarColor:
+        prefinedColorSets[theme][EnumFormattingPropNames.toolbarColor],
+    sidebarFill: prefinedColorSets[theme].sidebarFill,
+    sidebarColor: prefinedColorSets[theme].sidebarColor,
+    sidebarActiveFill: prefinedColorSets[theme].sidebarActiveFill,
+    sidebarActiveColor: prefinedColorSets[theme].sidebarActiveColor,
+    panelFill: prefinedColorSets[theme].panelFill,
+    panelColor: prefinedColorSets[theme].panelColor,
+    accentFill: prefinedColorSets[theme].accentFill,
+    buttonColor: prefinedColorSets[theme].buttonColor,
+    notificationBadgeFill: prefinedColorSets[theme].notificationBadgeFill,
+});
