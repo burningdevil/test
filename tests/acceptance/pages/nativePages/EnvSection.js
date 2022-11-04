@@ -331,7 +331,7 @@ export default class EnvSection extends RootApp {
     //   },
     //   mac: { xpath: mainCanvas.env.userName }
     // },120000, 'It is still connecting to environment in add env dialog after 30s.')
-    return  this.app.sleep(1000)
+    return this.app.sleep(1000)
   }
 
   async chooseProject(projectName) {
@@ -344,7 +344,7 @@ export default class EnvSection extends RootApp {
         ]
       },
       mac: { xpath: mainCanvas.env.selectProject.replace(/ReplaceProjectName/g, projectName) }
-    },120000, 'It is still connecting to environment in add env dialog after 120s.')
+    }, 120000, 'It is still connecting to environment in add env dialog after 120s.')
     await this.moveToAndClick(await this.getProjectByName(projectName))
     await this.moveToAndClickAtPosition(await this.getRememberProjectSelections())
     return this.app.sleep(100)
@@ -370,9 +370,9 @@ export default class EnvSection extends RootApp {
       elm = await elm.elementByClassName(`EnvIconBrowsingUserControl`)
       elm = await elm.elementsByClassName(`ListBoxItem`)
       for (let i = 1; i < elm.length; i++) {
-        await this.moveToAndClick(elm[i])
-        await this.rightClick()
-        await this.moveToAndClick(await this.getDisconnectEnvOption())
+        // await this.moveToAndClick(elm[i])
+        // await this.rightClick()
+        // await this.moveToAndClick(await this.getDisconnectEnvOption())
         await this.moveToAndClick(elm[i])
         await this.rightClick()
         await this.moveToAndClick(await this.getRemoveEnvOption())
