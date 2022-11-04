@@ -7,7 +7,8 @@ import * as _ from 'lodash'
 const initialState: AppearanceEditorState = {
   theme: {
     schemaVersion: 1,
-    logos: {}
+    logos: {},
+    color: {}
   }
 }
 

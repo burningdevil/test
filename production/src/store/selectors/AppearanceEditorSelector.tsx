@@ -7,3 +7,13 @@ export const selectAppearanceEditorTheme = createSelector(
   selectAppearanceEditorRoot,
   (appearanceEditorRoot) => appearanceEditorRoot.theme
 )
+
+export const selectCurrentThemeLogos = createSelector(
+  selectAppearanceEditorTheme,
+  (theme) => theme.logos || {}
+)
+
+export const selectCurrentThemeColor = createSelector(
+  selectAppearanceEditorTheme,
+  (theme) => theme.color || {}
+)
