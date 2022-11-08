@@ -69,12 +69,6 @@ const CustomEmailForm: React.FC<any> = (props: any) => {
         {'key': 'browserButtonStyle', 'error': false, 'dependency': stateData?.button?.browserButtonStyle?.text},
         {'key': 'mobileButtonStyle', 'error': false, 'dependency': stateData?.button?.mobileButtonStyle?.text},
     ];
-    // React.useEffect(() => { 
-    //     const handle = (_e: any) => {
-    //     } 
-    //     window.addEventListener('scroll',handle);
-    //     return () => window.removeEventListener('scroll', handle)
-    //   }, []);
     React.useEffect(()=> {
         let errorCnt = 0;
         formArray.forEach(form => {
