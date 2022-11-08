@@ -14,11 +14,11 @@ const CustomEmailBladeV2: React.FC<any> = (props: any) => {
     return (
         <Layout className={`${classNamePrefix}`}>
             <Layout.Content className={openPreview ? `${classNamePrefix}-left` : `${classNamePrefix}-left pr30`}>
-                <CustomEmailForm env = {props.env}/>
+                <CustomEmailForm env = {props.env} isPreviewOpen = {openPreview}/>
             </Layout.Content>
             {/**preview control */}
             <div className = {`${classNamePrefix}-previewBtn`} onClick = {() => {setPreview(!openPreview)}}>
-                <CaretRightOutlined rotate={openPreview ? 180 : 0} />
+                <CaretRightOutlined rotate={openPreview ? 0 : 180} />
                 <span>{localizedStrings.PREVIEW}</span>
             </div>
             {/* previewer */}

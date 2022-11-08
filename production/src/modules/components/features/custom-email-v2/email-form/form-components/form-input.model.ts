@@ -1,4 +1,4 @@
-import { CustomEmailSettingType, ActionButtonInterface } from "src/types/data-model/HomeScreenConfigModels";
+import { CustomEmailSettingType, ActionButtonInterface, MobileButtonLinkEnum } from "src/types/data-model/HomeScreenConfigModels";
 
 export interface FormInputModel {
     label: string, 
@@ -14,7 +14,8 @@ export interface FormInputModel {
     isNotEncode?: boolean, 
     tooltipStr?: any,
     stateData?: CustomEmailSettingType,
-    validate?: Function
+    validate?: Function,
+    disabled?: boolean;
 }
 export interface FormBtnColorInputModel {
     label: string, 
@@ -33,6 +34,7 @@ export interface FormBtnColorInputModel {
 export interface FormMobileButtonLinkInputModel {
     label: string, 
     value: string, 
+    linkType: MobileButtonLinkEnum,
     cb: Function, 
     elementId: keyof CustomEmailSettingType | string, 
     placeholder: string, 

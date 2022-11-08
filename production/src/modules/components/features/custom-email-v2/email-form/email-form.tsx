@@ -10,7 +10,7 @@ import * as Actions from '../../../../../store/actions/ActionsCreator';
 import { default as VC, customEmailStringDict, localizedStrings } from '../../../HomeScreenConfigConstant';
 const classNamePrefix = 'custom-email-form-v2'
 import './email-form.scss'
-import { decodeContent, SubjectBodyEnum, validateEmail, validateHttpUrl, validEmailName } from '../custom-email.util';
+import { decodeContent, SubjectBodyEnum, validateEmail, validateHttpUrl, validateImageUrl, validEmailName } from '../custom-email.util';
 import { DEFAULT_EMAIL_SETTING } from '../../../../../store/reducers/HomeScreenConfigEditorReducer';
 import * as _ from 'lodash';
 import MacroEditor from '../macro-editor/macro-editor';
@@ -26,7 +26,8 @@ const CustomEmailForm: React.FC<any> = (props: any) => {
     // let stateData: CustomEmailSettingType = useSelector(selectCustomizeEmailSetting) ?? JSON.parse(JSON.stringify(DEFAULT_EMAIL_SETTING)) as CustomEmailSettingType;
     let stateData: CustomEmailSettingType = useSelector(selectCustomizeEmailSetting) ?? {} as CustomEmailSettingType;
     const dispatch = useDispatch();
-    const {env} = props;
+    const {env, isPreviewOpen} = props;
+    const actionButtonRef = React.useRef();
     const [enableCustomEmail, setEnableCustomEmail] = useState(stateData.enabled);
     // logo
     const [showImage, setShowImage] = useState(stateData.showBrandingImage);
@@ -68,6 +69,12 @@ const CustomEmailForm: React.FC<any> = (props: any) => {
         {'key': 'browserButtonStyle', 'error': false, 'dependency': stateData?.button?.browserButtonStyle?.text},
         {'key': 'mobileButtonStyle', 'error': false, 'dependency': stateData?.button?.mobileButtonStyle?.text},
     ];
+    // React.useEffect(() => { 
+    //     const handle = (_e: any) => {
+    //     } 
+    //     window.addEventListener('scroll',handle);
+    //     return () => window.removeEventListener('scroll', handle)
+    //   }, []);
     React.useEffect(()=> {
         let errorCnt = 0;
         formArray.forEach(form => {
@@ -166,6 +173,7 @@ const CustomEmailForm: React.FC<any> = (props: any) => {
                                 <MacroEditor
                                     defaultValue={value}
                                     isMultiContent={true}
+                                    isPreviewOpen = {isPreviewOpen}
                                     reset = {resetSubAndBody}
                                     availableMacros = {availableMacros}
                                     placeholder={placeholder}
@@ -246,6 +254,7 @@ const CustomEmailForm: React.FC<any> = (props: any) => {
                 {
                     showInfo && <Tooltip
                     title={tooltip}
+                    getPopupContainer={triggerNode => triggerNode.parentNode}
                     placement='rightTop'
                 >
                     <span className={VC.FONT_MSG_INFO}> </span>
@@ -302,17 +311,17 @@ const CustomEmailForm: React.FC<any> = (props: any) => {
                 >
                     {/* Subject and body section */}
                     <Panel extra = {renderExtraHeader(true, true, 'content', resetSubject, subjectTooltip)} header={customEmailStringDict.formGroup.subjectAndBody.title} key="1" className="site-collapse-custom-panel">
-                        <SubSection {...{sectionObj: customEmailStringDict.formGroup.subjectAndBody.subsection1, stateKey: SubjectBodyEnum.SHARE_DOSSIER, value1: shareDossierSub, cb1: setShareDossierSub, value2: shareDossierBody, cb2: setShareDossierBody, stateData: stateData, resetSubAndBody: resetSubAndBody, availableMacros: [Macros.DOSSIER_NAME, Macros.RECIPIENT_NAME, Macros.SENDER_NAME]}}
+                        <SubSection {...{sectionObj: customEmailStringDict.formGroup.subjectAndBody.subsection1, stateKey: SubjectBodyEnum.SHARE_DOSSIER, value1: shareDossierSub, cb1: setShareDossierSub, value2: shareDossierBody, cb2: setShareDossierBody, stateData: stateData, resetSubAndBody: resetSubAndBody, availableMacros: [Macros.DOSSIER_NAME, Macros.RECIPIENT_NAME, Macros.SENDER_NAME], isPreviewOpen: isPreviewOpen}}
                         ></SubSection>
                         <SubSection {...{
-                            sectionObj: customEmailStringDict.formGroup.subjectAndBody.subsection2, stateKey: SubjectBodyEnum.SHARE_BOOKMARK, value1: shareBookmarkSub, cb1: setShareBookmarkSub, value2: shareBookmarkBody, cb2: setShareBookmarkBody, stateData: stateData, resetSubAndBody: resetSubAndBody, availableMacros: [Macros.DOSSIER_NAME, Macros.RECIPIENT_NAME, Macros.SENDER_NAME, Macros.BOOKMARK_COUNT]}}
+                            sectionObj: customEmailStringDict.formGroup.subjectAndBody.subsection2, stateKey: SubjectBodyEnum.SHARE_BOOKMARK, value1: shareBookmarkSub, cb1: setShareBookmarkSub, value2: shareBookmarkBody, cb2: setShareBookmarkBody, stateData: stateData, resetSubAndBody: resetSubAndBody, availableMacros: [Macros.DOSSIER_NAME, Macros.RECIPIENT_NAME, Macros.SENDER_NAME, Macros.BOOKMARK_COUNT], isPreviewOpen: isPreviewOpen}}
                         ></SubSection>
                         <SubSection 
-                            {...{sectionObj: customEmailStringDict.formGroup.subjectAndBody.subsection3, stateKey: SubjectBodyEnum.MEMBER_ADDED, value1: memberAddedSub, cb1: setMemberAddedSub, value2: memberAddedBody, cb2: setMemberAddedBody, stateData: stateData, resetSubAndBody: resetSubAndBody, availableMacros: [Macros.SENDER_NAME, Macros.RECIPIENT_NAME]}}
+                            {...{sectionObj: customEmailStringDict.formGroup.subjectAndBody.subsection3, stateKey: SubjectBodyEnum.MEMBER_ADDED, value1: memberAddedSub, cb1: setMemberAddedSub, value2: memberAddedBody, cb2: setMemberAddedBody, stateData: stateData, resetSubAndBody: resetSubAndBody, availableMacros: [Macros.SENDER_NAME, Macros.RECIPIENT_NAME], isPreviewOpen: isPreviewOpen}}
                         ></SubSection>
                         <SubSection 
                             {...{sectionObj: customEmailStringDict.formGroup.subjectAndBody.subsection4, stateKey: SubjectBodyEnum.USER_MENTION, value1: userMentionSub, cb1: setUserMentionSub, value2: userMentionBody, cb2: setUserMentionBody, stateData: stateData, resetSubAndBody: resetSubAndBody,
-                            availableMacros: [Macros.MENTION_TARGET, Macros.RECIPIENT_NAME, Macros.SENDER_NAME, Macros.DOSSIER_NAME]}}
+                            availableMacros: [Macros.MENTION_TARGET, Macros.RECIPIENT_NAME, Macros.SENDER_NAME, Macros.DOSSIER_NAME], isPreviewOpen: isPreviewOpen}}
                         ></SubSection>
                     </Panel>
                     {/* Sender section */}
@@ -323,11 +332,11 @@ const CustomEmailForm: React.FC<any> = (props: any) => {
                     {/* Image section */}
                     <Panel extra = {renderExtraHeader(false, true, 'brandingImage', resetBrandImage)} header={customEmailStringDict.formGroup.image.brandImageTitle} key="3" className="site-collapse-custom-panel">
                         <FormSwitch {...{label: customEmailStringDict.formGroup.image.brandImageLabel, value: showImage, cb: setShowImage, elementId: 'showBrandingImage', stateData: stateData}}/>
-                        {showImage && <FormInput {...{'label': customEmailStringDict.formGroup.image.brandImageUrl, 'value': imageUrl, 'cb': setImageUrl,'elementId': 'brandingImage','placeholder': '', 'propertyPath': 'brandingImage.url', 'tooltip': false, 'enableValidate': true, 'errorMessage': customEmailStringDict.formGroup.actionButton.hostInvalidTip, 'validateCb': validateHttpUrl, 'isNotEncode': false, 'validate': validate, 'stateData': stateData}}></FormInput>}
+                        {showImage && <FormInput {...{'label': customEmailStringDict.formGroup.image.brandImageUrl, 'value': imageUrl, 'cb': setImageUrl,'elementId': 'brandingImage','placeholder': '', 'propertyPath': 'brandingImage.url', 'tooltip': false, 'enableValidate': true, 'errorMessage': customEmailStringDict.formGroup.actionButton.hostInvalidTip, 'validateCb': validateImageUrl, 'isNotEncode': false, 'validate': validate, 'stateData': stateData}}></FormInput>}
                     </Panel>
                     {/* Action button section */}
-                    <Panel header={customEmailStringDict.formGroup.actionButton.title} key="4" className="site-collapse-custom-panel">
-                        <ActionButtonSection {...{env: env, stateData: stateData, validate: validate}}/>
+                    <Panel extra = {renderExtraHeader(false, true, 'button', () => { actionButtonRef?.current?.reset()})} header={customEmailStringDict.formGroup.actionButton.title} key="4" className="site-collapse-custom-panel">
+                        <ActionButtonSection ref ={actionButtonRef} {...{env: env, stateData: stateData, validate: validate}}/>
                     </Panel>
                     <Panel extra = {renderExtraHeader(true, true, 'reminder', resetReminder, notificationTooltip)} header={customEmailStringDict.formGroup.notificationReminder.title} key="5" className="site-collapse-custom-panel">
                         <FormSwitch {...{label: customEmailStringDict.formGroup.notificationReminder.label, value: showReminder, cb: setShowReminder, elementId: 'showReminder', stateData: stateData}}/>

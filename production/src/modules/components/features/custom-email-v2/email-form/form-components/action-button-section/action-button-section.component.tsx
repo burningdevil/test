@@ -5,7 +5,7 @@ import { Input } from '@mstr/rc';
 import { Select } from 'antd';
 import * as Actions from '../../../../../../../store/actions/ActionsCreator';
 import { CustomEmailSettingType, MobileButtonLinkEnum } from '../../../../../../../../src/types/data-model/HomeScreenConfigModels';
-import { PRIMARY_BLUE_HEX_COLOR, validateHttpUrl, validateScheme, WHITE_HEX_COLOR } from '../../../custom-email.util';
+import { PRIMARY_BLUE_HEX_COLOR, validateHttpUrl, validatePortalUrl, validateScheme, WHITE_HEX_COLOR } from '../../../custom-email.util';
 import { FormMobileButtonLinkInputModel } from '../form-input.model';
 import * as _ from 'lodash';
 import { customEmailStringDict, CUSTOM_EMAIL_HOST_PORTAL_HELP_LINK } from '../../../../../HomeScreenConfigConstant';
@@ -13,6 +13,9 @@ import OverflowText from '../../../../../../../../src/modules/components/common-
 import FormInput from '../form-input/form-input.component';
 import FormBtnColor from '../form-btn-color/form-btn-color.component';
 import FormSwitch from '../form-switch/form-switch.component';
+import { DEFAULT_EMAIL_SETTING } from '../../../../../../../../src/store/reducers/HomeScreenConfigEditorReducer';
+import * as api from '../../../../../../../services/Api';
+import { awaitWrap } from '../../../../../../../../src/modules/components/views/HomeScreenUtils';
 const classNamePrefix = 'custom-email-form-v2'
 const { Option } = Select;
 const { TextArea} = Input;
@@ -20,9 +23,10 @@ interface ActionButtonSectionInput {
     env: any;
     validate: Function;
     stateData: CustomEmailSettingType;
+    ref?: any;
 }
-const ActionButtonSection: React.FC<ActionButtonSectionInput> = (props: ActionButtonSectionInput
-    ) => {
+const ActionButtonSection: React.FC<ActionButtonSectionInput> = React.forwardRef((props: ActionButtonSectionInput
+    , ref ) => {
         const dispatch = useDispatch();
         const {env, validate, stateData} = props;
         // action button
@@ -40,6 +44,68 @@ const ActionButtonSection: React.FC<ActionButtonSectionInput> = (props: ActionBu
         const [button2BgColor, setButton2BgColor] =  useState(stateData?.button?.mobileButtonStyle?.backgroundColor ?? PRIMARY_BLUE_HEX_COLOR);
         const [showDescription, setShowDescription] = useState(Reflect.has(stateData, 'showButtonDescription') ? stateData.showButtonDescription : stateData.showBrowserButton && stateData.showMobileButton);
         const [actionDescription, setActionDescription]= useState(stateData?.button?.description ?  _.unescape(stateData?.button?.description) : customEmailStringDict.formGroup.actionButton.descriptionDefaultStr);
+        
+        const [isWhiteListRequestLoaded, setWhiteListRequestLoaded] = useState(false);
+        const [whiteListUrls, setWhiteListUrls] = useState([]);
+        const [allowAllOrigins, setAllowAllOrigins] =  useState(false);
+        React.useImperativeHandle(ref, () => ({
+
+            reset() {
+                
+                _.set(stateData, 'showBrowserButton', true);
+                _.set(stateData, 'showMobileButton', true);
+                _.set(stateData, 'showButtonDescription', true);
+                _.set(stateData, 'hostPortal', '');
+                _.set(stateData, 'button', JSON.parse(JSON.stringify(DEFAULT_EMAIL_SETTING['button'])));
+                dispatch(
+                    Actions.updateCurrentConfig({
+                        emailSettings: stateData
+                    })
+                )
+                // update local state
+                setShowButton1(true);
+                setShowButton2(true);
+                setShowDescription(true);
+                setButton1Text(stateData?.button?.browserButtonStyle?.text);
+                setButton1FontColor(stateData?.button?.browserButtonStyle?.fontColor);
+                setButton1BgColor(stateData?.button?.browserButtonStyle?.backgroundColor);
+                setHostWebPortal(stateData.hostPortal);
+                setMobileBtnLinkType(stateData?.button?.mobileButtonLinkType);
+                setMobileButtonScheme(stateData?.button?.mobileButtonScheme);
+                setButton2Text(stateData?.button?.mobileButtonStyle?.text);
+                setButton2FontColor(stateData?.button?.mobileButtonStyle?.fontColor);
+                setButton2BgColor(stateData?.button?.mobileButtonStyle?.backgroundColor);
+                setActionDescription(stateData?.button?.description);
+
+            }
+        
+          }));
+        React.useEffect(() => {
+            if (!isWhiteListRequestLoaded) {
+                const fetchData = async () => {
+                    const [error , data] = await awaitWrap(api.fetchAllWhiteListUrls());
+                    console.log('white list urls',data);
+                    /**
+                     *  if the allowAllOrigins = true, means the security select all. All valid url pass
+                     *  allowedOrigins: the white list
+                     *  if the security select the None, the property allowedOrigins will be null. All url fail.
+                     */
+                    const allowAllOrigins = (data as any)?.allowAllOrigins;
+                    const allowedOrigins = (data as any)?.allowedOrigins;
+                    if(allowedOrigins?.length){
+                        setWhiteListUrls(allowedOrigins);
+                    }
+                    if(allowAllOrigins){
+                        setAllowAllOrigins(allowAllOrigins);
+                    }
+                    
+
+                  }
+                fetchData().catch();
+                // make sure the api request trigger only once.
+                setWhiteListRequestLoaded(true);
+            }
+        }, [])
         React.useEffect(() => {
             if(env){
                 // encapsule the default url of the mobile button link. 
@@ -77,7 +143,7 @@ const ActionButtonSection: React.FC<ActionButtonSectionInput> = (props: ActionBu
             </div>
         )
           const renderMobileButtonLink = (mobileButtonLinkInput: FormMobileButtonLinkInputModel) => {
-            const {label, value, cb, elementId, placeholder, propertyPath, enableValidate, errorMessage, validateCb} = mobileButtonLinkInput;
+            const {label, value, cb, elementId, placeholder, propertyPath, enableValidate, errorMessage, validateCb, linkType} = mobileButtonLinkInput;
             const handleChange = (val: MobileButtonLinkEnum) => {
                 setMobileBtnLinkType(val);
                 _.set(stateData, 'button.mobileButtonLinkType', val);
@@ -91,7 +157,7 @@ const ActionButtonSection: React.FC<ActionButtonSectionInput> = (props: ActionBu
                 <div className={`${classNamePrefix}-box mobile-link-box`}>
                     <span>{label}
                     </span>
-                    <Select dropdownMatchSelectWidth={130} size="small" onChange={handleChange} defaultValue= {mobileBtnLinkType} bordered={false}>
+                    <Select dropdownMatchSelectWidth={130} size="small" onChange={handleChange} defaultValue= {MobileButtonLinkEnum.DEFAULT} value = {linkType} bordered={false}>
                         <Option className = {'selection-option'} value={MobileButtonLinkEnum.DEFAULT}>{customEmailStringDict.formGroup.actionButton.scheme_default}</Option>
                         <Option value={MobileButtonLinkEnum.APP_SCHEME}>{customEmailStringDict.formGroup.actionButton.scheme_app}</Option>
                         <Option value={MobileButtonLinkEnum.UNIVERSAL_LINK}>{customEmailStringDict.formGroup.actionButton.scheme_universal}</Option>
@@ -154,17 +220,17 @@ const ActionButtonSection: React.FC<ActionButtonSectionInput> = (props: ActionBu
             {/*button 1*/}
             <FormSwitch {...{label: customEmailStringDict.formGroup.actionButton.label1, value: showButton1, cb: setShowButton1, elementId: 'showBrowserButton', stateData: stateData}}/>
             {showButton1 && <FormBtnColor {...{label: customEmailStringDict.formGroup.actionButton.button1, value: button1Text, cb: setButton1Text, elementId: 'browserButtonStyle', placeholder: customEmailStringDict.formGroup.actionButton.button1_default, fontColor: button1FontColor, fontColorCb: setButton1FontColor, bgColor: button1BgColor, bgColorCb: setButton1BgColor, validate: validate, stateData: stateData}}></FormBtnColor>}
-            {showButton1 && <FormInput {...{'label': customEmailStringDict.formGroup.actionButton.label2, 'value': hostWebPortal, 'cb': setHostWebPortal, 'elementId': 'hostPortal','placeholder': customEmailStringDict.formGroup.actionButton.placeholder, 'propertyPath': 'hostPortal', 'tooltip': true, 'enableValidate': true, 'errorMessage': customEmailStringDict.formGroup.actionButton.hostInvalidTip, 'validateCb': validateHttpUrl, 'isNotEncode': false, tooltipStr: hostTooltip, 'validate': validate, 'stateData': stateData}}></FormInput>}
+            {showButton1 && <FormInput {...{'label': customEmailStringDict.formGroup.actionButton.label2, 'value': hostWebPortal, 'cb': setHostWebPortal, 'elementId': 'hostPortal','placeholder': customEmailStringDict.formGroup.actionButton.placeholder, 'propertyPath': 'hostPortal', 'tooltip': true, 'enableValidate': true, 'errorMessage': customEmailStringDict.formGroup.actionButton.hostInvalidTip, 'validateCb': validatePortalUrl.bind(null, whiteListUrls, allowAllOrigins),disabled: !allowAllOrigins && !whiteListUrls?.length, 'isNotEncode': false, tooltipStr: hostTooltip, 'validate': validate, 'stateData': stateData}}></FormInput>}
             {/*button 2*/}
             <FormSwitch {...{label: customEmailStringDict.formGroup.actionButton.label3, value: showButton2, cb: setShowButton2, elementId: 'showMobileButton', stateData: stateData}}/>
             {showButton2 && <FormBtnColor {...{label: customEmailStringDict.formGroup.actionButton.button2, value: button2Text, cb: setButton2Text, elementId: 'mobileButtonStyle', placeholder: customEmailStringDict.formGroup.actionButton.button2_default, fontColor: button2FontColor, fontColorCb: setButton2FontColor, bgColor: button2BgColor, bgColorCb: setButton2BgColor, validate: validate, stateData: stateData}}></FormBtnColor>}
-            {showButton2 && renderMobileButtonLink({label: customEmailStringDict.formGroup.actionButton.button2Link, value: mobileButtonScheme, cb: setMobileButtonScheme, elementId: 'mobileButtonScheme', placeholder: customEmailStringDict.formGroup.actionButton.placeholder, propertyPath: 'button.mobileButtonScheme', enableValidate: true, errorMessage: customEmailStringDict.mobileLinkValidTip, validateCb: validateScheme})}
+            {showButton2 && renderMobileButtonLink({label: customEmailStringDict.formGroup.actionButton.button2Link, value: mobileButtonScheme, linkType: mobileBtnLinkType, cb: setMobileButtonScheme, elementId: 'mobileButtonScheme', placeholder: customEmailStringDict.formGroup.actionButton.placeholder, propertyPath: 'button.mobileButtonScheme', enableValidate: true, errorMessage: customEmailStringDict.mobileLinkValidTip, validateCb: validateScheme})}
             {/*button desc*/}
             <FormSwitch {...{label: customEmailStringDict.formGroup.actionButton.showDescription, value: showDescription, cb: setShowDescription, elementId: 'showButtonDescription', stateData: stateData}}/>
             {showDescription && renderTextareaSection(actionDescription,setActionDescription, customEmailStringDict.formGroup.actionButton.descriptionDefaultStr, 'button.description')}
             </>
             )
-};
+});
 
   
 

@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import { DEFAULT_EMAIL_SETTING } from '../../../../../src/store/reducers/HomeScreenConfigEditorReducer';
 import { HomeScreenConfigType } from '../../../../../src/types/data-model/HomeScreenConfigModels';
-
+var Url = require('url-parse');
 export function validateHttpUrl(url: string) {
     try {
         if (url.length > 0) {
@@ -14,6 +14,43 @@ export function validateHttpUrl(url: string) {
     }
 
     return true
+}
+export function validatePortalUrl(whitelist: string[], allowAll: boolean, url: string) {
+    try {
+        if (url.length > 0) {
+            new URL(url);
+        } else {
+            return true;
+        }
+        if(allowAll){
+            return true;
+        }else {
+            const domains = whitelist.map(v => {
+                const url = new Url(v);
+                return url?.origin;
+            })
+            const currentUrl = new Url(url);
+            return domains.includes(currentUrl?.origin) ? true : 'Not in White list';
+        }
+    } catch (err) {
+        return false;
+    }
+}
+
+export function validateImageUrl(url: string){
+    try {
+        if (url.length > 0) {
+            new URL(url);
+        } else {
+            return true;
+        }
+        // validate the suffix;
+        const imageAddr = new Url(url);
+        const pathName = imageAddr.pathname; // strip the query params;
+        return /\w.(png|jpg|jpeg|webp|gif|bmp)$/gm.test(pathName); // exclude svg
+    } catch (err) {
+        return false;
+    }
 }
 
 export const decodeContent = (v: string) => {
@@ -38,7 +75,7 @@ export function validateScheme(name: string) {
 export function validateEmail(email: string) 
 {   // email can be set empty
     if(!email) return true;
-    const re = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/; // NOSONAR
+    const re = /^\w+([.-]?\w+)@\w+([.-]?\w+)(.\w{2,4})+$/; // NOSONAR
     return re.test(email);
 }
 export function validEmailName(name: string) {
@@ -51,6 +88,9 @@ export function validEmailName(name: string) {
 export function validateEmpty(text: string) 
 {
     return text === '' ? false: true;
+}
+export function stripScripts(s: string) {
+    return s.replace(/<script([^>]*)>([\S\s]*?)<\/script\s*>/gi, '');
 }
 
 export const filterEmailConfig = (config: HomeScreenConfigType) => {

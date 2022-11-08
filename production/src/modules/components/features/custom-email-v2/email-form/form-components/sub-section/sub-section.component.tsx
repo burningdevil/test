@@ -20,13 +20,14 @@ interface SubSectionProps {
     cb2: Function, 
     availableMacros?: Macros[], 
     resetSubAndBody?: boolean,
-    stateData?: CustomEmailSettingType
+    stateData?: CustomEmailSettingType,
+    isPreviewOpen?: boolean;
   }
 const SubSection: React.FC<SubSectionProps> = (props: SubSectionProps
     ) => {
     const [needRefresh, setRefresh] = React.useState(false);   
     const dispatch = useDispatch();
-    let {stateKey, sectionObj, value1, value2, cb1, cb2, stateData, resetSubAndBody, availableMacros} = props;
+    let {stateKey, sectionObj, value1, value2, cb1, cb2, stateData, resetSubAndBody, availableMacros, isPreviewOpen} = props;
     
 
     /**
@@ -53,6 +54,7 @@ const SubSection: React.FC<SubSectionProps> = (props: SubSectionProps
                                 id = {stateKey + 'editor-sub'}
                                 defaultValue={value1}
                                 isMultiContent={false}
+                                isPreviewOpen = {isPreviewOpen}
                                 reset = {resetSubAndBody}
                                 availableMacros = {availableMacros}
                                 placeholder={decodeContent(sectionObj.placeholder1)}
@@ -85,6 +87,7 @@ const SubSection: React.FC<SubSectionProps> = (props: SubSectionProps
                                 id = {stateKey + 'editor-body'}
                                 defaultValue={value2}
                                 isMultiContent={true}
+                                isPreviewOpen = {isPreviewOpen}
                                 reset = {resetSubAndBody}
                                 isContentAdded = {needRefresh}
                                 availableMacros = {availableMacros}

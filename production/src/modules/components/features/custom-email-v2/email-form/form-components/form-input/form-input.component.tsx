@@ -12,7 +12,8 @@ const classNamePrefix = 'custom-email-form-v2'
 const FormInput: React.FC<FormInputModel> = (props: FormInputModel
     ) => {
         const dispatch = useDispatch();
-        const {label, value, cb, elementId, placeholder, propertyPath, tooltip, enableValidate, errorMessage, validateCb, isNotEncode, tooltipStr, stateData, validate} = props;
+        const {label, value, cb, elementId, placeholder, propertyPath, tooltip, enableValidate, errorMessage, validateCb, isNotEncode, tooltipStr, stateData, validate, disabled} = props;
+        const [errorMsg, setErrMsg] = React.useState(errorMessage);
         return (
             <div className={`${classNamePrefix}-box`}>
                 <span>{label}
@@ -28,12 +29,19 @@ const FormInput: React.FC<FormInputModel> = (props: FormInputModel
                     value={value}
                     onValidate={(e: string) => {
                         if(enableValidate){
-                            return validate(e, elementId, validateCb)
+                            const validAndMsg = validate(e, elementId, validateCb);
+                            if(typeof validAndMsg === 'string'){
+                                setErrMsg(validAndMsg);
+                            }else {
+                                setErrMsg(errorMessage);
+                            }
+                            return validAndMsg === true;
                         }else {
                             return true;
                         }
                     }}
-                    errorMessage={errorMessage ?? customEmailStringDict.formGroup.actionButton.hostInvalidTip}
+                    disabled = {disabled}
+                    errorMessage={errorMsg}
                     isErrorDisplayed="true"
                     autoFocus = {false}
                     maxLength={250}
