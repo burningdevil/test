@@ -33,7 +33,7 @@ else
   export WS_TEST_PLATFORM=mac
 fi
 
-nodejs_version="16.18.0"
+nodejs_version="16.18.1"
 export nodejs_image_tag=$nodejs_version
 if uname -a | grep -q "Darwin"; then
   export NODE_HOME=/usr/local/nodejs-binary-$nodejs_version
