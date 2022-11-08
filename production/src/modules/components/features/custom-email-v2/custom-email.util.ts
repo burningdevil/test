@@ -56,7 +56,14 @@ export function validateImageUrl(url: string){
 }
 
 export const decodeContent = (v: string) => {
-    return _.unescape(v)?.replace(/(\<br\>)/gm, '\n')?.trim();
+    return _.unescape(v)?.trim();
+}
+
+export const encodeContent = (v: string) => {
+    return v?.trim();
+}
+export const replaceHtmlBreakLine = (v: string) => {
+    return v;
 }
 
 export enum SubjectBodyEnum {

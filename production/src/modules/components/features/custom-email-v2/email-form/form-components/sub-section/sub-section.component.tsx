@@ -8,7 +8,7 @@ import { CustomEmailSettingType, EmailContentInterface } from '../../../../../..
 import { Macros } from '../../../macro-editor/macro-types';
 import { DEFAULT_EMAIL_SETTING } from '../../../../../../../../src/store/reducers/HomeScreenConfigEditorReducer';
 import MacroQuillBlot from '../../../macro-editor/macro-quill-blot';
-import { decodeContent } from '../../../custom-email.util';
+import { decodeContent, encodeContent } from '../../../custom-email.util';
 const classNamePrefix = 'custom-email-form-v2'
 
 interface SubSectionProps {
@@ -68,7 +68,7 @@ const SubSection: React.FC<SubSectionProps> = (props: SubSectionProps
                                     if(!stateData.content?.[stateKey]?.subject){
                                         stateData.content[stateKey].subject = DEFAULT_EMAIL_SETTING.content[stateKey].subject;
                                     }
-                                    stateData['content'][stateKey]['subject'] = MacroQuillBlot.escapeHTMLBlot(v.text)?.replace(/[\r\n]/gm, '<br>');
+                                    stateData['content'][stateKey]['subject'] = encodeContent(v.text);
                                     cb1(v.text);
                                     dispatch(
                                         Actions.updateCurrentConfig({
@@ -102,7 +102,7 @@ const SubSection: React.FC<SubSectionProps> = (props: SubSectionProps
                                     if(!stateData.content?.[stateKey]?.body){
                                         stateData.content[stateKey].body = DEFAULT_EMAIL_SETTING.content[stateKey].body;
                                     }
-                                    stateData['content'][stateKey]['body'] = MacroQuillBlot.escapeHTMLBlot(v.text)?.replace(/[\r\n]/gm, '<br>').trim();
+                                    stateData['content'][stateKey]['body'] = encodeContent(v.text);
                                     cb2(v.text);
                                     dispatch(
                                         Actions.updateCurrentConfig({

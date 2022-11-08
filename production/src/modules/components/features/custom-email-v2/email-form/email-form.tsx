@@ -10,13 +10,12 @@ import * as Actions from '../../../../../store/actions/ActionsCreator';
 import { default as VC, customEmailStringDict, localizedStrings } from '../../../HomeScreenConfigConstant';
 const classNamePrefix = 'custom-email-form-v2'
 import './email-form.scss'
-import { decodeContent, SubjectBodyEnum, validateEmail, validateImageUrl, validEmailName } from '../custom-email.util';
+import { decodeContent, encodeContent, SubjectBodyEnum, validateEmail, validateImageUrl, validEmailName } from '../custom-email.util';
 import { DEFAULT_EMAIL_SETTING } from '../../../../../store/reducers/HomeScreenConfigEditorReducer';
 import * as _ from 'lodash';
 import MacroEditor from '../macro-editor/macro-editor';
 import { Macros } from '../macro-editor/macro-types';
 import SubSection from './form-components/sub-section/sub-section.component';
-import MacroQuillBlot from '../macro-editor/macro-quill-blot';
 import FormInput from './form-components/form-input/form-input.component';
 import ActionButtonSection from './form-components/action-button-section/action-button-section.component';
 import FormSwitch from './form-components/form-switch/form-switch.component';
@@ -47,7 +46,7 @@ const CustomEmailForm: React.FC<any> = (props: any) => {
     const [resetSubAndBody, setResetSubAndBody] = useState(false);
     // share dossier
     const [shareDossierSub, setShareDossierSub] = useState(decodeContent(stateData.content?.SHARE_DOSSIER?.subject ?? JSON.parse(JSON.stringify(DEFAULT_EMAIL_SETTING.content.SHARE_DOSSIER.subject))));
-    const [shareDossierBody, setShareDossierBody] = useState(decodeContent(stateData.content?.SHARE_DOSSIER?.body ?? customEmailStringDict.formGroup.subjectAndBody.subsection1.placeholder2));
+    const [shareDossierBody, setShareDossierBody] = useState(decodeContent(stateData.content?.SHARE_DOSSIER?.body ?? JSON.parse(JSON.stringify(DEFAULT_EMAIL_SETTING.content.MEMBER_ADDED.body))));
     // share bookmark
     const [shareBookmarkSub, setShareBookmarkSub] = useState(decodeContent(stateData.content?.SHARE_BOOKMARK?.subject ?? JSON.parse(JSON.stringify(DEFAULT_EMAIL_SETTING.content.SHARE_BOOKMARK.subject))));
     const [shareBookmarkBody, setShareBookmarkBody] = useState(decodeContent(stateData.content?.SHARE_BOOKMARK?.body ?? JSON.parse(JSON.stringify(DEFAULT_EMAIL_SETTING.content.SHARE_BOOKMARK.body))));
@@ -82,17 +81,18 @@ const CustomEmailForm: React.FC<any> = (props: any) => {
     
     const resetSubject : Function= () => {
         setResetSubAndBody(!resetSubAndBody);
-        setShareDossierSub(decodeContent(customEmailStringDict.formGroup.subjectAndBody.subsection1.placeholder1));
-        setShareDossierBody(decodeContent(customEmailStringDict.formGroup.subjectAndBody.subsection1.placeholder2));
 
-        setShareBookmarkSub(decodeContent(customEmailStringDict.formGroup.subjectAndBody.subsection2.placeholder1));
-        setShareBookmarkBody(decodeContent(customEmailStringDict.formGroup.subjectAndBody.subsection2.placeholder2));
+        setShareDossierSub(decodeContent(JSON.parse(JSON.stringify(DEFAULT_EMAIL_SETTING.content.SHARE_DOSSIER.subject))));
+        setShareDossierBody(decodeContent(JSON.parse(JSON.stringify(DEFAULT_EMAIL_SETTING.content.SHARE_DOSSIER.body))));
 
-        setMemberAddedSub(decodeContent(customEmailStringDict.formGroup.subjectAndBody.subsection3.placeholder1));
-        setMemberAddedBody(decodeContent(customEmailStringDict.formGroup.subjectAndBody.subsection3.placeholder2));
+        setShareBookmarkSub(decodeContent(JSON.parse(JSON.stringify(DEFAULT_EMAIL_SETTING.content.SHARE_BOOKMARK.subject))));
+        setShareBookmarkBody(decodeContent(JSON.parse(JSON.stringify(DEFAULT_EMAIL_SETTING.content.SHARE_BOOKMARK.body))));
 
-        setUserMentionSub(decodeContent(customEmailStringDict.formGroup.subjectAndBody.subsection4.placeholder1));
-        setUserMentionBody(decodeContent(customEmailStringDict.formGroup.subjectAndBody.subsection4.placeholder2));
+        setMemberAddedSub(decodeContent(JSON.parse(JSON.stringify(DEFAULT_EMAIL_SETTING.content.MEMBER_ADDED.subject))));
+        setMemberAddedBody(decodeContent(JSON.parse(JSON.stringify(DEFAULT_EMAIL_SETTING.content.MEMBER_ADDED.body))));
+
+        setUserMentionSub(decodeContent(JSON.parse(JSON.stringify(DEFAULT_EMAIL_SETTING.content.USER_MENTION.subject))));
+        setUserMentionBody(decodeContent(JSON.parse(JSON.stringify(DEFAULT_EMAIL_SETTING.content.USER_MENTION.body))));
     }
     const resetEmailSender: Function = () => {
         setEmailSenderName(customEmailStringDict.formGroup.emailSender.defaultName);
@@ -179,7 +179,7 @@ const CustomEmailForm: React.FC<any> = (props: any) => {
                                         if(!stateData.reminder?.text){
                                             stateData.reminder.text = DEFAULT_EMAIL_SETTING.reminder.text;
                                         }
-                                        stateData.reminder.text = MacroQuillBlot.escapeHTMLBlot(v.text)?.replace(/(\n)/gm, '<br>').trim();
+                                        stateData.reminder.text = encodeContent(v.text);
                                         dispatch(
                                             Actions.updateCurrentConfig({
                                                 emailSettings: stateData

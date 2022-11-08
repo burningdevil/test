@@ -5,7 +5,7 @@ import { Input } from '@mstr/rc';
 import { Select } from 'antd';
 import * as Actions from '../../../../../../../store/actions/ActionsCreator';
 import { CustomEmailSettingType, MobileButtonLinkEnum } from '../../../../../../../../src/types/data-model/HomeScreenConfigModels';
-import { PRIMARY_BLUE_HEX_COLOR, validateHttpUrl, validatePortalUrl, validateScheme, WHITE_HEX_COLOR } from '../../../custom-email.util';
+import { encodeContent, PRIMARY_BLUE_HEX_COLOR, validateHttpUrl, validatePortalUrl, validateScheme, WHITE_HEX_COLOR } from '../../../custom-email.util';
 import { FormMobileButtonLinkInputModel } from '../form-input.model';
 import * as _ from 'lodash';
 import { customEmailStringDict, CUSTOM_EMAIL_HOST_PORTAL_HELP_LINK } from '../../../../../HomeScreenConfigConstant';
@@ -173,7 +173,7 @@ const ActionButtonSection: React.FC<ActionButtonSectionInput> = React.forwardRef
                         placeholder = {placeholder}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                             cb(e.target.value);
-                            _.set(stateData, propertyPath, _.escape(e.target.value));
+                            _.set(stateData, propertyPath, encodeContent(e.target.value));
                             dispatch(
                                 Actions.updateCurrentConfig({
                                     emailSettings: stateData
@@ -198,7 +198,7 @@ const ActionButtonSection: React.FC<ActionButtonSectionInput> = React.forwardRef
                                 value={description}
                                 onChange={(e: any) => {
                                     cb(e.target.value);
-                                    _.set(stateData, propertyPath, _.escape(e.target.value));
+                                    _.set(stateData, propertyPath, encodeContent(e.target.value));
                                     dispatch(
                                         Actions.updateCurrentConfig({
                                             emailSettings: stateData
