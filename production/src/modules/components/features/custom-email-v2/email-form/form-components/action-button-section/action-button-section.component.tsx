@@ -83,8 +83,7 @@ const ActionButtonSection: React.FC<ActionButtonSectionInput> = React.forwardRef
         React.useEffect(() => {
             if (!isWhiteListRequestLoaded) {
                 const fetchData = async () => {
-                    const [error , data] = await awaitWrap(api.fetchAllWhiteListUrls());
-                    console.log('white list urls',data);
+                    const [_error , data] = await awaitWrap(api.fetchAllWhiteListUrls());
                     /**
                      *  if the allowAllOrigins = true, means the security select all. All valid url pass
                      *  allowedOrigins: the white list
@@ -98,10 +97,8 @@ const ActionButtonSection: React.FC<ActionButtonSectionInput> = React.forwardRef
                     if(allowAllOrigins){
                         setAllowAllOrigins(allowAllOrigins);
                     }
-                    
-
                   }
-                fetchData().catch();
+                fetchData();
                 // make sure the api request trigger only once.
                 setWhiteListRequestLoaded(true);
             }

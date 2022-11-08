@@ -248,7 +248,6 @@ const CustomEmailForm: React.FC<any> = (props: any) => {
                 {
                     showInfo && <Tooltip
                     title={tooltip}
-                    getPopupContainer={triggerNode => triggerNode.parentNode}
                     placement='rightTop'
                 >
                     <span className={VC.FONT_MSG_INFO}> </span>

@@ -21,8 +21,8 @@ Quill.register(MacroQuillBlot);
 Quill.register('modules/maxlength', function(quill: any, options: any) {
 // it's not recommend by official to restrict the code length in hyper editor. In our case, implement it by undo the input when exceed the max size.
   quill.on('text-change', function(_e: any) {
-          let size = quill.getText();
-          if (size.length > options.value)
+          let size = quill.getLength();
+          if (size > options.value)
               quill.history.undo();
 
   });
@@ -33,13 +33,15 @@ Quill.register('modules/counter', function(quill: any, options: any) {
     const container = document.querySelector(options.container);
     if(!container) return;
     const calculate = () => {
-      let text = quill.getText().trim();
+      let text = quill.getText();
+      let length = quill.getLength();
       if (options.unit === 'word') {
+        const macroWordCnt = length - text.length;
         text = text.trim();
         // Splitting empty text returns a non-empty array
-        return text.length > 0 ? text.split(/\s+/).length : 0;
+        return text.length > 0 ? text.split(/\s+/).length + macroWordCnt : 0;
       } else {
-        return text.length;
+        return length;
       }
     }
     const update = () => {

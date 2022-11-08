@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import { DEFAULT_EMAIL_SETTING } from '../../../../../src/store/reducers/HomeScreenConfigEditorReducer';
 import { HomeScreenConfigType } from '../../../../../src/types/data-model/HomeScreenConfigModels';
-var Url = require('url-parse');
+var UrlParse = require('url-parse');
 export function validateHttpUrl(url: string) {
     try {
         if (url.length > 0) {
@@ -26,10 +26,10 @@ export function validatePortalUrl(whitelist: string[], allowAll: boolean, url: s
             return true;
         }else {
             const domains = whitelist.map(v => {
-                const url = new Url(v);
+                const url = new UrlParse(v);
                 return url?.origin;
             })
-            const currentUrl = new Url(url);
+            const currentUrl = new UrlParse(url);
             return domains.includes(currentUrl?.origin) ? true : 'Not in White list';
         }
     } catch (err) {
@@ -45,7 +45,7 @@ export function validateImageUrl(url: string){
             return true;
         }
         // validate the suffix;
-        const imageAddr = new Url(url);
+        const imageAddr = new UrlParse(url);
         const pathName = imageAddr.pathname; // strip the query params;
         return /\w.(png|jpg|jpeg|webp|gif|bmp)$/gm.test(pathName); // exclude svg
     } catch (err) {
