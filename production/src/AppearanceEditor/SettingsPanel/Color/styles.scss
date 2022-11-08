@@ -1,6 +1,7 @@
 @import "../../../modules/components/scss/variables.scss";
 
 $color-box-height-width: 18px;
+$ant-radio-inner-circle-color: #FFFFFF;
 
 .mstr-app-theme-colors {
   font-family: $font-family;
@@ -22,6 +23,17 @@ $color-box-height-width: 18px;
 
   .ant-radio-group {
     padding-top: 10px;
+    .ant-radio-checked {
+      .ant-radio-inner {
+        border-color: $ant-radio-inner-circle-color;
+        background-color: #0E6FF9;
+
+        &:after {
+          border: 1px solid #0E6FF9;
+          background-color: $ant-radio-inner-circle-color;
+        }
+      }
+    }
   }
 
   &-option-group {
@@ -31,7 +43,7 @@ $color-box-height-width: 18px;
   &-options {
     .ant-radio {
       top: 0;
-      transform: scale(0.85);
+      transform: scale(0.75);
     }
 
     .color-box-wrapper {

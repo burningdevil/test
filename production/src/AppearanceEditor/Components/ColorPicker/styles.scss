@@ -1,0 +1,21 @@
+.mstr-theme-color-picker-overlay {
+  &.ant-popover {
+    z-index: 2000;
+
+    &.ant-popover-placement-bottomLeft,
+    &.ant-popover-placement-bottomRight {
+
+    }
+  }
+
+  .ant-popover-content {
+    .ant-popover-arrow {
+      border-color: transparent;
+      box-shadow: none;
+    }
+  }
+
+  .ant-popover-inner-content {
+    padding: 0;
+  }
+}

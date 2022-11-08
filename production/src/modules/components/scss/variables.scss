@@ -1,6 +1,6 @@
-
 // Font
-$font-family: '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Segoe UI Semibold', 'Segoe UI', helvetica, arial, 'Sans-serif';
+$font-family: "-apple-system", "BlinkMacSystemFont", "Helvetica Neue", "Segoe UI Semibold", "Segoe UI", helvetica, arial,
+  "Sans-serif";
 
 $font-size: 12px;
 $line-height: 14px;
@@ -9,7 +9,7 @@ $line-height-mini: 13px;
 
 // Color
 $right-background: #f4f4f4;
-$mobile-primary-blue: #0E6FF9;
+$mobile-primary-blue: #0e6ff9;
 $white: #fff;
 
 // Custom Apps/Appearance Editor Styling
@@ -30,23 +30,20 @@ $title-bar-bg-color: #323852;
 $title-bar-btn-section-min-width: 168px;
 $title-bar-btn-min-width: 74px;
 $title-bar-cancel-btn-font-color: #262626;
-$title-bar-save-btn-bg: linear-gradient(180deg, #69B1FA 0%, #0B7FFF 100%);;
+$title-bar-save-btn-bg: linear-gradient(180deg, #69b1fa 0%, #0b7fff 100%);
 
 $content-height: 816px;
 $settings-panel-width: 505px;
 $preview-panel-width: 935px;
 
-$settings-panel-padding-right: 39px;
-$settings-panel-padding-left: 24px;
-$settings-panel-padding: 24px $settings-panel-padding-right 176px $settings-panel-padding-left;
-$settings-panel-title-subtitle-color: #4A4A4A;
-$settings-panel-logo-box-border-color: #F2F3F5;
-$settings-panel-btn-bg-color: #3492ED;
+$settings-panel-padding: 24px;
+$settings-panel-title-subtitle-color: #4a4a4a;
+$settings-panel-logo-box-border-color: #f2f3f5;
+$settings-panel-btn-bg-color: #3492ed;
 $settings-panel-logo-desc-color: #888;
 $settings-panel-title-font-weight: 700;
 $settings-panel-title-line-height: 28px;
 $settings-panel-title-height: 28px;
-
 
 $preview-panel-replaced-logo-height: 18px;
 $preview-panel-replaced-logo-width: 18px;

@@ -12,20 +12,23 @@ import * as Actions from '../../../../store/actions/ActionsCreator';
 import './styles.scss';
 import {
     colorPropTitles,
-    EnumFormattingPropNames
+    EnumFormattingPropNames,
 } from '../../../utils/appThemeColorHelper';
+import ColorPicker from '../../../Components/ColorPicker';
 
 type ColorPropEditorProps = {
     color: ApplicationColor;
     updateTheme: (theme: {
-      color: {
-      selectedTheme: string,
-      formatting: ThemeColorFormats
-    }}) => {};
+        color: {
+            selectedTheme: string;
+            formatting: ThemeColorFormats;
+        };
+    }) => {};
 };
 
-const gutterHorizontal = 16;
+const gutterHorizontal = 0;
 const gutterVertical = 6;
+const HEX_STRING_LENGTH_WITH_HASH = 7;
 
 const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
     color,
@@ -33,13 +36,15 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
 }) => {
     const { selectedTheme, formatting } = color;
 
-    const [formats, setFormats] = React.useState<ThemeColorFormats>(
-        formatting
-    );
+    const [formats, setFormats] = React.useState<ThemeColorFormats>(formatting);
 
     const initColorCodeValidity: { [key: string]: boolean } = {};
-    Object.keys(EnumFormattingPropNames).forEach((key) => (initColorCodeValidity[key] = true));
-    const [isColorCodeListValid, setIsColorCodeListValid] = React.useState(initColorCodeValidity);
+    Object.keys(EnumFormattingPropNames).forEach(
+        (key) => (initColorCodeValidity[key] = true)
+    );
+    const [isColorCodeListValid, setIsColorCodeListValid] = React.useState(
+        initColorCodeValidity
+    );
 
     const [colorPropInFocus, setColorPropInFocus] = React.useState('');
 
@@ -69,8 +74,9 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
                 (colorCodeValid) => colorCodeValid
             )
         ) {
-            updateTheme({ color: { selectedTheme, formatting: formats  } });
+            updateTheme({ color: { selectedTheme, formatting: formats } });
         } else {
+            // revert to previous value if any color code is invalid
             setFormats(formatting);
         }
     };
@@ -97,19 +103,32 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
             span={8}
         >
             <Form.Item className="color-prop-item" label={title}>
-                <div className="color-prop-item-content">
-                    <div
-                        className="color-box"
-                        style={{ background: hexValue }}
-                    ></div>
+                <div
+                    className="color-prop-item-content"
+                    onFocus={(e: any) => setColorPropInFocus(propName)}
+                >
+                    <ColorPicker
+                        color={hexValue}
+                        onColorChange={(v: string) =>
+                            onColorCodeChange(
+                                { target: { value: v } },
+                                propName
+                            )
+                        }
+                    >
+                        <div
+                            className="color-box"
+                            style={{ background: hexValue }}
+                        ></div>
+                    </ColorPicker>
                     <Input
                         className="color-value-input"
                         value={hexValue}
                         bordered={false}
+                        maxLength={HEX_STRING_LENGTH_WITH_HASH}
                         onChange={(e) => onColorCodeChange(e, propName)}
                         onPressEnter={(e: any) => onEnter(e, propName)}
                         onBlur={(e: any) => onEnter(e, propName)}
-                        onFocus={(e: any) => setColorPropInFocus(propName)}
                     ></Input>
                 </div>
             </Form.Item>
