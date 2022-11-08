@@ -28,7 +28,7 @@ type ColorPropEditorProps = {
 
 const gutterHorizontal = 0;
 const gutterVertical = 6;
-const HEX_STRING_LENGTH_WITH_HASH = 7;
+const hexStrLengthWithHash = 7;
 
 const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
     color,
@@ -125,7 +125,7 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
                         className="color-value-input"
                         value={hexValue}
                         bordered={false}
-                        maxLength={HEX_STRING_LENGTH_WITH_HASH}
+                        maxLength={hexStrLengthWithHash}
                         onChange={(e) => onColorCodeChange(e, propName)}
                         onPressEnter={(e: any) => onEnter(e, propName)}
                         onBlur={(e: any) => onEnter(e, propName)}
