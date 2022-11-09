@@ -49,6 +49,9 @@ def do_override_library
   shell_command! "kubectl exec #{library_pod} -n #{namespace} -- cat #{override_file}"
   #delete pods
   delete_pod = "kubectl delete pod #{library_pod} -n #{namespace}"
+  shell_command! "#{delete_pod}"
+  get_pods_cmd = "kubectl get pods -n #{namespace} | grep \"library\""
+  cloc_output = shell_output! "#{get_pods_cmd}"
   Tanzu.wait_on_service(service_name: environmentName, url: libraryUrl, endpoint: 'api/status', response_code: 200)
 end
 
