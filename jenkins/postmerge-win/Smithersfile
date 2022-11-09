@@ -59,7 +59,7 @@ rake install_workstation_windows
 rake replace_plugin_windows
 
 rake prepare_tanzu_environment
-rake do_override_library
+rake override_library
 rake acceptance_test_win
 '
     end

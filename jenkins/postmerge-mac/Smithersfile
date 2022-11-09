@@ -52,7 +52,7 @@ rake pre_pipeline
 rake install_latest_workstation_mac_os_x
 rake replace_workstation_plugin_mac
 rake prepare_tanzu_environment
-rake do_override_library
+rake override_library
 rake acceptance_test_mac
 '
     end
