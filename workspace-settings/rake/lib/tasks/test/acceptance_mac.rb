@@ -25,6 +25,33 @@ task :replace_workstation_plugin_mac do
   replace_workstation_plugin_mac
 end
 
+task :override_library do
+  do_override_library
+end
+
+def do_override_library
+  tanzu_environment = load_tanzu_env_json(@tanzu_env)
+  puts "tanzu_environment is #{tanzu_environment}"
+  libraryUrl = tanzu_environment[:libraryUrl] || tanzu_environment["libraryUrl"]
+  environmentName = tanzu_environment[:environmentName] || tanzu_environment["environmentName"]
+  namespace = "mstr-env-#{environmentName}"
+  get_pods_cmd = "kubectl get pods -n #{namespace} | grep \"library\""
+  cloc_output = shell_output! "#{get_pods_cmd}"
+  puts "cloc_output is #{cloc_output}"
+  library_pod = cloc_output.split(" ")[0]
+  puts "library_pod is #{library_pod}"
+  override_file = "/usr/local/tomcat/webapps/MicroStrategyLibrary/WEB-INF/classes/config/configOverride.properties"
+  echo_cmd = "bash -c 'echo -e \"features.auth.applicationAuthModes.enabled=true\" >> #{override_file}'"
+  edit_cmd = "kubectl exec #{library_pod} -n #{namespace} -- #{echo_cmd}"
+  puts "edit_cmd is #{edit_cmd}"
+  shell_command! "#{edit_cmd}"
+  puts "#{override_file} after modifed"
+  shell_command! "kubectl exec #{library_pod} -n #{namespace} -- cat #{override_file}"
+  #delete pods
+  delete_pod = "kubectl delete pod #{library_pod} -n #{namespace}"
+  Tanzu.wait_on_service(service_name: environmentName, url: libraryUrl, endpoint: 'api/status', response_code: 200)
+end
+
 def is_port_avaliable?(port)
   cmd = shell_command "netstat -vanp tcp | grep #{port}"
   cmd.stdout == ''
