@@ -53,8 +53,10 @@ def do_override_library
     #delete pods
     delete_pod = "kubectl delete pod #{library_pod} -n #{namespace}"
     shell_command! "#{delete_pod}"
-    get_pods_cmd = "kubectl get pods -n #{namespace} | grep \"library\""
     cloc_output = shell_output! "#{get_pods_cmd}"
+    puts "cloc_output is #{cloc_output}"
+    library_pod = cloc_output.split(" ")[0]
+    puts "new library_pod is #{library_pod}"
     Tanzu.wait_on_service(service_name: environmentName, url: libraryUrl, endpoint: 'api/status', response_code: 200)
   rescue => e
     error "exception from do_override_library:\n #{e}"
