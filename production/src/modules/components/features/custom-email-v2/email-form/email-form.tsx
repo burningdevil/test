@@ -10,7 +10,7 @@ import * as Actions from '../../../../../store/actions/ActionsCreator';
 import { default as VC, customEmailStringDict, localizedStrings } from '../../../HomeScreenConfigConstant';
 const classNamePrefix = 'custom-email-form-v2'
 import './email-form.scss'
-import { decodeContent, SubjectBodyEnum, validateEmail, validateHttpUrl, validateImageUrl, validEmailName } from '../custom-email.util';
+import { decodeContent, SubjectBodyEnum, validateEmail, validateImageUrl, validEmailName } from '../custom-email.util';
 import { DEFAULT_EMAIL_SETTING } from '../../../../../store/reducers/HomeScreenConfigEditorReducer';
 import * as _ from 'lodash';
 import MacroEditor from '../macro-editor/macro-editor';
@@ -75,7 +75,7 @@ const CustomEmailForm: React.FC<any> = (props: any) => {
             if(form.error){
                 errorCnt += 1;
             }
-        })
+        });
         dispatch(Actions.setCustomEmailNameError(errorCnt > 0 ? true : false))
 
     },[formArray.map(v => v.dependency)])
@@ -151,10 +151,10 @@ const CustomEmailForm: React.FC<any> = (props: any) => {
     const validate = (e: string, key: string, valid: Function) => {
         const isValid = valid(e);
         let item = formArray.find(v => v.key === key);
-        if(!isValid){
-            item.error = true;
-        }else {
+        if(isValid === true){
             item.error = false;
+        }else {
+            item.error = true;
         }
         return isValid;
     }  

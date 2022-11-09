@@ -15,7 +15,7 @@ export function validateHttpUrl(url: string) {
 
     return true
 }
-export function validatePortalUrl(whitelist: string[], allowAll: boolean, url: string) {
+export function validatePortalUrl(whitelist: string[] = [], allowAll: boolean, envUrl: string, url: string) {
     try {
         if (url.length > 0) {
             new URL(url);
@@ -25,7 +25,8 @@ export function validatePortalUrl(whitelist: string[], allowAll: boolean, url: s
         if(allowAll){
             return true;
         }else {
-            const domains = whitelist.map(v => {
+            const allUrls = envUrl ? [envUrl].concat(whitelist) : whitelist?.slice();
+            const domains = allUrls?.map(v => {
                 const url = new UrlParse(v);
                 return url?.origin;
             })
@@ -75,7 +76,7 @@ export function validateScheme(name: string) {
 export function validateEmail(email: string) 
 {   // email can be set empty
     if(!email) return true;
-    const re = /^\w+([.-]?\w+)@\w+([.-]?\w+)(.\w{2,4})+$/; // NOSONAR
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; // NOSONAR; comes from RFC 5322 Official Standard; http://emailregex.com/
     return re.test(email);
 }
 export function validEmailName(name: string) {

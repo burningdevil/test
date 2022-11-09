@@ -32,6 +32,7 @@ const FormInput: React.FC<FormInputModel> = (props: FormInputModel
                             const validAndMsg = validate(e, elementId, validateCb);
                             if(typeof validAndMsg === 'string'){
                                 setErrMsg(validAndMsg);
+                                return false;
                             }else {
                                 setErrMsg(errorMessage);
                             }
@@ -46,22 +47,16 @@ const FormInput: React.FC<FormInputModel> = (props: FormInputModel
                     autoFocus = {false}
                     maxLength={250}
                     placeholder = {placeholder}
-                    onBlur = {(e: React.ChangeEvent<HTMLInputElement>) => {
-                        // considering the performance, change the state in the blur event.
-                        // if invalid, not update the value
-                        if(enableValidate && !validate(e.target.value, elementId, validateCb)){
-                            return;
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        cb(e.target.value);
+                        if(enableValidate && validate(e.target.value, elementId, validateCb)){
+                            _.set(stateData, propertyPath, isNotEncode ? e.target.value : _.escape(e.target.value));
                         }
-                        _.set(stateData, propertyPath, isNotEncode ? e.target.value : _.escape(e.target.value));
                         dispatch(
                             Actions.updateCurrentConfig({
                                 emailSettings: stateData
                             })
                         )
-                    }}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        cb(e.target.value);
-                        
                     }}
                 />
             </div>

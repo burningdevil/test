@@ -19,6 +19,7 @@ import { awaitWrap } from '../../../../../../../../src/modules/components/views/
 const classNamePrefix = 'custom-email-form-v2'
 const { Option } = Select;
 const { TextArea} = Input;
+const UrlParse = require('url-parse');
 interface ActionButtonSectionInput {
     env: any;
     validate: Function;
@@ -129,7 +130,20 @@ const ActionButtonSection: React.FC<ActionButtonSectionInput> = React.forwardRef
                     })
                 )
             }
-        }, [showButton1, showButton2])
+        }, [showButton1, showButton2]);
+        React.useEffect(() => {
+            if(!allowAllOrigins && !whiteListUrls?.length){
+                // security none.
+                if(!stateData.hostPortal) return;
+                const url = new UrlParse(stateData?.hostPortal);
+                _.set(stateData, 'hostPortalContextPath', stateData.hostPortal?.replace(url.origin, ''));
+                dispatch(
+                    Actions.updateCurrentConfig({
+                        emailSettings: stateData
+                    })
+                )
+            }
+        }, [stateData.hostPortal, allowAllOrigins, whiteListUrls]);
         const hostTooltip = (
             <div>
                 {customEmailStringDict.formGroup.actionButton.hostTooltip}
@@ -163,24 +177,21 @@ const ActionButtonSection: React.FC<ActionButtonSectionInput> = React.forwardRef
                         style={{width: '68px'}}
                         value={value}
                         onValidate={(e: string) => {
-                            return enableValidate ? validate(e, elementId, validateCb) : true;
+                            return enableValidate ? validate(e, 'mobileButtonScheme', validateCb) : true;
                         }}
                         errorMessage={errorMessage}
                         isErrorDisplayed="true"
                         autoFocus = {false}
                         maxLength={250}
                         placeholder = {placeholder}
-                        onBlur = {(e: React.ChangeEvent<HTMLInputElement>) => {
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                            cb(e.target.value);
                             _.set(stateData, propertyPath, _.escape(e.target.value));
                             dispatch(
                                 Actions.updateCurrentConfig({
                                     emailSettings: stateData
                                 })
                             )
-                        }}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                            cb(e.target.value);
-                            
                         }}
                     />}
                     <OverflowText text = {mobileButtonLinkDefault}>
@@ -217,7 +228,7 @@ const ActionButtonSection: React.FC<ActionButtonSectionInput> = React.forwardRef
             {/*button 1*/}
             <FormSwitch {...{label: customEmailStringDict.formGroup.actionButton.label1, value: showButton1, cb: setShowButton1, elementId: 'showBrowserButton', stateData: stateData}}/>
             {showButton1 && <FormBtnColor {...{label: customEmailStringDict.formGroup.actionButton.button1, value: button1Text, cb: setButton1Text, elementId: 'browserButtonStyle', placeholder: customEmailStringDict.formGroup.actionButton.button1_default, fontColor: button1FontColor, fontColorCb: setButton1FontColor, bgColor: button1BgColor, bgColorCb: setButton1BgColor, validate: validate, stateData: stateData}}></FormBtnColor>}
-            {showButton1 && <FormInput {...{'label': customEmailStringDict.formGroup.actionButton.label2, 'value': hostWebPortal, 'cb': setHostWebPortal, 'elementId': 'hostPortal','placeholder': customEmailStringDict.formGroup.actionButton.placeholder, 'propertyPath': 'hostPortal', 'tooltip': true, 'enableValidate': true, 'errorMessage': customEmailStringDict.formGroup.actionButton.hostInvalidTip, 'validateCb': validatePortalUrl.bind(null, whiteListUrls, allowAllOrigins),disabled: !allowAllOrigins && !whiteListUrls?.length, 'isNotEncode': false, tooltipStr: hostTooltip, 'validate': validate, 'stateData': stateData}}></FormInput>}
+            {showButton1 && <FormInput {...{'label': customEmailStringDict.formGroup.actionButton.label2, 'value': hostWebPortal, 'cb': setHostWebPortal, 'elementId': 'hostPortal','placeholder': customEmailStringDict.formGroup.actionButton.placeholder, 'propertyPath': 'hostPortal', 'tooltip': true, 'enableValidate': true, 'errorMessage': customEmailStringDict.formGroup.actionButton.hostInvalidTip, 'validateCb': validatePortalUrl.bind(null, whiteListUrls, allowAllOrigins, env?.url),disabled: false, 'isNotEncode': false, tooltipStr: hostTooltip, 'validate': validate, 'stateData': stateData}}></FormInput>}
             {/*button 2*/}
             <FormSwitch {...{label: customEmailStringDict.formGroup.actionButton.label3, value: showButton2, cb: setShowButton2, elementId: 'showMobileButton', stateData: stateData}}/>
             {showButton2 && <FormBtnColor {...{label: customEmailStringDict.formGroup.actionButton.button2, value: button2Text, cb: setButton2Text, elementId: 'mobileButtonStyle', placeholder: customEmailStringDict.formGroup.actionButton.button2_default, fontColor: button2FontColor, fontColorCb: setButton2FontColor, bgColor: button2BgColor, bgColorCb: setButton2BgColor, validate: validate, stateData: stateData}}></FormBtnColor>}
