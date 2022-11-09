@@ -22,7 +22,46 @@ task :install_latest_workstation_mac_os_x do
 end
 
 task :replace_workstation_plugin_mac do
-  replace_workstation_plugin_mac
+  branch_name = ENV["BASE_BRANCH"] || Common::Version.application_branch
+  group_id = "#{$WORKSPACE_SETTINGS[:nexus][:base_coordinates][:group_id]}.#{branch_name}"
+  replace_workstation_plugin_mac(group_name: group_id)
+end
+
+task :override_library do
+  do_override_library
+end
+
+def do_override_library
+  tanzu_environment = load_tanzu_env_json(@tanzu_env)
+  puts "tanzu_environment is #{tanzu_environment}"
+  libraryUrl = tanzu_environment[:libraryUrl] || tanzu_environment["libraryUrl"]
+  environmentName = tanzu_environment[:environmentName] || tanzu_environment["environmentName"]
+  begin
+    namespace = "mstr-env-#{environmentName}"
+    get_pods_cmd = "kubectl get pods -n #{namespace} | grep \"library\""
+    cloc_output = shell_output! "#{get_pods_cmd}"
+    puts "cloc_output is #{cloc_output}"
+    library_pod = cloc_output.split(" ")[0]
+    puts "library_pod is #{library_pod}"
+    override_file = "/usr/local/tomcat/webapps/MicroStrategyLibrary/WEB-INF/classes/config/configOverride.properties"
+    echo_cmd = "bash -c 'echo -e \"\nfeatures.auth.applicationAuthModes.enabled=true\" >> #{override_file}'"
+    edit_cmd = "kubectl exec #{library_pod} -n #{namespace} -- #{echo_cmd}"
+    puts "edit_cmd is #{edit_cmd}"
+    shell_command! "#{edit_cmd}"
+    puts "#{override_file} after modifed"
+    shell_command! "kubectl exec #{library_pod} -n #{namespace} -- cat #{override_file}"
+    #delete pods
+    delete_pod = "kubectl delete pod #{library_pod} -n #{namespace}"
+    shell_command! "#{delete_pod}"
+    cloc_output = shell_output! "#{get_pods_cmd}"
+    puts "cloc_output is #{cloc_output}"
+    library_pod = cloc_output.split(" ")[0]
+    puts "new library_pod is #{library_pod}"
+    Tanzu.wait_on_service(service_name: environmentName, url: libraryUrl, endpoint: 'api/status', response_code: 200)
+  rescue => e
+    error "exception from do_override_library:\n #{e}"
+    do_delete_tanzu_environment(environmentName)
+  end
 end
 
 def is_port_avaliable?(port)
