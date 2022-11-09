@@ -58,7 +58,7 @@ def do_override_library
     Tanzu.wait_on_service(service_name: environmentName, url: libraryUrl, endpoint: 'api/status', response_code: 200)
   rescue => e
     error "exception from do_override_library:\n #{e}"
-    do_delete_tanzu_environment(environmentName)
+    #do_delete_tanzu_environment(environmentName)
   end
 end
 
