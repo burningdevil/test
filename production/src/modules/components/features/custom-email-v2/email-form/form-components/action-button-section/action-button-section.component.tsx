@@ -131,19 +131,6 @@ const ActionButtonSection: React.FC<ActionButtonSectionInput> = React.forwardRef
                 )
             }
         }, [showButton1, showButton2]);
-        React.useEffect(() => {
-            if(!allowAllOrigins && !whiteListUrls?.length){
-                // security none.
-                if(!stateData.hostPortal) return;
-                const url = new UrlParse(stateData?.hostPortal);
-                _.set(stateData, 'hostPortalContextPath', stateData.hostPortal?.replace(url.origin, ''));
-                dispatch(
-                    Actions.updateCurrentConfig({
-                        emailSettings: stateData
-                    })
-                )
-            }
-        }, [stateData.hostPortal, allowAllOrigins, whiteListUrls]);
         const hostTooltip = (
             <div>
                 {customEmailStringDict.formGroup.actionButton.hostTooltip}

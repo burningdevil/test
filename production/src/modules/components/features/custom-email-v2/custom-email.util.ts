@@ -48,7 +48,7 @@ export function validateImageUrl(url: string){
         // validate the suffix;
         const imageAddr = new UrlParse(url);
         const pathName = imageAddr.pathname; // strip the query params;
-        return /\w.(png|jpg|jpeg|webp|gif|bmp)$/gm.test(pathName); // exclude svg
+        return /\w.(png|jpg|jpeg|webp|gif|bmp)$/gm.test(pathName?.toLowerCase()); // exclude svg
     } catch (err) {
         return false;
     }
