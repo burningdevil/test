@@ -44,7 +44,11 @@ def do_override_library
     library_pod = cloc_output.split(" ")[0]
     puts "library_pod is #{library_pod}"
     override_file = "/usr/local/tomcat/webapps/MicroStrategyLibrary/WEB-INF/classes/config/configOverride.properties"
-    echo_cmd = "bash -c 'echo -e \"\nfeatures.auth.applicationAuthModes.enabled=true\" >> #{override_file}'"
+    echo_cmd = "bash -c 'echo \"\" >> #{override_file}'"
+    edit_cmd = "kubectl exec #{library_pod} -n #{namespace} -- #{echo_cmd}"
+    puts "edit_cmd is #{edit_cmd}"
+    shell_command! "#{edit_cmd}"
+    echo_cmd = "bash -c 'echo \"features.auth.applicationAuthModes.enabled=true\" >> #{override_file}'"
     edit_cmd = "kubectl exec #{library_pod} -n #{namespace} -- #{echo_cmd}"
     puts "edit_cmd is #{edit_cmd}"
     shell_command! "#{edit_cmd}"
@@ -60,6 +64,7 @@ def do_override_library
     Tanzu.wait_on_service(service_name: environmentName, url: libraryUrl, endpoint: 'api/status', response_code: 200)
   rescue => e
     error "exception from do_override_library:\n #{e}"
+    raise "exception from do_override_library:\n #{e}"
     do_delete_tanzu_environment(environmentName)
   end
 end
