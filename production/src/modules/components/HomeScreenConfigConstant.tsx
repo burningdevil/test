@@ -527,8 +527,8 @@ export const customEmailStringDict = {
             'twitter_default': 'https://twitter.com/microstrategy',
             'twitter_prefix': 'https://twitter.com/',
             'linked': t('linkedIn'),
-            'linked_default': 'https://linked.com/microstrategy',
-            'linked_prefix': 'https://linked.com/',
+            'linked_default': 'https://linkedin.com/microstrategy',
+            'linked_prefix': 'https://linkedin.com/',
             'yt': t('youTube'),
             'yt_default': 'https://youtube.com/microstrategy',
             'yt_prefix': 'https://youtube.com/'

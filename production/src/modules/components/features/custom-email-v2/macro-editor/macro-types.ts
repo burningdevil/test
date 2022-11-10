@@ -33,6 +33,7 @@ export interface MacroEditorProps {
   placeholder: string;
   defaultValue?: string;
   isMultiContent?: boolean;
+  isPreviewOpen?:boolean;
   isNotificationReminder?: string;
   readOnly?: boolean;
   reset?: boolean;

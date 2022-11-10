@@ -328,3 +328,6 @@ export const updatePaletteName = (paletteId: string, config: any) => {
 export const fetchAllFeatureFlags = () => {
     return HttpProxy.get('/v2/configurations/featureFlags', {});
 };
+export const fetchAllWhiteListUrls = () => {
+    return HttpProxy.get('/mstrServices/library/security', {});
+};

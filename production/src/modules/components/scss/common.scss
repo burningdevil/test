@@ -118,6 +118,9 @@
         display:none;
     }
 }
+.ant-popover-arrow {
+    top: 0px !important; // multiple antd version introduced by rc;
+}
 
 
 
