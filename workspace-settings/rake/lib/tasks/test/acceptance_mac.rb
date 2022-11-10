@@ -44,11 +44,11 @@ def do_override_library
     library_pod = cloc_output.split(" ")[0]
     puts "library_pod is #{library_pod}"
     override_file = "/usr/local/tomcat/webapps/MicroStrategyLibrary/WEB-INF/classes/config/configOverride.properties"
-    echo_cmd = "bash -c 'echo \"\" >> #{override_file}'"
+    echo_cmd = "bash -c \"echo '' >> #{override_file}\""
     edit_cmd = "kubectl exec #{library_pod} -n #{namespace} -- #{echo_cmd}"
     puts "edit_cmd is #{edit_cmd}"
     shell_command! "#{edit_cmd}"
-    echo_cmd = "bash -c 'echo \"features.auth.applicationAuthModes.enabled=true\" >> #{override_file}'"
+    echo_cmd = "bash -c \"echo 'features.auth.applicationAuthModes.enabled=true' >> #{override_file}\""
     edit_cmd = "kubectl exec #{library_pod} -n #{namespace} -- #{echo_cmd}"
     puts "edit_cmd is #{edit_cmd}"
     shell_command! "#{edit_cmd}"
