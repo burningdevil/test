@@ -475,7 +475,8 @@ export const customEmailStringDict = {
             'label': t('showBrandImage'),
             'brandImageTitle': t('brandingImageTitle'),
             'brandImageLabel': t('brandImageLabel'),
-            'brandImageUrl': t('brandImageUrl')
+            'brandImageUrl': t('brandImageUrl'),
+            'invalidImageAddressTip': t('invalidImageAddressTip')
         },
         'actionButton': {
             'title': t('actionButton'),
@@ -486,6 +487,8 @@ export const customEmailStringDict = {
             'hostTooltip': t('hostPortalTooltip'),
             'hostInvalidTip': t('hostInvalidTip'),
             'portalLinkNotInWhiteListMsg': t('portalLinkNotInWhiteListMsg'),
+            'portalLinkNotInWhiteListTip1': t('portalLinkNotInWhiteListTip1'),
+            'portalLinkNotInWhiteListTip2': t('portalLinkNotInWhiteListTip2'),
             'hostTooltipHelp': t('hostPortalHelp'),
             'showDescription': t('showDescription'),
             'descriptionDefaultStr': "'View in Mobile App' may not work for all mobile mail apps. Use 'View in Browser' option for such cases.",
@@ -973,3 +976,4 @@ export const SUPPORT_CONFIGURATION_PALETTE_ID = 'F6E46AFF44AC27FCEA1B5D93451BE4F
 export const GENERAL_PREVIEW_FEATURE_FLAG = 'preview-features';
 export const APPLICATIONS_AUTH_MODES_FLAG = 'features.auth.applicationAuthModes.enabled';
 export const CUSTOM_EMAIL_HOST_PORTAL_HELP_LINK = 'https://microstrategy.github.io/embedding-sdk-docs/add-functionality/use-custom-dossier-link/';
+export const CUSTOM_EMAIL_WHITE_LIST_HELP_LINK = 'https://www2.microstrategy.com/producthelp/Current/InstallConfig/en-us/Content/library_admin_control_panel.htm';

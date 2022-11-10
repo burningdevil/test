@@ -31,7 +31,7 @@ const FormInput: React.FC<FormInputModel> = (props: FormInputModel
                     onValidate={(e: string) => {
                         if(enableValidate){
                             const validAndMsg = validate(e, elementId, validateCb);
-                            if(typeof validAndMsg === 'string'){
+                            if(typeof validAndMsg !== 'boolean'){
                                 setErrMsg(validAndMsg);
                                 return false;
                             }else {

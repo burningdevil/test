@@ -16,7 +16,8 @@ export function validateHttpUrl(url: string) {
 
     return true
 }
-export function validatePortalUrl(whitelist: string[] = [], allowAll: boolean, envUrl: string, url: string) {
+
+export function validatePortalUrl(whitelist: string[] = [], allowAll: boolean, envUrl: string, errorMsg: any,  url: string) {
     try {
         if (url.length > 0) {
             new URL(url);
@@ -32,7 +33,7 @@ export function validatePortalUrl(whitelist: string[] = [], allowAll: boolean, e
                 return url?.origin;
             })
             const currentUrl = new UrlParse(url);
-            return domains.includes(currentUrl?.origin) ? true : customEmailStringDict.formGroup.actionButton.portalLinkNotInWhiteListMsg;
+            return domains.includes(currentUrl?.origin) ? true : errorMsg;
         }
     } catch (err) {
         return false;
@@ -49,7 +50,7 @@ export function validateImageUrl(url: string){
         // validate the suffix;
         const imageAddr = new UrlParse(url);
         const pathName = imageAddr.pathname; // strip the query params;
-        return /\w.(png|jpg|jpeg|webp|gif|bmp)$/gm.test(pathName?.toLowerCase()); // exclude svg
+        return /\w.(png|jpg|jpeg|webp|bmp)$/gm.test(pathName?.toLowerCase()) ? true : customEmailStringDict.formGroup.image.invalidImageAddressTip; // exclude svg
     } catch (err) {
         return false;
     }
@@ -61,9 +62,6 @@ export const decodeContent = (v: string) => {
 
 export const encodeContent = (v: string) => {
     return v?.trim();
-}
-export const replaceHtmlBreakLine = (v: string) => {
-    return v;
 }
 
 export enum SubjectBodyEnum {

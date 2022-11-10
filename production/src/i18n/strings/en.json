@@ -307,6 +307,8 @@
     "actionButtonSchemeTypeDefault": "Default",
     "actionButtonSchemeTypeApp": "App Scheme",
     "actionButtonSchemeTypeUni": "Universal Link",
-    "portalLinkNotInWhiteListMsg": "Your IP address is not in whitelist"
-
+    "portalLinkNotInWhiteListMsg": "Your IP address is not in whitelist",
+    "portalLinkNotInWhiteListTip1": "Library has been configured to allow embedding in specific websites only.",
+    "portalLinkNotInWhiteListTip2": "Please ensure this URL has been added in the Library security settings. ",
+    "invalidImageAddressTip": "Please input valid image address"
 }

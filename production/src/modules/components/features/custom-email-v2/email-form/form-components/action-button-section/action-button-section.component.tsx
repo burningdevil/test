@@ -8,7 +8,7 @@ import { CustomEmailSettingType, MobileButtonLinkEnum } from '../../../../../../
 import { encodeContent, PRIMARY_BLUE_HEX_COLOR, validateHttpUrl, validatePortalUrl, validateScheme, WHITE_HEX_COLOR } from '../../../custom-email.util';
 import { FormMobileButtonLinkInputModel } from '../form-input.model';
 import * as _ from 'lodash';
-import { customEmailStringDict, CUSTOM_EMAIL_HOST_PORTAL_HELP_LINK } from '../../../../../HomeScreenConfigConstant';
+import { customEmailStringDict, CUSTOM_EMAIL_HOST_PORTAL_HELP_LINK, CUSTOM_EMAIL_WHITE_LIST_HELP_LINK } from '../../../../../HomeScreenConfigConstant';
 import OverflowText from '../../../../../../../../src/modules/components/common-components/overflow-text/overflow-text';
 import FormInput from '../form-input/form-input.component';
 import FormBtnColor from '../form-btn-color/form-btn-color.component';
@@ -19,7 +19,6 @@ import { awaitWrap } from '../../../../../../../../src/modules/components/views/
 const classNamePrefix = 'custom-email-form-v2'
 const { Option } = Select;
 const { TextArea} = Input;
-const UrlParse = require('url-parse');
 interface ActionButtonSectionInput {
     env: any;
     validate: Function;
@@ -105,6 +104,13 @@ const ActionButtonSection: React.FC<ActionButtonSectionInput> = React.forwardRef
             }
         }, [])
         React.useEffect(() => {
+            // init validate the hostPortal
+            const validMsg = validatePortalUrl(whiteListUrls, allowAllOrigins, env?.url, hostWhiteListTip, hostWebPortal);
+            if( validMsg !== true){
+                dispatch(Actions.setCustomEmailNameError(true));
+            }
+        }, [isWhiteListRequestLoaded])
+        React.useEffect(() => {
             if(env){
                 // encapsule the default url of the mobile button link. 
                 let url;
@@ -134,12 +140,26 @@ const ActionButtonSection: React.FC<ActionButtonSectionInput> = React.forwardRef
         const hostTooltip = (
             <div>
                 {customEmailStringDict.formGroup.actionButton.hostTooltip}
+                <br/>
+                {customEmailStringDict.formGroup.actionButton.portalLinkNotInWhiteListTip1}
+                <br/>
+                {customEmailStringDict.formGroup.actionButton.portalLinkNotInWhiteListTip2}
                 <a 
                 target = "_blank"
     
                 href={CUSTOM_EMAIL_HOST_PORTAL_HELP_LINK} style = {{'marginLeft': '8px'}}>{customEmailStringDict.formGroup.actionButton.hostTooltipHelp}</a>
             </div>
         )
+        const hostWhiteListTip = (
+            <span>
+                {customEmailStringDict.formGroup.actionButton.portalLinkNotInWhiteListMsg}
+                <a 
+                target = "_blank"
+    
+                href={CUSTOM_EMAIL_WHITE_LIST_HELP_LINK} style = {{'marginLeft': '8px'}}>{customEmailStringDict.formGroup.actionButton.hostTooltipHelp}</a>
+            </span>
+        )
+
           const renderMobileButtonLink = (mobileButtonLinkInput: FormMobileButtonLinkInputModel) => {
             const {label, value, cb, elementId, placeholder, propertyPath, enableValidate, errorMessage, validateCb, linkType} = mobileButtonLinkInput;
             const handleChange = (val: MobileButtonLinkEnum) => {
@@ -215,7 +235,7 @@ const ActionButtonSection: React.FC<ActionButtonSectionInput> = React.forwardRef
             {/*button 1*/}
             <FormSwitch {...{label: customEmailStringDict.formGroup.actionButton.label1, value: showButton1, cb: setShowButton1, elementId: 'showBrowserButton', stateData: stateData}}/>
             {showButton1 && <FormBtnColor {...{label: customEmailStringDict.formGroup.actionButton.button1, value: button1Text, cb: setButton1Text, elementId: 'browserButtonStyle', placeholder: customEmailStringDict.formGroup.actionButton.button1_default, fontColor: button1FontColor, fontColorCb: setButton1FontColor, bgColor: button1BgColor, bgColorCb: setButton1BgColor, validate: validate, stateData: stateData}}></FormBtnColor>}
-            {showButton1 && <FormInput {...{'label': customEmailStringDict.formGroup.actionButton.label2, 'value': hostWebPortal, 'cb': setHostWebPortal, 'elementId': 'hostPortal','placeholder': customEmailStringDict.formGroup.actionButton.placeholder, 'propertyPath': 'hostPortal', 'tooltip': true, 'enableValidate': true, 'errorMessage': customEmailStringDict.formGroup.actionButton.hostInvalidTip, 'validateCb': validatePortalUrl.bind(null, whiteListUrls, allowAllOrigins, env?.url),disabled: false, 'isNotEncode': false, tooltipStr: hostTooltip, 'validate': validate, 'stateData': stateData}}></FormInput>}
+            {showButton1 && <FormInput {...{'label': customEmailStringDict.formGroup.actionButton.label2, 'value': hostWebPortal, 'cb': setHostWebPortal, 'elementId': 'hostPortal','placeholder': customEmailStringDict.formGroup.actionButton.placeholder, 'propertyPath': 'hostPortal', 'tooltip': true, 'enableValidate': true, 'errorMessage': customEmailStringDict.formGroup.actionButton.hostInvalidTip, 'validateCb': validatePortalUrl.bind(null, whiteListUrls, allowAllOrigins, env?.url, hostWhiteListTip),disabled: false, 'isNotEncode': false, tooltipStr: hostTooltip, 'validate': validate, 'stateData': stateData}}></FormInput>}
             {/*button 2*/}
             <FormSwitch {...{label: customEmailStringDict.formGroup.actionButton.label3, value: showButton2, cb: setShowButton2, elementId: 'showMobileButton', stateData: stateData}}/>
             {showButton2 && <FormBtnColor {...{label: customEmailStringDict.formGroup.actionButton.button2, value: button2Text, cb: setButton2Text, elementId: 'mobileButtonStyle', placeholder: customEmailStringDict.formGroup.actionButton.button2_default, fontColor: button2FontColor, fontColorCb: setButton2FontColor, bgColor: button2BgColor, bgColorCb: setButton2BgColor, validate: validate, stateData: stateData}}></FormBtnColor>}

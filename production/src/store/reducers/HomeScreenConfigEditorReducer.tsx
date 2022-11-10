@@ -4,7 +4,7 @@ import { ActionTypes } from '../actions/ActionTypes'
 import * as Actions from '../actions/ActionConstants'
 import * as _ from 'lodash'
 import { DEFAULT_AUTH_MODE } from '../../../src/modules/components/features/custom-auth/custom-auth.model'
-import { PRIMARY_BLUE_HEX_COLOR, replaceHtmlBreakLine, WHITE_HEX_COLOR } from '../../../src/modules/components/features/custom-email-v2/custom-email.util'
+import { PRIMARY_BLUE_HEX_COLOR, WHITE_HEX_COLOR } from '../../../src/modules/components/features/custom-email-v2/custom-email.util'
 export const DEFAULT_EMAIL_SETTING = {
   'enabled': false,
   'hostPortal': '',
@@ -19,19 +19,19 @@ export const DEFAULT_EMAIL_SETTING = {
   'content': {
     'SHARE_DOSSIER': {
       'subject': customEmailStringDict.formGroup.subjectAndBody.subsection1.placeholder1,
-      'body': replaceHtmlBreakLine(customEmailStringDict.formGroup.subjectAndBody.subsection1.placeholder2)
+      'body': customEmailStringDict.formGroup.subjectAndBody.subsection1.placeholder2
     },
     'SHARE_BOOKMARK': {
       'subject': customEmailStringDict.formGroup.subjectAndBody.subsection2.placeholder1,
-      'body': replaceHtmlBreakLine(customEmailStringDict.formGroup.subjectAndBody.subsection2.placeholder2)
+      'body': customEmailStringDict.formGroup.subjectAndBody.subsection2.placeholder2
     },
     'MEMBER_ADDED': {
       'subject': customEmailStringDict.formGroup.subjectAndBody.subsection3.placeholder1,
-      'body': replaceHtmlBreakLine(customEmailStringDict.formGroup.subjectAndBody.subsection3.placeholder2)
+      'body': customEmailStringDict.formGroup.subjectAndBody.subsection3.placeholder2
     },
     'USER_MENTION': {
       'subject': customEmailStringDict.formGroup.subjectAndBody.subsection4.placeholder1,
-      'body': replaceHtmlBreakLine(customEmailStringDict.formGroup.subjectAndBody.subsection4.placeholder2)
+      'body': customEmailStringDict.formGroup.subjectAndBody.subsection4.placeholder2
     },
   },
   'showButtonDescription': true,

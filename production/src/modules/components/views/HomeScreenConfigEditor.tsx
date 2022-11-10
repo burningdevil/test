@@ -762,6 +762,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                                     <CustomEmailBlade />
                                     {this.buttonGroup()}
                                 </Tabs.TabPane>)}
+                            
                                 {this.state.customEmailV2Enabled  && (this.props.configLoadingFinish || this.state.isNewApplication) && <Tabs.TabPane
                                     tab={localizedStrings.NAVBAR_CUSTOM_EMAIL_SETTINGS}
                                     key={VC.CUSTOMEMAILSETTINGS}
