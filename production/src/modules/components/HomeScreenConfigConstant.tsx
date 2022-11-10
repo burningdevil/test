@@ -485,6 +485,7 @@ export const customEmailStringDict = {
             'placeholder': t('hostWebPortalPlaceholder'),
             'hostTooltip': t('hostPortalTooltip'),
             'hostInvalidTip': t('hostInvalidTip'),
+            'portalLinkNotInWhiteListMsg': t('portalLinkNotInWhiteListMsg'),
             'hostTooltipHelp': t('hostPortalHelp'),
             'showDescription': t('showDescription'),
             'descriptionDefaultStr': "'View in Mobile App' may not work for all mobile mail apps. Use 'View in Browser' option for such cases.",

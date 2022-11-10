@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import { DEFAULT_EMAIL_SETTING } from '../../../../../src/store/reducers/HomeScreenConfigEditorReducer';
 import { HomeScreenConfigType } from '../../../../../src/types/data-model/HomeScreenConfigModels';
+import { customEmailStringDict } from '../../HomeScreenConfigConstant';
 var UrlParse = require('url-parse');
 export function validateHttpUrl(url: string) {
     try {
@@ -31,7 +32,7 @@ export function validatePortalUrl(whitelist: string[] = [], allowAll: boolean, e
                 return url?.origin;
             })
             const currentUrl = new UrlParse(url);
-            return domains.includes(currentUrl?.origin) ? true : 'Not in White list';
+            return domains.includes(currentUrl?.origin) ? true : customEmailStringDict.formGroup.actionButton.portalLinkNotInWhiteListMsg;
         }
     } catch (err) {
         return false;

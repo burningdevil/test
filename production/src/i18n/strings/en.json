@@ -306,6 +306,7 @@
     "resetTip": "Reset? ",
     "actionButtonSchemeTypeDefault": "Default",
     "actionButtonSchemeTypeApp": "App Scheme",
-    "actionButtonSchemeTypeUni": "Universal Link"
+    "actionButtonSchemeTypeUni": "Universal Link",
+    "portalLinkNotInWhiteListMsg": "Your IP address is not in whitelist"
 
 }
