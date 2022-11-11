@@ -7,6 +7,7 @@ import { CustomEmailSettingType } from '../../../../../../../../src/types/data-m
 import { FormSocialItemInputModel } from '../form-input.model';
 import * as _ from 'lodash';
 import { customEmailStringDict } from '../../../../../HomeScreenConfigConstant';
+import { encodeContent } from '../../../custom-email.util';
 const classNamePrefix = 'custom-email-form-v2'
 interface SocialMediaSectionInput {
     env?: any;
@@ -23,13 +24,13 @@ const SocialMediaSection: React.FC<SocialMediaSectionInput> = (props: SocialMedi
         */
         const [showSocialMedia, ] = useState( Reflect.has(stateData, 'showSocialMedia') ? stateData.showSocialMedia : true);
         const [showFb, setShowFb] = useState(_.has(stateData, 'socialMedia.showFacebook') ? stateData?.socialMedia?.showFacebook : showSocialMedia);
-        const [fbLink, setFbLink] = useState(_.unescape(stateData?.socialMedia?.facebookLink?.replace(customEmailStringDict.formGroup.socialMedia.fb_prefix, '')));
+        const [fbLink, setFbLink] = useState(_.unescape(stateData?.socialMedia?.facebookLink));
         const [showTwitter, setShowTwitter] = useState(_.has(stateData, 'socialMedia.showTwitter') ? stateData?.socialMedia?.showTwitter : showSocialMedia);
-        const [twitterLink, setTwitterLink] = useState(_.unescape(stateData?.socialMedia?.twitterLink?.replace(customEmailStringDict.formGroup.socialMedia.twitter_prefix, '')));
+        const [twitterLink, setTwitterLink] = useState(_.unescape(stateData?.socialMedia?.twitterLink));
         const [showLinked, setShowLinked] = useState(_.has(stateData, 'socialMedia.showLinkedIn') ? stateData?.socialMedia?.showLinkedIn : showSocialMedia);
-        const [linkedLink, setLinkedLink] = useState(_.unescape(stateData?.socialMedia?.linkedInLink?.replace(customEmailStringDict.formGroup.socialMedia.linked_prefix, '')));
+        const [linkedLink, setLinkedLink] = useState(_.unescape(stateData?.socialMedia?.linkedInLink));
         const [showYt, setShowYt] = useState(_.has(stateData, 'socialMedia.showYouTube') ? stateData?.socialMedia?.showYouTube : showSocialMedia); // yt is short for the youTube
-        const [ytLink, setYtLink] = useState(_.unescape(stateData?.socialMedia?.youTubeLink?.replace(customEmailStringDict.formGroup.socialMedia.yt_prefix, '')));
+        const [ytLink, setYtLink] = useState(_.unescape(stateData?.socialMedia?.youTubeLink));
          
         const switchChange = (key:  string, value: boolean, cb: React.Dispatch<React.SetStateAction<boolean>>) =>{
             cb(value);
@@ -75,7 +76,7 @@ const SocialMediaSection: React.FC<SocialMediaSectionInput> = (props: SocialMedi
                         placeholder = {placeholder}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                             cb_link(e.target.value);
-                            _.set(stateData, propertyPath, linkPrefix + _.escape(e.target.value));
+                            _.set(stateData, propertyPath, encodeContent(e.target.value));
                             dispatch(
                                 Actions.updateCurrentConfig({
                                     emailSettings: stateData

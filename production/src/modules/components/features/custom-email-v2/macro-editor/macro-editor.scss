@@ -80,7 +80,8 @@
         font-style: normal;
         color: #d7d7d7;
         left: 10px;
-        @extend .overflow;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
 

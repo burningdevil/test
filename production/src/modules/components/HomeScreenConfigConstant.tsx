@@ -475,7 +475,8 @@ export const customEmailStringDict = {
             'label': t('showBrandImage'),
             'brandImageTitle': t('brandingImageTitle'),
             'brandImageLabel': t('brandImageLabel'),
-            'brandImageUrl': t('brandImageUrl')
+            'brandImageUrl': t('brandImageUrl'),
+            'invalidImageAddressTip': t('invalidImageAddressTip')
         },
         'actionButton': {
             'title': t('actionButton'),
@@ -485,6 +486,9 @@ export const customEmailStringDict = {
             'placeholder': t('hostWebPortalPlaceholder'),
             'hostTooltip': t('hostPortalTooltip'),
             'hostInvalidTip': t('hostInvalidTip'),
+            'portalLinkNotInWhiteListMsg': t('portalLinkNotInWhiteListMsg'),
+            'portalLinkNotInWhiteListTip1': t('portalLinkNotInWhiteListTip1'),
+            'portalLinkNotInWhiteListTip2': t('portalLinkNotInWhiteListTip2'),
             'hostTooltipHelp': t('hostPortalHelp'),
             'showDescription': t('showDescription'),
             'descriptionDefaultStr': "'View in Mobile App' may not work for all mobile mail apps. Use 'View in Browser' option for such cases.",
@@ -520,17 +524,17 @@ export const customEmailStringDict = {
             'title': t('socialMedia'),
             'label': t('showSocialMedia'),
             'fb': t('facebook'),
-            'fb_default': "https://facebook.com/microstrategy",
+            'fb_default': "microstrategy",
             'fb_prefix': "https://facebook.com/",
             'placeholder': 'microstrategy',
             'twitter': t('twitter'),
-            'twitter_default': 'https://twitter.com/microstrategy',
+            'twitter_default': 'microstrategy',
             'twitter_prefix': 'https://twitter.com/',
             'linked': t('linkedIn'),
-            'linked_default': 'https://linkedin.com/microstrategy',
+            'linked_default': 'microstrategy',
             'linked_prefix': 'https://linkedin.com/',
             'yt': t('youTube'),
-            'yt_default': 'https://youtube.com/microstrategy',
+            'yt_default': 'microstrategy',
             'yt_prefix': 'https://youtube.com/'
 
         },
@@ -541,28 +545,28 @@ export const customEmailStringDict = {
                 'label1': t('subject'),
                 'label2': t('bodyText'),
                 'placeholder1': 'You have been invited to view {&DossierName} in your library',
-                'placeholder2': 'Hi, {&RecipientName}!<br> {&SenderName} shared {&DossierName} with you.'
+                'placeholder2': 'Hi, {&RecipientName}! \r\n {&SenderName} shared {&DossierName} with you.'
             },
             'subsection2': {
                 'title': t('shareDossierToTheRecipentWithBookmark'),
                 'label1': t('subject'),
                 'label2': t('bodyText'),
                 'placeholder1': 'You have been invited to view {&DossierName} with shared bookmarks in your library',
-                'placeholder2': 'Hi, {&RecipientName}!<br> {&SenderName} shared {&DossierName} and {&BookmarkCount} bookmark with you.'
+                'placeholder2': 'Hi, {&RecipientName}! \r\n {&SenderName} shared {&DossierName} and {&BookmarkCount} bookmark with you.'
             },
             'subsection3': {
                 'title': t('inviteOneRecipientDiscussion'),
                 'label1': t('subject'),
                 'label2': t('bodyText'),
                 'placeholder1': 'You have been invited to a discussion',
-                'placeholder2': 'Hi, {&RecipientName}!<br>{&SenderName} invited you to a discussion in a dossier.'
+                'placeholder2': 'Hi, {&RecipientName}! \r\n {&SenderName} invited you to a discussion in a dossier.'
             },
             'subsection4': {
                 'title': t('mentionRecipientComment'),
                 'label1': t('subject'),
                 'label2': t('bodyText'),
                 'placeholder1': 'You have been mentioned in a {&MentionTarget}',
-                'placeholder2': 'Hi, {&RecipientName}!<br>{&SenderName} mentioned you in a comment in {&DossierName}.'
+                'placeholder2': 'Hi, {&RecipientName}! \r\n {&SenderName} mentioned you in a comment in {&DossierName}.'
             },
             'dossierTip': t('DossierNameTip'),
             'recipientNameTip': t('RecipientNameTip'),
@@ -972,3 +976,4 @@ export const SUPPORT_CONFIGURATION_PALETTE_ID = 'F6E46AFF44AC27FCEA1B5D93451BE4F
 export const GENERAL_PREVIEW_FEATURE_FLAG = 'preview-features';
 export const APPLICATIONS_AUTH_MODES_FLAG = 'features.auth.applicationAuthModes.enabled';
 export const CUSTOM_EMAIL_HOST_PORTAL_HELP_LINK = 'https://microstrategy.github.io/embedding-sdk-docs/add-functionality/use-custom-dossier-link/';
+export const CUSTOM_EMAIL_WHITE_LIST_HELP_LINK = 'https://www2.microstrategy.com/producthelp/Current/InstallConfig/en-us/Content/library_admin_control_panel.htm';

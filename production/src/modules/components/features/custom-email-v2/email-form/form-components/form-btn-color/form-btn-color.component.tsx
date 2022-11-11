@@ -4,7 +4,7 @@ import { ColorPickerDropdown, Input } from '@mstr/rc';
 
 import * as Actions from '../../../../../../../store/actions/ActionsCreator';
 import { DEFAULT_EMAIL_SETTING } from '../../../../../../../../src/store/reducers/HomeScreenConfigEditorReducer';
-import { validateEmpty } from '../../../custom-email.util';
+import { encodeContent, validateEmpty } from '../../../custom-email.util';
 import { FormBtnColorInputModel } from '../form-input.model';
 import * as _ from 'lodash';
 import { customEmailStringDict } from '../../../../../HomeScreenConfigConstant';
@@ -38,7 +38,7 @@ const FormBtnColor: React.FC<FormBtnColorInputModel> = (props: FormBtnColorInput
                         if(!stateData?.button?.[elementId]){
                             stateData['button'][elementId] = JSON.parse(JSON.stringify((DEFAULT_EMAIL_SETTING.button as any)[elementId]))
                         }
-                        (stateData['button'][elementId] as any)['text'] = _.escape(e.target.value);
+                        (stateData['button'][elementId] as any)['text'] = encodeContent(e.target.value);
                         dispatch(
                             Actions.updateCurrentConfig({
                                 emailSettings: stateData

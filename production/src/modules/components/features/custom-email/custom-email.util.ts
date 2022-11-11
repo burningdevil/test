@@ -75,11 +75,10 @@ export function constructSendingEmailRequestBody(configId: string, userInfo: any
             "isHTML": "true",
             "applicationId": configId
         }
-        const hostPortal = _.get(emailSettings, 'hostPortal', null);
-        if (!hostPortal) {
-            const shareLink = getShareUrl(configId, currentEnvUrl, isDefaultApp);
-            _.set(requestBody, 'template.tokens.shareLink', shareLink);
-        }
+        
+        const shareLink = getShareUrl(configId, currentEnvUrl, isDefaultApp);
+        _.set(requestBody, 'template.tokens.shareLink', shareLink);
+        
         
         return requestBody;
     } else {

@@ -29,7 +29,7 @@ const getBracketList = (
       case OPENING_BRACKET + AMPERSAND:
       case OPENING_BRACKET + CLOSING_BRACKET:
       case OPENING_BRACKET + OPENING_SQUARE_BRACKET:
-        item.value = OPENING_BRACKET + AMPERSAND + item.value + CLOSING_BRACKET + ' '; // here insert the blank especially aims to develop the user's habit of leaving blank after the macro.
+        item.value = OPENING_BRACKET + AMPERSAND + item.value + CLOSING_BRACKET; // here insert the blank especially aims to develop the user's habit of leaving blank after the macro.
         break;
       default:
         break;

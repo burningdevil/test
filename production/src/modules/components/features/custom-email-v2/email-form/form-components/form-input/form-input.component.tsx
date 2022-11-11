@@ -6,6 +6,7 @@ import * as Actions from '../../../../../../../store/actions/ActionsCreator';
 import { FormInputModel } from '../form-input.model';
 import * as _ from 'lodash';
 import { default as VC, customEmailStringDict } from '../../../../../HomeScreenConfigConstant';
+import { encodeContent } from '../../../custom-email.util';
 const classNamePrefix = 'custom-email-form-v2'
 
 
@@ -30,7 +31,7 @@ const FormInput: React.FC<FormInputModel> = (props: FormInputModel
                     onValidate={(e: string) => {
                         if(enableValidate){
                             const validAndMsg = validate(e, elementId, validateCb);
-                            if(typeof validAndMsg === 'string'){
+                            if(typeof validAndMsg !== 'boolean'){
                                 setErrMsg(validAndMsg);
                                 return false;
                             }else {
@@ -50,7 +51,7 @@ const FormInput: React.FC<FormInputModel> = (props: FormInputModel
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         cb(e.target.value);
                         if(!enableValidate || (enableValidate && validate(e.target.value, elementId, validateCb))){
-                            _.set(stateData, propertyPath, isNotEncode ? e.target.value : _.escape(e.target.value));
+                            _.set(stateData, propertyPath, isNotEncode ? e.target.value : encodeContent(e.target.value));
                         }
                         dispatch(
                             Actions.updateCurrentConfig({
