@@ -35,17 +35,12 @@ type ColorProps = {
 
 const Color: React.FC<ColorProps> = ({ color, updateTheme, settingsPanelRef }) => {
     const { selectedTheme = '' } = color || {};
-    const [isColorPropEditorOpen, setIsColorPropEditorOpen] = React.useState(isCustomColorTheme(selectedTheme));
-
-    React.useEffect(() => {
-        setIsColorPropEditorOpen(isCustomColorTheme(selectedTheme));
-    }, [color]);
+    const isColorPropEditorOpen = isCustomColorTheme(selectedTheme);
 
     const onColorChange = (selectedTheme: string) => {
         const colorObj: any = { color: { selectedTheme, formatting: null } };
         if (isCustomColorTheme(selectedTheme)) {
-            colorObj.color.formatting = prefinedColorSets[isPredefinedColorTheme(color.selectedTheme) ? color.selectedTheme : EnumSelectedThemes.RED]
-            setIsColorPropEditorOpen(true);
+            colorObj.color.formatting = prefinedColorSets[isPredefinedColorTheme(color.selectedTheme) ? color.selectedTheme : EnumSelectedThemes.RED];
         } 
         updateTheme(colorObj);
     };
