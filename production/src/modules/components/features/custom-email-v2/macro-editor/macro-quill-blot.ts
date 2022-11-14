@@ -136,7 +136,7 @@ class MacroQuillBlot extends Embed {
 
     const macroRegExp = this.getRegularMacroRegExp(availableMacros);
 
-    const replacerMacro = `<span class="macro" data-value="$& " contenteditable="false">$&  </span>`;
+    const replacerMacro = `<span class="macro" data-value="$&" contenteditable="false">$&</span>`;
     str = str
       .replace(macroRegExp, replacerMacro)
     if (isMultiContent) {
