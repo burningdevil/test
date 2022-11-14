@@ -13,8 +13,9 @@ import './styles.scss';
 import {
     colorPropTitles,
     EnumFormattingPropNames,
+    isColorCodeValid,
 } from '../../../utils/appThemeColorHelper';
-import ColorPicker from '../../../Components/ColorPicker';
+import ColorPickerComponent from '../../../Components/ColorPicker';
 
 type ColorPropEditorProps = {
     color: ApplicationColor;
@@ -24,6 +25,7 @@ type ColorPropEditorProps = {
             formatting: ThemeColorFormats;
         };
     }) => {};
+    settingsPanelRef: any;
 };
 
 const gutterHorizontal = 0;
@@ -33,31 +35,27 @@ const hexStrLengthWithHash = 7;
 const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
     color,
     updateTheme,
+    settingsPanelRef,
 }) => {
     const { selectedTheme, formatting } = color;
-
-    const [formats, setFormats] = React.useState<ThemeColorFormats>(formatting);
 
     const initColorCodeValidity: { [key: string]: boolean } = {};
     Object.keys(EnumFormattingPropNames).forEach(
         (key) => (initColorCodeValidity[key] = true)
     );
+
+    // current list of color format values
+    const [formats, setFormats] = React.useState<ThemeColorFormats>(formatting);
+
+    // List of booleans indicating whether current list of color format values are valid 3 or 6 digit hex values
     const [isColorCodeListValid, setIsColorCodeListValid] = React.useState(
         initColorCodeValidity
     );
 
+   // Variable to track the current property being edited
     const [colorPropInFocus, setColorPropInFocus] = React.useState('');
 
-    const isColorCodeValid = (hexCode: string) => {
-        const threeHexPattern = new RegExp('#[A-Fa-f0-9]{3}$');
-        const sixHexPattern = new RegExp('#[A-Fa-f0-9]{6}$');
-        return threeHexPattern.test(hexCode) || sixHexPattern.test(hexCode);
-    };
-
-    const onColorCodeChange = (
-        e: { target: { value: any } },
-        title: string
-    ) => {
+    const onColorChange = (e: { target: { value: any } }, title: string) => {
         setFormats({
             ...formats,
             [title]: e.target.value,
@@ -68,7 +66,7 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
         });
     };
 
-    const onEnter = (e: any, title: string) => {
+    const onBlur = (e: any, title: string) => {
         if (
             Object.values(isColorCodeListValid).every(
                 (colorCodeValid) => colorCodeValid
@@ -81,6 +79,16 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
         }
     };
 
+    /**
+     * Returns a grid row with 3 color format properties. For ex:
+     *
+     *  Toolbar BG    Toolbar Icon    Sidebar BG
+     *  [ ] #F24AC1   [ ] #FFEAEA     [ ] #FFF0F0
+     *
+     * @param start
+     * @param end
+     * @returns
+     */
     const getColorPropRow = (start: number, end: number) => {
         const cols = [];
         for (let i = start; i <= end; i++) {
@@ -91,6 +99,17 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
         return <Row gutter={[gutterHorizontal, gutterVertical]}>{cols}</Row>;
     };
 
+    /**
+     * Returns a grid coloumn with one color format property. For ex:
+     *
+     *  Toolbar BG
+     *  [ ] #F24AC1
+     *
+     * @param propName - Display name of format property
+     * @param title - format property name
+     * @param hexValue - color hex code value
+     * @returns
+     */
     const getColorPropCols = (
         propName: string,
         title: string,
@@ -102,47 +121,50 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
             )}
             span={8}
         >
-            <Form.Item className="color-prop-item" label={title}>
+            <div
+                className="color-prop-item"
+                onClick={() => setColorPropInFocus(propName)}
+                onBlur={(e: any) => onBlur(e, propName)}
+            >
+                <div className="color-prop-item-title">{title}</div>
                 <div
+                    id={`mstr-color-prop-${propName}`}
                     className="color-prop-item-content"
-                    onFocus={(e: any) => setColorPropInFocus(propName)}
                 >
-                    <ColorPicker
+                    <ColorPickerComponent
                         color={hexValue}
-                        onColorChange={(v: string) =>
-                            onColorCodeChange(
-                                { target: { value: v } },
-                                propName
-                            )
-                        }
+                        visible={false}
+                        onColorChange={(v: string) => {
+                            onColorChange({ target: { value: v } }, propName);
+                        }}
+                        popupContainer={() => settingsPanelRef}
                     >
                         <div
                             className="color-box"
                             style={{ background: hexValue }}
                         ></div>
-                    </ColorPicker>
+                    </ColorPickerComponent>
+
                     <Input
                         className="color-value-input"
                         value={hexValue}
                         bordered={false}
                         maxLength={hexStrLengthWithHash}
-                        onChange={(e) => onColorCodeChange(e, propName)}
-                        onPressEnter={(e: any) => onEnter(e, propName)}
-                        onBlur={(e: any) => onEnter(e, propName)}
+                        onChange={(e) => onColorChange(e, propName)}
                     ></Input>
                 </div>
-            </Form.Item>
+            </div>
         </Col>
     );
 
     return (
         <div className="mstr-app-theme-color-prop-editor">
-            <Form className="color-prop-list" layout={'vertical'}>
+            <div className="color-prop-list">
                 {getColorPropRow(0, 2)}
                 {getColorPropRow(3, 5)}
                 {getColorPropRow(6, 8)}
                 {getColorPropRow(9, 10)}
-            </Form>
+            </div>
         </div>
     );
 };

@@ -1,4 +1,3 @@
-import { ThemeColorFormats } from 'src/types/data-model/HomeScreenConfigModels';
 import { t } from '../../i18n/i18next';
 
 // all the available Theme Color
@@ -178,23 +177,23 @@ export const prefinedColorSets = {
 };
 
 export const colorPropTitles = [
-    [EnumFormattingPropNames.toolbarFill, 'Toolbar BG'],
-    [EnumFormattingPropNames.toolbarColor, 'Toolbar Icon'],
+    [EnumFormattingPropNames.toolbarFill, t('Toolbar BG')],
+    [EnumFormattingPropNames.toolbarColor, t('Toolbar Icon')],
 
-    [EnumFormattingPropNames.sidebarFill, 'Sidebar BG'],
-    [EnumFormattingPropNames.sidebarColor, 'Sidebar Text'],
+    [EnumFormattingPropNames.sidebarFill, t('Sidebar BG')],
+    [EnumFormattingPropNames.sidebarColor, t('Sidebar Text')],
 
-    [EnumFormattingPropNames.sidebarActiveFill, 'Sidebar Active'],
-    [EnumFormattingPropNames.sidebarActiveColor, 'Sidebar Active Text'],
+    [EnumFormattingPropNames.sidebarActiveFill, t('Sidebar Active')],
+    [EnumFormattingPropNames.sidebarActiveColor, t('Sidebar Active Text')],
 
-    [EnumFormattingPropNames.panelFill, 'Panel BG'],
-    [EnumFormattingPropNames.panelColor, 'Panel Text'],
+    [EnumFormattingPropNames.panelFill, t('Panel BG')],
+    [EnumFormattingPropNames.panelColor, t('Panel Text')],
 
-    [EnumFormattingPropNames.accentFill, 'Accent Color'],
+    [EnumFormattingPropNames.accentFill, t('Accent Color')],
 
-    [EnumFormattingPropNames.buttonColor, 'Button Text'],
+    [EnumFormattingPropNames.buttonColor, t('Button Text')],
 
-    [EnumFormattingPropNames.notificationBadgeFill, 'Notification Badge'],
+    [EnumFormattingPropNames.notificationBadgeFill, t('Notification Badge')],
 ];
 
 export const isCustomColorTheme = (theme: string) =>
@@ -210,19 +209,8 @@ export const isPredefinedColorTheme = (theme: string) =>
         EnumSelectedThemes.DARK
     ].some((t) => theme === t);
 
-export const getPredefinedThemeColorFormat = (
-    theme: string
-): ThemeColorFormats => ({
-    toolbarFill: prefinedColorSets[theme].toolbarFill,
-    toolbarColor:
-        prefinedColorSets[theme][EnumFormattingPropNames.toolbarColor],
-    sidebarFill: prefinedColorSets[theme].sidebarFill,
-    sidebarColor: prefinedColorSets[theme].sidebarColor,
-    sidebarActiveFill: prefinedColorSets[theme].sidebarActiveFill,
-    sidebarActiveColor: prefinedColorSets[theme].sidebarActiveColor,
-    panelFill: prefinedColorSets[theme].panelFill,
-    panelColor: prefinedColorSets[theme].panelColor,
-    accentFill: prefinedColorSets[theme].accentFill,
-    buttonColor: prefinedColorSets[theme].buttonColor,
-    notificationBadgeFill: prefinedColorSets[theme].notificationBadgeFill,
-});
+export const isColorCodeValid = (hexCode: string) => {
+    const threeHexPattern = new RegExp('#[A-Fa-f0-9]{3}$');
+    const sixHexPattern = new RegExp('#[A-Fa-f0-9]{6}$');
+    return threeHexPattern.test(hexCode) || sixHexPattern.test(hexCode);
+};

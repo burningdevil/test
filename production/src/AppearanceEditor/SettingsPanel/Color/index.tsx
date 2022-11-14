@@ -30,9 +30,10 @@ type ColorProps = {
         selectedTheme: string;
         formatting?: ThemeColorFormats;
     }) => {};
+    settingsPanelRef: any;
 };
 
-const Color: React.FC<ColorProps> = ({ color, updateTheme }) => {
+const Color: React.FC<ColorProps> = ({ color, updateTheme, settingsPanelRef }) => {
     const { selectedTheme = '' } = color || {};
     const [isColorPropEditorOpen, setIsColorPropEditorOpen] = React.useState(isCustomColorTheme(selectedTheme));
 
@@ -61,7 +62,7 @@ const Color: React.FC<ColorProps> = ({ color, updateTheme }) => {
                     </div>
                 </div>
                 { (isCustomColorTheme(value) && isColorPropEditorOpen) ? (
-                    <ColorPropEditor />
+                    <ColorPropEditor settingsPanelRef={settingsPanelRef}/>
                 ) : null}
             </div>
         </Radio>

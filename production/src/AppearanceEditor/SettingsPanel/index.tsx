@@ -4,12 +4,14 @@ import Color from './Color';
 import './styles.scss';
 
 const SettingsPanel: React.FC = () => {
+    const settingsPanelRef = React.useRef(null);
+
     return (
-        <div className="mstr-app-theme-settings-panel">
+        <div className="mstr-app-theme-settings-panel" ref={settingsPanelRef}>
             <div className="settings-panel-content">
                 <Logos />
                 <div className="mstr-divider"></div>
-                <Color />
+                <Color settingsPanelRef={settingsPanelRef.current} />
             </div>
         </div>
     );
