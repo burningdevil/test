@@ -33,18 +33,40 @@ type ColorProps = {
     settingsPanelRef: any;
 };
 
-const Color: React.FC<ColorProps> = ({ color, updateTheme, settingsPanelRef }) => {
+const Color: React.FC<ColorProps> = ({
+    color,
+    updateTheme,
+    settingsPanelRef,
+}) => {
     const { selectedTheme = '' } = color || {};
     const isColorPropEditorOpen = isCustomColorTheme(selectedTheme);
 
+    /**
+     * Updates redux store with the newly selected color formats
+     * If the currently selected theme is custom then sets the formatting properties
+     * to previously selected theme option (automatically sets to RED if previously selected theme was 'Light')
+     *
+     * @param selectedTheme -  Theme currently selected by user
+     */
     const onColorChange = (selectedTheme: string) => {
         const colorObj: any = { color: { selectedTheme, formatting: null } };
         if (isCustomColorTheme(selectedTheme)) {
-            colorObj.color.formatting = prefinedColorSets[isPredefinedColorTheme(color.selectedTheme) ? color.selectedTheme : EnumSelectedThemes.RED];
-        } 
+            colorObj.color.formatting =
+                prefinedColorSets[
+                    isPredefinedColorTheme(color.selectedTheme)
+                        ? color.selectedTheme
+                        : EnumSelectedThemes.RED
+                ];
+        }
         updateTheme(colorObj);
     };
 
+    /**
+     * Return a radio UI option with color box and theme label
+     * @param value - The hexcode value to paint the color box UI
+     * @param label - The selected theme name
+     * @returns
+     */
     const getColorRadioOption = (value: string, label: string) => (
         <Radio className={`${classNamePrefix}-option`} value={value}>
             <div className={`${classNamePrefix}-option-content`}>
@@ -56,8 +78,8 @@ const Color: React.FC<ColorProps> = ({ color, updateTheme, settingsPanelRef }) =
                         {label}
                     </div>
                 </div>
-                { (isCustomColorTheme(value) && isColorPropEditorOpen) ? (
-                    <ColorPropEditor settingsPanelRef={settingsPanelRef}/>
+                {isCustomColorTheme(value) && isColorPropEditorOpen ? (
+                    <ColorPropEditor settingsPanelRef={settingsPanelRef} />
                 ) : null}
             </div>
         </Radio>

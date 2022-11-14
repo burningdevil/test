@@ -39,6 +39,7 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
 }) => {
     const { selectedTheme, formatting } = color;
 
+    // Initialize validity of color code properties to true
     const initColorCodeValidity: { [key: string]: boolean } = {};
     Object.keys(EnumFormattingPropNames).forEach(
         (key) => (initColorCodeValidity[key] = true)
@@ -52,7 +53,7 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
         initColorCodeValidity
     );
 
-   // Variable to track the current property being edited
+    // Variable to track the current property being edited
     const [colorPropInFocus, setColorPropInFocus] = React.useState('');
 
     const onColorChange = (e: { target: { value: any } }, title: string) => {
@@ -137,6 +138,7 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
                         onColorChange={(v: string) => {
                             onColorChange({ target: { value: v } }, propName);
                         }}
+                        // attach color picker to the settings panel to avoid z-index and scroll issues
                         popupContainer={() => settingsPanelRef}
                     >
                         <div
