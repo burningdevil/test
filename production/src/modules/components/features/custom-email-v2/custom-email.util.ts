@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 import { DEFAULT_EMAIL_SETTING } from '../../../../../src/store/reducers/HomeScreenConfigEditorReducer';
 import { HomeScreenConfigType } from '../../../../../src/types/data-model/HomeScreenConfigModels';
 import { customEmailStringDict } from '../../HomeScreenConfigConstant';
+import {decode} from 'html-entities';
 var UrlParse = require('url-parse');
 export function validateHttpUrl(url: string) {
     try {
@@ -57,7 +58,7 @@ export function validateImageUrl(url: string){
 }
 
 export const decodeContent = (v: string) => {
-    return _.unescape(v)?.trim();
+    return decode(v)?.trim();
 }
 
 export const encodeContent = (v: string) => {
