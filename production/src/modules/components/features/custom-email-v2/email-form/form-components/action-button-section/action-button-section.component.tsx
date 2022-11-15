@@ -5,7 +5,7 @@ import { Input } from '@mstr/rc';
 import { Select } from 'antd';
 import * as Actions from '../../../../../../../store/actions/ActionsCreator';
 import { CustomEmailSettingType, MobileButtonLinkEnum } from '../../../../../../../../src/types/data-model/HomeScreenConfigModels';
-import { encodeContent, PRIMARY_BLUE_HEX_COLOR, validateHttpUrl, validatePortalUrl, validateScheme, WHITE_HEX_COLOR } from '../../../custom-email.util';
+import { decodeContent, encodeContent, PRIMARY_BLUE_HEX_COLOR, validateHttpUrl, validatePortalUrl, validateScheme, WHITE_HEX_COLOR } from '../../../custom-email.util';
 import { FormMobileButtonLinkInputModel } from '../form-input.model';
 import * as _ from 'lodash';
 import { customEmailStringDict, CUSTOM_EMAIL_HOST_PORTAL_HELP_LINK, CUSTOM_EMAIL_WHITE_LIST_HELP_LINK } from '../../../../../HomeScreenConfigConstant';
@@ -31,19 +31,19 @@ const ActionButtonSection: React.FC<ActionButtonSectionInput> = React.forwardRef
         const {env, validate, stateData} = props;
         // action button
         const [showButton1, setShowButton1] = useState(stateData.showBrowserButton);
-        const [button1Text, setButton1Text] = useState(stateData?.button?.browserButtonStyle?.text ? _.unescape(stateData?.button?.browserButtonStyle?.text): customEmailStringDict.formGroup.actionButton.button1_default)
+        const [button1Text, setButton1Text] = useState(stateData?.button?.browserButtonStyle?.text ? decodeContent(stateData?.button?.browserButtonStyle?.text): customEmailStringDict.formGroup.actionButton.button1_default)
         const [button1FontColor, setButton1FontColor] = useState( stateData?.button?.browserButtonStyle?.fontColor?? WHITE_HEX_COLOR);
         const [button1BgColor, setButton1BgColor] =  useState(stateData?.button?.browserButtonStyle?.backgroundColor ?? PRIMARY_BLUE_HEX_COLOR);
-        const [hostWebPortal, setHostWebPortal] = useState(_.unescape(stateData.hostPortal));
+        const [hostWebPortal, setHostWebPortal] = useState(decodeContent(stateData.hostPortal));
         const [showButton2, setShowButton2] = useState(stateData.showMobileButton);
         const [mobileBtnLinkType, setMobileBtnLinkType] = useState(stateData?.button?.mobileButtonLinkType ? stateData?.button?.mobileButtonLinkType : MobileButtonLinkEnum.DEFAULT);
         const [mobileButtonScheme, setMobileButtonScheme] = useState(stateData?.button?.mobileButtonScheme ? stateData?.button?.mobileButtonScheme : 'dossier');
         const [mobileButtonLinkDefault, setMobileButtonLinkDefault] = useState('');
-        const [button2Text, setButton2Text] = useState(stateData?.button?.mobileButtonStyle?.text ? _.unescape(stateData?.button?.mobileButtonStyle?.text) : customEmailStringDict.formGroup.actionButton.button2_default);
+        const [button2Text, setButton2Text] = useState(stateData?.button?.mobileButtonStyle?.text ? decodeContent(stateData?.button?.mobileButtonStyle?.text) : customEmailStringDict.formGroup.actionButton.button2_default);
         const [button2FontColor, setButton2FontColor] = useState(stateData?.button?.mobileButtonStyle?.fontColor ??  WHITE_HEX_COLOR);
         const [button2BgColor, setButton2BgColor] =  useState(stateData?.button?.mobileButtonStyle?.backgroundColor ?? PRIMARY_BLUE_HEX_COLOR);
         const [showDescription, setShowDescription] = useState(Reflect.has(stateData, 'showButtonDescription') ? stateData.showButtonDescription : stateData.showBrowserButton && stateData.showMobileButton);
-        const [actionDescription, setActionDescription]= useState(stateData?.button?.description ?  _.unescape(stateData?.button?.description) : customEmailStringDict.formGroup.actionButton.descriptionDefaultStr);
+        const [actionDescription, setActionDescription]= useState(stateData?.button?.description ?  decodeContent(stateData?.button?.description) : customEmailStringDict.formGroup.actionButton.descriptionDefaultStr);
         
         const [isWhiteListRequestLoaded, setWhiteListRequestLoaded] = useState(false);
         const [isWhiteListRequestFailed, setWhiteListRequestFailed] = useState(false);

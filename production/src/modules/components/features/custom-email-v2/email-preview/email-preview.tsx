@@ -40,10 +40,10 @@ const CustomEmailPreview: React.FC<any> = () => {
                 <div className = {`${classNamePrefix}-card-content-2 skeleton-item`}></div>
                 
                 {(!emailSetting.enabled || emailSetting.showBrowserButton) && <div style = {{backgroundColor: emailSetting?.button?.browserButtonStyle?.backgroundColor}} className = {getViewButtonClass()}>
-                        <div style = {{'color': emailSetting?.button?.browserButtonStyle?.fontColor}}>{emailSetting?.button?.browserButtonStyle?.text ? _.unescape(emailSetting?.button?.browserButtonStyle?.text) : customEmailStringDict.formGroup.actionButton.button1_default}</div>
+                        <div style = {{'color': emailSetting?.button?.browserButtonStyle?.fontColor}}>{emailSetting?.button?.browserButtonStyle?.text ? decodeContent(emailSetting?.button?.browserButtonStyle?.text) : customEmailStringDict.formGroup.actionButton.button1_default}</div>
                 </div>}
                 {(!emailSetting.enabled || emailSetting.showMobileButton) && <div style = {{backgroundColor: emailSetting?.button?.mobileButtonStyle?.backgroundColor}} className = {getViewButtonClass()}>
-                        <div style = {{'color': emailSetting?.button?.mobileButtonStyle?.fontColor}}>{emailSetting?.button?.mobileButtonStyle?.text ? _.unescape(emailSetting?.button?.mobileButtonStyle?.text) : customEmailStringDict.formGroup.actionButton.button2_default}</div>
+                        <div style = {{'color': emailSetting?.button?.mobileButtonStyle?.fontColor}}>{emailSetting?.button?.mobileButtonStyle?.text ? decodeContent(emailSetting?.button?.mobileButtonStyle?.text) : customEmailStringDict.formGroup.actionButton.button2_default}</div>
                 </div>}
                 {(!emailSetting.enabled || emailSetting.showButtonDescription) && <div className = {`${classNamePrefix}-card-content-5 skeleton-item`}></div>}
                 {(!emailSetting.enabled || emailSetting.showReminder) && <Divider/>}
@@ -89,7 +89,7 @@ const CustomEmailPreview: React.FC<any> = () => {
                                             {renderCardContent()}
                                             <div className = {`${classNamePrefix}-card-footer`}>
                                             {(!emailSetting.enabled || emailSetting.showSentBy) && <div className = {`${classNamePrefix}-card-sender`}>
-                                                {`Sent by ${(!emailSetting.enabled || !emailSetting.sentByText) ?  DEFAULT_EMAIL_SETTING.sentByText : _.unescape(emailSetting.sentByText)}`}
+                                                {`Sent by ${(!emailSetting.enabled || !emailSetting.sentByText) ?  DEFAULT_EMAIL_SETTING.sentByText : decodeContent(emailSetting.sentByText)}`}
                                             </div>}
                                             {<div className = {`${classNamePrefix}-card-social`}>
                                                 {(!emailSetting.enabled || (emailSetting?.showSocialMedia && !_.has(emailSetting,'socialMedia.showFacebook')) || (emailSetting?.socialMedia?.showFacebook)) && <div className={`${classNamePrefix}-card-social-item font-facebook-icon`}/>}

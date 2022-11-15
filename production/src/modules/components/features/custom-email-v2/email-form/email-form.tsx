@@ -30,18 +30,18 @@ const CustomEmailForm: React.FC<any> = (props: any) => {
     const [enableCustomEmail, setEnableCustomEmail] = useState(stateData.enabled);
     // logo
     const [showImage, setShowImage] = useState(stateData.showBrandingImage);
-    const [imageUrl, setImageUrl] = useState(_.unescape(stateData?.brandingImage?.url)) // default image url
+    const [imageUrl, setImageUrl] = useState(decodeContent(stateData?.brandingImage?.url)) // default image url
     // action button
     //notification reminder
     const [showReminder, setShowReminder] = useState(stateData.showReminder);
     const [reminderContent, setReminderContent] = useState(stateData.reminder?.text ? decodeContent(stateData.reminder?.text): customEmailStringDict.formGroup.notificationReminder.defaultReminder);
-    const [reminderLinkText, setReminderLinkText] =  useState(stateData.reminder?.linkText ? _.unescape(stateData.reminder?.linkText) : customEmailStringDict.formGroup.notificationReminder.defaultReminderLinkText);
+    const [reminderLinkText, setReminderLinkText] =  useState(stateData.reminder?.linkText ? decodeContent(stateData.reminder?.linkText) : customEmailStringDict.formGroup.notificationReminder.defaultReminderLinkText);
     // send by
     const [showSendByInfo, setShowSendByInfo] = useState(stateData.showSentBy);
-    const [sentByOwner, setSentByOwner]  = useState(_.unescape(stateData.sentByText));
+    const [sentByOwner, setSentByOwner]  = useState(decodeContent(stateData.sentByText));
     // email sender
-    const [emailSenderName, setEmailSenderName] = useState(stateData.sender?.displayName ? _.unescape(stateData.sender?.displayName) : customEmailStringDict.formGroup.emailSender.defaultName);
-    const [emailSenderAddr, setEmailSenderAddr] = useState(stateData.sender?.address ? _.unescape(stateData.sender?.address) : customEmailStringDict.formGroup.emailSender.placeholder);
+    const [emailSenderName, setEmailSenderName] = useState(stateData.sender?.displayName ? decodeContent(stateData.sender?.displayName) : customEmailStringDict.formGroup.emailSender.defaultName);
+    const [emailSenderAddr, setEmailSenderAddr] = useState(stateData.sender?.address ? decodeContent(stateData.sender?.address) : customEmailStringDict.formGroup.emailSender.placeholder);
     // subject and body
     const [resetSubAndBody, setResetSubAndBody] = useState(false);
     // share dossier

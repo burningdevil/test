@@ -7,7 +7,7 @@ import { CustomEmailSettingType } from '../../../../../../../../src/types/data-m
 import { FormSocialItemInputModel } from '../form-input.model';
 import * as _ from 'lodash';
 import { customEmailStringDict } from '../../../../../HomeScreenConfigConstant';
-import { encodeContent } from '../../../custom-email.util';
+import { decodeContent, encodeContent } from '../../../custom-email.util';
 const classNamePrefix = 'custom-email-form-v2'
 interface SocialMediaSectionInput {
     env?: any;
@@ -24,13 +24,13 @@ const SocialMediaSection: React.FC<SocialMediaSectionInput> = (props: SocialMedi
         */
         const [showSocialMedia, ] = useState( Reflect.has(stateData, 'showSocialMedia') ? stateData.showSocialMedia : true);
         const [showFb, setShowFb] = useState(_.has(stateData, 'socialMedia.showFacebook') ? stateData?.socialMedia?.showFacebook : showSocialMedia);
-        const [fbLink, setFbLink] = useState(_.unescape(stateData?.socialMedia?.facebookLink));
+        const [fbLink, setFbLink] = useState(decodeContent(stateData?.socialMedia?.facebookLink));
         const [showTwitter, setShowTwitter] = useState(_.has(stateData, 'socialMedia.showTwitter') ? stateData?.socialMedia?.showTwitter : showSocialMedia);
-        const [twitterLink, setTwitterLink] = useState(_.unescape(stateData?.socialMedia?.twitterLink));
+        const [twitterLink, setTwitterLink] = useState(decodeContent(stateData?.socialMedia?.twitterLink));
         const [showLinked, setShowLinked] = useState(_.has(stateData, 'socialMedia.showLinkedIn') ? stateData?.socialMedia?.showLinkedIn : showSocialMedia);
-        const [linkedLink, setLinkedLink] = useState(_.unescape(stateData?.socialMedia?.linkedInLink));
+        const [linkedLink, setLinkedLink] = useState(decodeContent(stateData?.socialMedia?.linkedInLink));
         const [showYt, setShowYt] = useState(_.has(stateData, 'socialMedia.showYouTube') ? stateData?.socialMedia?.showYouTube : showSocialMedia); // yt is short for the youTube
-        const [ytLink, setYtLink] = useState(_.unescape(stateData?.socialMedia?.youTubeLink));
+        const [ytLink, setYtLink] = useState(decodeContent(stateData?.socialMedia?.youTubeLink));
          
         const switchChange = (key:  string, value: boolean, cb: React.Dispatch<React.SetStateAction<boolean>>) =>{
             cb(value);
