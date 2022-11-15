@@ -5,7 +5,7 @@ import { Input } from '@mstr/rc';
 import { Select } from 'antd';
 import * as Actions from '../../../../../../../store/actions/ActionsCreator';
 import { CustomEmailSettingType, MobileButtonLinkEnum } from '../../../../../../../../src/types/data-model/HomeScreenConfigModels';
-import { encodeContent, PRIMARY_BLUE_HEX_COLOR, validateHttpUrl, validatePortalUrl, validateScheme, WHITE_HEX_COLOR } from '../../../custom-email.util';
+import { decodeContent, encodeContent, PRIMARY_BLUE_HEX_COLOR, validateHttpUrl, validatePortalUrl, validateScheme, WHITE_HEX_COLOR } from '../../../custom-email.util';
 import { FormMobileButtonLinkInputModel } from '../form-input.model';
 import * as _ from 'lodash';
 import { customEmailStringDict, CUSTOM_EMAIL_HOST_PORTAL_HELP_LINK, CUSTOM_EMAIL_WHITE_LIST_HELP_LINK } from '../../../../../HomeScreenConfigConstant';
@@ -31,21 +31,22 @@ const ActionButtonSection: React.FC<ActionButtonSectionInput> = React.forwardRef
         const {env, validate, stateData} = props;
         // action button
         const [showButton1, setShowButton1] = useState(stateData.showBrowserButton);
-        const [button1Text, setButton1Text] = useState(stateData?.button?.browserButtonStyle?.text ? _.unescape(stateData?.button?.browserButtonStyle?.text): customEmailStringDict.formGroup.actionButton.button1_default)
+        const [button1Text, setButton1Text] = useState(stateData?.button?.browserButtonStyle?.text ? decodeContent(stateData?.button?.browserButtonStyle?.text): customEmailStringDict.formGroup.actionButton.button1_default)
         const [button1FontColor, setButton1FontColor] = useState( stateData?.button?.browserButtonStyle?.fontColor?? WHITE_HEX_COLOR);
         const [button1BgColor, setButton1BgColor] =  useState(stateData?.button?.browserButtonStyle?.backgroundColor ?? PRIMARY_BLUE_HEX_COLOR);
-        const [hostWebPortal, setHostWebPortal] = useState(_.unescape(stateData.hostPortal));
+        const [hostWebPortal, setHostWebPortal] = useState(decodeContent(stateData.hostPortal));
         const [showButton2, setShowButton2] = useState(stateData.showMobileButton);
         const [mobileBtnLinkType, setMobileBtnLinkType] = useState(stateData?.button?.mobileButtonLinkType ? stateData?.button?.mobileButtonLinkType : MobileButtonLinkEnum.DEFAULT);
         const [mobileButtonScheme, setMobileButtonScheme] = useState(stateData?.button?.mobileButtonScheme ? stateData?.button?.mobileButtonScheme : 'dossier');
         const [mobileButtonLinkDefault, setMobileButtonLinkDefault] = useState('');
-        const [button2Text, setButton2Text] = useState(stateData?.button?.mobileButtonStyle?.text ? _.unescape(stateData?.button?.mobileButtonStyle?.text) : customEmailStringDict.formGroup.actionButton.button2_default);
+        const [button2Text, setButton2Text] = useState(stateData?.button?.mobileButtonStyle?.text ? decodeContent(stateData?.button?.mobileButtonStyle?.text) : customEmailStringDict.formGroup.actionButton.button2_default);
         const [button2FontColor, setButton2FontColor] = useState(stateData?.button?.mobileButtonStyle?.fontColor ??  WHITE_HEX_COLOR);
         const [button2BgColor, setButton2BgColor] =  useState(stateData?.button?.mobileButtonStyle?.backgroundColor ?? PRIMARY_BLUE_HEX_COLOR);
         const [showDescription, setShowDescription] = useState(Reflect.has(stateData, 'showButtonDescription') ? stateData.showButtonDescription : stateData.showBrowserButton && stateData.showMobileButton);
-        const [actionDescription, setActionDescription]= useState(stateData?.button?.description ?  _.unescape(stateData?.button?.description) : customEmailStringDict.formGroup.actionButton.descriptionDefaultStr);
+        const [actionDescription, setActionDescription]= useState(stateData?.button?.description ?  decodeContent(stateData?.button?.description) : customEmailStringDict.formGroup.actionButton.descriptionDefaultStr);
         
         const [isWhiteListRequestLoaded, setWhiteListRequestLoaded] = useState(false);
+        const [isWhiteListRequestFailed, setWhiteListRequestFailed] = useState(false);
         const [whiteListUrls, setWhiteListUrls] = useState([]);
         const [allowAllOrigins, setAllowAllOrigins] =  useState(false);
         React.useImperativeHandle(ref, () => ({
@@ -83,7 +84,11 @@ const ActionButtonSection: React.FC<ActionButtonSectionInput> = React.forwardRef
         React.useEffect(() => {
             if (!isWhiteListRequestLoaded) {
                 const fetchData = async () => {
-                    const [_error , data] = await awaitWrap(api.fetchAllWhiteListUrls());
+                    const [error , data] = await awaitWrap(api.fetchAllWhiteListUrls());
+                    if(error){
+                        setWhiteListRequestFailed(true);
+                        return;
+                    }
                     /**
                      *  if the allowAllOrigins = true, means the security select all. All valid url pass
                      *  allowedOrigins: the white list
@@ -237,7 +242,7 @@ const ActionButtonSection: React.FC<ActionButtonSectionInput> = React.forwardRef
             {/*button 1*/}
             <FormSwitch {...{label: customEmailStringDict.formGroup.actionButton.label1, value: showButton1, cb: setShowButton1, elementId: 'showBrowserButton', stateData: stateData}}/>
             {showButton1 && <FormBtnColor {...{label: customEmailStringDict.formGroup.actionButton.button1, value: button1Text, cb: setButton1Text, elementId: 'browserButtonStyle', placeholder: customEmailStringDict.formGroup.actionButton.button1_default, fontColor: button1FontColor, fontColorCb: setButton1FontColor, bgColor: button1BgColor, bgColorCb: setButton1BgColor, validate: validate, stateData: stateData}}></FormBtnColor>}
-            {showButton1 && <FormInput {...{'label': customEmailStringDict.formGroup.actionButton.label2, 'value': hostWebPortal, 'cb': setHostWebPortal, 'elementId': 'hostPortal','placeholder': customEmailStringDict.formGroup.actionButton.placeholder, 'propertyPath': 'hostPortal', 'tooltip': true, 'enableValidate': isWhiteListRequestLoaded, 'errorMessage': customEmailStringDict.formGroup.actionButton.hostInvalidTip, 'validateCb': validatePortalUrl.bind(null, whiteListUrls, allowAllOrigins, env?.url, hostWhiteListTip),disabled: false, 'isNotEncode': false, tooltipStr: hostTooltip, 'validate': validate, 'stateData': stateData}}></FormInput>}
+            {showButton1 && <FormInput {...{'label': customEmailStringDict.formGroup.actionButton.label2, 'value': hostWebPortal, 'cb': setHostWebPortal, 'elementId': 'hostPortal','placeholder': customEmailStringDict.formGroup.actionButton.placeholder, 'propertyPath': 'hostPortal', 'tooltip': true, 'enableValidate': isWhiteListRequestLoaded, 'errorMessage': customEmailStringDict.formGroup.actionButton.hostInvalidTip, 'validateCb': validatePortalUrl.bind(null, whiteListUrls, allowAllOrigins, env?.url, hostWhiteListTip),disabled: isWhiteListRequestFailed, 'isNotEncode': false, tooltipStr: hostTooltip, 'validate': validate, 'stateData': stateData}}></FormInput>}
             {/*button 2*/}
             <FormSwitch {...{label: customEmailStringDict.formGroup.actionButton.label3, value: showButton2, cb: setShowButton2, elementId: 'showMobileButton', stateData: stateData}}/>
             {showButton2 && <FormBtnColor {...{label: customEmailStringDict.formGroup.actionButton.button2, value: button2Text, cb: setButton2Text, elementId: 'mobileButtonStyle', placeholder: customEmailStringDict.formGroup.actionButton.button2_default, fontColor: button2FontColor, fontColorCb: setButton2FontColor, bgColor: button2BgColor, bgColorCb: setButton2BgColor, validate: validate, stateData: stateData}}></FormBtnColor>}
