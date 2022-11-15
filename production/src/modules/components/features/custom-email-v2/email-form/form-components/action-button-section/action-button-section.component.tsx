@@ -87,6 +87,7 @@ const ActionButtonSection: React.FC<ActionButtonSectionInput> = React.forwardRef
                     const [error , data] = await awaitWrap(api.fetchAllWhiteListUrls());
                     if(error){
                         setWhiteListRequestFailed(true);
+                        return;
                     }
                     /**
                      *  if the allowAllOrigins = true, means the security select all. All valid url pass
