@@ -19,7 +19,7 @@ export function validateHttpUrl(url: string) {
 
 export function validatePortalUrl(whitelist: string[] = [], allowAll: boolean, envUrl: string, errorMsg: any,  url: string) {
     try {
-        if (url.length > 0) {
+        if (url?.length > 0) {
             new URL(url);
         } else {
             return true;

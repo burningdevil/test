@@ -50,7 +50,7 @@ const FormInput: React.FC<FormInputModel> = (props: FormInputModel
                     placeholder = {placeholder}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         cb(e.target.value);
-                        if(!enableValidate || (enableValidate && validate(e.target.value, elementId, validateCb))){
+                        if(!enableValidate || (enableValidate && validate(e.target.value, elementId, validateCb) === true)){
                             _.set(stateData, propertyPath, isNotEncode ? e.target.value : encodeContent(e.target.value));
                         }
                         dispatch(

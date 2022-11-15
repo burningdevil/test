@@ -41,15 +41,11 @@ Quill.register('modules/counter', function(quill: any, options: any) {
         // Splitting empty text returns a non-empty array
         return text.length > 0 ? text.split(/\s+/).length + macroWordCnt : 0;
       } else {
-        return length;
+        return length - 1;
       }
     }
     const update = () => {
       var length = calculate();
-    var label = options.unit;
-    if (length !== 1) {
-      label += 's';
-    }
     container.innerText = length + '/' + '1000';
     }
     // update();  // Account for initial contents;
