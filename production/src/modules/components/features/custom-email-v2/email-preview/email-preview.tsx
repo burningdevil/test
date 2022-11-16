@@ -9,7 +9,8 @@ import './email-preview.scss';
 import { DEFAULT_EMAIL_SETTING } from '../../../../../store/reducers/HomeScreenConfigEditorReducer';
 import { setShouldSendPreviewEmail } from '../../../../../store/actions/ActionsCreator';
 import * as _ from 'lodash';
-const classNamePrefix = 'custom-email-preview-v2'
+import { decodeContent } from '../custom-email.util';
+const classNamePrefix = 'custom-email-preview-v2';
 const CustomEmailPreview: React.FC<any> = () => {
     const dispatch = useDispatch();
     const emailSetting: CustomEmailSettingType = useSelector(selectCustomizeEmailSetting) ?? DEFAULT_EMAIL_SETTING as CustomEmailSettingType;

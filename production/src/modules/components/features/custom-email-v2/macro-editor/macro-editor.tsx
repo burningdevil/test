@@ -22,7 +22,7 @@ Quill.register('modules/maxlength', function(quill: any, options: any) {
 // it's not recommend by official to restrict the code length in hyper editor. In our case, implement it by undo the input when exceed the max size.
   quill.on('text-change', function(_e: any) {
           let size = quill.getLength();
-          if (size > options.value)
+          if (size > options.value + 1)
               quill.history.undo();
 
   });

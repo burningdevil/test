@@ -44,11 +44,11 @@ const ActionButtonSection: React.FC<ActionButtonSectionInput> = React.forwardRef
         const [button2BgColor, setButton2BgColor] =  useState(stateData?.button?.mobileButtonStyle?.backgroundColor ?? PRIMARY_BLUE_HEX_COLOR);
         const [showDescription, setShowDescription] = useState(Reflect.has(stateData, 'showButtonDescription') ? stateData.showButtonDescription : stateData.showBrowserButton && stateData.showMobileButton);
         const [actionDescription, setActionDescription]= useState(stateData?.button?.description ?  decodeContent(stateData?.button?.description) : customEmailStringDict.formGroup.actionButton.descriptionDefaultStr);
-        
         const [isWhiteListRequestLoaded, setWhiteListRequestLoaded] = useState(false);
         const [isWhiteListRequestFailed, setWhiteListRequestFailed] = useState(false);
         const [whiteListUrls, setWhiteListUrls] = useState([]);
         const [allowAllOrigins, setAllowAllOrigins] =  useState(false);
+        const [showAclForbidden, setShowAclForbidden] = useState(false);
         React.useImperativeHandle(ref, () => ({
 
             reset() {
@@ -86,8 +86,12 @@ const ActionButtonSection: React.FC<ActionButtonSectionInput> = React.forwardRef
                 const fetchData = async () => {
                     const [error , data] = await awaitWrap(api.fetchAllWhiteListUrls());
                     if(error){
-                        setWhiteListRequestFailed(true);
-                        return;
+                        const statusCode = error?.statusCode;
+                        if(statusCode === 403){
+                            setShowAclForbidden(true);
+                        }else {
+                            setWhiteListRequestFailed(true);
+                        }
                     }
                     /**
                      *  if the allowAllOrigins = true, means the security select all. All valid url pass
@@ -197,7 +201,7 @@ const ActionButtonSection: React.FC<ActionButtonSectionInput> = React.forwardRef
                         isErrorDisplayed="true"
                         autoFocus = {false}
                         maxLength={250}
-                        placeholder = {placeholder}
+                        placeholder = {''}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                             cb(e.target.value);
                             _.set(stateData, propertyPath, encodeContent(e.target.value));
@@ -242,7 +246,7 @@ const ActionButtonSection: React.FC<ActionButtonSectionInput> = React.forwardRef
             {/*button 1*/}
             <FormSwitch {...{label: customEmailStringDict.formGroup.actionButton.label1, value: showButton1, cb: setShowButton1, elementId: 'showBrowserButton', stateData: stateData}}/>
             {showButton1 && <FormBtnColor {...{label: customEmailStringDict.formGroup.actionButton.button1, value: button1Text, cb: setButton1Text, elementId: 'browserButtonStyle', placeholder: customEmailStringDict.formGroup.actionButton.button1_default, fontColor: button1FontColor, fontColorCb: setButton1FontColor, bgColor: button1BgColor, bgColorCb: setButton1BgColor, validate: validate, stateData: stateData}}></FormBtnColor>}
-            {showButton1 && <FormInput {...{'label': customEmailStringDict.formGroup.actionButton.label2, 'value': hostWebPortal, 'cb': setHostWebPortal, 'elementId': 'hostPortal','placeholder': customEmailStringDict.formGroup.actionButton.placeholder, 'propertyPath': 'hostPortal', 'tooltip': true, 'enableValidate': isWhiteListRequestLoaded, 'errorMessage': customEmailStringDict.formGroup.actionButton.hostInvalidTip, 'validateCb': validatePortalUrl.bind(null, whiteListUrls, allowAllOrigins, env?.url, hostWhiteListTip),disabled: isWhiteListRequestFailed, 'isNotEncode': false, tooltipStr: hostTooltip, 'validate': validate, 'stateData': stateData}}></FormInput>}
+            {showButton1 && <FormInput {...{'label': customEmailStringDict.formGroup.actionButton.label2, 'value': hostWebPortal, 'cb': setHostWebPortal, 'elementId': 'hostPortal','placeholder': customEmailStringDict.formGroup.actionButton.placeholder, 'propertyPath': 'hostPortal', 'tooltip': true, 'enableValidate': isWhiteListRequestLoaded, 'errorMessage': customEmailStringDict.formGroup.actionButton.hostInvalidTip, 'validateCb': validatePortalUrl.bind(null, whiteListUrls, allowAllOrigins, env?.url, showAclForbidden? customEmailStringDict.formGroup.actionButton.portalLinkAclForbiddenMsg : hostWhiteListTip),disabled: isWhiteListRequestFailed, 'isNotEncode': false, tooltipStr: hostTooltip, 'validate': validate, 'stateData': stateData}}></FormInput>}
             {/*button 2*/}
             <FormSwitch {...{label: customEmailStringDict.formGroup.actionButton.label3, value: showButton2, cb: setShowButton2, elementId: 'showMobileButton', stateData: stateData}}/>
             {showButton2 && <FormBtnColor {...{label: customEmailStringDict.formGroup.actionButton.button2, value: button2Text, cb: setButton2Text, elementId: 'mobileButtonStyle', placeholder: customEmailStringDict.formGroup.actionButton.button2_default, fontColor: button2FontColor, fontColorCb: setButton2FontColor, bgColor: button2BgColor, bgColorCb: setButton2BgColor, validate: validate, stateData: stateData}}></FormBtnColor>}
