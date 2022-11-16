@@ -49,3 +49,5 @@ fi
 
 export BASE_BRANCH="m2021"
 export BRANCH_OFF_COMMIT=bd4316ada123efa06d91ee8f9355e4f27b75a09b
+
+export BASE_VERSION=1000
