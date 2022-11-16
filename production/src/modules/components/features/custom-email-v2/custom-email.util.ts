@@ -18,7 +18,7 @@ export function validateHttpUrl(url: string) {
     return true
 }
 
-export function validatePortalUrl(whitelist: string[] = [], allowAll: boolean, envUrl: string, errorMsg: any,  url: string) {
+export function validatePortalUrl(whitelist: string[] = [], allowAll: boolean, envUrl: string, errorMsg: any, url: string) {
     try {
         if (url?.length > 0) {
             new URL(url);
@@ -62,7 +62,7 @@ export const decodeContent = (v: string) => {
 }
 
 export const encodeContent = (v: string) => {
-    return encode(v)?.trim();
+    return _.escape(v)?.trim();
 }
 
 export enum SubjectBodyEnum {

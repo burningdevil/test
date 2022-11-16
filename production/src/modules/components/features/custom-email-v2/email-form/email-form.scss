@@ -23,7 +23,7 @@
         }
         .mstr-input-container {
             margin-left: 20px;
-            width: 272px;
+            width: 275px;
         }
         .ant-select {
             margin-left: 20px;
@@ -108,7 +108,7 @@
     }
     .btn-color-box {
         .mstr-input-container {
-            width: 154px !important;
+            width: 157px !important;
         }
     }
     .message-editor-wrapper {
@@ -162,6 +162,12 @@
     }
     .mstr-input-container {
         position: relative!important;
+    }
+    .acl-forbidden{
+        margin-left: 180px;
+        margin-bottom: -10px;
+        opacity: .5;
+        @include msdl-paragraph;
     }
     //ant related
     .ant-input-group-wrapper{

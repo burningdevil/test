@@ -292,7 +292,7 @@
     "brandImageUrl": "Image URL",
     "actionButton1": "Button 1",
     "actionButton2": "Button 2",
-    "actionButton2Link": "Link",
+    "actionButton2Link": "Mobile Link",
     "facebook": "Facebook",
     "twitter": "Twitter",
     "linkedIn": "LinkedIn",
@@ -310,5 +310,6 @@
     "portalLinkNotInWhiteListMsg": "This URL is not in whitelist.",
     "portalLinkNotInWhiteListTip1": "Library has been configured to allow embedding in specific websites only.",
     "portalLinkNotInWhiteListTip2": "Please ensure this URL has been added in the Library security settings.",
-    "invalidImageAddressTip": "Please ensure that the URL points to a valid image file"
+    "invalidImageAddressTip": "Please ensure that the URL points to a valid image file",
+    "portalLinkAclForbiddenMsg": "You do not have the privilege to get the URL whitelist."
 }

@@ -489,6 +489,7 @@ export const customEmailStringDict = {
             'portalLinkNotInWhiteListMsg': t('portalLinkNotInWhiteListMsg'),
             'portalLinkNotInWhiteListTip1': t('portalLinkNotInWhiteListTip1'),
             'portalLinkNotInWhiteListTip2': t('portalLinkNotInWhiteListTip2'),
+            'portalLinkAclForbiddenMsg': t('portalLinkAclForbiddenMsg'),
             'hostTooltipHelp': t('hostPortalHelp'),
             'showDescription': t('showDescription'),
             'descriptionDefaultStr': "'View in Mobile App' may not work for all mobile mail apps. Use 'View in Browser' option for such cases.",
