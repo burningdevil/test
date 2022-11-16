@@ -359,6 +359,8 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                 headerIcons = isDossierHome
                     ? [
                           iconTypes.toc,
+                          iconTypes.undoRedo,
+                          iconTypes.redo,
                           iconTypes.account,
                           iconTypes.notification,
                           iconTypes.share,
@@ -371,6 +373,8 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                           iconTypes.toc,
                           iconTypes.bookmark,
                           iconTypes.reset,
+                          iconTypes.undoRedo,
+                          iconTypes.redo,
                           iconTypes.share,
                           iconTypes.comment,
                           iconTypes.filter,
@@ -387,12 +391,16 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                       ];
                 footerIcons = isDossierHome
                     ? [
+                          iconTypes.undoRedo,
+                          iconTypes.redo,
                           iconTypes.filter,
                           iconTypes.comment,
                           iconTypes.notification,
                           iconTypes.account,
                       ]
                     : [
+                          iconTypes.undoRedo,
+                          iconTypes.redo,
                           iconTypes.bookmark,
                           iconTypes.reset,
                           iconTypes.filter,
