@@ -18,7 +18,7 @@ export default class SettingPage extends BasePage {
   getDescriptionInpuBox() {
     return this.$('.home-screen-general-description-name').$('.ant-input')
   }
-
+ 
   // currently, platform can be web, desktop
   /*
   getPlatformCheckbox(platform) {
@@ -210,7 +210,105 @@ export default class SettingPage extends BasePage {
     return this.element(by.xpath(`//div[@class='custom-auth-form-option-container']//span[text()='${text}']//ancestor::div[@class='option-row']//input`))
   }
 
+  //custom email
+  getCustomEmailMode() {
+    return this.element(by.xpath(`//span[text()='Configure email content for this application.']`))
+  }
 
+  getEmailSection(section) {
+    //text: Subject & Body Text, Email Sender, Branding Image, Action Button, Notification Reminder, Sent By, Social Media, Preview
+    return this.element(by.xpath(`//span[text() = '${section}']`))
+  }
+
+  getReset(section) {
+    //text: Subject & Body Text, Email Sender, Branding Image, Action Button, Notification Reminder, Sent By
+    return this.element(by.xpath(`//span[text()='${section}']/following-sibling::div//span[@class='font-reset-icon']`))
+  }
+
+  getConfirmReset(text) {
+    return this.element(by.xpath(`//span[text()='${text}']`))
+  }
+
+  getSubjectAndBodyTextInfo() {
+    return this.element(by.xpath(`//span[text()='Subject & Body Text']/following-sibling::div//span[@class='icon-msg_info']`))
+  }
+
+  getDropdownList(value) {
+    return this.element(by.xpath(`//li[@data-value='${value}']`))
+  }
+
+  getNotificationReminderInfo() {
+    return this.element(by.xpath(`//span[text()='Notification Reminder']/following-sibling::div//span[@class='icon-msg_info']`))
+  }
+
+  getLinkTextInfo() {
+    return this.element(by.xpath(`//span[text()='Link Text']//span[@class='icon-msg_info']`))
+  }
+
+  getHostPortalInfo() {
+    return this.element(by.xpath(`//span[text()='Host Web Portal']//span[@class='icon-msg_info']`))
+  }
+
+  getDismissCursor() {
+    return this.element(by.xpath(`//div[text()='EMAIL COMMUNICATION']`))
+  }
+  getSubjectOrBodyInputBox(number,section) {
+    //number: 1, 2
+    //section: SHARE_DOSSIER, SHARE_BOOKMARK, MEMBER_ADDED, USER_MENTION
+    return this.element(by.xpath(`//div[@id='${section}']/following-sibling::div[${number}]//div[@class='ql-editor']`))
+  }
+
+  getReminderInputBox(){
+    return this.element(by.xpath(`//div[@id='NewNotificationCount']//div[@class='ql-editor']`))
+  }
+
+  getDescriptionInputBox(field) {
+    //text: Display Name, Email Address, Image URL, Link Text, Host Web Portal, Sent By
+    return this.element(by.xpath(`//span[text()='${field}']/following-sibling::div//input[@class='ant-input mstr-input mstr-input__bordered mstr-input__display_error']`))
+  }
+
+  getButtonInputBox(button) {
+    //Button 1, Button 2
+    return this.element(by.xpath(`//span[text()='${button}']/following-sibling::div//input[@class='ant-input custom-input mstr-input mstr-input__bordered mstr-input__display_error']`))
+  }
+  
+  getMediaInputBox(media) {
+    //text: Facebook, Twitter, LinkedIn, YouTube
+    return this.element(by.xpath(`//span[text()='${media}']/following-sibling::input[@class='ant-input']`))
+  }
+
+  getOptionSwitcher(label) {
+    //label: showBrandingImage, showBrowserButton, showMobileButton, showButtonDescription, showReminder, showSentBy
+    return this.element(by.xpath(`//button[@element-id='${label}']`))
+  }
+
+  getShowMeida(media) {
+    //text: Facebook, Twitter, LinkedIn, YouTube
+    return this.element(by.xpath(`//button[@aria-label='${media}']`))
+  }
+
+  getSendPreviewEmail() {
+    return this.element(by.xpath(`//span[text()='Send preview after saving']`))
+  }
+
+  getLink(link) {
+    //link: Default, URL Scheme, Universal Link
+    return this.element(by.xpath(`//span[@title='${link}']`))
+  }
+
+  getTargetLink(link) {
+    //link: Default, URL Scheme, Universal Link
+    return this.element(by.xpath(`//div[text()='${link}']`))
+  }
+
+  getUrlSchemeInputBox() {
+    return this.element(by.xpath(`//input[@value='dossier']`))
+  }
+  
+  getErrorMessage(text) {
+    //text: Invalid Email Name, Invalid Email Address, Please enter a valid URL, This field can not be empty, Only letters and numbers are supported
+    return this.element(by.xpath(`//span[text()='${text}']`))
+  }
 
   // actions
   // for WebView management
@@ -420,5 +518,122 @@ export default class SettingPage extends BasePage {
       if (isChecked === flag) await this.getCustomAuthModeOption(opt).click();
     }
     await browser.sleep(2000 * this.ratio)
+  }
+
+  async enableCustomEmailMode() {
+    await browser.sleep(3000 * this.ratio)
+    await this.getCustomEmailMode().click()
+  }
+
+  async sendPreviewEmail() {
+    await browser.sleep(3000 * this.ratio)
+    await this.getSendPreviewEmail().click()
+  }
+
+  async expandSection(section) {
+    await browser.sleep(3000 * this.ratio)
+    await this.getEmailSection(section).click()
+  }
+
+  async clickReset(section) {
+    await browser.sleep(3000 * this.ratio)
+    await this.getReset(section).click()
+  }
+
+  async confirmReset(text) {
+    await browser.sleep(3000 * this.ratio)
+    await this.getConfirmReset(text).click()
+  }
+
+  async viewSubjectAndBodyTextInfo() {
+    await browser.sleep(3000 * this.ratio)
+    await this.getSubjectAndBodyTextInfo().click()
+  }
+
+  async viewNotificationReminderInfo() {
+    await browser.sleep(3000 * this.ratio)
+    await this.getNotificationReminderInfo().click()
+  }
+
+  async viewLinkTextInfo() {
+    await browser.sleep(3000 * this.ratio)
+    await this.getLinkTextInfo().click()
+  }
+
+  async viewHostPortalInfo() {
+    await browser.sleep(3000 * this.ratio)
+    await this.getHostPortalInfo().click()
+  }
+
+  async inputSubjectOrBody(text, number, section) {
+   // await this.wait(this.EC.elementToBeClickable(this.getSubjectOrBodyInputBox(section1,section2)), 30000 * this.ratio, 'The inputbox is not clickable.');
+    await this.getSubjectOrBodyInputBox(number,section).clear()
+    await browser.sleep(10000 * this.ratio)
+    await this.input(text)
+    await this.getDismissCursor().click()
+    }
+
+  async selectFromDropdownList(value, number, section) {
+    await this.getSubjectOrBodyInputBox(number,section).clear()
+    await browser.sleep(10000 * this.ratio)
+    await this.input("{")
+    await this.getDropdownList(value).click()
+  }
+
+  async inputReminder(text) {
+    //await this.wait(this.EC.elementToBeClickable(this.getReminderInputBox()), 30000 * this.ratio, 'The inputbox is not clickable.');
+    await this.getReminderInputBox().clear()
+    await browser.sleep(3000 * this.ratio)
+    await this.input(text)
+    await this.getDismissCursor().click()
+  }
+
+  async inputMediaURL(url, media) {
+    await this.getMediaInputBox(media).clear()
+    await browser.sleep(3000 * this.ratio)
+    await this.input(url)
+    await this.getDismissCursor().click()
+  }
+
+  async inputEmailDescription(text, field) {
+    await browser.sleep(3000 * this.ratio)
+    await this.getDescriptionInputBox(field).clear()
+    await browser.sleep(3000 * this.ratio)
+    await this.input(text)
+    await this.getDismissCursor().click()
+  }
+
+  async showMedia(media){
+    await browser.sleep(3000 * this.ratio)
+    await this.getShowMeida(media).click()
+  }
+
+  async switchOption(label){
+    await browser.sleep(3000 * this.ratio)
+    await this.getOptionSwitcher(label).click()
+  }
+
+  async changeMobileLink(link1, link2) {
+    await browser.sleep(3000 * this.ratio)
+    await this.getLink(link1).click()
+    await browser.sleep(3000 * this.ratio)
+    await this.getTargetLink(link2).click()
+  }
+
+  async changeUrlSchemeLink(text) {
+    await browser.sleep(3000 * this.ratio)
+    await this.getUrlSchemeInputBox().clear()
+    await this.input(text)
+    await this.getDismissCursor().click()
+  }
+
+  async changeTextOnButton(text, button) {
+    await this.getButtonInputBox(button).clear()
+    await this.input(text)
+    await this.getDismissCursor().click()
+  }
+
+  async clearTextOnButton(button) {
+    await this.getButtonInputBox(button).clear()
   }
 }

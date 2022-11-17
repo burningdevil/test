@@ -1,6 +1,9 @@
 import certifyApi from '../../api/certifyDossierAPI'
 import cleanCustomAppAPI from '../../api/cleanCustomAppAPI'
 import cleanCustomPalettesAPI from '../../api/cleanCustomPalettesAPI'
+import editLibraryEmbedding from '../../api/libraryembeding'
+import * as postBody from '../../api/data/embedding'
+
 const { Given, When, Then } = require('cucumber')
 const { mainWindow } = pageObj
 const { envUrl, userName, userPwd } = browser.params.envInfo[0]
@@ -21,6 +24,26 @@ When('I decertify dossier is {string} by project is {string} by api', async func
     return mainWindow.app.sleep(1000)
 })
 
+When('I modify embedding settings to {string} by api', async function (mode) {
+    var embeddingObject = postBody.none_security
+    if(mode === 'All'){
+        embeddingObject = postBody.all_security
+    } else if (mode === 'Specific'){
+        embeddingObject = postBody.specific_security
+    } else {
+        embeddingObject = postBody.none_security
+    }
+    await editLibraryEmbedding({
+        baseUrl: envUrl, 
+        credentials: { username: userName, password: userPwd },
+        embeddingInfo: postBody.security})
+    await editLibraryEmbedding({
+        baseUrl: envUrl, 
+        credentials: { username: userName, password: userPwd },
+        embeddingInfo: embeddingObject})
+    return mainWindow.app.sleep(1000)
+})
+
 Given('I remove all custom apps except {string} by api', async function (appNotDelete) {
     await cleanCustomAppAPI({
         baseUrl: envUrl, credentials: { username: userName, password: userPwd },
@@ -36,3 +59,5 @@ Given('I remove all custom color palettes by api', async function () {
     })
     return mainWindow.app.sleep(1000)
 })
+
+

@@ -263,11 +263,112 @@ Then('I verify auth mode of custom app {string} in detail grid is {string}', asy
     expect(authModes === value).to.equal(true)
 });
 
+When('I enable custom email mode', async function () {
+    await settingPage.enableCustomEmailMode()
+    return mainWindow.app.sleep(500)
+});
 
+When('I send preview email', async function () {
+    await settingPage.sendPreviewEmail()
+    return mainWindow.app.sleep(500)
+});
 
+When('I expand {string} section', async function (section) {
+    await settingPage.expandSection(section)
+    return mainWindow.app.sleep(500)
+});
 
+When('I collapse {string} section', async function (section) {
+    await settingPage.clickEmailSection(section)
+    return mainWindow.app.sleep(500)
+});
 
+When('I click reset of {string}', async function (section) {
+    await settingPage.clickReset(section)
+    return mainWindow.app.sleep(500)
+});
 
+When('I confirm reset {string}', async function (text) {
+    await settingPage.confirmReset(text)
+    return mainWindow.app.sleep(500)
+});
 
+When('I view Subject & Body Text Info', async function () {
+    await settingPage.viewSubjectAndBodyTextInfo()
+    return mainWindow.app.sleep(500)
+});
 
+When('I view Notification Reminder Info', async function () {
+    await settingPage.viewNotificationReminderInfo()
+    return mainWindow.app.sleep(500)
+});
+
+When('I view Link Text Info', async function () {
+    await settingPage.viewLinkTextInfo()
+    return mainWindow.app.sleep(500)
+});
+
+When('I view Host Web Portal Info', async function () {
+    await settingPage.viewHostPortalInfo()
+    return mainWindow.app.sleep(500)
+});
+
+When('I input {string} in section {string} of {string}', async function (text, number, section) {
+    await settingPage.inputSubjectOrBody(text, number, section)
+    return mainWindow.app.sleep(500)
+});
+
+When('I select {string} from dropdown list in section {string} of {string}', async function (value, number, section) {
+    await settingPage.selectFromDropdownList(value, number, section)
+    return mainWindow.app.sleep(500)
+});
+
+When('I input {string} URL in {string}', async function (url, media) {
+    await settingPage.inputMediaURL(url, media)
+    return mainWindow.app.sleep(500)
+});
+
+When('I input {string} in {string}', async function (text, field) {
+    await settingPage.inputEmailDescription(text, field)
+    return mainWindow.app.sleep(1000)
+});
+
+When('I input {string} in reminder', async function (text) {
+    await settingPage.inputReminder(text)
+    return mainWindow.app.sleep(1000)
+});
+
+When('I disable media {string}', async function (media) {
+    await settingPage.showMedia(media)
+    return mainWindow.app.sleep(500)
+});
+
+When('I disable section {string}', async function (label) {
+    await settingPage.switchOption(label)
+    return mainWindow.app.sleep(500)
+});
+
+When('I change mobile link from {string} to {string}', async function (link1, link2) {
+    await settingPage.changeMobileLink(link1, link2)
+    return mainWindow.app.sleep(500)
+});
+
+When('I change dossier to {string} in url scheme', async function (text) {
+    await settingPage.changeUrlSchemeLink(text)
+    return mainWindow.app.sleep(500)
+});
+
+When('I input {string} on button {string}', async function (text, button) {
+    await settingPage.changeTextOnButton(text, button)
+    return mainWindow.app.sleep(500)
+});
+
+Then('I verify {string} error appears', async function (text) {
+    const isDisplayed = await settingPage.getErrorMessage(text).isDisplayed()
+    expect(isDisplayed).to.equal(true)
+});
+
+When('I clear text on {string}', async function (button) {
+    await settingPage.clearTextOnButton(button)
+});
 

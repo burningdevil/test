@@ -19,10 +19,23 @@ async function initializeWebView() {
     addDossierMenu.click()
 
     await workstationApp.sleep(1000)
-    await registerNewWindow(`webview helper`)
-    await switchToWindow(`webview helper`)
+    for(var i=0; i<5; i++){
+      console.log("switch to webview helper")
+      try{
+        await registerNewWindow(`webview helper`)
+        await switchToWindow(`webview helper`)
+        const connectEnvDialog = await workstationApp.elementByName('Connect to Environment')
+        break;
+      } catch (e) {
+        console.log('Connect to environment dialog is not shown after click new dossier.')
+      }
+     
+      await workstationApp.sleep(1000)
+    }
+   
     const minimizeBtn = await workstationApp.elementByAccessibilityId('WindowMinimizeButton')
     await minimizeBtn.click()
+    console.log("minimize webview helper")
 
   } else { // OSType === 'mac'
     // Initialize a CEF webview for Mac (This should be used after CEF feature enabled)
