@@ -1,6 +1,7 @@
 import BasePage from '../../basePages/BasePage'
 import { OSType } from '../../../utils/envUtils/constants'
 import { protractor } from 'protractor'
+import { times } from 'lodash'
 const { registerNewWindow, switchToWindow, unregisterWindow } = require('../../../utils/wsUtils/windowHelper')
 
 export default class SettingPage extends BasePage {
@@ -268,8 +269,8 @@ export default class SettingPage extends BasePage {
   }
 
   getButtonInputBox(button) {
-    //Button 1, Button 2
-    return this.element(by.xpath(`//span[text()='${button}']/following-sibling::div//input[@class='ant-input custom-input mstr-input mstr-input__bordered mstr-input__display_error']`))
+    //View in Browser, View in Mobile
+    return this.element(by.xpath(`//input[@placeholder='${button}']`))
   }
   
   getMediaInputBox(media) {
@@ -633,7 +634,18 @@ export default class SettingPage extends BasePage {
     await this.getDismissCursor().click()
   }
 
-  async clearTextOnButton(button) {
-    await this.getButtonInputBox(button).clear()
+  async clearTextOnButton(button) {  
+    if (OSType === 'mac') {
+      await this.getButtonInputBox(button).clear()
+      await this.input("s")
+      await this.getButtonInputBox(button).sendKeys(protractor.Key.BACK_SPACE)
+    } else {
+      await this.getButtonInputBox(button).click()
+      await this.getButtonInputBox(button).sendKeys(protractor.Key.chord(protractor.Key.CONTROL, "a"))
+      await this.getButtonInputBox(button).sendKeys(protractor.Key.DELETE)
+
+    }
+    await browser.sleep(3000 * this.ratio)
+    await this.getDismissCursor().click()
   }
 }

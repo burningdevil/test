@@ -1,4 +1,4 @@
-@customemail3 @TC84106 @Regression
+@customemail3 @TC84106 @Sanity
 Feature: 82_Custom_email_use_blank
     1. add Environment
     2. add new application
@@ -46,3 +46,4 @@ Feature: 82_Custom_email_use_blank
         Then check the screenshot by comparing "82_Custom_email_use_blank_05"
         When I expand "Social Media" section
         Then check the screenshot by comparing "82_Custom_email_use_blank_06"
+        When I click "Save" button in the tab "customEmailSettings"

@@ -1,4 +1,4 @@
-@customemail6 @TC84106 @Regression
+@customemail6 @TC84106 @Sanity
 Feature: 85_Custom_email_reset
     1. add Environment
     2. add new application
@@ -21,11 +21,11 @@ Feature: 85_Custom_email_reset
         When I expand "Preview" section
         When I expand "Subject & Body Text" section
         When I input "i" in section "2" of "MEMBER_ADDED"
-        When I click reset of "Subject & Body Text"
-        When I confirm reset "Yes"
+        When I reset "Subject & Body Text"
         When I send preview email
         When I click "Save" button in the tab "customEmailSettings"
         When I edit the application "New Application"
         When I switch to menu "Email Communication"
         When I expand "Subject & Body Text" section
         Then check the screenshot by comparing "85_Custom_email_reset_01"
+        When I click "Save" button in the tab "customEmailSettings"

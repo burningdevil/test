@@ -1,4 +1,4 @@
-@customemail7 @TC84096 @Regression
+@customemail7 @TC84096 @Sanity @hook_close_new_application_dialog_if_necessary
 Feature: 86_Custom_email_test_image
     1. add Environment
     2. add new application
