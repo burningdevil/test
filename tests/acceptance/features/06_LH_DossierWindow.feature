@@ -46,7 +46,7 @@ Feature: 06_LH_DossierWindow
         When I choose the "Desktop" client preview in the tab "components"
         Then check the screenshot by comparing "06_lh_off_filter_comment_share_desktop"
 
-        Then I hide toolbar icon "Undo (Web and Desktop)"
+        Then I hide toolbar icon "Undo"
         When I choose the "Web" client preview in the tab "components"
         Then check the screenshot by comparing "06_lh_off_undo_web"
         When I choose the "Desktop" client preview in the tab "components"
