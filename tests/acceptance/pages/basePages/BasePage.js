@@ -1,3 +1,5 @@
+import { browser } from "protractor"
+
 export default class BasePage {
   constructor(browserInstance) {
     this.brwsr = browserInstance || browser
@@ -24,8 +26,15 @@ export default class BasePage {
   // for WebView management
   async switchToNewWebView() {
     const handles = await browser.getAllWindowHandles()
-    await browser.switchTo().window(handles[handles.length - 1])
-    console.log('Switch to new WebView: ', await browser.getTitle())
+    for(let i=handles.length-1; i>=0; i--){
+      await browser.switchTo().window(handles[i])
+      const title = await browser.getTitle()
+      if(title === 'App') {
+        console.log('Switch to new WebView: ', await browser.getTitle())
+        break;
+      }
+    }
+    
   }
 
   async switchToDefaultWebView() {
