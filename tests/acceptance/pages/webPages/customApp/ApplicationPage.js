@@ -121,15 +121,15 @@ export default class ApplicationPage extends BasePage {
 
   // actions
   // for WebView management
-  async switchToNewWebView() {
-    const handles = await browser.getAllWindowHandles()
-    if (OSType === 'windows') {
-      await browser.switchTo().window(handles[handles.length - 1])
-    } else {
-      await browser.switchTo().window(handles[handles.length - 1])
-    }
-    console.log('Switch to new WebView: ', await browser.getTitle())
-  }
+  // async switchToNewWebView() {
+  //   const handles = await browser.getAllWindowHandles()
+  //   if (OSType === 'windows') {
+  //     await browser.switchTo().window(handles[handles.length - 1])
+  //   } else {
+  //     await browser.switchTo().window(handles[handles.length - 1])
+  //   }
+  //   console.log('Switch to new WebView: ', await browser.getTitle())
+  // }
 
   async switchToNewApplicationWindow() {
     await browser.sleep(1000 * this.ratio)
