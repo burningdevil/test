@@ -312,15 +312,15 @@ export default class SettingPage extends BasePage {
 
   // actions
   // for WebView management
-  async switchToNewWebView() {
-    const handles = await browser.getAllWindowHandles()
-    if (OSType === 'windows') {
-      await browser.switchTo().window(handles[handles.length - 1])
-    } else {
-      await browser.switchTo().window(handles[handles.length - 1])
-    }
-    console.log('Switch to new WebView: ', await browser.getTitle())
-  }
+  // async switchToNewWebView() {
+  //   const handles = await browser.getAllWindowHandles()
+  //   if (OSType === 'windows') {
+  //     await browser.switchTo().window(handles[handles.length - 1])
+  //   } else {
+  //     await browser.switchTo().window(handles[handles.length - 1])
+  //   }
+  //   console.log('Switch to new WebView: ', await browser.getTitle())
+  // }
 
   async clickButtonsByTextOnNewCustomAppPage(text, pageId) {
     if (text === 'Save') {
