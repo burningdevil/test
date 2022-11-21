@@ -20,6 +20,10 @@ PATH=/usr/local/.rbenv/shims:/usr/local/ruby-install/bin:/usr/local/rbenv/libexe
 SHELLOPTS=igncr
 EOH
     end
+    script_content <<-EOH
+git config --global core.longpaths true
+EOH
+    end
   end
 
   assigned_node_string 'win_vra_workstation_plugin_test_node'
