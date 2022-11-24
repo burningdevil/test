@@ -24,11 +24,22 @@ designed to execute @Sanity tests'
   end
 
   properties do
+    parameters do
+      string_parameter do
+        name 'Container_Build_NO'
+        description 'the version of mstrBuild for tanzu env, default empty to use latest build'
+        default_value ''
+      end
+    end
+    
     inject do
       properties_content <<-EOH
 MSYS=winsymlinks:nativestrict
 PATH=/usr/local/.rbenv/shims:/usr/local/ruby-install/bin:/usr/local/rbenv/libexec:/tools/msys/20160205-3/cmd:/tools/Sysinternals:/Users/vagrant/bin:/Users/vagrant/.rbenv/versions/2.2.4/bin:/cmd:/usr/local/bin:/mingw64/bin:/usr/bin:/Windows/system32:/Windows:/Windows/System32/Wbem:/Windows/System32/WindowsPowerShell/v1.0:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/c/Program\ Files/Amazon/AWSCLI/bin
 SHELLOPTS=igncr
+EOH
+      script_content <<-EOH
+git config --global core.longpaths true
 EOH
     end
   end
