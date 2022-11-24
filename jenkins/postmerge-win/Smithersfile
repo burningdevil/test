@@ -12,7 +12,7 @@ designed to execute all acceptance tests'
         default_value ''
       end
     end
-
+    
     inject do
       properties_content <<-EOH
 MSYS=winsymlinks:nativestrict

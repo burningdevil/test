@@ -24,6 +24,14 @@ designed to execute @Sanity tests'
   end
 
   properties do
+    parameters do
+      string_parameter do
+        name 'Container_Build_NO'
+        description 'the version of mstrBuild for tanzu env, default empty to use latest build'
+        default_value ''
+      end
+    end
+    
     inject do
       properties_content <<-EOH
 MSYS=winsymlinks:nativestrict
