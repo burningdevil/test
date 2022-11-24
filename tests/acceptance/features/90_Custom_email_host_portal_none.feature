@@ -21,6 +21,7 @@ Feature: 90_Custom_email_host_portal_none
         When I expand "Action Button" section
         When I input "http://10.27.69.39:8080/MicroStrategyLibrary/app" in "Host Web Portal"
         Then I verify "This URL is not in whitelist." error appears
+        When I click "Cancel" button in the tab "customEmailSettings"
         When switch to user "no_administer_env" with password ""
         When I select tab "Applications"
         When I click the application create entry
