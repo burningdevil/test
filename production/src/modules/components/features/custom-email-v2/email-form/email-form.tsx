@@ -22,8 +22,7 @@ import FormSwitch from './form-components/form-switch/form-switch.component';
 import SocialMediaSection from './form-components/social-media-section/social-media-section.component';
 const { Panel } = Collapse;
 const CustomEmailForm: React.FC<any> = (props: any) => {
-    // let stateData: CustomEmailSettingType = useSelector(selectCustomizeEmailSetting) ?? JSON.parse(JSON.stringify(DEFAULT_EMAIL_SETTING)) as CustomEmailSettingType;
-    let stateData: CustomEmailSettingType = useSelector(selectCustomizeEmailSetting) ?? {} as CustomEmailSettingType;
+    let stateData: CustomEmailSettingType = useSelector(selectCustomizeEmailSetting) ?? JSON.parse(JSON.stringify(DEFAULT_EMAIL_SETTING)) as CustomEmailSettingType;
     const dispatch = useDispatch();
     const {env, isPreviewOpen} = props;
     const actionButtonRef = React.useRef();
