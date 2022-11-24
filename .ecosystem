@@ -3,7 +3,7 @@
 export PROJECT_NAME='workstation-homescreen-admin'
 export ORGANIZATION_NAME='Kiai'
 export COMPANY_NAME='microstrategy'
-export ECOSYSTEM_ROOT_VERSION=${ECOSYSTEM_ROOT_VERSION:='DE250673'}
+export ECOSYSTEM_ROOT_VERSION=${ECOSYSTEM_ROOT_VERSION:='m2021'}
 
 
 #<(((((((((((((((-------------------------------------------------------------------)))))))))))))))>#
