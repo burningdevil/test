@@ -1,4 +1,4 @@
-@customemail11 @TC84106 @Regression
+@customemail11 @TC84106 @Sanity @hook_close_new_application_dialog_if_necessary
 Feature: 90_Custom_email_host_portal_none
     1. add Environment
     2. add new application
@@ -20,4 +20,16 @@ Feature: 90_Custom_email_host_portal_none
         When I enable custom email mode
         When I expand "Action Button" section
         When I input "http://10.27.69.39:8080/MicroStrategyLibrary/app" in "Host Web Portal"
-        Then I verify "Your IP address is not in whitelist" error appears
+        Then I verify "This URL is not in whitelist." error appears
+        When I click "Cancel" button in the tab "customEmailSettings"
+        When switch to user "no_administer_env" with password ""
+        When I select tab "Applications"
+        When I click the application create entry
+        When I switch to menu "Email Communication"
+        When I enable custom email mode
+        When I expand "Action Button" section
+        When I input "s" in "Host Web Portal"
+        Then I verify "Please enter a valid URL" error appears
+        When I reset "Action Button"
+        When I input "http://10.27.69.39:8080/MicroStrategyLibrary/app" in "Host Web Portal"
+        Then I verify "You do not have the privilege to get the URL whitelist." error appears

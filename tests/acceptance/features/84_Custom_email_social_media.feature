@@ -1,4 +1,4 @@
-@customemail5 @TC84096 @Regression
+@customemail5 @TC84096 @Sanity
 Feature: 84_Custom_email_social_media
     1. add Environment
     2. add new application
@@ -22,5 +22,9 @@ Feature: 84_Custom_email_social_media
         When I input "~@#" URL in "Twitter"
         When I input "https://www.linkedin.com/company/microstrategy?elq=0fd858f3e23f4360bd0d96d12eb26cea&elqCampaignId=" URL in "LinkedIn"
         When I input "google" URL in "YouTube"
+        When I click "Save" button in the tab "customEmailSettings"
+        When I edit the application "New Application"
+        When I switch to menu "Email Communication"
+        When I expand "Social Media" section
         Then check the screenshot by comparing "84_Custom_email_social_media_01"
         When I click "Save" button in the tab "customEmailSettings"

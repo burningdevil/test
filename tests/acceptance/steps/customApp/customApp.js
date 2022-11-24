@@ -6,7 +6,7 @@ const { Given, When, Then, setDefaultTimeout } = require('cucumber')
 const applicationPage = new ApplicationPage()
 const settingPage = new SettingPage()
 const { mainWindow } = pageObj
-
+const { switchToWindow } = require('../../utils/wsUtils/windowHelper')
 
 
 When('I click the application create entry', async function () {
@@ -288,8 +288,9 @@ When('I click reset of {string}', async function (section) {
     return mainWindow.app.sleep(500)
 });
 
-When('I confirm reset {string}', async function (text) {
-    await settingPage.confirmReset(text)
+When('I reset {string}', async function (section) {
+    await settingPage.clickReset(section)
+    await settingPage.confirmReset("Yes")
     return mainWindow.app.sleep(500)
 });
 
@@ -368,7 +369,56 @@ Then('I verify {string} error appears', async function (text) {
     expect(isDisplayed).to.equal(true)
 });
 
-When('I clear text on {string}', async function (button) {
+When('I clear text on button {string}', async function (button) {
     await settingPage.clearTextOnButton(button)
 });
 
+When('switch to user {string} with password {string}', async function (userName, userPwd) {
+    const { envName, envUrl, loginMode, projects } = browser.params.envInfo[0]
+    await switchToWindow('Workstation Main Window')
+    await mainWindow.smartTab.scrollOnSmartTab('up')
+    await mainWindow.smartTab.selectTab('Environments')
+  
+    try {
+      if (OSType === 'mac') {
+        await mainWindow.mainCanvas.envSection.removeEnv(envName)
+      } else {
+        await mainWindow.mainCanvas.envSection.removeAllEnv()
+      }
+  
+    } catch (err) {
+      console.log('[INFO] [Remove User] Target env already removed.')
+    }
+  
+    await mainWindow.mainCanvas.envSection.connectEnv(envName, envUrl)
+    await mainWindow.mainCanvas.envSection.loginToEnv(loginMode, userName, userPwd)
+  
+    await browser.sleep(5000)
+  
+    for (let projectIndex = 0; projectIndex < projects.length; projectIndex++) {
+      await mainWindow.mainCanvas.envSection.chooseProject(projects[projectIndex])
+    }
+    await mainWindow.mainCanvas.envSection.clickOkToConnect()
+  
+    await workstationApp.sleep(2000)
+    await browser.sleep(5000)
+  
+    if (OSType === 'mac') {
+      console.log('[INFO] Click to collapse ANALYSIS tab.')
+      await mainWindow.smartTab.selectTab('ANALYSIS')
+      await workstationApp.sleep(1000)
+      try {
+        const projectsTab = await mainWindow.smartTab.getTab('Projects')
+        console.log('[INFO] Click to collapse ANALYSIS tab again.')
+        await mainWindow.smartTab.selectTab('ANALYSIS')
+      } catch (e) {
+        console.log('[INFO] ANALYSIS tab collapsed.')
+      }
+  
+    } else {
+      await mainWindow.smartTab.scrollOnSmartTab('down')
+      await mainWindow.app.sleep(500)
+      await mainWindow.smartTab.scrollOnSmartTab('down')
+      await mainWindow.app.sleep(500)
+    }
+  })  

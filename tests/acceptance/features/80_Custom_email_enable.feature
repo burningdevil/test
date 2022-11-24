@@ -1,4 +1,4 @@
-@customemail1 @TC84106 @Regression
+@customemail1 @TC84106 @Sanity
 Feature: 80_Custom_email_enable
     1. add Environment
     2. add new application
@@ -25,8 +25,9 @@ Feature: 80_Custom_email_enable
         When I expand "Action Button" section
         Then check the screenshot by comparing "80_Custom_email_enable_02"
         When I expand "Notification Reminder" section
+        Then check the screenshot by comparing "80_Custom_email_enable_03"
         When I expand "Sent By" section
         When I expand "Social Media" section
         When I send preview email
-        Then check the screenshot by comparing "80_Custom_email_enable_03"
+        Then check the screenshot by comparing "80_Custom_email_enable_04"
         When I click "Save" button in the tab "customEmailSettings"

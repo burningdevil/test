@@ -1,4 +1,4 @@
-@customemail9 @TC85988 @TC84131 @Regression
+@customemail9 @TC85988 @TC84131 @Sanity @hook_close_new_application_dialog_if_necessary
 Feature: 88_Custom_email_error_handling
     1. add Environment
     2. add new application
@@ -24,10 +24,17 @@ Feature: 88_Custom_email_error_handling
         When I input "library;@microstrategy.com" in "Email Address"
         Then I verify "Invalid Email Address" error appears
         When I expand "Branding Image" section
+        When I input "s" in "Image URL"
+        Then I verify "Please enter a valid URL" error appears
+        When I reset "Branding Image"
         When I input "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fb.zol-img.com.cn%2Fsoft%2F6%2F612%2FcexabothzEZHY.jpg&refer=http%3A%2F%2Fb.zol-img.com.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1671006255&t=7a9716b523fe53a3a815d0fe3b80ee5f" in "Image URL"
         Then I verify "Please ensure that the URL points to a valid image file" error appears
         When I expand "Action Button" section
+        When I clear text on button "View in Browser"
+        Then I verify "This field can not be empty" error appears
+        When I input "s" in "Host Web Portal"
+        Then I verify "Please enter a valid URL" error appears
         When I change mobile link from "Default" to "URL Scheme"
         When I change dossier to "-" in url scheme
-        When I expand "Notification Reminder" section
+        When I expand "Sent By" section
         Then I verify "Only letters and numbers are supported" error appears

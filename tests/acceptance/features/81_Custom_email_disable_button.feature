@@ -1,4 +1,4 @@
-@customemail2 @TC84106 @Regression
+@customemail2 @TC84106 @Sanity
 Feature: 81_Custom_email_disable_button
     1. add Environment
     2. add new application
@@ -12,7 +12,7 @@ Feature: 81_Custom_email_disable_button
         Given configure workstation engine test environment
 
     @hook_close_new_application_dialog_if_necessary
-    Scenario: 81_Custom_email_enable
+    Scenario: 81_Custom_email_disable_button
         When I select tab "Applications"
         When I click the application create entry
         When I switch to menu "Email Communication"
@@ -26,5 +26,12 @@ Feature: 81_Custom_email_disable_button
         When I expand "Social Media" section
         When I disable media "Facebook"
         When I send preview email
+        When I click "Save" button in the tab "customEmailSettings"
+        When I edit the application "New Application"
+        When I switch to menu "Email Communication"
+        When I expand "Preview" section
+        When I expand "Branding Image" section
+        When I expand "Action Button" section
+        When I expand "Social Media" section
         Then check the screenshot by comparing "81_Custom_email_disable_button_01"
         When I click "Save" button in the tab "customEmailSettings"

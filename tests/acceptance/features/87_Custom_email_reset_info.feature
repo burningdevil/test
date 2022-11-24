@@ -1,4 +1,4 @@
-@customemail8 @TC78815 @Regression
+@customemail8 @TC84106 @Sanity
 Feature: 87_Custom_email_reset_info
     1. add Environment
     2. add new application
@@ -28,3 +28,4 @@ Feature: 87_Custom_email_reset_info
         Then check the screenshot by comparing "87_Custom_email_reset_info_04"
         When I view Link Text Info
         Then check the screenshot by comparing "87_Custom_email_reset_info_05"
+        When I click "Save" button in the tab "customEmailSettings"
