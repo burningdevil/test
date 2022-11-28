@@ -192,6 +192,7 @@ export default class ApplicationPage extends BasePage {
 
   async duplicateCustomAppFromCustomAppListPageByName(name) {
     await this.waitForCustomAppMainWindow();
+    await this.waitForWebElementToBeVisiable(this.getGridCellInCustomAppListView(name))
     const appItem = await this.getGridCellInCustomAppListView(name)
     await this.rightClick({ elem: appItem })
     await this.waitForContentMenu('Duplicate')
@@ -200,7 +201,8 @@ export default class ApplicationPage extends BasePage {
   }
 
   async editCustomAppFromCustomAppListPageByName(name) {
-    await this.waitForCustomAppMainWindow();
+    await this.waitForCustomAppMainWindow()
+    await this.waitForWebElementToBeVisiable(this.getGridCellInCustomAppListView(name))
     const appItem = await this.getGridCellInCustomAppListView(name)
     await this.rightClick({ elem: appItem })
     await this.waitForContentMenu('Edit')

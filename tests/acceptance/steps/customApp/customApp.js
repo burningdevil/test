@@ -221,11 +221,17 @@ When('I select option {string} for auth mode', async function (option) {
     return mainWindow.app.sleep(500)
 });
 
+Then('I verify custom app {string} is displayed in application detailed grid', async function (name) {
+    await applicationPage.waitForWebElementToBeVisiable(applicationPage.getGridCellInCustomAppListView(name))
+    const isDisplayed = await applicationPage.getGridCellInCustomAppListView(name).isDisplayed()
+    expect(isDisplayed).to.equal(true)
+});
+
 Then('I verify auth mode option {string} is selected', async function (option) {
     await settingPage.waitForAuthModeSection()
     const isChecked = await settingPage.getAuthModeSelectionCheckBoxByOption(option).isSelected()
     expect(isChecked).to.equal(true)
-})
+});
 
 When('I select custom auth modes {string} for auth mode', async function (options) {
     await settingPage.setCustomAuthModes(options, false)

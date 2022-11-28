@@ -14,14 +14,17 @@ Feature: 12_CreateApp
         Then check the screenshot by comparing "12_newapplication_default"
         Then I switch to menu "Components"
         Then I click "Save" button in the tab "components"
+        Then I verify custom app "New Application" is displayed in application detailed grid
         When I click the application create entry
         Then check the screenshot by comparing "12_newapplication_default1"
         Then I switch to menu "Components"
         Then I click "Save" button in the tab "components"
+        Then I verify custom app "New Application 1" is displayed in application detailed grid
         When I click the application create entry
         Then check the screenshot by comparing "12_newapplication_default2"
         Then I switch to menu "Components"
         Then I click "Save" button in the tab "components"
+        Then I verify custom app "New Application 2" is displayed in application detailed grid
         Then I delete the application "New Application"
         Then I delete the application "New Application 1"
         Then I delete the application "New Application 2"
