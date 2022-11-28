@@ -1,4 +1,4 @@
-@customemail12 @TC84106 @Sanity @hook_close_new_application_dialog_if_necessary
+@customemail12 @TC84106 @Sanity @Regression
 Feature: 91_Custom_email_host_portal_specific
     1. add Environment
     2. add new application
@@ -12,7 +12,7 @@ Feature: 91_Custom_email_host_portal_specific
         Given configure workstation engine test environment
         #Given close application dialog if necessary
 
-    @hook_close_new_application_dialog_if_necessary
+    @hook_close_application_editor_dialog_if_necessary
     Scenario: 91_Custom_email_host_portal_specific
         When I select tab "Applications"
         When I click the application create entry

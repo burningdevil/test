@@ -1,4 +1,4 @@
-@customemail2 @TC84106 @Sanity
+@customemail2 @TC84106 @Sanity @Regression
 Feature: 81_Custom_email_disable_button
     1. add Environment
     2. add new application
@@ -11,7 +11,7 @@ Feature: 81_Custom_email_disable_button
         Given I remove all custom color palettes by api
         Given configure workstation engine test environment
 
-    @hook_close_new_application_dialog_if_necessary
+    @hook_close_application_editor_dialog_if_necessary
     Scenario: 81_Custom_email_disable_button
         When I select tab "Applications"
         When I click the application create entry

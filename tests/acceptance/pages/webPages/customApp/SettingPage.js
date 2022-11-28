@@ -1,6 +1,7 @@
 import BasePage from '../../basePages/BasePage'
 import { OSType } from '../../../utils/envUtils/constants'
 import { protractor } from 'protractor'
+import { wsConfig } from '../../../config/constants'
 import { times } from 'lodash'
 const { registerNewWindow, switchToWindow, unregisterWindow } = require('../../../utils/wsUtils/windowHelper')
 
@@ -19,7 +20,7 @@ export default class SettingPage extends BasePage {
   getDescriptionInpuBox() {
     return this.$('.home-screen-general-description-name').$('.ant-input')
   }
- 
+
   // currently, platform can be web, desktop
   /*
   getPlatformCheckbox(platform) {
@@ -211,6 +212,10 @@ export default class SettingPage extends BasePage {
     return this.element(by.xpath(`//div[@class='custom-auth-form-option-container']//span[text()='${text}']//ancestor::div[@class='option-row']//input`))
   }
 
+  getAuthModeContainer() {
+    return this.$('.custom-auth-form-content')
+  }
+
   //custom email
   getCustomEmailMode() {
     return this.element(by.xpath(`//span[text()='Configure email content for this application.']`))
@@ -253,13 +258,13 @@ export default class SettingPage extends BasePage {
   getDismissCursor() {
     return this.element(by.xpath(`//div[text()='EMAIL COMMUNICATION']`))
   }
-  getSubjectOrBodyInputBox(number,section) {
+  getSubjectOrBodyInputBox(number, section) {
     //number: 1, 2
     //section: SHARE_DOSSIER, SHARE_BOOKMARK, MEMBER_ADDED, USER_MENTION
     return this.element(by.xpath(`//div[@id='${section}']/following-sibling::div[${number}]//div[@class='ql-editor']`))
   }
 
-  getReminderInputBox(){
+  getReminderInputBox() {
     return this.element(by.xpath(`//div[@id='NewNotificationCount']//div[@class='ql-editor']`))
   }
 
@@ -272,7 +277,7 @@ export default class SettingPage extends BasePage {
     //View in Browser, View in Mobile
     return this.element(by.xpath(`//input[@placeholder='${button}']`))
   }
-  
+
   getMediaInputBox(media) {
     //text: Facebook, Twitter, LinkedIn, YouTube
     return this.element(by.xpath(`//span[text()='${media}']/following-sibling::input[@class='ant-input']`))
@@ -305,7 +310,7 @@ export default class SettingPage extends BasePage {
   getUrlSchemeInputBox() {
     return this.element(by.xpath(`//input[@value='dossier']`))
   }
-  
+
   getErrorMessage(text) {
     //text: Invalid Email Name, Invalid Email Address, Please enter a valid URL, This field can not be empty, Only letters and numbers are supported
     return this.element(by.xpath(`//span[text()='${text}']`))
@@ -337,7 +342,7 @@ export default class SettingPage extends BasePage {
     await browser.sleep(6000 * this.ratio)
     await unregisterWindow('New Application')
     await switchToWindow('Workstation Main Window')
-    await this.switchToNewWebView()
+    await this.switchToHomeScreenMain()
   }
 
   async switchMenu(menu) {
@@ -508,17 +513,23 @@ export default class SettingPage extends BasePage {
   }
 
   async setAuthModeOption(option) {
+    await this.waitForAuthModeSection()
     await this.getAuthModeSelectionOption(option).click()
     await browser.sleep(2000 * this.ratio)
   }
 
   async setCustomAuthModes(options, flag) {
+    await this.waitForAuthModeSection()
     const opts = options.split(',');
     for (const opt of opts) {
       const isChecked = await this.getCheckBoxByAuthModeOption(opt).isSelected()
       if (isChecked === flag) await this.getCustomAuthModeOption(opt).click();
     }
     await browser.sleep(2000 * this.ratio)
+  }
+
+  async waitForAuthModeSection() {
+    await this.wait(this.EC.visibilityOf(this.getAuthModeContainer()), wsConfig.waitForWebElementTimeout * this.ratio, 'Auth mode section is not shown yet.');
   }
 
   async enableCustomEmailMode() {
@@ -567,15 +578,15 @@ export default class SettingPage extends BasePage {
   }
 
   async inputSubjectOrBody(text, number, section) {
-   // await this.wait(this.EC.elementToBeClickable(this.getSubjectOrBodyInputBox(section1,section2)), 30000 * this.ratio, 'The inputbox is not clickable.');
-    await this.getSubjectOrBodyInputBox(number,section).clear()
+    // await this.wait(this.EC.elementToBeClickable(this.getSubjectOrBodyInputBox(section1,section2)), 30000 * this.ratio, 'The inputbox is not clickable.');
+    await this.getSubjectOrBodyInputBox(number, section).clear()
     await browser.sleep(10000 * this.ratio)
     await this.input(text)
     await this.getDismissCursor().click()
-    }
+  }
 
   async selectFromDropdownList(value, number, section) {
-    await this.getSubjectOrBodyInputBox(number,section).clear()
+    await this.getSubjectOrBodyInputBox(number, section).clear()
     await browser.sleep(10000 * this.ratio)
     await this.input("{")
     await this.getDropdownList(value).click()
@@ -604,12 +615,12 @@ export default class SettingPage extends BasePage {
     await this.getDismissCursor().click()
   }
 
-  async showMedia(media){
+  async showMedia(media) {
     await browser.sleep(3000 * this.ratio)
     await this.getShowMeida(media).click()
   }
 
-  async switchOption(label){
+  async switchOption(label) {
     await browser.sleep(3000 * this.ratio)
     await this.getOptionSwitcher(label).click()
   }
@@ -634,7 +645,7 @@ export default class SettingPage extends BasePage {
     await this.getDismissCursor().click()
   }
 
-  async clearTextOnButton(button) {  
+  async clearTextOnButton(button) {
     if (OSType === 'mac') {
       await this.getButtonInputBox(button).clear()
       await this.input("s")

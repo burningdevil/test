@@ -1,4 +1,5 @@
 import { browser } from "protractor"
+import { wsWebViews, wsConfig } from '../../config/constants'
 
 export default class BasePage {
   constructor(browserInstance) {
@@ -24,17 +25,41 @@ export default class BasePage {
   }
 
   // for WebView management
-  async switchToNewWebView() {
-    const handles = await browser.getAllWindowHandles()
-    for(let i=handles.length-1; i>=0; i--){
-      await browser.switchTo().window(handles[i])
-      const title = await browser.getTitle()
-      if(title === 'App') {
-        console.log('Switch to new WebView: ', await browser.getTitle())
-        break;
+  async switchToNewWebView(tabName) {
+    for (let j = 0; j < wsConfig.webViewQueryTimeout; j++) {
+      const handles = await browser.getAllWindowHandles()
+      for (let i = handles.length - 1; i >= 0; i--) {
+        await browser.switchTo().window(handles[i])
+        // const title = await browser.getTitle()
+        // if (title === 'App') {
+        //   console.log('Switch to new WebView: ', await browser.getTitle(), await browser.getCurrentUrl())
+        //   break;
+        // }
+        //console.log(`current WebView:`, await browser.getTitle(), await browser.getCurrentUrl())
+        const currentUrl = await browser.getCurrentUrl()
+        // custom app home and editor can use endsWith(), library home admin has lots of parameters passed in
+        // use includes() to support both
+        if (currentUrl.includes(tabName)) {
+          console.log(`Switch to new WebView: ${tabName}`, await browser.getTitle(), await browser.getCurrentUrl())
+          return;
+        }
       }
+      await browser.sleep(1000)
+      console.log(`#${j} Try to switch to webview ${tabName}`)
     }
-    
+
+  }
+
+  async switchToHomeScreenMain() {
+    await this.switchToNewWebView(wsWebViews.customAppHomeScreen)
+  }
+
+  async switchToCustomAppEditorDialog() {
+    await this.switchToNewWebView(wsWebViews.customAppEditor)
+  }
+
+  async switchToLibraryAdminDialog() {
+    await this.switchToNewWebView(wsWebViews.libraryAdmin)
   }
 
   async switchToDefaultWebView() {

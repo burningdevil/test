@@ -1,4 +1,4 @@
-@customemail4 @TC84106 @Sanity
+@customemail4 @TC84106 @Sanity @Regression
 Feature: 83_Custom_email_long_text
     1. add Environment
     2. add new application
@@ -11,7 +11,7 @@ Feature: 83_Custom_email_long_text
         Given I remove all custom apps except "MicroStrategy" by api
         Given configure workstation engine test environment
         #Given close application dialog if necessary
-    @hook_close_new_application_dialog_if_necessary
+    @hook_close_application_editor_dialog_if_necessary
     Scenario: 83_Custom_email_long_text
         When I select tab "Applications"
         When I click the application create entry

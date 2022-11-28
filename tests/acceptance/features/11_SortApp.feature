@@ -7,7 +7,7 @@ Feature: 11_SortApp
         Given I remove all custom apps except "MicroStrategy" by api
         Given configure workstation engine test environment
 
-    @hook_close_new_application_dialog_if_necessary
+    @hook_close_application_editor_dialog_if_necessary
     Scenario: 11_SortApp
         When I select tab "Applications"
         Then I sort the application list by "Name"

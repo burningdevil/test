@@ -15,7 +15,7 @@ Feature: 06_LH_DossierWindow
         Given I remove all custom apps except "MicroStrategy" by api
         Given configure workstation engine test environment
         
-    @hook_close_new_application_dialog_if_necessary
+    @hook_close_application_editor_dialog_if_necessary
     Scenario: 06_LH_DossierWindow
         When I select tab "Applications"
         When I click the application create entry

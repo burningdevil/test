@@ -1,4 +1,4 @@
-@authmode @Regression @TC85733
+@authmode @Regression @TC85733 @Sanity
 Feature: 76_Edit_custom_app_auth_modes
     1. add Environment
     2. add new application
@@ -12,7 +12,7 @@ Feature: 76_Edit_custom_app_auth_modes
         Given I remove all custom color palettes by api
         Given configure workstation engine test environment
 
-    @hook_close_new_application_dialog_if_necessary
+    @hook_close_application_editor_dialog_if_necessary
     Scenario: 76_Edit_custom_app_auth_modes
         When I select tab "Applications"
         When I click the application create entry

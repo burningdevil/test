@@ -11,7 +11,7 @@ Feature: 72_Auth_mode_disable_oidc_saml_when_one_selected
         Given I remove all custom color palettes by api
         Given configure workstation engine test environment
 
-    @hook_close_new_application_dialog_if_necessary
+    @hook_close_application_editor_dialog_if_necessary
     Scenario: 72_Auth_mode_disable_oidc_saml_when_one_selected
         When I select tab "Applications"
         When I click the application create entry

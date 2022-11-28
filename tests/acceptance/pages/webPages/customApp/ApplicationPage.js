@@ -135,19 +135,19 @@ export default class ApplicationPage extends BasePage {
     await browser.sleep(1000 * this.ratio)
     await registerNewWindow('New Application')
     await switchToWindow('New Application')
-    await this.switchToNewWebView()
+    await this.switchToCustomAppEditorDialog()
   }
 
   async switchToEditApplicationWindow() {
     await browser.sleep(1000 * this.ratio)
     await registerNewWindow('Edit Application')
     await switchToWindow('Edit Application')
-    await this.switchToNewWebView()
+    await this.switchToCustomAppEditorDialog()
   }
 
   async switchToCustomAppWindow() {
-    await browser.sleep(1000 * this.ratio)
-    await this.switchToNewWebView()
+    //await browser.sleep(1000 * this.ratio)
+    await this.switchToHomeScreenMain()
   }
 
   async switchToApplicationInfoWindow() {
@@ -226,7 +226,7 @@ export default class ApplicationPage extends BasePage {
 
   // assertions
   async takeScreenshotOnElement(webElement, screenshot) {
-    await this.switchToCustomAppWindow()
+    //await this.switchToCustomAppWindow()
     await browser.actions().mouseMove({ x: 0, y: 10000 }).perform()
     let elementLocator
     switch (webElement) {

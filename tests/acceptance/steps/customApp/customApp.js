@@ -1,6 +1,7 @@
 import { Return } from 'wd/lib/special-keys'
 import ApplicationPage from '../../pages/webPages/customApp/ApplicationPage'
 import SettingPage from '../../pages/webPages/customApp/SettingPage'
+import { wsConfig } from '../../config/constants'
 const { expect } = require('chai')
 const { Given, When, Then, setDefaultTimeout } = require('cucumber')
 const applicationPage = new ApplicationPage()
@@ -221,6 +222,7 @@ When('I select option {string} for auth mode', async function (option) {
 });
 
 Then('I verify auth mode option {string} is selected', async function (option) {
+    await settingPage.waitForAuthModeSection()
     const isChecked = await settingPage.getAuthModeSelectionCheckBoxByOption(option).isSelected()
     expect(isChecked).to.equal(true)
 })
@@ -236,6 +238,7 @@ When('I deselect custom auth modes {string} for auth mode', async function (opti
 });
 
 Then('I verify auth modes {string} are selected', async function (options) {
+    await settingPage.waitForAuthModeSection()
     const opts = options.split(',');
     for (const opt of opts) {
         const isChecked = await settingPage.getCheckBoxByAuthModeOption(opt).isSelected()
@@ -258,9 +261,17 @@ Then('I verify {string} button is {string} in the tab {string}', async function 
     expect(isEnabled).to.equal(status !== 'disabled')
 });
 
-Then('I verify auth mode of custom app {string} in detail grid is {string}', async function (name, authModes) {
-    const value = await applicationPage.getAuthModesInApplicationDetailsGridByAppName(name, authModes).getText()
-    expect(authModes === value).to.equal(true)
+Then('I verify auth mode of custom app {string} in detail grid is {string}', async function (name, expectAuthModes) {
+    await applicationPage.waitForCustomAppMainWindow();
+    const texts = await applicationPage.getAuthModesInApplicationDetailsGridByAppName(name).getText()
+    const actualModes = texts.split(wsConfig.authModesSeperator)
+    const expectModes = expectAuthModes.split(wsConfig.authModesSeperator)
+    expect(expectModes.length === expectModes.length).to.equal(true)
+    expect(expectModes[0] === actualModes[0]).to.equal(true)
+    for (let i = 0; i < expectModes.length; i++) {
+        //expect(expectAuthModes.includes(actualModes[i])).to.equal(true)
+        expect(expectAuthModes).to.include(actualModes[i])
+    }
 });
 
 When('I enable custom email mode', async function () {
@@ -369,6 +380,11 @@ Then('I verify {string} error appears', async function (text) {
     expect(isDisplayed).to.equal(true)
 });
 
+Then('I verify switch button of {string} is {string}', async function (label, status) {
+    const actState = await settingPage.getOptionSwitcher(label).getAttribute('aria-checked')
+    expect(actState === 'true').to.equal(status === 'on')
+});
+
 When('I clear text on button {string}', async function (button) {
     await settingPage.clearTextOnButton(button)
 });
@@ -378,47 +394,47 @@ When('switch to user {string} with password {string}', async function (userName,
     await switchToWindow('Workstation Main Window')
     await mainWindow.smartTab.scrollOnSmartTab('up')
     await mainWindow.smartTab.selectTab('Environments')
-  
+
     try {
-      if (OSType === 'mac') {
-        await mainWindow.mainCanvas.envSection.removeEnv(envName)
-      } else {
-        await mainWindow.mainCanvas.envSection.removeAllEnv()
-      }
-  
+        if (OSType === 'mac') {
+            await mainWindow.mainCanvas.envSection.removeEnv(envName)
+        } else {
+            await mainWindow.mainCanvas.envSection.removeAllEnv()
+        }
+
     } catch (err) {
-      console.log('[INFO] [Remove User] Target env already removed.')
+        console.log('[INFO] [Remove User] Target env already removed.')
     }
-  
+
     await mainWindow.mainCanvas.envSection.connectEnv(envName, envUrl)
     await mainWindow.mainCanvas.envSection.loginToEnv(loginMode, userName, userPwd)
-  
+
     await browser.sleep(5000)
-  
+
     for (let projectIndex = 0; projectIndex < projects.length; projectIndex++) {
-      await mainWindow.mainCanvas.envSection.chooseProject(projects[projectIndex])
+        await mainWindow.mainCanvas.envSection.chooseProject(projects[projectIndex])
     }
     await mainWindow.mainCanvas.envSection.clickOkToConnect()
-  
+
     await workstationApp.sleep(2000)
     await browser.sleep(5000)
-  
+
     if (OSType === 'mac') {
-      console.log('[INFO] Click to collapse ANALYSIS tab.')
-      await mainWindow.smartTab.selectTab('ANALYSIS')
-      await workstationApp.sleep(1000)
-      try {
-        const projectsTab = await mainWindow.smartTab.getTab('Projects')
-        console.log('[INFO] Click to collapse ANALYSIS tab again.')
+        console.log('[INFO] Click to collapse ANALYSIS tab.')
         await mainWindow.smartTab.selectTab('ANALYSIS')
-      } catch (e) {
-        console.log('[INFO] ANALYSIS tab collapsed.')
-      }
-  
+        await workstationApp.sleep(1000)
+        try {
+            const projectsTab = await mainWindow.smartTab.getTab('Projects')
+            console.log('[INFO] Click to collapse ANALYSIS tab again.')
+            await mainWindow.smartTab.selectTab('ANALYSIS')
+        } catch (e) {
+            console.log('[INFO] ANALYSIS tab collapsed.')
+        }
+
     } else {
-      await mainWindow.smartTab.scrollOnSmartTab('down')
-      await mainWindow.app.sleep(500)
-      await mainWindow.smartTab.scrollOnSmartTab('down')
-      await mainWindow.app.sleep(500)
+        await mainWindow.smartTab.scrollOnSmartTab('down')
+        await mainWindow.app.sleep(500)
+        await mainWindow.smartTab.scrollOnSmartTab('down')
+        await mainWindow.app.sleep(500)
     }
-  })  
+})  

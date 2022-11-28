@@ -1,4 +1,4 @@
-@customemail13 @TC84106 @Sanity
+@customemail13 @TC84106 @Sanity @Regression
 Feature: 92_Custom_email_duplicate_app
     1. add Environment
     2. add new application
@@ -12,7 +12,7 @@ Feature: 92_Custom_email_duplicate_app
         Given configure workstation engine test environment
         #Given close application dialog if necessary
 
-    @hook_close_new_application_dialog_if_necessary
+    @hook_close_application_editor_dialog_if_necessary
     Scenario: 92_Custom_email_duplicate_app
         When I select tab "Applications"
         When I click the application create entry

@@ -1,4 +1,4 @@
-@customemail5 @TC84096 @Sanity
+@customemail5 @TC84096 @Sanity @Regression
 Feature: 84_Custom_email_social_media
     1. add Environment
     2. add new application
@@ -11,7 +11,7 @@ Feature: 84_Custom_email_social_media
         Given configure workstation engine test environment
         #Given close application dialog if necessary
 
-    @hook_close_new_application_dialog_if_necessary
+    @hook_close_application_editor_dialog_if_necessary
     Scenario: 84_Custom_email_social_media
         When I select tab "Applications"
         When I click the application create entry
