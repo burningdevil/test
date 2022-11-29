@@ -341,6 +341,7 @@ export default class SettingPage extends BasePage {
     }
     await browser.sleep(6000 * this.ratio)
     await unregisterWindow('New Application')
+    await unregisterWindow('Edit Application')
     await switchToWindow('Workstation Main Window')
     await this.switchToHomeScreenMain()
   }
