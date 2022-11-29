@@ -13,50 +13,49 @@ export default class AppWindow extends Window {
     super()
   }
 
-  async getCloseWindowButton() {
+  async getCloseWindowButton(name) {
     return this.getNativeElement({
       windows: {
         locators: [
-          { method: 'Name', value: 'New Application' },
+          { method: 'Name', value: name },
           { method: 'AccessibilityId', value: 'WindowCloseButton' }
         ]
       },
-      mac: { xpath: customapp.closewindowbutton }
+      mac: { xpath: customapp.closewindowbutton.replace(/ReplaceMe/g, name) }
     })
   }
 
-  async getConfirmCloseWindowButton() {
+  async getConfirmCloseWindowButton(name) {
     return this.getNativeElement({
       windows: {
         locators: [
-          { method: 'Name', value: 'New Application' },
+          { method: 'Name', value: name },
           { method: 'Name', value: 'No' }
         ]
       },
-      mac: { xpath: customapp.confirmclosewindowbutton }
+      mac: { xpath: customapp.confirmclosewindowbutton.replace(/ReplaceMe/g, name) }
     })
   }
 
-  async getNewApplicationWindow() {
+  async getApplicationEditorWindow(name) {
     return this.getNativeElement({
       windows: {
         locators: [
-          { method: 'Name', value: 'New Application' }
+          { method: 'Name', value: name }
         ]
       },
-      mac: { xpath: customapp.newcustomappwindow }
+      mac: { xpath: customapp.newcustomappwindow.replace(/ReplaceMe/g, name) }
     })
   }
 
 
-  async clickCloseDialogButton() {
-    const newCustomAppWindow = await this.getNewApplicationWindow();
-    await this.moveToAndClick(await this.getCloseWindowButton())
+  async clickCloseDialogButton(name) {
+    const customAppEditorWindow = await this.getApplicationEditorWindow(name);
+    await this.moveToAndClick(await this.getCloseWindowButton(name))
     await this.app.sleep(1000)
-    await switchToWindow('New Application Close Confirm')
-    await this.moveToAndClick(await this.getConfirmCloseWindowButton())
-    await unregisterWindow('New Application Close Confirm')
-
+    await switchToWindow(`${name} Close Confirm`)
+    await this.moveToAndClick(await this.getConfirmCloseWindowButton(name))
+    await unregisterWindow(`${name} Close Confirm`)
     return this.app.sleep(1000)
   }
 

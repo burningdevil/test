@@ -1,4 +1,4 @@
-@customemail9 @TC85988 @TC84131 @Sanity @hook_close_new_application_dialog_if_necessary
+@customemail9 @TC85988 @TC84131 @Sanity @Regression
 Feature: 88_Custom_email_error_handling
     1. add Environment
     2. add new application
@@ -11,7 +11,7 @@ Feature: 88_Custom_email_error_handling
         Given I remove all custom color palettes by api
         Given configure workstation engine test environment
 
-    @hook_close_new_application_dialog_if_necessary
+    @hook_close_application_editor_dialog_if_necessary
     Scenario: 88_Custom_email_error_handling
         When I select tab "Applications"
         When I click the application create entry

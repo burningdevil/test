@@ -135,19 +135,19 @@ export default class ApplicationPage extends BasePage {
     await browser.sleep(1000 * this.ratio)
     await registerNewWindow('New Application')
     await switchToWindow('New Application')
-    await this.switchToNewWebView()
+    await this.switchToCustomAppEditorDialog()
   }
 
   async switchToEditApplicationWindow() {
     await browser.sleep(1000 * this.ratio)
     await registerNewWindow('Edit Application')
     await switchToWindow('Edit Application')
-    await this.switchToNewWebView()
+    await this.switchToCustomAppEditorDialog()
   }
 
   async switchToCustomAppWindow() {
-    await browser.sleep(1000 * this.ratio)
-    await this.switchToNewWebView()
+    //await browser.sleep(1000 * this.ratio)
+    await this.switchToHomeScreenMain()
   }
 
   async switchToApplicationInfoWindow() {
@@ -192,6 +192,7 @@ export default class ApplicationPage extends BasePage {
 
   async duplicateCustomAppFromCustomAppListPageByName(name) {
     await this.waitForCustomAppMainWindow();
+    await this.waitForWebElementToBeVisiable(this.getGridCellInCustomAppListView(name))
     const appItem = await this.getGridCellInCustomAppListView(name)
     await this.rightClick({ elem: appItem })
     await this.waitForContentMenu('Duplicate')
@@ -200,7 +201,8 @@ export default class ApplicationPage extends BasePage {
   }
 
   async editCustomAppFromCustomAppListPageByName(name) {
-    await this.waitForCustomAppMainWindow();
+    await this.waitForCustomAppMainWindow()
+    await this.waitForWebElementToBeVisiable(this.getGridCellInCustomAppListView(name))
     const appItem = await this.getGridCellInCustomAppListView(name)
     await this.rightClick({ elem: appItem })
     await this.waitForContentMenu('Edit')
@@ -226,7 +228,7 @@ export default class ApplicationPage extends BasePage {
 
   // assertions
   async takeScreenshotOnElement(webElement, screenshot) {
-    await this.switchToCustomAppWindow()
+    //await this.switchToCustomAppWindow()
     await browser.actions().mouseMove({ x: 0, y: 10000 }).perform()
     let elementLocator
     switch (webElement) {

@@ -1,4 +1,4 @@
-@customemail3 @TC84106 @Sanity
+@customemail3 @TC84106 @Sanity @Regression
 Feature: 82_Custom_email_use_blank
     1. add Environment
     2. add new application
@@ -12,7 +12,7 @@ Feature: 82_Custom_email_use_blank
         Given configure workstation engine test environment
         #Given close application dialog if necessary
 
-    @hook_close_new_application_dialog_if_necessary
+    @hook_close_application_editor_dialog_if_necessary
     Scenario: 82_Custom_email_use_blank
         When I select tab "Applications"
         When I click the application create entry

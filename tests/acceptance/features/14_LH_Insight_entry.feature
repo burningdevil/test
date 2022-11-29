@@ -10,7 +10,7 @@ Feature: 14_LH_DisableInsight_entry
         Given configure workstation engine test environment
         Given close application dialog if necessary
 
-    @hook_close_new_application_dialog_if_necessary
+    @hook_close_application_editor_dialog_if_necessary
     Scenario: 14_LH_Insight_entry
         When I select tab "Applications"
         When I click the application create entry

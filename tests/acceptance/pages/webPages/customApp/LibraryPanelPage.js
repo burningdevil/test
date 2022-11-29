@@ -31,7 +31,7 @@ export default class LibraryPanelPage extends BasePage {
   // }
 
   async collapseFirstLeverlDirectory(propertyText) {
-    await this.switchToNewWebView()
+    await this.switchToLibraryAdminDialog()
     await this.getFirstLevelDirectoryPropertyValue(propertyText).click()
     await browser.sleep(8000 * this.ratio)
   }

@@ -133,14 +133,24 @@ After({ tags: '@hook_close_environment_info_window' }, async function () {
     await workstationApp.sleep(1000)
 })
 
-After({ tags: '@hook_close_new_application_dialog_if_necessary' }, async function () {
+After({ tags: '@hook_close_application_editor_dialog_if_necessary' }, async function () {
     try {
         await switchToWindow('New Application')
-        await appWindow.clickCloseDialogButton()
+        await appWindow.clickCloseDialogButton('New Application')
         await unregisterWindow('New Application')
         console.log('[INFO] New application window is open, close it.')
     } catch (e) {
         console.log('[INFO] New application window is already closed.')
     }
+
+    try {
+        await switchToWindow('Edit Application')
+        await appWindow.clickCloseDialogButton('Edit Application')
+        await unregisterWindow('Edit Application')
+        console.log('[INFO] Edit application window is open, close it.')
+    } catch (e) {
+        console.log('[INFO] Edit application window is already closed.')
+    }
+
     await workstationApp.sleep(1000)
 })

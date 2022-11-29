@@ -11,7 +11,7 @@ Feature: 71_Create_custom_app_use_server_auth_mode
         Given I remove all custom color palettes by api
         Given configure workstation engine test environment
 
-    @hook_close_new_application_dialog_if_necessary
+    @hook_close_application_editor_dialog_if_necessary
     Scenario: 71_Create_custom_app_use_server_auth_mode
         When I select tab "Applications"
         When I click the application create entry

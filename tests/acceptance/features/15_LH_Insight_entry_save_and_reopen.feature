@@ -11,7 +11,7 @@ Feature: 15_LH_Insight_entry_save_and_reopen
         Given configure workstation engine test environment
         Given close application dialog if necessary
 
-    @hook_close_new_application_dialog_if_necessary
+    @hook_close_application_editor_dialog_if_necessary
     Scenario: 15_LH_Insight_entry_save_and_reopen
         When I select tab "Applications"
         When I click the application create entry
