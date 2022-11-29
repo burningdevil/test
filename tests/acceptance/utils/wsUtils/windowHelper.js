@@ -30,7 +30,9 @@ async function maximizeWindowByWindowName(windowName) {
 }
 
 async function unregisterWindow(windowName) {
-  return windowsMap.delete(windowName)
+  const windowhandle = windowsMap.get(windowName)
+  if (windowhandle !== undefined) await windowsMap.delete(windowName)
+  return workstationApp.sleep(500)
 }
 
 module.exports = { registerWindow, registerNewWindow, switchToWindow, unregisterWindow, setWindowPosition, maximizeWindowByWindowName }
