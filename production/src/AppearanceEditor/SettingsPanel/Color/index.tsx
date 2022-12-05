@@ -51,12 +51,7 @@ const Color: React.FC<ColorProps> = ({
     const onColorChange = (selectedTheme: string) => {
         const colorObj: any = { color: { selectedTheme, formatting: null } };
         if (isCustomColorTheme(selectedTheme)) {
-            colorObj.color.formatting =
-                prefinedColorSets[
-                    isPredefinedColorTheme(color.selectedTheme)
-                        ? color.selectedTheme
-                        : EnumSelectedThemes.RED
-                ];
+            colorObj.color.formatting = prefinedColorSets[color.selectedTheme];
         }
         updateTheme(colorObj);
     };

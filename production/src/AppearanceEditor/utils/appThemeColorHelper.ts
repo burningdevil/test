@@ -174,6 +174,25 @@ export const prefinedColorSets = {
 
         [EnumFormattingPropNames.notificationBadgeFill]: '#F56B6B',
     },
+    [EnumSelectedThemes.LIGHT]: {
+        [EnumFormattingPropNames.toolbarFill]: '#FFFFFF',
+        [EnumFormattingPropNames.toolbarColor]: '#29313B',
+
+        [EnumFormattingPropNames.sidebarFill]: '#FFFFFF',
+        [EnumFormattingPropNames.sidebarColor]: '#29313B',
+
+        [EnumFormattingPropNames.sidebarActiveFill]: '#334A6A',
+        [EnumFormattingPropNames.sidebarActiveColor]: '#FFFFFF',
+
+        [EnumFormattingPropNames.panelFill]: '#23262A',
+        [EnumFormattingPropNames.panelColor]: '#FFFFFF',
+
+        [EnumFormattingPropNames.accentFill]: '#529AFE',
+
+        [EnumFormattingPropNames.buttonColor]: '#29313B',
+
+        [EnumFormattingPropNames.notificationBadgeFill]: '#F56B6B',
+    }
 };
 
 export const colorPropTitles = [

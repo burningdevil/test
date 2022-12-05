@@ -20,10 +20,7 @@ import ColorPickerComponent from '../../../Components/ColorPicker';
 type ColorPropEditorProps = {
     color: ApplicationColor;
     updateTheme: (theme: {
-        color: {
-            selectedTheme: string;
-            formatting: ThemeColorFormats;
-        };
+        color: ApplicationColor;
     }) => {};
     settingsPanelRef: any;
 };
