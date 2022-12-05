@@ -151,12 +151,12 @@ const macXPath = {
     customapp: {
       newcustomappwindow: `${application}/AXWindow[@AXTitle='ReplaceMe' and @AXSubrole='AXStandardWindow']`,
       closewindowbutton: `${application}/AXWindow[@AXTitle='ReplaceMe' and @AXSubrole='AXStandardWindow']/AXButton[@AXSubrole='AXCloseButton']`,
-      confirmclosewindowbutton: `${application}/AXWindow[@AXTitle='ReplaceMe' and @AXSubrole='AXStandardWindow']/AXSheet[@AXIdentifier='_NS:79']/AXButton[@AXTitle='No']`
+      confirmclosewindowbutton: `${application}/AXWindow[@AXTitle='ReplaceMe' and @AXSubrole='AXStandardWindow']/AXSheet[0]/AXButton[@AXTitle='No']`
     },
     envinfo: {
       envinfowindow: `${application}/AXWindow[@AXTitle='ReplaceMe' and @AXSubrole='AXStandardWindow']`,
       closewindowbutton: `${application}/AXWindow[@AXTitle='ReplaceMe' and @AXSubrole='AXStandardWindow']/AXButton[@AXSubrole='AXCloseButton']`,
-      confirmclosewindowbutton: `${application}/AXWindow[@AXTitle='ReplaceMe' and @AXSubrole='AXStandardWindow']/AXSheet[@AXIdentifier='_NS:79']/AXButton[@AXTitle='No']`
+      confirmclosewindowbutton: `${application}/AXWindow[@AXTitle='ReplaceMe' and @AXSubrole='AXStandardWindow']/AXSheet[0]/AXButton[@AXTitle='No']`
     }
   }
 }

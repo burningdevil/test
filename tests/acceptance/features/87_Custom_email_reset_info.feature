@@ -22,10 +22,13 @@ Feature: 87_Custom_email_reset_info
         Then check the screenshot by comparing "87_Custom_email_reset_info_02"
         When I expand "Action Button" section
         When I view Host Web Portal Info
-        Then check the screenshot by comparing "87_Custom_email_reset_info_03"
+        #Then check the screenshot by comparing "87_Custom_email_reset_info_03"
+        Then check the screenshot on element "customEmail" by comparing "87_Custom_email_reset_info_03"
         When I expand "Notification Reminder" section
         When I view Notification Reminder Info
-        Then check the screenshot by comparing "87_Custom_email_reset_info_04"
+        #Then check the screenshot by comparing "87_Custom_email_reset_info_04"
+        Then check the screenshot on element "customEmail" by comparing "87_Custom_email_reset_info_04"
         When I view Link Text Info
-        Then check the screenshot by comparing "87_Custom_email_reset_info_05"
+        #Then check the screenshot by comparing "87_Custom_email_reset_info_05"
+        Then check the screenshot on element "customEmail" by comparing "87_Custom_email_reset_info_05"
         When I click "Save" button in the tab "customEmailSettings"

@@ -28,5 +28,6 @@ Feature: 92_Custom_email_duplicate_app
         When I switch to menu "Email Communication"
         When I expand "Action Button" section
         When I expand "Notification Reminder" section
-        Then check the screenshot by comparing "92_Custom_email_duplicate_app_01"
+        #Then check the screenshot by comparing "92_Custom_email_duplicate_app_01"
+        Then check the screenshot on element "customEmail" by comparing "92_Custom_email_duplicate_app_01"
         When I click "Save" button in the tab "customEmailSettings"

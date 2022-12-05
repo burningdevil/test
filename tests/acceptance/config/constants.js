@@ -10,5 +10,11 @@ export const wsConfig = {
     authModesSeperator: ','  // e.g. LDAP, OIDC, Standard in application list grid
 }
 
+export const imageCompareConfig = {
+    appDetailGrid: 'detailGrid', // application list grid in custom app main home
+    customEmail: 'customEmail'   // custom email settings section in app editor
+
+}
+
 
 

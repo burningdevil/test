@@ -1,6 +1,7 @@
 
 import BasePage from '../../basePages/BasePage'
 import { OSType } from '../../../utils/envUtils/constants'
+import { imageCompareConfig } from '../../../config/constants'
 const { join } = require('path');
 const { registerNewWindow, switchToWindow, unregisterWindow } = require('../../../utils/wsUtils/windowHelper')
 
@@ -118,6 +119,17 @@ export default class ApplicationPage extends BasePage {
     return this.$('.confirmation-dialog-action-button')
   }
 
+  getCreateTimeCells() {
+    return this.element(by.xpath(`//div[@role='gridcell' and @col-id='dateCreated']`))
+  }
+
+  getUpdateTimeCells() {
+    return this.element(by.xpath(`//div[@role='gridcell' and @col-id='dateModified']`))
+  }
+
+  getApplicationListGrid() {
+    return this.$('.ag-root')
+  }
 
   // actions
   // for WebView management
@@ -159,12 +171,6 @@ export default class ApplicationPage extends BasePage {
   async waitForCustomAppMainWindow() {
     await this.wait(this.EC.visibilityOf(this.getCustomAppHomePage()), 600000 * this.ratio, 'Custom app main window was not displayed');
   }
-
-  async waitForWebElementToBeVisiable(object) {
-    await this.wait(this.EC.visibilityOf(object), 600000 * this.ratio, 'Web element was still not displayed!');
-  }
-
-
 
   async waitForContentMenu(text) {
     await this.wait(this.EC.visibilityOf(this.element(by.xpath(`//div[@class='item-title-wrapper' and text()='${text}']`))), 60000 * this.ratio, 'Waiting for delete button in context menu int timeout.')
@@ -229,18 +235,23 @@ export default class ApplicationPage extends BasePage {
   // assertions
   async takeScreenshotOnElement(webElement, screenshot) {
     //await this.switchToCustomAppWindow()
+    await browser.sleep(1000 * this.ratio)
+    const fileName = join(process.platform === 'win32' ? 'win' : 'mac', screenshot)
     await browser.actions().mouseMove({ x: 0, y: 10000 }).perform()
     let elementLocator
     switch (webElement) {
-      case 'detailGrid':
+      case imageCompareConfig.appDetailGrid:
         //await this.waitForCustomAppMainWindow()
-        elementLocator = this.$('.ag-root')
+        elementLocator = this.getApplicationListGrid()
         await this.waitForWebElementToBeVisiable(elementLocator)
+        expect(await browser.imageComparison.checkScreen(fileName, {
+          hideElements: [this.getCreateTimeCells(), this.getUpdateTimeCells()]
+        })).to.below(0.02);
         break;
     }
     //expect(await browser.imageComparison.checkElement(elementLocator, screenshot)).to.below(0.02);
     //expect(await browser.imageComparison.checkScreen(screenshot)).to.below(0.02);
-    await this.takeScreenshotOnPage(screenshot)
+    //await this.takeScreenshotOnPage(screenshot)
   }
 
   async takeScreenshotOnPage(screenshot) {
@@ -252,7 +263,10 @@ export default class ApplicationPage extends BasePage {
       .actions()
       .mouseMove({ x: 0, y: 10000 })
       .perform()
-    expect(await browser.imageComparison.checkScreen(fileName)).to.below(0.02);
+    expect(await browser.imageComparison.checkScreen(fileName, {
+      disableCSSAnimation: true,
+      hideScrollBars: true,
+    })).to.below(0.02);
   }
 
 

@@ -1,7 +1,8 @@
 import BasePage from '../../basePages/BasePage'
 import { OSType } from '../../../utils/envUtils/constants'
 import { protractor } from 'protractor'
-import { wsConfig } from '../../../config/constants'
+import { wsConfig, imageCompareConfig } from '../../../config/constants'
+const { join } = require('path');
 import { times } from 'lodash'
 const { registerNewWindow, switchToWindow, unregisterWindow } = require('../../../utils/wsUtils/windowHelper')
 
@@ -316,6 +317,14 @@ export default class SettingPage extends BasePage {
     return this.element(by.xpath(`//span[text()='${text}']`))
   }
 
+  getCustomEmailSection() {
+    return this.$('.home-screen-custom-email-setting-v2')
+  }
+
+  getMobileLink() {
+    return this.element(by.xpath(`//div[contains(@class, 'mobile-link-box')]//span[contains(@class,'text-desc')]`))
+  }
+
   // actions
   // for WebView management
   // async switchToNewWebView() {
@@ -348,6 +357,7 @@ export default class SettingPage extends BasePage {
 
   async switchMenu(menu) {
     await browser.sleep(3000 * this.ratio)
+    await this.waitForWebElementToBeVisiable(this.getMenuTab(menu))
     await this.getMenuTab(menu).click()
     await browser.sleep(3000 * this.ratio)
   }
@@ -659,5 +669,23 @@ export default class SettingPage extends BasePage {
     }
     await browser.sleep(3000 * this.ratio)
     await this.getDismissCursor().click()
+  }
+
+  async takeScreenshotOnElement(webElement, screenshot) {
+    //await this.switchToCustomAppWindow()
+    await browser.sleep(1000 * this.ratio)
+    const fileName = join(process.platform === 'win32' ? 'win' : 'mac', screenshot)
+    await browser.actions().mouseMove({ x: 0, y: 10000 }).perform()
+    let elementLocator
+    switch (webElement) {
+      case imageCompareConfig.customEmail:
+        elementLocator = this.getMobileLink()
+        await this.waitForWebElementToBeVisiable(elementLocator)
+        expect(await browser.imageComparison.checkScreen(fileName, {
+          hideElements: [elementLocator],
+          disableCSSAnimation: true,
+          hideScrollBars: true,
+        })).to.below(0.02);
+    }
   }
 }

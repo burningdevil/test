@@ -1,7 +1,7 @@
 import { Return } from 'wd/lib/special-keys'
 import ApplicationPage from '../../pages/webPages/customApp/ApplicationPage'
 import SettingPage from '../../pages/webPages/customApp/SettingPage'
-import { wsConfig } from '../../config/constants'
+import { wsConfig, imageCompareConfig } from '../../config/constants'
 const { expect } = require('chai')
 const { Given, When, Then, setDefaultTimeout } = require('cucumber')
 const applicationPage = new ApplicationPage()
@@ -194,7 +194,12 @@ Then('check the screenshot by comparing {string}', async function (screenshot) {
 
 
 Then('check the screenshot on element {string} by comparing {string}', async function (element, text) {
-    await applicationPage.takeScreenshotOnElement(element, text)
+    switch (element) {
+        case imageCompareConfig.appDetailGrid:
+            await applicationPage.takeScreenshotOnElement(element, text)
+        case imageCompareConfig.customEmail:
+            await settingPage.takeScreenshotOnElement(element, text)
+    }
     return mainWindow.app.sleep(500)
 })
 
@@ -370,6 +375,13 @@ When('I change mobile link from {string} to {string}', async function (link1, li
     await settingPage.changeMobileLink(link1, link2)
     return mainWindow.app.sleep(500)
 });
+
+Then('I check default mobile link', async function () {
+    const { envUrl } = browser.params.envInfo[0]
+    const expectLink = `dossier://?url=${envUrl}`
+    const actualLink = await settingPage.getMobileLink().getText()
+    expect(actualLink).to.equals(expectLink)
+})
 
 When('I change dossier to {string} in url scheme', async function (text) {
     await settingPage.changeUrlSchemeLink(text)

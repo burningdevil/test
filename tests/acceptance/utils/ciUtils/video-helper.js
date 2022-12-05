@@ -126,17 +126,17 @@ async function stopRecord(process) {
         () => {
             return `ps -p ${process.pid}`
         });
-    console.log(`process id: ${process.pid}`)
+    console.log(`[INFO] [Video Record] Record process id: ${process.pid}`)
     for (let waitTime = 0; waitTime <= 10000; waitTime += 500) {
         try {
             const processList = execSync(cmd)
             await workstationApp.sleep(500);
             if (processList.indexOf(process.pid) <= -1) {
-                console.log(`waited ${waitTime}ms loops for kill: ${process.pid}`)
+                console.log(`[INFO] [Video Record] waited ${waitTime}ms loops for kill: ${process.pid}`)
                 break;
             }
         } catch (error) {
-            console.log(`exec stop record ${cmd} error: ${error}`)
+            console.log(`[ERROR] [Video Record] exec stop record ${cmd} error: ${error}`)
         }
     }
 }
@@ -144,11 +144,11 @@ async function stopRecord(process) {
 async function removeVideo(scenario) {
     const fileName = scenario.pickle.name.replace(/ /g, '_').replace(/[^a-zA-Z_]+/g, '') + '-' + scenario.sourceLocation.line;
     const filePath = `./video/${scenario.sourceLocation.uri}/${fileName}.mkv`
-    console.info(`remove file path: ${filePath}`)
+    console.info(`[INFO] [Video Record] remove file path: ${filePath}`)
     try {
         fs.unlinkSync(filePath);
     } catch (error) {
-        console.info(`remove video error: ${error}`)
+        console.info(`[ERROR] [Video Record] remove video error: ${error}`)
     }
 }
 

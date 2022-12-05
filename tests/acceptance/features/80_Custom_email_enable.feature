@@ -25,7 +25,9 @@ Feature: 80_Custom_email_enable
         When I expand "Action Button" section
         Then check the screenshot by comparing "80_Custom_email_enable_02"
         When I expand "Notification Reminder" section
-        Then check the screenshot by comparing "80_Custom_email_enable_03"
+        #Then check the screenshot by comparing "80_Custom_email_enable_03"
+        Then check the screenshot on element "customEmail" by comparing "80_Custom_email_enable_03"
+        Then I check default mobile link
         When I expand "Sent By" section
         When I expand "Social Media" section
         When I send preview email
