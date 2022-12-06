@@ -53,7 +53,7 @@ const Color: React.FC<ColorProps> = ({
             // if no theme is selected - default to RED theme color
             colorObj.color.formatting = color.selectedTheme
                 ? prefinedColorSets[color.selectedTheme]
-                : prefinedColorSets[EnumSelectedThemes.RED];
+                : prefinedColorSets[EnumSelectedThemes.LIGHT];
         }
         updateTheme(colorObj);
     };
