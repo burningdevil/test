@@ -32,7 +32,8 @@ Feature: 83_Custom_email_long_text
         When I expand "Action Button" section
         When I input "'<>& \"<h1> <br> \/ReceipientName" on button "View in Browser"
         When I input "'<>& \"<h1> <br> \/ReceipientName" on button "View in Mobile App"
-        Then check the screenshot by comparing "83_Custom_email_long_text_03"
+        #Then check the screenshot by comparing "83_Custom_email_long_text_03"
+        Then check the screenshot on element "customEmail" by comparing "83_Custom_email_long_text_03"
         When I expand "Notification Reminder" section
         When I input "'<>& \"<h1> <br> \/ite helicopter rescue team is more important than ever, as skiers and snowboarders venture further in the backcountry and climate change makes mountain conditions more dangerous." in reminder
         When I input "'<>& \"<h1> <br> \/ite helicopter rescue team is more important than ever, as skiers and snowboarders venture further in the backcountry and climate change makes mountain conditions more dangerous." in "Link Text"

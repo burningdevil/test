@@ -39,7 +39,7 @@ export default class BasePage {
         const currentUrl = await browser.getCurrentUrl()
         // custom app home and editor can use endsWith(), library home admin has lots of parameters passed in
         // use includes() to support both
-        if (currentUrl.includes(tabName)) {
+        if (currentUrl !== undefined && currentUrl.includes(tabName)) {
           console.log(`Switch to new WebView: ${tabName}`, await browser.getTitle(), await browser.getCurrentUrl())
           return;
         }
@@ -105,6 +105,10 @@ export default class BasePage {
 
   async enterClick() {
     return this.brwsr.actions().sendKeys(protractor.Key.ENTER).perform()
+  }
+
+  async waitForWebElementToBeVisiable(object) {
+    await this.wait(this.EC.visibilityOf(object), wsConfig.waitForWebElementTimeout * this.ratio, `Web element was still not displayed after ${wsConfig.waitForWebElementTimeout * this.ratio / 1000}s!`);
   }
 
 }

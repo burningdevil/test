@@ -6,7 +6,7 @@
                 "envUrl": "http://tec-w-1067199.labs.microstrategy.com:8080/MicroStrategyLibrary/",
                 "loginMode": "Standard",
                 "userName": "administrator",
-                "userPwd": "",
+                "userPwd": "newman123",
                 "projects": [
                     "MicroStrategy Tutorial"
                 ]

@@ -63,7 +63,7 @@ export default class EnvSection extends RootApp {
       mac: { xpath: mainCanvas.env.loginMode.replace(/ReplaceLoginMode/g, mode) }
     }
 
-    await this.nativeWaitFor(locator, 20000, 'Dynamic waiting for getting auth mode failed')
+    await this.nativeWaitFor(locator, 60000, 'Dynamic waiting for getting auth mode failed')
     return this.getNativeElement(locator)
   }
 

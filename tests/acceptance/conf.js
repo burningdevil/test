@@ -154,6 +154,15 @@ exports.config = {
   onPrepare: async () => {
     browser.waitForAngularEnabled(false)
 
+    const newPwd = 'newman123'
+    const changeUserPwdAPI = require('./api/changeUserPasswordAPI')
+    await changeUserPwdAPI({
+      baseUrl: browser.params.envInfo[0].envUrl,
+      credentials: { username: browser.params.envInfo[0].userName, password: browser.params.envInfo[0].userPwd },
+      pwd: newPwd
+    })
+    browser.params.envInfo[0].userPwd = newPwd
+
     // build global page objects for native and webviews
     const PageBuilder = require('./pages/PageBuilder')
     global.pageObj = PageBuilder()
