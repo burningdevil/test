@@ -11,7 +11,7 @@ export const EnumThemeTypes = {
     RED: 'RED',
     GREEN: 'GREEN',
     YELLOW: 'YELLOW',
-    CUSTOM: 'CUSTOM'
+    CUSTOM: 'CUSTOM',
 };
 
 export const EnumSelectedThemes = {
@@ -38,7 +38,7 @@ export const EnumSelectedThemeLabels = {
 };
 
 // theme color formatting properties of an application object (stored inside Metadata)
-const EnumFormattingPropNames = {
+export const EnumFormattingPropNames = {
     toolbarFill: 'toolbarFill',
     toolbarColor: 'toolbarColor',
 
@@ -53,13 +53,13 @@ const EnumFormattingPropNames = {
 
     accentFill: 'accentFill',
 
-    buttonColor: 'buttonColor',
+    // buttonColor: 'buttonColor',
 
     notificationBadgeFill: 'notificationBadgeFill',
 };
 
 // color set for library predefined themes, coming from UX
-const prefinedColorSets = {
+export const prefinedColorSets = {
     [EnumSelectedThemes.RED]: {
         [EnumFormattingPropNames.toolbarFill]: '#C90E24',
         [EnumFormattingPropNames.toolbarColor]: '#FFEAEA',
@@ -75,7 +75,7 @@ const prefinedColorSets = {
 
         [EnumFormattingPropNames.accentFill]: '#D0192B',
 
-        [EnumFormattingPropNames.buttonColor]: '#FFFFFF',
+        // [EnumFormattingPropNames.buttonColor]: '#FFFFFF',
 
         [EnumFormattingPropNames.notificationBadgeFill]: '#FFDA18',
     },
@@ -94,7 +94,7 @@ const prefinedColorSets = {
 
         [EnumFormattingPropNames.accentFill]: '#F7AE13',
 
-        [EnumFormattingPropNames.buttonColor]: '#1E1A16',
+        // [EnumFormattingPropNames.buttonColor]: '#1E1A16',
 
         [EnumFormattingPropNames.notificationBadgeFill]: '#EB4858',
     },
@@ -113,7 +113,7 @@ const prefinedColorSets = {
 
         [EnumFormattingPropNames.accentFill]: '#00875F',
 
-        [EnumFormattingPropNames.buttonColor]: '#FFFFFF',
+        // [EnumFormattingPropNames.buttonColor]: '#FFFFFF',
 
         [EnumFormattingPropNames.notificationBadgeFill]: '#FFE03D',
     },
@@ -132,7 +132,7 @@ const prefinedColorSets = {
 
         [EnumFormattingPropNames.accentFill]: '#0077D7',
 
-        [EnumFormattingPropNames.buttonColor]: '#FFFFFF',
+        // [EnumFormattingPropNames.buttonColor]: '#FFFFFF',
 
         [EnumFormattingPropNames.notificationBadgeFill]: '#FF0000',
     },
@@ -151,7 +151,7 @@ const prefinedColorSets = {
 
         [EnumFormattingPropNames.accentFill]: '#3067BB',
 
-        [EnumFormattingPropNames.buttonColor]: '#FFFFFF',
+        // [EnumFormattingPropNames.buttonColor]: '#FFFFFF',
 
         [EnumFormattingPropNames.notificationBadgeFill]: '#FFA800',
     },
@@ -170,11 +170,55 @@ const prefinedColorSets = {
 
         [EnumFormattingPropNames.accentFill]: '#529AFE',
 
-        [EnumFormattingPropNames.buttonColor]: '#29313B',
+        // [EnumFormattingPropNames.buttonColor]: '#29313B',
 
         [EnumFormattingPropNames.notificationBadgeFill]: '#F56B6B',
     },
+    [EnumSelectedThemes.LIGHT]: {
+        [EnumFormattingPropNames.toolbarFill]: '#FFFFFF',
+        [EnumFormattingPropNames.toolbarColor]: '#29313B',
+
+        [EnumFormattingPropNames.sidebarFill]: '#FFFFFF',
+        [EnumFormattingPropNames.sidebarColor]: '#29313B',
+
+        [EnumFormattingPropNames.sidebarActiveFill]: '#334A6A',
+        [EnumFormattingPropNames.sidebarActiveColor]: '#FFFFFF',
+
+        [EnumFormattingPropNames.panelFill]: '#23262A',
+        [EnumFormattingPropNames.panelColor]: '#FFFFFF',
+
+        [EnumFormattingPropNames.accentFill]: '#529AFE',
+
+        // [EnumFormattingPropNames.buttonColor]: '#29313B',
+
+        [EnumFormattingPropNames.notificationBadgeFill]: '#F56B6B',
+    }
 };
 
-export const isCustomColorTheme = (theme: string) => theme === EnumSelectedThemes.CUSTOM
-    
+export const colorPropTitles = [
+    [EnumFormattingPropNames.toolbarFill, t('Toolbar BG')],
+    [EnumFormattingPropNames.toolbarColor, t('Toolbar Icon')],
+
+    [EnumFormattingPropNames.sidebarFill, t('Sidebar BG')],
+    [EnumFormattingPropNames.sidebarColor, t('Sidebar Text')],
+
+    [EnumFormattingPropNames.sidebarActiveFill, t('Sidebar Active')],
+    [EnumFormattingPropNames.sidebarActiveColor, t('Sidebar Active Text')],
+
+    [EnumFormattingPropNames.panelFill, t('Panel BG')],
+    [EnumFormattingPropNames.panelColor, t('Panel Text')],
+
+    [EnumFormattingPropNames.accentFill, t('Accent Color')],
+
+    // [EnumFormattingPropNames.buttonColor, t('Button Text')],
+
+    [EnumFormattingPropNames.notificationBadgeFill, t('Notification Badge')],
+];
+
+export const isCustomColorTheme = (theme: string) => theme === EnumSelectedThemes.CUSTOM;
+
+export const isColorCodeValid = (hexCode: string) => {
+    const threeHexPattern = new RegExp('#[A-Fa-f0-9]{3}$');
+    const sixHexPattern = new RegExp('#[A-Fa-f0-9]{6}$');
+    return threeHexPattern.test(hexCode) || sixHexPattern.test(hexCode);
+};

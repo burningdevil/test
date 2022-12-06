@@ -5,9 +5,18 @@
   width: $settings-panel-width;
   padding: $settings-panel-padding;
   background: $white;
+  overflow: scroll;
+  position: relative;
 
   .mstr-divider {
     margin: 20px 0 8px;
     border: 1px solid rgba(87, 90, 93, 0.1);
+  }
+
+  // Hide arrow for color picker
+  .mstr-theme-color-picker-overlay {
+    .ant-popover-arrow {
+      display: none;
+    }
   }
 }
