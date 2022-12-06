@@ -13,7 +13,6 @@ import {
     EnumSelectedThemeLabels,
     isCustomColorTheme,
     prefinedColorSets,
-    isPredefinedColorTheme,
 } from '../../utils/appThemeColorHelper';
 import { selectCurrentThemeColor } from '../../../store/selectors/AppearanceEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
@@ -51,7 +50,10 @@ const Color: React.FC<ColorProps> = ({
     const onColorChange = (selectedTheme: string) => {
         const colorObj: any = { color: { selectedTheme, formatting: null } };
         if (isCustomColorTheme(selectedTheme)) {
-            colorObj.color.formatting = prefinedColorSets[color.selectedTheme];
+            // if no theme is selected - default to RED theme color
+            colorObj.color.formatting = color.selectedTheme
+                ? prefinedColorSets[color.selectedTheme]
+                : prefinedColorSets[EnumSelectedThemes.RED];
         }
         updateTheme(colorObj);
     };

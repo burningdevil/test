@@ -14,10 +14,6 @@ $color-prop-item-content-height: 28px;
     .ant-col {
       padding: 0 $color-prop-editor-col-padding;
 
-      &:first-child {
-        padding-left: 0;
-      }
-
       &.in-focus {
         background: #f3f3f3;
         mix-blend-mode: multiply;

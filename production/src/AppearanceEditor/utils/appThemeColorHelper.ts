@@ -53,7 +53,7 @@ export const EnumFormattingPropNames = {
 
     accentFill: 'accentFill',
 
-    buttonColor: 'buttonColor',
+    // buttonColor: 'buttonColor',
 
     notificationBadgeFill: 'notificationBadgeFill',
 };
@@ -75,7 +75,7 @@ export const prefinedColorSets = {
 
         [EnumFormattingPropNames.accentFill]: '#D0192B',
 
-        [EnumFormattingPropNames.buttonColor]: '#FFFFFF',
+        // [EnumFormattingPropNames.buttonColor]: '#FFFFFF',
 
         [EnumFormattingPropNames.notificationBadgeFill]: '#FFDA18',
     },
@@ -94,7 +94,7 @@ export const prefinedColorSets = {
 
         [EnumFormattingPropNames.accentFill]: '#F7AE13',
 
-        [EnumFormattingPropNames.buttonColor]: '#1E1A16',
+        // [EnumFormattingPropNames.buttonColor]: '#1E1A16',
 
         [EnumFormattingPropNames.notificationBadgeFill]: '#EB4858',
     },
@@ -113,7 +113,7 @@ export const prefinedColorSets = {
 
         [EnumFormattingPropNames.accentFill]: '#00875F',
 
-        [EnumFormattingPropNames.buttonColor]: '#FFFFFF',
+        // [EnumFormattingPropNames.buttonColor]: '#FFFFFF',
 
         [EnumFormattingPropNames.notificationBadgeFill]: '#FFE03D',
     },
@@ -132,7 +132,7 @@ export const prefinedColorSets = {
 
         [EnumFormattingPropNames.accentFill]: '#0077D7',
 
-        [EnumFormattingPropNames.buttonColor]: '#FFFFFF',
+        // [EnumFormattingPropNames.buttonColor]: '#FFFFFF',
 
         [EnumFormattingPropNames.notificationBadgeFill]: '#FF0000',
     },
@@ -151,7 +151,7 @@ export const prefinedColorSets = {
 
         [EnumFormattingPropNames.accentFill]: '#3067BB',
 
-        [EnumFormattingPropNames.buttonColor]: '#FFFFFF',
+        // [EnumFormattingPropNames.buttonColor]: '#FFFFFF',
 
         [EnumFormattingPropNames.notificationBadgeFill]: '#FFA800',
     },
@@ -170,7 +170,7 @@ export const prefinedColorSets = {
 
         [EnumFormattingPropNames.accentFill]: '#529AFE',
 
-        [EnumFormattingPropNames.buttonColor]: '#29313B',
+        // [EnumFormattingPropNames.buttonColor]: '#29313B',
 
         [EnumFormattingPropNames.notificationBadgeFill]: '#F56B6B',
     },
@@ -189,7 +189,7 @@ export const prefinedColorSets = {
 
         [EnumFormattingPropNames.accentFill]: '#529AFE',
 
-        [EnumFormattingPropNames.buttonColor]: '#29313B',
+        // [EnumFormattingPropNames.buttonColor]: '#29313B',
 
         [EnumFormattingPropNames.notificationBadgeFill]: '#F56B6B',
     }
@@ -210,23 +210,12 @@ export const colorPropTitles = [
 
     [EnumFormattingPropNames.accentFill, t('Accent Color')],
 
-    [EnumFormattingPropNames.buttonColor, t('Button Text')],
+    // [EnumFormattingPropNames.buttonColor, t('Button Text')],
 
     [EnumFormattingPropNames.notificationBadgeFill, t('Notification Badge')],
 ];
 
-export const isCustomColorTheme = (theme: string) =>
-    theme === EnumSelectedThemes.CUSTOM;
-
-export const isPredefinedColorTheme = (theme: string) =>
-    [
-        EnumSelectedThemes.DARK_BLUE,
-        EnumSelectedThemes.BLUE,
-        EnumSelectedThemes.YELLOW,
-        EnumSelectedThemes.RED,
-        EnumSelectedThemes.GREEN,
-        EnumSelectedThemes.DARK
-    ].some((t) => theme === t);
+export const isCustomColorTheme = (theme: string) => theme === EnumSelectedThemes.CUSTOM;
 
 export const isColorCodeValid = (hexCode: string) => {
     const threeHexPattern = new RegExp('#[A-Fa-f0-9]{3}$');

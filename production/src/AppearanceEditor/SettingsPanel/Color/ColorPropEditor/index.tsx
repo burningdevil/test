@@ -19,15 +19,14 @@ import ColorPickerComponent from '../../../Components/ColorPicker';
 
 type ColorPropEditorProps = {
     color: ApplicationColor;
-    updateTheme: (theme: {
-        color: ApplicationColor;
-    }) => {};
+    updateTheme: (theme: { color: ApplicationColor }) => {};
     settingsPanelRef: any;
 };
 
 const gutterHorizontal = 0;
 const gutterVertical = 6;
 const hexStrLengthWithHash = 7;
+const PROPLIST_ROW_LENGTH = 3;
 
 const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
     color,
@@ -89,7 +88,7 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
      */
     const getColorPropRow = (start: number, end: number) => {
         const cols = [];
-        for (let i = start; i <= end; i++) {
+        for (let i = start; i < end; i++) {
             const propName = colorPropTitles[i][0];
             const title = colorPropTitles[i][1];
             cols.push(getColorPropCols(propName, title, formats[propName]));
@@ -156,14 +155,22 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
         </Col>
     );
 
+    let startIndex = 0;
+    let noOfRows = Math.ceil(colorPropTitles.length / PROPLIST_ROW_LENGTH);
+    const rows = [];
+
+    for (let i = 0; i < noOfRows; i++) {
+        let endIndex =
+            startIndex + PROPLIST_ROW_LENGTH > colorPropTitles.length
+                ? colorPropTitles.length
+                : startIndex + PROPLIST_ROW_LENGTH;
+        rows.push(getColorPropRow(startIndex, endIndex));
+        startIndex = endIndex;
+    }
+
     return (
         <div className="mstr-app-theme-color-prop-editor">
-            <div className="color-prop-list">
-                {getColorPropRow(0, 2)}
-                {getColorPropRow(3, 5)}
-                {getColorPropRow(6, 8)}
-                {getColorPropRow(9, 10)}
-            </div>
+            <div className="color-prop-list">{rows}</div>
         </div>
     );
 };
