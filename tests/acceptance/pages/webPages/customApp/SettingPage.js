@@ -679,10 +679,10 @@ export default class SettingPage extends BasePage {
     let elementLocator
     switch (webElement) {
       case imageCompareConfig.customEmail:
-        elementLocator = this.getMobileLink()
-        await this.waitForWebElementToBeVisiable(elementLocator)
+        //elementLocator = this.getMobileLink()
+        //await this.waitForWebElementToBeVisiable(elementLocator)
         expect(await browser.imageComparison.checkScreen(fileName, {
-          hideElements: [elementLocator],
+         // hideElements: [elementLocator],
           disableCSSAnimation: true,
           hideScrollBars: true,
         })).to.below(0.02);

@@ -244,9 +244,9 @@ export default class ApplicationPage extends BasePage {
         //await this.waitForCustomAppMainWindow()
         elementLocator = this.getApplicationListGrid()
         await this.waitForWebElementToBeVisiable(elementLocator)
-        expect(await browser.imageComparison.checkScreen(fileName, {
-          hideElements: [this.getCreateTimeCells(), this.getUpdateTimeCells()]
-        })).to.below(0.02);
+        expect(await browser.imageComparison.checkScreen(fileName
+          //hideElements: [this.getCreateTimeCells(), this.getUpdateTimeCells()]
+        )).to.below(0.02);
         break;
     }
     //expect(await browser.imageComparison.checkElement(elementLocator, screenshot)).to.below(0.02);
