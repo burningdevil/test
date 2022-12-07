@@ -1,21 +1,22 @@
-@import '../../modules/components/scss/variables.scss';
+@import "../../modules/components/scss/variables.scss";
 
 .mstr-app-theme-settings-panel {
   height: 100%;
   width: $settings-panel-width;
   padding: $settings-panel-padding;
   background: $white;
+  overflow: scroll;
+  position: relative;
 
-  .mstr-app-theme-logos {
-    font-family: $font-family;
-    font-size: $font-size;
+  .mstr-divider {
+    margin: 20px 0 8px;
+    border: 1px solid rgba(87, 90, 93, 0.1);
+  }
 
-    .theme-logos-title {
-      height: 28px;
-      line-height: 28px;
-      font-weight: 700;
-      text-align: left;
-      color: $settings-panel-title-subtitle-color;
+  // Hide arrow for color picker
+  .mstr-theme-color-picker-overlay {
+    .ant-popover-arrow {
+      display: none;
     }
   }
 }

@@ -1,6 +1,6 @@
-@import '../../../modules/components/scss/variables.scss';
+@import "../../../../modules/components/scss/variables.scss";
 
-.theme-logo {
+.mstr-app-theme-logo {
   margin-top: 8px;
 
   &:not(:nth-child(2)) {
@@ -33,15 +33,15 @@
         background-repeat: no-repeat;
 
         &.web {
-          background-image: url('../../../modules/components/images/web-logo.svg');
+          background-image: url("../../../../modules/components/images/web-logo.svg");
         }
 
         &.favicon {
-          background-image: url('../../../modules/components/images/favicon-logo.svg');
+          background-image: url("../../../../modules/components/images/favicon-logo.svg");
         }
 
         &.mobile {
-          background-image: url('../../../modules/components/images/mobile-logo.svg');
+          background-image: url("../../../../modules/components/images/mobile-logo.svg");
         }
       }
 

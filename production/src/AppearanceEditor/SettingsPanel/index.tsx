@@ -1,56 +1,44 @@
-import * as React from 'react'
-import { ApplicationTheme } from '../../types/data-model/HomeScreenConfigModels'
-import { t } from "../../i18n/i18next"
-import LogoCustomizer from './LogoCustomizer'
-import './styles.scss'
+import * as React from 'react';
+import Logos from './Logos';
+import Color from './Color';
+import './styles.scss';
 
-type SettingsPanelProps = {
-  theme: ApplicationTheme
-}
-
-const SettingsPanel: React.FC<SettingsPanelProps> = ({ theme }) => {
-  const { 
-    web = { type: 'URL', value: '' }, 
-    favicon = {type: 'URL', value: '' }, 
-    mobile = { type: 'URL',value: '' }
-  } = (theme && theme.logos) || {}
-
-  // list of logo types and their respective context
-  const logos = [
-    {
-      category: 'web',
-      defn: web,
-      subtitle: t('libraryWebSubtitle'),
-      desc: t('libraryWebDesc')
+window.AppThemeColor = {
+    enabledInternal: false,
+    enabledListener: function(val: any) {},
+    set enabled(val) {
+      this.enabledInternal = val;
+      this.enabledListener(val);
     },
-    {
-      category: 'favicon',
-      defn: favicon,
-      subtitle: t('libraryFaviconSubtitle'),
-      desc: t('libraryFaviconDesc')
+    get enabled() {
+      return this.enabledInternal;
     },
-    {
-      category: 'mobile',
-      defn: mobile,
-      subtitle: t('libraryMobileSubtitle'),
-      desc: t('libraryMobileDesc')
+    registerListener: function(listener: any) {
+      this.enabledListener = listener;
     }
-  ]
+  }
 
-  return (
-    <React.Fragment>
-      <div className='mstr-app-theme-settings-panel'>
-        <div className='settings-panel-content'>
-          <div className='mstr-app-theme-logos'>
-            <div className='theme-logos-title'>{t('appLogoTitle')}</div>
-            {
-              logos.map((logo, index) => <LogoCustomizer logo={logo} key={index}/>)
-            }
-          </div>
+const SettingsPanel: React.FC = () => {
+    const settingsPanelRef = React.useRef(null);
+    const [isColorComponentEnabled, setIsColorComponentEnabled] = React.useState(window.AppThemeColor.enabled);
+    
+    window.AppThemeColor.registerListener(function(val: boolean) {
+        setIsColorComponentEnabled(val);
+      });
+      
+    return (
+        <div className="mstr-app-theme-settings-panel" ref={settingsPanelRef}>
+            <div className="settings-panel-content">
+                <Logos />
+                { isColorComponentEnabled ? (
+                    <React.Fragment>
+                        <div className="mstr-divider"></div>
+                        <Color settingsPanelRef={settingsPanelRef.current} />
+                    </React.Fragment>
+                ) : null}
+            </div>
         </div>
-      </div>
-    </React.Fragment>
-  )
-}
+    );
+};
 
-export default SettingsPanel
+export default SettingsPanel;

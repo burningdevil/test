@@ -158,7 +158,33 @@ export interface ApplicationLogos {
     favicon?: ThemePropObject,
     mobile?: ThemePropObject
 }
+
+export interface ThemeColorFormats {
+  toolbarFill: string,
+  toolbarColor: string,
+
+  sidebarFill: string,
+  sidebarColor: string,
+
+  sidebarActiveFill: string,
+  sidebarActiveColor: string,
+
+  panelFill: string,
+  panelColor: string,
+
+  accentFill: string,
+
+  buttonColor: string,
+
+  notificationBadgeFill: string
+}
+export interface ApplicationColor {
+    selectedTheme?: string,
+    formatting?: ThemeColorFormats
+}
+
 export interface ApplicationTheme {
     schemaVersion: number,
-    logos: ApplicationLogos
+    logos: ApplicationLogos,
+    color: ApplicationColor
 } 

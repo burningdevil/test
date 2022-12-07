@@ -37,7 +37,9 @@ const AppearanceEditor: React.FC<AppearanceEditorProps> = ({ savedConfigTheme, c
       let res = await workstation.dialogs.confirmation({message: t('applyThemeConfirmationStr').replace('{{application}}', currApplicationName.current)});
       if (res === DialogValues.YES) {
         // yes
-        await workstation.window.setCloseInfo(JSON.stringify(currEditorThemeRef.current));
+        const { color, ...themeRest } = currEditorThemeRef.current;
+        const themeToBeApplied = window.AppThemeColor.enabled ? currEditorThemeRef.current : themeRest
+        await workstation.window.setCloseInfo(JSON.stringify(themeToBeApplied));
         workstation.window.close();
       } else if (res === DialogValues.NO) {
         // no
@@ -78,7 +80,7 @@ const AppearanceEditor: React.FC<AppearanceEditorProps> = ({ savedConfigTheme, c
     <div className='mstr-appearance-editor'>
       <AppearanceEditorToolbar theme={currEditorTheme} handleClose={confirmBeforeClosing} />
       <div className='content-section'>
-        <SettingsPanel theme={currEditorTheme} />
+        <SettingsPanel />
         <PreviewPanel theme={currEditorTheme} />
       </div>
     </div>

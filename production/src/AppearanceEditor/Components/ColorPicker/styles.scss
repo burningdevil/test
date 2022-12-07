@@ -1,0 +1,67 @@
+.mstr-theme-color-picker-overlay {
+  &.ant-popover {
+    width: 209px;
+    z-index: 2000;
+  }
+
+  .mstr-color-picker-content {
+    .color-picker-container {
+      .color-picker-dropdown {
+        //override component styling
+        width: 100%;
+        padding: 0 10px;
+
+        .color-picker-toolbar {
+          height: 36px;
+
+          .ant-radio-group.ant-radio-group-outline {
+            height: 32px;
+            padding-top: 10px;
+          }
+
+          .right-toolbar {
+            display: flex;
+            justify-content: center;
+            margin-left: auto;
+          }
+        }
+
+        .palette-picker {
+          //override component styling
+          width: 100%;
+
+          .color-saturation {
+            //override component styling
+            width: 100%;
+          }
+
+          .color-slider {
+            .hue-slider {
+              //override component styling
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+
+    .color-palette-editor-btn {
+      text-align: center;
+      padding-bottom: 10px;
+      .ant-btn {
+        margin: 0 6px;
+      }
+    }
+  }
+
+  .ant-popover-content {
+    .ant-popover-arrow {
+      border-color: transparent;
+      box-shadow: none;
+    }
+  }
+
+  .ant-popover-inner-content {
+    padding: 0;
+  }
+}

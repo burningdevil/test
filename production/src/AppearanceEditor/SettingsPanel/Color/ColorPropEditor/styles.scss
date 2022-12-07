@@ -1,0 +1,81 @@
+@import "../../../../modules/components/scss/variables.scss";
+
+$color-editor-font-size: 11px;
+$color-prop-editor-col-padding: 8px;
+$color-prop-item-content-height: 28px;
+
+.mstr-app-theme-color-prop-editor {
+  width: 378px;
+  position: relative;
+  margin-top: 8px;
+  z-index: 1;
+
+  .color-prop-list {
+    .ant-col {
+      padding: 0 $color-prop-editor-col-padding;
+
+      &.in-focus {
+        background: #f3f3f3;
+        mix-blend-mode: multiply;
+      }
+    }
+
+    .color-prop-item {
+      display: flex;
+      flex-direction: column;
+      height: 58px;
+
+      .ant-row {
+        .ant-col:first-child {
+          padding-left: $color-prop-editor-col-padding;
+        }
+      }
+
+      .color-prop-item-title {
+        width: 100%;
+        font-weight: 400;
+        margin: 7px 0 5px;
+        z-index: 1;
+        font-family: $font-family;
+        font-size: $color-editor-font-size;
+        line-height: 1.2;
+      }
+
+      .ant-form-item-control {
+        z-index: 2;
+        .ant-form-item-control-input {
+          min-height: $color-prop-item-content-height;
+        }
+      }
+
+      .color-prop-item-content {
+        display: flex;
+        align-items: center;
+        border: 1px solid rgba(87, 90, 93, 0.1);
+        border-radius: 2px;
+        height: $color-prop-item-content-height;
+        width: 85px;
+        padding: 3px 0 3px 4px;
+
+        .color-box {
+          height: 20px;
+          width: 20px;
+          border-radius: 1px;
+          border: 0.5px solid #e0e4e7;
+        }
+
+        .color-value-input {
+          width: 50px;
+          height: 13px;
+          margin-left: 6px;
+          font-size: $color-editor-font-size;
+          padding: 0;
+        }
+      }
+    }
+
+    .ant-row {
+      margin-bottom: 8px;
+    }
+  }
+}
