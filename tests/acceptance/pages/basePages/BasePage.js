@@ -111,4 +111,12 @@ export default class BasePage {
     await this.wait(this.EC.visibilityOf(object), wsConfig.waitForWebElementTimeout * this.ratio, `Web element was still not displayed after ${wsConfig.waitForWebElementTimeout * this.ratio / 1000}s!`);
   }
 
+  async hideElementByScript(elem) {
+    await this.executeScript('arguments[0].setAttribute(\'style\',\'visibility:hidden\')', elem)
+  }
+
+  async showElementByScript(elem) {
+    await this.executeScript('arguments[0].removeAttribute(\'style\')', elem)
+  }
+
 }
