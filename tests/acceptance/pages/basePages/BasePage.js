@@ -57,7 +57,7 @@ export default class BasePage {
       for (let i = handles.length - 1; i >= 0; i--) {
         await browser.switchTo().window(handles[i])
         const currentUrl = await browser.getCurrentUrl()
-        if (currentUrl !== undefined && currentUrl.includes(url)) {
+        if (currentUrl && currentUrl.includes(url)) {
           flag = true
           break
         }
