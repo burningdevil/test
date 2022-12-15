@@ -1,4 +1,4 @@
-@TC78845 @Regression
+@TC78845 @Regression @Sanity
 Feature: 06_LH_DossierWindow
     1. add environment
     2. add new application

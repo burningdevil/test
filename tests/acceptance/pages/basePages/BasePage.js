@@ -50,6 +50,23 @@ export default class BasePage {
 
   }
 
+  async waitForWebViewWindowDisappear(url){
+    let flag = false
+    for (let j = 0; j < wsConfig.webViewQueryTimeout; j++) {
+      const handles = await browser.getAllWindowHandles()
+      for (let i = handles.length - 1; i >= 0; i--) {
+        await browser.switchTo().window(handles[i])
+        const currentUrl = await browser.getCurrentUrl()
+        if (currentUrl && currentUrl.includes(url)) {
+          flag = true
+          break
+        }
+      }
+      if(!flag) break
+      await browser.sleep(1000)
+    }
+  }
+
   async switchToHomeScreenMain() {
     await this.switchToNewWebView(wsWebViews.customAppHomeScreen)
   }
@@ -109,6 +126,14 @@ export default class BasePage {
 
   async waitForWebElementToBeVisiable(object) {
     await this.wait(this.EC.visibilityOf(object), wsConfig.waitForWebElementTimeout * this.ratio, `Web element was still not displayed after ${wsConfig.waitForWebElementTimeout * this.ratio / 1000}s!`);
+  }
+
+  async hideElementByScript(elem) {
+    await this.executeScript('arguments[0].setAttribute(\'style\',\'visibility:hidden\')', elem)
+  }
+
+  async showElementByScript(elem) {
+    await this.executeScript('arguments[0].removeAttribute(\'style\')', elem)
   }
 
 }

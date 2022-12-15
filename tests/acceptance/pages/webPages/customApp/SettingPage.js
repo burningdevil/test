@@ -1,7 +1,7 @@
 import BasePage from '../../basePages/BasePage'
 import { OSType } from '../../../utils/envUtils/constants'
 import { protractor } from 'protractor'
-import { wsConfig, imageCompareConfig } from '../../../config/constants'
+import { wsConfig, imageCompareConfig, wsWebViews} from '../../../config/constants'
 const { join } = require('path');
 import { times } from 'lodash'
 const { registerNewWindow, switchToWindow, unregisterWindow } = require('../../../utils/wsUtils/windowHelper')
@@ -348,7 +348,7 @@ export default class SettingPage extends BasePage {
       await browser.sleep(2000 * this.ratio)
       await this.getConfirmCancelButton(pageId).click()
     }
-    await browser.sleep(6000 * this.ratio)
+    await this.waitForWebViewWindowDisappear(wsWebViews.customAppEditor)
     await unregisterWindow('New Application')
     await unregisterWindow('Edit Application')
     await switchToWindow('Workstation Main Window')
@@ -679,13 +679,15 @@ export default class SettingPage extends BasePage {
     let elementLocator
     switch (webElement) {
       case imageCompareConfig.customEmail:
-        //elementLocator = this.getMobileLink()
-        //await this.waitForWebElementToBeVisiable(elementLocator)
+        elementLocator = this.getMobileLink()
+        await this.waitForWebElementToBeVisiable(elementLocator)
+        await this.hideElementByScript(elementLocator)
         expect(await browser.imageComparison.checkScreen(fileName, {
          // hideElements: [elementLocator],
           disableCSSAnimation: true,
           hideScrollBars: true,
         })).to.below(0.02);
+        await this.showElementByScript(elementLocator)
     }
   }
 }
