@@ -29,6 +29,7 @@ let render = () => {
     MOUNT_NODE
   )
 }
+
 // Development Tools
 // ------------------------------------
 if (__DEV__) {

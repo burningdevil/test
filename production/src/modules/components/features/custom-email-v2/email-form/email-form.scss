@@ -62,8 +62,8 @@
         @include msdl-paragraph;
     }
     &-form-container {
-        max-height: 500px;
-        overflow: scroll;
+        max-height: 530px;
+        overflow-y: auto;
     }
     &-checkbox {
         margin-bottom: 14px;
