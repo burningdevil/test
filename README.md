@@ -70,10 +70,15 @@ This is the Workstation Plugin for Custom Applications Feature. Used to manage t
     Example:
         Team: TEC-CT-Web-Library-CTC
         Team: TEC-SR-Gateways-Framework
-        Contact: Fred Bloggs
+        Contact: Fred Bloggs (fbloggs)
 -->
         Team: CT-Applications-CTC  
-        Contact: @enli
+        Contact: Li En (enli)  
+DevOps POC: Zhou Wang (zhowang)
+
+stage-2-postmerge POC:  Li En (enli)
+stage-2-postmerge-test-mac POC:  Xu, Bin (bxu)
+stage-2-postmerge-test-win POC:  Xu, Bin (bxu)
 <!-- End: Owner -->
 
 
