@@ -76,9 +76,9 @@ This is the Workstation Plugin for Custom Applications Feature. Used to manage t
         Contact: Li En (enli)  
 DevOps POC: Zhou Wang (zhowang)
 
-stage-2-postmerge POC:  
-stage-2-postmerge-test-mac POC:  
-stage-2-postmerge-test-win POC:  
+stage-2-postmerge POC:  Li En (enli)
+stage-2-postmerge-test-mac POC:  Xu, Bin (bxu)
+stage-2-postmerge-test-win POC:  Xu, Bin (bxu)
 <!-- End: Owner -->
 
 
