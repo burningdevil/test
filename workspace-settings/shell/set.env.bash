@@ -48,6 +48,6 @@ else
 fi
 
 export BASE_BRANCH="m2021"
-export BRANCH_OFF_COMMIT=bd4316ada123efa06d91ee8f9355e4f27b75a09b
+export BRANCH_OFF_COMMIT=303bb7dab4ef30a1d145611f94d021fdce0c7bb8
 
 export BASE_VERSION=0
