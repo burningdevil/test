@@ -157,7 +157,7 @@ const ActionButtonSection: React.FC<ActionButtonSectionInput> = React.forwardRef
                 {customEmailStringDict.formGroup.actionButton.portalLinkNotInWhiteListTip2}
                 <a 
                 target = "_blank"
-    
+                rel="noopener"
                 href={CUSTOM_EMAIL_HOST_PORTAL_HELP_LINK} style = {{'marginLeft': '8px'}}>{customEmailStringDict.formGroup.actionButton.hostTooltipHelp}</a>
             </div>
         )
@@ -166,7 +166,7 @@ const ActionButtonSection: React.FC<ActionButtonSectionInput> = React.forwardRef
                 {customEmailStringDict.formGroup.actionButton.portalLinkNotInWhiteListMsg}
                 <a 
                 target = "_blank"
-    
+                rel="noopener"
                 href={CUSTOM_EMAIL_WHITE_LIST_HELP_LINK} style = {{'marginLeft': '8px'}}>{customEmailStringDict.formGroup.actionButton.hostTooltipHelp}</a>
             </span>
         )
