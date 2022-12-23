@@ -21,4 +21,13 @@ Feature: 93_Custom_email_default_app
         Then I verify switch button of "showButtonDescription" is "on"
         When I expand "Notification Reminder" section
         #Then check the screenshot by comparing "93_Custom_email_default_app_01"
+<<<<<<< HEAD
         Then check the screenshot on element "customEmail" by comparing "93_Custom_email_default_app_01"
+=======
+        Then check the screenshot on element "customEmail" by comparing "93_Custom_email_default_app_02"
+        When I expand "Sent By" section
+        When I expand "Social Media" section
+        When I disable media "YouTube"
+        Then check the screenshot by comparing "93_Custom_email_default_app_03"
+        When I click "Cancel" button in the tab "customEmailSettings"
+>>>>>>> bfa09e36 (add case)
