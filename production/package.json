@@ -172,7 +172,9 @@
     "minimist": "1.2.7",
     "moment": "2.29.4",
     "moment-timezone": "0.5.39",
-    "unset-value": "2.0.1"
+    "unset-value": "2.0.1",
+    "nanoid": "4.0.0",
+    "decode-uri-component": "0.3.0"
   },
   "hooks": {
     "pre-push": "npm run unit-test"
