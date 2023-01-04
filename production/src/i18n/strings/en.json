@@ -7,6 +7,7 @@
     "dossierSettings": "Dossier Settings",
     "contentBundles": "Content Bundles",
     "moreSettings": "More Settings",
+    "environmentConnectionSettings": "Environment Connection",
 
     "dossiers": "Dossiers",
     "documents": "Documents",
@@ -230,6 +231,8 @@
     "libraryFaviconDesc": "Minimum 16 * 16 pixels, png format",
     "libraryMobileSubtitle": "Library Mobile",
     "libraryMobileDesc": "Minimum 75 * 75 pixels, png format",
+
+    "environmentConnectionSettingsDesc": "Select to add environment connecting points to this application, for users to switch to different workspaces in Library Web and Library Mobile.",
 
     "apply": "Apply",
     "applyThemeConfirmationStr": "Do you want to apply the appearance changes you made to Application {{application}}?",

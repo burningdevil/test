@@ -163,6 +163,8 @@ export const CONSTANTS = {
     DOSSIERSETTINGS: 'dossierSettings',
     MORESETTINGS: 'moreSettings',
     CUSTOMEMAILSETTINGS: 'customEmailSettings',
+    ENVIRONMENT_CONNECTION_SETTINGS: 'environmentConnectionSettings',
+
     BACK: 'back',
     GENERATE: 'Generate',
     JSONFILE_SUFFIX: '.json',
@@ -282,6 +284,7 @@ export const localizedStrings = {
     NAVBAR_CONTENT_BUNDLES: t('content'),
     NAVBAR_MORE_SETTINGS: t('moreSettings'),
     NAVBAR_CUSTOM_EMAIL_SETTINGS: t('customEmailSettings'),
+    NAVBAR_ENVIRONMENT_CONNECTION_SETTINGS: t('environmentConnectionSettings'),
     CANCEL: t('cancel'),
     SAVE: t('save'),
     ERR_APP_SAVE: t('errAppSave'),

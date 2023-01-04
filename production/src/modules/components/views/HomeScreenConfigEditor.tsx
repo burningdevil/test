@@ -19,6 +19,7 @@ import HomeScreenAppearance from './HomeScreenAppearance';
 import HomeScreenMoreSetting from './HomeScreenMoreSetting';
 import HomeScreenHomeSetting from './HomeScreenHomeSetting';
 import HomeScreenContentBundles from './HomeScreenContentBundles';
+import HomeScreenEnvConnections from './HomeScreenEnvConnections';
 import * as _ from 'lodash';
 import { HttpProxy } from '../../../main';
 import { RestApiError } from '../../../server/RestApiError';
@@ -100,7 +101,8 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             authModesFeatureEnable: false,
             customEmailV2Enabled: false,
             isNewApplication: false,
-            authModesBackendFlagEnabled: false // stands for the feature flag from the backend.
+            authModesBackendFlagEnabled: false, // stands for the feature flag from the backend.
+            envConnectionsPreviewFeatureEnabled: true // TODO: update logic which will update this when preview flag + necessary checks are passed. for now, keep as true
         };
     }
 
@@ -781,6 +783,15 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                                     <HomeScreenMoreSetting />
                                     {this.buttonGroup()}
                                 </Tabs.TabPane>
+                                {this.state.envConnectionsPreviewFeatureEnabled && (
+                                    <Tabs.TabPane
+                                    tab={localizedStrings.NAVBAR_ENVIRONMENT_CONNECTION_SETTINGS}
+                                    key={VC.ENVIRONMENT_CONNECTION_SETTINGS}
+                                >
+                                    <HomeScreenEnvConnections />
+                                    {this.buttonGroup()}
+                                </Tabs.TabPane>
+                                )}
                             </Tabs>
                         </div>
                     </Layout>
