@@ -172,7 +172,9 @@ export const CONSTANTS = {
 
     // ObjectEditor Type
     CONFIG_EDITOR_OBJTYPE: "HomeScreenConfig",
-    APPEARANCE_OBJ_TYPE: 'Appearance'
+    APPEARANCE_OBJ_TYPE: 'Appearance',
+
+    APPLICATION: 'application'
 };
 
 export const featureFlag = {
@@ -413,7 +415,11 @@ export const localizedStrings = {
     USE_SPECIFIC_AUTH: t('useSpecificAuth'),
     SET_AS_DEFAULT: t('setAsDefaultAuth'),
     DEFAULT_AUTH: t('defaultAuth'),
-    STANDARD: t('standard')
+    STANDARD: t('standard'),
+
+    // Environment Connection strings
+    ENVIRONMENT_CONNECTION_SETTINGS_DESC: t('environmentConnectionSettingsDesc'),
+    ENVIRONMENT_CONNECTION_AVAILABLE_ENVS_DESC: t('environmentConnectionAvailableEnvsDesc')
 };
 
 export const sectionTitle = {

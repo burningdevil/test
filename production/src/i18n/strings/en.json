@@ -232,8 +232,6 @@
     "libraryMobileSubtitle": "Library Mobile",
     "libraryMobileDesc": "Minimum 75 * 75 pixels, png format",
 
-    "environmentConnectionSettingsDesc": "Select to add environment connecting points to this application, for users to switch to different workspaces in Library Web and Library Mobile.",
-
     "apply": "Apply",
     "applyThemeConfirmationStr": "Do you want to apply the appearance changes you made to Application {{application}}?",
     "customEmailSettings": "Email Communication",
@@ -314,5 +312,8 @@
     "portalLinkNotInWhiteListTip1": "Library has been configured to allow embedding in specific websites only.",
     "portalLinkNotInWhiteListTip2": "Please ensure this URL has been added in the Library security settings.",
     "invalidImageAddressTip": "Please ensure that the URL points to a valid image file",
-    "portalLinkAclForbiddenMsg": "You do not have the privilege to get the URL whitelist."
+    "portalLinkAclForbiddenMsg": "You do not have the privilege to get the URL whitelist.",
+
+    "environmentConnectionSettingsDesc": "Select to add environment connecting points to this application, for users to switch to different workspaces in Library Web and Library Mobile.",
+    "environmentConnectionAvailableEnvsDesc": "Select to add environments from the available list"
 }
