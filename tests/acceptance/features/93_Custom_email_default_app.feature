@@ -16,7 +16,7 @@ Feature: 93_Custom_email_default_app
         When I enable custom email mode
         When I expand "Preview" section
         When I expand "Subject & Body Text" section
-        Then check the screenshot "customEmail" by comparing "93_Custom_email_default_app_01"
+        Then check the screenshot by comparing "93_Custom_email_default_app_01"
         When I expand "Action Button" section
         When I expand "Notification Reminder" section
         Then check the screenshot on element "customEmail" by comparing "93_Custom_email_default_app_02"
