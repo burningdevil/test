@@ -81,5 +81,3 @@ export const ConfirmationDialog = (props: ConfirmationDialogProps) => {
       </div>
   )
 }
-
-// export default ConfirmationDialog
