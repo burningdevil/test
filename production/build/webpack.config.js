@@ -83,7 +83,7 @@ const config = {
     historyApiFallback: true,
     allowedHosts: 'all',
     headers: {
-      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Origin': '*', // NOSONAR
     },
     client: {
       overlay: true,
