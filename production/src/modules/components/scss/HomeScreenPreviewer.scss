@@ -323,7 +323,7 @@ $tablet-scale: 0.85;
     &-phone {
         width: $container-width-phone;
         height: $preview-height;
-        flex: none;
+        flex: none !important;
         margin-left: auto;
         margin-right: auto;
         font-size: $font-size-side;
@@ -386,7 +386,7 @@ $tablet-scale: 0.85;
             height: 100%;
             padding: 4px;
             border: .03rem solid lightgrey;
-            background-color: $background-color;
+            background-color: $background-color !important;
              
             &-library {
                 width: 100%;

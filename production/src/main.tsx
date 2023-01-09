@@ -35,16 +35,16 @@ let render = () => {
 if (__DEV__) {
   if (module.hot) {
     const renderApp = render
-    const renderError = (error: any) => {
-      const RedBox = require('redbox-react').default
-      ReactDOM.render(<RedBox error={error} />, MOUNT_NODE)
-    }
+    // const renderError = (error: any) => {
+    //   const RedBox = require('redbox-react').default
+    //   ReactDOM.render(<RedBox error={error} />, MOUNT_NODE)
+    // }
     render = () => {
       try {
         renderApp()
       } catch (e) {
         console.error(e)
-        renderError(e)
+        // renderError(e)
       }
     }
     // Setup hot module replacement

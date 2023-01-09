@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import * as compareVersions from 'compare-versions';
+import compareVersions from 'compare-versions';
 
 // Custom Application Support start from 11.3.4
 const LIBRARY_SERVER_VERSION_THRESHOLD = '11.3.0400';

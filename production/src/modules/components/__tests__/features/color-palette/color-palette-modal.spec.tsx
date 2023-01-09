@@ -52,7 +52,9 @@ describe('ColorPaletteModal Component', () => {
         // check search
         debugger;
         const modalContainer = document.querySelector('.custom-palette-modal');
-        const search = modalContainer.querySelector('.mstr-input');
+        const search = modalContainer.querySelector('.mstr-input >input');
+
+        console.log(search)
         fireEvent.change(search, { target: { value: 'xxx' } });
         await waitFor(() => {
             expect(
