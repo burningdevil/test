@@ -12,7 +12,7 @@ $line-height-small: 13px;
     position: relative;
     display: flex , float;
     height: 660px;
-    background-color: white;
+    background-color: white !important;
     text-align: left;
     font-family: $font-family;
     color: $msdl-black;
@@ -30,7 +30,7 @@ $line-height-small: 13px;
     &-right{
         float: right;
         padding: 24px 0 0 0;
-        background-color: $right-background;
+        background-color: $right-background !important;
     }
 
     &-enable-feature{

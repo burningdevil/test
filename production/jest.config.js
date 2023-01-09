@@ -1,19 +1,18 @@
 module.exports = {
   verbose: true,
   testRegex: '__tests__/.*.test.tsx?$|\\.spec.tsx',
-  setupFilesAfterEnv: ['<rootDir>/enzymeSetup.js'],
+  setupFilesAfterEnv: ['<rootDir>/setupTests.ts'],
   moduleNameMapper: { 
     '\\.(scss|css|less|png|jpg|gif|svg)$': '<rootDir>/node_modules/jest-css-modules',
+    '^antd/es': 'identity-obj-proxy',
     'node_modules/@mstr/react-ws-grid/lib/locale/locale.js': '<rootDir>/src/modules/components/__tests__/__mocks__/i18next'
   },
-  moduleFileExtensions: ['ts', 'tsx', 'js'],
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
-    '^.+\\.js$': 'ts-jest',
+    '^.+\\.jsx?$': 'ts-jest',
   },
-  transformIgnorePatterns: [
-    'node_modules/(?!.*(antd/es)/)'
-  ],
+  transformIgnorePatterns: ['/node_modules/(?!(lodash-es)/)'],
   unmockedModulePathPatterns: [
     "node_modules"
   ],
@@ -24,6 +23,8 @@ module.exports = {
     __TEST__: true,
     'ts-jest': {
       diagnostics: false
+    },
+    workstation: {
     }
   },
   collectCoverageFrom: [
@@ -40,8 +41,5 @@ module.exports = {
     ["./node_modules/jest-html-reporter", {
       "pageTitle": "Unit Test Report"
     }]
-  ],
-  "setupFiles": [
-    "./src/modules/components/__tests__/__mocks__/ws.js"
   ]
 }
