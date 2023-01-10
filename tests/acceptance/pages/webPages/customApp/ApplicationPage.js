@@ -246,7 +246,7 @@ export default class ApplicationPage extends BasePage {
         await this.waitForWebElementToBeVisiable(elementLocator)
         expect(await browser.imageComparison.checkScreen(fileName
           //hideElements: [this.getCreateTimeCells(), this.getUpdateTimeCells()]
-        )).to.below(0.02);
+        )).to.below(customArgObj.args.imageCompare ? imageCompareConfig.tolerance : imageCompareConfig.toleranceMax);
         break;
     }
     //expect(await browser.imageComparison.checkElement(elementLocator, screenshot)).to.below(0.02);
@@ -266,7 +266,7 @@ export default class ApplicationPage extends BasePage {
     expect(await browser.imageComparison.checkScreen(fileName, {
       disableCSSAnimation: true,
       hideScrollBars: true,
-    })).to.below(0.02);
+    })).to.below(customArgObj.args.imageCompare ? imageCompareConfig.tolerance : imageCompareConfig.toleranceMax);
   }
 
 

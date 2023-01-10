@@ -686,7 +686,7 @@ export default class SettingPage extends BasePage {
          // hideElements: [elementLocator],
           disableCSSAnimation: true,
           hideScrollBars: true,
-        })).to.below(0.02);
+        })).to.below(customArgObj.args.imageCompare ? imageCompareConfig.tolerance : imageCompareConfig.toleranceMax);
         await this.showElementByScript(elementLocator)
     }
   }
