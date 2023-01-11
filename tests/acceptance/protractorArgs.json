@@ -27,6 +27,7 @@
             "ubInterval": 500,
             "enableUB": false
         },
-        "cefPort": 54213
+        "cefPort": 54213,
+        "imageCompare": true
     }
 }

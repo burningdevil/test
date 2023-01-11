@@ -12,7 +12,9 @@ export const wsConfig = {
 
 export const imageCompareConfig = {
     appDetailGrid: 'detailGrid', // application list grid in custom app main home
-    customEmail: 'customEmail'   // custom email settings section in app editor
+    customEmail: 'customEmail',   // custom email settings section in app editor
+    tolerance: 0.02,
+    toleranceMax: 100
 
 }
 
