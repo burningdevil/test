@@ -26,6 +26,19 @@ def tanzu_env_used_count(count_file_path)
   end
 end
 
+#count tanzu use time and skip some post process after tanzu provision
+def reset_password_flag
+  count = 0
+  if File.exist?(@reset_password_count_file)
+    count = File.read(@reset_password_count_file)
+  end
+  count += 1
+  good "#{@reset_password_count_file} has been updated to #{count}"
+  File.open(@reset_password_count_file,"w") do |f|
+    f.write(count)
+  end
+end
+
 #check service ready or not
 def check_service_ready(service_name: nil, url: nil, endpoint: nil, response_code: 200)
   begin
