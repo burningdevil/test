@@ -10,6 +10,8 @@ const { join } = require('path');
 const parseArguments = require('./utils/envUtils/parseArguments')
 const { sleep } = require('./utils/generalUtils')
 const customArgObj = parseArguments()
+const fs = require('fs-extra')
+const path = require('path')
 
 exports.config = {
   plugins: [
@@ -161,6 +163,7 @@ exports.config = {
       credentials: { username: browser.params.envInfo[0].userName, password: browser.params.envInfo[0].userPwd },
       pwd: newPwd
     })
+    fs.outputFileSync(path.resolve('.','password.txt'), newPwd, 'utf8')
     browser.params.envInfo[0].userPwd = newPwd
 
     // build global page objects for native and webviews
