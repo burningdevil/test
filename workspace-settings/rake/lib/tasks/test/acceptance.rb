@@ -27,14 +27,16 @@ def tanzu_env_used_count(count_file_path)
 end
 
 #count tanzu use time and skip some post process after tanzu provision
-def reset_password_flag
+def reset_password_flag(environmentName)
+  return if environmentName.nil? || environmentName.empty?
+  reset_password_count_file = "#{$WORKSPACE_SETTINGS[:paths][:organization][:home]}/#{environmentName}_resetpassword.txt"
   count = 0
-  if File.exist?(@reset_password_count_file)
-    count = File.read(@reset_password_count_file)
+  if File.exist?(reset_password_count_file)
+    count = File.read(reset_password_count_file)
   end
   count += 1
-  good "#{@reset_password_count_file} has been updated to #{count}"
-  File.open(@reset_password_count_file,"w") do |f|
+  good "#{reset_password_count_file} has been updated to #{count}"
+  File.open(reset_password_count_file,"w") do |f|
     f.write(count)
   end
 end

@@ -15,7 +15,6 @@ require 'common/version'
 @config_file = "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance/protractorArgs.json"
 @mstrbakUrl = "s3://mci-dev-mstrbak/workstation-home-admin-ci-mstrbak.tar.gz"
 @tanzu_env = "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance/tanzu-env.json"
-@reset_password_count_file = "#{$WORKSPACE_SETTINGS[:paths][:organization][:home]}/#{environmentName}_resetpassword.txt"
 @password_flag = "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance/password.txt"
 
 task :install_workstation_windows do
@@ -137,14 +136,15 @@ def uninstall_winappdriver
   end
 end
 
-def get_library_and_environment
+def get_library_and_environment()
   count = 0
-  count = File.read(@reset_password_count_file).to_i if File.exist?(@reset_password_count_file)
+  tanzu_environment = load_tanzu_env_json(@tanzu_env)
+  libraryUrl = tanzu_environment[:libraryUrl] || tanzu_environment["libraryUrl"]
+  environmentName = tanzu_environment[:environmentName] || tanzu_environment["environmentName"]
+  reset_password_count_file = "#{$WORKSPACE_SETTINGS[:paths][:organization][:home]}/#{environmentName}_resetpassword.txt"
+  count = File.read(reset_password_count_file).to_i if File.exist?(reset_password_count_file)
   if count >= 1
     puts "skip override password because this environment used before"
-    tanzu_environment = load_tanzu_env_json(@tanzu_env)
-    libraryUrl = tanzu_environment[:libraryUrl] || tanzu_environment["libraryUrl"]
-    environmentName = tanzu_environment[:environmentName] || tanzu_environment["environmentName"]
   else
     libraryUrl, environmentName = prepare_for_workstation_test(@tanzu_env, @config_file, keywords=nil,replace_json=true)
   end
@@ -183,14 +183,14 @@ task :acceptance_test_win do |t,args|
     shell_command! "node rally/updateE2EResultsToClientAutoData.js -c \"#{Common::Version.application_version}\" \"#{ENV['BUILD_URL']}\"", cwd: "I:/tests/acceptance"
     shell_command! "node rally/updateE2EResultsToRally.js -c \"#{Common::Version.application_version}\" \"#{ENV['BUILD_URL']}\"", cwd: "I:/tests/acceptance"
     do_delete_tanzu_environment(environmentName) if @delete_tanzu
-    reset_password_flag() if File.exist?(@password_flag)
+    reset_password_flag(environmentName) if File.exist?(@password_flag)
     post_process_workstation_ci(result:"pass", update_nexus:true, update_rally:false, coverage_report:false, platform:'win', platform_os:nil)
   rescue => e
     info "update rally test results"
     shell_command! "node rally/updateE2EResultsToClientAutoData.js -c \"#{Common::Version.application_version}\" \"#{ENV['BUILD_URL']}\"", cwd: "I:/tests/acceptance"
     shell_command! "node rally/updateE2EResultsToRally.js -c \"#{Common::Version.application_version}\" \"#{ENV['BUILD_URL']}\"", cwd: "I:/tests/acceptance"
     error "exception from test:\n #{e}"
-    reset_password_flag() if File.exist?(@password_flag)
+    reset_password_flag(environmentName) if File.exist?(@password_flag)
     do_delete_tanzu_environment(environmentName) if @delete_tanzu
     post_process_workstation_ci(result:"fail", update_nexus:true, update_rally:false, coverage_report:false, platform:'win', platform_os:nil)
   end
@@ -218,12 +218,12 @@ task :sanity_test_win do |t,args|
 
     shell_command! "node trigger_test.js  \"#{workstation_path}\"  \"#{libraryUrl}/\" \"@Sanity\" 54213 \"#{ENV['ghprbSourceBranch']}\"", cwd: "I:/tests/acceptance"
     do_delete_tanzu_environment(environmentName) if @delete_tanzu
-    reset_password_flag() if File.exist?(@password_flag)
+    reset_password_flag(environmentName) if File.exist?(@password_flag)
     post_process_workstation_ci(result:"pass", update_nexus:true, update_rally:false, coverage_report:false, platform:'win', platform_os:nil)
   rescue => e
     error "exception from test:\n #{e}"
     do_delete_tanzu_environment(environmentName) if @delete_tanzu
-    reset_password_flag() if File.exist?(@password_flag)
+    reset_password_flag(environmentName) if File.exist?(@password_flag)
     post_process_workstation_ci(result:"fail", update_nexus:true, update_rally:false, coverage_report:false, platform:'win', platform_os:nil)
   end
 end
