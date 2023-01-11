@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import * as _ from 'lodash'
+import classnames from 'classnames'
 import { Checkbox } from '@mstr/rc';
 import { Table } from 'antd';
 import 'antd/dist/antd.css';
@@ -44,8 +45,8 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
         super(props)
         this.state = {
             currentEnv: {
-                name: props.currEnvConnections?.current || '',
-                url: ''
+                name: props.currEnvConnections?.current || 'TEMP', // TODO: remove 'TEMP', replace with empty string
+                url: 'www.TEMP.com' // TODO: update with empty string
             },
             otherEnvs: [],
             connectedEnvs: props.currEnvConnections?.other || [] // by connected, we mean linked via the feature not connected thru workstation
@@ -105,26 +106,26 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
         const { currentEnv, otherEnvs, connectedEnvs } = this.state;
         const currentEnvLabelText = '(Current)';
         const connectedEnvsTableDataSource = this.getConnectedEnvsTableDataSource();
-        let availableToConnectEnvs = this.getAvailableToConnectEnvs();
-        availableToConnectEnvs = _.sortBy(availableToConnectEnvs, (o) => o.name); // sort by name
-        // const availableToConnectEnvs : Array<EnvironmentConnectionInterface> = [
-        //     {
-        //         "name": "automation",
-        //         "url": "http://10.23.39.231:8080/m2021/"
-        //     },
-        //     {
-        //         "name": "latest",
-        //         "url": "https://env-299367.customer.cloud.microstrategy.com/MicroStrategyLibrary/"
-        //     },
-        //     {
-        //         "name": "aqueduct.microstrategy.com",
-        //         "url": "https://aqueduct.microstrategy.com/MicroStrategyLibrary/"
-        //     },
-        //     {
-        //         "name": "aqueduct-tech3.customer.cloud.microstrategy.com",
-        //         "url": "https://aqueduct-tech3.customer.cloud.microstrategy.com/MicroStrategyLibrary/"
-        //     }
-        // ]
+        // let availableToConnectEnvs = this.getAvailableToConnectEnvs();
+        // availableToConnectEnvs = _.sortBy(availableToConnectEnvs, (o) => o.name); // sort by name
+        const availableToConnectEnvs : Array<EnvironmentConnectionInterface> = [
+            {
+                "name": "automation",
+                "url": "http://10.23.39.231:8080/m2021/"
+            },
+            {
+                "name": "latest",
+                "url": "https://env-299367.customer.cloud.microstrategy.com/MicroStrategyLibrary/"
+            },
+            {
+                "name": "aqueduct.microstrategy.com",
+                "url": "https://aqueduct.microstrategy.com/MicroStrategyLibrary/"
+            },
+            {
+                "name": "aqueduct-tech3.customer.cloud.microstrategy.com",
+                "url": "https://aqueduct-tech3.customer.cloud.microstrategy.com/MicroStrategyLibrary/"
+            }
+        ]
         console.log(currentEnv);
         console.log(otherEnvs);
         console.log(connectedEnvs);
@@ -134,63 +135,82 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                 <div className={`${screenClassNamePrefix}-title`}>{localizedStrings.NAVBAR_ENVIRONMENT_CONNECTION_SETTINGS.toUpperCase()}</div>
                 <div className={`${screenClassNamePrefix}-desc`}>{localizedStrings.ENVIRONMENT_CONNECTION_SETTINGS_DESC}</div>
                 <div className={`${screenClassNamePrefix}-content`}>
-                    <Table
-                        className={`${classNamePrefix}-table-wrapper`}
-                        dataSource={connectedEnvsTableDataSource}
-                        pagination={false}
-                        onRow={(_, rowIndex) => ({
-                            // for now, delete a connected env on click. in the future, we will add a trash btn to allow this
-                            onClick: () => {
-                                // for now, do not allow removal of the first/current env. TODO: confirm this behavior
-                                if (rowIndex !== 0) {
-                                    let newConnectedEnvs = [...connectedEnvs];
-                                    newConnectedEnvs.splice(rowIndex - 1, 1); // remove the clicked row env
-                                    this.setState({ connectedEnvs: newConnectedEnvs }); // update state
-                                    this.handleEnvConnectionsChange({
-                                        current: currEnvConnections.current || currentEnv.name,
-                                        other: newConnectedEnvs
-                                    });
-                                }
-                            }
-                        })}
-                    >
+                    <Table className={`${classNamePrefix}-table-wrapper`} dataSource={connectedEnvsTableDataSource} tableLayout='fixed' pagination={false}>
                         <Table.Column
                             title={localizedStrings.NAME}
                             dataIndex={VC.NAME}
                             key={VC.NAME}
-                            render={(name, _, idx) => (
-                                <div>
-                                    <span>{name}</span>
-                                    {
-                                        (idx === 0)
-                                            ? <span className='current-env-label'> {currentEnvLabelText}</span>
-                                            : null
-                                    }
-                                </div>
+                            width={220}
+                            render={(name, _, idx) => {
+                                const isFirstRow = idx === 0;
+                                return (
+                                    <div className='connected-env-name'>
+                                            <div className='connected-env-name-icn' />
+                                            <div className={classnames('connected-env-name-text', { 'has-current-label': isFirstRow })}>
+                                                <div className='current-env-name' title={name}>{name}</div>
+                                                {
+                                                    isFirstRow
+                                                        ? <div className='current-env-label'> {currentEnvLabelText}</div>
+                                                        : null
+                                                }
+                                            </div>
+                                    </div>
+                                )
+                            }}
+                        />
+                        <Table.Column
+                            title='URL' /* TODO: add localized string for 'URL' */
+                            dataIndex={VC.URL}
+                            key={VC.URL}
+                            width={160}
+                            render={(url, _, __) => (
+                                <div className='connected-env-url' title={url}>{url}</div>
                             )}
                         />
-                        <Table.Column title='URL' /* TODO: add localized string for 'URL' */ dataIndex={VC.URL} key={VC.URL} />
                         <Table.Column title='Application' /* TODO: add localized string for 'Application' */ dataIndex={VC.APPLICATION} key={VC.APPLICATION} />
+                        <Table.Column
+                            width={38}
+                            render={(_, __, idx) => (
+                                (idx !== 0)
+                                    ? <div
+                                        className='remove-connected-env-icn'
+                                        onClick={() => {
+                                            let newConnectedEnvs = [...connectedEnvs];
+                                            newConnectedEnvs.splice(idx - 1, 1); // remove the clicked row env
+                                            this.setState({ connectedEnvs: newConnectedEnvs }); // update state
+                                            this.handleEnvConnectionsChange({
+                                                current: currEnvConnections.current || currentEnv.name,
+                                                other: newConnectedEnvs
+                                            });
+                                        }}
+                                    />
+                                    : <React.Fragment />
+                            )}
+                        />
                     </Table>
                     <div className={`${classNamePrefix}-available-envs-section`}>
                         <div className={`${classNamePrefix}-available-envs-section-desc`}>{localizedStrings.ENVIRONMENT_CONNECTION_AVAILABLE_ENVS_DESC}</div>
                         {
                             availableToConnectEnvs.map((env: EnvironmentConnectionInterface, idx) => (
-                                <div className='available-env-row'
-                                    key={idx}
-                                    onClick={(e) => {
-                                        let newConnectedEnvs = [...connectedEnvs];
-                                        newConnectedEnvs.push(env);
-                                        newConnectedEnvs = _.sortBy(newConnectedEnvs, (o) => o.name); // sort new connected envs
-                                        this.setState({ connectedEnvs: newConnectedEnvs }); // update state
-                                        this.handleEnvConnectionsChange({
-                                            current: currEnvConnections.current || currentEnv.name,
-                                            other: newConnectedEnvs
-                                        });
-                                    }}
-                                >
-                                    <div className='available-env-name'>{env.name}</div>
-                                    <div className='available-env-url'>{env.url}</div>
+                                <div className='available-env-row' key={idx}>
+                                    <div className='available-env-name' title={env.name}>
+                                        <div className='available-env-name-icn' />
+                                        <div className='available-env-name-text'>{env.name}</div>
+                                    </div>
+                                    <div className='available-env-url' title={env.url}>{env.url}</div>
+                                    <div
+                                        className='add-available-env-icn'
+                                        onClick={() => {
+                                            let newConnectedEnvs = [...connectedEnvs];
+                                            newConnectedEnvs.push(env);
+                                            newConnectedEnvs = _.sortBy(newConnectedEnvs, (o) => o.name); // sort new connected envs
+                                            this.setState({ connectedEnvs: newConnectedEnvs }); // update state
+                                            this.handleEnvConnectionsChange({
+                                                current: currEnvConnections.current || currentEnv.name,
+                                                other: newConnectedEnvs
+                                            });
+                                        }}
+                                    />
                                 </div>
                             ))
                         }
