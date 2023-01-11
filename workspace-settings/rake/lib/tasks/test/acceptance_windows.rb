@@ -1,4 +1,5 @@
 require_relative 'acceptance_mac'
+require_relative 'acceptance'
 require 'nexus'
 require 'fileutils'
 require 'pry'
@@ -41,7 +42,7 @@ end
 task :do_test_when_test_file_changed do |t,args|
   info "====== Run UI automation tests ======"
   Rake::Task['install_workstation_windows'].invoke
-  Rake::Task['prepare_tanzu_environment'].invoke
+  Rake::Task['deploy_or_prepared_tanzu_environment'].invoke
   Rake::Task['override_library'].invoke
   Rake::Task['sanity_test_win'].invoke
   # info "====== try to find if there is changed files in test document ======"
@@ -148,8 +149,10 @@ task :acceptance_test_win do |t,args|
   
   info "====== starting test ======"
   environmentName = ""
+  
   begin
     libraryUrl, environmentName = prepare_for_workstation_test(@tanzu_env, @config_file, keywords=nil,replace_json=true)
+    
     if libraryUrl.nil? || libraryUrl.empty?
       raise "invalid library url #{libraryUrl}"
     end
@@ -162,14 +165,14 @@ task :acceptance_test_win do |t,args|
     info "update rally test results"
     shell_command! "node rally/updateE2EResultsToClientAutoData.js -c \"#{Common::Version.application_version}\" \"#{ENV['BUILD_URL']}\"", cwd: "I:/tests/acceptance"
     shell_command! "node rally/updateE2EResultsToRally.js -c \"#{Common::Version.application_version}\" \"#{ENV['BUILD_URL']}\"", cwd: "I:/tests/acceptance"
-    do_delete_tanzu_environment(environmentName)
+    do_delete_tanzu_environment(environmentName) if @delete_tanzu
     post_process_workstation_ci(result:"pass", update_nexus:true, update_rally:false, coverage_report:false, platform:'win', platform_os:nil)
   rescue => e
     info "update rally test results"
     shell_command! "node rally/updateE2EResultsToClientAutoData.js -c \"#{Common::Version.application_version}\" \"#{ENV['BUILD_URL']}\"", cwd: "I:/tests/acceptance"
     shell_command! "node rally/updateE2EResultsToRally.js -c \"#{Common::Version.application_version}\" \"#{ENV['BUILD_URL']}\"", cwd: "I:/tests/acceptance"
     error "exception from test:\n #{e}"
-    do_delete_tanzu_environment(environmentName)
+    do_delete_tanzu_environment(environmentName) if @delete_tanzu
     post_process_workstation_ci(result:"fail", update_nexus:true, update_rally:false, coverage_report:false, platform:'win', platform_os:nil)
   end
 end
@@ -190,6 +193,7 @@ task :sanity_test_win do |t,args|
   environmentName = ""
   begin
     libraryUrl, environmentName = prepare_for_workstation_test(@tanzu_env, @config_file, keywords=nil,replace_json=true)
+
     if libraryUrl.nil? || libraryUrl.empty?
       raise "invalid library url #{libraryUrl}"
     end
@@ -199,11 +203,11 @@ task :sanity_test_win do |t,args|
     shell_command! 'npm config set script-shell "C:/usr/bin/bash"', environment: {'MSYS' => 'winsymlinks:nativestrict'}
 
     shell_command! "node trigger_test.js  \"#{workstation_path}\"  \"#{libraryUrl}/\" \"@Sanity\" 54213 \"#{ENV['ghprbSourceBranch']}\"", cwd: "I:/tests/acceptance"
-    do_delete_tanzu_environment(environmentName)
+    do_delete_tanzu_environment(environmentName) if @delete_tanzu
     post_process_workstation_ci(result:"pass", update_nexus:true, update_rally:false, coverage_report:false, platform:'win', platform_os:nil)
   rescue => e
     error "exception from test:\n #{e}"
-    do_delete_tanzu_environment(environmentName)
+    do_delete_tanzu_environment(environmentName) if @delete_tanzu
     post_process_workstation_ci(result:"fail", update_nexus:true, update_rally:false, coverage_report:false, platform:'win', platform_os:nil)
   end
 end
