@@ -1,0 +1,25 @@
+@import '~@mstr/rc/es/assets/scss/variables.scss';
+@import '../../scss/variables.scss';
+@import '../../../../styles/base';
+
+// input.ant-input.mstr-singleline-label-editing {
+//     padding: 0;
+//     width: 100%;
+//     border: none;
+//     background-color: $white;
+//     border-radius: 0;
+//     resize: none;
+//     font-weight: inherit;
+//     transition: none;
+//     box-shadow: inset 0px 0px 0px 1px $mobile-primary-blue;
+  
+//     &.ant-input{
+//       transition: none; //TO overwrite styling from ANTD textarea
+//     }
+  
+//     &:focus,
+//     &:active {
+//       outline: none;
+//       box-shadow: inset 0px 0px 0px 1px $mobile-primary-blue;
+//     }
+// }

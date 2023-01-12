@@ -63,7 +63,11 @@
               line-height: 34px;
 
               &:not(:last-child) {
-                box-shadow: 0 1px 0 0 #E4E4E4;
+                box-shadow: 0 1px 0 0 #E4E4E4; // add border between rows
+              }
+
+              &:hover .ant-table-cell.ant-table-cell-row-hover {
+                background: unset; // remove hover effects on each row's cells
               }
             }
 
@@ -78,32 +82,32 @@
                 padding: 0 0 0 12px !important; // override existing padding, extend left padding slightly
               }
 
-              .connected-env-name {
+              .connected-env-name-wrapper {
                 display: grid;
                 grid-template-columns: 14px auto;
                 grid-gap: 6px;
                 align-items: center;
       
-                &-icn {
+                .connected-env-name-icn {
                   width: 14px;
                   height: 14px;
                   background-image: url('../images/18_18.svg');
                   background-position: -434px -128px;
                 }
       
-                &-text {
+                .connected-env-name-text {
                   display: grid;
 
-                  .current-env-name {
+                  .current-env-name, .connected-env-name {
                     @extend .overflow;
                   }
 
                   // make space to account for current label if present
-                  &.has-current-label {
+                  &.is-current-env {
                     grid-template-columns: auto 1fr;
                     grid-gap: 3px;
 
-                    .current-env-label {
+                    .current-env-suffix {
                       width: fit-content;
                       color: #0E6FF9;
                     }

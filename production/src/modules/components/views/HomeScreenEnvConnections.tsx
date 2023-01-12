@@ -2,15 +2,15 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import * as _ from 'lodash'
 import classnames from 'classnames'
-import { Checkbox } from '@mstr/rc';
 import { Table } from 'antd';
 import 'antd/dist/antd.css';
+import { WorkstationModule, EnvironmentStatus } from '@mstr/workstation-types'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
 import { selectCurrentConfig, selectCurrEnvConnections } from '../../../store/selectors/HomeScreenConfigEditorSelector'
 import * as Actions from '../../../store/actions/ActionsCreator'
 import { default as VC, localizedStrings } from '../HomeScreenConfigConstant'
+import EditableLabel from '../common-components/editable-label/editable-label'
 import { EnvironmentConnectionSettingType, EnvironmentConnectionInterface, HomeScreenConfigType } from '../../../types/data-model/HomeScreenConfigModels'
-import { WorkstationModule, EnvironmentStatus } from '@mstr/workstation-types'
 import { t } from '../../../i18n/i18next';
 import '../scss/HomeScreenEnvConnections.scss'
 
@@ -144,14 +144,29 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                             render={(name, _, idx) => {
                                 const isFirstRow = idx === 0;
                                 return (
-                                    <div className='connected-env-name'>
+                                    <div className='connected-env-name-wrapper'>
                                             <div className='connected-env-name-icn' />
-                                            <div className={classnames('connected-env-name-text', { 'has-current-label': isFirstRow })}>
-                                                <div className='current-env-name' title={name}>{name}</div>
+                                            <div className={classnames('connected-env-name-text', { 'is-current-env': isFirstRow })}>
                                                 {
                                                     isFirstRow
-                                                        ? <div className='current-env-label'> {currentEnvLabelText}</div>
-                                                        : null
+                                                        ? <React.Fragment>
+                                                                <div className='current-env-name' title={name}>{name}</div>
+                                                                <div className='current-env-suffix'>{currentEnvLabelText}</div>
+                                                        </React.Fragment>
+                                                        : <EditableLabel
+                                                            className={'connected-env-name'}
+                                                            value={name}
+                                                            onValueChange={(newName: string) => {
+                                                                let newConnectedEnvs = [...connectedEnvs];
+                                                                let currConnectedEnv = newConnectedEnvs[idx - 1];
+                                                                currConnectedEnv.name = newName; // update name in current env's object entry
+                                                                this.setState({ connectedEnvs: newConnectedEnvs }); // update state
+                                                                this.handleEnvConnectionsChange({
+                                                                    current: currEnvConnections.current || currentEnv.name,
+                                                                    other: newConnectedEnvs
+                                                                });
+                                                            }}
+                                                        />
                                                 }
                                             </div>
                                     </div>
