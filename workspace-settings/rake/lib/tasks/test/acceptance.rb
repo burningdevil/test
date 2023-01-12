@@ -17,7 +17,7 @@ require 'date'
 def tanzu_env_used_count(count_file_path)
   count = 0
   if File.exist?(count_file_path)
-    count = File.read(count_file_path)
+    count = File.read(count_file_path).to_i
   end
   count += 1
   good "#{count_file_path} has been used #{count} times"
@@ -32,7 +32,7 @@ def reset_password_flag(environmentName)
   reset_password_count_file = "#{$WORKSPACE_SETTINGS[:paths][:organization][:home]}/#{environmentName}_resetpassword.txt"
   count = 0
   if File.exist?(reset_password_count_file)
-    count = File.read(reset_password_count_file)
+    count = File.read(reset_password_count_file).to_i
   end
   count += 1
   good "#{reset_password_count_file} has been updated to #{count}"
