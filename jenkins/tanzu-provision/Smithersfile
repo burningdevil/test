@@ -21,7 +21,7 @@ EOH
       minute '30'
       hour '0'
       month '*'
-      day_of_week '0,1,2,3,4'
+      day_of_week '1,2,3,4,5'
       day_of_month '*'
     end
   end
