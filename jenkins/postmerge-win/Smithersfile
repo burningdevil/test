@@ -27,7 +27,7 @@ EOH
   triggers do
     schedule do
       minute 'H'
-      hour '4'
+      hour '8'
       month '*'
       day_of_week '*'
       day_of_month '*'

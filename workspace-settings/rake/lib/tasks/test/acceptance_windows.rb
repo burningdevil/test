@@ -28,13 +28,6 @@ task :replace_plugin_windows do
   enable_feature_flag(plugin_path)
 end
 
-task :enable_feature_flag do
-  replace_plugin_windows
-  plugin = { 'name' => plugin_name_mapping || @artifact_info[:artifact_base_file_name] }
-  plugin_path = "C:/Program Files/MicroStrategy/Workstation/Plugins/#{plugin['name']}"
-  enable_feature_flag(plugin_path)
-end
-
 def download_snapshot_artifact(art_name, art_version)
   FileUtils.remove_entry_secure(@artifact_info[:output_dir], force: true )
   FileUtils.mkdir_p(@artifact_info[:output_dir])
