@@ -81,6 +81,15 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
         }   
     };
 
+     /**
+     * Returns a grid row with either a color category or a format property. For ex:
+     *  Toolbar 
+     *    or 
+     *  Background    [ ] #F24AC1  
+     *
+     * @param row
+     * @returns
+     */
     const getColorPropRow = (row: number) => {
         const cols = [];
 
