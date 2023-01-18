@@ -1,8 +1,9 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import * as _ from 'lodash'
+import * as api from '../../../services/Api';
 import classnames from 'classnames'
-import { Table } from 'antd';
+import { Table, Select } from 'antd';
 import 'antd/dist/antd.css';
 import { WorkstationModule, EnvironmentStatus } from '@mstr/workstation-types'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
@@ -17,11 +18,15 @@ import '../scss/HomeScreenEnvConnections.scss'
 declare var workstation: WorkstationModule;
 const classNamePrefix = 'mstr-env-connection';
 const screenClassNamePrefix = `${classNamePrefix}-screen`;
+const customAppPath = 'CustomApp?id=';
 interface EnvConnectionTableDataType {
     key: string,
     name: string,
-    url: string,
-    application: string
+    baseUrl: string,
+    selectedApplication?: Partial<HomeScreenConfigType>,
+    applicationList?: Array<Partial<HomeScreenConfigType>>,
+    isConfigured?: boolean,
+    isConnected?: boolean
 }
 
 interface HomeScreenEnvConnectionsProps {
@@ -42,27 +47,61 @@ interface HomeScreenEnvConnectionsState {
 class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsProps, HomeScreenEnvConnectionsState> {
     // Life cycle
     constructor(props: any) {
-        super(props)
+        super(props);
         this.state = {
             currentEnv: {
-                name: props.currEnvConnections?.current || 'TEMP', // TODO: remove 'TEMP', replace with empty string
-                url: 'www.TEMP.com' // TODO: update with empty string
+                name: '',
+                url: ''
             },
             otherEnvs: [],
-            connectedEnvs: props.currEnvConnections?.other || [] // by connected, we mean linked via the feature not connected thru workstation
+            connectedEnvs: [] // in this case, connected = linked
         }
     }
 
     componentDidUpdate() { }
 
     async componentDidMount() {
-        const currentEnvironment = await workstation.environments.getCurrentEnvironment();
-        const availableEnvironments = await workstation.environments.getAvailableEnvironments();
+        const { currEnvConnections } = this.props;
+        const workstationCurrentEnv = await workstation.environments.getCurrentEnvironment();
+        const workstationAvailableEnvs = await workstation.environments.getAvailableEnvironments();
+        const otherEnvs = workstationAvailableEnvs
+            .filter(env => (env.name !== workstationCurrentEnv.name) && (env.status === EnvironmentStatus.Connected))
+            .map(env => ({ name: env.name, url: env.url }));
+        const connectedEnvs = await Promise.all(currEnvConnections.other?.map(async (env) => {
+            const availableEnvObj = workstationAvailableEnvs.find(availableEnv => availableEnv.url === this.getBaseUrl(env.url));
+            const isEnvConnected = availableEnvObj && (availableEnvObj.status === EnvironmentStatus.Connected);
+            let envApplicationList: Array<Partial<HomeScreenConfigType>> = [];
+            if (isEnvConnected) {
+                try {
+                    const response = await api.fetchAllApplicationsForOtherEnv(this.getBaseUrl(env.url));
+                    const { applications: fetchedEnvApplicationList } = response;
+                    envApplicationList = fetchedEnvApplicationList.map((app: Partial<HomeScreenConfigType>) => ({ name: app.name, id: app.id, isDefault: app.isDefault }));
+                } catch (e) {
+                    // TODO: err handling
+                }
+            }
+            
+            return {
+                name: env.name,
+                url: env.url,
+                applicationList: envApplicationList,
+                isConfigured: !!availableEnvObj,
+                isConnected: isEnvConnected
+            }
+        }));
         this.setState({
-            currentEnv: { name: this.state.currentEnv.name || currentEnvironment.name, url: currentEnvironment.url },
-            // only allow connection to connected/active environments, excluding the current env
-            otherEnvs: availableEnvironments.filter(env => (env.name !== currentEnvironment.name) && (env.status === EnvironmentStatus.Connected)).map(env => ({ name: env.name, url: env.url }))
+            currentEnv: { name: currEnvConnections.current || workstationCurrentEnv.name, url: workstationCurrentEnv.url },
+            otherEnvs,
+            connectedEnvs
         });
+    }
+
+    getBaseUrl = (url: string) => {
+        return url.split(customAppPath)[0];
+    }
+
+    getApplicationIdFromUrl = (url: string) => {
+        return url.split(customAppPath)[1];
     }
 
     handleEnvConnectionsChange = (envConnections: EnvironmentConnectionSettingType) => {
@@ -76,16 +115,21 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
             {
                 key: '0',
                 name: currentEnv.name,
-                url: currentEnv.url,
-                application: ''
+                baseUrl: currentEnv.url,
             }
         ];
         connectedEnvs.forEach((env, idx) => {
+            const baseUrl = this.getBaseUrl(env.url);
+            const selectedApplicationId = this.getApplicationIdFromUrl(env.url);
+            const selectedApplication = env.applicationList.find(a => a.id === selectedApplicationId);
             dataSource.push({
-                key: (idx + 1).toString(), // +1 to prevent starting from 0, since current env entry already has key of '0'
+                key: `${idx + 1}`, // +1 to prevent starting from 0, since current env entry already has key of '0'
                 name: env.name,
-                url: env.url,
-                application: '' // TODO: add logic to extract application id from url prior to this step
+                baseUrl,
+                selectedApplication,
+                applicationList: env.applicationList,
+                isConfigured: env.isConfigured,
+                isConnected: env.isConnected 
             })
         })
 
@@ -96,7 +140,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
         const { otherEnvs, connectedEnvs } = this.state;
         let availableToConnectEnvs = [...otherEnvs];
         // remove any available envs that the user has already opted to connect to
-        availableToConnectEnvs = availableToConnectEnvs.filter(currEnv => !connectedEnvs.find(connectedEnv => currEnv.name === connectedEnv.name))
+        availableToConnectEnvs = availableToConnectEnvs.filter(currEnv => !connectedEnvs.find(connectedEnv => (currEnv.url === this.getBaseUrl(connectedEnv.url)))) // TODO: need to check url, specifically base url of connectedEnv (since we store application)
 
         return availableToConnectEnvs;
     }
@@ -104,28 +148,28 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
     render() {
         const { currConfig, currEnvConnections } = this.props;
         const { currentEnv, otherEnvs, connectedEnvs } = this.state;
-        const currentEnvLabelText = '(Current)';
+        const currentEnvLabelText = '(Current)'; // TODO: i18n
         const connectedEnvsTableDataSource = this.getConnectedEnvsTableDataSource();
-        // let availableToConnectEnvs = this.getAvailableToConnectEnvs();
-        // availableToConnectEnvs = _.sortBy(availableToConnectEnvs, (o) => o.name); // sort by name
-        const availableToConnectEnvs : Array<EnvironmentConnectionInterface> = [
-            {
-                "name": "automation",
-                "url": "http://10.23.39.231:8080/m2021/"
-            },
-            {
-                "name": "latest",
-                "url": "https://env-299367.customer.cloud.microstrategy.com/MicroStrategyLibrary/"
-            },
-            {
-                "name": "aqueduct.microstrategy.com",
-                "url": "https://aqueduct.microstrategy.com/MicroStrategyLibrary/"
-            },
-            {
-                "name": "aqueduct-tech3.customer.cloud.microstrategy.com",
-                "url": "https://aqueduct-tech3.customer.cloud.microstrategy.com/MicroStrategyLibrary/"
-            }
-        ]
+        let availableToConnectEnvs = this.getAvailableToConnectEnvs();
+        availableToConnectEnvs = _.sortBy(availableToConnectEnvs, (o) => o.name); // sort by name
+        // const availableToConnectEnvs : Array<EnvironmentConnectionInterface> = [
+        //     {
+        //         "name": "automation",
+        //         "url": "http://10.23.39.231:8080/m2021/"
+        //     },
+        //     {
+        //         "name": "latest",
+        //         "url": "https://env-299367.customer.cloud.microstrategy.com/MicroStrategyLibrary/"
+        //     },
+        //     {
+        //         "name": "aqueduct.microstrategy.com",
+        //         "url": "https://aqueduct.microstrategy.com/MicroStrategyLibrary/"
+        //     },
+        //     {
+        //         "name": "aqueduct-tech3.customer.cloud.microstrategy.com",
+        //         "url": "https://aqueduct-tech3.customer.cloud.microstrategy.com/MicroStrategyLibrary/"
+        //     }
+        // ]
         console.log(currentEnv);
         console.log(otherEnvs);
         console.log(connectedEnvs);
@@ -141,7 +185,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                             dataIndex={VC.NAME}
                             key={VC.NAME}
                             width={220}
-                            render={(name, _, idx) => {
+                            render={(name: string, __, idx) => {
                                 const isFirstRow = idx === 0;
                                 return (
                                     <div className='connected-env-name-wrapper'>
@@ -160,6 +204,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                                                                 let newConnectedEnvs = [...connectedEnvs];
                                                                 let currConnectedEnv = newConnectedEnvs[idx - 1];
                                                                 currConnectedEnv.name = newName; // update name in current env's object entry
+                                                                newConnectedEnvs = _.sortBy(newConnectedEnvs, (e) => e.name); // re-sort in case new name moves it out of position
                                                                 this.setState({ connectedEnvs: newConnectedEnvs }); // update state
                                                                 this.handleEnvConnectionsChange({
                                                                     current: currEnvConnections.current || currentEnv.name,
@@ -175,17 +220,53 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                         />
                         <Table.Column
                             title='URL' /* TODO: add localized string for 'URL' */
-                            dataIndex={VC.URL}
-                            key={VC.URL}
+                            dataIndex={'baseUrl'}
+                            key={'baseUrl'}
                             width={160}
-                            render={(url, _, __) => (
-                                <div className='connected-env-url' title={url}>{url}</div>
-                            )}
+                            render={(baseUrl: string, record: EnvConnectionTableDataType, idx) => {
+                                const isFirstRow = idx === 0;
+                                const url = (isFirstRow || !record.selectedApplication || record.selectedApplication?.isDefault) ? baseUrl : (record.baseUrl + customAppPath + record.selectedApplication?.id);
+                                return (
+                                    <div className='connected-env-url' title={url}>{url}</div>
+                                );
+                            }}
                         />
-                        <Table.Column title='Application' /* TODO: add localized string for 'Application' */ dataIndex={VC.APPLICATION} key={VC.APPLICATION} />
+                        <Table.Column
+                            title='Application' /* TODO: add localized string for 'Application' */
+                            dataIndex={VC.APPLICATION}
+                            key={VC.APPLICATION}
+                            width={284}
+                            render={(application, record: EnvConnectionTableDataType, idx) => {
+                                const isFirstRow = idx === 0;
+                                const applicationSelectOptionsList = record.applicationList?.map(a => ({ label: a.name, value: a.id, isDefault: a.isDefault }))
+                                return (
+                                    isFirstRow
+                                        ? null
+                                        : <div className='connected-env-application-wrapper'>
+                                            <Select
+                                                className='connected-env-application-select'
+                                                value={application}
+                                                defaultValue='Select an application' // TODO: i18n
+                                                options={applicationSelectOptionsList}
+                                                onChange={(newApplicationId, newApplicationObj : { label: string, value: string, isDefault: boolean}) => {
+                                                    // update url based on application selection
+                                                    let newConnectedEnvs = [...connectedEnvs];
+                                                    let currConnectedEnv = newConnectedEnvs[idx - 1];
+                                                    currConnectedEnv.url = newApplicationObj.isDefault ? record.baseUrl : (record.baseUrl + customAppPath + newApplicationId); // update url with new application id
+                                                    this.setState({ connectedEnvs: newConnectedEnvs }); // update state
+                                                    this.handleEnvConnectionsChange({
+                                                        current: currEnvConnections.current || currentEnv.name,
+                                                        other: newConnectedEnvs
+                                                    });
+                                                }}
+                                            />
+                                        </div>
+                                )
+                            }}
+                        />
                         <Table.Column
                             width={38}
-                            render={(_, __, idx) => (
+                            render={(__, ___, idx) => (
                                 (idx !== 0)
                                     ? <div
                                         className='remove-connected-env-icn'
@@ -215,10 +296,25 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                                     <div className='available-env-url' title={env.url}>{env.url}</div>
                                     <div
                                         className='add-available-env-icn'
-                                        onClick={() => {
+                                        onClick={async () => {
+                                            // TODO: should we re-check workstation available envs to ensure the env is still configured/connected?
+                                            // or should we force trigger the refresh workflow instead? TBA!
                                             let newConnectedEnvs = [...connectedEnvs];
-                                            newConnectedEnvs.push(env);
-                                            newConnectedEnvs = _.sortBy(newConnectedEnvs, (o) => o.name); // sort new connected envs
+                                            let envApplicationList: Array<Partial<HomeScreenConfigType>> = [];
+                                            try {
+                                                const response = await api.fetchAllApplicationsForOtherEnv(this.getBaseUrl(env.url));
+                                                const { applications: fetchedEnvApplicationList } = response;
+                                                envApplicationList = fetchedEnvApplicationList.map((app: Partial<HomeScreenConfigType>) => ({ name: app.name, id: app.id, isDefault: app.isDefault }));
+                                            } catch (e) {
+                                                // TODO: err handling
+                                            }
+                                            newConnectedEnvs.push({
+                                                ...env,
+                                                applicationList: envApplicationList,
+                                                isConfigured: true,
+                                                isConnected: true
+                                            });
+                                            newConnectedEnvs = _.sortBy(newConnectedEnvs, (e) => e.name); // sort new connected envs
                                             this.setState({ connectedEnvs: newConnectedEnvs }); // update state
                                             this.handleEnvConnectionsChange({
                                                 current: currEnvConnections.current || currentEnv.name,

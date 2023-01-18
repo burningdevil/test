@@ -331,3 +331,8 @@ export const fetchAllFeatureFlags = () => {
 export const fetchAllWhiteListUrls = () => {
     return HttpProxy.get('/mstrServices/library/security', {});
 };
+
+export const fetchAllApplicationsForOtherEnv = async (envUrl: string) => {
+    const response = await HttpProxy.getForConnectedEnv(envUrl, CONFIG_ENDPOINTS);
+    return response;
+};

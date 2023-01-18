@@ -86,6 +86,25 @@ function requestToNative(path: string, body: any = null, headers: any = {}, meth
     .then((res: any) => parseResponse(res))
 }
 
+function requestToNativeForOtherConnectedEnv(url: string, path: string, body: any = null, headers: any = {}, method = 'GET', parseFunc = parseJsonFunc, signal?: AbortSignal) {
+  let options = { method, body, headers, signal }
+  if (body) {
+    options = {
+      ...options,
+      body: JSON.stringify(body)
+    }
+  }
+  if (headers) {
+    options = {
+      ...options,
+      headers: headers
+    }
+  }
+  return workstation.data.fetch(`${url}api${path}`, options)
+    .then(checkResponseStatus, checkResponseStatus)
+    .then((res: any) => parseResponse(res))
+}
+
 export default {
   post: (path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal) => {
     return requestToNative(path, body, headers, 'POST', parseFunc, signal)
@@ -118,5 +137,10 @@ export default {
       cancel: () => controller.abort(),
       isCancel: () => controller.signal.aborted
     }
+  },
+
+  // used to make a GET request to another connected environment
+  getForConnectedEnv: (url: string, path: string, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal) => {
+    return requestToNativeForOtherConnectedEnv(url, path, null, headers, 'GET', parseFunc, signal)
   }
 }

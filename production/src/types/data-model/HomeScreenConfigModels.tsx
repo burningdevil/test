@@ -83,7 +83,10 @@ export interface CustomEmailSettingType {
 
 export interface EnvironmentConnectionInterface {
     name: string,
-    url: string
+    url: string,
+    applicationList?: Array<Partial<HomeScreenConfigType>>,
+    isConfigured?: boolean,
+    isConnected?: boolean,
 }
 
 export interface EnvironmentConnectionSettingType {
