@@ -1,9 +1,7 @@
 import * as React from 'react';
 import classnames from 'classnames';
 import { Input } from '@mstr/rc';
-
 import { EditableLabelProps } from './interface';
-import './editable-label.scss';
 
 const ENUM_TRIGGER_TYPE = {
     'DOUBLECLICK': 'doubleClick',

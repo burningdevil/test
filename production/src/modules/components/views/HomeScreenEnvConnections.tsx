@@ -151,29 +151,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
         const currentEnvLabelText = '(Current)'; // TODO: i18n
         const connectedEnvsTableDataSource = this.getConnectedEnvsTableDataSource();
         let availableToConnectEnvs = this.getAvailableToConnectEnvs();
-        availableToConnectEnvs = _.sortBy(availableToConnectEnvs, (o) => o.name); // sort by name
-        // const availableToConnectEnvs : Array<EnvironmentConnectionInterface> = [
-        //     {
-        //         "name": "automation",
-        //         "url": "http://10.23.39.231:8080/m2021/"
-        //     },
-        //     {
-        //         "name": "latest",
-        //         "url": "https://env-299367.customer.cloud.microstrategy.com/MicroStrategyLibrary/"
-        //     },
-        //     {
-        //         "name": "aqueduct.microstrategy.com",
-        //         "url": "https://aqueduct.microstrategy.com/MicroStrategyLibrary/"
-        //     },
-        //     {
-        //         "name": "aqueduct-tech3.customer.cloud.microstrategy.com",
-        //         "url": "https://aqueduct-tech3.customer.cloud.microstrategy.com/MicroStrategyLibrary/"
-        //     }
-        // ]
-        console.log(currentEnv);
-        console.log(otherEnvs);
-        console.log(connectedEnvs);
-        console.log(currConfig);
+        availableToConnectEnvs = _.sortBy(availableToConnectEnvs, (e) => e.name); // sort by name
         return (
             <div className={screenClassNamePrefix}>
                 <div className={`${screenClassNamePrefix}-title`}>{localizedStrings.NAVBAR_ENVIRONMENT_CONNECTION_SETTINGS.toUpperCase()}</div>
