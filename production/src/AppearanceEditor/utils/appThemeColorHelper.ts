@@ -73,7 +73,7 @@ export const prefinedColorSets = {
         [EnumFormattingPropNames.sidebarActiveFill]: '#E14B59',
         [EnumFormattingPropNames.sidebarActiveColor]: '#FFFFFF',
 
-        [EnumFormattingPropNames.panelFill]: '#FAF7F7',
+        [EnumFormattingPropNames.panelFill]: '#FFFFFF',
         [EnumFormattingPropNames.panelColor]: '#3A2F2F',
 
         [EnumFormattingPropNames.canvasFill]: '#F3F1F1',
@@ -94,7 +94,7 @@ export const prefinedColorSets = {
         [EnumFormattingPropNames.sidebarActiveFill]: '#FFD646',
         [EnumFormattingPropNames.sidebarActiveColor]: '#2C2724',
 
-        [EnumFormattingPropNames.panelFill]: '#FAF9F7',
+        [EnumFormattingPropNames.panelFill]: '#FFFFFF',
         [EnumFormattingPropNames.panelColor]: '#4B3423',
 
         [EnumFormattingPropNames.canvasFill]: '#F4F4F3',
@@ -115,7 +115,7 @@ export const prefinedColorSets = {
         [EnumFormattingPropNames.sidebarActiveFill]: '#13875C',
         [EnumFormattingPropNames.sidebarActiveColor]: '#FFFFFF',
 
-        [EnumFormattingPropNames.panelFill]: '#EFF4F0',
+        [EnumFormattingPropNames.panelFill]: '#FFFFFF',
         [EnumFormattingPropNames.panelColor]: '#192627',
 
         [EnumFormattingPropNames.canvasFill]: '#F1F2F2',
@@ -136,7 +136,7 @@ export const prefinedColorSets = {
         [EnumFormattingPropNames.sidebarActiveFill]: '#307BEC',
         [EnumFormattingPropNames.sidebarActiveColor]: '#FFFFFF',
 
-        [EnumFormattingPropNames.panelFill]: '#ECEFF0',
+        [EnumFormattingPropNames.panelFill]: '#FFFFFF',
         [EnumFormattingPropNames.panelColor]: '#4E4545',
 
         [EnumFormattingPropNames.canvasFill]: '#F3F4F4',
@@ -157,7 +157,7 @@ export const prefinedColorSets = {
         [EnumFormattingPropNames.sidebarActiveFill]: '#C4D5F5',
         [EnumFormattingPropNames.sidebarActiveColor]: '#08122D',
 
-        [EnumFormattingPropNames.panelFill]: '#ECEFF0',
+        [EnumFormattingPropNames.panelFill]: '#FFFFFF',
         [EnumFormattingPropNames.panelColor]: '#0C1C35',
 
         [EnumFormattingPropNames.canvasFill]: '#F0F2F3',
