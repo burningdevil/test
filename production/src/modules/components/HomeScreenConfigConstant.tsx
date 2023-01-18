@@ -410,7 +410,12 @@ export const localizedStrings = {
     USE_SPECIFIC_AUTH: t('useSpecificAuth'),
     SET_AS_DEFAULT: t('setAsDefaultAuth'),
     DEFAULT_AUTH: t('defaultAuth'),
-    STANDARD: t('standard')
+    STANDARD: t('standard'),
+
+    //App theme
+    BACKGROUND: t('Background'),
+    ICON: t('Icon'),
+    TEXT: t('Text'),
 };
 
 export const sectionTitle = {

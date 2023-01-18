@@ -2,6 +2,8 @@
 
 $color-box-height-width: 18px;
 $ant-radio-inner-circle-color: #FFFFFF;
+$ant-radio-circle-border-color: #757575;
+$ant-radio-blue: #0E6FF9;
 
 .mstr-app-theme-colors {
   font-family: $font-family;
@@ -23,14 +25,20 @@ $ant-radio-inner-circle-color: #FFFFFF;
 
   .ant-radio-group {
     padding-top: 10px;
+
+    .ant-radio-inner {
+      border-color: $ant-radio-circle-border-color;
+    }
+    
     .ant-radio-checked {
       .ant-radio-inner {
-        border-color: $ant-radio-inner-circle-color;
-        background-color: #0E6FF9;
+        background-color: $ant-radio-blue;
 
         &:after {
-          border: 1px solid #0E6FF9;
+          border: 1px solid $ant-radio-blue;
           background-color: $ant-radio-inner-circle-color;
+          top: -1px;
+          left: -1px;
         }
       }
     }
@@ -89,22 +97,8 @@ $ant-radio-inner-circle-color: #FFFFFF;
           background: #088851;
         }
 
-        // TODO - Refactor this to show icon
         &.custom {
-          font-weight: 700;
-          background: #FFFFFF;
-          color: #979797;
-          border: 1px solid rgba(41, 49, 59, 0.4);
-          line-height: $color-box-height-width;
-          position: relative;
-
-          &:after {
-            content: '\003F';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-          }
+          background: conic-gradient(from 135deg at 50% 50%, #3500CB -50.63deg, #FA0000 33.75deg, #FFE600 131.25deg, #00C8F3 226.87deg, #3500CB 309.38deg, #FA0000 393.75deg);
         }
 
         border-radius: 4px;

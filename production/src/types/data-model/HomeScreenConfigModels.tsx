@@ -172,6 +172,8 @@ export interface ThemeColorFormats {
   panelFill: string,
   panelColor: string,
 
+  canvasFill: string,
+  
   accentFill: string,
 
   buttonColor: string,

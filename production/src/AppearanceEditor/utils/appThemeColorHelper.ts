@@ -1,4 +1,5 @@
 import { t } from '../../i18n/i18next';
+import { localizedStrings } from '../../modules/components/HomeScreenConfigConstant';
 
 // all the available Theme Color
 // useSystemSetting, light, dark, darkBlue, blue, red, green, yellow, custom
@@ -51,9 +52,11 @@ export const EnumFormattingPropNames = {
     panelFill: 'panelFill',
     panelColor: 'panelColor',
 
+    canvasFill: 'canvasFill',
+
     accentFill: 'accentFill',
 
-    // buttonColor: 'buttonColor',
+    buttonColor: 'buttonColor',
 
     notificationBadgeFill: 'notificationBadgeFill',
 };
@@ -73,9 +76,11 @@ export const prefinedColorSets = {
         [EnumFormattingPropNames.panelFill]: '#FAF7F7',
         [EnumFormattingPropNames.panelColor]: '#3A2F2F',
 
+        [EnumFormattingPropNames.canvasFill]: '#F3F1F1',
+
         [EnumFormattingPropNames.accentFill]: '#D0192B',
 
-        // [EnumFormattingPropNames.buttonColor]: '#FFFFFF',
+        [EnumFormattingPropNames.buttonColor]: '#FFFFFF',
 
         [EnumFormattingPropNames.notificationBadgeFill]: '#FFDA18',
     },
@@ -92,9 +97,11 @@ export const prefinedColorSets = {
         [EnumFormattingPropNames.panelFill]: '#FAF9F7',
         [EnumFormattingPropNames.panelColor]: '#4B3423',
 
+        [EnumFormattingPropNames.canvasFill]: '#F4F4F3',
+
         [EnumFormattingPropNames.accentFill]: '#F7AE13',
 
-        // [EnumFormattingPropNames.buttonColor]: '#1E1A16',
+        [EnumFormattingPropNames.buttonColor]: '#1E1A16',
 
         [EnumFormattingPropNames.notificationBadgeFill]: '#EB4858',
     },
@@ -111,9 +118,11 @@ export const prefinedColorSets = {
         [EnumFormattingPropNames.panelFill]: '#EFF4F0',
         [EnumFormattingPropNames.panelColor]: '#192627',
 
+        [EnumFormattingPropNames.canvasFill]: '#F1F2F2',
+
         [EnumFormattingPropNames.accentFill]: '#00875F',
 
-        // [EnumFormattingPropNames.buttonColor]: '#FFFFFF',
+        [EnumFormattingPropNames.buttonColor]: '#FFFFFF',
 
         [EnumFormattingPropNames.notificationBadgeFill]: '#FFE03D',
     },
@@ -130,9 +139,11 @@ export const prefinedColorSets = {
         [EnumFormattingPropNames.panelFill]: '#ECEFF0',
         [EnumFormattingPropNames.panelColor]: '#4E4545',
 
+        [EnumFormattingPropNames.canvasFill]: '#F3F4F4',
+
         [EnumFormattingPropNames.accentFill]: '#0077D7',
 
-        // [EnumFormattingPropNames.buttonColor]: '#FFFFFF',
+        [EnumFormattingPropNames.buttonColor]: '#FFFFFF',
 
         [EnumFormattingPropNames.notificationBadgeFill]: '#FF0000',
     },
@@ -149,9 +160,11 @@ export const prefinedColorSets = {
         [EnumFormattingPropNames.panelFill]: '#ECEFF0',
         [EnumFormattingPropNames.panelColor]: '#0C1C35',
 
+        [EnumFormattingPropNames.canvasFill]: '#F0F2F3',
+
         [EnumFormattingPropNames.accentFill]: '#3067BB',
 
-        // [EnumFormattingPropNames.buttonColor]: '#FFFFFF',
+        [EnumFormattingPropNames.buttonColor]: '#FFFFFF',
 
         [EnumFormattingPropNames.notificationBadgeFill]: '#FFA800',
     },
@@ -168,9 +181,11 @@ export const prefinedColorSets = {
         [EnumFormattingPropNames.panelFill]: '#23262A',
         [EnumFormattingPropNames.panelColor]: '#FFFFFF',
 
+        [EnumFormattingPropNames.canvasFill]: '#000000',
+
         [EnumFormattingPropNames.accentFill]: '#529AFE',
 
-        // [EnumFormattingPropNames.buttonColor]: '#29313B',
+        [EnumFormattingPropNames.buttonColor]: '#29313B',
 
         [EnumFormattingPropNames.notificationBadgeFill]: '#F56B6B',
     },
@@ -187,30 +202,45 @@ export const prefinedColorSets = {
         [EnumFormattingPropNames.panelFill]: '#23262A',
         [EnumFormattingPropNames.panelColor]: '#FFFFFF',
 
+        [EnumFormattingPropNames.canvasFill]: '#F7F8FA', 
+
         [EnumFormattingPropNames.accentFill]: '#529AFE',
 
-        // [EnumFormattingPropNames.buttonColor]: '#29313B',
+        [EnumFormattingPropNames.buttonColor]: '#29313B',
 
         [EnumFormattingPropNames.notificationBadgeFill]: '#F56B6B',
     }
 };
 
+const EnumColorPropTitleCategoryLabel = {
+      toolbar: t('Toolbar'),
+      sidebar: t('Sidebar'),
+      panel: t('Panel'),
+      misc: t('Misc'),
+}
+
 export const colorPropTitles = [
-    [EnumFormattingPropNames.toolbarFill, t('Toolbar BG')],
-    [EnumFormattingPropNames.toolbarColor, t('Toolbar Icon')],
+    [EnumColorPropTitleCategoryLabel.toolbar],
+    [EnumFormattingPropNames.toolbarFill, localizedStrings.BACKGROUND],
+    [EnumFormattingPropNames.toolbarColor, localizedStrings.ICON],
 
-    [EnumFormattingPropNames.sidebarFill, t('Sidebar BG')],
-    [EnumFormattingPropNames.sidebarColor, t('Sidebar Text')],
+    [EnumColorPropTitleCategoryLabel.sidebar],
+    [EnumFormattingPropNames.sidebarFill, localizedStrings.BACKGROUND],
+    [EnumFormattingPropNames.sidebarColor, localizedStrings.TEXT],
 
-    [EnumFormattingPropNames.sidebarActiveFill, t('Sidebar Active')],
-    [EnumFormattingPropNames.sidebarActiveColor, t('Sidebar Active Text')],
+    [EnumFormattingPropNames.sidebarActiveFill, t('Active')],
+    [EnumFormattingPropNames.sidebarActiveColor, t('Active Text')],
 
-    [EnumFormattingPropNames.panelFill, t('Panel BG')],
-    [EnumFormattingPropNames.panelColor, t('Panel Text')],
+    [EnumColorPropTitleCategoryLabel.panel],
+    [EnumFormattingPropNames.panelFill, localizedStrings.BACKGROUND],
+    [EnumFormattingPropNames.panelColor, localizedStrings.TEXT],
+
+    [EnumColorPropTitleCategoryLabel.misc],
+    [EnumFormattingPropNames.accentFill, t('Canvas Background')],
 
     [EnumFormattingPropNames.accentFill, t('Accent Color')],
 
-    // [EnumFormattingPropNames.buttonColor, t('Button Text')],
+    [EnumFormattingPropNames.buttonColor, t('Button Text')],
 
     [EnumFormattingPropNames.notificationBadgeFill, t('Notification Badge')],
 ];
