@@ -67,12 +67,13 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
             .filter(env => (env.name !== workstationCurrentEnv.name) && (env.status === EnvironmentStatus.Connected))
             .map(env => ({ name: env.name, url: env.url }));
         const connectedEnvs = await Promise.all(currEnvConnections.other?.map(async (env) => {
-            const availableEnvObj = workstationAvailableEnvs.find(availableEnv => availableEnv.url === this.getBaseUrl(env.url));
+            const envBaseUrl = this.getBaseUrl(env.url);
+            const availableEnvObj = workstationAvailableEnvs.find(availableEnv => availableEnv.url === envBaseUrl);
             const isEnvConnected = availableEnvObj && (availableEnvObj.status === EnvironmentStatus.Connected);
             let envApplicationList: Array<Partial<HomeScreenConfigType>> = [];
             if (isEnvConnected) {
                 try {
-                    const response = await api.fetchAllApplicationsForOtherEnv(this.getBaseUrl(env.url));
+                    const response = await api.fetchAllApplicationsForOtherEnv(envBaseUrl);
                     const { applications: fetchedEnvApplicationList } = response;
                     envApplicationList = fetchedEnvApplicationList.map((app: Partial<HomeScreenConfigType>) => ({ name: app.name, id: app.id, isDefault: app.isDefault }));
                 } catch (e) {
