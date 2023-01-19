@@ -57,8 +57,6 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
         }
     }
 
-    componentDidUpdate() { }
-
     async componentDidMount() {
         const { currEnvConnections } = this.props;
         const workstationCurrentEnv = await workstation.environments.getCurrentEnvironment();
@@ -178,7 +176,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
  
     render() {
         const { currEnvConnections } = this.props;
-        const { currentEnv, otherEnvs, connectedEnvs } = this.state;
+        const { currentEnv, connectedEnvs } = this.state;
         const currentEnvLabelText = '(Current)'; // TODO: i18n
         const connectedEnvsTableDataSource = this.getConnectedEnvsTableDataSource();
         let availableToConnectEnvs = this.getAvailableToConnectEnvs();
