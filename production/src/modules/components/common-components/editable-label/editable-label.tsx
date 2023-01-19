@@ -8,7 +8,7 @@ const ENUM_TRIGGER_TYPE = {
     'CLICK': 'click'
 };
 
-const EditableLabel = ({ className = '', value = '', onValueChange = () => {}, placeholder = '', allowEmptySave = false, trigger = ENUM_TRIGGER_TYPE.DOUBLECLICK }: EditableLabelProps) => {
+const EditableLabel = ({ className = '', value = '', onValueChange = () => { /* empty fn */ }, placeholder = '', allowEmptySave = false, trigger = ENUM_TRIGGER_TYPE.DOUBLECLICK }: EditableLabelProps) => {
     let [editing, setEditing] = React.useState(false);
     let editingDiv = React.useRef(null);
     const displayedValue = value || placeholder;
