@@ -95,7 +95,8 @@ const ColorPickerComponent: React.FC<ColorPickerType> = ({
             getPopupContainer={popupContainer}
             arrowPointAtCenter={true}
             placement="bottomLeft"
-            zIndex={open ? 99999 : 1}
+            zIndex={open ? 3 : 1}
+            destroyTooltipOnHide={true}
         >
             {children}
         </Popover>

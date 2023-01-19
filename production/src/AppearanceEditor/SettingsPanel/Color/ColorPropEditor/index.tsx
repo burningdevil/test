@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
-import { Form, Row, Col, Input } from 'antd';
+import { Row, Col, Input } from 'antd';
+import { Tooltip } from '@mstr/rc';
 import {
     ApplicationColor,
     ThemeColorFormats,
@@ -26,7 +27,6 @@ type ColorPropEditorProps = {
 const gutterHorizontal = 0;
 const gutterVertical = 6;
 const hexStrLengthWithHash = 7;
-const PROPLIST_ROW_LENGTH = 3;
 
 const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
     color,
@@ -53,54 +53,58 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
     const [colorPropInFocus, setColorPropInFocus] = React.useState('');
 
     const onColorChange = (e: { target: { value: any } }, title: string) => {
-        setFormats({
+        const updatedFormatsFromUserInput = {
             ...formats,
             [title]: e.target.value,
-        });
+        };
+
+        setFormats(updatedFormatsFromUserInput);
+
         setIsColorCodeListValid({
             ...isColorCodeListValid,
             [title]: isColorCodeValid(e.target.value),
         });
+
+        if (isColorCodeValid(e.target.value)) {
+            updateTheme({ color: { selectedTheme, formatting: updatedFormatsFromUserInput} });
+        }
     };
 
-    const onBlur = (e: any, title: string) => {
-        if (
-            Object.values(isColorCodeListValid).every(
-                (colorCodeValid) => colorCodeValid
-            )
-        ) {
-            updateTheme({ color: { selectedTheme, formatting: formats } });
-        } else {
+    const onBlur = (title: string) => {
+        if (Object.values(isColorCodeListValid).includes(false)) {
             // revert to previous value if any color code is invalid
             setFormats(formatting);
-        }
+            setIsColorCodeListValid({
+                ...isColorCodeListValid,
+                [title]: true,
+            });
+        }   
     };
 
-    /**
-     * Returns a grid row with 3 color format properties. For ex:
+     /**
+     * Returns a grid row with either a color category or a format property. For ex:
+     *  Toolbar 
+     *    or 
+     *  Background    [ ] #F24AC1  
      *
-     *  Toolbar BG    Toolbar Icon    Sidebar BG
-     *  [ ] #F24AC1   [ ] #FFEAEA     [ ] #FFF0F0
-     *
-     * @param start
-     * @param end
+     * @param row
      * @returns
      */
-    const getColorPropRow = (start: number, end: number) => {
+    const getColorPropRow = (row: number) => {
         const cols = [];
-        for (let i = start; i < end; i++) {
-            const propName = colorPropTitles[i][0];
-            const title = colorPropTitles[i][1];
+
+        const propName = colorPropTitles[row][0];
+        if (colorPropTitles[row].length === 1) {
+            cols.push(getCategoryLableCols(propName));
+        } else {
+            const title = colorPropTitles[row][1];
             cols.push(getColorPropCols(propName, title, formats[propName]));
         }
-        return <Row gutter={[gutterHorizontal, gutterVertical]}>{cols}</Row>;
+          
+        return <Row gutter={[gutterHorizontal, gutterVertical]}>{cols}</Row>; 
     };
 
     /**
-     * Returns a grid coloumn with one color format property. For ex:
-     *
-     *  Toolbar BG
-     *  [ ] #F24AC1
      *
      * @param propName - Display name of format property
      * @param title - format property name
@@ -121,9 +125,15 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
             <div
                 className="color-prop-item"
                 onClick={() => setColorPropInFocus(propName)}
-                onBlur={(e: any) => onBlur(e, propName)}
+                onBlur={() => onBlur(propName)}
             >
-                <div className="color-prop-item-title">{title}</div>
+                <Tooltip
+                    title={title}
+                    placement='bottomLeft'
+                    mouseLeaveDelay={0}
+                >
+                       <div className="color-prop-item-title">{title}</div>
+                </Tooltip>
                 <div
                     id={`mstr-color-prop-${propName}`}
                     className="color-prop-item-content"
@@ -155,17 +165,20 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
         </Col>
     );
 
-    let startIndex = 0;
-    let noOfRows = Math.ceil(colorPropTitles.length / PROPLIST_ROW_LENGTH);
-    const rows = [];
+    const getCategoryLableCols = (propName: string) => (
+        <Tooltip
+            title={propName}
+            placement='bottomLeft'
+            mouseLeaveDelay={0}
+        >
+               <div className="color-prop-category-title">{propName}</div>
+        </Tooltip>
+    );
 
-    for (let i = 0; i < noOfRows; i++) {
-        let endIndex =
-            startIndex + PROPLIST_ROW_LENGTH > colorPropTitles.length
-                ? colorPropTitles.length
-                : startIndex + PROPLIST_ROW_LENGTH;
-        rows.push(getColorPropRow(startIndex, endIndex));
-        startIndex = endIndex;
+    const rows = [];
+    
+    for (let i = 0; i < colorPropTitles.length; i++) {
+        rows.push(getColorPropRow(i));
     }
 
     return (
