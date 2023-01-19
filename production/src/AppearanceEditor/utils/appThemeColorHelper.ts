@@ -1,5 +1,4 @@
 import { t } from '../../i18n/i18next';
-import { localizedStrings } from '../../modules/components/HomeScreenConfigConstant';
 
 // all the available Theme Color
 // useSystemSetting, light, dark, darkBlue, blue, red, green, yellow, custom
@@ -213,36 +212,36 @@ export const prefinedColorSets = {
 };
 
 const EnumColorPropTitleCategoryLabel = {
-      toolbar: t('Toolbar'),
-      sidebar: t('Sidebar'),
-      panel: t('Panel'),
-      misc: t('Misc'),
+      toolbar: t('toolbar'),
+      sidebar: t('sidebar'),
+      panel: t('panel'),
+      misc: t('misc'),
 }
 
 export const colorPropTitles = [
     [EnumColorPropTitleCategoryLabel.toolbar],
-    [EnumFormattingPropNames.toolbarFill, localizedStrings.BACKGROUND],
-    [EnumFormattingPropNames.toolbarColor, localizedStrings.ICON],
+    [EnumFormattingPropNames.toolbarFill, t('background')],
+    [EnumFormattingPropNames.toolbarColor, t('icon')],
 
     [EnumColorPropTitleCategoryLabel.sidebar],
-    [EnumFormattingPropNames.sidebarFill, localizedStrings.BACKGROUND],
-    [EnumFormattingPropNames.sidebarColor, localizedStrings.TEXT],
+    [EnumFormattingPropNames.sidebarFill, t('background')],
+    [EnumFormattingPropNames.sidebarColor, t('text')],
 
-    [EnumFormattingPropNames.sidebarActiveFill, t('Active')],
-    [EnumFormattingPropNames.sidebarActiveColor, t('Active Text')],
+    [EnumFormattingPropNames.sidebarActiveFill, t('active')],
+    [EnumFormattingPropNames.sidebarActiveColor, t('activeText')],
 
     [EnumColorPropTitleCategoryLabel.panel],
-    [EnumFormattingPropNames.panelFill, localizedStrings.BACKGROUND],
-    [EnumFormattingPropNames.panelColor, localizedStrings.TEXT],
+    [EnumFormattingPropNames.panelFill, t('background')],
+    [EnumFormattingPropNames.panelColor, t('text')],
 
     [EnumColorPropTitleCategoryLabel.misc],
-    [EnumFormattingPropNames.accentFill, t('Canvas Background')],
+    [EnumFormattingPropNames.accentFill, t('canvasBackground')],
 
-    [EnumFormattingPropNames.accentFill, t('Accent Color')],
+    [EnumFormattingPropNames.accentFill, t('accentColor')],
 
-    [EnumFormattingPropNames.buttonColor, t('Button Text')],
+    [EnumFormattingPropNames.buttonColor, t('buttonText')],
 
-    [EnumFormattingPropNames.notificationBadgeFill, t('Notification Badge')],
+    [EnumFormattingPropNames.notificationBadgeFill, t('notificationBadge')],
 ];
 
 export const isCustomColorTheme = (theme: string) => theme === EnumSelectedThemes.CUSTOM;
