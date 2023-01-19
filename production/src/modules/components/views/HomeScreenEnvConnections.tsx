@@ -12,7 +12,6 @@ import * as Actions from '../../../store/actions/ActionsCreator'
 import { default as VC, localizedStrings } from '../HomeScreenConfigConstant'
 import EditableLabel from '../common-components/editable-label/editable-label'
 import { EnvironmentConnectionSettingType, EnvironmentConnectionInterface, HomeScreenConfigType } from '../../../types/data-model/HomeScreenConfigModels'
-import { t } from '../../../i18n/i18next';
 import '../scss/HomeScreenEnvConnections.scss'
 
 declare var workstation: WorkstationModule;
@@ -140,7 +139,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
         const { otherEnvs, connectedEnvs } = this.state;
         let availableToConnectEnvs = [...otherEnvs];
         // remove any available envs that the user has already opted to connect to
-        availableToConnectEnvs = availableToConnectEnvs.filter(currEnv => !connectedEnvs.find(connectedEnv => (currEnv.url === this.getBaseUrl(connectedEnv.url)))) // TODO: need to check url, specifically base url of connectedEnv (since we store application)
+        availableToConnectEnvs = availableToConnectEnvs.filter(currEnv => !connectedEnvs.find(connectedEnv => (currEnv.url === this.getBaseUrl(connectedEnv.url))))
 
         return availableToConnectEnvs;
     }
