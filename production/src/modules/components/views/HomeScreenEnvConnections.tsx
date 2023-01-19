@@ -143,9 +143,39 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
 
         return availableToConnectEnvs;
     }
+
+    // Used to add an available environment to the connectedEnvs list. As part of this process, we will fetch the environment's
+    // application list to make available to the user for selection. 
+    addEnvironmentToConnectedEnvs = async (env: EnvironmentConnectionInterface) => {
+        const { currEnvConnections } = this.props;
+        const { currentEnv, connectedEnvs } = this.state;
+        // TODO: should we re-check workstation available envs to ensure the env is still configured/connected?
+        // or should we force trigger the refresh workflow instead? TBA!
+        let newConnectedEnvs = [...connectedEnvs];
+        let envApplicationList: Array<Partial<HomeScreenConfigType>> = [];
+        try {
+            const response = await api.fetchAllApplicationsForOtherEnv(this.getBaseUrl(env.url));
+            const { applications: fetchedEnvApplicationList } = response;
+            envApplicationList = fetchedEnvApplicationList.map((app: Partial<HomeScreenConfigType>) => ({ name: app.name, id: app.id, isDefault: app.isDefault }));
+        } catch (e) {
+            // TODO: err handling
+        }
+        newConnectedEnvs.push({
+            ...env,
+            applicationList: envApplicationList,
+            isConfigured: true,
+            isConnected: true
+        });
+        newConnectedEnvs = _.sortBy(newConnectedEnvs, (e) => e.name); // sort new connected envs
+        this.setState({ connectedEnvs: newConnectedEnvs }); // update state
+        this.handleEnvConnectionsChange({
+            current: currEnvConnections.current || currentEnv.name,
+            other: newConnectedEnvs
+        }); 
+    }
  
     render() {
-        const { currConfig, currEnvConnections } = this.props;
+        const { currEnvConnections } = this.props;
         const { currentEnv, otherEnvs, connectedEnvs } = this.state;
         const currentEnvLabelText = '(Current)'; // TODO: i18n
         const connectedEnvsTableDataSource = this.getConnectedEnvsTableDataSource();
@@ -273,31 +303,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                                     <div className='available-env-url' title={env.url}>{env.url}</div>
                                     <div
                                         className='add-available-env-icn'
-                                        onClick={async () => {
-                                            // TODO: should we re-check workstation available envs to ensure the env is still configured/connected?
-                                            // or should we force trigger the refresh workflow instead? TBA!
-                                            let newConnectedEnvs = [...connectedEnvs];
-                                            let envApplicationList: Array<Partial<HomeScreenConfigType>> = [];
-                                            try {
-                                                const response = await api.fetchAllApplicationsForOtherEnv(this.getBaseUrl(env.url));
-                                                const { applications: fetchedEnvApplicationList } = response;
-                                                envApplicationList = fetchedEnvApplicationList.map((app: Partial<HomeScreenConfigType>) => ({ name: app.name, id: app.id, isDefault: app.isDefault }));
-                                            } catch (e) {
-                                                // TODO: err handling
-                                            }
-                                            newConnectedEnvs.push({
-                                                ...env,
-                                                applicationList: envApplicationList,
-                                                isConfigured: true,
-                                                isConnected: true
-                                            });
-                                            newConnectedEnvs = _.sortBy(newConnectedEnvs, (e) => e.name); // sort new connected envs
-                                            this.setState({ connectedEnvs: newConnectedEnvs }); // update state
-                                            this.handleEnvConnectionsChange({
-                                                current: currEnvConnections.current || currentEnv.name,
-                                                other: newConnectedEnvs
-                                            });
-                                        }}
+                                        onClick={() => this.addEnvironmentToConnectedEnvs(env)}
                                     />
                                 </div>
                             ))
