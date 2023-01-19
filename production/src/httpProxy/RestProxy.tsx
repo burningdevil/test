@@ -160,11 +160,5 @@ export default {
   getCancelController: function () {
     const { token: signal, cancel } = axiosStatic.CancelToken.source()
     return { signal, cancel, isCancel: axiosStatic.isCancel }
-  },
-
-  // used to make a GET request to another connected environment
-  getForConnectedEnv: (url: string, path: string, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal) => {
-    // TODO: properly implement to login to other env + rest of logic
-    return {}
   }
 }
