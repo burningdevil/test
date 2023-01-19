@@ -17,7 +17,7 @@ import '../scss/HomeScreenEnvConnections.scss'
 declare var workstation: WorkstationModule;
 const classNamePrefix = 'mstr-env-connection';
 const screenClassNamePrefix = `${classNamePrefix}-screen`;
-const customAppPath = 'CustomApp?id=';
+const customAppPath = 'app/config/';
 interface EnvConnectionTableDataType {
     key: string,
     name: string,
