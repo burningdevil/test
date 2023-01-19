@@ -333,6 +333,7 @@ export const fetchAllWhiteListUrls = () => {
 };
 
 export const fetchAllApplicationsForOtherEnv = async (envUrl: string) => {
-    const response = await HttpProxy.getForConnectedEnv(envUrl, CONFIG_ENDPOINTS);
+    // call get function isAbsoluteUrl = true, then include env url we want to fetch applications for
+    const response = await HttpProxy.get(CONFIG_ENDPOINTS, {}, undefined, undefined, true, envUrl);
     return response;
 };
