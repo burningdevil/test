@@ -66,11 +66,19 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
         const otherEnvs = workstationAvailableEnvs
             .filter(env => (env.name !== workstationCurrentEnv.name) && (env.status === EnvironmentStatus.Connected))
             .map(env => ({ name: env.name, url: env.url }));
-        const connectedEnvs = await Promise.all(currEnvConnections.other?.map(async (env) => {
+        // initialize state
+        this.setState({
+            currentEnv: { name: currEnvConnections.current || workstationCurrentEnv.name, url: workstationCurrentEnv.url },
+            otherEnvs,
+            connectedEnvs: currEnvConnections.other
+        });
+        const connectedEnvs = [...currEnvConnections.other];
+        connectedEnvs.forEach(async (env, idx) => {
             const envBaseUrl = this.getBaseUrl(env.url);
             const availableEnvObj = workstationAvailableEnvs.find(availableEnv => availableEnv.url === envBaseUrl);
             const isEnvConnected = availableEnvObj && (availableEnvObj.status === EnvironmentStatus.Connected);
             let envApplicationList: Array<Partial<HomeScreenConfigType>> = [];
+
             if (isEnvConnected) {
                 try {
                     const response = await api.fetchAllApplicationsForOtherEnv(envBaseUrl);
@@ -81,18 +89,11 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                 }
             }
             
-            return {
-                name: env.name,
-                url: env.url,
-                applicationList: envApplicationList,
-                isConfigured: !!availableEnvObj,
-                isConnected: isEnvConnected
-            }
-        }));
-        this.setState({
-            currentEnv: { name: currEnvConnections.current || workstationCurrentEnv.name, url: workstationCurrentEnv.url },
-            otherEnvs,
-            connectedEnvs
+            connectedEnvs[idx].applicationList = envApplicationList;
+            connectedEnvs[idx].isConfigured = !!availableEnvObj;
+            connectedEnvs[idx].isConnected = isEnvConnected;
+            // update state with application lists for each connected environment
+            this.setState({ connectedEnvs });
         });
     }
 
@@ -121,13 +122,13 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
         connectedEnvs.forEach((env, idx) => {
             const baseUrl = this.getBaseUrl(env.url);
             const selectedApplicationId = this.getApplicationIdFromUrl(env.url);
-            const selectedApplication = env.applicationList.find(a => a.id === selectedApplicationId);
+            const selectedApplication = env.applicationList?.find(a => a.id === selectedApplicationId);
             dataSource.push({
                 key: `${idx + 1}`, // +1 to prevent starting from 0, since current env entry already has key of '0'
                 name: env.name,
                 baseUrl,
                 selectedApplication,
-                applicationList: env.applicationList,
+                applicationList: env.applicationList || [],
                 isConfigured: env.isConfigured,
                 isConnected: env.isConnected 
             })
