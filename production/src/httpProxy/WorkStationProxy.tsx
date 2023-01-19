@@ -67,8 +67,9 @@ function checkResponseStatus(response: any) {
   }
 }
 
-function requestToNative(path: string, body: any = null, headers: any = {}, method = 'GET', parseFunc = parseJsonFunc, signal?: AbortSignal) {
+function requestToNative(path: string, body: any = null, headers: any = {}, method = 'GET', parseFunc = parseJsonFunc, signal?: AbortSignal, isAbsoluteUrl = false, url = '') {
   let options = { method, body, headers, signal }
+  const requestPath = isAbsoluteUrl ? `${url}api${path}` : `api${path}`
   if (body) {
     options = {
       ...options,
@@ -81,53 +82,34 @@ function requestToNative(path: string, body: any = null, headers: any = {}, meth
       headers: headers
     }
   }
-  return workstation.data.fetch(`api${path}`, options)
-    .then(checkResponseStatus, checkResponseStatus)
-    .then((res: any) => parseResponse(res))
-}
-
-function requestToNativeForOtherConnectedEnv(url: string, path: string, body: any = null, headers: any = {}, method = 'GET', parseFunc = parseJsonFunc, signal?: AbortSignal) {
-  let options = { method, body, headers, signal }
-  if (body) {
-    options = {
-      ...options,
-      body: JSON.stringify(body)
-    }
-  }
-  if (headers) {
-    options = {
-      ...options,
-      headers: headers
-    }
-  }
-  return workstation.data.fetch(`${url}api${path}`, options)
+  return workstation.data.fetch(requestPath, options)
     .then(checkResponseStatus, checkResponseStatus)
     .then((res: any) => parseResponse(res))
 }
 
 export default {
-  post: (path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal) => {
-    return requestToNative(path, body, headers, 'POST', parseFunc, signal)
+  post: (path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal, isAbsoluteUrl = false, url = '') => {
+    return requestToNative(path, body, headers, 'POST', parseFunc, signal, isAbsoluteUrl, url)
   },
 
-  get: (path: string, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal) => {
-    return requestToNative(path, null, headers, 'GET', parseFunc, signal)
+  get: (path: string, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal, isAbsoluteUrl = false, url = '') => {
+    return requestToNative(path, null, headers, 'GET', parseFunc, signal, isAbsoluteUrl, url)
   },
 
-  delete: (path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal) => {
-    return requestToNative(path, body, headers, 'DELETE', parseFunc, signal)
+  delete: (path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal, isAbsoluteUrl = false, url = '') => {
+    return requestToNative(path, body, headers, 'DELETE', parseFunc, signal, isAbsoluteUrl, url)
   },
 
-  put: (path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal) => {
-    return requestToNative(path, body, headers, 'PUT', parseFunc, signal)
+  put: (path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal, isAbsoluteUrl = false, url = '') => {
+    return requestToNative(path, body, headers, 'PUT', parseFunc, signal, isAbsoluteUrl, url)
   },
 
-  patch: (path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal) => {
-    return requestToNative(path, body, headers, 'PATCH', parseFunc, signal)
+  patch: (path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal, isAbsoluteUrl = false, url = '') => {
+    return requestToNative(path, body, headers, 'PATCH', parseFunc, signal, isAbsoluteUrl, url)
   },
 
-  project: (method: string, path: string, body: any, headers: any, parseFunc = parseJsonFunc, signal?: AbortSignal) => {
-    return requestToNative.call(this, { path, body, method, headers, parseFunc, signal })
+  project: (method: string, path: string, body: any, headers: any, parseFunc = parseJsonFunc, signal?: AbortSignal, isAbsoluteUrl = false, url = '') => {
+    return requestToNative.call(this, { path, body, method, headers, parseFunc, signal, isAbsoluteUrl, url })
   },
 
   getCancelController: function () {
@@ -137,10 +119,5 @@ export default {
       cancel: () => controller.abort(),
       isCancel: () => controller.signal.aborted
     }
-  },
-
-  // used to make a GET request to another connected environment
-  getForConnectedEnv: (url: string, path: string, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal) => {
-    return requestToNativeForOtherConnectedEnv(url, path, null, headers, 'GET', parseFunc, signal)
   }
 }
