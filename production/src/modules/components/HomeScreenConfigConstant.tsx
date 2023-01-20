@@ -174,6 +174,7 @@ export const CONSTANTS = {
     CONFIG_EDITOR_OBJTYPE: "HomeScreenConfig",
     APPEARANCE_OBJ_TYPE: 'Appearance',
 
+    BASE_URL: 'baseUrl',
     APPLICATION: 'application'
 };
 
@@ -419,7 +420,11 @@ export const localizedStrings = {
 
     // Environment Connection strings
     ENVIRONMENT_CONNECTION_SETTINGS_DESC: t('environmentConnectionSettingsDesc'),
-    ENVIRONMENT_CONNECTION_AVAILABLE_ENVS_DESC: t('environmentConnectionAvailableEnvsDesc')
+    ENVIRONMENT_CONNECTION_AVAILABLE_ENVS_DESC: t('environmentConnectionAvailableEnvsDesc'),
+    CURRENT_ENV_LABEL: t('currentEnvLabel'),
+    URL: t('url'),
+    APPLICATION: t('application'),
+    SELECT_APPLICATION: t('selectApplication')
 };
 
 export const sectionTitle = {

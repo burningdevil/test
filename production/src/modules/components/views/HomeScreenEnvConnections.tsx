@@ -177,7 +177,6 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
     render() {
         const { currEnvConnections } = this.props;
         const { currentEnv, connectedEnvs } = this.state;
-        const currentEnvLabelText = '(Current)'; // TODO: i18n
         const connectedEnvsTableDataSource = this.getConnectedEnvsTableDataSource();
         let availableToConnectEnvs = this.getAvailableToConnectEnvs();
         availableToConnectEnvs = _.sortBy(availableToConnectEnvs, (e) => e.name); // sort by name
@@ -202,7 +201,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                                                     isFirstRow
                                                         ? <React.Fragment>
                                                                 <div className='current-env-name' title={name}>{name}</div>
-                                                                <div className='current-env-suffix'>{currentEnvLabelText}</div>
+                                                                <div className='current-env-suffix'>{localizedStrings.CURRENT_ENV_LABEL}</div>
                                                         </React.Fragment>
                                                         : <EditableLabel
                                                             className={'connected-env-name'}
@@ -226,9 +225,9 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                             }}
                         />
                         <Table.Column
-                            title='URL' /* TODO: add localized string for 'URL' */
-                            dataIndex={'baseUrl'}
-                            key={'baseUrl'}
+                            title={localizedStrings.URL}
+                            dataIndex={VC.BASE_URL}
+                            key={VC.BASE_URL}
                             width={160}
                             render={(baseUrl: string, record: EnvConnectionTableDataType, idx) => {
                                 const isFirstRow = idx === 0;
@@ -239,7 +238,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                             }}
                         />
                         <Table.Column
-                            title='Application' /* TODO: add localized string for 'Application' */
+                            title={localizedStrings.APPLICATION}
                             dataIndex={VC.APPLICATION}
                             key={VC.APPLICATION}
                             width={284}
@@ -253,7 +252,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                                             <Select
                                                 className='connected-env-application-select'
                                                 value={application}
-                                                defaultValue='Select an application' // TODO: i18n
+                                                defaultValue={localizedStrings.SELECT_APPLICATION}
                                                 options={applicationSelectOptionsList}
                                                 onChange={(newApplicationId, newApplicationObj : { label: string, value: string, isDefault: boolean}) => {
                                                     // update url based on application selection
