@@ -4,7 +4,6 @@ import {
     localizedStrings,
     iconDetail,
     iconTypes,
-    platformType,
     reviewType,
     dossierIcons,
     dossierIconsDossierHome,
@@ -14,13 +13,11 @@ import {
     iconValidKey,
     extraDesktopIcons,
     extraMobileIcons,
-    platformSpecificIconKeys,
     libraryCustomizedIconDefaultValues,
-    CONTENT_BUNDLE_DEFAULT_GROUP_NAME,
     CONSTANTS,
 } from '../../../modules/components/HomeScreenConfigConstant';
 import { Layout, Radio } from 'antd';
-import { PlusCircleOutlined, DownOutlined } from '@ant-design/icons';
+import { DownOutlined } from '@ant-design/icons';
 import './styles.scss';
 import * as _ from 'lodash';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
@@ -246,8 +243,7 @@ class Previewer extends React.Component<any, any> {
                                     key={index}
                                     ref={iconRef}
                                 >
-                                    {' '}
-                                    Search
+                                    {localizedStrings.SEARCH}
                                 </span>
                             </div>
                         </div>
