@@ -2,7 +2,6 @@ import * as React from 'react';
 import {
     default as VC,
     localizedStrings,
-    childrenIcons,
     iconDetail,
     iconTypes,
     platformType,
@@ -18,6 +17,7 @@ import {
     platformSpecificIconKeys,
     libraryCustomizedIconDefaultValues,
     CONTENT_BUNDLE_DEFAULT_GROUP_NAME,
+    CONSTANTS,
 } from '../../../modules/components/HomeScreenConfigConstant';
 import { Layout, Radio } from 'antd';
 import { PlusCircleOutlined, DownOutlined } from '@ant-design/icons';
@@ -39,8 +39,14 @@ import {
 import * as Actions from '../../../store/actions/ActionsCreator';
 import { Tooltip } from '@mstr/rc';
 import classnames from 'classnames';
+import {
+    isCustomColorTheme,
+    prefinedColorSets,
+} from '../../utils/appThemeColorHelper';
 
 const classNamePrefix = 'Previewer';
+const COLOR = 'color';
+const BACKGROUND_COLOR = 'background-color';
 
 class Previewer extends React.Component<any, any> {
     contentBundleEnable = false;
@@ -181,33 +187,98 @@ class Previewer extends React.Component<any, any> {
     };
 
     // render array of icons
-    toolbarIconsRender = (iconsToRender: iconDetail[]) => {
-        const { 
+    toolbarIconsRender = (iconsToRender: iconDetail[], style: any = {}) => {
+        const {
             web: webLogo = { type: 'URL', value: '' },
-            mobile: mobileLogo = { type: 'URL', value: '' }
-          } = (this.props.theme && this.props.theme.logos) || {}
+            mobile: mobileLogo = { type: 'URL', value: '' },
+        } = (this.props.theme && this.props.theme.logos) || {};
+
+        let { selectedTheme, formatting } =
+            (this.props.theme && this.props.theme.color) || {};
+        const isCustomColor = isCustomColorTheme(selectedTheme);
+        formatting = !isCustomColor
+            ? prefinedColorSets[selectedTheme]
+            : formatting;
+        const { toolbarColor } = formatting || {};
+
+        // Add opacity to the search box background
+        const searchBoxBackground = 'rgba(255, 255, 255, 0.2)';
+        const searchRef = (el: any) => {
+            if (el) {
+                el.style.setProperty(
+                    BACKGROUND_COLOR,
+                    searchBoxBackground,
+                    'important'
+                );
+            }
+        };
+
+        const iconRef = (el: any) => {
+            if (el) {
+                el.style.setProperty(COLOR, toolbarColor, 'important');
+            }
+        };
+
         return iconsToRender.map((element, index) => {
             if (!this.iconShouldShow(element)) {
-                return
+                return;
             } else {
-                const isLibraryWebLogo = element.iconName === VC.FONT_PREVIEWSIDEBAR;
-                const isLibraryMobileLogo = element.iconName === VC.FONT_LIBRARY_MOBILE;
+                const isLibraryWebLogo =
+                    element.iconName === VC.FONT_PREVIEWSIDEBAR;
+                const isLibraryMobileLogo =
+                    element.iconName === VC.FONT_LIBRARY_MOBILE;
                 let renderedLogo = (
-                    <span className={element.iconName} key={index}>
+                    <span
+                        className={element.iconName}
+                        key={index}
+                        ref={iconRef}
+                    >
                         {' '}
                     </span>
                 );
-                if (isLibraryWebLogo && webLogo.type === 'URL' && webLogo.value) {
+
+                if (element.iconName === CONSTANTS.FONT_SEARCH) {
                     renderedLogo = (
-                        <div className='replaced-logo-wrapper'>
-                            <img className={classnames('replaced-logo web')} src={webLogo.value} />
+                        <div className="icon_search_container">
+                            <div className="icon_search_box" ref={searchRef}>
+                                <span
+                                    className={element.iconName}
+                                    key={index}
+                                    ref={iconRef}
+                                >
+                                    {' '}
+                                    Search
+                                </span>
+                            </div>
                         </div>
                     );
                 }
-                if (isLibraryMobileLogo && mobileLogo.type === 'URL' && mobileLogo.value) {
+
+                if (
+                    isLibraryWebLogo &&
+                    webLogo.type === 'URL' &&
+                    webLogo.value
+                ) {
                     renderedLogo = (
-                        <div className='replaced-logo-wrapper'>
-                            <img className={classnames('replaced-logo mobile')} src={mobileLogo.value} />
+                        <div className="replaced-logo-wrapper">
+                            <img
+                                className={classnames('replaced-logo web')}
+                                src={webLogo.value}
+                            />
+                        </div>
+                    );
+                }
+                if (
+                    isLibraryMobileLogo &&
+                    mobileLogo.type === 'URL' &&
+                    mobileLogo.value
+                ) {
+                    renderedLogo = (
+                        <div className="replaced-logo-wrapper">
+                            <img
+                                className={classnames('replaced-logo mobile')}
+                                src={mobileLogo.value}
+                            />
                         </div>
                     );
                 }
@@ -217,67 +288,72 @@ class Previewer extends React.Component<any, any> {
     };
 
     // render array of side bar icons
-    sidebarIconsRender = (
-        iconsToRender: iconDetail[],
-        rootClassName: string,
-        previewType: any
-    ) => {
-        if (!this.contentBundleEnable) {
-            iconsToRender = iconsToRender.filter(
-                (v) => v.key !== iconTypes.defaultGroup.key
+    sidebarIconsRender = (rootClassName: string) => {
+        let { selectedTheme, formatting } =
+            (this.props.theme && this.props.theme.color) || {};
+        const isCustomColor = isCustomColorTheme(selectedTheme);
+        formatting = !isCustomColor
+            ? prefinedColorSets[selectedTheme]
+            : formatting;
+        const {
+            sidebarFill,
+            sidebarColor,
+            sidebarActiveFill,
+            sidebarActiveColor,
+        } = formatting || {};
+        const sidebarIconTextRef = (el: any) => {
+            if (el) {
+                el.style.setProperty(
+                    BACKGROUND_COLOR,
+                    sidebarColor,
+                    'important'
+                );
+            }
+        };
+
+        const sidebarRef = (el: any) => {
+            if (el) {
+                el.style.setProperty(
+                    BACKGROUND_COLOR,
+                    sidebarFill,
+                    'important'
+                );
+            }
+        };
+
+        const sidebarActiveRef = (el: any) => {
+            if (el) {
+                el.style.setProperty(
+                    BACKGROUND_COLOR,
+                    sidebarActiveFill,
+                    'important'
+                );
+                el.style.setProperty(COLOR, sidebarActiveColor, 'important');
+            }
+        };
+
+        const sidebarIcons = [];
+
+        for (let i = 1; i <= 6; i++) {
+            sidebarIcons.push(
+                <div>
+                    <div
+                        className={`${classNamePrefix}-pad-overview-left-text`}
+                        ref={i == 1 ? sidebarActiveRef : null}
+                    >
+                        <span
+                            className={`sidebar-icon-${i}`}
+                            ref={sidebarIconTextRef}
+                        />
+                        <span
+                            className={`sidebar-text-${i}`}
+                            ref={sidebarIconTextRef}
+                        />
+                    </div>
+                </div>
             );
         }
-        iconsToRender = iconsToRender.filter(
-            (v) =>
-                ![
-                    iconTypes.addLibrary.key,
-                    iconTypes.accountMobile.key,
-                ].includes(v.key)
-        );
-        const sidebarIcons = iconsToRender.map((element, index) => {
-            const showAddButton = iconTypes.myGroup.key === element.key;
-            const showContent = iconTypes.defaultGroup.key === element.key;
-            let defaultGroupName = localizedStrings.DEFAULT_GROUPS;
-            if (
-                this.props.config.homeScreen.homeLibrary.defaultGroupsName &&
-                this.props.config.homeScreen.homeLibrary.defaultGroupsName !==
-                    CONTENT_BUNDLE_DEFAULT_GROUP_NAME
-            ) {
-                defaultGroupName =
-                    this.props.config.homeScreen.homeLibrary.defaultGroupsName;
-            }
-            return (
-                this.iconShouldShow(element) && (
-                    <div>
-                        <div
-                            className={`${classNamePrefix}-pad-overview-left-text`}
-                        >
-                            <span className={element.iconName} key={index} />
-                            <span className="overflow">
-                                {
-                                    showContent
-                                        ? defaultGroupName
-                                        : element.displayText.replace(
-                                              /\(.*?\)/g,   // NOSONAR
-                                              ''
-                                          ) // replace the (Mobile only) => ''
-                                }
-                            </span>
-                            {showAddButton && (
-                                <span
-                                    className="icon-pnl_add-new"
-                                    style={{
-                                        fontSize: '5px',
-                                        marginLeft: 'auto',
-                                        marginRight: '4px',
-                                    }}
-                                />
-                            )}
-                        </div>
-                    </div>
-                )
-            );
-        });
+
         // account for mobile
         const { deviceType } = this.props;
         const accountShow =
@@ -289,7 +365,7 @@ class Previewer extends React.Component<any, any> {
             </div>
         );
         return (
-            <div className={rootClassName}>
+            <div className={rootClassName} ref={sidebarRef}>
                 {' '}
                 {sidebarIcons} {accountIcon}{' '}
             </div>
@@ -569,19 +645,48 @@ class Previewer extends React.Component<any, any> {
         this.hasContent = nextProps.hasContent;
     }
     render() {
-        const { theme, deviceType, isDossierHome, toolbarHidden, toolbarCollapsed } =
-            this.props;
+        const {
+            theme,
+            deviceType,
+            isDossierHome,
+            toolbarHidden,
+            toolbarCollapsed,
+        } = this.props;
         const { libraryHeaderIcons, libraryFooterIcons } =
             this.libraryIconsToRender();
         const { dossierHeaderIcons, dossierFooterIcons } =
             this.dossierIconsToRender();
         const { sidebarHeaderIcons } = this.sidebarHeaderIconsToRender();
 
-        const { 
-            web: webLogo = { type: 'URL', value: '' }, 
-            favicon: faviconLogo = {type: 'URL', value: '' }, 
-            mobile: mobileLogo = { type: 'URL', value: '' }
-          } = (theme && theme.logos) || {}
+        const {
+            web: webLogo = { type: 'URL', value: '' },
+            favicon: faviconLogo = { type: 'URL', value: '' },
+            mobile: mobileLogo = { type: 'URL', value: '' },
+        } = (theme && theme.logos) || {};
+
+        let { selectedTheme, formatting } = (theme && theme.color) || {};
+        const isCustomColor = isCustomColorTheme(selectedTheme);
+        formatting = !isCustomColor
+            ? prefinedColorSets[selectedTheme]
+            : formatting;
+        const { toolbarFill, toolbarColor, canvasFill } = formatting || {};
+
+        const toolbarRef = (el: any) => {
+            if (el) {
+                el.style.setProperty(
+                    BACKGROUND_COLOR,
+                    toolbarFill,
+                    'important'
+                );
+            }
+        };
+
+        const canvasRef = (el: any) => {
+            if (el) {
+                el.style.setProperty(BACKGROUND_COLOR, canvasFill, 'important');
+            }
+        };
+
         const showSideBar =
             this.iconShouldShow(iconTypes.sidebar) && !toolbarHidden; // when toolbar disabled, sidebar will hide as well
         const showTocOnPhone =
@@ -608,13 +713,13 @@ class Previewer extends React.Component<any, any> {
                 {!isDossierHome && (
                     <div style={{ position: 'relative' }}>
                         <Layout
-                            className={this.previewerClassName(
-                                deviceType,
-                                ''
-                            )}
+                            className={this.previewerClassName(deviceType, '')}
                         >
                             {!hideHeader && (
-                                <Layout.Header className="library-header">
+                                <Layout.Header
+                                    className="library-header"
+                                    ref={toolbarRef}
+                                >
                                     {this.toolbarIconsRender(
                                         libraryHeaderIcons
                                     )}
@@ -641,7 +746,6 @@ class Previewer extends React.Component<any, any> {
                                         >
                                             {showSideBar &&
                                                 this.sidebarIconsRender(
-                                                    childrenIcons,
                                                     padLeftClassName,
                                                     deviceType
                                                 )}
@@ -650,6 +754,7 @@ class Previewer extends React.Component<any, any> {
                                                     deviceType,
                                                     '-overview-right'
                                                 )}
+                                                ref={canvasRef}
                                             >
                                                 {
                                                     <div
@@ -669,7 +774,7 @@ class Previewer extends React.Component<any, any> {
                                                         {' '}
                                                     </div>
                                                 }
-                                                {!showSideBar && (
+                                                {
                                                     <div
                                                         className={
                                                             padRightClassName
@@ -677,15 +782,14 @@ class Previewer extends React.Component<any, any> {
                                                     >
                                                         {' '}
                                                     </div>
-                                                )}
+                                                }
                                             </div>
                                         </div>
                                     </Layout>
                                 </Layout.Content>
                             </Layout>
                         </Layout>
-                        {showExpanderOverlay &&
-                            this.overlayRender(false, true)}
+                        {showExpanderOverlay && this.overlayRender(false, true)}
                     </div>
                 )}
 
@@ -696,17 +800,15 @@ class Previewer extends React.Component<any, any> {
                         : localizedStrings.DOSSIER_WINDOW
                 )}
                 <div style={{ position: 'relative' }}>
-                    <Layout
-                        className={this.previewerClassName(
-                            deviceType,
-                            ''
-                        )}
-                    >
+                    <Layout className={this.previewerClassName(deviceType, '')}>
                         {!hideHeader && (
-                            <Layout.Header className="dossier-header">
-                                {this.toolbarIconsRender(
-                                    dossierHeaderIcons
-                                )}
+                            <Layout.Header
+                                className="dossier-header"
+                                ref={toolbarRef}
+                            >
+                                {this.toolbarIconsRender(dossierHeaderIcons, {
+                                    toolbarColor,
+                                })}
                             </Layout.Header>
                         )}
                         <Layout.Content
@@ -754,8 +856,7 @@ class Previewer extends React.Component<any, any> {
                             </Layout>
                         </Layout.Content>
                     </Layout>
-                    {showExpanderOverlay &&
-                        this.overlayRender(false, true)}
+                    {showExpanderOverlay && this.overlayRender(false, true)}
                 </div>
 
                 {/* notification panel */}

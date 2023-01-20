@@ -9,9 +9,13 @@ $preview-height: 324px;
 $preview-width-phone: 121px;
 $preview-header-height: 38px;
 $sidebar-width: 91px;
+$sidebar-text-color: #D9D9D9;
+$toolbar-icon-font-size: 14px;
 
 $font-size-side: 7px;
 $line-height-side: 15px;
+
+$icon-margin-right: 8px;
 
 $phone-scale: 0.85;
 $tablet-scale: 0.85;
@@ -85,7 +89,7 @@ $tablet-scale: 0.85;
     .icon-tb_share_n,
     .icon-tb_profile_n {
         float: right;
-        margin-right: 4.5px;
+        margin-right: $icon-margin-right;
         color: $color;
     }
 }
@@ -103,7 +107,7 @@ $tablet-scale: 0.85;
         background-color: $white;
         span {
             float: right;
-            font-size: 14px;
+            font-size: $toolbar-icon-font-size;
 
             // make library icon a little larger to emphasize it
             &.icon-library {
@@ -145,7 +149,7 @@ $tablet-scale: 0.85;
         // padding: 8px;
         &-left {
             border-radius: 2px;
-            padding-left: 3px;
+            padding: 8px 0 8px 3px;
             background-color: $white;
             width: $sidebar-width;
             border-right: .07rem solid lightgrey;
@@ -158,10 +162,65 @@ $tablet-scale: 0.85;
 
             &-text {
                 display: flex;
+                height: 17px;
                 align-items: center;
                 max-width: 97px;
                 span {
                     margin-left: 4px;
+                }
+
+                .sidebar-icon {
+
+                    &-1,
+                    &-2,
+                    &-3,
+                    &-4,
+                    &-5,
+                    &-6 {
+                        width: 5px;
+                        height: 5px;
+                        border-radius: 50%;
+                        background-color: $sidebar-text-color;
+                    }
+                    
+                    &-5,
+                    &-6 {
+                        margin-left: 14px;
+                    }
+                }
+                .sidebar-text {
+
+                    &-1 {
+                        width: 21px;
+                        height: 5px;
+                    }
+
+                    &-2 {
+                        width: 28px;
+                        height: 5px;
+                    }
+
+                    &-3,
+                    &-5,
+                    &-6 {
+                        width: 25px;
+                        height: 5px;
+                    }
+
+                    &-4 {
+                        width: 31px;
+                        height: 5px;
+                    }
+
+                    &-1,
+                    &-2,
+                    &-3,
+                    &-4,
+                    &-5,
+                    &-6 {
+                        border-radius: 3px;
+                        background-color: $sidebar-text-color;
+                    }
                 }
             }
             &-blank {
@@ -334,6 +393,37 @@ $tablet-scale: 0.85;
         .icon-search_tb_box {
             color: #575a5d !important;
         }
+
+        .icon_search_container {
+            display: flex;
+            height: 100%;
+            align-items: center;
+            float: right;
+
+            .icon_search_box {
+                box-sizing: content-box;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: #F2F3F5;
+                color: #575A5D;
+                margin-right: $icon-margin-right;
+                width: 65px;
+                height: 21px;
+                margin-top: 0;
+                margin-bottom: 0;
+                border-radius: 3.2px;
+                font-size: $toolbar-icon-font-size - 3;
+                padding-right: 10px;
+
+                .icon-search_tb_box {
+                    margin-right: $icon-margin-right;
+                    font-size: $toolbar-icon-font-size - 3;
+
+                }
+            }
+        }
+        
     }
 
     &-phone {
@@ -382,7 +472,7 @@ $tablet-scale: 0.85;
 
             .icon-tb_share_n
             {
-                margin-right: 4.5px;
+                margin-right: $icon-margin-right;
             }
             .icon-aa_font {
                 margin-right: -2.5px;
