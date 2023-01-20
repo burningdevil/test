@@ -67,9 +67,8 @@ function checkResponseStatus(response: any) {
   }
 }
 
-function requestToNative(path: string, body: any = null, headers: any = {}, method = 'GET', parseFunc = parseJsonFunc, signal?: AbortSignal, isAbsoluteUrl = false, url = '') {
+function requestToNative(path: string, body: any = null, headers: any = {}, method = 'GET', parseFunc = parseJsonFunc, signal?: AbortSignal, baseUrl = '') {
   let options = { method, body, headers, signal }
-  const requestPath = isAbsoluteUrl ? `${url}api${path}` : `api${path}`
   if (body) {
     options = {
       ...options,
@@ -82,34 +81,34 @@ function requestToNative(path: string, body: any = null, headers: any = {}, meth
       headers: headers
     }
   }
-  return workstation.data.fetch(requestPath, options)
+  return workstation.data.fetch(`${baseUrl}api${path}`, options)
     .then(checkResponseStatus, checkResponseStatus)
     .then((res: any) => parseResponse(res))
 }
 
 export default {
-  post: (path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal, isAbsoluteUrl = false, url = '') => {
-    return requestToNative(path, body, headers, 'POST', parseFunc, signal, isAbsoluteUrl, url)
+  post: (path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal, baseUrl = '') => {
+    return requestToNative(path, body, headers, 'POST', parseFunc, signal, baseUrl)
   },
 
-  get: (path: string, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal, isAbsoluteUrl = false, url = '') => {
-    return requestToNative(path, null, headers, 'GET', parseFunc, signal, isAbsoluteUrl, url)
+  get: (path: string, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal, baseUrl = '') => {
+    return requestToNative(path, null, headers, 'GET', parseFunc, signal, baseUrl)
   },
 
-  delete: (path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal, isAbsoluteUrl = false, url = '') => {
-    return requestToNative(path, body, headers, 'DELETE', parseFunc, signal, isAbsoluteUrl, url)
+  delete: (path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal, baseUrl = '') => {
+    return requestToNative(path, body, headers, 'DELETE', parseFunc, signal, baseUrl)
   },
 
-  put: (path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal, isAbsoluteUrl = false, url = '') => {
-    return requestToNative(path, body, headers, 'PUT', parseFunc, signal, isAbsoluteUrl, url)
+  put: (path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal, baseUrl = '') => {
+    return requestToNative(path, body, headers, 'PUT', parseFunc, signal, baseUrl)
   },
 
-  patch: (path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal, isAbsoluteUrl = false, url = '') => {
-    return requestToNative(path, body, headers, 'PATCH', parseFunc, signal, isAbsoluteUrl, url)
+  patch: (path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal, baseUrl = '') => {
+    return requestToNative(path, body, headers, 'PATCH', parseFunc, signal, baseUrl)
   },
 
-  project: (method: string, path: string, body: any, headers: any, parseFunc = parseJsonFunc, signal?: AbortSignal, isAbsoluteUrl = false, url = '') => {
-    return requestToNative.call(this, { path, body, method, headers, parseFunc, signal, isAbsoluteUrl, url })
+  project: (method: string, path: string, body: any, headers: any, parseFunc = parseJsonFunc, signal?: AbortSignal, baseUrl = '') => {
+    return requestToNative.call(this, { path, body, method, headers, parseFunc, signal, baseUrl })
   },
 
   getCancelController: function () {
