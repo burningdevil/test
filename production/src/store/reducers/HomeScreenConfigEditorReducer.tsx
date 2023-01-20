@@ -113,7 +113,11 @@ const initialState: HomeScreenConfigEditorState = {
     'emailSettings': DEFAULT_EMAIL_SETTING,
     'authModes': DEFAULT_AUTH_MODE,
     applicationPalettes: [],
-    useConfigPalettes: false
+    useConfigPalettes: false,
+    environments: {
+      current: '',
+      other: []
+    }
   },
   isDuplicateConfig: false,
   isConfigNameError: false,

@@ -81,6 +81,19 @@ export interface CustomEmailSettingType {
     }
 }
 
+export interface EnvironmentConnectionInterface {
+    name: string,
+    url: string,
+    applicationList?: Array<Partial<HomeScreenConfigType>>,
+    isConfigured?: boolean,
+    isConnected?: boolean,
+}
+
+export interface EnvironmentConnectionSettingType {
+    current: string,
+    other: Array<EnvironmentConnectionInterface>
+}
+
 export interface HomeScreenConfigType {
     'id': string,
     'name': string,
@@ -129,7 +142,9 @@ export interface HomeScreenConfigType {
     applicationDefaultPalette: string,
     // customize email
     emailSettings: CustomEmailSettingType,
-    authModes: CustomAuthModes
+    authModes: CustomAuthModes,
+    // Environment Connection
+    environments: EnvironmentConnectionSettingType
 }
 
 export interface HomeScreenConfigInfo {

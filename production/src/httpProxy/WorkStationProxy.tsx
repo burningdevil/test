@@ -67,7 +67,7 @@ function checkResponseStatus(response: any) {
   }
 }
 
-function requestToNative(path: string, body: any = null, headers: any = {}, method = 'GET', parseFunc = parseJsonFunc, signal?: AbortSignal) {
+function requestToNative(path: string, body: any = null, headers: any = {}, method = 'GET', parseFunc = parseJsonFunc, signal?: AbortSignal, baseUrl = '') {
   let options = { method, body, headers, signal }
   if (body) {
     options = {
@@ -81,34 +81,34 @@ function requestToNative(path: string, body: any = null, headers: any = {}, meth
       headers: headers
     }
   }
-  return workstation.data.fetch(`api${path}`, options)
+  return workstation.data.fetch(`${baseUrl}api${path}`, options)
     .then(checkResponseStatus, checkResponseStatus)
     .then((res: any) => parseResponse(res))
 }
 
 export default {
-  post: (path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal) => {
-    return requestToNative(path, body, headers, 'POST', parseFunc, signal)
+  post: (path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal, baseUrl = '') => {
+    return requestToNative(path, body, headers, 'POST', parseFunc, signal, baseUrl)
   },
 
-  get: (path: string, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal) => {
-    return requestToNative(path, null, headers, 'GET', parseFunc, signal)
+  get: (path: string, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal, baseUrl = '') => {
+    return requestToNative(path, null, headers, 'GET', parseFunc, signal, baseUrl)
   },
 
-  delete: (path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal) => {
-    return requestToNative(path, body, headers, 'DELETE', parseFunc, signal)
+  delete: (path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal, baseUrl = '') => {
+    return requestToNative(path, body, headers, 'DELETE', parseFunc, signal, baseUrl)
   },
 
-  put: (path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal) => {
-    return requestToNative(path, body, headers, 'PUT', parseFunc, signal)
+  put: (path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal, baseUrl = '') => {
+    return requestToNative(path, body, headers, 'PUT', parseFunc, signal, baseUrl)
   },
 
-  patch: (path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal) => {
-    return requestToNative(path, body, headers, 'PATCH', parseFunc, signal)
+  patch: (path: string, body: any, headers = {}, parseFunc = parseJsonFunc, signal?: AbortSignal, baseUrl = '') => {
+    return requestToNative(path, body, headers, 'PATCH', parseFunc, signal, baseUrl)
   },
 
-  project: (method: string, path: string, body: any, headers: any, parseFunc = parseJsonFunc, signal?: AbortSignal) => {
-    return requestToNative.call(this, { path, body, method, headers, parseFunc, signal })
+  project: (method: string, path: string, body: any, headers: any, parseFunc = parseJsonFunc, signal?: AbortSignal, baseUrl = '') => {
+    return requestToNative.call(this, { path, body, method, headers, parseFunc, signal, baseUrl })
   },
 
   getCancelController: function () {

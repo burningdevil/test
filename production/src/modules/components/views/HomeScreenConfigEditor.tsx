@@ -19,6 +19,7 @@ import HomeScreenAppearance from './HomeScreenAppearance';
 import HomeScreenMoreSetting from './HomeScreenMoreSetting';
 import HomeScreenHomeSetting from './HomeScreenHomeSetting';
 import HomeScreenContentBundles from './HomeScreenContentBundles';
+import HomeScreenEnvConnections from './HomeScreenEnvConnections';
 import * as _ from 'lodash';
 import { HttpProxy } from '../../../main';
 import { RestApiError } from '../../../server/RestApiError';
@@ -67,6 +68,7 @@ import {
     LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_VERSION,
     LIBRARY_SERVER_SUPPORT_AUTH_MODE,
     LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_V2,
+    LIBRARY_SERVER_SUPPORT_ENV_CONNECTIONS,
     isIServerVersionMatch,
     ISERVER_SUPPORT_AUTH_MODE,
 } from '../../../utils';
@@ -100,7 +102,8 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             authModesFeatureEnable: false,
             customEmailV2Enabled: false,
             isNewApplication: false,
-            authModesBackendFlagEnabled: false // stands for the feature flag from the backend.
+            authModesBackendFlagEnabled: false, // stands for the feature flag from the backend.
+            envConnectionsFeatureEnabled: false
         };
     }
 
@@ -246,6 +249,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         };
         const customEmailFeatureFlagEnabled  = checkCustomEmailFeatureEnable(currentEnv, LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_VERSION);
         const customEmailV2Enabled = checkCustomEmailFeatureEnable(currentEnv, LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_V2);
+        const isEnvConnectionsFeatureEnabled = (!!currentEnv.webVersion && isLibraryServerVersionMatch(currentEnv.webVersion, LIBRARY_SERVER_SUPPORT_ENV_CONNECTIONS));
         let isNameCopied = false;
         if (
             isDuplicate &&
@@ -266,8 +270,8 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             customEmailFeatureEnabled: customEmailFeatureFlagEnabled,
             authModesFeatureEnable: isVersionSupportAuthMode,
             customEmailV2Enabled: customEmailV2Enabled,
-            authModesBackendFlagEnabled: isAuthModesBackendFlagEnabled
-
+            authModesBackendFlagEnabled: isAuthModesBackendFlagEnabled,
+            envConnectionsFeatureEnabled: isEnvConnectionsFeatureEnabled
         });
         this.loadPreference();
         workstation.environments.onEnvironmentChange(
@@ -781,6 +785,15 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                                     <HomeScreenMoreSetting />
                                     {this.buttonGroup()}
                                 </Tabs.TabPane>
+                                {this.state.envConnectionsFeatureEnabled && (
+                                    <Tabs.TabPane
+                                    tab={localizedStrings.NAVBAR_ENVIRONMENT_CONNECTION_SETTINGS}
+                                    key={VC.ENVIRONMENT_CONNECTION_SETTINGS}
+                                >
+                                    <HomeScreenEnvConnections />
+                                    {this.buttonGroup()}
+                                </Tabs.TabPane>
+                                )}
                             </Tabs>
                         </div>
                     </Layout>
