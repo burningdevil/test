@@ -103,7 +103,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             customEmailV2Enabled: false,
             isNewApplication: false,
             authModesBackendFlagEnabled: false, // stands for the feature flag from the backend.
-            envConnectionsFeatureEnabled: false // TODO: update logic which will update this when preview flag + necessary checks are passed. for now, keep as true
+            envConnectionsFeatureEnabled: false
         };
     }
 
