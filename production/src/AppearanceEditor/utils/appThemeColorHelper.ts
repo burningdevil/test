@@ -235,7 +235,7 @@ export const colorPropTitles = [
     [EnumFormattingPropNames.panelColor, t('text')],
 
     [EnumColorPropTitleCategoryLabel.misc],
-    [EnumFormattingPropNames.accentFill, t('canvasBackground')],
+    [EnumFormattingPropNames.canvasFill, t('canvasBackground')],
 
     [EnumFormattingPropNames.accentFill, t('accentColor')],
 
