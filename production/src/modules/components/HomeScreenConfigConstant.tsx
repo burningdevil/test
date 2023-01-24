@@ -163,6 +163,8 @@ export const CONSTANTS = {
     DOSSIERSETTINGS: 'dossierSettings',
     MORESETTINGS: 'moreSettings',
     CUSTOMEMAILSETTINGS: 'customEmailSettings',
+    ENVIRONMENT_CONNECTION_SETTINGS: 'environmentConnectionSettings',
+
     BACK: 'back',
     GENERATE: 'Generate',
     JSONFILE_SUFFIX: '.json',
@@ -170,7 +172,10 @@ export const CONSTANTS = {
 
     // ObjectEditor Type
     CONFIG_EDITOR_OBJTYPE: "HomeScreenConfig",
-    APPEARANCE_OBJ_TYPE: 'Appearance'
+    APPEARANCE_OBJ_TYPE: 'Appearance',
+
+    BASE_URL: 'baseUrl',
+    APPLICATION: 'application'
 };
 
 export const featureFlag = {
@@ -282,6 +287,7 @@ export const localizedStrings = {
     NAVBAR_CONTENT_BUNDLES: t('content'),
     NAVBAR_MORE_SETTINGS: t('moreSettings'),
     NAVBAR_CUSTOM_EMAIL_SETTINGS: t('customEmailSettings'),
+    NAVBAR_ENVIRONMENT_CONNECTION_SETTINGS: t('environmentConnectionSettings'),
     CANCEL: t('cancel'),
     SAVE: t('save'),
     ERR_APP_SAVE: t('errAppSave'),
@@ -410,7 +416,15 @@ export const localizedStrings = {
     USE_SPECIFIC_AUTH: t('useSpecificAuth'),
     SET_AS_DEFAULT: t('setAsDefaultAuth'),
     DEFAULT_AUTH: t('defaultAuth'),
-    STANDARD: t('standard')
+    STANDARD: t('standard'),
+
+    // Environment Connection strings
+    ENVIRONMENT_CONNECTION_SETTINGS_DESC: t('environmentConnectionSettingsDesc'),
+    ENVIRONMENT_CONNECTION_AVAILABLE_ENVS_DESC: t('environmentConnectionAvailableEnvsDesc'),
+    CURRENT_ENV_LABEL: t('currentEnvLabel'),
+    URL: t('url'),
+    APPLICATION: t('application'),
+    SELECT_APPLICATION: t('selectApplication')
 };
 
 export const sectionTitle = {
