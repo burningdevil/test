@@ -97,6 +97,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             colorPalettePreviewFeatureEnable: false,
             isCloseHanlderRegistered: false,
             customEmailFeatureEnabled: false,
+            appearanceEditorFeatureEnable: false,
             authModesFeatureEnable: false,
             customEmailV2Enabled: false,
             isNewApplication: false,
@@ -235,7 +236,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 ) && isAuthModesBackendFlagEnabled
                 && isIServerSupportAuthModes
         
-        const checkCustomEmailFeatureEnable = (curEnv: Environment, supportVersion: string) => {
+        const checkFeatureEnable = (curEnv: Environment, supportVersion: string) => {
             return (
                 !!curEnv.webVersion &&
                 isLibraryServerVersionMatch(
@@ -244,8 +245,10 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 )
             );
         };
-        const customEmailFeatureFlagEnabled  = checkCustomEmailFeatureEnable(currentEnv, LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_VERSION);
-        const customEmailV2Enabled = checkCustomEmailFeatureEnable(currentEnv, LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_V2);
+
+        const customEmailFeatureFlagEnabled  = checkFeatureEnable(currentEnv, LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_VERSION);
+        const customEmailV2Enabled = checkFeatureEnable(currentEnv, LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_V2);
+        const appearanceEditorFeatureEnabled = checkFeatureEnable(currentEnv, LIBRARY_SERVER_SUPPORT_APPEARANCE_EDITOR_VERSION);
         let isNameCopied = false;
         if (
             isDuplicate &&
@@ -263,6 +266,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             isNameCopyed: isNameCopied,
             contentBundleFeatureEnable: contentBundleEnable,
             colorPaletteFeatureEnable: colorPaletteFeatureFlagEnabled,
+            appearanceEditorFeatureEnable: appearanceEditorFeatureEnabled,
             customEmailFeatureEnabled: customEmailFeatureFlagEnabled,
             authModesFeatureEnable: isVersionSupportAuthMode,
             customEmailV2Enabled: customEmailV2Enabled,
@@ -319,20 +323,9 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 LIBRARY_SERVER_SUPPORT_COLOR_PALETTE_VERSION
             );
 
-          const applicationThemeLibrarySupport =
-            !!this.state.currentEnv.webVersion &&
-            isLibraryServerVersionMatch(
-                this.state.currentEnv.webVersion,
-                LIBRARY_SERVER_SUPPORT_APPEARANCE_EDITOR_VERSION
-            );
         this.setState({
             colorPalettePreviewFeatureEnable:
-                colorPaletteLibrarySupport,
-            appearancePreviewFeatureEnabled:
-              getFeatureFlag(
-                GENERAL_PREVIEW_FEATURE_FLAG,
-                this.state.currentEnv
-                ) && applicationThemeLibrarySupport
+                colorPaletteLibrarySupport
         });
     };
     componentWillReceiveProps(nextProps: any) {
@@ -716,7 +709,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                                 </Tabs.TabPane>
                                 {
                                   this.state
-                                  .appearancePreviewFeatureEnabled && (
+                                  .appearanceEditorFeatureEnable && (
                                     <Tabs.TabPane
                                       tab={localizedStrings.NAVBAR_APPEARANCE}
                                       key={VC.APPEARANCE}>
