@@ -30,15 +30,29 @@ $tablet-scale: 0.85;
     --sidebar-active-fill: $msdl-black;
     --sidebar-active-color: $msdl-white;
     --accent-color: $msdl-white;
-    --notification-badge-fill: #$msdl-white;
+    --notification-badge-fill: $msdl-white;
     --button-color: $msdl-black;
     --panel-fill: $msdl-white;
     --panel-color: $default-text-color;
     --canvas-fill: $msdl-white;
 }
 
+$header-text-color: var(--toolbar-color, $default-text-color);
+$header-bg-color: var(--toolbar-fill, $msdl-white);
+$sidebar-bg-color: var(--sidebar-fill, $background-color);
+$sidebar-text-color: var(--sidebar-color, $default-text-color);
+$sidebar-active-bg-color: var(--sidebar-active-fill, $msdl-black);
+$sidebar-active-text-color: var(--sidebar-active-color, $msdl-white);
+$canvas-bg-color: var(--canvas-fill, $background-color);
+$panel-text-color: var(--panel-color, $default-text-color);
+$panel-bg-color: var(--panel-fill, $msdl-white);
+$button-text-color: var(--button-color, $msdl-black);
+$accent-color: var(--accent-color, $msdl-black);
+$notification-badge-bg-color: var(--notification-badge-fill, $msdl-white);
+
 // put all icons here
-@mixin iconFeatures($color) {
+@mixin iconFeatures() {
+
     .icon-tb_undoarrow {
         float: none;
         text-align: center;
@@ -51,7 +65,7 @@ $tablet-scale: 0.85;
     .icon-library {
         float: left;
         margin-left: 4.5px;
-        color: var(--toolbar-color, $mobile-primary-blue);
+        color: $header-text-color;
     }
     .icon-lib-login {
         float: left;
@@ -69,7 +83,7 @@ $tablet-scale: 0.85;
     .icon-tb_reset {
         float: left;
         margin-left: 4.5px;
-        color: var(--toolbar-color, $color);
+        color: $header-text-color;
     }
     .icon-aa_font {
         float: right;
@@ -107,11 +121,11 @@ $tablet-scale: 0.85;
     .icon-tb_profile_n {
         float: right;
         margin-right: $icon-margin-right;
-        color: var(--toolbar-color, $color);
+        color: $header-text-color;
     }
 }
 
-@mixin padOrWebSetting($color) {
+@mixin padOrWebSetting() {
     height: $preview-height;
     .ant-layout-header {
         padding: 0 1px;
@@ -121,7 +135,7 @@ $tablet-scale: 0.85;
         border-radius: 4px 4px 0 0;
         border-bottom: none;
         line-height: $preview-header-height;
-        background-color: var(--toolbar-fill, $msdl-white);
+        background-color: $header-bg-color;
         span {
             float: right;
             font-size: $toolbar-icon-font-size;
@@ -145,7 +159,7 @@ $tablet-scale: 0.85;
                 max-width: $preview-panel-replaced-logo-width;
             }
         }
-        @include iconFeatures($color);
+        @include iconFeatures();
     }
     &-content {
         padding: 0;
@@ -167,7 +181,7 @@ $tablet-scale: 0.85;
         &-left {
             border-radius: 2px;
             padding: 8px 0 8px 3px;
-            background-color: var(--sidebar-fill, $background-color);
+            background-color: $sidebar-bg-color;
             width: $sidebar-width;
             border-right: 0.07rem solid lightgrey;
             display: flex;
@@ -197,7 +211,19 @@ $tablet-scale: 0.85;
                 }
 
                 &:first-child {
-                    background-color: var(--sidebar-active-fill, $msdl-black);
+                    background-color: $sidebar-active-bg-color;
+
+                    .sidebar-icon,
+                    .sidebar-text {
+                        &-1,
+                        &-2,
+                        &-3,
+                        &-4,
+                        &-5,
+                        &-6 {
+                            background-color: $sidebar-active-text-color;
+                        }
+                    }
                 }
 
                 .sidebar-icon {
@@ -210,7 +236,7 @@ $tablet-scale: 0.85;
                         width: 5px;
                         height: 5px;
                         border-radius: 50%;
-                        background-color: var(--sidebar-color, $default-text-color);
+                        background-color: $sidebar-text-color;
 
                         &.no-theme {
                             background-color: $default-text-color;
@@ -252,7 +278,7 @@ $tablet-scale: 0.85;
                     &-5,
                     &-6 {
                         border-radius: 3px;
-                        background-color: var(--sidebar-color, $default-text-color);
+                        background-color: $sidebar-text-color;
 
                         &.no-theme {
                             background-color: $default-text-color;
@@ -289,6 +315,7 @@ $tablet-scale: 0.85;
             display: flex;
             flex-direction: column;
             width: $preview-width - $sidebar-width;
+            background: $canvas-bg-color;
 
             &:first-child {
                 width: $preview-width;
@@ -301,7 +328,7 @@ $tablet-scale: 0.85;
                 padding-top: 16px;
                 height: 17px;
                 width: 100%;
-                background: var(--canvas-fill, $background-color);
+                
 
                 .title-wrapper {
                     display: flex;
@@ -313,7 +340,7 @@ $tablet-scale: 0.85;
                         height: 5px;
                         border-radius: 3px;
                         margin-left: 5px;
-                        background-color: var(--panel-color, $default-text-color);
+                        background-color: $panel-text-color;
 
                         &.no-theme {
                             background-color: $default-text-color;
@@ -322,7 +349,7 @@ $tablet-scale: 0.85;
 
                     .arrow {
                         padding: 0 0 6px 3px;
-                        color: var(--panel-color, $default-text-color);
+                        color: $panel-text-color;
 
                         &.no-theme {
                             color: $default-text-color;
@@ -334,7 +361,6 @@ $tablet-scale: 0.85;
             .library-content-list {
                 flex: auto;
                 flex-direction: row;
-                background-color: var(--canvas-fill, $background-color);
                 padding: 8px $overview-right-padding $overview-right-padding;
                 display: flex;
                 justify-content: space-between;
@@ -459,17 +485,17 @@ $tablet-scale: 0.85;
     }
 
     &-pad {
-        @include padOrWebSetting($mobile-primary-blue);
-        .icon-tb_home,
+        @include padOrWebSetting();
+        /*.icon-tb_home,
         .icon-tb_appicon,
         .icon-tb_profile_n,
         .icon-library {
             color: $mobile-primary-blue !important;
-        }
+        }*/
     }
 
     &-web {
-        @include padOrWebSetting($msdl-black);
+        @include padOrWebSetting();
         .library-header .icon-tb_filter_n {
             float: left !important;
             padding-left: 5px;
@@ -479,10 +505,6 @@ $tablet-scale: 0.85;
             &.no-theme {
                 background: $msdl-white;
             }
-        }
-
-        .icon-search_tb_box {
-            color: var(--toolbar-color, #575a5d);
         }
 
         .dossier-header {
@@ -500,7 +522,7 @@ $tablet-scale: 0.85;
                     width: 50px;
                     height: 10px;
                     border-radius: 6px;
-                    background-color: var(--toolbar-color, $default-text-color);
+                    background-color: $header-text-color;
                 }
 
                 &.no-theme {
@@ -560,7 +582,7 @@ $tablet-scale: 0.85;
                 display: flex;
                 align-items: center;
                 background: $toolbar-icon-box-background;
-                color: var(--toolbar-color, #575a5d);
+                color: $header-text-color;
                 width: 75px;
                 height: 21px;
                 margin-top: 0;
@@ -625,9 +647,9 @@ $tablet-scale: 0.85;
             border-radius: 4px 4px 0 0;
             border-bottom: 0;
             line-height: 20px;
-            background-color: var(--toolbar-fill, $msdl-white);
+            background-color: $header-bg-color;
             font-size: $font-size-mini;
-            @include iconFeatures($mobile-primary-blue);
+            @include iconFeatures();
             span {
                 transform: scale($phone-scale);
             }
@@ -737,9 +759,9 @@ $tablet-scale: 0.85;
             border-radius: 4px 0 0 0;
             // border-left: 0;
             line-height: 24px;
-            background-color: var(--toolbar-fill, $msdl-white);
+            background-color: $header-bg-color;
             font-size: $font-size-mini;
-            @include iconFeatures($mobile-primary-blue);
+            @include iconFeatures();
             span {
                 transform: scale($tablet-scale);
             }
@@ -814,9 +836,9 @@ $tablet-scale: 0.85;
             border-left: 0.5px solid lightgrey !important;
             border-radius: 0 4px 0 0;
             line-height: 24px;
-            background-color: var(--toolbar-fill, $msdl-white);
+            background-color: $header-bg-color;
             font-size: $font-size-mini;
-            @include iconFeatures($mobile-primary-blue);
+            @include iconFeatures();
         }
         &-content {
             flex: auto;

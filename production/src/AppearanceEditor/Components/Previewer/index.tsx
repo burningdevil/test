@@ -206,13 +206,7 @@ class Previewer extends React.Component<any, any> {
         formatting = !isCustomColor
             ? prefinedColorSets[selectedTheme]
             : formatting;
-        const { toolbarColor } = formatting || {};
 
-        const iconRef = (el: any) => {
-            if (el) {
-                el.style.setProperty('--toolbar-color', toolbarColor);
-            }
-        };
 
         const renderedIcons = iconsToRender.map((element, index) => {
             if (
@@ -226,11 +220,7 @@ class Previewer extends React.Component<any, any> {
                 const isLibraryMobileLogo =
                     element.iconName === VC.FONT_LIBRARY_MOBILE;
                 let renderedLogo = (
-                    <span
-                        className={element.iconName}
-                        key={index}
-                        ref={iconRef}
-                    >
+                    <span className={element.iconName} key={index}>
                         {' '}
                     </span>
                 );
@@ -243,11 +233,7 @@ class Previewer extends React.Component<any, any> {
                                     'no-theme': !selectedTheme,
                                 })}
                             >
-                                <span
-                                    className={element.iconName}
-                                    key={index}
-                                    ref={iconRef}
-                                >
+                                <span className={element.iconName} key={index}>
                                     {localizedStrings.SEARCH}
                                 </span>
                             </div>
@@ -256,10 +242,7 @@ class Previewer extends React.Component<any, any> {
                 } else if (element.iconName === CONSTANTS.FONT_SORT_FILTER) {
                     renderedLogo =
                         view === views.LIBRARY ? (
-                            <div
-                                className="icon_sort_filter_container"
-                                ref={iconRef}
-                            >
+                            <div className="icon_sort_filter_container">
                                 <div
                                     className={classnames(
                                         'icon_sort_filter_box',
@@ -279,7 +262,6 @@ class Previewer extends React.Component<any, any> {
                             <span
                                 className={element.iconName}
                                 key={index}
-                                ref={iconRef}
                             ></span>
                         );
                 }
@@ -321,7 +303,6 @@ class Previewer extends React.Component<any, any> {
                 className={classnames('toolbar-title-wrapper', {
                     'no-theme': !selectedTheme,
                 })}
-                ref={iconRef}
             >
                 <span className="title"></span>
             </div>
@@ -382,19 +363,16 @@ class Previewer extends React.Component<any, any> {
                         `${classNamePrefix}-pad-overview-left-text`,
                         { 'no-theme': !selectedTheme }
                     )}
-                    ref={i == 1 ? sidebarActiveRef : null}
                 >
                     <span
                         className={classnames(`sidebar-icon-${i}`, {
                             'no-theme': !selectedTheme,
                         })}
-                        ref={sidebarIconTextRef}
                     />
                     <span
                         className={classnames(`sidebar-text-${i}`, {
                             'no-theme': !selectedTheme,
                         })}
-                        ref={sidebarIconTextRef}
                     />
                 </div>
             );
@@ -418,7 +396,6 @@ class Previewer extends React.Component<any, any> {
                 className={classnames(rootClassName, {
                     'no-theme': !selectedTheme,
                 })}
-                ref={sidebarRef}
             >
                 {' '}
                 {sidebarIcons} {accountIcon}{' '}
@@ -723,26 +700,45 @@ class Previewer extends React.Component<any, any> {
         formatting = !isCustomColor
             ? prefinedColorSets[selectedTheme]
             : formatting;
-        const { toolbarFill, sidebarFill, canvasFill, panelColor } =
-            formatting || {};
+        const {
+            toolbarFill,
+            toolbarColor,
+            sidebarFill,
+            sidebarColor,
+            sidebarActiveFill,
+            sidebarActiveColor,
+            canvasFill,
+            accentColor,
+            buttonColor,
+            notificationBadgeFill,
+            panelColor,
+        } = formatting || {};
 
-        const toolbarRef = (el: any) => {
+        const previewerRef = (el: any) => {
             if (el) {
                 el.style.setProperty('--toolbar-fill', toolbarFill);
-            }
-        };
-
-        const canvasRef = (el: any) => {
-            if (el) {
+                el.style.setProperty('--toolbar-color', toolbarColor);
+                el.style.setProperty('--sidebar-fill', sidebarFill);
+                el.style.setProperty('--sidebar-color', sidebarColor);
+                el.style.setProperty(
+                    '--sidebar-active-fill',
+                    sidebarActiveFill
+                );
+                el.style.setProperty(
+                    '--sidebar-active-color',
+                    sidebarActiveColor
+                );
                 el.style.setProperty('--canvas-fill', canvasFill);
+                el.style.setProperty('--panel-color', panelColor);
+                el.style.setProperty('--accent-color', accentColor);
+                el.style.setProperty('--button-color', buttonColor);
+                el.style.setProperty(
+                    '--notification-badge-fill',
+                    notificationBadgeFill
+                );
             }
         };
 
-        const panelTextRef = (el: any) => {
-            if (el) {
-                el.style.setProperty('--panel-color', panelColor);
-            }
-        };
 
         const showSideBar =
             this.iconShouldShow(iconTypes.sidebar) && !toolbarHidden; // when toolbar disabled, sidebar will hide as well
@@ -763,7 +759,7 @@ class Previewer extends React.Component<any, any> {
                   '-overview-right-library-nosidebar'
               );
         return (
-            <div className={classNamePrefix}>
+            <div className={classNamePrefix} ref={previewerRef}>
                 {/* library toolbars */}
                 {!isDossierHome &&
                     this.titleRender(localizedStrings.LIBRARY_WINDOW)}
@@ -777,7 +773,6 @@ class Previewer extends React.Component<any, any> {
                                     className={classnames('library-header', {
                                         'no-theme': !selectedTheme,
                                     })}
-                                    ref={toolbarRef}
                                 >
                                     {this.toolbarIconsRender(
                                         libraryHeaderIcons,
@@ -813,7 +808,6 @@ class Previewer extends React.Component<any, any> {
                                                     deviceType,
                                                     '-overview-right'
                                                 )}
-                                                ref={canvasRef}
                                             >
                                                 <div className="library-content-filter">
                                                     <div className="title-wrapper">
@@ -825,7 +819,6 @@ class Previewer extends React.Component<any, any> {
                                                                         !selectedTheme,
                                                                 }
                                                             )}
-                                                            ref={panelTextRef}
                                                         ></span>
                                                         <span
                                                             className={classnames(
@@ -835,7 +828,6 @@ class Previewer extends React.Component<any, any> {
                                                                         !selectedTheme,
                                                                 }
                                                             )}
-                                                            ref={panelTextRef}
                                                         >
                                                             {'\u2304'}
                                                         </span>
@@ -881,7 +873,6 @@ class Previewer extends React.Component<any, any> {
                                 className={classnames('dossier-header', {
                                     'no-theme': !selectedTheme,
                                 })}
-                                ref={toolbarRef}
                             >
                                 {this.toolbarIconsRender(
                                     dossierHeaderIcons,
