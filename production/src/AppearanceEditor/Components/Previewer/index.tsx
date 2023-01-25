@@ -323,36 +323,6 @@ class Previewer extends React.Component<any, any> {
         formatting = !isCustomColor
             ? prefinedColorSets[selectedTheme]
             : formatting;
-        const {
-            sidebarFill,
-            sidebarColor,
-            sidebarActiveFill,
-            sidebarActiveColor,
-        } = formatting || {};
-        const sidebarIconTextRef = (el: any) => {
-            if (el) {
-                el.style.setProperty('--sidebar-color', sidebarColor);
-            }
-        };
-
-        const sidebarRef = (el: any) => {
-            if (el) {
-                el.style.setProperty('--sidebar-fill', sidebarFill);
-            }
-        };
-
-        const sidebarActiveRef = (el: any) => {
-            if (el) {
-                el.style.setProperty(
-                    '--sidebar-active-fill',
-                    sidebarActiveFill
-                );
-                el.style.setProperty(
-                    '--sidebar-active-color',
-                    sidebarActiveColor
-                );
-            }
-        };
 
         const sidebarIcons = [];
 
