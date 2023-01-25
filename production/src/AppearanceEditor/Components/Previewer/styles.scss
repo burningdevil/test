@@ -23,16 +23,16 @@ $phone-scale: 0.85;
 $tablet-scale: 0.85;
 
 :root {
-    --toolbar-fill: #ffffff;
+    --toolbar-fill: $msdl-white;
     --toolbar-color: $msdl-black;
     --sidebar-fill: $background-color;
     --sidebar-color: $default-text-color;
-    --sidebar-active-fill: #ffffff;
-    --sidebar-active-color: #ffffff;
-    --accent-color: #ffffff;
-    --notification-badge-fill: #ffffff;
-    --button-color: #ffffff;
-    --panel-fill: #ffffff;
+    --sidebar-active-fill: $msdl-black;
+    --sidebar-active-color: $msdl-white;
+    --accent-color: $msdl-white;
+    --notification-badge-fill: #$msdl-white;
+    --button-color: $msdl-black;
+    --panel-fill: $msdl-white;
     --panel-color: $default-text-color;
     --canvas-fill: $msdl-white;
 }
