@@ -252,6 +252,8 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         const customEmailFeatureFlagEnabled  = checkFeatureEnable(currentEnv, LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_VERSION);
         const customEmailV2Enabled = checkFeatureEnable(currentEnv, LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_V2);
         const appearanceEditorFeatureEnabled = checkFeatureEnable(currentEnv, LIBRARY_SERVER_SUPPORT_APPEARANCE_EDITOR_VERSION);
+        const isEnvConnectionsFeatureEnabled = checkFeatureEnable(currentEnv, LIBRARY_SERVER_SUPPORT_ENV_CONNECTIONS);
+        
         let isNameCopied = false;
         if (
             isDuplicate &&

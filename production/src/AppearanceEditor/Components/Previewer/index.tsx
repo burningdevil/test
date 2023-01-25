@@ -42,8 +42,11 @@ import {
 } from '../../utils/appThemeColorHelper';
 
 const classNamePrefix = 'Previewer';
-const COLOR = 'color';
-const BACKGROUND_COLOR = 'background-color';
+const views = {
+    DOSSIER: 'dossier',
+    LIBRARY: 'web',
+    MOBILE: 'mobile',
+};
 
 class Previewer extends React.Component<any, any> {
     contentBundleEnable = false;
@@ -96,6 +99,13 @@ class Previewer extends React.Component<any, any> {
         }
         return icon.key === iconTypes.home.key;
     }
+
+    shouldShowPreview = (icon: iconDetail) =>
+        ![
+            CONSTANTS.FONT_UNDO_REDO,
+            CONSTANTS.FONT_REDO,
+            CONSTANTS.FONT_EDIT_DOSSIER,
+        ].includes(icon.iconName);
 
     // call back
     onDeviceTypeChange = (e: any) => {
@@ -184,7 +194,7 @@ class Previewer extends React.Component<any, any> {
     };
 
     // render array of icons
-    toolbarIconsRender = (iconsToRender: iconDetail[], style: any = {}) => {
+    toolbarIconsRender = (iconsToRender: iconDetail[], view: string) => {
         const {
             web: webLogo = { type: 'URL', value: '' },
             mobile: mobileLogo = { type: 'URL', value: '' },
@@ -198,26 +208,17 @@ class Previewer extends React.Component<any, any> {
             : formatting;
         const { toolbarColor } = formatting || {};
 
-        // Add opacity to the search box background
-        const searchBoxBackground = 'rgba(255, 255, 255, 0.2)';
-        const searchRef = (el: any) => {
-            if (el) {
-                el.style.setProperty(
-                    BACKGROUND_COLOR,
-                    searchBoxBackground,
-                    'important'
-                );
-            }
-        };
-
         const iconRef = (el: any) => {
             if (el) {
-                el.style.setProperty(COLOR, toolbarColor, 'important');
+                el.style.setProperty('--toolbar-color', toolbarColor);
             }
         };
 
-        return iconsToRender.map((element, index) => {
-            if (!this.iconShouldShow(element)) {
+        const renderedIcons = iconsToRender.map((element, index) => {
+            if (
+                !this.iconShouldShow(element) ||
+                !this.shouldShowPreview(element)
+            ) {
                 return;
             } else {
                 const isLibraryWebLogo =
@@ -237,7 +238,11 @@ class Previewer extends React.Component<any, any> {
                 if (element.iconName === CONSTANTS.FONT_SEARCH) {
                     renderedLogo = (
                         <div className="icon_search_container">
-                            <div className="icon_search_box" ref={searchRef}>
+                            <div
+                                className={classnames('icon_search_box', {
+                                    'no-theme': !selectedTheme,
+                                })}
+                            >
                                 <span
                                     className={element.iconName}
                                     key={index}
@@ -248,6 +253,35 @@ class Previewer extends React.Component<any, any> {
                             </div>
                         </div>
                     );
+                } else if (element.iconName === CONSTANTS.FONT_SORT_FILTER) {
+                    renderedLogo =
+                        view === views.LIBRARY ? (
+                            <div
+                                className="icon_sort_filter_container"
+                                ref={iconRef}
+                            >
+                                <div
+                                    className={classnames(
+                                        'icon_sort_filter_box',
+                                        { 'no-theme': !selectedTheme }
+                                    )}
+                                >
+                                    <span className="icon_sort_filter_text">
+                                        {localizedStrings.SORT_BY}: ..
+                                    </span>
+                                </div>
+                                <span
+                                    className={element.iconName}
+                                    key={index}
+                                ></span>
+                            </div>
+                        ) : (
+                            <span
+                                className={element.iconName}
+                                key={index}
+                                ref={iconRef}
+                            ></span>
+                        );
                 }
 
                 if (
@@ -281,6 +315,23 @@ class Previewer extends React.Component<any, any> {
                 return renderedLogo;
             }
         });
+
+        const toolbarTitle = (
+            <div
+                className={classnames('toolbar-title-wrapper', {
+                    'no-theme': !selectedTheme,
+                })}
+                ref={iconRef}
+            >
+                <span className="title"></span>
+            </div>
+        );
+
+        if (view === views.DOSSIER) {
+            renderedIcons.push(toolbarTitle);
+        }
+
+        return renderedIcons;
     };
 
     // render array of side bar icons
@@ -299,32 +350,26 @@ class Previewer extends React.Component<any, any> {
         } = formatting || {};
         const sidebarIconTextRef = (el: any) => {
             if (el) {
-                el.style.setProperty(
-                    BACKGROUND_COLOR,
-                    sidebarColor,
-                    'important'
-                );
+                el.style.setProperty('--sidebar-color', sidebarColor);
             }
         };
 
         const sidebarRef = (el: any) => {
             if (el) {
-                el.style.setProperty(
-                    BACKGROUND_COLOR,
-                    sidebarFill,
-                    'important'
-                );
+                el.style.setProperty('--sidebar-fill', sidebarFill);
             }
         };
 
         const sidebarActiveRef = (el: any) => {
             if (el) {
                 el.style.setProperty(
-                    BACKGROUND_COLOR,
-                    sidebarActiveFill,
-                    'important'
+                    '--sidebar-active-fill',
+                    sidebarActiveFill
                 );
-                el.style.setProperty(COLOR, sidebarActiveColor, 'important');
+                el.style.setProperty(
+                    '--sidebar-active-color',
+                    sidebarActiveColor
+                );
             }
         };
 
@@ -332,20 +377,25 @@ class Previewer extends React.Component<any, any> {
 
         for (let i = 1; i <= 6; i++) {
             sidebarIcons.push(
-                <div>
-                    <div
-                        className={`${classNamePrefix}-pad-overview-left-text`}
-                        ref={i == 1 ? sidebarActiveRef : null}
-                    >
-                        <span
-                            className={`sidebar-icon-${i}`}
-                            ref={sidebarIconTextRef}
-                        />
-                        <span
-                            className={`sidebar-text-${i}`}
-                            ref={sidebarIconTextRef}
-                        />
-                    </div>
+                <div
+                    className={classnames(
+                        `${classNamePrefix}-pad-overview-left-text`,
+                        { 'no-theme': !selectedTheme }
+                    )}
+                    ref={i == 1 ? sidebarActiveRef : null}
+                >
+                    <span
+                        className={classnames(`sidebar-icon-${i}`, {
+                            'no-theme': !selectedTheme,
+                        })}
+                        ref={sidebarIconTextRef}
+                    />
+                    <span
+                        className={classnames(`sidebar-text-${i}`, {
+                            'no-theme': !selectedTheme,
+                        })}
+                        ref={sidebarIconTextRef}
+                    />
                 </div>
             );
         }
@@ -357,11 +407,19 @@ class Previewer extends React.Component<any, any> {
         const accountIcon = accountShow && (
             <div className={`${classNamePrefix}-pad-overview-left-down`}>
                 {' '}
-                {this.toolbarIconsRender([iconTypes.accountMobile])}
+                {this.toolbarIconsRender(
+                    [iconTypes.accountMobile],
+                    views.MOBILE
+                )}
             </div>
         );
         return (
-            <div className={rootClassName} ref={sidebarRef}>
+            <div
+                className={classnames(rootClassName, {
+                    'no-theme': !selectedTheme,
+                })}
+                ref={sidebarRef}
+            >
                 {' '}
                 {sidebarIcons} {accountIcon}{' '}
             </div>
@@ -665,21 +723,24 @@ class Previewer extends React.Component<any, any> {
         formatting = !isCustomColor
             ? prefinedColorSets[selectedTheme]
             : formatting;
-        const { toolbarFill, toolbarColor, canvasFill } = formatting || {};
+        const { toolbarFill, sidebarFill, canvasFill, panelColor } =
+            formatting || {};
 
         const toolbarRef = (el: any) => {
             if (el) {
-                el.style.setProperty(
-                    BACKGROUND_COLOR,
-                    toolbarFill,
-                    'important'
-                );
+                el.style.setProperty('--toolbar-fill', toolbarFill);
             }
         };
 
         const canvasRef = (el: any) => {
             if (el) {
-                el.style.setProperty(BACKGROUND_COLOR, canvasFill, 'important');
+                el.style.setProperty('--canvas-fill', canvasFill);
+            }
+        };
+
+        const panelTextRef = (el: any) => {
+            if (el) {
+                el.style.setProperty('--panel-color', panelColor);
             }
         };
 
@@ -713,11 +774,14 @@ class Previewer extends React.Component<any, any> {
                         >
                             {!hideHeader && (
                                 <Layout.Header
-                                    className="library-header"
+                                    className={classnames('library-header', {
+                                        'no-theme': !selectedTheme,
+                                    })}
                                     ref={toolbarRef}
                                 >
                                     {this.toolbarIconsRender(
-                                        libraryHeaderIcons
+                                        libraryHeaderIcons,
+                                        views.LIBRARY
                                     )}
                                 </Layout.Header>
                             )}
@@ -740,11 +804,10 @@ class Previewer extends React.Component<any, any> {
                                                 '-overview'
                                             )}
                                         >
-                                            {showSideBar &&
-                                                this.sidebarIconsRender(
-                                                    padLeftClassName,
-                                                    deviceType
-                                                )}
+                                            {this.sidebarIconsRender(
+                                                padLeftClassName,
+                                                deviceType
+                                            )}
                                             <div
                                                 className={this.previewerClassName(
                                                     deviceType,
@@ -752,33 +815,49 @@ class Previewer extends React.Component<any, any> {
                                                 )}
                                                 ref={canvasRef}
                                             >
-                                                {
-                                                    <div
-                                                        className={
-                                                            padRightClassName
-                                                        }
-                                                    >
-                                                        {' '}
+                                                <div className="library-content-filter">
+                                                    <div className="title-wrapper">
+                                                        <span
+                                                            className={classnames(
+                                                                'title',
+                                                                {
+                                                                    'no-theme':
+                                                                        !selectedTheme,
+                                                                }
+                                                            )}
+                                                            ref={panelTextRef}
+                                                        ></span>
+                                                        <span
+                                                            className={classnames(
+                                                                'arrow',
+                                                                {
+                                                                    'no-theme':
+                                                                        !selectedTheme,
+                                                                }
+                                                            )}
+                                                            ref={panelTextRef}
+                                                        >
+                                                            {'\u2304'}
+                                                        </span>
                                                     </div>
-                                                }
-                                                {
-                                                    <div
-                                                        className={
-                                                            padRightClassName
-                                                        }
-                                                    >
-                                                        {' '}
-                                                    </div>
-                                                }
-                                                {
-                                                    <div
-                                                        className={
-                                                            padRightClassName
-                                                        }
-                                                    >
-                                                        {' '}
-                                                    </div>
-                                                }
+                                                </div>
+                                                <div className="library-content-list">
+                                                    {
+                                                        <div className="library-item-col">
+                                                            {' '}
+                                                        </div>
+                                                    }
+                                                    {
+                                                        <div className="library-item-col">
+                                                            {' '}
+                                                        </div>
+                                                    }
+                                                    {
+                                                        <div className="library-item-col">
+                                                            {' '}
+                                                        </div>
+                                                    }
+                                                </div>
                                             </div>
                                         </div>
                                     </Layout>
@@ -799,12 +878,15 @@ class Previewer extends React.Component<any, any> {
                     <Layout className={this.previewerClassName(deviceType, '')}>
                         {!hideHeader && (
                             <Layout.Header
-                                className="dossier-header"
+                                className={classnames('dossier-header', {
+                                    'no-theme': !selectedTheme,
+                                })}
                                 ref={toolbarRef}
                             >
-                                {this.toolbarIconsRender(dossierHeaderIcons, {
-                                    toolbarColor,
-                                })}
+                                {this.toolbarIconsRender(
+                                    dossierHeaderIcons,
+                                    views.DOSSIER
+                                )}
                             </Layout.Header>
                         )}
                         <Layout.Content
@@ -831,22 +913,19 @@ class Previewer extends React.Component<any, any> {
                                             '-overview-right'
                                         )}
                                     >
-                                        {!hideHeader && (
-                                            <div
-                                                className={this.previewerClassName(
-                                                    deviceType,
-                                                    '-overview-right-dossier'
-                                                )}
-                                            />
-                                        )}
-                                        {hideHeader && (
-                                            <div
-                                                className={this.previewerClassName(
-                                                    deviceType,
-                                                    '-overview-right-dossier-nobar'
-                                                )}
-                                            />
-                                        )}
+                                        <div className="library-content-list">
+                                            {!hideHeader && (
+                                                <div className="dossier-item-col" />
+                                            )}
+                                            {hideHeader && (
+                                                <div
+                                                    className={this.previewerClassName(
+                                                        deviceType,
+                                                        '-overview-right-dossier-nobar'
+                                                    )}
+                                                />
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             </Layout>
