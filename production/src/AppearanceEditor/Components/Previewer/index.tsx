@@ -663,9 +663,9 @@ class Previewer extends React.Component<any, any> {
             web: webLogo = { type: 'URL', value: '' },
             favicon: faviconLogo = { type: 'URL', value: '' },
             mobile: mobileLogo = { type: 'URL', value: '' },
-        } = (theme && theme.logos) || {};
+        } = theme?.logos || {};
 
-        let { selectedTheme, formatting } = (theme && theme.color) || {};
+        let { selectedTheme, formatting } = theme?.color || {};
         const isCustomColor = isCustomColorTheme(selectedTheme);
         formatting = !isCustomColor
             ? prefinedColorSets[selectedTheme]
