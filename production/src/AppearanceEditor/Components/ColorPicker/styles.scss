@@ -29,6 +29,7 @@
         .palette-picker {
           //override component styling
           width: 100%;
+          cursor: pointer;
 
           .color-saturation {
             //override component styling
@@ -41,6 +42,10 @@
               width: 100%;
             }
           }
+        }
+
+        .color-cell {
+          cursor: pointer;
         }
       }
     }
