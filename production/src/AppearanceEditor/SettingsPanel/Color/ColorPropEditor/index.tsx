@@ -124,7 +124,8 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
         >
             <div
                 className="color-prop-item"
-                onClick={() => setColorPropInFocus(propName)}
+                onMouseEnter={() => setColorPropInFocus(propName)}
+                onMouseLeave={() => setColorPropInFocus('')}
                 onBlur={() => onBlur(propName)}
             >
                 <Tooltip
