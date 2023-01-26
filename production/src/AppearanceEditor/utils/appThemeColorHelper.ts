@@ -247,7 +247,6 @@ export const colorPropTitles = [
 export const isCustomColorTheme = (theme: string) => theme === EnumSelectedThemes.CUSTOM;
 
 export const isColorCodeValid = (hexCode: string) => {
-    const threeHexPattern = new RegExp('#[A-Fa-f0-9]{3}$');
     const sixHexPattern = new RegExp('#[A-Fa-f0-9]{6}$');
-    return threeHexPattern.test(hexCode) || sixHexPattern.test(hexCode);
+    return sixHexPattern.test(hexCode);
 };
