@@ -94,7 +94,7 @@ const ColorPickerComponent: React.FC<ColorPickerType> = ({
             onVisibleChange={(visible) => setOpen(visible)}
             getPopupContainer={popupContainer}
             arrowPointAtCenter={true}
-            placement="bottomLeft"
+            placement="topLeft"
             zIndex={open ? 3 : 1}
             destroyTooltipOnHide={true}
         >
