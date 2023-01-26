@@ -833,9 +833,9 @@ class Previewer extends React.Component<any, any> {
             toolbarHidden,
             toolbarCollapsed,
         } = this.props;
-        const { libraryHeaderIcons, libraryFooterIcons } =
+        const { libraryHeaderIcons } =
             this.libraryIconsToRender();
-        const { dossierHeaderIcons, dossierFooterIcons } =
+        const { dossierHeaderIcons } =
             this.dossierIconsToRender();
 
         const { selectedTheme, formatting } = theme?.color || {};
@@ -849,9 +849,6 @@ class Previewer extends React.Component<any, any> {
 
         const showSideBar =
             this.iconShouldShow(iconTypes.sidebar) && !toolbarHidden; // when toolbar disabled, sidebar will hide as well
-        const showTocOnPhone =
-            this.iconShouldShow(iconTypes.toc) &&
-            deviceType === reviewType.PHONE;
         const showExpanderOverlay = toolbarCollapsed && !toolbarHidden;
         const hideHeader = toolbarHidden || toolbarCollapsed;
 
@@ -859,12 +856,6 @@ class Previewer extends React.Component<any, any> {
             deviceType,
             '-overview-left'
         );
-        const padRightClassName = showSideBar
-            ? this.previewerClassName(deviceType, '-overview-right-library')
-            : this.previewerClassName(
-                  deviceType,
-                  '-overview-right-library-nosidebar'
-              );
         return (
             <div className={classNamePrefix} ref={previewerRef}>
                 {/* library toolbars */}
@@ -890,7 +881,12 @@ class Previewer extends React.Component<any, any> {
                         : localizedStrings.DOSSIER_WINDOW
                 )}
                 <div style={{ position: 'relative' }}>
-                    {this.getDossierViewLayout(deviceType, hideHeader, dossierHeaderIcons, selectedTheme)}
+                    {this.getDossierViewLayout(
+                        deviceType,
+                        hideHeader,
+                        dossierHeaderIcons,
+                        selectedTheme
+                    )}
                     {showExpanderOverlay && this.overlayRender(false, true)}
                 </div>
 
