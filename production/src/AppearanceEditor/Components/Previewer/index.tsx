@@ -48,6 +48,45 @@ const views = {
     MOBILE: 'mobile',
 };
 
+const applyThemeColorsToPreviewer = (el: any, formats: any) => {
+    const {
+        toolbarFill,
+        toolbarColor,
+        sidebarFill,
+        sidebarColor,
+        sidebarActiveFill,
+        sidebarActiveColor,
+        canvasFill,
+        accentColor,
+        buttonColor,
+        notificationBadgeFill,
+        panelColor,
+    } = formats || {};
+
+    if (el) {
+        el.style.setProperty('--toolbar-fill', toolbarFill);
+        el.style.setProperty('--toolbar-color', toolbarColor);
+        el.style.setProperty('--sidebar-fill', sidebarFill);
+        el.style.setProperty('--sidebar-color', sidebarColor);
+        el.style.setProperty(
+            '--sidebar-active-fill',
+            sidebarActiveFill
+        );
+        el.style.setProperty(
+            '--sidebar-active-color',
+            sidebarActiveColor
+        );
+        el.style.setProperty('--canvas-fill', canvasFill);
+        el.style.setProperty('--panel-color', panelColor);
+        el.style.setProperty('--accent-color', accentColor);
+        el.style.setProperty('--button-color', buttonColor);
+        el.style.setProperty(
+            '--notification-badge-fill',
+            notificationBadgeFill
+        );
+    }
+}
+
 class Previewer extends React.Component<any, any> {
     contentBundleEnable = false;
     hasContent = false;
@@ -193,110 +232,107 @@ class Previewer extends React.Component<any, any> {
         return <div className={`${classNamePrefix}-title`}>{title}</div>;
     };
 
-    // render array of icons
-    toolbarIconsRender = (iconsToRender: iconDetail[], view: string) => {
+    getRenderedIcon = (element: any, elementIndex: number, view: string) => {
         const {
             web: webLogo = { type: 'URL', value: '' },
             mobile: mobileLogo = { type: 'URL', value: '' },
         } = (this.props.theme && this.props.theme.logos) || {};
 
-        let { selectedTheme, formatting } =
-            (this.props.theme && this.props.theme.color) || {};
-        const isCustomColor = isCustomColorTheme(selectedTheme);
-        formatting = !isCustomColor
-            ? prefinedColorSets[selectedTheme]
-            : formatting;
+        const { selectedTheme } = (this.props.theme && this.props.theme.color) || {};
 
+        const isLibraryWebLogo = element.iconName === VC.FONT_PREVIEWSIDEBAR;
+        const isLibraryMobileLogo = element.iconName === VC.FONT_LIBRARY_MOBILE;
+        let renderedLogo = (
+            <span className={element.iconName} key={elementIndex}>
+                {' '}
+            </span>
+        );
 
-        const renderedIcons = iconsToRender.map((element, index) => {
+        if (element.iconName === CONSTANTS.FONT_SEARCH) {
+            renderedLogo = (
+                <div className="icon_search_container">
+                    <div
+                        className={classnames('icon_search_box', {
+                            'no-theme': !selectedTheme,
+                        })}
+                    >
+                        <span className={element.iconName} key={elementIndex}>
+                            {localizedStrings.SEARCH}
+                        </span>
+                    </div>
+                </div>
+            );
+        } else if (element.iconName === CONSTANTS.FONT_SORT_FILTER) {
+            renderedLogo =
+                view === views.LIBRARY ? (
+                    <div className="icon_sort_filter_container">
+                        <div
+                            className={classnames('icon_sort_filter_box', {
+                                'no-theme': !selectedTheme,
+                            })}
+                        >
+                            <span className="icon_sort_filter_text">
+                                {localizedStrings.SORT_BY}: ..
+                            </span>
+                        </div>
+                        <span
+                            className={element.iconName}
+                            key={elementIndex}
+                        ></span>
+                    </div>
+                ) : (
+                    <span
+                        className={element.iconName}
+                        key={elementIndex}
+                    ></span>
+                );
+        }
+
+        if (isLibraryWebLogo && webLogo.type === 'URL' && webLogo.value) {
+            renderedLogo = (
+                <div className="replaced-logo-wrapper">
+                    <img
+                        className={classnames('replaced-logo web')}
+                        src={webLogo.value}
+                    />
+                </div>
+            );
+        }
+        if (
+            isLibraryMobileLogo &&
+            mobileLogo.type === 'URL' &&
+            mobileLogo.value
+        ) {
+            renderedLogo = (
+                <div className="replaced-logo-wrapper">
+                    <img
+                        className={classnames('replaced-logo mobile')}
+                        src={mobileLogo.value}
+                    />
+                </div>
+            );
+        }
+        return renderedLogo;
+    };
+
+    getRenderedIconArray = (iconsToRender: iconDetail[], view: string) => {
+        return iconsToRender.map((element: any, index: number) => {
             if (
                 !this.iconShouldShow(element) ||
                 !this.shouldShowPreview(element)
             ) {
                 return;
             } else {
-                const isLibraryWebLogo =
-                    element.iconName === VC.FONT_PREVIEWSIDEBAR;
-                const isLibraryMobileLogo =
-                    element.iconName === VC.FONT_LIBRARY_MOBILE;
-                let renderedLogo = (
-                    <span className={element.iconName} key={index}>
-                        {' '}
-                    </span>
-                );
-
-                if (element.iconName === CONSTANTS.FONT_SEARCH) {
-                    renderedLogo = (
-                        <div className="icon_search_container">
-                            <div
-                                className={classnames('icon_search_box', {
-                                    'no-theme': !selectedTheme,
-                                })}
-                            >
-                                <span className={element.iconName} key={index}>
-                                    {localizedStrings.SEARCH}
-                                </span>
-                            </div>
-                        </div>
-                    );
-                } else if (element.iconName === CONSTANTS.FONT_SORT_FILTER) {
-                    renderedLogo =
-                        view === views.LIBRARY ? (
-                            <div className="icon_sort_filter_container">
-                                <div
-                                    className={classnames(
-                                        'icon_sort_filter_box',
-                                        { 'no-theme': !selectedTheme }
-                                    )}
-                                >
-                                    <span className="icon_sort_filter_text">
-                                        {localizedStrings.SORT_BY}: ..
-                                    </span>
-                                </div>
-                                <span
-                                    className={element.iconName}
-                                    key={index}
-                                ></span>
-                            </div>
-                        ) : (
-                            <span
-                                className={element.iconName}
-                                key={index}
-                            ></span>
-                        );
-                }
-
-                if (
-                    isLibraryWebLogo &&
-                    webLogo.type === 'URL' &&
-                    webLogo.value
-                ) {
-                    renderedLogo = (
-                        <div className="replaced-logo-wrapper">
-                            <img
-                                className={classnames('replaced-logo web')}
-                                src={webLogo.value}
-                            />
-                        </div>
-                    );
-                }
-                if (
-                    isLibraryMobileLogo &&
-                    mobileLogo.type === 'URL' &&
-                    mobileLogo.value
-                ) {
-                    renderedLogo = (
-                        <div className="replaced-logo-wrapper">
-                            <img
-                                className={classnames('replaced-logo mobile')}
-                                src={mobileLogo.value}
-                            />
-                        </div>
-                    );
-                }
-                return renderedLogo;
+                return this.getRenderedIcon(element, index, view);
             }
         });
+    };
+
+    // render array of icons
+    toolbarIconsRender = (iconsToRender: iconDetail[], view: string) => {
+        const renderedIcons = this.getRenderedIconArray(iconsToRender, view);
+
+        const { selectedTheme } = (this.props.theme && this.props.theme.color) || {};
 
         const toolbarTitle = (
             <div
@@ -317,12 +353,8 @@ class Previewer extends React.Component<any, any> {
 
     // render array of side bar icons
     sidebarIconsRender = (rootClassName: string) => {
-        let { selectedTheme, formatting } =
+        let { selectedTheme } =
             (this.props.theme && this.props.theme.color) || {};
-        const isCustomColor = isCustomColorTheme(selectedTheme);
-        formatting = !isCustomColor
-            ? prefinedColorSets[selectedTheme]
-            : formatting;
 
         const sidebarIcons = [];
 
@@ -657,58 +689,15 @@ class Previewer extends React.Component<any, any> {
             this.libraryIconsToRender();
         const { dossierHeaderIcons, dossierFooterIcons } =
             this.dossierIconsToRender();
-        const { sidebarHeaderIcons } = this.sidebarHeaderIconsToRender();
 
-        const {
-            web: webLogo = { type: 'URL', value: '' },
-            favicon: faviconLogo = { type: 'URL', value: '' },
-            mobile: mobileLogo = { type: 'URL', value: '' },
-        } = theme?.logos || {};
-
-        let { selectedTheme, formatting } = theme?.color || {};
+        const { selectedTheme, formatting } = theme?.color || {};
         const isCustomColor = isCustomColorTheme(selectedTheme);
-        formatting = !isCustomColor
+        const formats = !isCustomColor
             ? prefinedColorSets[selectedTheme]
             : formatting;
-        const {
-            toolbarFill,
-            toolbarColor,
-            sidebarFill,
-            sidebarColor,
-            sidebarActiveFill,
-            sidebarActiveColor,
-            canvasFill,
-            accentColor,
-            buttonColor,
-            notificationBadgeFill,
-            panelColor,
-        } = formatting || {};
+        
 
-        const previewerRef = (el: any) => {
-            if (el) {
-                el.style.setProperty('--toolbar-fill', toolbarFill);
-                el.style.setProperty('--toolbar-color', toolbarColor);
-                el.style.setProperty('--sidebar-fill', sidebarFill);
-                el.style.setProperty('--sidebar-color', sidebarColor);
-                el.style.setProperty(
-                    '--sidebar-active-fill',
-                    sidebarActiveFill
-                );
-                el.style.setProperty(
-                    '--sidebar-active-color',
-                    sidebarActiveColor
-                );
-                el.style.setProperty('--canvas-fill', canvasFill);
-                el.style.setProperty('--panel-color', panelColor);
-                el.style.setProperty('--accent-color', accentColor);
-                el.style.setProperty('--button-color', buttonColor);
-                el.style.setProperty(
-                    '--notification-badge-fill',
-                    notificationBadgeFill
-                );
-            }
-        };
-
+        const previewerRef = (el: any) => applyThemeColorsToPreviewer(el, formats);
 
         const showSideBar =
             this.iconShouldShow(iconTypes.sidebar) && !toolbarHidden; // when toolbar disabled, sidebar will hide as well
