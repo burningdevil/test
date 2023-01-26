@@ -847,8 +847,6 @@ class Previewer extends React.Component<any, any> {
         const previewerRef = (el: any) =>
             applyThemeColorsToPreviewer(el, formats);
 
-        const showSideBar =
-            this.iconShouldShow(iconTypes.sidebar) && !toolbarHidden; // when toolbar disabled, sidebar will hide as well
         const showExpanderOverlay = toolbarCollapsed && !toolbarHidden;
         const hideHeader = toolbarHidden || toolbarCollapsed;
 
