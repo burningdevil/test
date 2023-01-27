@@ -150,7 +150,8 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
                     >
                         <div
                             className="color-box"
-                            style={{ background: hexValue }}
+                            // display red border for the invalid color code
+                            style={isColorCodeValid(hexValue) ? { background: hexValue } : { border: "1px solid #FF0000" }}
                         ></div>
                     </ColorPickerComponent>
 
