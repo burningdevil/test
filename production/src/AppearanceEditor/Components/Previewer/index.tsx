@@ -2,10 +2,8 @@ import * as React from 'react';
 import {
     default as VC,
     localizedStrings,
-    childrenIcons,
     iconDetail,
     iconTypes,
-    platformType,
     reviewType,
     dossierIcons,
     dossierIconsDossierHome,
@@ -15,12 +13,11 @@ import {
     iconValidKey,
     extraDesktopIcons,
     extraMobileIcons,
-    platformSpecificIconKeys,
     libraryCustomizedIconDefaultValues,
-    CONTENT_BUNDLE_DEFAULT_GROUP_NAME,
+    CONSTANTS,
 } from '../../../modules/components/HomeScreenConfigConstant';
 import { Layout, Radio } from 'antd';
-import { PlusCircleOutlined, DownOutlined } from '@ant-design/icons';
+import { DownOutlined } from '@ant-design/icons';
 import './styles.scss';
 import * as _ from 'lodash';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
@@ -39,8 +36,50 @@ import {
 import * as Actions from '../../../store/actions/ActionsCreator';
 import { Tooltip } from '@mstr/rc';
 import classnames from 'classnames';
+import {
+    isCustomColorTheme,
+    prefinedColorSets,
+} from '../../utils/appThemeColorHelper';
 
 const classNamePrefix = 'Previewer';
+const views = {
+    DOSSIER: 'dossier',
+    LIBRARY: 'web',
+    MOBILE: 'mobile',
+};
+
+const applyThemeColorsToPreviewer = (el: any, formats: any) => {
+    const {
+        toolbarFill,
+        toolbarColor,
+        sidebarFill,
+        sidebarColor,
+        sidebarActiveFill,
+        sidebarActiveColor,
+        canvasFill,
+        accentColor,
+        buttonColor,
+        notificationBadgeFill,
+        panelColor,
+    } = formats || {};
+
+    if (el) {
+        el.style.setProperty('--toolbar-fill', toolbarFill);
+        el.style.setProperty('--toolbar-color', toolbarColor);
+        el.style.setProperty('--sidebar-fill', sidebarFill);
+        el.style.setProperty('--sidebar-color', sidebarColor);
+        el.style.setProperty('--sidebar-active-fill', sidebarActiveFill);
+        el.style.setProperty('--sidebar-active-color', sidebarActiveColor);
+        el.style.setProperty('--canvas-fill', canvasFill);
+        el.style.setProperty('--panel-color', panelColor);
+        el.style.setProperty('--accent-color', accentColor);
+        el.style.setProperty('--button-color', buttonColor);
+        el.style.setProperty(
+            '--notification-badge-fill',
+            notificationBadgeFill
+        );
+    }
+};
 
 class Previewer extends React.Component<any, any> {
     contentBundleEnable = false;
@@ -93,6 +132,13 @@ class Previewer extends React.Component<any, any> {
         }
         return icon.key === iconTypes.home.key;
     }
+
+    shouldShowPreview = (icon: iconDetail) =>
+        ![
+            CONSTANTS.FONT_UNDO_REDO,
+            CONSTANTS.FONT_REDO,
+            CONSTANTS.FONT_EDIT_DOSSIER,
+        ].includes(icon.iconName);
 
     // call back
     onDeviceTypeChange = (e: any) => {
@@ -180,104 +226,156 @@ class Previewer extends React.Component<any, any> {
         return <div className={`${classNamePrefix}-title`}>{title}</div>;
     };
 
-    // render array of icons
-    toolbarIconsRender = (iconsToRender: iconDetail[]) => {
-        const { 
+    getRenderedIcon = (element: any, elementIndex: number, view: string) => {
+        const {
             web: webLogo = { type: 'URL', value: '' },
-            mobile: mobileLogo = { type: 'URL', value: '' }
-          } = (this.props.theme && this.props.theme.logos) || {}
-        return iconsToRender.map((element, index) => {
-            if (!this.iconShouldShow(element)) {
-                return
-            } else {
-                const isLibraryWebLogo = element.iconName === VC.FONT_PREVIEWSIDEBAR;
-                const isLibraryMobileLogo = element.iconName === VC.FONT_LIBRARY_MOBILE;
-                let renderedLogo = (
-                    <span className={element.iconName} key={index}>
-                        {' '}
-                    </span>
+            mobile: mobileLogo = { type: 'URL', value: '' },
+        } = (this.props.theme && this.props.theme.logos) || {};
+
+        const { selectedTheme } =
+            (this.props.theme && this.props.theme.color) || {};
+
+        const isLibraryWebLogo = element.iconName === VC.FONT_PREVIEWSIDEBAR;
+        const isLibraryMobileLogo = element.iconName === VC.FONT_LIBRARY_MOBILE;
+        let renderedLogo = (
+            <span className={element.iconName} key={elementIndex}>
+                {' '}
+            </span>
+        );
+
+        if (element.iconName === CONSTANTS.FONT_SEARCH) {
+            renderedLogo = (
+                <div className="icon_search_container">
+                    <div
+                        className={classnames('icon_search_box', {
+                            'no-theme': !selectedTheme,
+                        })}
+                    >
+                        <span className={element.iconName} key={elementIndex}>
+                            {localizedStrings.SEARCH}
+                        </span>
+                    </div>
+                </div>
+            );
+        } else if (element.iconName === CONSTANTS.FONT_SORT_FILTER) {
+            renderedLogo =
+                view === views.LIBRARY ? (
+                    <div className="icon_sort_filter_container">
+                        <div
+                            className={classnames('icon_sort_filter_box', {
+                                'no-theme': !selectedTheme,
+                            })}
+                        >
+                            <span className="icon_sort_filter_text">
+                                {localizedStrings.SORT_BY}: ..
+                            </span>
+                        </div>
+                        <span
+                            className={element.iconName}
+                            key={elementIndex}
+                        ></span>
+                    </div>
+                ) : (
+                    <span
+                        className={element.iconName}
+                        key={elementIndex}
+                    ></span>
                 );
-                if (isLibraryWebLogo && webLogo.type === 'URL' && webLogo.value) {
-                    renderedLogo = (
-                        <div className='replaced-logo-wrapper'>
-                            <img className={classnames('replaced-logo web')} src={webLogo.value} />
-                        </div>
-                    );
-                }
-                if (isLibraryMobileLogo && mobileLogo.type === 'URL' && mobileLogo.value) {
-                    renderedLogo = (
-                        <div className='replaced-logo-wrapper'>
-                            <img className={classnames('replaced-logo mobile')} src={mobileLogo.value} />
-                        </div>
-                    );
-                }
-                return renderedLogo;
+        }
+
+        if (isLibraryWebLogo && webLogo.type === 'URL' && webLogo.value) {
+            renderedLogo = (
+                <div className="replaced-logo-wrapper">
+                    <img
+                        className={classnames('replaced-logo web')}
+                        src={webLogo.value}
+                    />
+                </div>
+            );
+        }
+        if (
+            isLibraryMobileLogo &&
+            mobileLogo.type === 'URL' &&
+            mobileLogo.value
+        ) {
+            renderedLogo = (
+                <div className="replaced-logo-wrapper">
+                    <img
+                        className={classnames('replaced-logo mobile')}
+                        src={mobileLogo.value}
+                    />
+                </div>
+            );
+        }
+        return renderedLogo;
+    };
+
+    getRenderedIconArray = (iconsToRender: iconDetail[], view: string) => {
+        return iconsToRender.map((element: any, index: number) => {
+            if (
+                !this.iconShouldShow(element) ||
+                !this.shouldShowPreview(element)
+            ) {
+                return;
+            } else {
+                return this.getRenderedIcon(element, index, view);
             }
         });
     };
 
+    // render array of icons
+    toolbarIconsRender = (iconsToRender: iconDetail[], view: string) => {
+        const renderedIcons = this.getRenderedIconArray(iconsToRender, view);
+
+        const { selectedTheme } =
+            (this.props.theme && this.props.theme.color) || {};
+
+        const toolbarTitle = (
+            <div
+                className={classnames('toolbar-title-wrapper', {
+                    'no-theme': !selectedTheme,
+                })}
+            >
+                <span className="title"></span>
+            </div>
+        );
+
+        if (view === views.DOSSIER) {
+            renderedIcons.push(toolbarTitle);
+        }
+
+        return renderedIcons;
+    };
+
     // render array of side bar icons
-    sidebarIconsRender = (
-        iconsToRender: iconDetail[],
-        rootClassName: string,
-        previewType: any
-    ) => {
-        if (!this.contentBundleEnable) {
-            iconsToRender = iconsToRender.filter(
-                (v) => v.key !== iconTypes.defaultGroup.key
+    sidebarIconsRender = (rootClassName: string) => {
+        let { selectedTheme } =
+            (this.props.theme && this.props.theme.color) || {};
+
+        const sidebarIcons = [];
+
+        for (let i = 1; i <= 6; i++) {
+            sidebarIcons.push(
+                <div
+                    className={classnames(
+                        `${classNamePrefix}-pad-overview-left-text`,
+                        { 'no-theme': !selectedTheme }
+                    )}
+                >
+                    <span
+                        className={classnames(`sidebar-icon-${i}`, {
+                            'no-theme': !selectedTheme,
+                        })}
+                    />
+                    <span
+                        className={classnames(`sidebar-text-${i}`, {
+                            'no-theme': !selectedTheme,
+                        })}
+                    />
+                </div>
             );
         }
-        iconsToRender = iconsToRender.filter(
-            (v) =>
-                ![
-                    iconTypes.addLibrary.key,
-                    iconTypes.accountMobile.key,
-                ].includes(v.key)
-        );
-        const sidebarIcons = iconsToRender.map((element, index) => {
-            const showAddButton = iconTypes.myGroup.key === element.key;
-            const showContent = iconTypes.defaultGroup.key === element.key;
-            let defaultGroupName = localizedStrings.DEFAULT_GROUPS;
-            if (
-                this.props.config.homeScreen.homeLibrary.defaultGroupsName &&
-                this.props.config.homeScreen.homeLibrary.defaultGroupsName !==
-                    CONTENT_BUNDLE_DEFAULT_GROUP_NAME
-            ) {
-                defaultGroupName =
-                    this.props.config.homeScreen.homeLibrary.defaultGroupsName;
-            }
-            return (
-                this.iconShouldShow(element) && (
-                    <div>
-                        <div
-                            className={`${classNamePrefix}-pad-overview-left-text`}
-                        >
-                            <span className={element.iconName} key={index} />
-                            <span className="overflow">
-                                {
-                                    showContent
-                                        ? defaultGroupName
-                                        : element.displayText.replace(
-                                              /\(.*?\)/g,   // NOSONAR
-                                              ''
-                                          ) // replace the (Mobile only) => ''
-                                }
-                            </span>
-                            {showAddButton && (
-                                <span
-                                    className="icon-pnl_add-new"
-                                    style={{
-                                        fontSize: '5px',
-                                        marginLeft: 'auto',
-                                        marginRight: '4px',
-                                    }}
-                                />
-                            )}
-                        </div>
-                    </div>
-                )
-            );
-        });
+
         // account for mobile
         const { deviceType } = this.props;
         const accountShow =
@@ -285,11 +383,18 @@ class Previewer extends React.Component<any, any> {
         const accountIcon = accountShow && (
             <div className={`${classNamePrefix}-pad-overview-left-down`}>
                 {' '}
-                {this.toolbarIconsRender([iconTypes.accountMobile])}
+                {this.toolbarIconsRender(
+                    [iconTypes.accountMobile],
+                    views.MOBILE
+                )}
             </div>
         );
         return (
-            <div className={rootClassName}>
+            <div
+                className={classnames(rootClassName, {
+                    'no-theme': !selectedTheme,
+                })}
+            >
                 {' '}
                 {sidebarIcons} {accountIcon}{' '}
             </div>
@@ -564,29 +669,184 @@ class Previewer extends React.Component<any, any> {
                 return '';
         }
     };
+
+    getLibraryViewLayout = (
+        deviceType: string,
+        hideHeader: boolean,
+        libraryHeaderIcons: iconDetail[],
+        selectedTheme: string,
+        padLeftClassName: string
+    ) => {
+        return (
+            <Layout className={this.previewerClassName(deviceType, '')}>
+                {!hideHeader && (
+                    <Layout.Header
+                        className={classnames('library-header', {
+                            'no-theme': !selectedTheme,
+                        })}
+                    >
+                        {this.toolbarIconsRender(
+                            libraryHeaderIcons,
+                            views.LIBRARY
+                        )}
+                    </Layout.Header>
+                )}
+                <Layout>
+                    <Layout.Content
+                        className={this.previewerClassName(
+                            deviceType,
+                            '-content'
+                        )}
+                    >
+                        <Layout
+                            className={this.previewerClassName(
+                                deviceType,
+                                '-container'
+                            )}
+                        >
+                            <div
+                                className={this.previewerClassName(
+                                    deviceType,
+                                    '-overview'
+                                )}
+                            >
+                                {this.sidebarIconsRender(padLeftClassName)}
+                                <div
+                                    className={this.previewerClassName(
+                                        deviceType,
+                                        '-overview-right'
+                                    )}
+                                >
+                                    <div className="library-content-filter">
+                                        <div className="title-wrapper">
+                                            <span
+                                                className={classnames('title', {
+                                                    'no-theme': !selectedTheme,
+                                                })}
+                                            ></span>
+                                            <span
+                                                className={classnames('arrow', {
+                                                    'no-theme': !selectedTheme,
+                                                })}
+                                            >
+                                                {'\u2304'}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div className="library-content-list">
+                                        {
+                                            <div className="library-item-col">
+                                                {' '}
+                                            </div>
+                                        }
+                                        {
+                                            <div className="library-item-col">
+                                                {' '}
+                                            </div>
+                                        }
+                                        {
+                                            <div className="library-item-col">
+                                                {' '}
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </Layout>
+                    </Layout.Content>
+                </Layout>
+            </Layout>
+        );
+    };
+
+    getDossierViewLayout = (
+        deviceType: string,
+        hideHeader: boolean,
+        dossierHeaderIcons: iconDetail[],
+        selectedTheme: string
+    ) => {
+        return (
+            <Layout className={this.previewerClassName(deviceType, '')}>
+                {!hideHeader && (
+                    <Layout.Header
+                        className={classnames('dossier-header', {
+                            'no-theme': !selectedTheme,
+                        })}
+                    >
+                        {this.toolbarIconsRender(
+                            dossierHeaderIcons,
+                            views.DOSSIER
+                        )}
+                    </Layout.Header>
+                )}
+                <Layout.Content
+                    className={this.previewerClassName(deviceType, '-content')}
+                >
+                    <Layout
+                        className={this.previewerClassName(
+                            deviceType,
+                            '-container'
+                        )}
+                    >
+                        <div
+                            className={this.previewerClassName(
+                                deviceType,
+                                '-overview'
+                            )}
+                        >
+                            <div
+                                className={this.previewerClassName(
+                                    deviceType,
+                                    '-overview-right'
+                                )}
+                            >
+                                <div className="library-content-list">
+                                    {!hideHeader && (
+                                        <div className="dossier-item-col" />
+                                    )}
+                                    {hideHeader && (
+                                        <div
+                                            className={this.previewerClassName(
+                                                deviceType,
+                                                '-overview-right-dossier-nobar'
+                                            )}
+                                        />
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    </Layout>
+                </Layout.Content>
+            </Layout>
+        );
+    };
+
     componentWillReceiveProps(nextProps: any) {
         this.contentBundleEnable = nextProps.contentBundleFeatureEnable;
         this.hasContent = nextProps.hasContent;
     }
     render() {
-        const { theme, deviceType, isDossierHome, toolbarHidden, toolbarCollapsed } =
-            this.props;
-        const { libraryHeaderIcons, libraryFooterIcons } =
+        const {
+            theme,
+            deviceType,
+            isDossierHome,
+            toolbarHidden,
+            toolbarCollapsed,
+        } = this.props;
+        const { libraryHeaderIcons } =
             this.libraryIconsToRender();
-        const { dossierHeaderIcons, dossierFooterIcons } =
+        const { dossierHeaderIcons } =
             this.dossierIconsToRender();
-        const { sidebarHeaderIcons } = this.sidebarHeaderIconsToRender();
 
-        const { 
-            web: webLogo = { type: 'URL', value: '' }, 
-            favicon: faviconLogo = {type: 'URL', value: '' }, 
-            mobile: mobileLogo = { type: 'URL', value: '' }
-          } = (theme && theme.logos) || {}
-        const showSideBar =
-            this.iconShouldShow(iconTypes.sidebar) && !toolbarHidden; // when toolbar disabled, sidebar will hide as well
-        const showTocOnPhone =
-            this.iconShouldShow(iconTypes.toc) &&
-            deviceType === reviewType.PHONE;
+        const { selectedTheme, formatting } = theme?.color || {};
+        const isCustomColor = isCustomColorTheme(selectedTheme);
+        const formats = !isCustomColor
+            ? prefinedColorSets[selectedTheme]
+            : formatting;
+
+        const previewerRef = (el: any) =>
+            applyThemeColorsToPreviewer(el, formats);
+
         const showExpanderOverlay = toolbarCollapsed && !toolbarHidden;
         const hideHeader = toolbarHidden || toolbarCollapsed;
 
@@ -594,98 +854,21 @@ class Previewer extends React.Component<any, any> {
             deviceType,
             '-overview-left'
         );
-        const padRightClassName = showSideBar
-            ? this.previewerClassName(deviceType, '-overview-right-library')
-            : this.previewerClassName(
-                  deviceType,
-                  '-overview-right-library-nosidebar'
-              );
         return (
-            <div className={classNamePrefix}>
+            <div className={classNamePrefix} ref={previewerRef}>
                 {/* library toolbars */}
                 {!isDossierHome &&
                     this.titleRender(localizedStrings.LIBRARY_WINDOW)}
                 {!isDossierHome && (
                     <div style={{ position: 'relative' }}>
-                        <Layout
-                            className={this.previewerClassName(
-                                deviceType,
-                                ''
-                            )}
-                        >
-                            {!hideHeader && (
-                                <Layout.Header className="library-header">
-                                    {this.toolbarIconsRender(
-                                        libraryHeaderIcons
-                                    )}
-                                </Layout.Header>
-                            )}
-                            <Layout>
-                                <Layout.Content
-                                    className={this.previewerClassName(
-                                        deviceType,
-                                        '-content'
-                                    )}
-                                >
-                                    <Layout
-                                        className={this.previewerClassName(
-                                            deviceType,
-                                            '-container'
-                                        )}
-                                    >
-                                        <div
-                                            className={this.previewerClassName(
-                                                deviceType,
-                                                '-overview'
-                                            )}
-                                        >
-                                            {showSideBar &&
-                                                this.sidebarIconsRender(
-                                                    childrenIcons,
-                                                    padLeftClassName,
-                                                    deviceType
-                                                )}
-                                            <div
-                                                className={this.previewerClassName(
-                                                    deviceType,
-                                                    '-overview-right'
-                                                )}
-                                            >
-                                                {
-                                                    <div
-                                                        className={
-                                                            padRightClassName
-                                                        }
-                                                    >
-                                                        {' '}
-                                                    </div>
-                                                }
-                                                {
-                                                    <div
-                                                        className={
-                                                            padRightClassName
-                                                        }
-                                                    >
-                                                        {' '}
-                                                    </div>
-                                                }
-                                                {!showSideBar && (
-                                                    <div
-                                                        className={
-                                                            padRightClassName
-                                                        }
-                                                    >
-                                                        {' '}
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </div>
-                                    </Layout>
-                                </Layout.Content>
-                            </Layout>
-                        </Layout>
-                        {showExpanderOverlay &&
-                            this.overlayRender(false, true)}
+                        {this.getLibraryViewLayout(
+                            deviceType,
+                            hideHeader,
+                            libraryHeaderIcons,
+                            selectedTheme,
+                            padLeftClassName
+                        )}
+                        {showExpanderOverlay && this.overlayRender(false, true)}
                     </div>
                 )}
 
@@ -696,66 +879,13 @@ class Previewer extends React.Component<any, any> {
                         : localizedStrings.DOSSIER_WINDOW
                 )}
                 <div style={{ position: 'relative' }}>
-                    <Layout
-                        className={this.previewerClassName(
-                            deviceType,
-                            ''
-                        )}
-                    >
-                        {!hideHeader && (
-                            <Layout.Header className="dossier-header">
-                                {this.toolbarIconsRender(
-                                    dossierHeaderIcons
-                                )}
-                            </Layout.Header>
-                        )}
-                        <Layout.Content
-                            className={this.previewerClassName(
-                                deviceType,
-                                '-content'
-                            )}
-                        >
-                            <Layout
-                                className={this.previewerClassName(
-                                    deviceType,
-                                    '-container'
-                                )}
-                            >
-                                <div
-                                    className={this.previewerClassName(
-                                        deviceType,
-                                        '-overview'
-                                    )}
-                                >
-                                    <div
-                                        className={this.previewerClassName(
-                                            deviceType,
-                                            '-overview-right'
-                                        )}
-                                    >
-                                        {!hideHeader && (
-                                            <div
-                                                className={this.previewerClassName(
-                                                    deviceType,
-                                                    '-overview-right-dossier'
-                                                )}
-                                            />
-                                        )}
-                                        {hideHeader && (
-                                            <div
-                                                className={this.previewerClassName(
-                                                    deviceType,
-                                                    '-overview-right-dossier-nobar'
-                                                )}
-                                            />
-                                        )}
-                                    </div>
-                                </div>
-                            </Layout>
-                        </Layout.Content>
-                    </Layout>
-                    {showExpanderOverlay &&
-                        this.overlayRender(false, true)}
+                    {this.getDossierViewLayout(
+                        deviceType,
+                        hideHeader,
+                        dossierHeaderIcons,
+                        selectedTheme
+                    )}
+                    {showExpanderOverlay && this.overlayRender(false, true)}
                 </div>
 
                 {/* notification panel */}
