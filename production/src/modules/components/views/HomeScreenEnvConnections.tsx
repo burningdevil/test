@@ -173,6 +173,48 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
             other: newLinkedEnvs
         }); 
     }
+
+    // Used to refresh the state with the latest environment and application lists from Workstation and the server
+    refreshEnvironments = async () => {
+        const { linkedEnvs } = this.state;
+        const workstationCurrentEnv = await workstation.environments.getCurrentEnvironment();
+        const workstationAvailableEnvs = await workstation.environments.getAvailableEnvironments();
+        const otherEnvs = workstationAvailableEnvs
+            .filter(env => (env.name !== workstationCurrentEnv.name) && (env.status === EnvironmentStatus.Connected))
+            .map(env => ({ name: env.name, url: env.url }));
+        // update linkedEnvs with application lists if they were previously unavailable for a now connected environment
+        const newLinkedEnvs = await Promise.all(linkedEnvs.map(async (env) => {
+            const envBaseUrl = this.getBaseUrl(env.url);
+            const availableEnvObj = workstationAvailableEnvs.find(availableEnv => availableEnv.url === this.getBaseUrl(env.url));
+            const isEnvConnected = availableEnvObj && (availableEnvObj.status === EnvironmentStatus.Connected);
+            let envApplicationList = env.applicationList;
+
+            // if a linked environment was previously not configured/connected and therefore did not have a saved application list in the state,
+            // but is now configured & connected as of the user clicking refresh, then we will attempt to fetch its application list now
+            if ((!env.isConfigured || !env.isConnected) && isEnvConnected) {
+                try {
+                    const response = await api.fetchAllApplicationsForOtherEnv(envBaseUrl);
+                    const { applications: fetchedEnvApplicationList } = response;
+                    envApplicationList = fetchedEnvApplicationList.map((app: Partial<HomeScreenConfigType>) => ({ name: app.name, id: app.id, isDefault: app.isDefault }));
+                } catch (e) {
+                    // TODO: err handling
+                }
+
+                return {
+                    name: env.name,
+                    url: env.url,
+                    applicationList: envApplicationList,
+                    isConfigured: !!availableEnvObj,
+                    isConnected: isEnvConnected
+                }
+            } else {
+                // return unmodified env object if there is no need to fetch & update its application list
+                return env;
+            }
+        }));
+        // update state with latest environments list retrieved from WS and updated applications lists for newly-connected environments
+        this.setState({ otherEnvs, linkedEnvs: newLinkedEnvs });
+    }
  
     render() {
         const { currEnvConnections } = this.props;
@@ -182,7 +224,13 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
         availableToConnectEnvs = _.sortBy(availableToConnectEnvs, (e) => e.name); // sort by name
         return (
             <div className={screenClassNamePrefix}>
+                <div className={`${screenClassNamePrefix}-title-row`}>
                 <div className={`${screenClassNamePrefix}-title`}>{localizedStrings.NAVBAR_ENVIRONMENT_CONNECTION_SETTINGS.toUpperCase()}</div>
+                <div className={`${screenClassNamePrefix}-refresh`} onClick={this.refreshEnvironments}>
+                    <div className={`${screenClassNamePrefix}-refresh-icn`} />
+                    <div className={`${screenClassNamePrefix}-refresh-text`}>{'Refresh'/* TODO: i18n */}</div>
+                </div>
+                </div>
                 <div className={`${screenClassNamePrefix}-desc`}>{localizedStrings.ENVIRONMENT_CONNECTION_SETTINGS_DESC}</div>
                 <div className={`${screenClassNamePrefix}-content`}>
                     <Table className={`${classNamePrefix}-table-wrapper`} dataSource={linkedEnvsTableDataSource} tableLayout='fixed' pagination={false}>
@@ -307,6 +355,10 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                                 </div>
                             ))
                         }
+                    </div>
+                    <div className={`${classNamePrefix}-available-envs-info`}>
+                        <div className='info-icn' />
+                        <div className='info-text'>{'Only connected environments are included in the list.'/* TODO: i18n */}</div>
                     </div>
                 </div>
             </div>
