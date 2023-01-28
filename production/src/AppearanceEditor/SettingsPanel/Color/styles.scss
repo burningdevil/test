@@ -37,8 +37,8 @@ $ant-radio-blue: #0E6FF9;
         &:after {
           border: 1px solid $ant-radio-blue;
           background-color: $ant-radio-inner-circle-color;
-          top: -1px;
-          left: -1px;
+          /*top: -1px;
+          left: -1px;*/
         }
       }
     }
