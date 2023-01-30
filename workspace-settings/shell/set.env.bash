@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 export APPLICATION_SHORT_VERSION_PREFIX="11.3."
-export APPLICATION_LONG_VERSION_PREFIX="${APPLICATION_SHORT_VERSION_PREFIX}0930."
+export APPLICATION_LONG_VERSION_PREFIX="${APPLICATION_SHORT_VERSION_PREFIX}0960."
 
 export GROUP_ID_BASE='com.microstrategy'
 export ARTIFACT_ID_BASE='workstation-homescreen-admin'
@@ -33,7 +33,7 @@ else
   export WS_TEST_PLATFORM=mac
 fi
 
-nodejs_version="16.18.1"
+nodejs_version="16.19.0"
 export nodejs_image_tag=$nodejs_version
 if uname -a | grep -q "Darwin"; then
   export NODE_HOME=/usr/local/nodejs-binary-$nodejs_version
@@ -47,7 +47,9 @@ else
   export PATH=~/.npm-global/bin:$PATH
 fi
 
-export BASE_BRANCH="m2021"
-export BRANCH_OFF_COMMIT=303bb7dab4ef30a1d145611f94d021fdce0c7bb8
+export BASE_BRANCH='m2021'
+export BRANCH_OFF_COMMIT=f4e324505210ef6c08c5d6ad9c37f61b3acd030b
+
+export BASE_VERSION=0
 
 export BASE_VERSION=0

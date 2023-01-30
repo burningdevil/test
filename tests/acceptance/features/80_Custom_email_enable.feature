@@ -17,6 +17,9 @@ Feature: 80_Custom_email_enable
         When I click the application create entry
         When I switch to menu "Email Communication"
         When I enable custom email mode
+        When I click "Save" button in the tab "customEmailSettings"
+        When I edit the application "New Application"
+        When I switch to menu "Email Communication"
         When I expand "Preview" section
         When I expand "Subject & Body Text" section
         Then check the screenshot by comparing "80_Custom_email_enable_01"

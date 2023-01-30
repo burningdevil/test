@@ -331,3 +331,8 @@ export const fetchAllFeatureFlags = () => {
 export const fetchAllWhiteListUrls = () => {
     return HttpProxy.get('/mstrServices/library/security', {});
 };
+
+export const fetchAllApplicationsForOtherEnv = (envUrl: string) => {
+    // call get function with isAbsoluteUrl = true, then include env url we want to fetch applications for
+    return HttpProxy.get(CONFIG_ENDPOINTS, {}, undefined, undefined, envUrl);
+};

@@ -18,10 +18,7 @@ const AppearanceEditorToolbar: React.FC<AppearanceEditorToolbarProps> = ({ theme
 
     const handleApplyTheme = async () => {
         setApplying(true)
-        const { color, ...themeRest } = theme;
-        const themeToBeApplied = window.AppThemeColor.enabled ? theme : themeRest
-        
-        await workstation.window.setCloseInfo(JSON.stringify(themeToBeApplied))
+        await workstation.window.setCloseInfo(JSON.stringify(theme))
         setApplying(false)
         await workstation.window.close()
     }

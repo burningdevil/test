@@ -240,4 +240,7 @@ export const selectApplicationConfigLoadingFinish = createSelector(
   (configEditorRoot) => configEditorRoot.loadingAppConfigFinish
 )
 
-
+export const selectCurrEnvConnections = createSelector(
+  selectCurrentConfig,
+  (currentConfig) => currentConfig.environments || { current: '', other: [] } // in case application config has no `environments` property already established, add fallback object
+)
