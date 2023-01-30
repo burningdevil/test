@@ -71,7 +71,7 @@ task :deploy_or_prepared_tanzu_environment do
   puts "mstrBuild is #{mstrBuild}"
 
   #tanzu env saved under organization folder, divided by repo and branch
-  tanzu_env_file_path_dir = "#{$WORKSPACE_SETTINGS[:paths][:organization][:home]}/#{$WORKSPACE_SETTINGS[:project][:name]}/#{Common::Version.application_branch}"
+  tanzu_env_file_path_dir = "#{$WORKSPACE_SETTINGS[:paths][:organization][:home]}/#{$WORKSPACE_SETTINGS[:project][:name]}/#{branch}"
   tanzu_env_file_path = "#{tanzu_env_file_path_dir}/tanzu-env.json"
 
   FileUtils.mkdir_p("#{tanzu_env_file_path_dir}")
@@ -121,7 +121,8 @@ desc "Delete preserved tanzu environment"
 task :delete_preserved_tanzu_environment do
   begin
     #tanzu env saved under organization folder, divided by repo and branch
-    tanzu_env_file_path_dir = "#{$WORKSPACE_SETTINGS[:paths][:organization][:home]}/#{$WORKSPACE_SETTINGS[:project][:name]}/#{Common::Version.application_branch}"
+    branch = ENV["BASE_BRANCH"] || Common::Version.application_branch
+    tanzu_env_file_path_dir = "#{$WORKSPACE_SETTINGS[:paths][:organization][:home]}/#{$WORKSPACE_SETTINGS[:project][:name]}/#{branch}"
     tanzu_env_file_path = "#{tanzu_env_file_path_dir}/tanzu-env.json"
     tanzu_environment = load_tanzu_env_json(tanzu_env_file_path) if File.exist?(tanzu_env_file_path)
     environmentName = tanzu_environment[:environmentName] || tanzu_environment["environmentName"]
