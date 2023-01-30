@@ -47,6 +47,10 @@
 
 
 // mstr rc
+// not sure which version of mstr/rc is fixed, so have to override it SearchInput
+.mstr-filter-search-input-wrapper .mstr-input {
+    padding-top: 2px !important;
+}
 .mstr-ws-icons-copy {
     background: url("../images/ws-icons-18_18.svg");
     margin-right: 3px;
