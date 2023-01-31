@@ -27,7 +27,7 @@ when 'mac_os_x'
     puts "This OS #{ node['platform']} does not require to install AppiumForMac!"
     url 'https://github.com/appium/appium-for-mac/releases/download/v0.3.0/AppiumForMac.zip'
     path '/Applications/'
-    checksum '3bf67a5d99f79b928f936284d9b8ee26a74b8924'
+    checksum '26b395005ef419f4fc70e9d4f1e41611b0e4f7992efabecc17cd0ff211912192'
     action :put
     owner ENV['USER']
   end

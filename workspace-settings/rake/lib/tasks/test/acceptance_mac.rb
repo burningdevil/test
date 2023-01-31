@@ -4,6 +4,7 @@ require 'socket'
 require 'timeout'
 require 'octokit_github'
 require_relative 'acceptance_windows'
+require_relative 'acceptance'
 require 'tanzu'
 require 'common/version'
 
@@ -36,6 +37,13 @@ def do_override_library
   puts "tanzu_environment is #{tanzu_environment}"
   libraryUrl = tanzu_environment[:libraryUrl] || tanzu_environment["libraryUrl"]
   environmentName = tanzu_environment[:environmentName] || tanzu_environment["environmentName"]
+  count_file_path = "#{$WORKSPACE_SETTINGS[:paths][:organization][:home]}/#{environmentName}.txt"
+  count = 0
+  count = File.read(count_file_path).to_i if File.exist?(count_file_path)
+  if count >= 1
+    puts "skip override library because this environment used before"
+    return
+  end
   begin
     namespace = "mstr-env-#{environmentName}"
     get_pods_cmd = "kubectl get pods -n #{namespace} | grep \"library\""
@@ -62,6 +70,8 @@ def do_override_library
     library_pod = cloc_output.split(" ")[0]
     puts "new library_pod is #{library_pod}"
     Tanzu.wait_on_service(service_name: environmentName, url: libraryUrl, endpoint: 'api/status', response_code: 200)
+    #count usage
+    tanzu_env_used_count(count_file_path)
   rescue => e
     error "exception from do_override_library:\n #{e}"
     raise "exception from do_override_library:\n #{e}"

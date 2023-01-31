@@ -1,18 +1,10 @@
-job 'stage-2-postmerge-test-win' do
+job 'stage-2-postmerge-tanzu-provision' do
   description 'The second stage in the pipeline:
-designed to execute all acceptance tests'
+designed to provison tanzu periodically for post merge and premerge on windows'
 
   configure_common_items{}
 
   properties do
-    parameters do
-      string_parameter do
-        name 'Container_Build_NO'
-        description 'the version of mstrBuild for tanzu env, default empty to use latest build'
-        default_value ''
-      end
-    end
-
     inject do
       properties_content <<-EOH
 MSYS=winsymlinks:nativestrict
@@ -27,7 +19,7 @@ EOH
   triggers do
     schedule do
       minute '30'
-      hour '1'
+      hour '0'
       month '*'
       day_of_week '*'
       day_of_month '*'
@@ -55,20 +47,16 @@ powershell -command \'Get-DisplayResolution\'
 powershell -command \'Set-DisplayResolution -Width 1920 -Height 1080 -Force\'
 powershell -command \'Get-DisplayResolution\'
 rake pre_pipeline
-rake install_workstation_windows
-rake replace_plugin_windows
+#delete old
+rake delete_preserved_tanzu_environment
+#deploy new
 rake deploy_or_prepared_tanzu_environment
 rake override_library
-rake acceptance_test_win
 '
     end
   end
 
   publishers do
-    cucumber do
-      json_report_directory 'tests/acceptance/reports/rallyReport'
-      file_include_pattern 'execReport.json'
-    end
   end
 
 end
