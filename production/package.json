@@ -163,7 +163,8 @@
       
       "decode-uri-component": "0.3.0",
       "node-fetch": "^2.6.1",
-      "antd": "4.23.3"
+      "antd": "4.23.3",
+      "ua-parser-js": "0.7.33"
     }
   }
   
