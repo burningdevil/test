@@ -175,7 +175,7 @@ export const CONSTANTS = {
     APPEARANCE_OBJ_TYPE: 'Appearance',
 
     BASE_URL: 'baseUrl',
-    APPLICATION: 'application'
+    SELECTED_APPLICATION: 'selectedApplication'
 };
 
 export const featureFlag = {

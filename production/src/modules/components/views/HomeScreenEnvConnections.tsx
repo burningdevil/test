@@ -118,10 +118,19 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                 baseUrl: currentEnv.url,
             }
         ];
+        // push rest of linked envs to dataSource list
         linkedEnvs.forEach((env, idx) => {
             const baseUrl = this.getBaseUrl(env.url);
             const selectedApplicationId = this.getApplicationIdFromUrl(env.url);
-            const selectedApplication = env.applicationList?.find(a => a.id === selectedApplicationId);
+            let selectedApplication: Partial<HomeScreenConfigType> = { id: selectedApplicationId };
+            // check env's application list - if undefined or no length, the env is likely not configured/connected
+            if (env.applicationList?.length) {
+                // set selectedApplication as the corresponding application obj. if we don't have
+                // a selectedApplicationId, it is because the user has selected the default application
+                selectedApplication = selectedApplicationId
+                    ? env.applicationList.find(a => a.id === selectedApplicationId)
+                    : env.applicationList.find(a => a.isDefault);
+            } 
             dataSource.push({
                 key: `${idx + 1}`, // +1 to prevent starting from 0, since current env entry already has key of '0'
                 name: env.name,
@@ -189,7 +198,6 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
             const availableEnvObj = workstationAvailableEnvs.find(availableEnv => availableEnv.url === this.getBaseUrl(env.url));
             const isEnvConnected = availableEnvObj && (availableEnvObj.status === EnvironmentStatus.Connected);
             let envApplicationList = env.applicationList;
-
             // if a linked environment was previously not configured/connected and therefore did not have a saved application list in the state,
             // but is now configured & connected as of the user clicking refresh, then we will attempt to fetch its application list now
             if ((!env.isConfigured || !env.isConnected) && isEnvConnected) {
@@ -280,7 +288,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                             width={160}
                             render={(baseUrl: string, record: EnvConnectionTableDataType, idx) => {
                                 const isFirstRow = idx === 0;
-                                const url = (isFirstRow || !record.selectedApplication || record.selectedApplication?.isDefault) ? baseUrl : (record.baseUrl + customAppPath + record.selectedApplication?.id);
+                                const url = (isFirstRow || !record.selectedApplication.id || record.selectedApplication?.isDefault) ? baseUrl : (record.baseUrl + customAppPath + record.selectedApplication?.id);
                                 return (
                                     <div className='connected-env-url' title={url}>{url}</div>
                                 );
@@ -288,10 +296,10 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                         />
                         <Table.Column
                             title={localizedStrings.APPLICATION}
-                            dataIndex={VC.APPLICATION}
-                            key={VC.APPLICATION}
+                            dataIndex={VC.SELECTED_APPLICATION}
+                            key={VC.SELECTED_APPLICATION}
                             width={284}
-                            render={(application, record: EnvConnectionTableDataType, idx) => {
+                            render={(application: Partial<HomeScreenConfigType>, record: EnvConnectionTableDataType, idx) => {
                                 const isFirstRow = idx === 0;
                                 const applicationSelectOptionsList = record.applicationList?.map(a => ({
                                     label: <div className='application-list-obj'><div className='application-list-obj-icn' /><div className='application-list-obj-text'>{a.name}</div></div>,
@@ -304,8 +312,8 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                                         : <Select
                                             className='connected-env-application-select'
                                             popupClassName='connected-env-application-select-dropdown'
-                                            value={application}
-                                            defaultValue={localizedStrings.SELECT_APPLICATION}
+                                            value={(record.isConfigured && record.isConnected) ? application.id : undefined} // only display the selected value when env is configured/connected
+                                            placeholder={localizedStrings.SELECT_APPLICATION}
                                             options={applicationSelectOptionsList}
                                             bordered={false}
                                             onChange={(newApplicationId, newApplicationObj : { label: JSX.Element, value: string, isDefault: boolean}) => {
