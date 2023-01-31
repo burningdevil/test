@@ -41,6 +41,7 @@ end
 task :do_test_when_test_file_changed do |t,args|
   info "====== Run UI automation tests ======"
   Rake::Task['install_workstation_windows'].invoke
+  Rake::Task['replace_plugin_windows'].invoke
   Rake::Task['prepare_tanzu_environment'].invoke
   Rake::Task['override_library'].invoke
   Rake::Task['sanity_test_win'].invoke
