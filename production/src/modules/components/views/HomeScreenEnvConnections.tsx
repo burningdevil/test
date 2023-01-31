@@ -62,7 +62,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
         const workstationCurrentEnv = await workstation.environments.getCurrentEnvironment();
         const workstationAvailableEnvs = await workstation.environments.getAvailableEnvironments();
         const otherEnvs = workstationAvailableEnvs
-            .filter(env => (env.name !== workstationCurrentEnv.name) && (env.status === EnvironmentStatus.Connected))
+            .filter(env => (env.url !== workstationCurrentEnv.url) && (env.status === EnvironmentStatus.Connected))
             .map(env => ({ name: env.name, url: env.url }));
         // initialize state
         this.setState({
@@ -81,6 +81,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                 try {
                     const response = await api.fetchAllApplicationsForOtherEnv(envBaseUrl);
                     const { applications: fetchedEnvApplicationList } = response;
+                    // TODO: do we want to save the homeScreen.theme object too? in case we want to display custom logo as part of UI
                     envApplicationList = fetchedEnvApplicationList.map((app: Partial<HomeScreenConfigType>) => ({ name: app.name, id: app.id, isDefault: app.isDefault }));
                 } catch (e) {
                     // TODO: err handling
@@ -292,29 +293,33 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                             width={284}
                             render={(application, record: EnvConnectionTableDataType, idx) => {
                                 const isFirstRow = idx === 0;
-                                const applicationSelectOptionsList = record.applicationList?.map(a => ({ label: a.name, value: a.id, isDefault: a.isDefault }))
+                                const applicationSelectOptionsList = record.applicationList?.map(a => ({
+                                    label: <div className='application-list-obj'><div className='application-list-obj-icn' /><div className='application-list-obj-text'>{a.name}</div></div>,
+                                    value: a.id,
+                                    isDefault: a.isDefault
+                                }));
                                 return (
                                     isFirstRow
                                         ? null
-                                        : <div className='connected-env-application-wrapper'>
-                                            <Select
-                                                className='connected-env-application-select'
-                                                value={application}
-                                                defaultValue={localizedStrings.SELECT_APPLICATION}
-                                                options={applicationSelectOptionsList}
-                                                onChange={(newApplicationId, newApplicationObj : { label: string, value: string, isDefault: boolean}) => {
-                                                    // update url based on application selection
-                                                    let newLinkedEnvs = [...linkedEnvs];
-                                                    let currConnectedEnv = newLinkedEnvs[idx - 1];
-                                                    currConnectedEnv.url = newApplicationObj.isDefault ? record.baseUrl : (record.baseUrl + customAppPath + newApplicationId); // update url with new application id
-                                                    this.setState({ linkedEnvs: newLinkedEnvs }); // update state
-                                                    this.handleEnvConnectionsChange({
-                                                        current: currEnvConnections.current || currentEnv.name,
-                                                        other: newLinkedEnvs
-                                                    });
-                                                }}
-                                            />
-                                        </div>
+                                        : <Select
+                                            className='connected-env-application-select'
+                                            popupClassName='connected-env-application-select-dropdown'
+                                            value={application}
+                                            defaultValue={localizedStrings.SELECT_APPLICATION}
+                                            options={applicationSelectOptionsList}
+                                            bordered={false}
+                                            onChange={(newApplicationId, newApplicationObj : { label: JSX.Element, value: string, isDefault: boolean}) => {
+                                                // update url based on application selection
+                                                let newLinkedEnvs = [...linkedEnvs];
+                                                let currConnectedEnv = newLinkedEnvs[idx - 1];
+                                                currConnectedEnv.url = newApplicationObj.isDefault ? record.baseUrl : (record.baseUrl + customAppPath + newApplicationId); // update url with new application id
+                                                this.setState({ linkedEnvs: newLinkedEnvs }); // update state
+                                                this.handleEnvConnectionsChange({
+                                                    current: currEnvConnections.current || currentEnv.name,
+                                                    other: newLinkedEnvs
+                                                });
+                                            }}
+                                        />
                                 )
                             }}
                         />
