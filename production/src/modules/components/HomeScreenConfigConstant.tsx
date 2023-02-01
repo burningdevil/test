@@ -337,7 +337,7 @@ export const localizedStrings = {
     SELECT: t('select'),
     SELECT_CONTENT_BUNDLES: t('selectContentBundles'),
     SEARCH: t('search'),
-    SORT_BY: t('Sort By'),
+    SORT_BY: t('sortBy'),
     SELECT_DOSSIER_HINT: t('selectDossierHint'),
     DOSSIERS: t('dossiers'),
     DOCUMENTS: t('documents'),
