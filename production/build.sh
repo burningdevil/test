@@ -1,4 +1,5 @@
 #!/bin/sh
+echo $(whoami)
 cd /mnt/production
 export NODE_OPTIONS="--max-old-space-size=4096"
 ls -l

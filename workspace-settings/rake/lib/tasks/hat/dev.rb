@@ -24,7 +24,7 @@ task :build do
     cwd: $WORKSPACE_SETTINGS[:paths][:project][:production][:home]
   )
   shell_command!(
-    "docker run -v #{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}:/mnt/production -e APPLICATION_VERSION=#{Common::Version.application_version} --entrypoint '/bin/sh' #{docker_image_name} /mnt/production/build.sh",
+    "docker run -v #{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}:/mnt/production -u #{ENV['USER']} -e APPLICATION_VERSION=#{Common::Version.application_version} --entrypoint '/bin/sh' #{docker_image_name} /mnt/production/build.sh",
     cwd: $WORKSPACE_SETTINGS[:paths][:project][:production][:home]
   )
 #   shell_command!(
