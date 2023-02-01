@@ -162,7 +162,7 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
                         maxLength={hexStrLengthWithHash}
                         onChange={(e: any) => onColorChange(e, propName)}
                         onValidate={() => isColorCodeListValid[propName]}
-                        isErrorDisplayed="true"
+                        isErrorDisplayed={!isColorCodeListValid[propName]}
                         autoFocus={false}
                         onPressEnter={(e: any) => {
                             !isColorCodeListValid[propName] && onBlur(propName);
