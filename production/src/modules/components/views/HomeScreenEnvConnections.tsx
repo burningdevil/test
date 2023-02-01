@@ -255,7 +255,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                 <div className={`${screenClassNamePrefix}-title`}>{localizedStrings.NAVBAR_ENVIRONMENT_CONNECTION_SETTINGS.toUpperCase()}</div>
                 <div className={`${screenClassNamePrefix}-refresh`} onClick={this.refreshEnvironments}>
                     <div className={`${screenClassNamePrefix}-refresh-icn`} />
-                    <div className={`${screenClassNamePrefix}-refresh-text`}>{'Refresh'/* TODO: i18n */}</div>
+                    <div className={`${screenClassNamePrefix}-refresh-text`}>{localizedStrings.REFRESH}</div>
                 </div>
                 </div>
                 <div className={`${screenClassNamePrefix}-desc`}>{localizedStrings.ENVIRONMENT_CONNECTION_SETTINGS_DESC}</div>
@@ -402,12 +402,12 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                                         />
                                     </div>
                                 ))
-                                : <div className='empty-available-envs-message'>{'Connect to new environments in Workstation and refresh on this page to see the updated list.'/* TODO: i18n */}</div>
+                                : <div className='empty-available-envs-message'>{localizedStrings.EMPTY_AVAILABLE_ENVS_MSG}</div>
                         }
                     </div>
                     <div className={`${classNamePrefix}-available-envs-info`}>
                         <div className='info-icn' />
-                        <div className='info-text'>{'Only connected environments are included in the list.'/* TODO: i18n */}</div>
+                        <div className='info-text'>{localizedStrings.AVAILABLE_ENVS_INFO_MSG}</div>
                     </div>
                 </div>
             </div>
