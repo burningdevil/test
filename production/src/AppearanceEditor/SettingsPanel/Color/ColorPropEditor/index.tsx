@@ -26,7 +26,7 @@ type ColorPropEditorProps = {
 
 const gutterHorizontal = 0;
 const gutterVertical = 6;
-const hexStrLength = 7;
+const hexStrLength = 6;
 
 const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
     color,
