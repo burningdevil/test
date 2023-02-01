@@ -182,7 +182,6 @@ $notification-badge-bg-color: var(--notification-badge-fill, $msdl-white);
             padding: 8px 0 8px 3px;
             background-color: $sidebar-bg-color;
             width: $sidebar-width;
-            border-right: 0.07rem solid $sidebar-bg-color;
             box-shadow: 1px 0 6px 0 rgba(0, 0, 0, 0.12);
             z-index: 1;
             display: flex;
