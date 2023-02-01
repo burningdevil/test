@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
-import { Row, Col, Input } from 'antd';
-import { Tooltip } from '@mstr/rc';
+import { Row, Col } from 'antd';
+import { Tooltip, Input } from '@mstr/rc';
 import {
     ApplicationColor,
     ThemeColorFormats,
@@ -150,8 +150,8 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
                     >
                         <div
                             className="color-box"
-                            // display red border for the invalid color code
-                            style={isColorCodeValid(hexValue) ? { background: hexValue } : { border: "1px solid #FF0000" }}
+                            // display background color for the valid color code input
+                            style={{background: isColorCodeValid(hexValue) && hexValue }}
                         ></div>
                     </ColorPickerComponent>
 
@@ -160,7 +160,14 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
                         value={hexValue}
                         bordered={false}
                         maxLength={hexStrLengthWithHash}
-                        onChange={(e) => onColorChange(e, propName)}
+                        onChange={(e: any) => onColorChange(e, propName)}
+                        onValidate={() => isColorCodeListValid[propName]}
+                        isErrorDisplayed={!isColorCodeListValid[propName]}
+                        autoFocus={false}
+                        onPressEnter={(e: any) => {
+                            !isColorCodeListValid[propName] && onBlur(propName);
+                            e.target.blur();
+                        }}
                     ></Input>
                 </div>
             </div>

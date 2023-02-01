@@ -74,6 +74,10 @@ $color-prop-item-content-height: 28px;
           font-weight: 400;
           border-radius: 1px;
           box-sizing: content-box;
+
+          &[data-focus-visible-added] {
+             border-color: #0E6FF9;
+          }
         }
       }
     }
