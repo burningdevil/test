@@ -212,9 +212,8 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
             const availableEnvObj = workstationAvailableEnvs.find(availableEnv => availableEnv.url === this.getBaseUrl(env.url));
             const isEnvConnected = availableEnvObj && (availableEnvObj.status === EnvironmentStatus.Connected);
             let envApplicationList = env.applicationList;
-            // if a linked environment was previously not configured/connected and therefore did not have a saved application list in the state,
-            // but is now configured & connected as of the user clicking refresh, then we will attempt to fetch its application list now
-            if ((!env.isConfigured || !env.isConnected) && isEnvConnected) {
+            // fetch latest application list for all linked envs that are actively connected to WS
+            if (isEnvConnected) {
                 try {
                     const response = await api.fetchAllApplicationsForOtherEnv(envBaseUrl);
                     const { applications: fetchedEnvApplicationList } = response;
@@ -224,8 +223,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                 }
 
                 return {
-                    name: env.name,
-                    url: env.url,
+                    ...env,
                     applicationList: envApplicationList,
                     isConfigured: !!availableEnvObj,
                     isConnected: isEnvConnected
