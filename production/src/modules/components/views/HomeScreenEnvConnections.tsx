@@ -173,22 +173,26 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
     addEnvironmentToLinkedEnvs = async (env: EnvironmentConnectionInterface) => {
         const { currEnvConnections } = this.props;
         const { linkedCurrentEnv, linkedEnvs } = this.state;
-        // TODO: should we re-check workstation available envs to ensure the env is still configured/connected?
-        // or should we force trigger the refresh workflow instead? TBA!
+        // read latest environment state from workstation, this ensures we only make API calls when environment is available
+        const workstationAvailableEnvs = await workstation.environments.getAvailableEnvironments();
+        const availableEnvObj = workstationAvailableEnvs.find(availableEnv => availableEnv.url === this.getBaseUrl(env.url));
+        const isEnvConnected = availableEnvObj && (availableEnvObj.status === EnvironmentStatus.Connected);
         let newLinkedEnvs = [...linkedEnvs];
         let envApplicationList: Array<Partial<HomeScreenConfigType>> = [];
-        try {
-            const response = await api.fetchAllApplicationsForOtherEnv(this.getBaseUrl(env.url));
-            const { applications: fetchedEnvApplicationList } = response;
-            envApplicationList = fetchedEnvApplicationList.map((app: Partial<HomeScreenConfigType>) => ({ name: app.name, id: app.id, isDefault: app.isDefault }));
-        } catch (e) {
-            // TODO: err handling
+        if (isEnvConnected) {
+            try {
+                const response = await api.fetchAllApplicationsForOtherEnv(this.getBaseUrl(env.url));
+                const { applications: fetchedEnvApplicationList } = response;
+                envApplicationList = fetchedEnvApplicationList.map((app: Partial<HomeScreenConfigType>) => ({ name: app.name, id: app.id, isDefault: app.isDefault }));
+            } catch (e) {
+                // TODO: err handling
+            }
         }
         newLinkedEnvs.push({
             ...env,
             applicationList: envApplicationList,
-            isConfigured: true,
-            isConnected: true
+            isConfigured: !!availableEnvObj,
+            isConnected: !!isEnvConnected
         });
         newLinkedEnvs = _.sortBy(newLinkedEnvs, (e) => e.name); // sort new linked envs
         this.setState({ linkedEnvs: newLinkedEnvs }); // update state
@@ -206,11 +210,11 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
         const wsOtherEnvs = workstationAvailableEnvs
             .filter(env => (env.url !== workstationCurrentEnv.url))
             .map(env => ({ name: env.name, url: env.url, isConnected: env.status === EnvironmentStatus.Connected }));
-        // update linkedEnvs with application lists if they were previously unavailable for a now connected environment
+        // update linkedEnvs with application lists
         const newLinkedEnvs = await Promise.all(linkedEnvs.map(async (env) => {
             const envBaseUrl = this.getBaseUrl(env.url);
-            const availableEnvObj = workstationAvailableEnvs.find(availableEnv => availableEnv.url === this.getBaseUrl(env.url));
-            const isEnvConnected = availableEnvObj && (availableEnvObj.status === EnvironmentStatus.Connected);
+            const availableEnvObj = wsOtherEnvs.find(availableEnv => availableEnv.url === this.getBaseUrl(env.url));
+            const isEnvConnected = availableEnvObj?.isConnected;
             let envApplicationList = env.applicationList;
             // fetch latest application list for all linked envs that are actively connected to WS
             if (isEnvConnected) {
@@ -226,7 +230,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                     ...env,
                     applicationList: envApplicationList,
                     isConfigured: !!availableEnvObj,
-                    isConnected: isEnvConnected
+                    isConnected: !!isEnvConnected
                 }
             } else {
                 // return unmodified env object if there is no need to fetch & update its application list
