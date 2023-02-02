@@ -7,7 +7,7 @@ import { default as VC, localizedStrings, previewerWidth, platformType, iconDeta
 import * as _ from 'lodash'
 import HomeScreenPreviewer from './HomeScreenPreviewer'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
-import { selectCurrentConfig, selectIsDossierAsHome, selectIsToolbarHidden, selectIsToolbarCollapsed, selectSelectedSideBarIcons, selectSelectedLibraryCustomizedItems, selectSelectedLibraryIcons, selectSelectedDocumentIcons, selectCurrentConfigContentBundleIds, selectDefaultGroupsName } from '../../../store/selectors/HomeScreenConfigEditorSelector'
+import { selectCurrentConfig, selectIsDossierAsHome, selectIsToolbarHidden, selectIsToolbarCollapsed, selectSelectedSideBarIcons, selectSelectedLibraryCustomizedItems, selectSelectedLibraryIcons, selectSelectedDocumentIcons, selectCurrentConfigContentBundleIds, selectDefaultGroupsName, selectUserViewAllContentEnabled } from '../../../store/selectors/HomeScreenConfigEditorSelector'
 import * as Actions from '../../../store/actions/ActionsCreator';
 import { Tooltip } from '@mstr/rc';
 import { isLibraryServerVersionMatch, isUserHasManageContentGroupPrivilege, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION } from '../../../utils';
@@ -41,9 +41,9 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         const {toolbarHidden} = this.props
         // side bar hidden
         const sidebarDisabled = sidebarIconKeys.includes(iconKey) && !(this.iconSelectedInfo(iconTypes.sidebar.key)[0])
-        // special case: new dossier will be disabled when the edit dossier is disabled or content bundle length > 0.
+        // special case: new dossier will be disabled when the edit dossier is disabled or content bundle length > 0 and not allow the view all contents checkbox.
         if(iconKey === iconTypes.newDossier.key){
-            if(this.props.contentBundleIds?.length > 0){
+            if(this.props.contentBundleIds?.length > 0 && !this.props.allowUserViewAllContents){
                 return true;
             }
             if(this.props.selectedLibraryCustomizedItems[iconTypes.editDossier.key] === false){
@@ -187,7 +187,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                 if(_.get(this.props.selectedLibraryCustomizedItems, iconTypes.editDossier.key) === false){
                     selected = false;
                 }
-                if(this.props.contentBundleIds?.length > 0){
+                if(this.props.contentBundleIds?.length > 0 && !this.props.allowUserViewAllContents){
                     selected = false;
                 }
             }
@@ -464,6 +464,7 @@ const mapState = (state: RootState) => ({
     selectedDocumentIcons: selectSelectedDocumentIcons(state), 
     contentBundleIds: selectCurrentConfigContentBundleIds(state),
     defaultGroupsName: selectDefaultGroupsName(state),
+    allowUserViewAllContents: selectUserViewAllContentEnabled(state)
 })
   
 const connector = connect(mapState, {

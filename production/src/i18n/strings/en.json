@@ -258,7 +258,7 @@
     "hostPortalTooltip": "If you are embedding Library, enter your host web portal URL.",
     "hostInvalidTip": "Please enter a valid URL",
     "hostPortalHelp": "Learn More",
-    "insights": "Insights (Web and Desktop)",
+    "insights": "Insights",
     "serverRestartTip": "Changes made to the settings marked with <0>{{icon}}</0> will require a server restart.",
     "authModes": "Authentication Modes",
     "followLibraryServer": "Library Server Default",
@@ -319,5 +319,6 @@
     "currentEnvLabel": "(Current)",
     "url": "URL",
     "application": "Application",
-    "selectApplication": "Select an application"
+    "selectApplication": "Select an application",
+    "allowUsersViewAllContentMsg": "Allow users to view all contents and add new content in this application."
 }

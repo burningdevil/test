@@ -113,9 +113,10 @@ export interface HomeScreenConfigType {
             sidebars: Array<string>,
             customizedItems: any,
             contentBundleIds: Array<string>,
+            showAllContents: boolean,
             defaultGroupsName: string,
             toolbarMode: number,
-            toolbarEnabled: boolean,
+            toolbarEnabled: boolean
         }, 
         homeDocument: {
             url: string,
@@ -144,7 +145,7 @@ export interface HomeScreenConfigType {
     emailSettings: CustomEmailSettingType,
     authModes: CustomAuthModes,
     // Environment Connection
-    environments: EnvironmentConnectionSettingType
+    environments: EnvironmentConnectionSettingType,
 }
 
 export interface HomeScreenConfigInfo {

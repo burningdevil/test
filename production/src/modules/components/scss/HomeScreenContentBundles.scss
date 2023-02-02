@@ -1,4 +1,5 @@
 @import './variables.scss';
+@import '~@mstr/rc/es/assets/scss/variables.scss';
 
 .home-screen-bundle-content-container {
     height: 620px;
@@ -8,8 +9,16 @@
       position: relative;
       margin-top: 40px;
       font-size: $font-size;
+      .ant-checkbox-wrapper {
+        font-size: $font-size;
+        color: $msdl-black;
+        line-height: 24px;
+      }
+      .ant-checkbox {
+          transform: scale(0.75);
+      }
       .icon-msg_info {
-        color: $mobile-primary-blue;
+        color: #9a9a9a;
     }
     }
 }

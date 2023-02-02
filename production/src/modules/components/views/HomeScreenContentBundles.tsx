@@ -3,11 +3,13 @@ import '../scss/HomeScreenContentBundles.scss';
 import * as _ from "lodash";
 import ContentBundleList from './ContentBundleList';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
-import { selectCurrentConfig, selectCurrentConfigContentBundleIds, selectSelectedSideBarIcons } from '../../../store/selectors/HomeScreenConfigEditorSelector';
+import { selectCurrentConfig, selectCurrentConfigContentBundleIds, selectSelectedSideBarIcons, selectUserViewAllContentEnabled } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import { connect } from 'react-redux';
 import { iconTypes, localizedStrings } from '../HomeScreenConfigConstant';
 import { default as VC } from '../HomeScreenConfigConstant'
+import { Tooltip } from '@mstr/rc';
+import { Checkbox } from 'antd';
 
 const classNamePrefix = 'home-screen-bundle-content';
 const bundleIdPath = 'homeScreen.homeLibrary.contentBundleIds';
@@ -52,14 +54,34 @@ class HomeScreenContentBundles extends React.Component<any, any> {
     _.set(currentConfig, sidebarPath, sideBarIcons)
     this.props.updateCurrentConfig(currentConfig);
   }
-
+  handleAllowUsersViewAllContentChange = (e: any) => {
+    const currentConfig = this.props.config;
+    _.set(currentConfig, 'homeScreen.homeLibrary.showAllContents', e.target.checked)
+    this.props.updateCurrentConfig(currentConfig);
+  }
   render() {
     return (
       <div className={`${classNamePrefix}-container`}>
         <ContentBundleList includedIds = {this.props.contentBundleIds} handleSelection = {this.handleSelection} handleDeletion = {this.handleBundleDelete} handleAdd = {this.handleBundleAdd} allowDelete={true}/>
         <div className= {`${classNamePrefix}-message-tip`}>
-          <span className={VC.FONT_MSG_INFO}> </span>
-          <span >{localizedStrings.ADD_CONTENT_BUNDLE_TIP_MSG}</span>
+          {this.props.showAllContentFeatureEnable && <Checkbox
+                    onChange={this.handleAllowUsersViewAllContentChange}
+                    checked={this.props.allowUserViewAllContents}
+                    disabled = {this.props.contentBundleIds?.length > 0 ? false : true}
+                >
+                    {localizedStrings.ALLOW_USERS_VIEW_ALL_CONTENT_MSG}
+          </Checkbox>}
+          {/* <Tooltip 
+            title={localizedStrings.ADD_CONTENT_BUNDLE_TIP_MSG}
+            placement='right'>
+            <span className={VC.FONT_MSG_INFO}> </span>
+          </Tooltip> */}
+          {
+            !this.props.showAllContentFeatureEnable && <>
+              <span className={VC.FONT_MSG_INFO}> </span>
+              <span >{localizedStrings.ADD_CONTENT_BUNDLE_TIP_MSG}</span>
+            </>
+          }
         </div>
         
       </div>
@@ -71,6 +93,7 @@ const mapState = (state: RootState) => ({
   config: selectCurrentConfig(state),
   contentBundleIds: selectCurrentConfigContentBundleIds(state),
   sidebarIcons: selectSelectedSideBarIcons(state),
+  allowUserViewAllContents: selectUserViewAllContentEnabled(state)
 })
 
 const connector = connect(mapState, {

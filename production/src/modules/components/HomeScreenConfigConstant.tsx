@@ -401,6 +401,7 @@ export const localizedStrings = {
     DISABLE_ACCOUNT_TOOLTIP: t('disableAccountTooltip'),
     PLATFORM_SPECIFIC: t('platformSpecific'),
     ADD_CONTENT_BUNDLE_TIP_MSG: t('addContentBundleTipMsg'),
+    ALLOW_USERS_VIEW_ALL_CONTENT_MSG: t('allowUsersViewAllContentMsg'),
     DISABLE_NEW_DOSSIER_TOOLTIP: t('disableNewDossierTooltip'),
     DISABLE_EDIT_DOSSIER_TOOLTIP: t('disableEditDossierTooltip'),
     DISABLE_NEW_DOSSIER_TOOLTIP_CONTENT: t('disableNewDossierTooltipContent'),

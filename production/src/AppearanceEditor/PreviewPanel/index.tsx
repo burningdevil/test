@@ -23,6 +23,7 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({ theme, isDossierHome, conte
   
   React.useEffect(() => {
     async function initPreviewPanel() {
+      console.log(contentBundleIds)
       const currEnv : Environment = await workstation.environments.getCurrentEnvironment();
       const contentBundleEnable = !!currEnv.webVersion && isLibraryServerVersionMatch(currEnv.webVersion, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION) && isUserHasManageContentGroupPrivilege(currEnv.privileges);
       setContentBundleFeatureEnable(contentBundleEnable);
@@ -33,7 +34,7 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({ theme, isDossierHome, conte
     }
 
     initPreviewPanel();
-  }, [])
+  }, [contentBundleIds])
 
   return (
     <div className='mstr-app-theme-preview-panel'>
