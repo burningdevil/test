@@ -319,5 +319,8 @@
     "currentEnvLabel": "(Current)",
     "url": "URL",
     "application": "Application",
-    "selectApplication": "Select an application"
+    "selectApplication": "Select an application",
+    "refresh": "Refresh",
+    "emptyAvailableEnvsMsg": "Connect to new environments in Workstation and refresh on this page to see the updated list.",
+    "availableEnvsInfoMsg": "Only connected environments are included in the list."
 }

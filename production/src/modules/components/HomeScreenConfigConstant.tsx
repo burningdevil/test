@@ -175,7 +175,7 @@ export const CONSTANTS = {
     APPEARANCE_OBJ_TYPE: 'Appearance',
 
     BASE_URL: 'baseUrl',
-    APPLICATION: 'application'
+    SELECTED_APPLICATION: 'selectedApplication'
 };
 
 export const featureFlag = {
@@ -425,7 +425,10 @@ export const localizedStrings = {
     CURRENT_ENV_LABEL: t('currentEnvLabel'),
     URL: t('url'),
     APPLICATION: t('application'),
-    SELECT_APPLICATION: t('selectApplication')
+    SELECT_APPLICATION: t('selectApplication'),
+    REFRESH: t('refresh'),
+    EMPTY_AVAILABLE_ENVS_MSG: t('emptyAvailableEnvsMsg'),
+    AVAILABLE_ENVS_INFO_MSG: t('availableEnvsInfoMsg')
 };
 
 export const sectionTitle = {
