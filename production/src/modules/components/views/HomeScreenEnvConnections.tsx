@@ -266,7 +266,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                             dataIndex={VC.NAME}
                             key={VC.NAME}
                             width={220}
-                            render={(name: string, record: EnvConnectionTableDataType, idx) => {
+                            render={(name: string = '', record: EnvConnectionTableDataType, idx) => {
                                 const isFirstRow = idx === 0;
                                 return (
                                     <div className='connected-env-name-wrapper'>
@@ -320,9 +320,9 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                             dataIndex={VC.BASE_URL}
                             key={VC.BASE_URL}
                             width={160}
-                            render={(baseUrl: string, record: EnvConnectionTableDataType, idx) => {
+                            render={(baseUrl: string = '', record: EnvConnectionTableDataType, idx) => {
                                 const isFirstRow = idx === 0;
-                                const url = (isFirstRow || !record.selectedApplication.id || record.selectedApplication?.isDefault) ? baseUrl : (record.baseUrl + customAppPath + record.selectedApplication?.id);
+                                const url = (isFirstRow || !record.selectedApplication?.id || record.selectedApplication?.isDefault) ? baseUrl : (record.baseUrl + customAppPath + record.selectedApplication?.id);
                                 return (
                                     <div className='connected-env-url' title={url}>{url}</div>
                                 );
@@ -333,7 +333,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                             dataIndex={VC.SELECTED_APPLICATION}
                             key={VC.SELECTED_APPLICATION}
                             width={284}
-                            render={(application: Partial<HomeScreenConfigType>, record: EnvConnectionTableDataType, idx) => {
+                            render={(application: Partial<HomeScreenConfigType> = {}, record: EnvConnectionTableDataType, idx) => {
                                 const isFirstRow = idx === 0;
                                 const applicationSelectOptionsList = record.applicationList?.map(a => ({
                                     label: <div className='application-list-obj'><div className='application-list-obj-icn' /><div className='application-list-obj-text'>{a.name}</div></div>,
