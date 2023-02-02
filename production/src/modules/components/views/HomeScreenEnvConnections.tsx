@@ -40,8 +40,8 @@ interface HomeScreenEnvConnectionsProps {
 
 interface HomeScreenEnvConnectionsState {
     wsCurrentEnv: Partial<Environment>, // represents the current env object read from WS directly
-    savedCurrentEnv: EnvironmentConnectionInterface, // represents the current env object saved in the application config
-    otherEnvs: Array<EnvironmentConnectionInterface>, // represents the other envs available, as read from WS directly
+    linkedCurrentEnv: EnvironmentConnectionInterface, // represents the current env object saved in the application config
+    wsOtherEnvs: Array<EnvironmentConnectionInterface>, // represents the other envs available, as read from WS directly
     linkedEnvs: Array<EnvironmentConnectionInterface> // represents the linked envs saved in the application config
 }
 
@@ -51,11 +51,11 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
         super(props);
         this.state = {
             wsCurrentEnv: {},
-            savedCurrentEnv: {
+            linkedCurrentEnv: {
                 name: '',
                 url: ''
             },
-            otherEnvs: [],
+            wsOtherEnvs: [],
             linkedEnvs: []
         }
     }
@@ -64,14 +64,14 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
         const { currEnvConnections } = this.props;
         const workstationCurrentEnv = await workstation.environments.getCurrentEnvironment();
         const workstationAvailableEnvs = await workstation.environments.getAvailableEnvironments();
-        const otherEnvs = workstationAvailableEnvs
+        const wsOtherEnvs = workstationAvailableEnvs
             .filter(env => (env.url !== workstationCurrentEnv.url))
             .map(env => ({ name: env.name, url: env.url, isConnected: env.status === EnvironmentStatus.Connected }));
         // initialize state
         this.setState({
             wsCurrentEnv: workstationCurrentEnv,
-            savedCurrentEnv: { name: currEnvConnections.current || workstationCurrentEnv.name, url: workstationCurrentEnv.url },
-            otherEnvs,
+            linkedCurrentEnv: { name: currEnvConnections.current || workstationCurrentEnv.name, url: workstationCurrentEnv.url },
+            wsOtherEnvs,
             linkedEnvs: currEnvConnections.other
         });
         const linkedEnvs = [...currEnvConnections.other];
@@ -95,7 +95,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
             linkedEnvs[idx].applicationList = envApplicationList;
             linkedEnvs[idx].isConfigured = !!availableEnvObj;
             linkedEnvs[idx].isConnected = isEnvConnected;
-            // update state with application lists for each connected environment
+            // update state with application lists for each linked environment
             this.setState({ linkedEnvs });
         });
     }
@@ -113,15 +113,15 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
     }
 
     // take state information and convert it into dataSource format readable by AntD's Table component
-    getConnectedEnvsTableDataSource = () => {
-        const { wsCurrentEnv, savedCurrentEnv, otherEnvs, linkedEnvs } = this.state;
+    getLinkedEnvsTableDataSource = () => {
+        const { wsCurrentEnv, linkedCurrentEnv, wsOtherEnvs, linkedEnvs } = this.state;
         // initialize dataSource with current env, which always come first in the table
         let dataSource: Array<EnvConnectionTableDataType> = [
             {
                 key: '0',
-                name: savedCurrentEnv.name,
+                name: linkedCurrentEnv.name,
                 wsName: wsCurrentEnv.name,
-                baseUrl: savedCurrentEnv.url,
+                baseUrl: linkedCurrentEnv.url,
             }
         ];
         // push rest of linked envs to dataSource list
@@ -132,7 +132,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
             let selectedApplication: Partial<HomeScreenConfigType> = { id: selectedApplicationId };
             if (env.isConfigured) {
                 // get and update env's WS saved name. this is accessible as long as the env is configured on user's WS
-                const wsEnvObj = otherEnvs.find(e => e.url === baseUrl);
+                const wsEnvObj = wsOtherEnvs.find(e => e.url === baseUrl);
                 wsName = wsEnvObj.name || '';
                 // then, check for connectivity in order to access env's application list
                 if (env.isConnected) {
@@ -158,21 +158,21 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
         return dataSource
     }
 
-    getAvailableToConnectEnvs = () => {
-        const { otherEnvs, linkedEnvs } = this.state;
-        let availableToConnectEnvs = [...otherEnvs];
+    getAvailableToLinkEnvs = () => {
+        const { wsOtherEnvs, linkedEnvs } = this.state;
+        let availableToLinkEnvs = [...wsOtherEnvs];
         // filter to only return environments currently connected to WS
-        // as well as remove any available envs that the user has already opted to connect to
-        availableToConnectEnvs = availableToConnectEnvs.filter(currEnv => currEnv.isConnected && !linkedEnvs.find(connectedEnv => (currEnv.url === this.getBaseUrl(connectedEnv.url))))
+        // as well as remove any available envs that the user has already opted to link to
+        availableToLinkEnvs = availableToLinkEnvs.filter(currEnv => currEnv.isConnected && !linkedEnvs.find(connectedEnv => (currEnv.url === this.getBaseUrl(connectedEnv.url))))
 
-        return availableToConnectEnvs;
+        return availableToLinkEnvs;
     }
 
     // Used to add an available environment to the linkedEnvs list. As part of this process, we will fetch the environment's
     // application list to make available to the user for selection. 
-    addEnvironmentToConnectedEnvs = async (env: EnvironmentConnectionInterface) => {
+    addEnvironmentToLinkedEnvs = async (env: EnvironmentConnectionInterface) => {
         const { currEnvConnections } = this.props;
-        const { savedCurrentEnv, linkedEnvs } = this.state;
+        const { linkedCurrentEnv, linkedEnvs } = this.state;
         // TODO: should we re-check workstation available envs to ensure the env is still configured/connected?
         // or should we force trigger the refresh workflow instead? TBA!
         let newLinkedEnvs = [...linkedEnvs];
@@ -190,10 +190,10 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
             isConfigured: true,
             isConnected: true
         });
-        newLinkedEnvs = _.sortBy(newLinkedEnvs, (e) => e.name); // sort new connected envs
+        newLinkedEnvs = _.sortBy(newLinkedEnvs, (e) => e.name); // sort new linked envs
         this.setState({ linkedEnvs: newLinkedEnvs }); // update state
         this.handleEnvConnectionsChange({
-            current: currEnvConnections.current || savedCurrentEnv.name,
+            current: currEnvConnections.current || linkedCurrentEnv.name,
             other: newLinkedEnvs
         }); 
     }
@@ -203,7 +203,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
         const { linkedEnvs } = this.state;
         const workstationCurrentEnv = await workstation.environments.getCurrentEnvironment();
         const workstationAvailableEnvs = await workstation.environments.getAvailableEnvironments();
-        const otherEnvs = workstationAvailableEnvs
+        const wsOtherEnvs = workstationAvailableEnvs
             .filter(env => (env.url !== workstationCurrentEnv.url))
             .map(env => ({ name: env.name, url: env.url, isConnected: env.status === EnvironmentStatus.Connected }));
         // update linkedEnvs with application lists if they were previously unavailable for a now connected environment
@@ -238,17 +238,17 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
         // update state with latest environments list retrieved from WS and updated applications lists for newly-connected environments
         this.setState({
             wsCurrentEnv: workstationCurrentEnv,
-            otherEnvs,
+            wsOtherEnvs,
             linkedEnvs: newLinkedEnvs
         });
     }
  
     render() {
         const { currEnvConnections } = this.props;
-        const { savedCurrentEnv, linkedEnvs } = this.state;
-        const linkedEnvsTableDataSource = this.getConnectedEnvsTableDataSource();
-        let availableToConnectEnvs = this.getAvailableToConnectEnvs();
-        availableToConnectEnvs = _.sortBy(availableToConnectEnvs, (e) => e.name); // sort by name
+        const { linkedCurrentEnv, linkedEnvs } = this.state;
+        const linkedEnvsTableDataSource = this.getLinkedEnvsTableDataSource();
+        let availableToLinkEnvs = this.getAvailableToLinkEnvs();
+        availableToLinkEnvs = _.sortBy(availableToLinkEnvs, (e) => e.name); // sort by name
         return (
             <div className={screenClassNamePrefix}>
                 <div className={`${screenClassNamePrefix}-title-row`}>
@@ -281,9 +281,9 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                                                                     allowEmptySave
                                                                     onValueChange={(newName: string) => {
                                                                         const newNameToSave = newName || record.wsName; // fall back to WS saved current env name if user saves empty string
-                                                                        let newCurrentEnv = { ...savedCurrentEnv };
+                                                                        let newCurrentEnv = { ...linkedCurrentEnv };
                                                                         newCurrentEnv.name = newNameToSave; // update name in current env's object entry
-                                                                        this.setState({ savedCurrentEnv: newCurrentEnv }); // update state
+                                                                        this.setState({ linkedCurrentEnv: newCurrentEnv }); // update state
                                                                         this.handleEnvConnectionsChange({
                                                                             current: newNameToSave,
                                                                             other: currEnvConnections.other
@@ -304,7 +304,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                                                                 newLinkedEnvs = _.sortBy(newLinkedEnvs, (e) => e.name); // re-sort in case new name moves it out of position
                                                                 this.setState({ linkedEnvs: newLinkedEnvs }); // update state
                                                                 this.handleEnvConnectionsChange({
-                                                                    current: currEnvConnections.current || savedCurrentEnv.name,
+                                                                    current: currEnvConnections.current || linkedCurrentEnv.name,
                                                                     other: newLinkedEnvs
                                                                 });
                                                             }}
@@ -357,7 +357,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                                                 currConnectedEnv.url = newApplicationObj.isDefault ? record.baseUrl : (record.baseUrl + customAppPath + newApplicationId); // update url with new application id
                                                 this.setState({ linkedEnvs: newLinkedEnvs }); // update state
                                                 this.handleEnvConnectionsChange({
-                                                    current: currEnvConnections.current || savedCurrentEnv.name,
+                                                    current: currEnvConnections.current || linkedCurrentEnv.name,
                                                     other: newLinkedEnvs
                                                 });
                                             }}
@@ -373,10 +373,10 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                                         className='remove-connected-env-icn'
                                         onClick={() => {
                                             let newLinkedEnvs = [...linkedEnvs];
-                                            newLinkedEnvs.splice(idx - 1, 1); // remove the clicked row env
+                                            newLinkedEnvs.splice(idx - 1, 1); // remove the selected row env
                                             this.setState({ linkedEnvs: newLinkedEnvs }); // update state
                                             this.handleEnvConnectionsChange({
-                                                current: currEnvConnections.current || savedCurrentEnv.name,
+                                                current: currEnvConnections.current || linkedCurrentEnv.name,
                                                 other: newLinkedEnvs
                                             });
                                         }}
@@ -388,8 +388,8 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                     <div className={`${classNamePrefix}-available-envs-section`}>
                         <div className={`${classNamePrefix}-available-envs-section-desc`}>{localizedStrings.ENVIRONMENT_CONNECTION_AVAILABLE_ENVS_DESC}</div>
                         {
-                            availableToConnectEnvs.length 
-                                ? availableToConnectEnvs.map((env: EnvironmentConnectionInterface, idx) => (
+                            availableToLinkEnvs.length 
+                                ? availableToLinkEnvs.map((env: EnvironmentConnectionInterface, idx) => (
                                     <div className='available-env-row' key={idx}>
                                         <div className='available-env-name' title={env.name}>
                                             <div className='available-env-name-icn' />
@@ -398,7 +398,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                                         <div className='available-env-url' title={env.url}>{env.url}</div>
                                         <div
                                             className='add-available-env-icn'
-                                            onClick={() => this.addEnvironmentToConnectedEnvs(env)}
+                                            onClick={() => this.addEnvironmentToLinkedEnvs(env)}
                                         />
                                     </div>
                                 ))
