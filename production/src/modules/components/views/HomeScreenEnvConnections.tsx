@@ -25,8 +25,8 @@ interface EnvConnectionTableDataType {
     baseUrl: string,
     selectedApplication?: Partial<HomeScreenConfigType>,
     applicationList?: Array<Partial<HomeScreenConfigType>>,
-    isConfigured?: boolean,
-    isConnected?: boolean
+    isConfigured: boolean,
+    isConnected: boolean
 }
 
 interface HomeScreenEnvConnectionsProps {
@@ -122,6 +122,8 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                 name: linkedCurrentEnv.name,
                 wsName: wsCurrentEnv.name,
                 baseUrl: linkedCurrentEnv.url,
+                isConfigured: true, // always true for current env
+                isConnected: true // always true for current env
             }
         ];
         // push rest of linked envs to dataSource list
@@ -229,8 +231,8 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                 return {
                     ...env,
                     applicationList: envApplicationList,
-                    isConfigured: !!availableEnvObj,
-                    isConnected: !!isEnvConnected
+                    isConfigured: true, // true, since we are in this code block which checks for isEnvConnected
+                    isConnected: true // true, since we are in this code block which checks for isEnvConnected
                 }
             } else {
                 // return unmodified env object if there is no need to fetch & update its application list
@@ -268,7 +270,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                             dataIndex={VC.NAME}
                             key={VC.NAME}
                             width={220}
-                            render={(name: string = '', record: EnvConnectionTableDataType, idx) => {
+                            render={(name: string, record: EnvConnectionTableDataType, idx) => {
                                 const isFirstRow = idx === 0;
                                 return (
                                     <div className='connected-env-name-wrapper'>
@@ -322,7 +324,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                             dataIndex={VC.BASE_URL}
                             key={VC.BASE_URL}
                             width={160}
-                            render={(baseUrl: string = '', record: EnvConnectionTableDataType, idx) => {
+                            render={(baseUrl: string, record: EnvConnectionTableDataType, idx) => {
                                 const isFirstRow = idx === 0;
                                 const url = (isFirstRow || !record.selectedApplication?.id || record.selectedApplication?.isDefault) ? baseUrl : (record.baseUrl + customAppPath + record.selectedApplication?.id);
                                 return (
@@ -335,8 +337,9 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                             dataIndex={VC.SELECTED_APPLICATION}
                             key={VC.SELECTED_APPLICATION}
                             width={284}
-                            render={(application: Partial<HomeScreenConfigType> = {}, record: EnvConnectionTableDataType, idx) => {
+                            render={(application: Partial<HomeScreenConfigType>, record: EnvConnectionTableDataType, idx) => {
                                 const isFirstRow = idx === 0;
+                                const selectedApplicationValue = (!isFirstRow && record.isConfigured && record.isConnected) ? application?.id : undefined 
                                 const applicationSelectOptionsList = record.applicationList?.map(a => ({
                                     label: <div className='application-list-obj'><div className='application-list-obj-icn' /><div className='application-list-obj-text'>{a.name}</div></div>,
                                     value: a.id,
@@ -348,7 +351,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                                         : <Select
                                             className='connected-env-application-select'
                                             popupClassName='connected-env-application-select-dropdown'
-                                            value={(record.isConfigured && record.isConnected) ? application.id : undefined} // only display the selected value when env is configured/connected
+                                            value={selectedApplicationValue}
                                             placeholder={localizedStrings.SELECT_APPLICATION}
                                             options={applicationSelectOptionsList}
                                             bordered={false}
