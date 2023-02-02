@@ -712,10 +712,10 @@ class Previewer extends React.Component<any, any> {
                             >
                                 {this.sidebarIconsRender(padLeftClassName)}
                                 <div
-                                    className={this.previewerClassName(
+                                    className={classnames(this.previewerClassName(
                                         deviceType,
                                         '-overview-right'
-                                    )}
+                                    ),'library-content')}
                                 >
                                     <div className="library-content-filter">
                                         <div className="title-wrapper">

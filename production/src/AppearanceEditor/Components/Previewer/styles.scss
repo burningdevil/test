@@ -315,10 +315,13 @@ $notification-badge-bg-color: var(--notification-badge-fill, $msdl-white);
             display: flex;
             flex-direction: column;
             width: $preview-width - $sidebar-width;
-            background: $canvas-bg-color;
 
             &:first-child {
                 width: $preview-width;
+            }
+
+            &.library-content {
+                background: $canvas-bg-color;
             }
 
             .library-content-filter {
