@@ -504,6 +504,15 @@ $notification-badge-bg-color: var(--notification-badge-fill, $msdl-white);
             padding-left: 5px;
         }
 
+        .ant-layout-header {
+            &.no-theme,
+            &.light-theme {
+                .icon-library {
+                    color: $mobile-primary-blue;
+                }
+            }
+        }
+
         .library-header {
             &.no-theme {
                 background: $msdl-white;
