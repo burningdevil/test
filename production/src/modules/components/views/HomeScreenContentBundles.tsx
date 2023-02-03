@@ -65,7 +65,8 @@ class HomeScreenContentBundles extends React.Component<any, any> {
         <ContentBundleList includedIds = {this.props.contentBundleIds} handleSelection = {this.handleSelection} handleDeletion = {this.handleBundleDelete} handleAdd = {this.handleBundleAdd} allowDelete={true}/>
         <div className= {`${classNamePrefix}-message-tip`}>
           {this.props.showAllContentFeatureEnable && <>
-            {<Select dropdownMatchSelectWidth={300} 
+            {<Select dropdownMatchSelectWidth={300}
+              disabled = {this.props.contentBundleIds?.length > 0 ? false : true}
               style={{ width: "403px", height: "28px"}}
                 size="middle" onChange={this.handleAllowUsersViewAllContentChange} defaultValue= {0} value = {this.props.allowUserViewAllContents ? 1 : 0} bordered={true}>
                         <Option value={0}>{localizedStrings.LIMIT_USERS_VIEW_ALL_CONTENT_MSG}</Option>
