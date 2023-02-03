@@ -49,7 +49,6 @@ import {
     CONTENT_BUNDLE_DEFAULT_GROUP_NAME,
     copyApplicationName,
     closeWindowConfirmationStr,
-    GENERAL_PREVIEW_FEATURE_FLAG,
     SUPPORT_CONFIGURATION_PALETTE_ID,
     APPLICATIONS_AUTH_MODES_FLAG,
 } from '../HomeScreenConfigConstant';
