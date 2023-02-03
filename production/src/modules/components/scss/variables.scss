@@ -60,7 +60,3 @@ $logo-box-margin-right: 10px;
 // Logo popup dialog Styling
 $logo-popup-width: 500px;
 $logo-popup-height: 164px;
-
-// Environment Connection Editor Styling
-$env-connection-screen-height: calc(#{$tabs-content-screen-height} - #{$btn-bar-outer-padding} - #{$btn-bar-height});  // reduce height to give space to btn bar
-$env-connection-screen-padding: 24px 30px 0;

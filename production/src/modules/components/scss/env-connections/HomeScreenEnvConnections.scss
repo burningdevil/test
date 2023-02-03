@@ -1,6 +1,7 @@
 @import '~@mstr/rc/es/assets/scss/variables.scss';
-@import './variables.scss';
-@import '../../../styles/base';
+@import '../variables.scss';
+@import './env-connection-variables.scss';
+@import '../../../../styles/base';
 
 .mstr-env-connection-screen {
   position: relative;
@@ -31,7 +32,7 @@
       &-icn {
         width: 14px;
         height: 14px;
-        background-image: url('../images/18_18.svg');
+        background-image: url('../../images/18_18.svg');
         background-position: -218px -219px;
       }
 
@@ -119,7 +120,7 @@
                 .connected-env-name-icn {
                   width: 14px;
                   height: 14px;
-                  background-image: url('../images/18_18.svg');
+                  background-image: url('../../images/18_18.svg');
                   background-position: -434px -128px;
                 }
       
@@ -167,7 +168,7 @@
                     &-icn {
                       width: 16px;
                       height: 16px;
-                      background-image: url('../images/web-logo.svg');
+                      background-image: url('../../images/web-logo.svg');
                       background-size: 16px;
                       margin: auto; // to help center align it
                     }
@@ -182,7 +183,7 @@
               .remove-connected-env-icn {
                 width: 14px;
                 height: 14px;
-                background-image: url('../images/18_18.svg');
+                background-image: url('../../images/18_18.svg');
                 background-position: -542px -164px;
                 cursor: pointer;
       
@@ -225,7 +226,7 @@
           &-icn {
             width: 14px;
             height: 14px;
-            background-image: url('../images/18_18.svg');
+            background-image: url('../../images/18_18.svg');
             background-position: -434px -128px;
           }
 
@@ -241,7 +242,7 @@
         .add-available-env-icn {
           width: 14px;
           height: 14px;
-          background-image: url('../images/18_18.svg');
+          background-image: url('../../images/18_18.svg');
           background-position: -128px -128px;
           cursor: pointer;
 
@@ -267,7 +268,7 @@
       .info-icn {
         width: 14px;
         height: 14px;
-        background-image: url('../images/18_18.svg');
+        background-image: url('../../images/18_18.svg');
         background-position: -146px -2px;
       }
     }
@@ -288,7 +289,7 @@
     &-icn {
       width: 16px;
       height: 16px;
-      background-image: url('../images/web-logo.svg');
+      background-image: url('../../images/web-logo.svg');
       background-size: 16px;
       margin: auto; // to help center align it
     }
