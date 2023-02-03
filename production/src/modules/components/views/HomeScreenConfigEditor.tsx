@@ -748,7 +748,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                                             {this.buttonGroup()}
                                         </Tabs.TabPane>
                                     )}
-                                {true && (
+                                {this.state.contentBundleFeatureEnable && (
                                     <Tabs.TabPane
                                         tab={
                                             localizedStrings.NAVBAR_CONTENT_BUNDLES
