@@ -71,6 +71,7 @@ import {
     LIBRARY_SERVER_SUPPORT_ENV_CONNECTIONS,
     isIServerVersionMatch,
     ISERVER_SUPPORT_AUTH_MODE,
+    checkFeatureEnable
 } from '../../../utils';
 import ColorPaletteBlade from '../features/color-palette/color-palette-blade';
 import CustomEmailBlade from '../features/custom-email/custom-email-blade';
@@ -238,16 +239,6 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                     LIBRARY_SERVER_SUPPORT_AUTH_MODE
                 ) && isAuthModesBackendFlagEnabled
                 && isIServerSupportAuthModes
-        
-        const checkFeatureEnable = (curEnv: Environment, supportVersion: string) => {
-            return (
-                !!curEnv.webVersion &&
-                isLibraryServerVersionMatch(
-                    curEnv.webVersion,
-                    supportVersion
-                )
-            );
-        };
 
         const customEmailFeatureFlagEnabled  = checkFeatureEnable(currentEnv, LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_VERSION);
         const customEmailV2Enabled = checkFeatureEnable(currentEnv, LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_V2);

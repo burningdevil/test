@@ -11,6 +11,10 @@ import { t } from '../i18n/i18next';
 import { selectCurrentConfigTheme } from '../store/selectors/HomeScreenConfigEditorSelector'
 import { selectAppearanceEditorTheme } from '../store/selectors/AppearanceEditorSelector'
 import { ApplicationTheme, HomeScreenConfigType } from '../types/data-model/HomeScreenConfigModels'
+import { 
+  LIBRARY_SERVER_SUPPORT_APP_THEME_COLOR_VERSION,
+  checkFeatureEnable
+} from '../utils';
 import './styles.scss'
 
 type AppearanceEditorProps = {
@@ -22,11 +26,26 @@ type AppearanceEditorProps = {
 
 declare var workstation: WorkstationModule;
 
+/*window.workstation = {
+  window: {
+    close: () => {},
+    setCloseInfo: () => {},
+    setTitle: () => {},
+    addHandler: () => {},
+    getExtraContext: () => {}
+  },
+  dialogs: {
+    confirmation: () => {}
+  }
+
+};*/
+
 const AppearanceEditor: React.FC<AppearanceEditorProps> = ({ savedConfigTheme, currEditorTheme, setCurrEditorTheme, setCurrConfig }) => {
   // use refs so our confirmBeforeClosing function can be used as a callback without worrying about referencing stale variables
   const savedConfigThemeRef = React.useRef(savedConfigTheme);
   const currEditorThemeRef = React.useRef(currEditorTheme);
   const currApplicationName = React.useRef('');
+  const [isAppThemeColorSupported, setIsAppThemeColorSupported] = React.useState(false);
   savedConfigThemeRef.current = savedConfigTheme;
   currEditorThemeRef.current = currEditorTheme;
 
@@ -59,9 +78,13 @@ const AppearanceEditor: React.FC<AppearanceEditorProps> = ({ savedConfigTheme, c
       currApplicationName.current = prevConfig.name;
       setCurrEditorTheme(prevTheme);
       setCurrConfig(prevConfig);
+      const currentEnv = await workstation.environments.getCurrentEnvironment();    
+      const isColorSupported = checkFeatureEnable(currentEnv, LIBRARY_SERVER_SUPPORT_APP_THEME_COLOR_VERSION);
+      setIsAppThemeColorSupported(isColorSupported);
       await workstation.window.setTitle(t('appearanceEditorWindowTitle').replace('{{application}}', currApplicationName.current));
     }
     initEditor();
+
 
     // add handler so when parent window (Config Editor) closes, we should also close this window
     workstation.window.addHandler(WindowEvent.ONPARENTCLOSE, async () => {
@@ -78,7 +101,7 @@ const AppearanceEditor: React.FC<AppearanceEditorProps> = ({ savedConfigTheme, c
     <div className='mstr-appearance-editor'>
       <AppearanceEditorToolbar theme={currEditorTheme} handleClose={confirmBeforeClosing} />
       <div className='content-section'>
-        <SettingsPanel />
+        <SettingsPanel isColorSupported={isAppThemeColorSupported} />
         <PreviewPanel theme={currEditorTheme} />
       </div>
     </div>

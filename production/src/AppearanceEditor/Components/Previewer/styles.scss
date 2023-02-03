@@ -563,7 +563,6 @@ $notification-badge-bg-color: var(--notification-badge-fill, $msdl-white);
                 background: $toolbar-icon-box-background;
                 color: #575a5d;
                 margin-right: $icon-margin-right;
-                width: 65px;
                 height: 21px;
                 margin-top: 0;
                 margin-bottom: 0;
@@ -595,13 +594,12 @@ $notification-badge-bg-color: var(--notification-badge-fill, $msdl-white);
                 align-items: center;
                 background: $toolbar-icon-box-background;
                 color: $header-text-color;
-                width: 75px;
                 height: 21px;
                 margin-top: 0;
                 margin-bottom: 0;
                 border-radius: 3.2px;
                 font-size: $toolbar-icon-font-size - 3;
-                padding-left: 8px;
+                padding: 0 8px;
 
                 &.no-theme {
                     background: #f2f3f5;
