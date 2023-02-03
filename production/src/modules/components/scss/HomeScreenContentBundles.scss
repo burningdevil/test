@@ -7,7 +7,7 @@
 
     .home-screen-bundle-content-message-tip {
       position: relative;
-      margin-top: 40px;
+      margin-top: 22px;
       font-size: $font-size;
       .ant-checkbox-wrapper {
         font-size: $font-size;
@@ -17,9 +17,19 @@
       .ant-checkbox {
           transform: scale(0.75);
       }
+      #previous-info-icon {
+        color: $msdl-blue;
+      }
       .icon-msg_info {
         color: #9a9a9a;
-    }
+      }
+      .home-screen-bundle-content-selection-option {
+        font-size: 12px;
+      }
+      .mstr-select-container {
+        display: inline-block !important;
+      }
+
     }
 }
   

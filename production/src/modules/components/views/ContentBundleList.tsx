@@ -506,7 +506,7 @@ class ContentBundleList extends React.Component<any, any> {
   }
 
   render() {
-    const containerHeight = this.props.allowDelete ? 'calc(100% - 80px)' : '100%'
+    const containerHeight = this.props.allowDelete ? 'calc(100% - 100px)' : '100%'
     return (
       <div className={`${classNamePrefix}`} style={{ height: '100%' }}>
         {this.props.allowDelete && this.renderChangeNameField()}

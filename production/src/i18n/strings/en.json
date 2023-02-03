@@ -320,5 +320,7 @@
     "url": "URL",
     "application": "Application",
     "selectApplication": "Select an application",
-    "allowUsersViewAllContentMsg": "Allow users to view all contents and add new content in this application."
+    "allowUsersViewAllContentMsg": "Allow users to view and create new content",
+    "limitUsersViewAllContentMsg": "Limit Library content in this application to above Content Groups",
+    "allowUsersViewAllContentTip": "Users can view the Content Groups added above if they have been added as recipients."
 }
