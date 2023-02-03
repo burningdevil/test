@@ -27,14 +27,14 @@ export const EnumSelectedThemes = {
 
 // color option labels in the settings panel
 export const EnumSelectedThemeLabels = {
-    [EnumThemeTypes.LIGHT]: t('Light'),
-    [EnumThemeTypes.DARK]: t('Dark'),
-    [EnumThemeTypes.DARK_BLUE]: t('Dark Blue'),
-    [EnumThemeTypes.BLUE]: t('Blue'),
-    [EnumThemeTypes.RED]: t('Red'),
-    [EnumThemeTypes.GREEN]: t('Green'),
-    [EnumThemeTypes.YELLOW]: t('Yellow'),
-    [EnumThemeTypes.CUSTOM]: t('Custom color'),
+    [EnumThemeTypes.LIGHT]: t('light'),
+    [EnumThemeTypes.DARK]: t('dark'),
+    [EnumThemeTypes.DARK_BLUE]: t('darkBlue'),
+    [EnumThemeTypes.BLUE]: t('blue'),
+    [EnumThemeTypes.RED]: t('red'),
+    [EnumThemeTypes.GREEN]: t('green'),
+    [EnumThemeTypes.YELLOW]: t('yellow'),
+    [EnumThemeTypes.CUSTOM]: t('customColor'),
 };
 
 // theme color formatting properties of an application object (stored inside Metadata)

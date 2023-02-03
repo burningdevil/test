@@ -84,11 +84,9 @@ const Color: React.FC<ColorProps> = ({
 
     return (
         <div className={classNamePrefix}>
-            <div className={`${classNamePrefix}-title`}>{t('App Theme')}</div>
+            <div className={`${classNamePrefix}-title`}>{t('appTheme')}</div>
             <div className={`${classNamePrefix}-subtitle`}>
-                {t(
-                    'Please select a pre-defined theme or create a custom theme'
-                )}
+                {t('themeSelectionOrCreation')}
             </div>
             <div className={`${classNamePrefix}-options`}>
                 <Radio.Group
