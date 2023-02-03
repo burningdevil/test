@@ -63,6 +63,10 @@
             .ant-tabs-tabpane {
                 padding-left: 0 !important;
             }
+            // not sure which version of mstr/rc is fixed, so have to override it SearchInput
+            .mstr-filter-search-input-wrapper .mstr-input {
+                padding-top: 2px !important;
+            }
         }
     }
 }

@@ -165,6 +165,9 @@
       "node-fetch": "^2.6.1",
       "antd": "4.23.3",
       "ua-parser-js": "0.7.33"
+    },
+    "hooks": {
+      "pre-push": "npm run unit-test"
     }
   }
   
