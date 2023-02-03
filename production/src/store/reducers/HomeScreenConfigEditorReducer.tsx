@@ -5,6 +5,7 @@ import * as Actions from '../actions/ActionConstants'
 import * as _ from 'lodash'
 import { DEFAULT_AUTH_MODE } from '../../../src/modules/components/features/custom-auth/custom-auth.model'
 import { PRIMARY_BLUE_HEX_COLOR, WHITE_HEX_COLOR } from '../../../src/modules/components/features/custom-email-v2/custom-email.util'
+import { MobileButtonLinkEnum } from '../../../src/types/data-model/HomeScreenConfigModels'
 export const DEFAULT_EMAIL_SETTING = {
   'enabled': false,
   'hostPortal': '',
@@ -54,7 +55,7 @@ export const DEFAULT_EMAIL_SETTING = {
           "text": customEmailStringDict.formGroup.actionButton.button2_default
       },
       "mobileButtonScheme": "dossier",
-      "mobileButtonLinkType": "DEFAULT",
+      "mobileButtonLinkType": MobileButtonLinkEnum.DEFAULT,
       "description": customEmailStringDict.formGroup.actionButton.descriptionDefaultStr
 },
 "reminder": {
@@ -89,6 +90,7 @@ const initialState: HomeScreenConfigEditorState = {
         sidebars: sidebarIconKeys.filter((key) => !_.includes(libraryCustomizedIconKeys, key)).map((key) => iconValidKey(key)),
         customizedItems: {},
         contentBundleIds: [],
+        showAllContents: false,
         defaultGroupsName: localizedStrings.DEFAULT_GROUPS,
         toolbarMode: CONSTANTS.SHOW_TOOLBAR,
         toolbarEnabled: true,

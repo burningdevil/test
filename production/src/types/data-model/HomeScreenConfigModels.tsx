@@ -29,7 +29,6 @@ export interface ActionButtonInterface {
         "fontColor": string,
         "text": string
     },
-    "mobileButtonLink": string,
     "mobileButtonLinkType": MobileButtonLinkEnum,
     "mobileButtonScheme": string,
     "description": string
@@ -93,6 +92,7 @@ export interface EnvironmentConnectionSettingType {
     current: string,
     other: Array<EnvironmentConnectionInterface>
 }
+
 
 export interface HomeScreenConfigType {
     'id': string,
