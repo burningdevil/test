@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
 import { iconTypes, localizedStrings } from '../HomeScreenConfigConstant';
 import { default as VC } from '../HomeScreenConfigConstant'
 import { Tooltip, Select } from '@mstr/rc';
-import { Checkbox } from 'antd';
 const { Option } = Select;
 const classNamePrefix = 'home-screen-bundle-content';
 const bundleIdPath = 'homeScreen.homeLibrary.contentBundleIds';
