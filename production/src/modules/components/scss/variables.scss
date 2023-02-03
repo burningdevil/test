@@ -12,8 +12,13 @@ $right-background: #f4f4f4;
 $mobile-primary-blue: #0e6ff9;
 $white: #fff;
 
+// Common Element Sizes
+$tabs-content-screen-height: 708px;
+$btn-bar-outer-padding: 24px;
+$btn-bar-height: 22px;
+
 // Custom Apps/Appearance Editor Styling
-$custom-apps-screen-height: 708px;
+$custom-apps-screen-height: $tabs-content-screen-height;
 $custom-apps-screen-padding: 24px 30px 0;
 
 $theme-content-width: 226px;
@@ -57,5 +62,5 @@ $logo-popup-width: 500px;
 $logo-popup-height: 164px;
 
 // Environment Connection Editor Styling
-$env-connection-screen-height: calc(708px - 24px - 22px);  // reduce height to give space to btn bar. 708px (screen height) - 24px (outer btn padding) - 22px (btn bar height)
+$env-connection-screen-height: calc(#{$tabs-content-screen-height} - #{$btn-bar-outer-padding} - #{$btn-bar-height});  // reduce height to give space to btn bar
 $env-connection-screen-padding: 24px 30px 0;
