@@ -74,7 +74,7 @@ class HomeScreenContentBundles extends React.Component<any, any> {
             }
             <Tooltip 
               title={localizedStrings.ALLOW_USERS_VIEW_ALL_CONTENT_TIP}
-              placement='topRight'>
+              placement='rightTop'>
               <span className={VC.FONT_MSG_INFO}> </span>
             </Tooltip>
           </>}
