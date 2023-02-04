@@ -26,20 +26,6 @@ type AppearanceEditorProps = {
 
 declare var workstation: WorkstationModule;
 
-/*window.workstation = {
-  window: {
-    close: () => {},
-    setCloseInfo: () => {},
-    setTitle: () => {},
-    addHandler: () => {},
-    getExtraContext: () => {}
-  },
-  dialogs: {
-    confirmation: () => {}
-  }
-
-};*/
-
 const AppearanceEditor: React.FC<AppearanceEditorProps> = ({ savedConfigTheme, currEditorTheme, setCurrEditorTheme, setCurrConfig }) => {
   // use refs so our confirmBeforeClosing function can be used as a callback without worrying about referencing stale variables
   const savedConfigThemeRef = React.useRef(savedConfigTheme);
