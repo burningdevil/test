@@ -505,8 +505,7 @@ $notification-badge-bg-color: var(--notification-badge-fill, $msdl-white);
         }
 
         .ant-layout-header {
-            &.no-theme,
-            &.light-theme {
+            &.no-theme {
                 .icon-library {
                     color: $mobile-primary-blue;
                 }
