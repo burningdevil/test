@@ -11,8 +11,7 @@ import { selectCurrentConfig, selectCurrEnvConnections } from '../../../store/se
 import * as Actions from '../../../store/actions/ActionsCreator'
 import { default as VC, localizedStrings } from '../HomeScreenConfigConstant'
 import EditableLabel from '../common-components/editable-label/editable-label'
-import { EnvironmentConnectionSettingType, EnvironmentConnectionInterface, HomeScreenConfigType } from '../../../types/data-model/HomeScreenConfigModels'
-import { ThemePropObject } from '../../../types/data-model/HomeScreenConfigModels';
+import { EnvironmentConnectionSettingType, EnvironmentConnectionInterface, HomeScreenConfigType, ThemePropObject } from '../../../types/data-model/HomeScreenConfigModels'
 import '../scss/env-connections/HomeScreenEnvConnections.scss'
 
 declare var workstation: WorkstationModule;
