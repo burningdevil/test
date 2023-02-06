@@ -53,20 +53,27 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
     const [colorPropInFocus, setColorPropInFocus] = React.useState('');
 
     const onColorChange = (e: { target: { value: any } }, title: string) => {
+        const hexValueWithHash = `#${e.target.value}`;
+
         const updatedFormatsFromUserInput = {
             ...formats,
-            [title]: e.target.value,
+            [title]: hexValueWithHash,
         };
 
         setFormats(updatedFormatsFromUserInput);
 
         setIsColorCodeListValid({
             ...isColorCodeListValid,
-            [title]: isColorCodeValid(e.target.value),
+            [title]: isColorCodeValid(hexValueWithHash),
         });
 
-        if (isColorCodeValid(e.target.value)) {
-            updateTheme({ color: { selectedTheme, formatting: updatedFormatsFromUserInput} });
+        if (isColorCodeValid(hexValueWithHash)) {
+            updateTheme({
+                color: {
+                    selectedTheme,
+                    formatting: updatedFormatsFromUserInput,
+                },
+            });
         }
     };
 
@@ -78,14 +85,14 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
                 ...isColorCodeListValid,
                 [title]: true,
             });
-        }   
+        }
     };
 
-     /**
+    /**
      * Returns a grid row with either a color category or a format property. For ex:
-     *  Toolbar 
-     *    or 
-     *  Background    [ ] #F24AC1  
+     *  Toolbar
+     *    or
+     *  Background    [ ] #F24AC1
      *
      * @param row
      * @returns
@@ -98,10 +105,16 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
             cols.push(getCategoryLableCols(propName));
         } else {
             const title = colorPropTitles[row][1];
-            cols.push(getColorPropCols(propName, title, formats[propName]));
+            cols.push(
+                getColorPropCols(
+                    propName,
+                    title,
+                    formats[propName].substring(1)
+                )
+            );
         }
-          
-        return <Row gutter={[gutterHorizontal, gutterVertical]}>{cols}</Row>; 
+
+        return <Row gutter={[gutterHorizontal, gutterVertical]}>{cols}</Row>;
     };
 
     /**
@@ -115,81 +128,87 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
         propName: string,
         title: string,
         hexValue: string
-    ) => (
-        <Col
-            className={classnames(
-                colorPropInFocus === propName ? 'in-focus' : ''
-            )}
-            span={8}
-        >
-            <div
-                className="color-prop-item"
-                onMouseEnter={() => setColorPropInFocus(propName)}
-                onMouseLeave={() => setColorPropInFocus('')}
-                onBlur={() => onBlur(propName)}
+    ) => {
+        const hexValueWithHash = `#${hexValue}`;
+        return (
+            <Col
+                className={classnames(
+                    colorPropInFocus === propName ? 'in-focus' : ''
+                )}
+                span={8}
             >
-                <Tooltip
-                    title={title}
-                    placement='bottomLeft'
-                    mouseLeaveDelay={0}
-                >
-                       <div className="color-prop-item-title">{title}</div>
-                </Tooltip>
                 <div
-                    id={`mstr-color-prop-${propName}`}
-                    className="color-prop-item-content"
+                    className="color-prop-item"
+                    onMouseEnter={() => setColorPropInFocus(propName)}
+                    onMouseLeave={() => setColorPropInFocus('')}
+                    onBlur={() => onBlur(propName)}
                 >
-                    <ColorPickerComponent
-                        color={hexValue}
-                        visible={false}
-                        onColorChange={(v: string) => {
-                            onColorChange({ target: { value: v } }, propName);
-                        }}
-                        // attach color picker to the settings panel to avoid z-index and scroll issues
-                        popupContainer={() => settingsPanelRef}
+                    <Tooltip
+                        title={title}
+                        placement="bottomLeft"
+                        mouseLeaveDelay={0}
                     >
-                        <div
-                            className="color-box"
-                            // display background color for the valid color code input
-                            style={{background: isColorCodeValid(hexValue) && hexValue }}
-                        ></div>
-                    </ColorPickerComponent>
+                        <div className="color-prop-item-title">{title}</div>
+                    </Tooltip>
+                    <div
+                        id={`mstr-color-prop-${propName}`}
+                        className="color-prop-item-content"
+                    >
+                        <ColorPickerComponent
+                            color={hexValueWithHash}
+                            visible={false}
+                            onColorChange={(v: string) => {
+                                // Remove the hash prefix before calling color change callback
+                                onColorChange(
+                                    { target: { value: v.substring(1) } },
+                                    propName
+                                );
+                            }}
+                            // attach color picker to the settings panel to avoid z-index and scroll issues
+                            popupContainer={() => settingsPanelRef}
+                        >
+                            <div
+                                className="color-box"
+                                // display background color for the valid color code input
+                                style={{
+                                    background:
+                                        isColorCodeValid(hexValueWithHash) &&
+                                        hexValueWithHash,
+                                }}
+                            ></div>
+                        </ColorPickerComponent>
 
-                    <Input
-                        className="color-value-input"
-                        value={hexValue.substring(1)} // hex value without hash prefix
-                        bordered={false}
-                        maxLength={hexStrLength}
-                        onChange={(e: any) => {
-                            // Add the hash prefix before calling color change callback
-                            e.target.value = `#${e.target.value}`
-                            onColorChange(e, propName)
-                        }}
-                        onValidate={() => isColorCodeListValid[propName]}
-                        isErrorDisplayed={!isColorCodeListValid[propName]}
-                        autoFocus={false}
-                        onPressEnter={(e: any) => {
-                            !isColorCodeListValid[propName] && onBlur(propName);
-                            e.target.blur();
-                        }}
-                    ></Input>
+                        <Input
+                            className="color-value-input"
+                            value={hexValue} // hex value without hash prefix
+                            bordered={false}
+                            maxLength={hexStrLength}
+                            onChange={(e: any) => {
+                                onColorChange(e, propName);
+                            }}
+                            onValidate={() => isColorCodeListValid[propName]}
+                            isErrorDisplayed={!isColorCodeListValid[propName]}
+                            autoFocus={false}
+                            onPressEnter={(e: any) => {
+                                !isColorCodeListValid[propName] &&
+                                    onBlur(propName);
+                                e.target.blur();
+                            }}
+                        ></Input>
+                    </div>
                 </div>
-            </div>
-        </Col>
-    );
+            </Col>
+        );
+    };
 
     const getCategoryLableCols = (propName: string) => (
-        <Tooltip
-            title={propName}
-            placement='bottomLeft'
-            mouseLeaveDelay={0}
-        >
-               <div className="color-prop-category-title">{propName}</div>
+        <Tooltip title={propName} placement="bottomLeft" mouseLeaveDelay={0}>
+            <div className="color-prop-category-title">{propName}</div>
         </Tooltip>
     );
 
     const rows = [];
-    
+
     for (let i = 0; i < colorPropTitles.length; i++) {
         rows.push(getColorPropRow(i));
     }
