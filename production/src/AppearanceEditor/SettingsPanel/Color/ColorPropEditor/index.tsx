@@ -160,8 +160,8 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
                                 title={titleDetailInfo}
                                 placement="bottomLeft"
                                 mouseLeaveDelay={0}
-                                >
-                                  <span className="icon-msg_info"></span>
+                            >
+                                <span className="icon-msg_info"></span>
                             </Tooltip>}
                     </div>
                     <div
