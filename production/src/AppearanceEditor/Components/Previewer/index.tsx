@@ -32,6 +32,7 @@ import {
     selectSelectedLibraryCustomizedItems,
     selectSelectedLibraryIcons,
     selectSelectedDocumentIcons,
+    selectUserViewAllContentEnabled,
 } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import { Tooltip } from '@mstr/rc';
@@ -81,6 +82,31 @@ const applyThemeColorsToPreviewer = (el: any, formats: any) => {
     }
 };
 
+const getBoxBackground = (hex: string) => {
+    const whiteDominantBackground = 'rgba(255, 255, 255, 0.09)';
+    const blackDominantBackground = 'rgba(0,0,0, 0.09)';
+
+    if (!hex) {
+        return blackDominantBackground;
+    }
+
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    const rgb = {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16),
+    };
+
+    /*
+     * The relative brightness of any point in a colorspace, normalized to 0 for darkest black and 1 for lightest white
+     * https://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
+     * https://stackoverflow.com/questions/9780632/how-do-i-determine-if-a-color-is-closer-to-white-or-black
+     */
+    const L = 0.2126 * rgb.r + 0.7152 * rgb.g + 0.0722 * rgb.b;
+
+    // If relative luminance is < 128, the color is close to white else it is close to black
+    return L < 128 ? whiteDominantBackground : blackDominantBackground;
+};
 class Previewer extends React.Component<any, any> {
     contentBundleEnable = false;
     hasContent = false;
@@ -232,8 +258,14 @@ class Previewer extends React.Component<any, any> {
             mobile: mobileLogo = { type: 'URL', value: '' },
         } = (this.props.theme && this.props.theme.logos) || {};
 
-        const { selectedTheme } =
+        const { selectedTheme, formatting } =
             (this.props.theme && this.props.theme.color) || {};
+        const isCustomColor = isCustomColorTheme(selectedTheme);
+        const formats = !isCustomColor
+            ? prefinedColorSets[selectedTheme]
+            : formatting;
+
+        const { toolbarFill } = formats || {};
 
         const isLibraryWebLogo = element.iconName === VC.FONT_PREVIEWSIDEBAR;
         const isLibraryMobileLogo = element.iconName === VC.FONT_LIBRARY_MOBILE;
@@ -250,6 +282,7 @@ class Previewer extends React.Component<any, any> {
                         className={classnames('icon_search_box', {
                             'no-theme': !selectedTheme,
                         })}
+                        style={{ background: getBoxBackground(toolbarFill) }}
                     >
                         <span className={element.iconName} key={elementIndex}>
                             {localizedStrings.SEARCH}
@@ -265,6 +298,9 @@ class Previewer extends React.Component<any, any> {
                             className={classnames('icon_sort_filter_box', {
                                 'no-theme': !selectedTheme,
                             })}
+                            style={{
+                                background: getBoxBackground(toolbarFill),
+                            }}
                         >
                             <span className="icon_sort_filter_text">
                                 {localizedStrings.SORT_BY}: ..
@@ -629,7 +665,7 @@ class Previewer extends React.Component<any, any> {
                 break;
         }
         // special case: the new dossier button should be moved out when the content bundle is not empty.
-        if (this.hasContent) {
+        if (this.hasContent && !this.props.allowUserViewAllContents) {
             headerIcons = headerIcons.filter(
                 (icon) => icon.key !== iconTypes.newDossier.key
             );
@@ -681,9 +717,13 @@ class Previewer extends React.Component<any, any> {
             <Layout className={this.previewerClassName(deviceType, '')}>
                 {!hideHeader && (
                     <Layout.Header
-                        className={classnames('library-header', {
-                            'no-theme': !selectedTheme,
-                        })}
+                        className={classnames(
+                            'library-header',
+                            {
+                                'no-theme': !selectedTheme,
+                            },
+                            { 'light-theme': selectedTheme === 'light' }
+                        )}
                     >
                         {this.toolbarIconsRender(
                             libraryHeaderIcons,
@@ -712,9 +752,12 @@ class Previewer extends React.Component<any, any> {
                             >
                                 {this.sidebarIconsRender(padLeftClassName)}
                                 <div
-                                    className={this.previewerClassName(
-                                        deviceType,
-                                        '-overview-right'
+                                    className={classnames(
+                                        this.previewerClassName(
+                                            deviceType,
+                                            '-overview-right'
+                                        ),
+                                        'library-content'
                                     )}
                                 >
                                     <div className="library-content-filter">
@@ -769,9 +812,13 @@ class Previewer extends React.Component<any, any> {
             <Layout className={this.previewerClassName(deviceType, '')}>
                 {!hideHeader && (
                     <Layout.Header
-                        className={classnames('dossier-header', {
-                            'no-theme': !selectedTheme,
-                        })}
+                        className={classnames(
+                            'dossier-header',
+                            {
+                                'no-theme': !selectedTheme,
+                            },
+                            { 'light-theme': selectedTheme === 'light' }
+                        )}
                     >
                         {this.toolbarIconsRender(
                             dossierHeaderIcons,
@@ -833,10 +880,8 @@ class Previewer extends React.Component<any, any> {
             toolbarHidden,
             toolbarCollapsed,
         } = this.props;
-        const { libraryHeaderIcons } =
-            this.libraryIconsToRender();
-        const { dossierHeaderIcons } =
-            this.dossierIconsToRender();
+        const { libraryHeaderIcons } = this.libraryIconsToRender();
+        const { dossierHeaderIcons } = this.dossierIconsToRender();
 
         const { selectedTheme, formatting } = theme?.color || {};
         const isCustomColor = isCustomColorTheme(selectedTheme);
@@ -905,6 +950,7 @@ const mapState = (state: RootState) => ({
     sidebarIcons: selectSelectedSideBarIcons(state),
     libraryIcons: selectSelectedLibraryIcons(state),
     documentIcons: selectSelectedDocumentIcons(state),
+    allowUserViewAllContents: selectUserViewAllContentEnabled(state),
 });
 
 const connector = connect(mapState, {

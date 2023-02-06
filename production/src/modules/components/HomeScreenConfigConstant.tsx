@@ -175,7 +175,7 @@ export const CONSTANTS = {
     APPEARANCE_OBJ_TYPE: 'Appearance',
 
     BASE_URL: 'baseUrl',
-    APPLICATION: 'application'
+    SELECTED_APPLICATION: 'selectedApplication'
 };
 
 export const featureFlag = {
@@ -337,7 +337,7 @@ export const localizedStrings = {
     SELECT: t('select'),
     SELECT_CONTENT_BUNDLES: t('selectContentBundles'),
     SEARCH: t('search'),
-    SORT_BY: t('Sort By'),
+    SORT_BY: t('sortBy'),
     SELECT_DOSSIER_HINT: t('selectDossierHint'),
     DOSSIERS: t('dossiers'),
     DOCUMENTS: t('documents'),
@@ -401,6 +401,9 @@ export const localizedStrings = {
     DISABLE_ACCOUNT_TOOLTIP: t('disableAccountTooltip'),
     PLATFORM_SPECIFIC: t('platformSpecific'),
     ADD_CONTENT_BUNDLE_TIP_MSG: t('addContentBundleTipMsg'),
+    ALLOW_USERS_VIEW_ALL_CONTENT_MSG: t('allowUsersViewAllContentMsg'),
+    LIMIT_USERS_VIEW_ALL_CONTENT_MSG: t('limitUsersViewAllContentMsg'),
+    ALLOW_USERS_VIEW_ALL_CONTENT_TIP: t('allowUsersViewAllContentTip'),
     DISABLE_NEW_DOSSIER_TOOLTIP: t('disableNewDossierTooltip'),
     DISABLE_EDIT_DOSSIER_TOOLTIP: t('disableEditDossierTooltip'),
     DISABLE_NEW_DOSSIER_TOOLTIP_CONTENT: t('disableNewDossierTooltipContent'),
@@ -425,7 +428,10 @@ export const localizedStrings = {
     CURRENT_ENV_LABEL: t('currentEnvLabel'),
     URL: t('url'),
     APPLICATION: t('application'),
-    SELECT_APPLICATION: t('selectApplication')
+    SELECT_APPLICATION: t('selectApplication'),
+    REFRESH: t('refresh'),
+    EMPTY_AVAILABLE_ENVS_MSG: t('emptyAvailableEnvsMsg'),
+    AVAILABLE_ENVS_INFO_MSG: t('availableEnvsInfoMsg')
 };
 
 export const sectionTitle = {

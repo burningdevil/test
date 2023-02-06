@@ -27,14 +27,14 @@ export const EnumSelectedThemes = {
 
 // color option labels in the settings panel
 export const EnumSelectedThemeLabels = {
-    [EnumThemeTypes.LIGHT]: t('Light'),
-    [EnumThemeTypes.DARK]: t('Dark'),
-    [EnumThemeTypes.DARK_BLUE]: t('Dark Blue'),
-    [EnumThemeTypes.BLUE]: t('Blue'),
-    [EnumThemeTypes.RED]: t('Red'),
-    [EnumThemeTypes.GREEN]: t('Green'),
-    [EnumThemeTypes.YELLOW]: t('Yellow'),
-    [EnumThemeTypes.CUSTOM]: t('Custom color'),
+    [EnumThemeTypes.LIGHT]: t('light'),
+    [EnumThemeTypes.DARK]: t('dark'),
+    [EnumThemeTypes.DARK_BLUE]: t('darkBlue'),
+    [EnumThemeTypes.BLUE]: t('blue'),
+    [EnumThemeTypes.RED]: t('red'),
+    [EnumThemeTypes.GREEN]: t('green'),
+    [EnumThemeTypes.YELLOW]: t('yellow'),
+    [EnumThemeTypes.CUSTOM]: t('customColor'),
 };
 
 // theme color formatting properties of an application object (stored inside Metadata)
@@ -195,19 +195,19 @@ export const prefinedColorSets = {
         [EnumFormattingPropNames.sidebarFill]: '#FFFFFF',
         [EnumFormattingPropNames.sidebarColor]: '#29313B',
 
-        [EnumFormattingPropNames.sidebarActiveFill]: '#334A6A',
-        [EnumFormattingPropNames.sidebarActiveColor]: '#FFFFFF',
+        [EnumFormattingPropNames.sidebarActiveFill]: '#E9F2FE',
+        [EnumFormattingPropNames.sidebarActiveColor]: '#29313B',
 
-        [EnumFormattingPropNames.panelFill]: '#23262A',
-        [EnumFormattingPropNames.panelColor]: '#FFFFFF',
+        [EnumFormattingPropNames.panelFill]: '#F7F8FA',
+        [EnumFormattingPropNames.panelColor]: '#29313B',
 
         [EnumFormattingPropNames.canvasFill]: '#F7F8FA', 
 
-        [EnumFormattingPropNames.accentFill]: '#529AFE',
+        [EnumFormattingPropNames.accentFill]: '#0E6FF9',
 
-        [EnumFormattingPropNames.buttonColor]: '#29313B',
+        [EnumFormattingPropNames.buttonColor]: '#FFFFFF',
 
-        [EnumFormattingPropNames.notificationBadgeFill]: '#F56B6B',
+        [EnumFormattingPropNames.notificationBadgeFill]: '#D9232E',
     }
 };
 

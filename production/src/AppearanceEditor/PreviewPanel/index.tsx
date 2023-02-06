@@ -33,7 +33,7 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({ theme, isDossierHome, conte
     }
 
     initPreviewPanel();
-  }, [])
+  }, [contentBundleIds])
 
   return (
     <div className='mstr-app-theme-preview-panel'>

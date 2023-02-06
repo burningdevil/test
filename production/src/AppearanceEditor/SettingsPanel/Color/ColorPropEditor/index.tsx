@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
-import { Row, Col, Input } from 'antd';
-import { Tooltip } from '@mstr/rc';
+import { Row, Col } from 'antd';
+import { Tooltip, Input } from '@mstr/rc';
 import {
     ApplicationColor,
     ThemeColorFormats,
@@ -26,7 +26,7 @@ type ColorPropEditorProps = {
 
 const gutterHorizontal = 0;
 const gutterVertical = 6;
-const hexStrLengthWithHash = 7;
+const hexStrLength = 6;
 
 const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
     color,
@@ -150,17 +150,28 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
                     >
                         <div
                             className="color-box"
-                            // display red border for the invalid color code
-                            style={isColorCodeValid(hexValue) ? { background: hexValue } : { border: "1px solid #FF0000" }}
+                            // display background color for the valid color code input
+                            style={{background: isColorCodeValid(hexValue) && hexValue }}
                         ></div>
                     </ColorPickerComponent>
 
                     <Input
                         className="color-value-input"
-                        value={hexValue}
+                        value={hexValue.substring(1)} // hex value without hash prefix
                         bordered={false}
-                        maxLength={hexStrLengthWithHash}
-                        onChange={(e) => onColorChange(e, propName)}
+                        maxLength={hexStrLength}
+                        onChange={(e: any) => {
+                            // Add the hash prefix before calling color change callback
+                            e.target.value = `#${e.target.value}`
+                            onColorChange(e, propName)
+                        }}
+                        onValidate={() => isColorCodeListValid[propName]}
+                        isErrorDisplayed={!isColorCodeListValid[propName]}
+                        autoFocus={false}
+                        onPressEnter={(e: any) => {
+                            !isColorCodeListValid[propName] && onBlur(propName);
+                            e.target.blur();
+                        }}
                     ></Input>
                 </div>
             </div>
