@@ -105,11 +105,13 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
             cols.push(getCategoryLableCols(propName));
         } else {
             const title = colorPropTitles[row][1];
+            const titleDetailInfo = colorPropTitles[row][2];
             cols.push(
                 getColorPropCols(
                     propName,
                     title,
-                    formats[propName].substring(1)
+                    formats[propName].substring(1),
+                    titleDetailInfo,
                 )
             );
         }
@@ -122,12 +124,14 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
      * @param propName - Display name of format property
      * @param title - format property name
      * @param hexValue - color hex code value
+     * @param titleDetailInfo - detail info of format property name 
      * @returns
      */
     const getColorPropCols = (
         propName: string,
         title: string,
-        hexValue: string
+        hexValue: string,
+        titleDetailInfo: string,
     ) => {
         const hexValueWithHash = `#${hexValue}`;
         return (
@@ -143,13 +147,23 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
                     onMouseLeave={() => setColorPropInFocus('')}
                     onBlur={() => onBlur(propName)}
                 >
-                    <Tooltip
-                        title={title}
-                        placement="bottomLeft"
-                        mouseLeaveDelay={0}
-                    >
-                        <div className="color-prop-item-title">{title}</div>
-                    </Tooltip>
+                    <div className="color-prop-item-title">
+                        <Tooltip
+                            title={title}
+                            placement="bottomLeft"
+                            mouseLeaveDelay={0}
+                        >
+                            <div className="color-prop-item-name">{title}</div>
+                        </Tooltip>
+                        {!!titleDetailInfo && 
+                            <Tooltip
+                                title={titleDetailInfo}
+                                placement="bottomLeft"
+                                mouseLeaveDelay={0}
+                            >
+                                <span className="icon-msg_info"></span>
+                            </Tooltip>}
+                    </div>
                     <div
                         id={`mstr-color-prop-${propName}`}
                         className="color-prop-item-content"
