@@ -32,6 +32,7 @@ import {
     selectSelectedLibraryCustomizedItems,
     selectSelectedLibraryIcons,
     selectSelectedDocumentIcons,
+    selectUserViewAllContentEnabled,
 } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import { Tooltip } from '@mstr/rc';
@@ -664,7 +665,7 @@ class Previewer extends React.Component<any, any> {
                 break;
         }
         // special case: the new dossier button should be moved out when the content bundle is not empty.
-        if (this.hasContent) {
+        if (this.hasContent && !this.props.allowUserViewAllContents) {
             headerIcons = headerIcons.filter(
                 (icon) => icon.key !== iconTypes.newDossier.key
             );
@@ -949,6 +950,7 @@ const mapState = (state: RootState) => ({
     sidebarIcons: selectSelectedSideBarIcons(state),
     libraryIcons: selectSelectedLibraryIcons(state),
     documentIcons: selectSelectedDocumentIcons(state),
+    allowUserViewAllContents: selectUserViewAllContentEnabled(state),
 });
 
 const connector = connect(mapState, {

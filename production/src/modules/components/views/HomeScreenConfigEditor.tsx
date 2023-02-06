@@ -49,7 +49,6 @@ import {
     CONTENT_BUNDLE_DEFAULT_GROUP_NAME,
     copyApplicationName,
     closeWindowConfirmationStr,
-    GENERAL_PREVIEW_FEATURE_FLAG,
     SUPPORT_CONFIGURATION_PALETTE_ID,
     APPLICATIONS_AUTH_MODES_FLAG,
 } from '../HomeScreenConfigConstant';
@@ -71,7 +70,9 @@ import {
     LIBRARY_SERVER_SUPPORT_ENV_CONNECTIONS,
     isIServerVersionMatch,
     ISERVER_SUPPORT_AUTH_MODE,
-    checkFeatureEnable
+    checkFeatureEnable,
+    ISERVER_SUPPORT_ALLOW_CONTENTS_WITH_CONTENT_GROUPS,
+    LIBRARY_SUPPORT_ALLOW_CONTENTS_WITH_CONTENT_GROUPS,
 } from '../../../utils';
 import ColorPaletteBlade from '../features/color-palette/color-palette-blade';
 import CustomEmailBlade from '../features/custom-email/custom-email-blade';
@@ -105,7 +106,8 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             customEmailV2Enabled: false,
             isNewApplication: false,
             authModesBackendFlagEnabled: false, // stands for the feature flag from the backend.
-            envConnectionsFeatureEnabled: false
+            envConnectionsFeatureEnabled: false,
+            showAllContentFeatureEnable: false
         };
     }
 
@@ -188,6 +190,16 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             };
             this.props.updateCurrentConfig(config);
         }
+        // check version and feature flag
+        const checkIServerVersionEnable = (status: any, supportVersion: string) => {
+            return (
+                !!status?.iServerVersion && 
+                isIServerVersionMatch(
+                    status.iServerVersion,
+                    supportVersion
+                )
+            );
+        };
         const checkContentGroupEnable = (currentEnv: Environment) => {
             return (
                 !!currentEnv.webVersion &&
@@ -219,21 +231,15 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             (v: any) => v.id === APPLICATIONS_AUTH_MODES_FLAG
         );
         const isAuthModesBackendFlagEnabled = authModeFlagItem?.enabled;
-        // fetch status
+        // fetch the iserver version through status api;
         let isIServerSupportAuthModes = false;
+        let isIServerSupportShowAllContents = false;
         if(isConnected){
             const [ , status] = await awaitWrap(api.getServerStatus());
-            isIServerSupportAuthModes = !!status?.iServerVersion
-            && isIServerVersionMatch(
-                status.iServerVersion,
-                ISERVER_SUPPORT_AUTH_MODE
-            )
+            isIServerSupportAuthModes = checkIServerVersionEnable(status, ISERVER_SUPPORT_AUTH_MODE);
+            isIServerSupportShowAllContents = checkIServerVersionEnable(status, ISERVER_SUPPORT_ALLOW_CONTENTS_WITH_CONTENT_GROUPS);
         }
         const isVersionSupportAuthMode = !!currentEnv.webVersion && 
-                getFeatureFlag(
-                    GENERAL_PREVIEW_FEATURE_FLAG,
-                    currentEnv
-                    ) &&
                 isLibraryServerVersionMatch(
                     currentEnv.webVersion,
                     LIBRARY_SERVER_SUPPORT_AUTH_MODE
@@ -244,7 +250,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         const customEmailV2Enabled = checkFeatureEnable(currentEnv, LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_V2);
         const appearanceEditorFeatureEnabled = checkFeatureEnable(currentEnv, LIBRARY_SERVER_SUPPORT_APPEARANCE_EDITOR_VERSION);
         const isEnvConnectionsFeatureEnabled = checkFeatureEnable(currentEnv, LIBRARY_SERVER_SUPPORT_ENV_CONNECTIONS);
-        
+        const isShowAllContentsFeatureEnabled = checkFeatureEnable(currentEnv, LIBRARY_SUPPORT_ALLOW_CONTENTS_WITH_CONTENT_GROUPS) && isIServerSupportShowAllContents;
         let isNameCopied = false;
         if (
             isDuplicate &&
@@ -267,7 +273,8 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             authModesFeatureEnable: isVersionSupportAuthMode,
             customEmailV2Enabled: customEmailV2Enabled,
             authModesBackendFlagEnabled: isAuthModesBackendFlagEnabled,
-            envConnectionsFeatureEnabled: isEnvConnectionsFeatureEnabled
+            envConnectionsFeatureEnabled: isEnvConnectionsFeatureEnabled,
+            showAllContentFeatureEnable: isShowAllContentsFeatureEnabled
         });
         this.loadPreference();
         workstation.environments.onEnvironmentChange(
@@ -518,7 +525,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         const dossierUrlPath = 'homeDocument.url';
         const dossierUrl = _.get(homeScreen, dossierUrlPath, '');
         //special case for the default group , when the name is empty.
-        if (!config.homeScreen.homeLibrary.defaultGroupsName) {
+        if (!config.homeScreen?.homeLibrary?.defaultGroupsName) {
             config.homeScreen.homeLibrary.defaultGroupsName =
                 CONTENT_BUNDLE_DEFAULT_GROUP_NAME;
         }
@@ -531,7 +538,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 },
             });
         }
-        if (!dossierUrl && this.props.isDossierHome) {
+        if (!dossierUrl && this.props.isDossierHome && config.homeScreen) {
             delete config.homeScreen.homeDocument.homeDocumentType;
             config.homeScreen.mode = VC.MODE_USE_DEFAULT_HOME_SCREEN;
         }
@@ -579,7 +586,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             delete config.applicationPalettes;
         }
 
-        if (this.props.isDossierHome) {
+        if (this.props.isDossierHome && config.homeScreen) {
             config.homeScreen.homeLibrary.contentBundleIds = [];
         }
         if (configId && !this.props.isDuplicateConfig) {
@@ -742,7 +749,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                                                 .mode === 1
                                         }
                                     >
-                                        <HomeScreenContentBundles />
+                                        <HomeScreenContentBundles showAllContentFeatureEnable = {this.state.showAllContentFeatureEnable}/>
                                         {this.buttonGroup()}
                                     </Tabs.TabPane>
                                 )}
