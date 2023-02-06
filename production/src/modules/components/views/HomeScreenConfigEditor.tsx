@@ -72,7 +72,7 @@ import {
     isIServerVersionMatch,
     ISERVER_SUPPORT_AUTH_MODE,
     ISERVER_SUPPORT_ALLOW_CONTENTS_WITH_CONTENT_GROUPS,
-    LIBRARY_SUPPORT_ALLOW_CONTENTS_IN_CONTENT_GROUPS,
+    LIBRARY_SUPPORT_ALLOW_CONTENTS_WITH_CONTENT_GROUPS,
 } from '../../../utils';
 import ColorPaletteBlade from '../features/color-palette/color-palette-blade';
 import CustomEmailBlade from '../features/custom-email/custom-email-blade';
@@ -260,7 +260,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         const customEmailV2Enabled = checkFeatureEnable(currentEnv, LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_V2);
         const appearanceEditorFeatureEnabled = checkFeatureEnable(currentEnv, LIBRARY_SERVER_SUPPORT_APPEARANCE_EDITOR_VERSION);
         const isEnvConnectionsFeatureEnabled = checkFeatureEnable(currentEnv, LIBRARY_SERVER_SUPPORT_ENV_CONNECTIONS);
-        const isShowAllContentsFeatureEnabled = checkFeatureEnable(currentEnv, LIBRARY_SUPPORT_ALLOW_CONTENTS_IN_CONTENT_GROUPS) && isIServerSupportShowAllContents;
+        const isShowAllContentsFeatureEnabled = checkFeatureEnable(currentEnv, LIBRARY_SUPPORT_ALLOW_CONTENTS_WITH_CONTENT_GROUPS) && isIServerSupportShowAllContents;
         let isNameCopied = false;
         if (
             isDuplicate &&
