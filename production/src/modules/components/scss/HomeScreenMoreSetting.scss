@@ -61,19 +61,16 @@
     margin-top: 7px;
     margin-left: 16px;
 }
-
 // make sure input content in same line
 .ant-input-affix-wrapper {
     font-family: $font-family;
     display: inline-flex;
-    padding: 0 !important;
+    // padding: 0 !important;
     margin: 0;
     align-content: center;
 
-    input.ant-input {
-        padding: 0 6px;
-    }
 }
+
 
 .home-screen-moresetting-cfg-advance {
     font-family: $font-family;
@@ -94,6 +91,12 @@
 
     .ant-input-suffix {
         margin-right: 4px;
+    }
+    // Avoid contaminating other pages 
+    .ant-input-affix-wrapper {
+        input.ant-input {
+            padding: 0 6px;
+        }
     }
 
     &-padding {

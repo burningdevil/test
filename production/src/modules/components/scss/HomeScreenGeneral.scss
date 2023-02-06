@@ -28,8 +28,8 @@
             padding-right: 50px;
             margin-bottom: 15px;
             .ant-input {
-                padding-left: 5px !important;
-                padding-right: 5px !important;
+                // padding: 4px 5px 4px 5px !important;
+                height: 18px;
             }
             
         }
@@ -69,8 +69,8 @@
             flex: auto;
             padding-right: 50px;
             &-input {
-                padding-left: 5px;
-                padding-right: 5px;
+                padding-left: 5px !important;
+                padding-right: 5px !important;
                 max-height: 300px;  // DE209327; set min/max height for description input textarea
                 min-height: 150px !important;
                 font-size: 12px;
