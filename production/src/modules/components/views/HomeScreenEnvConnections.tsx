@@ -12,6 +12,7 @@ import * as Actions from '../../../store/actions/ActionsCreator'
 import { default as VC, localizedStrings } from '../HomeScreenConfigConstant'
 import EditableLabel from '../common-components/editable-label/editable-label'
 import { EnvironmentConnectionSettingType, EnvironmentConnectionInterface, HomeScreenConfigType } from '../../../types/data-model/HomeScreenConfigModels'
+import { ThemePropObject } from '../../../types/data-model/HomeScreenConfigModels';
 import '../scss/env-connections/HomeScreenEnvConnections.scss'
 
 declare var workstation: WorkstationModule;
@@ -23,10 +24,17 @@ interface EnvConnectionTableDataType {
     name: string,
     wsName: string,
     baseUrl: string,
-    selectedApplication?: Partial<HomeScreenConfigType>,
-    applicationList?: Array<Partial<HomeScreenConfigType>>,
+    selectedApplication?: EnvApplicationType,
+    applicationList?: Array<EnvApplicationType>,
     isConfigured: boolean,
     isConnected: boolean
+}
+
+interface EnvApplicationType {
+    id: string,
+    isDefault: boolean,
+    name: string,
+    logo?: ThemePropObject
 }
 
 interface HomeScreenEnvConnectionsProps {
@@ -44,6 +52,20 @@ interface HomeScreenEnvConnectionsState {
     wsOtherEnvs: Array<EnvironmentConnectionInterface>, // represents the other envs available, as read from WS directly
     linkedEnvs: Array<EnvironmentConnectionInterface> // represents the linked envs saved in the application config
 }
+
+const getApplicationOptionLabel = (name: string, logo: ThemePropObject) => (
+    <div className="application-list-obj">
+        {logo?.value ? (
+            <div
+                className="application-list-obj-icn"
+                style={{ backgroundImage: `url(${logo.value})` }}
+            />
+        ) : (
+            <div className="application-list-obj-icn" />
+        )}
+        <div className="application-list-obj-text">{name}</div>
+    </div>
+);
 
 class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsProps, HomeScreenEnvConnectionsState> {
     // Life cycle
@@ -79,14 +101,14 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
             const envBaseUrl = this.getBaseUrl(env.url);
             const availableEnvObj = workstationAvailableEnvs.find(availableEnv => availableEnv.url === envBaseUrl);
             const isEnvConnected = availableEnvObj && (availableEnvObj.status === EnvironmentStatus.Connected);
-            let envApplicationList: Array<Partial<HomeScreenConfigType>> = [];
+            let envApplicationList: Array<EnvApplicationType> = [];
 
             if (isEnvConnected) {
                 try {
                     const response = await api.fetchAllApplicationsForOtherEnv(envBaseUrl);
                     const { applications: fetchedEnvApplicationList } = response;
                     // TODO: do we want to save the homeScreen.theme object too? in case we want to display custom logo as part of UI
-                    envApplicationList = fetchedEnvApplicationList.map((app: Partial<HomeScreenConfigType>) => ({ name: app.name, id: app.id, isDefault: app.isDefault }));
+                    envApplicationList = fetchedEnvApplicationList.map((app: EnvApplicationType) => ({ name: app.name, id: app.id, isDefault: app.isDefault, logo: app.homeScreen?.theme?.logos?.web }));
                 } catch (e) {
                     // TODO: err handling
                 }
@@ -131,7 +153,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
             const baseUrl = this.getBaseUrl(env.url);
             const selectedApplicationId = this.getApplicationIdFromUrl(env.url);
             let wsName = '';
-            let selectedApplication: Partial<HomeScreenConfigType> = { id: selectedApplicationId };
+            let selectedApplication: EnvApplicationType = { id: selectedApplicationId };
             if (env.isConfigured) {
                 // get and update env's WS saved name. this is accessible as long as the env is configured on user's WS
                 const wsEnvObj = wsOtherEnvs.find(e => e.url === baseUrl);
@@ -180,12 +202,12 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
         const availableEnvObj = workstationAvailableEnvs.find(availableEnv => availableEnv.url === this.getBaseUrl(env.url));
         const isEnvConnected = availableEnvObj && (availableEnvObj.status === EnvironmentStatus.Connected);
         let newLinkedEnvs = [...linkedEnvs];
-        let envApplicationList: Array<Partial<HomeScreenConfigType>> = [];
+        let envApplicationList: Array<EnvApplicationType> = [];
         if (isEnvConnected) {
             try {
                 const response = await api.fetchAllApplicationsForOtherEnv(this.getBaseUrl(env.url));
                 const { applications: fetchedEnvApplicationList } = response;
-                envApplicationList = fetchedEnvApplicationList.map((app: Partial<HomeScreenConfigType>) => ({ name: app.name, id: app.id, isDefault: app.isDefault }));
+                envApplicationList = fetchedEnvApplicationList.map((app: EnvApplicationType) => ({ name: app.name, id: app.id, isDefault: app.isDefault, logo: app.homeScreen?.theme?.logos?.web }));
             } catch (e) {
                 // TODO: err handling
             }
@@ -223,7 +245,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                 try {
                     const response = await api.fetchAllApplicationsForOtherEnv(envBaseUrl);
                     const { applications: fetchedEnvApplicationList } = response;
-                    envApplicationList = fetchedEnvApplicationList.map((app: Partial<HomeScreenConfigType>) => ({ name: app.name, id: app.id, isDefault: app.isDefault }));
+                    envApplicationList = fetchedEnvApplicationList.map((app: EnvApplicationType) => ({ name: app.name, id: app.id, isDefault: app.isDefault, logo: app.homeScreen?.theme?.logos?.web }));
                 } catch (e) {
                     // TODO: err handling
                 }
@@ -337,11 +359,11 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                             dataIndex={VC.SELECTED_APPLICATION}
                             key={VC.SELECTED_APPLICATION}
                             width={284}
-                            render={(application: Partial<HomeScreenConfigType>, record: EnvConnectionTableDataType, idx) => {
+                            render={(application: EnvApplicationType, record: EnvConnectionTableDataType, idx) => {
                                 const isFirstRow = idx === 0;
                                 const selectedApplicationValue = (!isFirstRow && record.isConfigured && record.isConnected) ? application?.id : undefined 
                                 const applicationSelectOptionsList = record.applicationList?.map(a => ({
-                                    label: <div className='application-list-obj'><div className='application-list-obj-icn' /><div className='application-list-obj-text'>{a.name}</div></div>,
+                                    label: getApplicationOptionLabel(a.name, a.logo),
                                     value: a.id,
                                     isDefault: a.isDefault
                                 }));
