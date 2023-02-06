@@ -71,7 +71,7 @@ import {
     LIBRARY_SERVER_SUPPORT_ENV_CONNECTIONS,
     isIServerVersionMatch,
     ISERVER_SUPPORT_AUTH_MODE,
-    ISERVER_SUPPORT_ALLOW_CONTENTS_IN_CONTENT_GROUPS,
+    ISERVER_SUPPORT_ALLOW_CONTENTS_WITH_CONTENT_GROUPS,
     LIBRARY_SUPPORT_ALLOW_CONTENTS_IN_CONTENT_GROUPS,
 } from '../../../utils';
 import ColorPaletteBlade from '../features/color-palette/color-palette-blade';
@@ -237,7 +237,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         if(isConnected){
             const [ , status] = await awaitWrap(api.getServerStatus());
             isIServerSupportAuthModes = checkIServerVersionEnable(status, ISERVER_SUPPORT_AUTH_MODE);
-            isIServerSupportShowAllContents = checkIServerVersionEnable(status, ISERVER_SUPPORT_ALLOW_CONTENTS_IN_CONTENT_GROUPS);
+            isIServerSupportShowAllContents = checkIServerVersionEnable(status, ISERVER_SUPPORT_ALLOW_CONTENTS_WITH_CONTENT_GROUPS);
         }
         const isVersionSupportAuthMode = !!currentEnv.webVersion && 
                 isLibraryServerVersionMatch(
