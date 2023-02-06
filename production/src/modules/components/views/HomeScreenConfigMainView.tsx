@@ -238,7 +238,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     };
     updateGridCell = (response: any, item: any) => {
         let data = response?.data ?? response;
-        if (!data) return;
+        if (!data || !item?.homeScreen) return;
         const updateGrid = (targetId: string, label: string) => {
             gridApi.forEachNodeAfterFilterAndSort(function (rowNode, index) {
                 let data = rowNode.data;
@@ -262,7 +262,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
         }
     };
     markGridCell = (response: any, item: any) => {
-        if (!response) return null;
+        if (!response || !item?.homeScreen) return null;
         let data = response?.data ?? response;
         if (!_.has(data, VC.PLATFORM)) {
             _.assign(data, { platforms: [platformType.web] });
@@ -331,8 +331,8 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
     filterCandidate = (configList: any[]) => {
         return configList.filter(
             (v: any) =>
-                v.homeScreen.mode === 1 &&
-                !v.homeScreen.homeDocument?.homeDocumentType
+                v.homeScreen?.mode === 1 &&
+                !v.homeScreen?.homeDocument?.homeDocumentType
         );
     };
     checkHomeDcoumentModeRx = () => {
@@ -588,8 +588,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                 });
             } else {
                 _.assign(resultConfig, {
-                    platformstr: resultConfig.platforms
-                        .map((o: string) => _.capitalize(o))
+                    platformstr: resultConfig.platforms?.map((o: string) => _.capitalize(o))
                         .join(', '),
                 });
             }
@@ -603,7 +602,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                 _.assign(resultConfig, { contentBundles: [] });
             } else {
                 let arr: any[] = [];
-                resultConfig.homeScreen.homeLibrary.contentBundleIds.forEach(
+                resultConfig.homeScreen?.homeLibrary?.contentBundleIds?.forEach(
                     (id: string) => {
                         if (record[id]) {
                             arr.push(record[id]);

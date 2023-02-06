@@ -258,7 +258,7 @@
     "hostPortalTooltip": "If you are embedding Library, enter your host web portal URL.",
     "hostInvalidTip": "Please enter a valid URL",
     "hostPortalHelp": "Learn More",
-    "insights": "Insights (Web and Desktop)",
+    "insights": "Insights",
     "serverRestartTip": "Changes made to the settings marked with <0>{{icon}}</0> will require a server restart.",
     "authModes": "Authentication Modes",
     "followLibraryServer": "Library Server Default",
@@ -322,5 +322,8 @@
     "selectApplication": "Select an application",
     "refresh": "Refresh",
     "emptyAvailableEnvsMsg": "Connect to new environments in Workstation and refresh on this page to see the updated list.",
-    "availableEnvsInfoMsg": "Only connected environments are included in the list."
+    "availableEnvsInfoMsg": "Only connected environments are included in the list.",
+    "allowUsersViewAllContentMsg": "Allow users to view and create new content",
+    "limitUsersViewAllContentMsg": "Limit Library content in this application to above Content Groups",
+    "allowUsersViewAllContentTip": "Users can view the Content Groups added above if they have been added as recipients."
 }

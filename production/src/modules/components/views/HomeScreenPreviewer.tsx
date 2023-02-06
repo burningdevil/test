@@ -35,6 +35,7 @@ import {
     selectSelectedLibraryCustomizedItems,
     selectSelectedLibraryIcons,
     selectSelectedDocumentIcons,
+    selectUserViewAllContentEnabled,
 } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import { Tooltip } from '@mstr/rc';
@@ -208,11 +209,6 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                 (v) => v.key !== iconTypes.defaultGroup.key
             );
         }
-        if(previewType !== reviewType.WEB && previewType !== reviewType.DESKTOP){
-            iconsToRender = iconsToRender.filter(
-                (v) => v.key !== iconTypes.insights.key
-            );
-        }
         iconsToRender = iconsToRender.filter(
             (v) =>
                 ![
@@ -225,12 +221,12 @@ class HomeScreenPreviewer extends React.Component<any, any> {
             const showContent = iconTypes.defaultGroup.key === element.key;
             let defaultGroupName = localizedStrings.DEFAULT_GROUPS;
             if (
-                this.props.config.homeScreen.homeLibrary.defaultGroupsName &&
-                this.props.config.homeScreen.homeLibrary.defaultGroupsName !==
+                this.props.config.homeScreen?.homeLibrary?.defaultGroupsName &&
+                this.props.config.homeScreen?.homeLibrary?.defaultGroupsName !==
                     CONTENT_BUNDLE_DEFAULT_GROUP_NAME
             ) {
                 defaultGroupName =
-                    this.props.config.homeScreen.homeLibrary.defaultGroupsName;
+                    this.props.config.homeScreen?.homeLibrary?.defaultGroupsName;
             }
             return (
                 this.iconShouldShow(element) && (
@@ -517,8 +513,8 @@ class HomeScreenPreviewer extends React.Component<any, any> {
             default:
                 break;
         }
-        // special case: the new dossier button should be moved out when the content bundle is not empty.
-        if (this.hasContent) {
+        // special case: the new dossier button should be moved out when the content bundle is not empty and the checkbox of allow user view all contents is not checked.
+        if (this.hasContent && !this.props.allowUserViewAllContents) {
             headerIcons = headerIcons.filter(
                 (icon) => icon.key !== iconTypes.newDossier.key
             );
@@ -1107,10 +1103,11 @@ const mapState = (state: RootState) => ({
     sidebarIcons: selectSelectedSideBarIcons(state),
     libraryIcons: selectSelectedLibraryIcons(state),
     documentIcons: selectSelectedDocumentIcons(state),
+    allowUserViewAllContents: selectUserViewAllContentEnabled(state)
 });
 
 const connector = connect(mapState, {
-    handleDeviceTypeChange: Actions.updatePreviewDeviceType,
+    handleDeviceTypeChange: Actions.updatePreviewDeviceType
 });
 
 export default connector(HomeScreenPreviewer);

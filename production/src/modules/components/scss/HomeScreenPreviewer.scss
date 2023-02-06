@@ -452,7 +452,9 @@ $tablet-scale: 0.85;
                 margin-right: 0px !important;
             }
         }
-
+        .homeScreenPreviewer-pad-overview-left-text {
+            line-height: 14px;
+        }
         .ant-layout-header {
             flex: auto;
             height: 24px;
