@@ -8,12 +8,12 @@
         }
         input {
             border-radius: 4px;
-            height: 26px;
+            height: 16px;
             width: 142px !important;
         }
         .mstr-input-container {
             .mstr-input {
-                padding: 0px !important; // after upgrading the mstr/rc, the mstr-input adding extra padding to the input
+                padding: 4px 5px 4px 5px !important; // after upgrading the mstr/rc, the mstr-input adding extra padding to the input
             }
         }
     }
