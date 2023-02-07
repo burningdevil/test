@@ -17,8 +17,10 @@ $ant-radio-blue: #0E6FF9;
 
   &-subtitle {
     font-weight: 400;
-    line-height: $settings-panel-title-line-height;
+    line-height: $settings-panel-subtitle-line-height;
     color: $settings-panel-title-subtitle-color;
+    margin-top: 5px;
+    margin-bottom: 4px;
   }
 
   .ant-radio-group {
