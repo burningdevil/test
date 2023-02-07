@@ -3,6 +3,29 @@
 @import './env-connection-variables.scss';
 @import '../../../../styles/base';
 
+@mixin applicationIcnText() {
+  .application-list-obj {
+    display: grid;
+    grid-template-columns: 16px auto;
+    grid-gap: 6px;
+    align-items: baseline;
+
+    &-icn {
+      width: 16px;
+      height: 16px;
+      background-image: url('../../images/web-logo.svg');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      margin: auto; // to help center align it
+    }
+
+    &-text {
+      @extend .overflow;
+    }
+  }
+}
+
 .mstr-env-connection-screen {
   position: relative;
   font-family: $font-family;
@@ -164,24 +187,7 @@
                 .ant-select-selector {
                   padding-left: 0; // remove padding to align with column title
 
-                  .application-list-obj {
-                    display: grid;
-                    grid-template-columns: 16px auto;
-                    grid-gap: 6px;
-                    align-items: baseline;
-          
-                    &-icn {
-                      width: 16px;
-                      height: 16px;
-                      background-image: url('../../images/web-logo.svg');
-                      background-size: 16px;
-                      margin: auto; // to help center align it
-                    }
-          
-                    &-text {
-                      @extend .overflow;
-                    }
-                  }
+                  @include applicationIcnText();
                 }
               }
       
@@ -285,22 +291,5 @@
   font-size: $font-size;
   color: $msdl-black;
 
-  .application-list-obj {
-    display: grid;
-    grid-template-columns: 16px auto;
-    grid-gap: 6px;
-    align-items: baseline;
-
-    &-icn {
-      width: 16px;
-      height: 16px;
-      background-image: url('../../images/web-logo.svg');
-      background-size: 16px;
-      margin: auto; // to help center align it
-    }
-
-    &-text {
-      @extend .overflow;
-    }
-  }
+  @include applicationIcnText();
 }
