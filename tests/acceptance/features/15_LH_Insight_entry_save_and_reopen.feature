@@ -1,4 +1,4 @@
-@TC85342 @Regression
+@TC85342 @Regression @Sanity
 Feature: 15_LH_Insight_entry_save_and_reopen
     1. add environment
     2. add new application
@@ -18,7 +18,7 @@ Feature: 15_LH_Insight_entry_save_and_reopen
         Then I switch to menu "Components"
         Then I open the sidebar collapse
 
-        Then I hide toolbar icon "Insights(Web only)"
+        Then I hide toolbar icon "Insights"
         Then I click "Save" button in the tab "components"
         When I edit the application "New Application"
         Then I switch to menu "Components"

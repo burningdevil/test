@@ -1,4 +1,4 @@
-@TC85342 @Regression
+@TC85342 @Regression @Sanity
 Feature: 14_LH_DisableInsight_entry
     1. add environment
     2. add new application
@@ -17,7 +17,7 @@ Feature: 14_LH_DisableInsight_entry
         Then I switch to menu "Components"
         Then I open the sidebar collapse
 
-        Then I hide toolbar icon "Insights(Web only)"
+        Then I hide toolbar icon "Insights"
         When I choose the "Tablet" client preview in the tab "components"
         Then check the screenshot by comparing "14_lh_off_insight_tablet01"
         When I choose the "Phone" client preview in the tab "components"
@@ -27,7 +27,7 @@ Feature: 14_LH_DisableInsight_entry
         When I choose the "Desktop" client preview in the tab "components"
         Then check the screenshot by comparing "14_lh_off_insight_desktop04"
 
-        When I show toolbar icon "Insights(Web only)"
+        When I show toolbar icon "Insights"
         When I choose the "Tablet" client preview in the tab "components"
         Then check the screenshot by comparing "14_lh_on_insight_tablet05"
         When I choose the "Phone" client preview in the tab "components"
