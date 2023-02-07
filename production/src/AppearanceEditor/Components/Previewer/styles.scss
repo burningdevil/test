@@ -11,6 +11,7 @@ $preview-header-height: 38px;
 $sidebar-width: 91px;
 $default-text-color: #d9d9d9;
 $default-active-text-fill: #e9f2ff;
+$default-canvas-fill: #f7f8fa;
 $toolbar-icon-font-size: 14px;
 $toolbar-icon-box-background: rgba(255, 255, 255, 0.2);
 $overview-right-padding: 10px;
@@ -322,6 +323,9 @@ $notification-badge-bg-color: var(--notification-badge-fill, $msdl-white);
 
             &.library-content {
                 background: $canvas-bg-color;
+                &.no-theme {
+                    background: $default-canvas-fill;
+                }
             }
 
             .library-content-filter {
@@ -505,8 +509,7 @@ $notification-badge-bg-color: var(--notification-badge-fill, $msdl-white);
         }
 
         .ant-layout-header {
-            &.no-theme,
-            &.light-theme {
+            &.no-theme {
                 .icon-library {
                     color: $mobile-primary-blue;
                 }
