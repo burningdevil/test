@@ -359,9 +359,6 @@ class Previewer extends React.Component<any, any> {
     toolbarIconsRender = (iconsToRender: iconDetail[], view: string, isNoTheme: boolean) => {
         const renderedIcons = this.getRenderedIconArray(iconsToRender, view, isNoTheme);
 
-        const { selectedTheme } =
-            (this.props.theme && this.props.theme.color) || {};
-
         const toolbarTitle = (
             <div
                 className={classnames('toolbar-title-wrapper', {'no-theme': isNoTheme})}
@@ -379,9 +376,6 @@ class Previewer extends React.Component<any, any> {
 
     // render array of side bar icons
     sidebarIconsRender = (rootClassName: string, isNoTheme: boolean) => {
-        let { selectedTheme } =
-            (this.props.theme && this.props.theme.color) || {};
-
         const sidebarIcons = [];
 
         for (let i = 1; i <= 6; i++) {
@@ -696,7 +690,6 @@ class Previewer extends React.Component<any, any> {
         deviceType: string,
         hideHeader: boolean,
         libraryHeaderIcons: iconDetail[],
-        selectedTheme: string,
         padLeftClassName: string,
         isNoTheme: boolean
     ) => {
@@ -790,7 +783,6 @@ class Previewer extends React.Component<any, any> {
         deviceType: string,
         hideHeader: boolean,
         dossierHeaderIcons: iconDetail[],
-        selectedTheme: string,
         isNoTheme: boolean
     ) => {
         return (
@@ -899,7 +891,6 @@ class Previewer extends React.Component<any, any> {
                             deviceType,
                             hideHeader,
                             libraryHeaderIcons,
-                            selectedTheme,
                             padLeftClassName,
                             isNoTheme
                         )}
@@ -918,7 +909,6 @@ class Previewer extends React.Component<any, any> {
                         deviceType,
                         hideHeader,
                         dossierHeaderIcons,
-                        selectedTheme,
                         isNoTheme
                     )}
                     {showExpanderOverlay && this.overlayRender(false, true)}
