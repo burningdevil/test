@@ -10,9 +10,10 @@ import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
 import { selectCurrentConfig, selectIsDossierAsHome, selectIsToolbarHidden, selectIsToolbarCollapsed, selectSelectedSideBarIcons, selectSelectedLibraryCustomizedItems, selectSelectedLibraryIcons, selectSelectedDocumentIcons, selectCurrentConfigContentBundleIds, selectDefaultGroupsName, selectUserViewAllContentEnabled } from '../../../store/selectors/HomeScreenConfigEditorSelector'
 import * as Actions from '../../../store/actions/ActionsCreator';
 import { Tooltip } from '@mstr/rc';
-import { isLibraryServerVersionMatch, isUserHasManageContentGroupPrivilege, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION } from '../../../utils';
+import { isLibraryServerVersionMatch, isUserHasManageContentGroupPrivilege, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION, LIBRARY_SERVER_VERSION_THRESHOLD, LIBRARY_SUPPORT_MOBILE_INSIGHTS } from '../../../utils';
 import { Environment, WorkstationModule } from '@mstr/workstation-types'
 import { filterNonsupportIcons } from './HomeScreenUtils'
+import { WebVersionContext } from './HomeScreenConfigEditor'
 
 declare var workstation: WorkstationModule;
 const childrenKeyOffset = 1000;
@@ -247,7 +248,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         return <div className={`${classNamePrefix}-icons-title`}>{title}</div> 
     }
 
-    renderTable = (icons: Array<iconDetail>) => {
+    renderTable = (icons: Array<iconDetail>, webVersion: string) => {
         let tarChildIcons = filterNonsupportIcons(childrenIcons, this.state.webVersion);
         if (!this.state.contentBundleFeatureEnable){
             tarChildIcons = tarChildIcons.filter(item => item.key !== iconTypes.defaultGroup.key);
@@ -261,6 +262,12 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                         defaultGroupName = this.props.defaultGroupsName;
                     }
                     displayText = defaultGroupName;
+                }
+                // special handling the insights label, version check
+                if(icon.key === iconTypes.insights.key){
+                    if(!isLibraryServerVersionMatch(webVersion, LIBRARY_SUPPORT_MOBILE_INSIGHTS)){
+                        displayText = localizedStrings.INSIGHTS_WEB_ONLY;
+                    }
                 }
                 return (
                     {key: childrenKeyOffset+index, displayText: [icon.iconName, displayText, this.iconSelectedInfo(icon.key)], selected: this.iconSelectedInfo(icon.key)}
@@ -408,7 +415,11 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
     
     render() {
         return (
-            <Layout className={`${classNamePrefix}`}>
+            <WebVersionContext.Consumer>
+                {(value) => { 
+                    const webVersion = value?.webVersion ?? LIBRARY_SERVER_VERSION_THRESHOLD;
+                    return (
+                        <Layout className={`${classNamePrefix}`}>
                 <Layout.Content className={`${classNamePrefix}-left`}>
                     <div className = {`${classNamePrefix}-enable-feature`}>
                         {localizedStrings.ENABLE_FEATURE_TITLE}
@@ -425,9 +436,9 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                         // dossier as home group
                         this.props.isDossierHome && <div className={`${classNamePrefix}-icons`}>
                             { this.renderTableTitle(localizedStrings.DOSSIER_WINDOW_HOME) }
-                            { this.renderTable(dossierIconsDossierHome) }
+                            { this.renderTable(dossierIconsDossierHome, webVersion) }
                             { this.renderTableTitle(localizedStrings.PLATFORM_SPECIFIC) }
-                            { this.renderTable(platformSpecificIcons) }
+                            { this.renderTable(platformSpecificIcons, webVersion) }
                         </div>
                     }
 
@@ -435,11 +446,11 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                         // library as home group
                         !this.props.isDossierHome && <div className={`${classNamePrefix}-icons`}>
                             { this.renderTableTitle(localizedStrings.LIBRARY_WINDOW) }
-                            { this.renderTable(libraryIcons) }
+                            { this.renderTable(libraryIcons, webVersion) }
                             { this.renderTableTitle(localizedStrings.DOSSIER_WINDOW) }
-                            { this.renderTable(dossierIcons) }
+                            { this.renderTable(dossierIcons, webVersion) }
                             { this.renderTableTitle(localizedStrings.PLATFORM_SPECIFIC) }
-                            { this.renderTable(platformSpecificIcons) }
+                            { this.renderTable(platformSpecificIcons, webVersion) }
                         </div>
                     }
                     </div>
@@ -449,6 +460,10 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                     <HomeScreenPreviewer contentBundleFeatureEnable = {this.state.contentBundleFeatureEnable} hasContent = {this.state.defaultGroupEnable} webVersion = {this.state.webVersion}/>
                 </Layout.Sider>
             </Layout>
+                    )
+                }
+            }
+            </WebVersionContext.Consumer>
         )
     }
 }

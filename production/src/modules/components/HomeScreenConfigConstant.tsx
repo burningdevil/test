@@ -431,7 +431,9 @@ export const localizedStrings = {
     SELECT_APPLICATION: t('selectApplication'),
     REFRESH: t('refresh'),
     EMPTY_AVAILABLE_ENVS_MSG: t('emptyAvailableEnvsMsg'),
-    AVAILABLE_ENVS_INFO_MSG: t('availableEnvsInfoMsg')
+    AVAILABLE_ENVS_INFO_MSG: t('availableEnvsInfoMsg'),
+
+    INSIGHTS_WEB_ONLY: t('insightsWebOnly')
 };
 
 export const sectionTitle = {
