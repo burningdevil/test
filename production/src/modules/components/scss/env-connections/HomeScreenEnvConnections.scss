@@ -57,6 +57,11 @@
         height: 14px;
         background-image: url('../../images/18_18.svg');
         background-position: -218px -219px;
+
+        &.disabled {
+          opacity: .5;
+          pointer-events: none;
+        }
       }
 
       &-text {
