@@ -252,7 +252,7 @@ class Previewer extends React.Component<any, any> {
         return <div className={`${classNamePrefix}-title`}>{title}</div>;
     };
 
-    getRenderedIcon = (element: any, elementIndex: number, view: string) => {
+    getRenderedIcon = (element: any, elementIndex: number, view: string, isNoTheme: boolean) => {
         const {
             web: webLogo = { type: 'URL', value: '' },
             mobile: mobileLogo = { type: 'URL', value: '' },
@@ -279,9 +279,7 @@ class Previewer extends React.Component<any, any> {
             renderedLogo = (
                 <div className="icon_search_container">
                     <div
-                        className={classnames('icon_search_box', {
-                            'no-theme': !selectedTheme || selectedTheme === 'light',
-                        })}
+                        className={classnames('icon_search_box', {'no-theme': isNoTheme})}
                         style={{ background: getBoxBackground(toolbarFill) }}
                     >
                         <span className={element.iconName} key={elementIndex}>
@@ -295,9 +293,7 @@ class Previewer extends React.Component<any, any> {
                 view === views.LIBRARY ? (
                     <div className="icon_sort_filter_container">
                         <div
-                            className={classnames('icon_sort_filter_box', {
-                                'no-theme': !selectedTheme || selectedTheme === 'light',
-                            })}
+                            className={classnames('icon_sort_filter_box', {'no-theme': isNoTheme})}
                             style={{
                                 background: getBoxBackground(toolbarFill),
                             }}
@@ -346,7 +342,7 @@ class Previewer extends React.Component<any, any> {
         return renderedLogo;
     };
 
-    getRenderedIconArray = (iconsToRender: iconDetail[], view: string) => {
+    getRenderedIconArray = (iconsToRender: iconDetail[], view: string, isNoTheme: boolean) => {
         return iconsToRender.map((element: any, index: number) => {
             if (
                 !this.iconShouldShow(element) ||
@@ -354,23 +350,21 @@ class Previewer extends React.Component<any, any> {
             ) {
                 return;
             } else {
-                return this.getRenderedIcon(element, index, view);
+                return this.getRenderedIcon(element, index, view, isNoTheme);
             }
         });
     };
 
     // render array of icons
-    toolbarIconsRender = (iconsToRender: iconDetail[], view: string) => {
-        const renderedIcons = this.getRenderedIconArray(iconsToRender, view);
+    toolbarIconsRender = (iconsToRender: iconDetail[], view: string, isNoTheme: boolean) => {
+        const renderedIcons = this.getRenderedIconArray(iconsToRender, view, isNoTheme);
 
         const { selectedTheme } =
             (this.props.theme && this.props.theme.color) || {};
 
         const toolbarTitle = (
             <div
-                className={classnames('toolbar-title-wrapper', {
-                    'no-theme': !selectedTheme || selectedTheme === 'light',
-                })}
+                className={classnames('toolbar-title-wrapper', {'no-theme': isNoTheme})}
             >
                 <span className="title"></span>
             </div>
@@ -384,7 +378,7 @@ class Previewer extends React.Component<any, any> {
     };
 
     // render array of side bar icons
-    sidebarIconsRender = (rootClassName: string) => {
+    sidebarIconsRender = (rootClassName: string, isNoTheme: boolean) => {
         let { selectedTheme } =
             (this.props.theme && this.props.theme.color) || {};
 
@@ -393,20 +387,13 @@ class Previewer extends React.Component<any, any> {
         for (let i = 1; i <= 6; i++) {
             sidebarIcons.push(
                 <div
-                    className={classnames(
-                        `${classNamePrefix}-pad-overview-left-text`,
-                        { 'no-theme': !selectedTheme || selectedTheme === 'light', }
-                    )}
+                    className={classnames(`${classNamePrefix}-pad-overview-left-text`, {'no-theme': isNoTheme})}
                 >
                     <span
-                        className={classnames(`sidebar-icon-${i}`, {
-                            'no-theme': !selectedTheme || selectedTheme === 'light',
-                        })}
+                        className={classnames(`sidebar-icon-${i}`, {'no-theme': isNoTheme})}
                     />
                     <span
-                        className={classnames(`sidebar-text-${i}`, {
-                            'no-theme': !selectedTheme || selectedTheme === 'light',
-                        })}
+                        className={classnames(`sidebar-text-${i}`, {'no-theme': isNoTheme})}
                     />
                 </div>
             );
@@ -421,15 +408,14 @@ class Previewer extends React.Component<any, any> {
                 {' '}
                 {this.toolbarIconsRender(
                     [iconTypes.accountMobile],
-                    views.MOBILE
+                    views.MOBILE,
+                    isNoTheme
                 )}
             </div>
         );
         return (
             <div
-                className={classnames(rootClassName, {
-                    'no-theme': !selectedTheme || selectedTheme === 'light',
-                })}
+                className={classnames(rootClassName, {'no-theme': isNoTheme})}
             >
                 {' '}
                 {sidebarIcons} {accountIcon}{' '}
@@ -711,7 +697,8 @@ class Previewer extends React.Component<any, any> {
         hideHeader: boolean,
         libraryHeaderIcons: iconDetail[],
         selectedTheme: string,
-        padLeftClassName: string
+        padLeftClassName: string,
+        isNoTheme: boolean
     ) => {
         return (
             <Layout className={this.previewerClassName(deviceType, '')}>
@@ -720,13 +707,14 @@ class Previewer extends React.Component<any, any> {
                         className={classnames(
                             'library-header',
                             {
-                                'no-theme': !selectedTheme || selectedTheme === 'light',
+                                'no-theme': isNoTheme
                             }
                         )}
                     >
                         {this.toolbarIconsRender(
                             libraryHeaderIcons,
-                            views.LIBRARY
+                            views.LIBRARY,
+                            isNoTheme
                         )}
                     </Layout.Header>
                 )}
@@ -749,27 +737,24 @@ class Previewer extends React.Component<any, any> {
                                     '-overview'
                                 )}
                             >
-                                {this.sidebarIconsRender(padLeftClassName)}
+                                {this.sidebarIconsRender(padLeftClassName, isNoTheme)}
                                 <div
                                     className={classnames(
                                         this.previewerClassName(
                                             deviceType,
                                             '-overview-right'
                                         ),
-                                        'library-content'
+                                        'library-content',
+                                        {'no-theme': isNoTheme}
                                     )}
                                 >
                                     <div className="library-content-filter">
                                         <div className="title-wrapper">
                                             <span
-                                                className={classnames('title', {
-                                                    'no-theme': !selectedTheme || selectedTheme === 'light',
-                                                })}
+                                                className={classnames('title', {'no-theme': isNoTheme})}
                                             ></span>
                                             <span
-                                                className={classnames('arrow', {
-                                                    'no-theme': !selectedTheme || selectedTheme === 'light',
-                                                })}
+                                                className={classnames('arrow', {'no-theme': isNoTheme})}
                                             >
                                                 {'\u2304'}
                                             </span>
@@ -805,7 +790,8 @@ class Previewer extends React.Component<any, any> {
         deviceType: string,
         hideHeader: boolean,
         dossierHeaderIcons: iconDetail[],
-        selectedTheme: string
+        selectedTheme: string,
+        isNoTheme: boolean
     ) => {
         return (
             <Layout className={this.previewerClassName(deviceType, '')}>
@@ -814,13 +800,14 @@ class Previewer extends React.Component<any, any> {
                         className={classnames(
                             'dossier-header',
                             {
-                                'no-theme': !selectedTheme || selectedTheme === 'light',
+                                'no-theme': isNoTheme,
                             }
                         )}
                     >
                         {this.toolbarIconsRender(
                             dossierHeaderIcons,
-                            views.DOSSIER
+                            views.DOSSIER,
+                            isNoTheme
                         )}
                     </Layout.Header>
                 )}
@@ -897,6 +884,10 @@ class Previewer extends React.Component<any, any> {
             deviceType,
             '-overview-left'
         );
+
+        //Don't use theme color when no theme defined or light theme
+        const isNoTheme = !selectedTheme || selectedTheme === 'light';
+
         return (
             <div className={classNamePrefix} ref={previewerRef}>
                 {/* library toolbars */}
@@ -909,7 +900,8 @@ class Previewer extends React.Component<any, any> {
                             hideHeader,
                             libraryHeaderIcons,
                             selectedTheme,
-                            padLeftClassName
+                            padLeftClassName,
+                            isNoTheme
                         )}
                         {showExpanderOverlay && this.overlayRender(false, true)}
                     </div>
@@ -926,7 +918,8 @@ class Previewer extends React.Component<any, any> {
                         deviceType,
                         hideHeader,
                         dossierHeaderIcons,
-                        selectedTheme
+                        selectedTheme,
+                        isNoTheme
                     )}
                     {showExpanderOverlay && this.overlayRender(false, true)}
                 </div>
