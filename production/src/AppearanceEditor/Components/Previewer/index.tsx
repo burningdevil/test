@@ -24,15 +24,7 @@ import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { connect } from 'react-redux';
 import {
     selectCurrentConfig,
-    selectIsDossierAsHome,
     selectPreviewDeviceType,
-    selectIsToolbarHidden,
-    selectIsToolbarCollapsed,
-    selectSelectedSideBarIcons,
-    selectSelectedLibraryCustomizedItems,
-    selectSelectedLibraryIcons,
-    selectSelectedDocumentIcons,
-    selectUserViewAllContentEnabled,
 } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import { Tooltip } from '@mstr/rc';
@@ -109,20 +101,30 @@ const getBoxBackground = (hex: string) => {
 };
 class Previewer extends React.Component<any, any> {
     contentBundleEnable = false;
-    hasContent = false;
+
     constructor(props: any) {
         super(props);
         this.state = {
             showToolTip: false, // boolean or the index number.
+            //DE258921; ignore custom app setting, use default values for components in previewer
+            isDossierHome: false,
+            toolbarHidden: false,
+            toolbarCollapsed: false,
+            libraryCustomizedItems: {},
+            sidebarIcons: ["all", "favorites", "recents",  "default_groups", "my_groups", "options"],
+            libraryIcons: ["sidebars", "sort_and_filter", "search", "notifications", "multi_select", "options"],
+            documentIcons: ["table_of_contents", "bookmarks", "reset", "filters", "comments", "share"],
+            allowUserViewAllContents: false,
+            hasContent: false,
         };
     }
     iconShouldShow(icon: iconDetail) {
-        const { libraryIcons, documentIcons, sidebarIcons, isDossierHome } =
-            this.props;
+        const { libraryIcons, documentIcons, sidebarIcons, isDossierHome } = this.state;
+
         const validKey = iconValidKey(icon.key);
         if (libraryCustomizedIconKeys.includes(icon.key)) {
             return _.get(
-                this.props.libraryCustomizedItems,
+                this.state.libraryCustomizedItems,
                 icon.key,
                 libraryCustomizedIconDefaultValues[icon.key]
             );
@@ -486,7 +488,8 @@ class Previewer extends React.Component<any, any> {
     // split in header icons and footer icons
     // order : left most 1 -> ... -> left most n -> right most 1 -> right most n
     dossierIconsToRender = () => {
-        const { deviceType, isDossierHome } = this.props;
+        const { deviceType } = this.props;
+        const { isDossierHome } = this.state;
         let headerIcons: iconDetail[] = [];
         let footerIcons: iconDetail[] = [];
         switch (deviceType) {
@@ -645,7 +648,7 @@ class Previewer extends React.Component<any, any> {
                 break;
         }
         // special case: the new dossier button should be moved out when the content bundle is not empty.
-        if (this.hasContent && !this.props.allowUserViewAllContents) {
+        if (this.state.hasContent && !this.state.allowUserViewAllContents) {
             headerIcons = headerIcons.filter(
                 (icon) => icon.key !== iconTypes.newDossier.key
             );
@@ -847,16 +850,12 @@ class Previewer extends React.Component<any, any> {
 
     componentWillReceiveProps(nextProps: any) {
         this.contentBundleEnable = nextProps.contentBundleFeatureEnable;
-        this.hasContent = nextProps.hasContent;
     }
     render() {
-        const {
-            theme,
-            deviceType,
-            isDossierHome,
-            toolbarHidden,
-            toolbarCollapsed,
-        } = this.props;
+        const { theme, deviceType } = this.props;
+
+        const { isDossierHome, toolbarHidden, toolbarCollapsed } = this.state;
+
         const { libraryHeaderIcons } = this.libraryIconsToRender();
         const { dossierHeaderIcons } = this.dossierIconsToRender();
 
@@ -924,14 +923,6 @@ class Previewer extends React.Component<any, any> {
 const mapState = (state: RootState) => ({
     deviceType: selectPreviewDeviceType(state),
     config: selectCurrentConfig(state),
-    isDossierHome: selectIsDossierAsHome(state),
-    toolbarHidden: selectIsToolbarHidden(state),
-    toolbarCollapsed: selectIsToolbarCollapsed(state),
-    libraryCustomizedItems: selectSelectedLibraryCustomizedItems(state),
-    sidebarIcons: selectSelectedSideBarIcons(state),
-    libraryIcons: selectSelectedLibraryIcons(state),
-    documentIcons: selectSelectedDocumentIcons(state),
-    allowUserViewAllContents: selectUserViewAllContentEnabled(state),
 });
 
 const connector = connect(mapState, {
