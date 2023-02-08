@@ -16,7 +16,6 @@ import EditableLabel from '../common-components/editable-label/editable-label'
 import { EnvironmentConnectionSettingType, EnvironmentConnectionInterface, HomeScreenConfigType, ThemePropObject } from '../../../types/data-model/HomeScreenConfigModels'
 import { isLibraryServerVersionMatch, isIServerVersionMatch } from '../../../utils';
 import '../scss/env-connections/HomeScreenEnvConnections.scss'
-import { t } from '../../../i18n/i18next';
 
 declare var workstation: WorkstationModule;
 const classNamePrefix = 'mstr-env-connection';
