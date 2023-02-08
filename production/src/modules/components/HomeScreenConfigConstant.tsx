@@ -428,10 +428,11 @@ export const localizedStrings = {
     CURRENT_ENV_LABEL: t('currentEnvLabel'),
     URL: t('url'),
     APPLICATION: t('application'),
-    SELECT_APPLICATION: t('selectApplication'),
     REFRESH: t('refresh'),
     EMPTY_AVAILABLE_ENVS_MSG: t('emptyAvailableEnvsMsg'),
-    AVAILABLE_ENVS_INFO_MSG: t('availableEnvsInfoMsg')
+    AVAILABLE_ENVS_INFO_MSG: t('availableEnvsInfoMsg'),
+    CONNECT_TO_ENV_MSG: t('pleaseConnectToEnv'),
+    CUSTOM_APPS_NOT_SUPPORTED_MSG: t('customAppsNotSupported')
 };
 
 export const sectionTitle = {

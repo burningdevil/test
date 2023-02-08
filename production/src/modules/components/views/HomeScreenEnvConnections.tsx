@@ -3,15 +3,18 @@ import { connect } from 'react-redux'
 import * as _ from 'lodash'
 import * as api from '../../../services/Api';
 import classnames from 'classnames'
-import { Table, Select, Spin } from 'antd';
+import { message, Table, Select, Spin } from 'antd';
+import { Tooltip } from '@mstr/rc';
 import 'antd/dist/antd.css';
 import { Environment, WorkstationModule, EnvironmentStatus } from '@mstr/workstation-types'
+import { RestApiError } from '../../../server/RestApiError'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
 import { selectCurrentConfig, selectCurrEnvConnections } from '../../../store/selectors/HomeScreenConfigEditorSelector'
 import * as Actions from '../../../store/actions/ActionsCreator'
 import { default as VC, localizedStrings } from '../HomeScreenConfigConstant'
 import EditableLabel from '../common-components/editable-label/editable-label'
 import { EnvironmentConnectionSettingType, EnvironmentConnectionInterface, HomeScreenConfigType, ThemePropObject } from '../../../types/data-model/HomeScreenConfigModels'
+import { isLibraryServerVersionMatch, isIServerVersionMatch } from '../../../utils';
 import '../scss/env-connections/HomeScreenEnvConnections.scss'
 
 declare var workstation: WorkstationModule;
@@ -26,7 +29,8 @@ interface EnvConnectionTableDataType {
     selectedApplication?: EnvApplicationType,
     applicationList?: Array<EnvApplicationType>,
     isConfigured: boolean,
-    isConnected: boolean
+    isConnected: boolean,
+    errorMessage?: string
 }
 
 interface EnvApplicationType {
@@ -67,6 +71,17 @@ const getApplicationOptionLabel = (name: string, logo: ThemePropObject) => (
     </div>
 );
 
+const processErrorResponse = (error: RestApiError, envName: string) => {
+    message.error({
+        content: (<div className='error-msg-wrapper'>
+            <span className='error-env-name'>{envName} : </span>
+            <span className='error-msg-content'>{error.errorMsg}</span>
+            </div>),
+        className: 'mstr-env-connections-error-notice',
+        duration: 0.7
+    });
+};
+
 class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsProps, HomeScreenEnvConnectionsState> {
     // Life cycle
     constructor(props: any) {
@@ -102,20 +117,11 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
             const envBaseUrl = this.getBaseUrl(env.url);
             const availableEnvObj = workstationAvailableEnvs.find(availableEnv => availableEnv.url === envBaseUrl);
             const isEnvConnected = availableEnvObj && (availableEnvObj.status === EnvironmentStatus.Connected);
-            let envApplicationList: Array<EnvApplicationType> = [];
-
-            if (isEnvConnected) {
-                try {
-                    const response = await api.fetchAllApplicationsForOtherEnv(envBaseUrl);
-                    const { applications: fetchedEnvApplicationList } = response;
-                    // TODO: do we want to save the homeScreen.theme object too? in case we want to display custom logo as part of UI
-                    envApplicationList = fetchedEnvApplicationList.map((app: EnvApplicationType) => ({ name: app.name, id: app.id, isDefault: app.isDefault, logo: app.homeScreen?.theme?.logos?.web }));
-                } catch (e) {
-                    // TODO: err handling
-                }
-            }
+            const errorObject: { errorMessage?: string } = {};
+            const envApplicationList = await this.getApplicationListFromServer(envBaseUrl, env.name, isEnvConnected, errorObject);
             
             linkedEnvs[idx].applicationList = envApplicationList;
+            linkedEnvs[idx].errorMessage = errorObject.errorMessage;
             linkedEnvs[idx].isConfigured = !!availableEnvObj;
             linkedEnvs[idx].isConnected = isEnvConnected;
             // update state with application lists for each linked environment
@@ -133,6 +139,54 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
 
     handleEnvConnectionsChange = (envConnections: EnvironmentConnectionSettingType) => {
         this.props.updateCurrentConfig({ environments: envConnections })
+    }
+
+    /**
+     * Fetches the list of applications for a linked environment from the server 
+     * if the following conditions are met
+     * 1. The environment is connected
+     * 2. The environment webVersion and iServerVersion are atleast the minimum base required to support custom application
+     * 
+     * The error object is updated if an error is encountered
+     *  
+     * 
+     * @param envBaseUrl - url of linked environment
+     * @param envName - name of linked environment
+     * @param isEnvConnected - connected status of environment
+     * @param errorObject - empty error object to be set incase errors are envountered
+     * @returns envApplicationList
+     */
+    getApplicationListFromServer = async (
+        envBaseUrl: string, 
+        envName: string,
+        isEnvConnected: boolean, 
+        errorObject: { errorMessage?: string }
+    ) => {
+        let envApplicationList: Array<EnvApplicationType> = [];
+
+        if (isEnvConnected) {
+            try {
+                const { webVersion, iServerVersion } = await api.getServerStatus(this.getBaseUrl(envBaseUrl));
+                const isCustomAppsSupported =  isIServerVersionMatch(iServerVersion) && isLibraryServerVersionMatch(webVersion)
+                if (isCustomAppsSupported) {
+                    const response = await api.fetchAllApplicationsForOtherEnv(envBaseUrl);
+                    const { applications: fetchedEnvApplicationList } = response;
+                    envApplicationList = fetchedEnvApplicationList.map((app: EnvApplicationType) => ({ name: app.name, id: app.id, isDefault: app.isDefault, logo: app.homeScreen?.theme?.logos?.web }));
+                } else {
+                    errorObject.errorMessage =  localizedStrings.CUSTOM_APPS_NOT_SUPPORTED_MSG;
+                }
+            } catch (e: any) {
+                const isRestApiError = e instanceof RestApiError;
+                if (isRestApiError) {
+                    processErrorResponse(e, envName);
+                } 
+                errorObject.errorMessage = isRestApiError ? e.errorMsg : e.message;
+            }
+        } else {
+            errorObject.errorMessage = localizedStrings.CONNECT_TO_ENV_MSG;
+        }
+
+        return envApplicationList;
     }
 
     // take state information and convert it into dataSource format readable by AntD's Table component
@@ -176,7 +230,8 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                 selectedApplication,
                 applicationList: env.applicationList || [],
                 isConfigured: env.isConfigured,
-                isConnected: env.isConnected 
+                isConnected: env.isConnected,
+                errorMessage: env.errorMessage 
             })
         })
 
@@ -203,19 +258,13 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
         const availableEnvObj = workstationAvailableEnvs.find(availableEnv => availableEnv.url === this.getBaseUrl(env.url));
         const isEnvConnected = availableEnvObj && (availableEnvObj.status === EnvironmentStatus.Connected);
         let newLinkedEnvs = [...linkedEnvs];
-        let envApplicationList: Array<EnvApplicationType> = [];
-        if (isEnvConnected) {
-            try {
-                const response = await api.fetchAllApplicationsForOtherEnv(this.getBaseUrl(env.url));
-                const { applications: fetchedEnvApplicationList } = response;
-                envApplicationList = fetchedEnvApplicationList.map((app: EnvApplicationType) => ({ name: app.name, id: app.id, isDefault: app.isDefault, logo: app.homeScreen?.theme?.logos?.web }));
-            } catch (e) {
-                // TODO: err handling
-            }
-        }
+        const envBaseUrl = this.getBaseUrl(env.url);
+        const errorObject: { errorMessage?: string } = {};
+        const envApplicationList = await this.getApplicationListFromServer(envBaseUrl, env.name, isEnvConnected, errorObject);
         newLinkedEnvs.push({
             ...env,
             applicationList: envApplicationList,
+            errorMessage: errorObject.errorMessage,
             isConfigured: !!availableEnvObj,
             isConnected: !!isEnvConnected
         });
@@ -242,26 +291,15 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
             const envBaseUrl = this.getBaseUrl(env.url);
             const availableEnvObj = wsOtherEnvs.find(availableEnv => availableEnv.url === this.getBaseUrl(env.url));
             const isEnvConnected = availableEnvObj?.isConnected;
-            let envApplicationList = env.applicationList;
-            // fetch latest application list for all linked envs that are actively connected to WS
-            if (isEnvConnected) {
-                try {
-                    const response = await api.fetchAllApplicationsForOtherEnv(envBaseUrl);
-                    const { applications: fetchedEnvApplicationList } = response;
-                    envApplicationList = fetchedEnvApplicationList.map((app: EnvApplicationType) => ({ name: app.name, id: app.id, isDefault: app.isDefault, logo: app.homeScreen?.theme?.logos?.web }));
-                } catch (e) {
-                    // TODO: err handling
-                }
+            const errorObject: { errorMessage?: string } = {};
+            const envApplicationList = await this.getApplicationListFromServer(envBaseUrl, env.name, isEnvConnected, errorObject);
 
-                return {
-                    ...env,
-                    applicationList: envApplicationList,
-                    isConfigured: true, // true, since we are in this code block which checks for isEnvConnected
-                    isConnected: true // true, since we are in this code block which checks for isEnvConnected
-                }
-            } else {
-                // return unmodified env object if there is no need to fetch & update its application list
-                return env;
+            return {
+                ...env,
+                applicationList: envApplicationList,
+                errorMessage: errorObject.errorMessage,
+                isConfigured: !!availableEnvObj, // true, since we are in this code block which checks for isEnvConnected
+                isConnected: isEnvConnected // true, since we are in this code block which checks for isEnvConnected
             }
         }));
         this.setState({ isRefreshing: false });
@@ -272,6 +310,60 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
             linkedEnvs: newLinkedEnvs
         });
     }
+
+    /**
+     * Returns a JSX component of the application list dropdown
+     * @param record - linked environment object
+     * @param application - application 
+     * @param idx - index of the linked environment
+     * @returns application list dropdown JSX
+     */
+    getApplicationDropDown = (
+        record: EnvConnectionTableDataType,
+        application: EnvApplicationType, 
+        idx: number
+    ) => {
+        const { currEnvConnections } = this.props;
+        const { linkedCurrentEnv, linkedEnvs } = this.state
+        const isFirstRow = idx === 0;
+        const selectedApplicationValue = (!isFirstRow && record.isConfigured && record.isConnected) ? application?.id : undefined 
+        const applicationSelectOptionsList = record.applicationList?.map(a => ({
+            label: getApplicationOptionLabel(a.name, a.logo),
+            value: a.id,
+            isDefault: a.isDefault
+        }));
+        const { errorMessage } = record;
+        const isErrorPresent = !!errorMessage;
+
+        const applicationDropDown = (<Select
+            className='connected-env-application-select'
+            popupClassName='connected-env-application-select-dropdown'
+            value={selectedApplicationValue}
+            disabled={isErrorPresent}
+            placeholder={''}
+            options={applicationSelectOptionsList}
+            bordered={false}
+            onChange={(newApplicationId, newApplicationObj : { label: JSX.Element, value: string, isDefault: boolean}) => {
+                // update url based on application selection
+                let newLinkedEnvs = [...linkedEnvs];
+                let currConnectedEnv = newLinkedEnvs[idx - 1];
+                currConnectedEnv.url = newApplicationObj.isDefault ? record.baseUrl : (record.baseUrl + customAppPath + newApplicationId); // update url with new application id
+                this.setState({ linkedEnvs: newLinkedEnvs }); // update state
+                this.handleEnvConnectionsChange({
+                    current: currEnvConnections.current || linkedCurrentEnv.name,
+                    other: newLinkedEnvs
+                });
+            }}
+        />)
+
+        return isErrorPresent ? (
+        <Tooltip
+            title = {errorMessage}
+            placement = 'top'
+        >
+            {applicationDropDown}
+        </Tooltip>) : applicationDropDown
+}
  
     render() {
         const { currEnvConnections } = this.props;
@@ -366,34 +458,10 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                                 width={284}
                                 render={(application: EnvApplicationType, record: EnvConnectionTableDataType, idx) => {
                                     const isFirstRow = idx === 0;
-                                    const selectedApplicationValue = (!isFirstRow && record.isConfigured && record.isConnected) ? application?.id : undefined 
-                                    const applicationSelectOptionsList = record.applicationList?.map(a => ({
-                                        label: getApplicationOptionLabel(a.name, a.logo),
-                                        value: a.id,
-                                        isDefault: a.isDefault
-                                    }));
                                     return (
                                         isFirstRow
                                             ? null
-                                            : <Select
-                                                className='connected-env-application-select'
-                                                popupClassName='connected-env-application-select-dropdown'
-                                                value={selectedApplicationValue}
-                                                placeholder={localizedStrings.SELECT_APPLICATION}
-                                                options={applicationSelectOptionsList}
-                                                bordered={false}
-                                                onChange={(newApplicationId, newApplicationObj : { label: JSX.Element, value: string, isDefault: boolean}) => {
-                                                    // update url based on application selection
-                                                    let newLinkedEnvs = [...linkedEnvs];
-                                                    let currConnectedEnv = newLinkedEnvs[idx - 1];
-                                                    currConnectedEnv.url = newApplicationObj.isDefault ? record.baseUrl : (record.baseUrl + customAppPath + newApplicationId); // update url with new application id
-                                                    this.setState({ linkedEnvs: newLinkedEnvs }); // update state
-                                                    this.handleEnvConnectionsChange({
-                                                        current: currEnvConnections.current || linkedCurrentEnv.name,
-                                                        other: newLinkedEnvs
-                                                    });
-                                                }}
-                                            />
+                                            : this.getApplicationDropDown(record, application, idx)
                                     )
                                 }}
                             />

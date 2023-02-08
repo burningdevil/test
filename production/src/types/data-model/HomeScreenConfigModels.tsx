@@ -86,6 +86,7 @@ export interface EnvironmentConnectionInterface {
     applicationList?: Array<Partial<HomeScreenConfigType>>,
     isConfigured?: boolean,
     isConnected?: boolean,
+    errorMessage?: string
 }
 
 export interface EnvironmentConnectionSettingType {
