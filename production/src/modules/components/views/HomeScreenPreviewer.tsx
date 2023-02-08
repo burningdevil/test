@@ -566,7 +566,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
         this.contentBundleEnable = nextProps.contentBundleFeatureEnable;
         this.hasContent = nextProps.hasContent;
     }
-    separateRender(contextVersion?: string) {
+    renderPreviews(contextVersion?: string) {
         const { deviceType, isDossierHome, toolbarHidden, toolbarCollapsed } =
             this.props;
         const { libraryHeaderIcons, libraryFooterIcons } =
@@ -1108,7 +1108,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
             <WebVersionContext.Consumer>
             {(value) => {
                 return (
-                    this.separateRender(value.webVersion ?? LIBRARY_SERVER_VERSION_THRESHOLD)
+                    this.renderPreviews(value.webVersion ?? LIBRARY_SERVER_VERSION_THRESHOLD)
                 );
             }}
             </WebVersionContext.Consumer> 
@@ -1117,7 +1117,6 @@ class HomeScreenPreviewer extends React.Component<any, any> {
         
     }
 }
-HomeScreenPreviewer.contextType = WebVersionContext;
 const mapState = (state: RootState) => ({
     deviceType: selectPreviewDeviceType(state),
     config: selectCurrentConfig(state),

@@ -165,8 +165,6 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         const currentEnv =
             await workstation.environments.getCurrentEnvironment();
         const isConnected = currentEnv.status === EnvironmentStatus.Connected;
-        // set webVersion context;
-        this.context = currentEnv.webVersion ?? LIBRARY_SERVER_VERSION_THRESHOLD;
         // Handle Edit config
         const configId = this.parseConfigId(
             _.get(this.props, 'location.search', undefined)
