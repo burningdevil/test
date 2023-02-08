@@ -1,4 +1,4 @@
-@TC85342 @Regression @Sanity
+@TC85342 @Regression
 Feature: 15_LH_Insight_entry_save_and_reopen
     1. add environment
     2. add new application

@@ -1,4 +1,4 @@
-@TC85342 @Regression @Sanity
+@TC85342 @Regression
 Feature: 14_LH_DisableInsight_entry
     1. add environment
     2. add new application

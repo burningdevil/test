@@ -1,4 +1,4 @@
-@TC87870 @Regression @Sanity
+@TC87870 @Regression
 Feature: 36_New_dossier_setting_when_allow_all_contents
     1. add environment
     2. create application

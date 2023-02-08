@@ -216,7 +216,7 @@ task :sanity_test_win do |t,args|
     shell_command! "npm install", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
     shell_command! 'npm config set script-shell "C:/usr/bin/bash"', environment: {'MSYS' => 'winsymlinks:nativestrict'}
 
-    shell_command! "node trigger_test.js  \"#{workstation_path}\"  \"#{libraryUrl}/\" \"@Sanity\" 54213 \"#{ENV['ghprbSourceBranch']}\"", cwd: "I:/tests/acceptance"
+    shell_command! "node trigger_test.js  \"#{workstation_path}\"  \"#{libraryUrl}/\" \"@Regression\" 54213 \"#{ENV['ghprbSourceBranch']}\"", cwd: "I:/tests/acceptance"
     do_delete_tanzu_environment(environmentName) if @delete_tanzu
     reset_password_flag(environmentName) if File.exist?(@password_flag)
     post_process_workstation_ci(result:"pass", update_nexus:true, update_rally:false, coverage_report:false, platform:'win', platform_os:nil)

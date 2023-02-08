@@ -1,4 +1,4 @@
-@TC87870 @Regression @Sanity
+@TC87870 @Regression
 Feature: 34_Show_All_Contents_default_Status
     1. add environment
     2. create application
