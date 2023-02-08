@@ -28,6 +28,6 @@
             "enableUB": false
         },
         "cefPort": 54213,
-        "imageCompare": false
+        "imageCompare": true
     }
 }
