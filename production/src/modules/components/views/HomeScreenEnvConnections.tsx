@@ -142,6 +142,13 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
     }
 
     /**
+     * Fetches the list of applications for a linked environment from the server 
+     * if the following conditions are met
+     * 1. The environment is connected
+     * 2. The environment webVersion and iServerVersion are atleast the minimum base required to support custom application
+     * 
+     * The error object is updated if an error is encountered
+     *  
      * 
      * @param envBaseUrl - url of linked environment
      * @param envName - name of linked environment
@@ -305,7 +312,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
     }
 
     /**
-     * 
+     * Returns a JSX component of the application list dropdown
      * @param record - linked environment object
      * @param application - application 
      * @param idx - index of the linked environment
