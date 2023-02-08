@@ -10,7 +10,7 @@ import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
 import { selectCurrentConfig, selectCurrEnvConnections } from '../../../store/selectors/HomeScreenConfigEditorSelector'
 import * as Actions from '../../../store/actions/ActionsCreator'
 import { default as VC, localizedStrings } from '../HomeScreenConfigConstant'
-import EditableLabel from '../common-components/editable-label/editable-label'
+import EditableLabel from '../features/env-connections/editable-label'
 import { EnvironmentConnectionSettingType, EnvironmentConnectionInterface, HomeScreenConfigType, ThemePropObject } from '../../../types/data-model/HomeScreenConfigModels'
 import '../scss/env-connections/HomeScreenEnvConnections.scss'
 
@@ -320,6 +320,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                                                                                 other: currEnvConnections.other
                                                                             });
                                                                         }}
+                                                                        wsName={record.wsName}
                                                                     />
                                                                     <div className='current-env-suffix'>{localizedStrings.CURRENT_ENV_LABEL}</div>
                                                             </React.Fragment>
@@ -339,6 +340,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                                                                         other: newLinkedEnvs
                                                                     });
                                                                 }}
+                                                                wsName={record.wsName}
                                                             />
                                                     }
                                                 </div>
