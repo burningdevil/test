@@ -293,3 +293,13 @@
 
   @include applicationIcnText();
 }
+
+.ant-message-notice.mstr-env-connections-error-notice {
+  font-family: $font-family;
+  font-size: $font-size;
+  color: $msdl-black;
+
+  .error-env-name {
+    font-weight: 600;
+  }
+}
