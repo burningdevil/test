@@ -423,6 +423,7 @@ export const localizedStrings = {
     STANDARD: t('standard'),
 
     // Environment Connection strings
+    ENVIRONMENT_WS_NAME_TOOLTIP: t('nameInWorkstation'),
     ENVIRONMENT_CONNECTION_SETTINGS_DESC: t('environmentConnectionSettingsDesc'),
     ENVIRONMENT_CONNECTION_AVAILABLE_ENVS_DESC: t('environmentConnectionAvailableEnvsDesc'),
     CURRENT_ENV_LABEL: t('currentEnvLabel'),

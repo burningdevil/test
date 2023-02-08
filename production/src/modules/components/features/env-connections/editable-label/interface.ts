@@ -4,5 +4,6 @@ export type EditableLabelProps = {
     onValueChange(value: string): void,
     placeholder?: string,
     allowEmptySave?: boolean,
-    trigger?: string
+    trigger?: string,
+    wsName?: string
 }
