@@ -24,15 +24,7 @@ import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { connect } from 'react-redux';
 import {
     selectCurrentConfig,
-    selectIsDossierAsHome,
     selectPreviewDeviceType,
-    selectIsToolbarHidden,
-    selectIsToolbarCollapsed,
-    selectSelectedSideBarIcons,
-    selectSelectedLibraryCustomizedItems,
-    selectSelectedLibraryIcons,
-    selectSelectedDocumentIcons,
-    selectUserViewAllContentEnabled,
 } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import { Tooltip } from '@mstr/rc';
@@ -82,22 +74,57 @@ const applyThemeColorsToPreviewer = (el: any, formats: any) => {
     }
 };
 
+const getBoxBackground = (hex: string) => {
+    const whiteDominantBackground = 'rgba(255, 255, 255, 0.09)';
+    const blackDominantBackground = 'rgba(0,0,0, 0.09)';
+
+    if (!hex) {
+        return blackDominantBackground;
+    }
+
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    const rgb = {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16),
+    };
+
+    /*
+     * The relative brightness of any point in a colorspace, normalized to 0 for darkest black and 1 for lightest white
+     * https://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
+     * https://stackoverflow.com/questions/9780632/how-do-i-determine-if-a-color-is-closer-to-white-or-black
+     */
+    const L = 0.2126 * rgb.r + 0.7152 * rgb.g + 0.0722 * rgb.b;
+
+    // If relative luminance is < 128, the color is close to white else it is close to black
+    return L < 128 ? whiteDominantBackground : blackDominantBackground;
+};
 class Previewer extends React.Component<any, any> {
     contentBundleEnable = false;
-    hasContent = false;
+
     constructor(props: any) {
         super(props);
         this.state = {
             showToolTip: false, // boolean or the index number.
+            //DE258921; ignore custom app setting, use default values for components in previewer
+            isDossierHome: false,
+            toolbarHidden: false,
+            toolbarCollapsed: false,
+            libraryCustomizedItems: {},
+            sidebarIcons: ["all", "favorites", "recents",  "default_groups", "my_groups", "options"],
+            libraryIcons: ["sidebars", "sort_and_filter", "search", "notifications", "multi_select", "options"],
+            documentIcons: ["table_of_contents", "bookmarks", "reset", "filters", "comments", "share"],
+            allowUserViewAllContents: false,
+            hasContent: false,
         };
     }
     iconShouldShow(icon: iconDetail) {
-        const { libraryIcons, documentIcons, sidebarIcons, isDossierHome } =
-            this.props;
+        const { libraryIcons, documentIcons, sidebarIcons, isDossierHome } = this.state;
+
         const validKey = iconValidKey(icon.key);
         if (libraryCustomizedIconKeys.includes(icon.key)) {
             return _.get(
-                this.props.libraryCustomizedItems,
+                this.state.libraryCustomizedItems,
                 icon.key,
                 libraryCustomizedIconDefaultValues[icon.key]
             );
@@ -227,14 +254,20 @@ class Previewer extends React.Component<any, any> {
         return <div className={`${classNamePrefix}-title`}>{title}</div>;
     };
 
-    getRenderedIcon = (element: any, elementIndex: number, view: string) => {
+    getRenderedIcon = (element: any, elementIndex: number, view: string, isNoTheme: boolean) => {
         const {
             web: webLogo = { type: 'URL', value: '' },
             mobile: mobileLogo = { type: 'URL', value: '' },
         } = (this.props.theme && this.props.theme.logos) || {};
 
-        const { selectedTheme } =
+        const { selectedTheme, formatting } =
             (this.props.theme && this.props.theme.color) || {};
+        const isCustomColor = isCustomColorTheme(selectedTheme);
+        const formats = !isCustomColor
+            ? prefinedColorSets[selectedTheme]
+            : formatting;
+
+        const { toolbarFill } = formats || {};
 
         const isLibraryWebLogo = element.iconName === VC.FONT_PREVIEWSIDEBAR;
         const isLibraryMobileLogo = element.iconName === VC.FONT_LIBRARY_MOBILE;
@@ -248,9 +281,8 @@ class Previewer extends React.Component<any, any> {
             renderedLogo = (
                 <div className="icon_search_container">
                     <div
-                        className={classnames('icon_search_box', {
-                            'no-theme': !selectedTheme,
-                        })}
+                        className={classnames('icon_search_box', {'no-theme': isNoTheme})}
+                        style={{ background: getBoxBackground(toolbarFill) }}
                     >
                         <span className={element.iconName} key={elementIndex}>
                             {localizedStrings.SEARCH}
@@ -263,9 +295,10 @@ class Previewer extends React.Component<any, any> {
                 view === views.LIBRARY ? (
                     <div className="icon_sort_filter_container">
                         <div
-                            className={classnames('icon_sort_filter_box', {
-                                'no-theme': !selectedTheme,
-                            })}
+                            className={classnames('icon_sort_filter_box', {'no-theme': isNoTheme})}
+                            style={{
+                                background: getBoxBackground(toolbarFill),
+                            }}
                         >
                             <span className="icon_sort_filter_text">
                                 {localizedStrings.SORT_BY}: ..
@@ -311,7 +344,7 @@ class Previewer extends React.Component<any, any> {
         return renderedLogo;
     };
 
-    getRenderedIconArray = (iconsToRender: iconDetail[], view: string) => {
+    getRenderedIconArray = (iconsToRender: iconDetail[], view: string, isNoTheme: boolean) => {
         return iconsToRender.map((element: any, index: number) => {
             if (
                 !this.iconShouldShow(element) ||
@@ -319,23 +352,18 @@ class Previewer extends React.Component<any, any> {
             ) {
                 return;
             } else {
-                return this.getRenderedIcon(element, index, view);
+                return this.getRenderedIcon(element, index, view, isNoTheme);
             }
         });
     };
 
     // render array of icons
-    toolbarIconsRender = (iconsToRender: iconDetail[], view: string) => {
-        const renderedIcons = this.getRenderedIconArray(iconsToRender, view);
-
-        const { selectedTheme } =
-            (this.props.theme && this.props.theme.color) || {};
+    toolbarIconsRender = (iconsToRender: iconDetail[], view: string, isNoTheme: boolean) => {
+        const renderedIcons = this.getRenderedIconArray(iconsToRender, view, isNoTheme);
 
         const toolbarTitle = (
             <div
-                className={classnames('toolbar-title-wrapper', {
-                    'no-theme': !selectedTheme,
-                })}
+                className={classnames('toolbar-title-wrapper', {'no-theme': isNoTheme})}
             >
                 <span className="title"></span>
             </div>
@@ -349,29 +377,19 @@ class Previewer extends React.Component<any, any> {
     };
 
     // render array of side bar icons
-    sidebarIconsRender = (rootClassName: string) => {
-        let { selectedTheme } =
-            (this.props.theme && this.props.theme.color) || {};
-
+    sidebarIconsRender = (rootClassName: string, isNoTheme: boolean) => {
         const sidebarIcons = [];
 
         for (let i = 1; i <= 6; i++) {
             sidebarIcons.push(
                 <div
-                    className={classnames(
-                        `${classNamePrefix}-pad-overview-left-text`,
-                        { 'no-theme': !selectedTheme }
-                    )}
+                    className={classnames(`${classNamePrefix}-pad-overview-left-text`, {'no-theme': isNoTheme})}
                 >
                     <span
-                        className={classnames(`sidebar-icon-${i}`, {
-                            'no-theme': !selectedTheme,
-                        })}
+                        className={classnames(`sidebar-icon-${i}`, {'no-theme': isNoTheme})}
                     />
                     <span
-                        className={classnames(`sidebar-text-${i}`, {
-                            'no-theme': !selectedTheme,
-                        })}
+                        className={classnames(`sidebar-text-${i}`, {'no-theme': isNoTheme})}
                     />
                 </div>
             );
@@ -386,15 +404,14 @@ class Previewer extends React.Component<any, any> {
                 {' '}
                 {this.toolbarIconsRender(
                     [iconTypes.accountMobile],
-                    views.MOBILE
+                    views.MOBILE,
+                    isNoTheme
                 )}
             </div>
         );
         return (
             <div
-                className={classnames(rootClassName, {
-                    'no-theme': !selectedTheme,
-                })}
+                className={classnames(rootClassName, {'no-theme': isNoTheme})}
             >
                 {' '}
                 {sidebarIcons} {accountIcon}{' '}
@@ -471,7 +488,8 @@ class Previewer extends React.Component<any, any> {
     // split in header icons and footer icons
     // order : left most 1 -> ... -> left most n -> right most 1 -> right most n
     dossierIconsToRender = () => {
-        const { deviceType, isDossierHome } = this.props;
+        const { deviceType } = this.props;
+        const { isDossierHome } = this.state;
         let headerIcons: iconDetail[] = [];
         let footerIcons: iconDetail[] = [];
         switch (deviceType) {
@@ -630,7 +648,7 @@ class Previewer extends React.Component<any, any> {
                 break;
         }
         // special case: the new dossier button should be moved out when the content bundle is not empty.
-        if (this.hasContent && !this.props.allowUserViewAllContents) {
+        if (this.state.hasContent && !this.state.allowUserViewAllContents) {
             headerIcons = headerIcons.filter(
                 (icon) => icon.key !== iconTypes.newDossier.key
             );
@@ -675,20 +693,24 @@ class Previewer extends React.Component<any, any> {
         deviceType: string,
         hideHeader: boolean,
         libraryHeaderIcons: iconDetail[],
-        selectedTheme: string,
-        padLeftClassName: string
+        padLeftClassName: string,
+        isNoTheme: boolean
     ) => {
         return (
             <Layout className={this.previewerClassName(deviceType, '')}>
                 {!hideHeader && (
                     <Layout.Header
-                        className={classnames('library-header', {
-                            'no-theme': !selectedTheme,
-                        })}
+                        className={classnames(
+                            'library-header',
+                            {
+                                'no-theme': isNoTheme
+                            }
+                        )}
                     >
                         {this.toolbarIconsRender(
                             libraryHeaderIcons,
-                            views.LIBRARY
+                            views.LIBRARY,
+                            isNoTheme
                         )}
                     </Layout.Header>
                 )}
@@ -711,24 +733,24 @@ class Previewer extends React.Component<any, any> {
                                     '-overview'
                                 )}
                             >
-                                {this.sidebarIconsRender(padLeftClassName)}
+                                {this.sidebarIconsRender(padLeftClassName, isNoTheme)}
                                 <div
-                                    className={classnames(this.previewerClassName(
-                                        deviceType,
-                                        '-overview-right'
-                                    ),'library-content')}
+                                    className={classnames(
+                                        this.previewerClassName(
+                                            deviceType,
+                                            '-overview-right'
+                                        ),
+                                        'library-content',
+                                        {'no-theme': isNoTheme}
+                                    )}
                                 >
                                     <div className="library-content-filter">
                                         <div className="title-wrapper">
                                             <span
-                                                className={classnames('title', {
-                                                    'no-theme': !selectedTheme,
-                                                })}
+                                                className={classnames('title', {'no-theme': isNoTheme})}
                                             ></span>
                                             <span
-                                                className={classnames('arrow', {
-                                                    'no-theme': !selectedTheme,
-                                                })}
+                                                className={classnames('arrow', {'no-theme': isNoTheme})}
                                             >
                                                 {'\u2304'}
                                             </span>
@@ -764,19 +786,23 @@ class Previewer extends React.Component<any, any> {
         deviceType: string,
         hideHeader: boolean,
         dossierHeaderIcons: iconDetail[],
-        selectedTheme: string
+        isNoTheme: boolean
     ) => {
         return (
             <Layout className={this.previewerClassName(deviceType, '')}>
                 {!hideHeader && (
                     <Layout.Header
-                        className={classnames('dossier-header', {
-                            'no-theme': !selectedTheme,
-                        })}
+                        className={classnames(
+                            'dossier-header',
+                            {
+                                'no-theme': isNoTheme,
+                            }
+                        )}
                     >
                         {this.toolbarIconsRender(
                             dossierHeaderIcons,
-                            views.DOSSIER
+                            views.DOSSIER,
+                            isNoTheme
                         )}
                     </Layout.Header>
                 )}
@@ -824,20 +850,14 @@ class Previewer extends React.Component<any, any> {
 
     componentWillReceiveProps(nextProps: any) {
         this.contentBundleEnable = nextProps.contentBundleFeatureEnable;
-        this.hasContent = nextProps.hasContent;
     }
     render() {
-        const {
-            theme,
-            deviceType,
-            isDossierHome,
-            toolbarHidden,
-            toolbarCollapsed,
-        } = this.props;
-        const { libraryHeaderIcons } =
-            this.libraryIconsToRender();
-        const { dossierHeaderIcons } =
-            this.dossierIconsToRender();
+        const { theme, deviceType } = this.props;
+
+        const { isDossierHome, toolbarHidden, toolbarCollapsed } = this.state;
+
+        const { libraryHeaderIcons } = this.libraryIconsToRender();
+        const { dossierHeaderIcons } = this.dossierIconsToRender();
 
         const { selectedTheme, formatting } = theme?.color || {};
         const isCustomColor = isCustomColorTheme(selectedTheme);
@@ -855,6 +875,10 @@ class Previewer extends React.Component<any, any> {
             deviceType,
             '-overview-left'
         );
+
+        //Don't use theme color when no theme defined or light theme
+        const isNoTheme = !selectedTheme || selectedTheme === 'light';
+
         return (
             <div className={classNamePrefix} ref={previewerRef}>
                 {/* library toolbars */}
@@ -866,8 +890,8 @@ class Previewer extends React.Component<any, any> {
                             deviceType,
                             hideHeader,
                             libraryHeaderIcons,
-                            selectedTheme,
-                            padLeftClassName
+                            padLeftClassName,
+                            isNoTheme
                         )}
                         {showExpanderOverlay && this.overlayRender(false, true)}
                     </div>
@@ -884,7 +908,7 @@ class Previewer extends React.Component<any, any> {
                         deviceType,
                         hideHeader,
                         dossierHeaderIcons,
-                        selectedTheme
+                        isNoTheme
                     )}
                     {showExpanderOverlay && this.overlayRender(false, true)}
                 </div>
@@ -899,14 +923,6 @@ class Previewer extends React.Component<any, any> {
 const mapState = (state: RootState) => ({
     deviceType: selectPreviewDeviceType(state),
     config: selectCurrentConfig(state),
-    isDossierHome: selectIsDossierAsHome(state),
-    toolbarHidden: selectIsToolbarHidden(state),
-    toolbarCollapsed: selectIsToolbarCollapsed(state),
-    libraryCustomizedItems: selectSelectedLibraryCustomizedItems(state),
-    sidebarIcons: selectSelectedSideBarIcons(state),
-    libraryIcons: selectSelectedLibraryIcons(state),
-    documentIcons: selectSelectedDocumentIcons(state),
-    allowUserViewAllContents: selectUserViewAllContentEnabled(state),
 });
 
 const connector = connect(mapState, {

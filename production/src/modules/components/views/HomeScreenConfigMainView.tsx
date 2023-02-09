@@ -68,7 +68,6 @@ import CONSTANTS, {
     APPLICATION_OBJECT_SUBTYPE,
     HOME_DOCUMENT_TYPE_DOSSIER,
     HOME_DOCUMENT_TYPE_DOCUMENT,
-    GENERAL_PREVIEW_FEATURE_FLAG,
     APPLICATIONS_AUTH_MODES_FLAG,
 } from '../HomeScreenConfigConstant';
 import { t } from '../../../i18n/i18next';
@@ -215,10 +214,6 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
                 !!status.iServerVersion &&
                 isIServerVersionMatch(status.iServerVersion, ISERVER_SUPPORT_AUTH_MODE);
             const isVersionSupportAuthMode = !!status.webVersion && 
-                getFeatureFlag(
-                    GENERAL_PREVIEW_FEATURE_FLAG,
-                    currentEnv
-                    ) &&
                 isLibraryServerVersionMatch(
                     status.webVersion,
                     LIBRARY_SERVER_SUPPORT_AUTH_MODE

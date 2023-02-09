@@ -195,19 +195,19 @@ export const prefinedColorSets = {
         [EnumFormattingPropNames.sidebarFill]: '#FFFFFF',
         [EnumFormattingPropNames.sidebarColor]: '#29313B',
 
-        [EnumFormattingPropNames.sidebarActiveFill]: '#334A6A',
-        [EnumFormattingPropNames.sidebarActiveColor]: '#FFFFFF',
+        [EnumFormattingPropNames.sidebarActiveFill]: '#E9F2FE',
+        [EnumFormattingPropNames.sidebarActiveColor]: '#29313B',
 
-        [EnumFormattingPropNames.panelFill]: '#23262A',
-        [EnumFormattingPropNames.panelColor]: '#FFFFFF',
+        [EnumFormattingPropNames.panelFill]: '#F7F8FA',
+        [EnumFormattingPropNames.panelColor]: '#29313B',
 
         [EnumFormattingPropNames.canvasFill]: '#F7F8FA', 
 
-        [EnumFormattingPropNames.accentFill]: '#529AFE',
+        [EnumFormattingPropNames.accentFill]: '#0E6FF9',
 
-        [EnumFormattingPropNames.buttonColor]: '#29313B',
+        [EnumFormattingPropNames.buttonColor]: '#FFFFFF',
 
-        [EnumFormattingPropNames.notificationBadgeFill]: '#F56B6B',
+        [EnumFormattingPropNames.notificationBadgeFill]: '#D9232E',
     }
 };
 
@@ -235,13 +235,13 @@ export const colorPropTitles = [
     [EnumFormattingPropNames.panelColor, t('text')],
 
     [EnumColorPropTitleCategoryLabel.misc],
-    [EnumFormattingPropNames.canvasFill, t('canvasBackground')],
+    [EnumFormattingPropNames.canvasFill, t('canvasBackground'), t(`canvasBackgroundInfo`)],
 
-    [EnumFormattingPropNames.accentFill, t('accentColor')],
+    [EnumFormattingPropNames.accentFill, t('accentColor'), t('accentColorInfo')],
 
-    [EnumFormattingPropNames.buttonColor, t('buttonText')],
+    [EnumFormattingPropNames.buttonColor, t('buttonText'), t('buttonTextInfo')],
 
-    [EnumFormattingPropNames.notificationBadgeFill, t('notificationBadge')],
+    [EnumFormattingPropNames.notificationBadgeFill, t('notificationBadge'), t('notificationBadgeInfo')],
 ];
 
 export const isCustomColorTheme = (theme: string) => theme === EnumSelectedThemes.CUSTOM;

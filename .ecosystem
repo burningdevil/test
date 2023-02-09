@@ -3,7 +3,7 @@
 export PROJECT_NAME='workstation-homescreen-admin'
 export ORGANIZATION_NAME='Kiai'
 export COMPANY_NAME='microstrategy'
-export ECOSYSTEM_ROOT_VERSION=${ECOSYSTEM_ROOT_VERSION:='ruby312'}
+export ECOSYSTEM_ROOT_VERSION=${ECOSYSTEM_ROOT_VERSION:='next'}
 
 
 #<(((((((((((((((-------------------------------------------------------------------)))))))))))))))>#
@@ -39,12 +39,14 @@ fi
 
 cd "${ECOSYSTEM_ROOT_PATHS_HOME}"
 
+git remote set-url origin https://github.com/mstr-ecosystem/eco.root.git
+
 git checkout tags/"${ECOSYSTEM_ROOT_VERSION}"
 if [[ $? != 0 ]]; then
   git reset --hard HEAD
   git clean -df
   git checkout "${ECOSYSTEM_ROOT_VERSION}"
-  git pull origin "${ECOSYSTEM_ROOT_VERSION}"
+  git pull origin "${ECOSYSTEM_ROOT_VERSION}" --rebase
 fi
 
 cd $workspace_path

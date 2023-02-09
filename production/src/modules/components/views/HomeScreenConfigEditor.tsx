@@ -49,7 +49,6 @@ import {
     CONTENT_BUNDLE_DEFAULT_GROUP_NAME,
     copyApplicationName,
     closeWindowConfirmationStr,
-    GENERAL_PREVIEW_FEATURE_FLAG,
     SUPPORT_CONFIGURATION_PALETTE_ID,
     APPLICATIONS_AUTH_MODES_FLAG,
 } from '../HomeScreenConfigConstant';
@@ -71,6 +70,7 @@ import {
     LIBRARY_SERVER_SUPPORT_ENV_CONNECTIONS,
     isIServerVersionMatch,
     ISERVER_SUPPORT_AUTH_MODE,
+    checkFeatureEnable,
     ISERVER_SUPPORT_ALLOW_CONTENTS_WITH_CONTENT_GROUPS,
     LIBRARY_SUPPORT_ALLOW_CONTENTS_WITH_CONTENT_GROUPS,
     LIBRARY_SERVER_VERSION_THRESHOLD,
@@ -249,16 +249,6 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                     LIBRARY_SERVER_SUPPORT_AUTH_MODE
                 ) && isAuthModesBackendFlagEnabled
                 && isIServerSupportAuthModes
-        
-        const checkFeatureEnable = (curEnv: Environment, supportVersion: string) => {
-            return (
-                !!curEnv.webVersion &&
-                isLibraryServerVersionMatch(
-                    curEnv.webVersion,
-                    supportVersion
-                )
-            );
-        };
 
         const customEmailFeatureFlagEnabled  = checkFeatureEnable(currentEnv, LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_VERSION);
         const customEmailV2Enabled = checkFeatureEnable(currentEnv, LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_V2);

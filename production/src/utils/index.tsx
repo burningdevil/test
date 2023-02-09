@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import * as compareVersions from 'compare-versions';
+import { Environment } from '@mstr/workstation-types';
 
 // Custom Application Support start from 11.3.4
 export const LIBRARY_SERVER_VERSION_THRESHOLD = '11.3.0400';
@@ -16,7 +17,8 @@ export const LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_VERSION = '11.3.0760';
 export const LIBRARY_SERVER_SUPPORT_INSIGHTS_CONTROL = '11.3.0760';
 export const LIBRARY_SERVER_SUPPORT_AUTH_MODE = '11.3.0860';
 export const LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_V2 = '11.3.0860';
-export const LIBRARY_SERVER_SUPPORT_ENV_CONNECTIONS = '11.3.0930';
+export const LIBRARY_SERVER_SUPPORT_ENV_CONNECTIONS = '11.3.0960';
+export const LIBRARY_SERVER_SUPPORT_APP_THEME_COLOR_VERSION = '11.3.0960';
 export const ISERVER_SUPPORT_AUTH_MODE = '11.3.0860';
 export const ISERVER_SUPPORT_ALLOW_CONTENTS_WITH_CONTENT_GROUPS = '11.3.0960';
 export const LIBRARY_SUPPORT_ALLOW_CONTENTS_WITH_CONTENT_GROUPS = '11.3.0960';
@@ -55,3 +57,13 @@ export const isUserHasManageApplicationPrivilege = (privileges: number[]) => {
 export const isUserHasManageContentGroupPrivilege = (privileges: number[]) => {
   return privileges?.includes(MANAGE_CONTENT_BUNDLE_PRIVILEGE);
 }
+
+export const checkFeatureEnable = (curEnv: Environment, supportVersion: string) => {
+    return (
+        !!curEnv.webVersion &&
+        isLibraryServerVersionMatch(
+            curEnv.webVersion,
+            supportVersion
+        )
+    );
+};

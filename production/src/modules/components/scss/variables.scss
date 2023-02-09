@@ -12,8 +12,13 @@ $right-background: #f4f4f4;
 $mobile-primary-blue: #0e6ff9;
 $white: #fff;
 
+// Common Element Sizes
+$tabs-content-screen-height: 708px;
+$btn-bar-outer-padding: 24px;
+$btn-bar-height: 22px;
+
 // Custom Apps/Appearance Editor Styling
-$custom-apps-screen-height: 708px;
+$custom-apps-screen-height: $tabs-content-screen-height;
 $custom-apps-screen-padding: 24px 30px 0;
 
 $theme-content-width: 226px;
@@ -43,6 +48,7 @@ $settings-panel-btn-bg-color: #3492ed;
 $settings-panel-logo-desc-color: #888;
 $settings-panel-title-font-weight: 700;
 $settings-panel-title-line-height: 28px;
+$settings-panel-subtitle-line-height: 18px;
 $settings-panel-title-height: 28px;
 
 $preview-panel-replaced-logo-height: 18px;
@@ -55,7 +61,3 @@ $logo-box-margin-right: 10px;
 // Logo popup dialog Styling
 $logo-popup-width: 500px;
 $logo-popup-height: 164px;
-
-// Environment Connection Editor Styling
-$env-connection-screen-height: 708px;
-$env-connection-screen-padding: 24px 30px 0;

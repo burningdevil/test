@@ -3,16 +3,19 @@ import { connect } from 'react-redux'
 import * as _ from 'lodash'
 import * as api from '../../../services/Api';
 import classnames from 'classnames'
-import { Table, Select } from 'antd';
+import { message, Table, Select, Spin } from 'antd';
+import { Tooltip } from '@mstr/rc';
 import 'antd/dist/antd.css';
 import { Environment, WorkstationModule, EnvironmentStatus } from '@mstr/workstation-types'
+import { RestApiError } from '../../../server/RestApiError'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
 import { selectCurrentConfig, selectCurrEnvConnections } from '../../../store/selectors/HomeScreenConfigEditorSelector'
 import * as Actions from '../../../store/actions/ActionsCreator'
 import { default as VC, localizedStrings } from '../HomeScreenConfigConstant'
-import EditableLabel from '../common-components/editable-label/editable-label'
-import { EnvironmentConnectionSettingType, EnvironmentConnectionInterface, HomeScreenConfigType } from '../../../types/data-model/HomeScreenConfigModels'
-import '../scss/HomeScreenEnvConnections.scss'
+import EditableLabel from '../features/env-connections/editable-label'
+import { EnvironmentConnectionSettingType, EnvironmentConnectionInterface, HomeScreenConfigType, ThemePropObject } from '../../../types/data-model/HomeScreenConfigModels'
+import { isLibraryServerVersionMatch, isIServerVersionMatch } from '../../../utils';
+import '../scss/env-connections/HomeScreenEnvConnections.scss'
 
 declare var workstation: WorkstationModule;
 const classNamePrefix = 'mstr-env-connection';
@@ -23,10 +26,18 @@ interface EnvConnectionTableDataType {
     name: string,
     wsName: string,
     baseUrl: string,
-    selectedApplication?: Partial<HomeScreenConfigType>,
-    applicationList?: Array<Partial<HomeScreenConfigType>>,
+    selectedApplication?: EnvApplicationType,
+    applicationList?: Array<EnvApplicationType>,
     isConfigured: boolean,
-    isConnected: boolean
+    isConnected: boolean,
+    errorMessage?: string
+}
+
+interface EnvApplicationType {
+    id: string,
+    isDefault: boolean,
+    name: string,
+    logo?: ThemePropObject
 }
 
 interface HomeScreenEnvConnectionsProps {
@@ -43,7 +54,33 @@ interface HomeScreenEnvConnectionsState {
     linkedCurrentEnv: EnvironmentConnectionInterface, // represents the current env object saved in the application config
     wsOtherEnvs: Array<EnvironmentConnectionInterface>, // represents the other envs available, as read from WS directly
     linkedEnvs: Array<EnvironmentConnectionInterface> // represents the linked envs saved in the application config
+    isRefreshing: boolean
 }
+
+const getApplicationOptionLabel = (name: string, logo: ThemePropObject) => (
+    <div className="application-list-obj">
+        {logo?.value ? (
+            <div
+                className="application-list-obj-icn"
+                style={{ backgroundImage: `url(${logo.value})` }}
+            />
+        ) : (
+            <div className="application-list-obj-icn" />
+        )}
+        <div className="application-list-obj-text">{name}</div>
+    </div>
+);
+
+const processErrorResponse = (error: RestApiError, envName: string) => {
+    message.error({
+        content: (<div className='error-msg-wrapper'>
+            <span className='error-env-name'>{envName} : </span>
+            <span className='error-msg-content'>{error.errorMsg}</span>
+            </div>),
+        className: 'mstr-env-connections-error-notice',
+        duration: 0.7
+    });
+};
 
 class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsProps, HomeScreenEnvConnectionsState> {
     // Life cycle
@@ -56,7 +93,8 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                 url: ''
             },
             wsOtherEnvs: [],
-            linkedEnvs: []
+            linkedEnvs: [],
+            isRefreshing: false
         }
     }
 
@@ -79,20 +117,11 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
             const envBaseUrl = this.getBaseUrl(env.url);
             const availableEnvObj = workstationAvailableEnvs.find(availableEnv => availableEnv.url === envBaseUrl);
             const isEnvConnected = availableEnvObj && (availableEnvObj.status === EnvironmentStatus.Connected);
-            let envApplicationList: Array<Partial<HomeScreenConfigType>> = [];
-
-            if (isEnvConnected) {
-                try {
-                    const response = await api.fetchAllApplicationsForOtherEnv(envBaseUrl);
-                    const { applications: fetchedEnvApplicationList } = response;
-                    // TODO: do we want to save the homeScreen.theme object too? in case we want to display custom logo as part of UI
-                    envApplicationList = fetchedEnvApplicationList.map((app: Partial<HomeScreenConfigType>) => ({ name: app.name, id: app.id, isDefault: app.isDefault }));
-                } catch (e) {
-                    // TODO: err handling
-                }
-            }
+            const errorObject: { errorMessage?: string } = {};
+            const envApplicationList = await this.getApplicationListFromServer(envBaseUrl, env.name, isEnvConnected, errorObject);
             
             linkedEnvs[idx].applicationList = envApplicationList;
+            linkedEnvs[idx].errorMessage = errorObject.errorMessage;
             linkedEnvs[idx].isConfigured = !!availableEnvObj;
             linkedEnvs[idx].isConnected = isEnvConnected;
             // update state with application lists for each linked environment
@@ -110,6 +139,54 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
 
     handleEnvConnectionsChange = (envConnections: EnvironmentConnectionSettingType) => {
         this.props.updateCurrentConfig({ environments: envConnections })
+    }
+
+    /**
+     * Fetches the list of applications for a linked environment from the server 
+     * if the following conditions are met
+     * 1. The environment is connected
+     * 2. The environment webVersion and iServerVersion are atleast the minimum base required to support custom application
+     * 
+     * The error object is updated if an error is encountered
+     *  
+     * 
+     * @param envBaseUrl - url of linked environment
+     * @param envName - name of linked environment
+     * @param isEnvConnected - connected status of environment
+     * @param errorObject - empty error object to be set incase errors are envountered
+     * @returns envApplicationList
+     */
+    getApplicationListFromServer = async (
+        envBaseUrl: string, 
+        envName: string,
+        isEnvConnected: boolean, 
+        errorObject: { errorMessage?: string }
+    ) => {
+        let envApplicationList: Array<EnvApplicationType> = [];
+
+        if (isEnvConnected) {
+            try {
+                const { webVersion, iServerVersion } = await api.getServerStatus(this.getBaseUrl(envBaseUrl));
+                const isCustomAppsSupported =  isIServerVersionMatch(iServerVersion) && isLibraryServerVersionMatch(webVersion)
+                if (isCustomAppsSupported) {
+                    const response = await api.fetchAllApplicationsForOtherEnv(envBaseUrl);
+                    const { applications: fetchedEnvApplicationList } = response;
+                    envApplicationList = fetchedEnvApplicationList.map((app: EnvApplicationType) => ({ name: app.name, id: app.id, isDefault: app.isDefault, logo: app.homeScreen?.theme?.logos?.web }));
+                } else {
+                    errorObject.errorMessage =  localizedStrings.CUSTOM_APPS_NOT_SUPPORTED_MSG;
+                }
+            } catch (e: any) {
+                const isRestApiError = e instanceof RestApiError;
+                if (isRestApiError) {
+                    processErrorResponse(e, envName);
+                } 
+                errorObject.errorMessage = isRestApiError ? e.errorMsg : e.message;
+            }
+        } else {
+            errorObject.errorMessage = localizedStrings.CONNECT_TO_ENV_MSG;
+        }
+
+        return envApplicationList;
     }
 
     // take state information and convert it into dataSource format readable by AntD's Table component
@@ -131,7 +208,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
             const baseUrl = this.getBaseUrl(env.url);
             const selectedApplicationId = this.getApplicationIdFromUrl(env.url);
             let wsName = '';
-            let selectedApplication: Partial<HomeScreenConfigType> = { id: selectedApplicationId };
+            let selectedApplication: EnvApplicationType = { id: selectedApplicationId };
             if (env.isConfigured) {
                 // get and update env's WS saved name. this is accessible as long as the env is configured on user's WS
                 const wsEnvObj = wsOtherEnvs.find(e => e.url === baseUrl);
@@ -153,7 +230,8 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                 selectedApplication,
                 applicationList: env.applicationList || [],
                 isConfigured: env.isConfigured,
-                isConnected: env.isConnected 
+                isConnected: env.isConnected,
+                errorMessage: env.errorMessage 
             })
         })
 
@@ -180,19 +258,13 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
         const availableEnvObj = workstationAvailableEnvs.find(availableEnv => availableEnv.url === this.getBaseUrl(env.url));
         const isEnvConnected = availableEnvObj && (availableEnvObj.status === EnvironmentStatus.Connected);
         let newLinkedEnvs = [...linkedEnvs];
-        let envApplicationList: Array<Partial<HomeScreenConfigType>> = [];
-        if (isEnvConnected) {
-            try {
-                const response = await api.fetchAllApplicationsForOtherEnv(this.getBaseUrl(env.url));
-                const { applications: fetchedEnvApplicationList } = response;
-                envApplicationList = fetchedEnvApplicationList.map((app: Partial<HomeScreenConfigType>) => ({ name: app.name, id: app.id, isDefault: app.isDefault }));
-            } catch (e) {
-                // TODO: err handling
-            }
-        }
+        const envBaseUrl = this.getBaseUrl(env.url);
+        const errorObject: { errorMessage?: string } = {};
+        const envApplicationList = await this.getApplicationListFromServer(envBaseUrl, env.name, isEnvConnected, errorObject);
         newLinkedEnvs.push({
             ...env,
             applicationList: envApplicationList,
+            errorMessage: errorObject.errorMessage,
             isConfigured: !!availableEnvObj,
             isConnected: !!isEnvConnected
         });
@@ -212,33 +284,25 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
         const wsOtherEnvs = workstationAvailableEnvs
             .filter(env => (env.url !== workstationCurrentEnv.url))
             .map(env => ({ name: env.name, url: env.url, isConnected: env.status === EnvironmentStatus.Connected }));
+        
+        this.setState({ isRefreshing: true });
         // update linkedEnvs with application lists
         const newLinkedEnvs = await Promise.all(linkedEnvs.map(async (env) => {
             const envBaseUrl = this.getBaseUrl(env.url);
             const availableEnvObj = wsOtherEnvs.find(availableEnv => availableEnv.url === this.getBaseUrl(env.url));
             const isEnvConnected = availableEnvObj?.isConnected;
-            let envApplicationList = env.applicationList;
-            // fetch latest application list for all linked envs that are actively connected to WS
-            if (isEnvConnected) {
-                try {
-                    const response = await api.fetchAllApplicationsForOtherEnv(envBaseUrl);
-                    const { applications: fetchedEnvApplicationList } = response;
-                    envApplicationList = fetchedEnvApplicationList.map((app: Partial<HomeScreenConfigType>) => ({ name: app.name, id: app.id, isDefault: app.isDefault }));
-                } catch (e) {
-                    // TODO: err handling
-                }
+            const errorObject: { errorMessage?: string } = {};
+            const envApplicationList = await this.getApplicationListFromServer(envBaseUrl, env.name, isEnvConnected, errorObject);
 
-                return {
-                    ...env,
-                    applicationList: envApplicationList,
-                    isConfigured: true, // true, since we are in this code block which checks for isEnvConnected
-                    isConnected: true // true, since we are in this code block which checks for isEnvConnected
-                }
-            } else {
-                // return unmodified env object if there is no need to fetch & update its application list
-                return env;
+            return {
+                ...env,
+                applicationList: envApplicationList,
+                errorMessage: errorObject.errorMessage,
+                isConfigured: !!availableEnvObj, // true, since we are in this code block which checks for isEnvConnected
+                isConnected: isEnvConnected // true, since we are in this code block which checks for isEnvConnected
             }
         }));
+        this.setState({ isRefreshing: false });
         // update state with latest environments list retrieved from WS and updated applications lists for newly-connected environments
         this.setState({
             wsCurrentEnv: workstationCurrentEnv,
@@ -246,10 +310,64 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
             linkedEnvs: newLinkedEnvs
         });
     }
+
+    /**
+     * Returns a JSX component of the application list dropdown
+     * @param record - linked environment object
+     * @param application - application 
+     * @param idx - index of the linked environment
+     * @returns application list dropdown JSX
+     */
+    getApplicationDropDown = (
+        record: EnvConnectionTableDataType,
+        application: EnvApplicationType, 
+        idx: number
+    ) => {
+        const { currEnvConnections } = this.props;
+        const { linkedCurrentEnv, linkedEnvs } = this.state
+        const isFirstRow = idx === 0;
+        const selectedApplicationValue = (!isFirstRow && record.isConfigured && record.isConnected) ? application?.id : undefined 
+        const applicationSelectOptionsList = record.applicationList?.map(a => ({
+            label: getApplicationOptionLabel(a.name, a.logo),
+            value: a.id,
+            isDefault: a.isDefault
+        }));
+        const { errorMessage } = record;
+        const isErrorPresent = !!errorMessage;
+
+        const applicationDropDown = (<Select
+            className='connected-env-application-select'
+            popupClassName='connected-env-application-select-dropdown'
+            value={selectedApplicationValue}
+            disabled={isErrorPresent}
+            placeholder={''}
+            options={applicationSelectOptionsList}
+            bordered={false}
+            onChange={(newApplicationId, newApplicationObj : { label: JSX.Element, value: string, isDefault: boolean}) => {
+                // update url based on application selection
+                let newLinkedEnvs = [...linkedEnvs];
+                let currConnectedEnv = newLinkedEnvs[idx - 1];
+                currConnectedEnv.url = newApplicationObj.isDefault ? record.baseUrl : (record.baseUrl + customAppPath + newApplicationId); // update url with new application id
+                this.setState({ linkedEnvs: newLinkedEnvs }); // update state
+                this.handleEnvConnectionsChange({
+                    current: currEnvConnections.current || linkedCurrentEnv.name,
+                    other: newLinkedEnvs
+                });
+            }}
+        />)
+
+        return isErrorPresent ? (
+        <Tooltip
+            title = {errorMessage}
+            placement = 'top'
+        >
+            {applicationDropDown}
+        </Tooltip>) : applicationDropDown
+}
  
     render() {
         const { currEnvConnections } = this.props;
-        const { linkedCurrentEnv, linkedEnvs } = this.state;
+        const { linkedCurrentEnv, linkedEnvs, isRefreshing } = this.state;
         const linkedEnvsTableDataSource = this.getLinkedEnvsTableDataSource();
         let availableToLinkEnvs = this.getAvailableToLinkEnvs();
         availableToLinkEnvs = _.sortBy(availableToLinkEnvs, (e) => e.name); // sort by name
@@ -258,108 +376,106 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                 <div className={`${screenClassNamePrefix}-title-row`}>
                 <div className={`${screenClassNamePrefix}-title`}>{localizedStrings.NAVBAR_ENVIRONMENT_CONNECTION_SETTINGS.toUpperCase()}</div>
                 <div className={`${screenClassNamePrefix}-refresh`} onClick={this.refreshEnvironments}>
-                    <div className={`${screenClassNamePrefix}-refresh-icn`} />
+                    <div className={classnames(`${screenClassNamePrefix}-refresh-icn`, { 'disabled': isRefreshing })} />
                     <div className={`${screenClassNamePrefix}-refresh-text`}>{localizedStrings.REFRESH}</div>
                 </div>
                 </div>
                 <div className={`${screenClassNamePrefix}-desc`}>{localizedStrings.ENVIRONMENT_CONNECTION_SETTINGS_DESC}</div>
-                <div className={`${screenClassNamePrefix}-content`}>
-                    <Table className={`${classNamePrefix}-table-wrapper`} dataSource={linkedEnvsTableDataSource} tableLayout='fixed' pagination={false}>
-                        <Table.Column
-                            title={localizedStrings.NAME}
-                            dataIndex={VC.NAME}
-                            key={VC.NAME}
-                            width={220}
-                            render={(name: string, record: EnvConnectionTableDataType, idx) => {
-                                const isFirstRow = idx === 0;
-                                return (
-                                    <div className='connected-env-name-wrapper'>
-                                            <div className='connected-env-name-icn' />
-                                            <div className={classnames('connected-env-name-text', { 'is-current-env': isFirstRow })}>
-                                                {
-                                                    isFirstRow
-                                                        ? <React.Fragment>
-                                                                <EditableLabel
-                                                                    className={'current-env-name'}
-                                                                    value={name}
-                                                                    allowEmptySave
-                                                                    onValueChange={(newName: string) => {
-                                                                        const newNameToSave = newName || record.wsName; // fall back to WS saved current env name if user saves empty string
-                                                                        let newCurrentEnv = { ...linkedCurrentEnv };
-                                                                        newCurrentEnv.name = newNameToSave; // update name in current env's object entry
-                                                                        this.setState({ linkedCurrentEnv: newCurrentEnv }); // update state
-                                                                        this.handleEnvConnectionsChange({
-                                                                            current: newNameToSave,
-                                                                            other: currEnvConnections.other
-                                                                        });
-                                                                    }}
-                                                                />
-                                                                <div className='current-env-suffix'>{localizedStrings.CURRENT_ENV_LABEL}</div>
-                                                        </React.Fragment>
-                                                        : <EditableLabel
-                                                            className={'connected-env-name'}
-                                                            value={name}
-                                                            allowEmptySave
-                                                            onValueChange={(newName: string) => {
-                                                                const newNameToSave = newName || record.wsName; // fall back to WS saved env name if user saves empty string
-                                                                let newLinkedEnvs = [...linkedEnvs];
-                                                                let currConnectedEnv = newLinkedEnvs[idx - 1];
-                                                                currConnectedEnv.name = newNameToSave; // update name in env's object entry
-                                                                newLinkedEnvs = _.sortBy(newLinkedEnvs, (e) => e.name); // re-sort in case new name moves it out of position
-                                                                this.setState({ linkedEnvs: newLinkedEnvs }); // update state
-                                                                this.handleEnvConnectionsChange({
-                                                                    current: currEnvConnections.current || linkedCurrentEnv.name,
-                                                                    other: newLinkedEnvs
-                                                                });
-                                                            }}
-                                                        />
-                                                }
-                                            </div>
-                                    </div>
-                                )
-                            }}
-                        />
-                        <Table.Column
-                            title={localizedStrings.URL}
-                            dataIndex={VC.BASE_URL}
-                            key={VC.BASE_URL}
-                            width={160}
-                            render={(baseUrl: string, record: EnvConnectionTableDataType, idx) => {
-                                const isFirstRow = idx === 0;
-                                const url = (isFirstRow || !record.selectedApplication?.id || record.selectedApplication?.isDefault) ? baseUrl : (record.baseUrl + customAppPath + record.selectedApplication?.id);
-                                return (
-                                    <div className='connected-env-url' title={url}>{url}</div>
-                                );
-                            }}
-                        />
-                        <Table.Column
-                            title={localizedStrings.APPLICATION}
-                            dataIndex={VC.SELECTED_APPLICATION}
-                            key={VC.SELECTED_APPLICATION}
-                            width={284}
-                            render={(application: Partial<HomeScreenConfigType>, record: EnvConnectionTableDataType, idx) => {
-                                const isFirstRow = idx === 0;
-                                const selectedApplicationValue = (!isFirstRow && record.isConfigured && record.isConnected) ? application?.id : undefined 
-                                const applicationSelectOptionsList = record.applicationList?.map(a => ({
-                                    label: <div className='application-list-obj'><div className='application-list-obj-icn' /><div className='application-list-obj-text'>{a.name}</div></div>,
-                                    value: a.id,
-                                    isDefault: a.isDefault
-                                }));
-                                return (
-                                    isFirstRow
-                                        ? null
-                                        : <Select
-                                            className='connected-env-application-select'
-                                            popupClassName='connected-env-application-select-dropdown'
-                                            value={selectedApplicationValue}
-                                            placeholder={localizedStrings.SELECT_APPLICATION}
-                                            options={applicationSelectOptionsList}
-                                            bordered={false}
-                                            onChange={(newApplicationId, newApplicationObj : { label: JSX.Element, value: string, isDefault: boolean}) => {
-                                                // update url based on application selection
+                <Spin spinning={isRefreshing}>
+                    <div className={`${screenClassNamePrefix}-content`}>
+                        <Table className={`${classNamePrefix}-table-wrapper`} dataSource={linkedEnvsTableDataSource} tableLayout='fixed' pagination={false}>
+                            <Table.Column
+                                title={localizedStrings.NAME}
+                                dataIndex={VC.NAME}
+                                key={VC.NAME}
+                                width={220}
+                                render={(name: string, record: EnvConnectionTableDataType, idx) => {
+                                    const isFirstRow = idx === 0;
+                                    return (
+                                        <div className='connected-env-name-wrapper'>
+                                                <div className='connected-env-name-icn' />
+                                                <div className={classnames('connected-env-name-text', { 'is-current-env': isFirstRow })}>
+                                                    {
+                                                        isFirstRow
+                                                            ? <React.Fragment>
+                                                                    <EditableLabel
+                                                                        className={'current-env-name'}
+                                                                        value={name}
+                                                                        allowEmptySave
+                                                                        onValueChange={(newName: string) => {
+                                                                            const newNameToSave = newName || record.wsName; // fall back to WS saved current env name if user saves empty string
+                                                                            let newCurrentEnv = { ...linkedCurrentEnv };
+                                                                            newCurrentEnv.name = newNameToSave; // update name in current env's object entry
+                                                                            this.setState({ linkedCurrentEnv: newCurrentEnv }); // update state
+                                                                            this.handleEnvConnectionsChange({
+                                                                                current: newNameToSave,
+                                                                                other: currEnvConnections.other
+                                                                            });
+                                                                        }}
+                                                                        wsName={record.wsName}
+                                                                    />
+                                                                    <div className='current-env-suffix'>{localizedStrings.CURRENT_ENV_LABEL}</div>
+                                                            </React.Fragment>
+                                                            : <EditableLabel
+                                                                className={'connected-env-name'}
+                                                                value={name}
+                                                                allowEmptySave
+                                                                onValueChange={(newName: string) => {
+                                                                    const newNameToSave = newName || record.wsName; // fall back to WS saved env name if user saves empty string
+                                                                    let newLinkedEnvs = [...linkedEnvs];
+                                                                    let currConnectedEnv = newLinkedEnvs[idx - 1];
+                                                                    currConnectedEnv.name = newNameToSave; // update name in env's object entry
+                                                                    newLinkedEnvs = _.sortBy(newLinkedEnvs, (e) => e.name); // re-sort in case new name moves it out of position
+                                                                    this.setState({ linkedEnvs: newLinkedEnvs }); // update state
+                                                                    this.handleEnvConnectionsChange({
+                                                                        current: currEnvConnections.current || linkedCurrentEnv.name,
+                                                                        other: newLinkedEnvs
+                                                                    });
+                                                                }}
+                                                                wsName={record.wsName}
+                                                            />
+                                                    }
+                                                </div>
+                                        </div>
+                                    )
+                                }}
+                            />
+                            <Table.Column
+                                title={localizedStrings.URL}
+                                dataIndex={VC.BASE_URL}
+                                key={VC.BASE_URL}
+                                width={160}
+                                render={(baseUrl: string, record: EnvConnectionTableDataType, idx) => {
+                                    const isFirstRow = idx === 0;
+                                    const url = (isFirstRow || !record.selectedApplication?.id || record.selectedApplication?.isDefault) ? baseUrl : (record.baseUrl + customAppPath + record.selectedApplication?.id);
+                                    return (
+                                        <div className='connected-env-url' title={url}>{url}</div>
+                                    );
+                                }}
+                            />
+                            <Table.Column
+                                title={localizedStrings.APPLICATION}
+                                dataIndex={VC.SELECTED_APPLICATION}
+                                key={VC.SELECTED_APPLICATION}
+                                width={284}
+                                render={(application: EnvApplicationType, record: EnvConnectionTableDataType, idx) => {
+                                    const isFirstRow = idx === 0;
+                                    return (
+                                        isFirstRow
+                                            ? null
+                                            : this.getApplicationDropDown(record, application, idx)
+                                    )
+                                }}
+                            />
+                            <Table.Column
+                                width={38}
+                                render={(__, ___, idx) => (
+                                    (idx !== 0)
+                                        ? <div
+                                            className='remove-connected-env-icn'
+                                            onClick={() => {
                                                 let newLinkedEnvs = [...linkedEnvs];
-                                                let currConnectedEnv = newLinkedEnvs[idx - 1];
-                                                currConnectedEnv.url = newApplicationObj.isDefault ? record.baseUrl : (record.baseUrl + customAppPath + newApplicationId); // update url with new application id
+                                                newLinkedEnvs.splice(idx - 1, 1); // remove the selected row env
                                                 this.setState({ linkedEnvs: newLinkedEnvs }); // update state
                                                 this.handleEnvConnectionsChange({
                                                     current: currEnvConnections.current || linkedCurrentEnv.name,
@@ -367,54 +483,36 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                                                 });
                                             }}
                                         />
-                                )
-                            }}
-                        />
-                        <Table.Column
-                            width={38}
-                            render={(__, ___, idx) => (
-                                (idx !== 0)
-                                    ? <div
-                                        className='remove-connected-env-icn'
-                                        onClick={() => {
-                                            let newLinkedEnvs = [...linkedEnvs];
-                                            newLinkedEnvs.splice(idx - 1, 1); // remove the selected row env
-                                            this.setState({ linkedEnvs: newLinkedEnvs }); // update state
-                                            this.handleEnvConnectionsChange({
-                                                current: currEnvConnections.current || linkedCurrentEnv.name,
-                                                other: newLinkedEnvs
-                                            });
-                                        }}
-                                    />
-                                    : <React.Fragment />
-                            )}
-                        />
-                    </Table>
-                    <div className={`${classNamePrefix}-available-envs-section`}>
-                        <div className={`${classNamePrefix}-available-envs-section-desc`}>{localizedStrings.ENVIRONMENT_CONNECTION_AVAILABLE_ENVS_DESC}</div>
-                        {
-                            availableToLinkEnvs.length 
-                                ? availableToLinkEnvs.map((env: EnvironmentConnectionInterface, idx) => (
-                                    <div className='available-env-row' key={idx}>
-                                        <div className='available-env-name' title={env.name}>
-                                            <div className='available-env-name-icn' />
-                                            <div className='available-env-name-text'>{env.name}</div>
+                                        : <React.Fragment />
+                                )}
+                            />
+                        </Table>
+                        <div className={`${classNamePrefix}-available-envs-section`}>
+                            <div className={`${classNamePrefix}-available-envs-section-desc`}>{localizedStrings.ENVIRONMENT_CONNECTION_AVAILABLE_ENVS_DESC}</div>
+                            {
+                                availableToLinkEnvs.length 
+                                    ? availableToLinkEnvs.map((env: EnvironmentConnectionInterface, idx) => (
+                                        <div className='available-env-row' key={idx}>
+                                            <div className='available-env-name' title={env.name}>
+                                                <div className='available-env-name-icn' />
+                                                <div className='available-env-name-text'>{env.name}</div>
+                                            </div>
+                                            <div className='available-env-url' title={env.url}>{env.url}</div>
+                                            <div
+                                                className='add-available-env-icn'
+                                                onClick={() => this.addEnvironmentToLinkedEnvs(env)}
+                                            />
                                         </div>
-                                        <div className='available-env-url' title={env.url}>{env.url}</div>
-                                        <div
-                                            className='add-available-env-icn'
-                                            onClick={() => this.addEnvironmentToLinkedEnvs(env)}
-                                        />
-                                    </div>
-                                ))
-                                : <div className='empty-available-envs-message'>{localizedStrings.EMPTY_AVAILABLE_ENVS_MSG}</div>
-                        }
+                                    ))
+                                    : <div className='empty-available-envs-message'>{localizedStrings.EMPTY_AVAILABLE_ENVS_MSG}</div>
+                            }
+                        </div>
+                        <div className={`${classNamePrefix}-available-envs-info`}>
+                            <div className='info-icn' />
+                            <div className='info-text'>{localizedStrings.AVAILABLE_ENVS_INFO_MSG}</div>
+                        </div>
                     </div>
-                    <div className={`${classNamePrefix}-available-envs-info`}>
-                        <div className='info-icn' />
-                        <div className='info-text'>{localizedStrings.AVAILABLE_ENVS_INFO_MSG}</div>
-                    </div>
-                </div>
+                </Spin>
             </div>
         )
     }
