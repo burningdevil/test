@@ -89,34 +89,44 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
     };
 
     /**
-     * Returns a grid row with either a color category or a format property. For ex:
+     * Returns grid rows with a color category and a set of format fields. 
+     * Color category
+     *      format field1
+     *      format field2
+     * 
+     * For ex:
      *  Toolbar
-     *    or
-     *  Background    [ ] #F24AC1
+     *    Background    [ ] F24AC1
+     *    Icon          [ ] 29313B
      *
      * @param row
-     * @returns
+     * @returns Array<Row> []
      */
-    const getColorPropRow = (row: number) => {
-        const cols = [];
+    const getColorCategoryWithProps = (row: number) => {
+        const rows = [];
 
-        const propName = colorPropTitles[row][0];
-        if (colorPropTitles[row].length === 1) {
-            cols.push(getCategoryLableCols(propName));
-        } else {
-            const title = colorPropTitles[row][1];
-            const titleDetailInfo = colorPropTitles[row][2];
-            cols.push(
-                getColorPropCols(
-                    propName,
-                    title,
-                    formats[propName].substring(1),
-                    titleDetailInfo,
-                )
-            );
-        }
+        // insert color prop category 
+        const category : any = colorPropTitles[row].title;
+        rows.push(
+            (<Row gutter={[gutterHorizontal, gutterVertical]}>{[getCategoryLableCols(category)]}</Row>)
+        );
 
-        return <Row gutter={[gutterHorizontal, gutterVertical]}>{cols}</Row>;
+        // insert color prop fields
+        colorPropTitles[row].props.forEach(p => rows.push(
+            <Row gutter={[gutterHorizontal, gutterVertical]}>
+                {
+                    getColorPropCols(
+                        p.name,
+                        p.displayName,
+                        formats[p.name].substring(1),
+                        p.desc,
+                    )
+                }
+            </Row>
+            )
+        );
+        
+        return rows;
     };
 
     /**
@@ -224,7 +234,7 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
     const rows = [];
 
     for (let i = 0; i < colorPropTitles.length; i++) {
-        rows.push(getColorPropRow(i));
+        rows.push(...getColorCategoryWithProps(i));
     }
 
     return (

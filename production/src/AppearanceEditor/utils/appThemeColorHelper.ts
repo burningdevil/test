@@ -219,29 +219,87 @@ const EnumColorPropTitleCategoryLabel = {
 }
 
 export const colorPropTitles = [
-    [EnumColorPropTitleCategoryLabel.toolbar],
-    [EnumFormattingPropNames.toolbarFill, t('background')],
-    [EnumFormattingPropNames.toolbarColor, t('icon')],
-
-    [EnumColorPropTitleCategoryLabel.sidebar],
-    [EnumFormattingPropNames.sidebarFill, t('background')],
-    [EnumFormattingPropNames.sidebarColor, t('text')],
-
-    [EnumFormattingPropNames.sidebarActiveFill, t('active')],
-    [EnumFormattingPropNames.sidebarActiveColor, t('activeText')],
-
-    [EnumColorPropTitleCategoryLabel.panel],
-    [EnumFormattingPropNames.panelFill, t('background')],
-    [EnumFormattingPropNames.panelColor, t('text')],
-
-    [EnumColorPropTitleCategoryLabel.misc],
-    [EnumFormattingPropNames.canvasFill, t('canvasBackground'), t(`canvasBackgroundInfo`)],
-
-    [EnumFormattingPropNames.accentFill, t('accentColor'), t('accentColorInfo')],
-
-    [EnumFormattingPropNames.buttonColor, t('buttonText'), t('buttonTextInfo')],
-
-    [EnumFormattingPropNames.notificationBadgeFill, t('notificationBadge'), t('notificationBadgeInfo')],
+    {
+        title: [EnumColorPropTitleCategoryLabel.toolbar],
+        props: [
+            {
+                displayName: t('background'), 
+                name: EnumFormattingPropNames.toolbarFill,
+                desc: t('toolbarFillInfo')
+            },
+            {
+                displayName: t('icon'), 
+                name: EnumFormattingPropNames.toolbarColor,
+                desc: t('toolbarColorInfo')
+            }
+        ]
+    }, 
+    {
+        title: [EnumColorPropTitleCategoryLabel.sidebar],
+        props: [
+            {
+                displayName: t('background'), 
+                name: EnumFormattingPropNames.sidebarFill,
+                desc: t('sidebarFillInfo')
+            },
+            {
+                displayName: t('text'), 
+                name: EnumFormattingPropNames.sidebarColor,
+                desc: t('sidebarColorInfo')
+            },
+            {
+                displayName: t('active'),
+                name: EnumFormattingPropNames.sidebarActiveFill,
+                desc: t('sidebarActiveFillInfo')
+            },
+            {
+                displayName: t('activeText'),
+                name: EnumFormattingPropNames.sidebarActiveColor,
+                desc: t('sidebarActiveColorInfo')
+            }
+        ]
+    },
+    {
+        title: [EnumColorPropTitleCategoryLabel.panel],
+        props: [
+            {
+                displayName: t('background'), 
+                name: EnumFormattingPropNames.panelFill,
+                desc: t('panelFillInfo')
+            },
+            {
+                displayName: t('text'), 
+                name: EnumFormattingPropNames.panelColor,
+                desc: t('panelColorInfo')
+            }
+        ]
+    },
+    {
+        title: [EnumColorPropTitleCategoryLabel.misc],
+        props: [
+            {
+                displayName: t('canvasBackground'), 
+                name: EnumFormattingPropNames.canvasFill,
+                desc: t(`canvasBackgroundInfo`)
+                
+            },
+            {
+                displayName: t('accentColor'), 
+                name: EnumFormattingPropNames.accentFill,
+                desc: t('accentColorInfo')
+            },
+            {
+                displayName: t('buttonText'),
+                name: EnumFormattingPropNames.buttonColor,
+                desc: t('buttonTextInfo')
+            },
+            {
+                displayName: t('notificationBadge'),
+                name: EnumFormattingPropNames.notificationBadgeFill,
+                desc: t('notificationBadgeInfo')
+            }
+        ]
+    }
 ];
 
 export const isCustomColorTheme = (theme: string) => theme === EnumSelectedThemes.CUSTOM;
