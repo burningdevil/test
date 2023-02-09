@@ -325,5 +325,6 @@
     "availableEnvsInfoMsg": "Only connected environments are included in the list.",
     "allowUsersViewAllContentMsg": "Allow users to view and create new content",
     "limitUsersViewAllContentMsg": "Limit Library content in this application to above Content Groups",
-    "allowUsersViewAllContentTip": "Users can view the Content Groups added above if they have been added as recipients."
+    "allowUsersViewAllContentTip": "Users can view the Content Groups added above if they have been added as recipients.",
+    "insightsWebOnly": "Insights(Web only)"
 }

@@ -1,7 +1,8 @@
 export const wsWebViews = {
     customAppHomeScreen: 'homescreenConfigMain', //custom app list main window
     customAppEditor: 'homescreenConfigEditor',   //new/edit application window
-    libraryAdmin: 'workstation-library-admin'    //library admin in environment info dialog
+    libraryAdmin: 'workstation-library-admin',   //library admin in environment info dialog
+    appearanceEditor: 'appearanceEditor'         //appearance edit dialog 
 }
 
 export const wsConfig = {

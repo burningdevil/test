@@ -3,6 +3,29 @@
 @import './env-connection-variables.scss';
 @import '../../../../styles/base';
 
+@mixin applicationIcnText() {
+  .application-list-obj {
+    display: grid;
+    grid-template-columns: 16px auto;
+    grid-gap: 6px;
+    align-items: baseline;
+
+    &-icn {
+      width: 16px;
+      height: 16px;
+      background-image: url('../../images/web-logo.svg');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      margin: auto; // to help center align it
+    }
+
+    &-text {
+      @extend .overflow;
+    }
+  }
+}
+
 .mstr-env-connection-screen {
   position: relative;
   font-family: $font-family;
@@ -34,6 +57,11 @@
         height: 14px;
         background-image: url('../../images/18_18.svg');
         background-position: -218px -219px;
+
+        &.disabled {
+          opacity: .5;
+          pointer-events: none;
+        }
       }
 
       &-text {
@@ -159,24 +187,7 @@
                 .ant-select-selector {
                   padding-left: 0; // remove padding to align with column title
 
-                  .application-list-obj {
-                    display: grid;
-                    grid-template-columns: 16px auto;
-                    grid-gap: 6px;
-                    align-items: baseline;
-          
-                    &-icn {
-                      width: 16px;
-                      height: 16px;
-                      background-image: url('../../images/web-logo.svg');
-                      background-size: 16px;
-                      margin: auto; // to help center align it
-                    }
-          
-                    &-text {
-                      @extend .overflow;
-                    }
-                  }
+                  @include applicationIcnText();
                 }
               }
       
@@ -280,22 +291,15 @@
   font-size: $font-size;
   color: $msdl-black;
 
-  .application-list-obj {
-    display: grid;
-    grid-template-columns: 16px auto;
-    grid-gap: 6px;
-    align-items: baseline;
+  @include applicationIcnText();
+}
 
-    &-icn {
-      width: 16px;
-      height: 16px;
-      background-image: url('../../images/web-logo.svg');
-      background-size: 16px;
-      margin: auto; // to help center align it
-    }
+.ant-message-notice.mstr-env-connections-error-notice {
+  font-family: $font-family;
+  font-size: $font-size;
+  color: $msdl-black;
 
-    &-text {
-      @extend .overflow;
-    }
+  .error-env-name {
+    font-weight: 600;
   }
 }

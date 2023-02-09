@@ -67,8 +67,8 @@ export const getApiPathForGetBundleContents = (
     );
 };
 
-export const getServerStatus = async () => {
-    const response = await HttpProxy.get('/status');
+export const getServerStatus = async (envUrl: string = '') => {
+    const response = await HttpProxy.get('/status',{}, undefined, undefined, envUrl);
     return response;
 };
 

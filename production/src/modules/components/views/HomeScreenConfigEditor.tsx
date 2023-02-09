@@ -70,8 +70,10 @@ import {
     LIBRARY_SERVER_SUPPORT_ENV_CONNECTIONS,
     isIServerVersionMatch,
     ISERVER_SUPPORT_AUTH_MODE,
+    checkFeatureEnable,
     ISERVER_SUPPORT_ALLOW_CONTENTS_WITH_CONTENT_GROUPS,
     LIBRARY_SUPPORT_ALLOW_CONTENTS_WITH_CONTENT_GROUPS,
+    LIBRARY_SERVER_VERSION_THRESHOLD,
 } from '../../../utils';
 import ColorPaletteBlade from '../features/color-palette/color-palette-blade';
 import CustomEmailBlade from '../features/custom-email/custom-email-blade';
@@ -83,7 +85,11 @@ import { DEFAULT_AUTH_MODE } from '../features/custom-auth/custom-auth.model';
 declare var workstation: WorkstationModule;
 
 const classNamePrefix = 'home-screen-editor';
-
+export const WebVersionContext = React.createContext(
+    {
+        webVersion: LIBRARY_SERVER_VERSION_THRESHOLD
+    }
+  );
 class HomeScreenConfigEditor extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
@@ -159,7 +165,6 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         const currentEnv =
             await workstation.environments.getCurrentEnvironment();
         const isConnected = currentEnv.status === EnvironmentStatus.Connected;
-        // let status;
         // Handle Edit config
         const configId = this.parseConfigId(
             _.get(this.props, 'location.search', undefined)
@@ -244,16 +249,6 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                     LIBRARY_SERVER_SUPPORT_AUTH_MODE
                 ) && isAuthModesBackendFlagEnabled
                 && isIServerSupportAuthModes
-        
-        const checkFeatureEnable = (curEnv: Environment, supportVersion: string) => {
-            return (
-                !!curEnv.webVersion &&
-                isLibraryServerVersionMatch(
-                    curEnv.webVersion,
-                    supportVersion
-                )
-            );
-        };
 
         const customEmailFeatureFlagEnabled  = checkFeatureEnable(currentEnv, LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_VERSION);
         const customEmailV2Enabled = checkFeatureEnable(currentEnv, LIBRARY_SERVER_SUPPORT_CUSTOM_EMAIL_V2);
@@ -687,6 +682,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
             <Layout className={`${classNamePrefix}-layout`}>
                 <Layout.Content>
                     <Layout className={`${classNamePrefix}-layout-content`}>
+                    <WebVersionContext.Provider value={this.state.currentEnv}>
                         <div>
                             <Tabs
                                 activeKey={this.state.activeKey}
@@ -796,14 +792,15 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                                 </Tabs.TabPane>
                                 )}
                             </Tabs>
+                        
                         </div>
+                    </WebVersionContext.Provider>
                     </Layout>
                 </Layout.Content>
             </Layout>
         );
     }
 }
-
 const mapState = (state: RootState) => ({
     config: selectCurrentConfig(state),
     isDossierHome: selectIsDossierAsHome(state),

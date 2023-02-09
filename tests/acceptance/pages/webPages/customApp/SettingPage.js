@@ -325,6 +325,22 @@ export default class SettingPage extends BasePage {
     return this.element(by.xpath(`//div[contains(@class, 'mobile-link-box')]//span[contains(@class,'text-desc')]`))
   }
 
+  getEnterAppearanceEditor() {
+    return this.$('.add-appearance')
+  }
+
+  getApplyButtonInAppearanceEditor() {
+    return this.$('.ant-btn.btn.apply')
+  }
+
+  getEditAppearanceButton() {
+    return this.element(by.xpath(`//div[@class='existing-theme-options']//div[@class='edit']`))
+  }
+
+  getExistingTheme() {
+    return this.$('.existing-theme-icn')
+  }
+
   // actions
   // for WebView management
   // async switchToNewWebView() {
@@ -669,6 +685,34 @@ export default class SettingPage extends BasePage {
     }
     await browser.sleep(3000 * this.ratio)
     await this.getDismissCursor().click()
+  }
+
+  async enterAppearanceEditorDialog() {
+    await this.getEnterAppearanceEditor().click()
+    await browser.sleep(1000 * this.ratio)
+    await registerNewWindow('Appearance Editor')
+    await switchToWindow('Appearance Editor')
+    await this.switchToAppearanceEditorDialog()
+  }
+
+  async clickApplyButtonInAppearanceEditor() {
+    await this.getApplyButtonInAppearanceEditor().click()
+    await browser.sleep(1000 * this.ratio)
+    await this.waitForWebViewWindowDisappear(wsWebViews.appearanceEditor)
+    await unregisterWindow('Appearance Editor')
+    await unregisterWindow('Appearance Editor')
+    await switchToWindow('New Application')
+    await this.switchToCustomAppEditorDialog()
+  }
+
+  async clickEditAppearanceButton() {
+    await this.getExistingTheme().click()
+    await this.getEditAppearanceButton().click()
+    await browser.sleep(1000 * this.ratio)
+    await registerNewWindow('Appearance Editor')
+    await switchToWindow('Appearance Editor')
+    await this.switchToAppearanceEditorDialog()
+
   }
 
   async takeScreenshotOnElement(webElement, screenshot) {

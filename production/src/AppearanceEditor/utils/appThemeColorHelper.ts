@@ -235,13 +235,13 @@ export const colorPropTitles = [
     [EnumFormattingPropNames.panelColor, t('text')],
 
     [EnumColorPropTitleCategoryLabel.misc],
-    [EnumFormattingPropNames.canvasFill, t('canvasBackground')],
+    [EnumFormattingPropNames.canvasFill, t('canvasBackground'), t(`canvasBackgroundInfo`)],
 
-    [EnumFormattingPropNames.accentFill, t('accentColor')],
+    [EnumFormattingPropNames.accentFill, t('accentColor'), t('accentColorInfo')],
 
-    [EnumFormattingPropNames.buttonColor, t('buttonText')],
+    [EnumFormattingPropNames.buttonColor, t('buttonText'), t('buttonTextInfo')],
 
-    [EnumFormattingPropNames.notificationBadgeFill, t('notificationBadge')],
+    [EnumFormattingPropNames.notificationBadgeFill, t('notificationBadge'), t('notificationBadgeInfo')],
 ];
 
 export const isCustomColorTheme = (theme: string) => theme === EnumSelectedThemes.CUSTOM;

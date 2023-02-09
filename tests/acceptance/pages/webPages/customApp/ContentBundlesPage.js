@@ -25,6 +25,19 @@ export default class ContentsPage extends BasePage {
     getContentGroupGrid() {
         return this.$('.ag-center-cols-viewport')
     }
+
+    getAllContentSettings() {
+        return this.$('.mstr-select-container.mstr-select-container__enabled')
+    }
+
+    getAllContentSettingOptionsByName(name){
+        if(name === 'allow'){
+            return this.element(by.xpath(`//div[@class='ant-select-item-option-content' and text()='Allow users to view and create new content']`))
+        } else {
+            return this.element(by.xpath(`//div[@class='ant-select-item-option-content' and text()='Limit Library content in this application to above Content Groups']`))
+        }
+    }
+
     async inputName(name) {
         await this.getDefaultGroupInput().click();
         await this.getDefaultGroupInput().clear();
@@ -73,6 +86,16 @@ export default class ContentsPage extends BasePage {
     async finishedSelectContentGroupByClickSelect() {
         await this.getSelectButton().click()
         await browser.sleep(8000 * this.ratio)
+    }
+
+    async clickAllContentSettings() {
+        await this.waitForWebElementToBeVisiable(this.getAllContentSettings())
+        await this.getAllContentSettings().click()
+    }
+
+    async setAllContentSettings(option) {
+        await this.getAllContentSettingOptionsByName(option).click()
+        await browser.sleep(1000 * this.ratio)
     }
 
 }
