@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import * as compareVersions from 'compare-versions';
+import compareVersions from 'compare-versions';
 import { Environment } from '@mstr/workstation-types';
 
 // Custom Application Support start from 11.3.4
