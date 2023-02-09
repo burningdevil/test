@@ -47,7 +47,7 @@ else
   export PATH=~/.npm-global/bin:$PATH
 fi
 
-export BASE_BRANCH='m2021_27'
+export BASE_BRANCH='nodeJS18'
 export BRANCH_OFF_COMMIT=f4e324505210ef6c08c5d6ad9c37f61b3acd030b
 
 export BASE_VERSION=0
