@@ -224,13 +224,11 @@ export const colorPropTitles = [
         props: [
             {
                 displayName: t('background'), 
-                name: EnumFormattingPropNames.toolbarFill,
-                desc: t('toolbarFillInfo')
+                name: EnumFormattingPropNames.toolbarFill
             },
             {
                 displayName: t('icon'), 
-                name: EnumFormattingPropNames.toolbarColor,
-                desc: t('toolbarColorInfo')
+                name: EnumFormattingPropNames.toolbarColor
             }
         ]
     }, 
@@ -239,38 +237,33 @@ export const colorPropTitles = [
         props: [
             {
                 displayName: t('background'), 
-                name: EnumFormattingPropNames.sidebarFill,
-                desc: t('sidebarFillInfo')
+                name: EnumFormattingPropNames.sidebarFill
             },
             {
                 displayName: t('text'), 
-                name: EnumFormattingPropNames.sidebarColor,
-                desc: t('sidebarColorInfo')
+                name: EnumFormattingPropNames.sidebarColor
             },
             {
                 displayName: t('active'),
-                name: EnumFormattingPropNames.sidebarActiveFill,
-                desc: t('sidebarActiveFillInfo')
+                name: EnumFormattingPropNames.sidebarActiveFill
             },
             {
                 displayName: t('activeText'),
-                name: EnumFormattingPropNames.sidebarActiveColor,
-                desc: t('sidebarActiveColorInfo')
+                name: EnumFormattingPropNames.sidebarActiveColor
             }
         ]
     },
     {
         title: [EnumColorPropTitleCategoryLabel.panel],
+        desc: t('panelInfo'),
         props: [
             {
                 displayName: t('background'), 
-                name: EnumFormattingPropNames.panelFill,
-                desc: t('panelFillInfo')
+                name: EnumFormattingPropNames.panelFill
             },
             {
                 displayName: t('text'), 
-                name: EnumFormattingPropNames.panelColor,
-                desc: t('panelColorInfo')
+                name: EnumFormattingPropNames.panelColor
             }
         ]
     },

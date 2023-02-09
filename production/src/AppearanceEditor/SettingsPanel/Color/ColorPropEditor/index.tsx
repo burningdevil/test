@@ -106,26 +106,26 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
         const rows = [];
 
         // insert color prop category 
-        const category : any = colorPropTitles[row].title;
+        const { title, desc, props } = colorPropTitles[row];
         rows.push(
-            (<Row gutter={[gutterHorizontal, gutterVertical]}>{[getCategoryLableCols(category)]}</Row>)
+            (<Row gutter={[gutterHorizontal, gutterVertical]}>{[getCategoryLableCols(title, desc)]}</Row>)
         );
 
         // insert color prop fields
-        colorPropTitles[row].props.forEach(p => rows.push(
-            <Row gutter={[gutterHorizontal, gutterVertical]}>
+        props.forEach(p => {
+            const { name, displayName, desc } = p;
+            rows.push(<Row gutter={[gutterHorizontal, gutterVertical]}>
                 {
                     getColorPropCols(
-                        p.name,
-                        p.displayName,
-                        formats[p.name].substring(1),
-                        p.desc,
+                        name,
+                        displayName,
+                        formats[name].substring(1),
+                        desc,
                     )
                 }
             </Row>
             )
-        );
-        
+        });
         return rows;
     };
 
@@ -225,10 +225,21 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
         );
     };
 
-    const getCategoryLableCols = (propName: string) => (
-        <Tooltip title={propName} placement="bottomLeft" mouseLeaveDelay={0}>
-            <div className="color-prop-category-title">{propName}</div>
-        </Tooltip>
+    const getCategoryLableCols = (title: string, desc: string) => (
+
+        <div className="color-prop-category">
+            <Tooltip title={title} placement="bottomLeft" mouseLeaveDelay={0}>
+                <div className="color-prop-category-title" >{title}</div>
+            </Tooltip>
+            {!!desc && 
+                <Tooltip
+                    title={desc}
+                    placement="bottomLeft"
+                    mouseLeaveDelay={0}
+                >
+                    <span className="icon-msg_info"></span>
+                </Tooltip>}
+        </div>
     );
 
     const rows = [];
