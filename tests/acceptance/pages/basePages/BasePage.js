@@ -84,6 +84,10 @@ export default class BasePage {
     await this.switchToNewWebView(wsWebViews.libraryAdmin)
   }
 
+  async switchToAppearanceEditorDialog() {
+    await this.switchToNewWebView(wsWebViews.appearanceEditor)
+  }
+
   async switchToDefaultWebView() {
     const handles = await browser.getAllWindowHandles()
     await browser.switchTo().window(handles[0])

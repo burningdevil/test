@@ -407,6 +407,21 @@ When('I clear text on button {string}', async function (button) {
     await settingPage.clearTextOnButton(button)
 });
 
+When('I click enter appearance editor', async function () {
+    await settingPage.enterAppearanceEditorDialog()
+    return mainWindow.app.sleep(500)
+});
+
+When('I click edit appearance button', async function () {
+    await settingPage.clickEditAppearanceButton()
+    return mainWindow.app.sleep(500)
+});
+
+When('I click apply button in appearance editor', async function () {
+    await settingPage.clickApplyButtonInAppearanceEditor()
+    return mainWindow.app.sleep(500)
+});
+
 When('switch to user {string} with password {string}', async function (userName, userPwd) {
     const { envName, envUrl, loginMode, projects } = browser.params.envInfo[0]
     await switchToWindow('Workstation Main Window')
