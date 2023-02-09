@@ -49,6 +49,17 @@ Then('I move mouse to content bundle grid and right click', async () => {
     return mainWindow.app.sleep(500);
 })
 
+When('I open all content setting dropdown', async () => {
+    await contentPage.clickAllContentSettings()
+    return mainWindow.app.sleep(500)
+})
+
+When('I choose {string} all content setting under content tab', async (text) => {
+    await contentPage.setAllContentSettings(text)
+    return mainWindow.app.sleep(500)
+})
+
+
 
 
 
