@@ -1,0 +1,1 @@
+export const envConnectionsClassNamePrefix = 'mstr-env-connection';

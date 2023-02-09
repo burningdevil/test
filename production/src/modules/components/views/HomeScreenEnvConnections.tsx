@@ -7,19 +7,20 @@ import { message, Table, Select, Spin } from 'antd';
 import { Tooltip } from '@mstr/rc';
 import 'antd/dist/antd.css';
 import { Environment, WorkstationModule, EnvironmentStatus } from '@mstr/workstation-types'
+import * as Actions from '../../../store/actions/ActionsCreator'
 import { RestApiError } from '../../../server/RestApiError'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
 import { selectCurrentConfig, selectCurrEnvConnections } from '../../../store/selectors/HomeScreenConfigEditorSelector'
-import * as Actions from '../../../store/actions/ActionsCreator'
 import { default as VC, localizedStrings } from '../HomeScreenConfigConstant'
+import { envConnectionsClassNamePrefix } from '../features/env-connections/env-connections.util';
+import AvailableEnvsSection from '../features/env-connections/available-envs-section';
 import EditableLabel from '../features/env-connections/editable-label'
 import { EnvironmentConnectionSettingType, EnvironmentConnectionInterface, HomeScreenConfigType, ThemePropObject } from '../../../types/data-model/HomeScreenConfigModels'
 import { isLibraryServerVersionMatch, isIServerVersionMatch } from '../../../utils';
 import '../scss/env-connections/HomeScreenEnvConnections.scss'
 
 declare var workstation: WorkstationModule;
-const classNamePrefix = 'mstr-env-connection';
-const screenClassNamePrefix = `${classNamePrefix}-screen`;
+const screenClassNamePrefix = `${envConnectionsClassNamePrefix}-screen`;
 const customAppPath = 'app/config/';
 interface EnvConnectionTableDataType {
     key: string,
@@ -383,7 +384,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                 <div className={`${screenClassNamePrefix}-desc`}>{localizedStrings.ENVIRONMENT_CONNECTION_SETTINGS_DESC}</div>
                 <Spin spinning={isRefreshing}>
                     <div className={`${screenClassNamePrefix}-content`}>
-                        <Table className={`${classNamePrefix}-table-wrapper`} dataSource={linkedEnvsTableDataSource} tableLayout='fixed' pagination={false}>
+                        <Table className={`${envConnectionsClassNamePrefix}-table-wrapper`} dataSource={linkedEnvsTableDataSource} tableLayout='fixed' pagination={false}>
                             <Table.Column
                                 title={localizedStrings.NAME}
                                 dataIndex={VC.NAME}
@@ -487,30 +488,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                                 )}
                             />
                         </Table>
-                        <div className={`${classNamePrefix}-available-envs-section`}>
-                            <div className={`${classNamePrefix}-available-envs-section-desc`}>{localizedStrings.ENVIRONMENT_CONNECTION_AVAILABLE_ENVS_DESC}</div>
-                            {
-                                availableToLinkEnvs.length 
-                                    ? availableToLinkEnvs.map((env: EnvironmentConnectionInterface, idx) => (
-                                        <div className='available-env-row' key={idx}>
-                                            <div className='available-env-name' title={env.name}>
-                                                <div className='available-env-name-icn' />
-                                                <div className='available-env-name-text'>{env.name}</div>
-                                            </div>
-                                            <div className='available-env-url' title={env.url}>{env.url}</div>
-                                            <div
-                                                className='add-available-env-icn'
-                                                onClick={() => this.addEnvironmentToLinkedEnvs(env)}
-                                            />
-                                        </div>
-                                    ))
-                                    : <div className='empty-available-envs-message'>{localizedStrings.EMPTY_AVAILABLE_ENVS_MSG}</div>
-                            }
-                        </div>
-                        <div className={`${classNamePrefix}-available-envs-info`}>
-                            <div className='info-icn' />
-                            <div className='info-text'>{localizedStrings.AVAILABLE_ENVS_INFO_MSG}</div>
-                        </div>
+                        <AvailableEnvsSection availableEnvs={availableToLinkEnvs} onAddEnv={this.addEnvironmentToLinkedEnvs} />
                     </div>
                 </Spin>
             </div>
