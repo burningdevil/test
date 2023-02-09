@@ -3,7 +3,7 @@ import * as compareVersions from 'compare-versions';
 import { Environment } from '@mstr/workstation-types';
 
 // Custom Application Support start from 11.3.4
-const LIBRARY_SERVER_VERSION_THRESHOLD = '11.3.0400';
+export const LIBRARY_SERVER_VERSION_THRESHOLD = '11.3.0400';
 const ISERVER_VERSION_THRESHOLD = '11.3.0400';
 const USER_MANAGE_APPLICATIONS_PRIVILEGE = 298;
 const MANAGE_CONTENT_BUNDLE_PRIVILEGE = 294
@@ -22,6 +22,7 @@ export const LIBRARY_SERVER_SUPPORT_APP_THEME_COLOR_VERSION = '11.3.0960';
 export const ISERVER_SUPPORT_AUTH_MODE = '11.3.0860';
 export const ISERVER_SUPPORT_ALLOW_CONTENTS_WITH_CONTENT_GROUPS = '11.3.0960';
 export const LIBRARY_SUPPORT_ALLOW_CONTENTS_WITH_CONTENT_GROUPS = '11.3.0960';
+export const LIBRARY_SUPPORT_MOBILE_INSIGHTS = '11.3.0960';
 
 
 /**

@@ -40,6 +40,8 @@ import {
 import * as Actions from '../../../store/actions/ActionsCreator';
 import { Tooltip } from '@mstr/rc';
 import { getNonsupportIconKeys } from './HomeScreenUtils';
+import { WebVersionContext } from './HomeScreenConfigEditor';
+import { isLibraryServerVersionMatch, LIBRARY_SERVER_VERSION_THRESHOLD, LIBRARY_SUPPORT_MOBILE_INSIGHTS } from '../../../../src/utils';
 
 const classNamePrefix = 'homeScreenPreviewer';
 
@@ -202,11 +204,17 @@ class HomeScreenPreviewer extends React.Component<any, any> {
     sidebarIconsRender = (
         iconsToRender: iconDetail[],
         rootClassName: string,
-        previewType: any
+        previewType: any,
+        webVersion?: string
     ) => {
         if (!this.contentBundleEnable) {
             iconsToRender = iconsToRender.filter(
                 (v) => v.key !== iconTypes.defaultGroup.key
+            );
+        }
+        if(previewType !== reviewType.WEB && !isLibraryServerVersionMatch(webVersion, LIBRARY_SUPPORT_MOBILE_INSIGHTS) ){
+            iconsToRender = iconsToRender.filter(
+                (v) => v.key !== iconTypes.insights.key
             );
         }
         iconsToRender = iconsToRender.filter(
@@ -558,7 +566,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
         this.contentBundleEnable = nextProps.contentBundleFeatureEnable;
         this.hasContent = nextProps.hasContent;
     }
-    render() {
+    renderPreviews(contextVersion?: string) {
         const { deviceType, isDossierHome, toolbarHidden, toolbarCollapsed } =
             this.props;
         const { libraryHeaderIcons, libraryFooterIcons } =
@@ -628,7 +636,8 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                                             {this.sidebarIconsRender(
                                                 childrenIcons,
                                                 `${classNamePrefix}-tablet-sidebar-sidebar`,
-                                                deviceType
+                                                deviceType,
+                                                contextVersion
                                             )}
                                         </Layout.Content>
                                     </Layout>
@@ -771,6 +780,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
             case reviewType.WEB:
             case reviewType.DESKTOP:
                 return (
+                    
                     <div>
                         <div className={`${classNamePrefix}-preview-title`}>
                             {localizedStrings.PREVIEW}
@@ -818,7 +828,8 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                                                         this.sidebarIconsRender(
                                                             childrenIcons,
                                                             padLeftClassName,
-                                                            deviceType
+                                                            deviceType,
+                                                            contextVersion
                                                         )}
                                                     <div
                                                         className={this.previewerClassName(
@@ -974,7 +985,8 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                                             {this.sidebarIconsRender(
                                                 childrenIcons,
                                                 `${classNamePrefix}-phone-sidebar`,
-                                                deviceType
+                                                deviceType,
+                                                contextVersion
                                             )}
                                         </Layout.Content>
                                     </Layout>
@@ -1091,8 +1103,20 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                 break;
         }
     }
+    render() {
+        return (
+            <WebVersionContext.Consumer>
+            {(value) => {
+                return (
+                    this.renderPreviews(value.webVersion ?? LIBRARY_SERVER_VERSION_THRESHOLD)
+                );
+            }}
+            </WebVersionContext.Consumer> 
+        )
+        
+        
+    }
 }
-
 const mapState = (state: RootState) => ({
     deviceType: selectPreviewDeviceType(state),
     config: selectCurrentConfig(state),

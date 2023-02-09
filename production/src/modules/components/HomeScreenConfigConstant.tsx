@@ -433,7 +433,8 @@ export const localizedStrings = {
     EMPTY_AVAILABLE_ENVS_MSG: t('emptyAvailableEnvsMsg'),
     AVAILABLE_ENVS_INFO_MSG: t('availableEnvsInfoMsg'),
     CONNECT_TO_ENV_MSG: t('pleaseConnectToEnv'),
-    CUSTOM_APPS_NOT_SUPPORTED_MSG: t('customAppsNotSupported')
+    CUSTOM_APPS_NOT_SUPPORTED_MSG: t('customAppsNotSupported'),
+    INSIGHTS_WEB_ONLY: t('insightsWebOnly')
 };
 
 export const sectionTitle = {
