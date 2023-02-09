@@ -103,30 +103,29 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
      * @returns Array<Row> []
      */
     const getColorCategoryWithProps = (row: number) => {
-        const rows = [];
+        const colorPropRows = [];
 
         // insert color prop category 
         const { title, desc, props } = colorPropTitles[row];
-        rows.push(
+        colorPropRows.push(
             (<Row gutter={[gutterHorizontal, gutterVertical]}>{[getCategoryLableCols(title, desc)]}</Row>)
         );
 
         // insert color prop fields
         props.forEach(p => {
-            const { name, displayName, desc } = p;
-            rows.push(<Row gutter={[gutterHorizontal, gutterVertical]}>
+            colorPropRows.push(<Row gutter={[gutterHorizontal, gutterVertical]}>
                 {
                     getColorPropCols(
-                        name,
-                        displayName,
-                        formats[name].substring(1),
-                        desc,
+                        p.name,
+                        p.displayName,
+                        formats[p.name].substring(1),
+                        p.desc,
                     )
                 }
             </Row>
             )
         });
-        return rows;
+        return colorPropRows;
     };
 
     /**
