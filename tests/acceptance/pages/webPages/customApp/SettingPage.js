@@ -271,7 +271,7 @@ export default class SettingPage extends BasePage {
 
   getDescriptionInputBox(field) {
     //text: Display Name, Email Address, Image URL, Link Text, Host Web Portal, Sent By
-    return this.element(by.xpath(`//span[text()='${field}']/following-sibling::div//input[@class='ant-input mstr-input mstr-input__bordered mstr-input__display_error']`))
+    return this.element(by.xpath(`//span[text()='${field}']/following-sibling::div//span[@class='ant-input-affix-wrapper mstr-input mstr-input__bordered mstr-input__display_error']/input`))
   }
 
   getButtonInputBox(button) {
