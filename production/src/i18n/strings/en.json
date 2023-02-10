@@ -326,5 +326,9 @@
     "allowUsersViewAllContentMsg": "Allow users to view and create new content",
     "limitUsersViewAllContentMsg": "Limit Library content in this application to above Content Groups",
     "allowUsersViewAllContentTip": "Users can view the Content Groups added above if they have been added as recipients.",
-    "insightsWebOnly": "Insights(Web only)"
+    "insightsWebOnly": "Insights(Web only)",
+    "nameInWorkstation": "Name in Workstation",
+    "customAppsNotSupported": "Custom Application is not supported on this environment.",
+    "pleaseConnectToEnv": "Please connect to the environment to get access to the application list.",
+    "panelInfo": "Panels, popups triggered by clicking an icon or button, also including the card of contents in Library Home and other tabs."
 }

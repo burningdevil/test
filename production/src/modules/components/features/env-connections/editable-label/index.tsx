@@ -30,11 +30,9 @@ const EditableLabel = ({ className = '', value = '', onValueChange = () => { /* 
     const customTooltipDefn = (
         <div className='env-name-wrapper'>
             <div className='linked-env-name'>{displayedValue}</div>
-            { wsName ?
-                <div className='ws-env-name'><span>{localizedStrings.ENVIRONMENT_WS_NAME_TOOLTIP}:</span> {wsName}</div> 
-                : null
-            }
-        </div>);
+            <div className='ws-env-name'><span>{localizedStrings.ENVIRONMENT_WS_NAME_TOOLTIP}:</span> <span>{wsName}</span></div>
+        </div>
+    );
   
     return editing
         ? <Input
@@ -63,7 +61,6 @@ const EditableLabel = ({ className = '', value = '', onValueChange = () => { /* 
                             setEditing(true);
                         }
                     }}
-                    title={displayedValue}
                 >
                     {displayedValue}
                 </div>
