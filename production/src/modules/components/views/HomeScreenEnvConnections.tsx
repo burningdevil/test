@@ -212,7 +212,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
             if (env.isConfigured) {
                 // get and update env's WS saved name. this is accessible as long as the env is configured on user's WS
                 const wsEnvObj = wsOtherEnvs.find(e => e.url === baseUrl);
-                wsName = wsEnvObj.name || '';
+                wsName = wsEnvObj?.name || '';
                 // then, check for connectivity in order to access env's application list
                 if (env.isConnected) {
                     // set selectedApplication as the corresponding application obj. if we don't have
