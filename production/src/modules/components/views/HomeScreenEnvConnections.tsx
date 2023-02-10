@@ -327,11 +327,13 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
         const { linkedCurrentEnv, linkedEnvs } = this.state
         const isFirstRow = idx === 0;
         const selectedApplicationValue = (!isFirstRow && record.isConfigured && record.isConnected) ? application?.id : undefined 
-        const applicationSelectOptionsList = record.applicationList?.map(a => ({
-            label: getApplicationOptionLabel(a.name, a.logo),
-            value: a.id,
-            isDefault: a.isDefault
-        }));
+        const applicationSelectOptionsList = record.applicationList
+            ?.sort((a: EnvApplicationType, b: EnvApplicationType) => a.name?.localeCompare(b.name))
+            .map((a: EnvApplicationType) => ({
+                label: getApplicationOptionLabel(a.name, a.logo),
+                value: a.id,
+                isDefault: a.isDefault
+            }));
         const { errorMessage } = record;
         const isErrorPresent = !!errorMessage;
 
