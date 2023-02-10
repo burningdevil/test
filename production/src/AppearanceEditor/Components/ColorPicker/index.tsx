@@ -21,13 +21,13 @@ const ColorPickerComponent: React.FC<ColorPickerType> = ({
     children,
 }) => {
     const colorPickerProps: any = {
-        chosenTab: 'palette',
+        chosenTab: 'grid',
         colorGuideHexVals: colorGuideHexVals,
         gradientConfig: {},
         solidFavorites: [],
         customVals: [],
         paletteHexVals: [],
-        displayMode: 'palette',
+        displayMode: 'grid',
         opacity: 100,
         useGradient: false,
         useOpacity: false,
