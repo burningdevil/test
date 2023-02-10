@@ -7,6 +7,7 @@
     font-size: $font-size;
     color: $msdl-black;
     line-height: 18px;
+    padding-left: 10px;
 
     .ant-tooltip-inner {
         padding: 10px 12px;
@@ -15,7 +16,7 @@
     .ws-env-name {
       word-break: break-all;
 
-      span:first-child {
+      span:last-child {
         font-weight: 600;
       }
     }

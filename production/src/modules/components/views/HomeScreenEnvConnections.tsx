@@ -117,14 +117,14 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
         linkedEnvs.forEach(async (env, idx) => {
             const envBaseUrl = this.getBaseUrl(env.url);
             const availableEnvObj = workstationAvailableEnvs.find(availableEnv => availableEnv.url === envBaseUrl);
-            const isEnvConnected = availableEnvObj && (availableEnvObj.status === EnvironmentStatus.Connected);
+            const isEnvConnected = availableEnvObj?.status === EnvironmentStatus.Connected;
             const errorObject: { errorMessage?: string } = {};
             const envApplicationList = await this.getApplicationListFromServer(envBaseUrl, env.name, isEnvConnected, errorObject);
             
             linkedEnvs[idx].applicationList = envApplicationList;
             linkedEnvs[idx].errorMessage = errorObject.errorMessage;
             linkedEnvs[idx].isConfigured = !!availableEnvObj;
-            linkedEnvs[idx].isConnected = isEnvConnected;
+            linkedEnvs[idx].isConnected = !!isEnvConnected;
             // update state with application lists for each linked environment
             this.setState({ linkedEnvs });
         });
@@ -213,7 +213,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
             if (env.isConfigured) {
                 // get and update env's WS saved name. this is accessible as long as the env is configured on user's WS
                 const wsEnvObj = wsOtherEnvs.find(e => e.url === baseUrl);
-                wsName = wsEnvObj.name || '';
+                wsName = wsEnvObj?.name || '';
                 // then, check for connectivity in order to access env's application list
                 if (env.isConnected) {
                     // set selectedApplication as the corresponding application obj. if we don't have
@@ -257,7 +257,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
         // read latest environment state from workstation, this ensures we only make API calls when environment is available
         const workstationAvailableEnvs = await workstation.environments.getAvailableEnvironments();
         const availableEnvObj = workstationAvailableEnvs.find(availableEnv => availableEnv.url === this.getBaseUrl(env.url));
-        const isEnvConnected = availableEnvObj && (availableEnvObj.status === EnvironmentStatus.Connected);
+        const isEnvConnected = availableEnvObj?.status === EnvironmentStatus.Connected;
         let newLinkedEnvs = [...linkedEnvs];
         const envBaseUrl = this.getBaseUrl(env.url);
         const errorObject: { errorMessage?: string } = {};
@@ -300,7 +300,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                 applicationList: envApplicationList,
                 errorMessage: errorObject.errorMessage,
                 isConfigured: !!availableEnvObj, // true, since we are in this code block which checks for isEnvConnected
-                isConnected: isEnvConnected // true, since we are in this code block which checks for isEnvConnected
+                isConnected: !!isEnvConnected // true, since we are in this code block which checks for isEnvConnected
             }
         }));
         this.setState({ isRefreshing: false });
@@ -327,8 +327,9 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
         const { currEnvConnections } = this.props;
         const { linkedCurrentEnv, linkedEnvs } = this.state
         const isFirstRow = idx === 0;
-        const selectedApplicationValue = (!isFirstRow && record.isConfigured && record.isConnected) ? application?.id : undefined 
-        const applicationSelectOptionsList = record.applicationList?.map(a => ({
+        const selectedApplicationValue = (!isFirstRow && record.isConfigured && record.isConnected) ? application?.id : undefined;
+        const sortedApplicationList = _.sortBy(record.applicationList, (a) => a.name); // sort application list alphabetically
+        const applicationSelectOptionsList = sortedApplicationList.map((a: EnvApplicationType) => ({
             label: getApplicationOptionLabel(a.name, a.logo),
             value: a.id,
             isDefault: a.isDefault
@@ -445,7 +446,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                                 title={localizedStrings.URL}
                                 dataIndex={VC.BASE_URL}
                                 key={VC.BASE_URL}
-                                width={160}
+                                width={220}
                                 render={(baseUrl: string, record: EnvConnectionTableDataType, idx) => {
                                     const isFirstRow = idx === 0;
                                     const url = (isFirstRow || !record.selectedApplication?.id || record.selectedApplication?.isDefault) ? baseUrl : (record.baseUrl + customAppPath + record.selectedApplication?.id);
@@ -458,7 +459,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                                 title={localizedStrings.APPLICATION}
                                 dataIndex={VC.SELECTED_APPLICATION}
                                 key={VC.SELECTED_APPLICATION}
-                                width={284}
+                                width={224}
                                 render={(application: EnvApplicationType, record: EnvConnectionTableDataType, idx) => {
                                     const isFirstRow = idx === 0;
                                     return (

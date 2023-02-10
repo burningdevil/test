@@ -156,7 +156,15 @@
                   display: grid;
 
                   .current-env-name, .connected-env-name {
+                    display: flex;
+                    max-width: 100%;
                     @extend .overflow;
+
+                    .editable-label-value {
+                      display: inline-block;
+                      max-width: 100%;
+                      @extend .overflow;
+                    }
                   }
 
                   // make space to account for current label if present

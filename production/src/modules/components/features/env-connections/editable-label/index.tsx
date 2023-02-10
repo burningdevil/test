@@ -30,11 +30,9 @@ const EditableLabel = ({ className = '', value = '', onValueChange = () => { /* 
     const customTooltipDefn = (
         <div className='env-name-wrapper'>
             <div className='linked-env-name'>{displayedValue}</div>
-            { wsName ?
-                <div className='ws-env-name'><span>{localizedStrings.ENVIRONMENT_WS_NAME_TOOLTIP}:</span> {wsName}</div> 
-                : null
-            }
-        </div>);
+            <div className='ws-env-name'><span>{localizedStrings.ENVIRONMENT_WS_NAME_TOOLTIP}:</span> <span>{wsName}</span></div>
+        </div>
+    );
   
     return editing
         ? <Input
@@ -46,28 +44,29 @@ const EditableLabel = ({ className = '', value = '', onValueChange = () => { /* 
             onPressEnter={handleValueChange}
             spellCheck={false}
         />
-        : (<Tooltip
-                className='mstr-editable-label-tooltip'
-                title={customTooltipDefn} 
-                placement='right'
+        : (
+            <div
+                className={classnames(className, 'mstr-singleline-label-editable', { empty : isEmpty })}
+                onDoubleClick={() => {
+                    if (trigger === ENUM_TRIGGER_TYPE.DOUBLECLICK) {
+                        setEditing(true);
+                    }
+                }}
+                onClick={() => {
+                    if (trigger === ENUM_TRIGGER_TYPE.CLICK) {
+                        setEditing(true);
+                    }
+                }}
             >
-                <div
-                    className={classnames(className, 'mstr-singleline-label-editable', { empty : isEmpty })}
-                    onDoubleClick={() => {
-                        if (trigger === ENUM_TRIGGER_TYPE.DOUBLECLICK) {
-                            setEditing(true);
-                        }
-                    }}
-                    onClick={() => {
-                        if (trigger === ENUM_TRIGGER_TYPE.CLICK) {
-                            setEditing(true);
-                        }
-                    }}
-                    title={displayedValue}
+                <Tooltip
+                    className='mstr-editable-label-tooltip'
+                    title={customTooltipDefn} 
+                    placement='right'
                 >
-                    {displayedValue}
-                </div>
-        </Tooltip>)
+                    <div className='editable-label-value'>{displayedValue}</div>
+                </Tooltip>
+            </div>
+        )
 }
 
 export default EditableLabel;
