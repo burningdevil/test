@@ -116,14 +116,14 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
         linkedEnvs.forEach(async (env, idx) => {
             const envBaseUrl = this.getBaseUrl(env.url);
             const availableEnvObj = workstationAvailableEnvs.find(availableEnv => availableEnv.url === envBaseUrl);
-            const isEnvConnected = availableEnvObj && (availableEnvObj.status === EnvironmentStatus.Connected);
+            const isEnvConnected = availableEnvObj?.status === EnvironmentStatus.Connected;
             const errorObject: { errorMessage?: string } = {};
             const envApplicationList = await this.getApplicationListFromServer(envBaseUrl, env.name, isEnvConnected, errorObject);
             
             linkedEnvs[idx].applicationList = envApplicationList;
             linkedEnvs[idx].errorMessage = errorObject.errorMessage;
             linkedEnvs[idx].isConfigured = !!availableEnvObj;
-            linkedEnvs[idx].isConnected = isEnvConnected;
+            linkedEnvs[idx].isConnected = !!isEnvConnected;
             // update state with application lists for each linked environment
             this.setState({ linkedEnvs });
         });
@@ -256,7 +256,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
         // read latest environment state from workstation, this ensures we only make API calls when environment is available
         const workstationAvailableEnvs = await workstation.environments.getAvailableEnvironments();
         const availableEnvObj = workstationAvailableEnvs.find(availableEnv => availableEnv.url === this.getBaseUrl(env.url));
-        const isEnvConnected = availableEnvObj && (availableEnvObj.status === EnvironmentStatus.Connected);
+        const isEnvConnected = availableEnvObj?.status === EnvironmentStatus.Connected;
         let newLinkedEnvs = [...linkedEnvs];
         const envBaseUrl = this.getBaseUrl(env.url);
         const errorObject: { errorMessage?: string } = {};
@@ -299,7 +299,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                 applicationList: envApplicationList,
                 errorMessage: errorObject.errorMessage,
                 isConfigured: !!availableEnvObj, // true, since we are in this code block which checks for isEnvConnected
-                isConnected: isEnvConnected // true, since we are in this code block which checks for isEnvConnected
+                isConnected: !!isEnvConnected // true, since we are in this code block which checks for isEnvConnected
             }
         }));
         this.setState({ isRefreshing: false });
