@@ -44,27 +44,29 @@ const EditableLabel = ({ className = '', value = '', onValueChange = () => { /* 
             onPressEnter={handleValueChange}
             spellCheck={false}
         />
-        : (<Tooltip
-                className='mstr-editable-label-tooltip'
-                title={customTooltipDefn} 
-                placement='right'
+        : (
+            <div
+                className={classnames(className, 'mstr-singleline-label-editable', { empty : isEmpty })}
+                onDoubleClick={() => {
+                    if (trigger === ENUM_TRIGGER_TYPE.DOUBLECLICK) {
+                        setEditing(true);
+                    }
+                }}
+                onClick={() => {
+                    if (trigger === ENUM_TRIGGER_TYPE.CLICK) {
+                        setEditing(true);
+                    }
+                }}
             >
-                <div
-                    className={classnames(className, 'mstr-singleline-label-editable', { empty : isEmpty })}
-                    onDoubleClick={() => {
-                        if (trigger === ENUM_TRIGGER_TYPE.DOUBLECLICK) {
-                            setEditing(true);
-                        }
-                    }}
-                    onClick={() => {
-                        if (trigger === ENUM_TRIGGER_TYPE.CLICK) {
-                            setEditing(true);
-                        }
-                    }}
+                <Tooltip
+                    className='mstr-editable-label-tooltip'
+                    title={customTooltipDefn} 
+                    placement='right'
                 >
-                    {displayedValue}
-                </div>
-        </Tooltip>)
+                    <div className='editable-label-value'>{displayedValue}</div>
+                </Tooltip>
+            </div>
+        )
 }
 
 export default EditableLabel;

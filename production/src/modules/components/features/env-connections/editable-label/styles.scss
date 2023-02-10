@@ -1,5 +1,6 @@
 @import '~@mstr/rc/es/assets/scss/variables.scss';
 @import '../../../scss/variables.scss';
+@import '../../../../../styles/base';
 
 .ant-tooltip.mstr-editable-label-tooltip {
     max-width: 500px !important;
@@ -7,6 +8,7 @@
     font-size: $font-size;
     color: $msdl-black;
     line-height: 18px;
+    padding-left: 10px;
 
     .ant-tooltip-inner {
         padding: 10px 12px;
