@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import createStore from '../../../store/createStore';
 import HomeScreenConfigEditor from '../views/HomeScreenConfigEditor';
 import rootState from './__mocks__/mock_state';
+import { HashRouter } from 'react-router-dom';
 
 jest.mock('../../../services/Api');
 
@@ -85,7 +86,10 @@ describe('HomeScreenConfigEditor Component: render and interaction', () => {
         // Render
         const { queryAllByRole, queryByText } = render(
             <Provider store={store}>
+              <HashRouter>
                 <HomeScreenConfigEditor />
+              </HashRouter>
+                
             </Provider>
         );
         // Check tabs and change selection
@@ -123,7 +127,9 @@ describe('HomeScreenConfigEditor Component: render and interaction', () => {
         // Render
         const { queryAllByRole, queryByText, queryByDisplayValue } = render(
             <Provider store={store}>
-                <HomeScreenConfigEditor location={editorId} />
+              <HashRouter>
+                <HomeScreenConfigEditor location={editorId} />  
+              </HashRouter>
             </Provider>
         );
 
