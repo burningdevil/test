@@ -1,5 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import {
+    useLocation,
+  } from "react-router-dom";
 import '../scss/HomeScreenConfigEditor.scss';
 import '../../../assets/fonts/webfonts/css/dossier.css';
 import { Tabs, Layout, Button, message } from 'antd';
@@ -90,6 +93,20 @@ export const WebVersionContext = React.createContext(
         webVersion: LIBRARY_SERVER_VERSION_THRESHOLD
     }
   );
+  
+  function withRouter(Component: any) {
+    function ComponentWithRouterProp(props: any) {
+      let location = useLocation();
+      return (
+        <Component
+          {...props}
+            location = {location}
+        />
+      );
+    }
+  
+    return ComponentWithRouterProp;
+  } 
 class HomeScreenConfigEditor extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
@@ -165,10 +182,13 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         const currentEnv =
             await workstation.environments.getCurrentEnvironment();
         const isConnected = currentEnv.status === EnvironmentStatus.Connected;
+        
+
         // Handle Edit config
         const configId = this.parseConfigId(
             _.get(this.props, 'location.search', undefined)
         );
+        console.log(this.props.location,this.props.searchParams,  configId, extraContextJson);
         if (configId) {
             api.loadCurrentEditConfig(configId)?.catch((e: any) => {
                 this.processErrorResponse(e, localizedStrings.ERR_APP_LOAD);
@@ -300,7 +320,7 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
                 ) {
                     // Disconnect environment and Close current window
                     workstation.environments.disconnect(
-                        this.state.currentEnv.url
+                        this.state.currentEnv.url, false
                     );
                     workstation.window.close();
                 }
@@ -825,4 +845,4 @@ const connector = connect(mapState, {
     setConfigInfoList: Actions.setConfigInfoList,
 });
 
-export default connector(HomeScreenConfigEditor);
+export default connector(withRouter(HomeScreenConfigEditor));
