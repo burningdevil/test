@@ -444,7 +444,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                                 title={localizedStrings.URL}
                                 dataIndex={VC.BASE_URL}
                                 key={VC.BASE_URL}
-                                width={160}
+                                width={220}
                                 render={(baseUrl: string, record: EnvConnectionTableDataType, idx) => {
                                     const isFirstRow = idx === 0;
                                     const url = (isFirstRow || !record.selectedApplication?.id || record.selectedApplication?.isDefault) ? baseUrl : (record.baseUrl + customAppPath + record.selectedApplication?.id);
@@ -457,7 +457,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                                 title={localizedStrings.APPLICATION}
                                 dataIndex={VC.SELECTED_APPLICATION}
                                 key={VC.SELECTED_APPLICATION}
-                                width={284}
+                                width={224}
                                 render={(application: EnvApplicationType, record: EnvConnectionTableDataType, idx) => {
                                     const isFirstRow = idx === 0;
                                     return (
