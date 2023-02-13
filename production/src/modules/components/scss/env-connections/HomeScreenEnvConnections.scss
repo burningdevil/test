@@ -33,7 +33,7 @@
   color: $msdl-black;
   height: $env-connection-screen-height;
   padding: $env-connection-screen-padding;
-  overflow: overlay; // overlay prevents scrollbar from shifting content left
+  overflow: overlay; // overlay prevents scrollbar from shifting content
 
   // screen title
   &-title-row {
