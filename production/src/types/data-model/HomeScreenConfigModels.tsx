@@ -86,6 +86,8 @@ export interface EnvironmentConnectionInterface {
     applicationList?: Array<Partial<HomeScreenConfigType>>,
     isConfigured?: boolean,
     isConnected?: boolean,
+    isCurrentAppDeleted?: boolean,
+    isCurrentAppAccessLimited?: boolean,
     errorMessage?: string
 }
 

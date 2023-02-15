@@ -434,6 +434,11 @@ export const localizedStrings = {
     AVAILABLE_ENVS_INFO_MSG: t('availableEnvsInfoMsg'),
     CONNECT_TO_ENV_MSG: t('pleaseConnectToEnv'),
     CUSTOM_APPS_NOT_SUPPORTED_MSG: t('customAppsNotSupported'),
+    CURRENT_APP_DELETED_LABEL: t('applicationDeleted'),
+    CURRENT_APP_LIMITED_ACCESS_LABEL: t('accessLimited'),
+    CURRENT_APP_DELETED_TOOLTIP: t('applicationDeletedTooltip'),
+    CURRENT_APP_LIMITED_ACCESS_TOOLTIP: t('accessLimitedTooltip'),
+
     INSIGHTS_WEB_ONLY: t('insightsWebOnly')
 };
 

@@ -108,11 +108,15 @@ export const updateConfig = (configId: string, config: any) => {
         PARSE_METHOD.BLOB
     );
 };
-export const loadConfig = (configId: string) => {
+export const loadConfig = (configId: string, envUrl: string = '') => {
     return HttpProxy.get(
         CONFIG_ENDPOINTS +
             configId +
-            '?outputFlag=INCLUDE_LOCALE&outputFlag=INCLUDE_ACL'
+            '?outputFlag=INCLUDE_LOCALE&outputFlag=INCLUDE_ACL',
+            {},
+            PARSE_METHOD.JSON,
+            undefined,
+            envUrl
     );
 };
 
@@ -336,3 +340,5 @@ export const fetchAllApplicationsForOtherEnv = (envUrl: string) => {
     // call get function with isAbsoluteUrl = true, then include env url we want to fetch applications for
     return HttpProxy.get(CONFIG_ENDPOINTS, {}, undefined, undefined, envUrl);
 };
+
+
