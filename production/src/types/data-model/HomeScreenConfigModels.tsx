@@ -83,7 +83,7 @@ export interface CustomEmailSettingType {
 export interface EnvironmentConnectionInterface {
     name: string,
     url: string,
-    applicationList?: Array<Partial<HomeScreenConfigType>>,
+    applicationList?: Array<EnvironmentConnectionApplicationType>,
     isConfigured?: boolean,
     isConnected?: boolean,
     errorMessage?: string
@@ -94,7 +94,7 @@ export interface EnvironmentConnectionSettingType {
     other: Array<EnvironmentConnectionInterface>
 }
 
-export interface EnvironmentApplicationType {
+export interface EnvironmentConnectionApplicationType {
     id: string,
     isDefault: boolean,
     name: string,
@@ -106,8 +106,8 @@ export interface EnvironmentConnectionTableDataType {
     name: string,
     wsName: string,
     baseUrl: string,
-    selectedApplication?: EnvironmentApplicationType,
-    applicationList?: Array<EnvironmentApplicationType>,
+    selectedApplication?: EnvironmentConnectionApplicationType,
+    applicationList?: Array<EnvironmentConnectionApplicationType>,
     isConfigured: boolean,
     isConnected: boolean,
     errorMessage?: string
