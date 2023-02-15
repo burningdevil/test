@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { AvailableEnvsSectionProps } from './interface';
-import { envConnectionsClassNamePrefix } from '../env-connections.util';
+import { envConnectionsClassNamePrefix } from '../env-connections-util';
 import { EnvironmentConnectionInterface } from "src/types/data-model/HomeScreenConfigModels"
 import { localizedStrings } from '../../../HomeScreenConfigConstant';
 import './styles.scss';

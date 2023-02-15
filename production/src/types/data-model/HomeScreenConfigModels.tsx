@@ -94,6 +94,24 @@ export interface EnvironmentConnectionSettingType {
     other: Array<EnvironmentConnectionInterface>
 }
 
+export interface EnvironmentApplicationType {
+    id: string,
+    isDefault: boolean,
+    name: string,
+    logo?: ThemePropObject
+}
+
+export interface EnvironmentConnectionTableDataType {
+    key: string,
+    name: string,
+    wsName: string,
+    baseUrl: string,
+    selectedApplication?: EnvironmentApplicationType,
+    applicationList?: Array<EnvironmentApplicationType>,
+    isConfigured: boolean,
+    isConnected: boolean,
+    errorMessage?: string
+}
 
 export interface HomeScreenConfigType {
     'id': string,
