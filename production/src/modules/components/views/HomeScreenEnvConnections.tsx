@@ -8,10 +8,10 @@ import { Environment, WorkstationModule, EnvironmentStatus } from '@mstr/worksta
 
 import * as Actions from '../../../store/actions/ActionsCreator';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
-import { EnvironmentConnectionSettingType, EnvironmentConnectionInterface, EnvironmentApplicationType, EnvironmentConnectionTableDataType, HomeScreenConfigType } from '../../../types/data-model/HomeScreenConfigModels';
+import { EnvironmentConnectionSettingType, EnvironmentConnectionInterface, HomeScreenConfigType } from '../../../types/data-model/HomeScreenConfigModels';
 import { selectCurrentConfig, selectCurrEnvConnections } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import { localizedStrings } from '../HomeScreenConfigConstant';
-import { envConnectionsClassNamePrefix, getBaseUrl, getApplicationIdFromUrl, getApplicationListFromServer } from '../features/env-connections/env-connections-util';
+import { envConnectionsClassNamePrefix, getBaseUrl, getApplicationListFromServer } from '../features/env-connections/env-connections-util';
 import LinkedEnvsSection from '../features/env-connections/linked-envs-section';
 import AvailableEnvsSection from '../features/env-connections/available-envs-section';
 import '../scss/env-connections/HomeScreenEnvConnections.scss';
@@ -95,16 +95,6 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
         this.props.updateCurrentConfig({ environments: newEnvConnections }); // update config in redux store
     }
 
-    getAvailableToLinkEnvs = () => {
-        const { wsOtherEnvs, linkedEnvs } = this.state;
-        let availableToLinkEnvs = [...wsOtherEnvs];
-        // filter to only return environments currently connected to WS
-        // as well as remove any available envs that the user has already opted to link to
-        availableToLinkEnvs = availableToLinkEnvs.filter(currEnv => currEnv.isConnected && !linkedEnvs.find(connectedEnv => (currEnv.url === getBaseUrl(connectedEnv.url))))
-
-        return availableToLinkEnvs;
-    }
-
     // Used to add an available environment to the linkedEnvs list. As part of this process, we will fetch the environment's
     // application list to make available to the user for selection. 
     addEnvironmentToLinkedEnvs = async (env: EnvironmentConnectionInterface) => {
@@ -171,8 +161,6 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
     render() {
         const { currEnvConnections } = this.props;
         const { wsCurrentEnv, linkedCurrentEnv, wsOtherEnvs, linkedEnvs, isRefreshing } = this.state;
-        let availableToLinkEnvs = this.getAvailableToLinkEnvs();
-        availableToLinkEnvs = _.sortBy(availableToLinkEnvs, (e) => e.name); // sort by name
         return (
             <div className={screenClassNamePrefix}>
                 <div className={`${screenClassNamePrefix}-title-row`}>
@@ -187,7 +175,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                     <div className={`${screenClassNamePrefix}-content`}>
                         <LinkedEnvsSection currEnvConnections={currEnvConnections} wsCurrentEnv={wsCurrentEnv} linkedCurrentEnv={linkedCurrentEnv}
                             wsOtherEnvs={wsOtherEnvs} linkedEnvs={linkedEnvs} onUpdateLinkedCurrentEnv={this.handleLinkedCurrentEnvChange} onUpdateLinkedEnvs={this.handleLinkedEnvsChange} />
-                        <AvailableEnvsSection availableEnvs={availableToLinkEnvs} onAddEnv={this.addEnvironmentToLinkedEnvs} />
+                        <AvailableEnvsSection wsOtherEnvs={wsOtherEnvs} linkedEnvs={linkedEnvs} onAddEnv={this.addEnvironmentToLinkedEnvs} />
                     </div>
                 </Spin>
             </div>
