@@ -1,80 +1,80 @@
 @import '../../../../../styles/base';
 
 .mstr-env-connection-available-envs-section {
-    margin-top: 16px; // space between top and bottom sections (linked & available envs)
+  margin-top: 16px; // space between top and bottom sections (linked & available envs)
 
-    .mstr-env-connection-available-envs-table {
-        box-shadow: 0 0 0 1px #E4E4E4;
-        padding: 10px 10px 0 10px;
-    
-        &-desc {
-            opacity: .5;
-        }
-    
-        .available-env-row {
-            display: grid;
-            grid-template-columns: 210px 432px 14px;
-            grid-gap: 12px;
-            line-height: 34px;
-            align-items: center;
-    
-            &:not(:last-child) {
-            box-shadow: 0 1px 0 0 #E4E4E4;
-            }
-    
-            .available-env-name {
-            display: grid;
-            grid-template-columns: 14px auto;
-            grid-gap: 6px;
-            align-items: center;
-    
-            &-icn {
-                width: 14px;
-                height: 14px;
-                background-image: url('../../../images/18_18.svg');
-                background-position: -434px -128px;
-            }
-    
-            &-text {
-                @extend .overflow;
-            }
-            }
-    
-            .available-env-url {
-            @extend .overflow;
-            }
-    
-            .add-available-env-icn {
-            width: 14px;
-            height: 14px;
-            background-image: url('../../../images/18_18.svg');
-            background-position: -128px -128px;
-            cursor: pointer;
-    
-            &:hover {
-                background-position: -92px -128px;
-            }
-            }
-        }
-    
-        .empty-available-envs-message {
-            padding: 8px 0 4px 0;
-        }
+  .mstr-env-connection-available-envs-table {
+    box-shadow: 0 0 0 1px #E4E4E4;
+    padding: 10px 10px 0 10px;
+
+    &-desc {
+      opacity: .5;
     }
-    
-    .mstr-env-connection-available-envs-info {
-        margin-top: 12px;
+
+    .available-env-row {
+      display: grid;
+      grid-template-columns: 210px 432px 14px;
+      grid-gap: 12px;
+      line-height: 34px;
+      align-items: center;
+
+      &:not(:last-child) {
+        box-shadow: 0 1px 0 0 #E4E4E4;
+      }
+
+      .available-env-name {
         display: grid;
         grid-template-columns: 14px auto;
-        grid-gap: 8px;
-        line-height: 14px;
+        grid-gap: 6px;
         align-items: center;
-    
-        .info-icn {
-            width: 14px;
-            height: 14px;
-            background-image: url('../../../images/18_18.svg');
-            background-position: -146px -2px;
+
+        &-icn {
+          width: 14px;
+          height: 14px;
+          background-image: url('../../../images/18_18.svg');
+          background-position: -434px -128px;
         }
+
+        &-text {
+          @extend .overflow;
+        }
+      }
+
+      .available-env-url {
+        @extend .overflow;
+      }
+
+      .add-available-env-icn {
+        width: 14px;
+        height: 14px;
+        background-image: url('../../../images/18_18.svg');
+        background-position: -128px -128px;
+        cursor: pointer;
+
+        &:hover {
+          background-position: -92px -128px;
+        }
+      }
     }
+
+    .empty-available-envs-message {
+      padding: 8px 0 4px 0;
+    }
+  }
+
+  .mstr-env-connection-available-envs-info {
+    margin-top: 12px;
+    display: grid;
+    grid-template-columns: 14px auto;
+    grid-gap: 8px;
+    line-height: 14px;
+    align-items: center;
+
+    .info-icn {
+      width: 14px;
+      height: 14px;
+      background-image: url('../../../images/18_18.svg');
+      background-position: -146px -2px;
+    }
+  }
 }
