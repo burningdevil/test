@@ -7,7 +7,7 @@
     "update-snapshot": "jest --updateSnapshot",
     "pre-merge": "npm run unit-test",
     "clean": "rimraf dist",
-    "compile": "yarn build-msg && node build/scripts/compile",
+    "compile": "yarn build-msg && cross-env NODE_OPTIONS=--openssl-legacy-provider node build/scripts/compile",
     "build": "npm run clean && cross-env NODE_ENV=production npm run compile",
     "buildWS": "npm run clean && cross-env NODE_ENV=production CONTAINER=WS npm run compile",
     "buildWS:mac": "npm run buildWS && npm run deploy:mac",
