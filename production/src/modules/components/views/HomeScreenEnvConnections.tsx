@@ -30,7 +30,9 @@ interface EnvConnectionTableDataType {
     applicationList?: Array<EnvApplicationType>,
     isConfigured: boolean,
     isConnected: boolean,
-    errorMessage?: string
+    errorMessage?: string,
+    isCurrentAppDeleted?: boolean,
+    isCurrentAppAccessLimited?: boolean
 }
 
 interface EnvApplicationType {
@@ -69,6 +71,15 @@ const getApplicationOptionLabel = (name: string, logo: ThemePropObject) => (
         )}
         <div className="application-list-obj-text">{name}</div>
     </div>
+);
+
+const getApplicationMissingJSX = (tooltipTitle: string, label: string) => (
+    <Tooltip
+        title={tooltipTitle}
+        placement='top'
+    >
+        <span>{label}</span>
+    </Tooltip>
 );
 
 const processErrorResponse = (error: RestApiError, envName: string) => {
@@ -119,8 +130,11 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
             const isEnvConnected = availableEnvObj?.status === EnvironmentStatus.Connected;
             const errorObject: { errorMessage?: string } = {};
             const envApplicationList = await this.getApplicationListFromServer(envBaseUrl, env.name, isEnvConnected, errorObject);
+            const { isCurrentAppDeleted, isCurrentAppAccessLimited } = await this.isCurrAppDeletedOrAccessLimited(env.url, isEnvConnected, envApplicationList);
             
             linkedEnvs[idx].applicationList = envApplicationList;
+            linkedEnvs[idx].isCurrentAppDeleted = isCurrentAppDeleted;
+            linkedEnvs[idx].isCurrentAppAccessLimited = isCurrentAppAccessLimited;
             linkedEnvs[idx].errorMessage = errorObject.errorMessage;
             linkedEnvs[idx].isConfigured = !!availableEnvObj;
             linkedEnvs[idx].isConnected = !!isEnvConnected;
@@ -189,6 +203,48 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
         return envApplicationList;
     }
 
+    /**
+     * Checks whether the currently configured application has been deleted on the server 
+     * OR if the user does not have read access to the application 
+     * @param envUrl - environment url containing the current application
+     * @param isEnvConnected - boolean value to indicate the connected status of the env
+     * @param applicationList - list of applications on the env
+     * @returns 
+     */
+    isCurrAppDeletedOrAccessLimited = async (
+        envUrl: string,
+        isEnvConnected: boolean,
+        applicationList: Array<EnvApplicationType>
+    ) => {
+
+        let isCurrentAppDeleted = false;
+        let isCurrentAppAccessLimited = false;
+        const currentApplicationId = this.getApplicationIdFromUrl(envUrl);
+
+        // if current application id is undefined it is the default application
+        // we assume isCurrentAppAccessLimited as true
+        if (!currentApplicationId) {
+            return { isCurrentAppDeleted, isCurrentAppAccessLimited: true };
+        }
+
+        // if the current application is not present in the application list and the environemnt is connected
+        // Try to retrieve the application using /v2/applications/{applicationId}
+        if (!applicationList.find(app => app.id === currentApplicationId) && isEnvConnected) {
+            try {
+                const envBaseUrl = this.getBaseUrl(envUrl);
+                await api.loadConfig(currentApplicationId, envBaseUrl);
+            } catch (err) {
+                if (err instanceof RestApiError) {
+                    const { errorCode } = err;
+                    isCurrentAppDeleted = errorCode === 'ERR004'; // Application has been deleted
+                    isCurrentAppAccessLimited = errorCode === 'ERR017'; // Application cannot be read as user lacks read privileges
+                }
+            }
+        }
+        
+        return { isCurrentAppDeleted, isCurrentAppAccessLimited};
+    }
+
     // take state information and convert it into dataSource format readable by AntD's Table component
     getLinkedEnvsTableDataSource = () => {
         const { wsCurrentEnv, linkedCurrentEnv, wsOtherEnvs, linkedEnvs } = this.state;
@@ -218,7 +274,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                     // set selectedApplication as the corresponding application obj. if we don't have
                     // a selectedApplicationId, it is because the user has selected the default application
                     selectedApplication = selectedApplicationId
-                    ? env.applicationList.find(a => a.id === selectedApplicationId)
+                    ? env.applicationList.find(a => a.id === selectedApplicationId) || { id: selectedApplicationId }
                     : env.applicationList.find(a => a.isDefault);
                 }
             }
@@ -228,6 +284,8 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                 wsName, // represents name of env as saved in WS
                 baseUrl,
                 selectedApplication,
+                isCurrentAppDeleted: env.isCurrentAppDeleted,
+                isCurrentAppAccessLimited: env.isCurrentAppAccessLimited,
                 applicationList: env.applicationList || [],
                 isConfigured: env.isConfigured,
                 isConnected: env.isConnected,
@@ -293,10 +351,13 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
             const isEnvConnected = availableEnvObj?.isConnected;
             const errorObject: { errorMessage?: string } = {};
             const envApplicationList = await this.getApplicationListFromServer(envBaseUrl, env.name, isEnvConnected, errorObject);
+            const { isCurrentAppDeleted, isCurrentAppAccessLimited } = await this.isCurrAppDeletedOrAccessLimited(env.url, isEnvConnected, envApplicationList);
 
             return {
                 ...env,
                 applicationList: envApplicationList,
+                isCurrentAppDeleted,
+                isCurrentAppAccessLimited,
                 errorMessage: errorObject.errorMessage,
                 isConfigured: !!availableEnvObj, // true, since we are in this code block which checks for isEnvConnected
                 isConnected: !!isEnvConnected // true, since we are in this code block which checks for isEnvConnected
@@ -326,14 +387,38 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
         const { currEnvConnections } = this.props;
         const { linkedCurrentEnv, linkedEnvs } = this.state
         const isFirstRow = idx === 0;
-        const selectedApplicationValue = (!isFirstRow && record.isConfigured && record.isConnected) ? application?.id : undefined;
-        const sortedApplicationList = _.sortBy(record.applicationList, (a) => a.name); // sort application list alphabetically
+        const { 
+            isConfigured, 
+            isConnected, 
+            applicationList, 
+            isCurrentAppDeleted, 
+            isCurrentAppAccessLimited, 
+            errorMessage } = record;
+        let selectedApplicationValue = (!isFirstRow && isConfigured && isConnected) ? application?.id : undefined;
+        const sortedApplicationList = _.sortBy(applicationList, (a) => a.name); // sort application list alphabetically
         const applicationSelectOptionsList = sortedApplicationList.map((a: EnvApplicationType) => ({
             label: getApplicationOptionLabel(a.name, a.logo),
             value: a.id,
             isDefault: a.isDefault
         }));
-        const { errorMessage } = record;
+
+         
+        if (isCurrentAppDeleted) {
+            const app = {
+                value: application.id,
+                isDefault: false,
+                label: getApplicationMissingJSX(localizedStrings.CURRENT_APP_DELETED_TOOLTIP, localizedStrings.CURRENT_APP_DELETED_LABEL)
+            };
+            applicationSelectOptionsList.unshift(app);
+        } else if (isCurrentAppAccessLimited) {
+            const app = {
+                value: application.id,
+                isDefault: false,
+                label: getApplicationMissingJSX(localizedStrings.CURRENT_APP_LIMITED_ACCESS_TOOLTIP, localizedStrings.CURRENT_APP_LIMITED_ACCESS_LABEL)
+            };
+            applicationSelectOptionsList.unshift(app);
+        }
+
         const isErrorPresent = !!errorMessage;
 
         const applicationDropDown = (<Select
@@ -349,6 +434,8 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                 let newLinkedEnvs = [...linkedEnvs];
                 let currConnectedEnv = newLinkedEnvs[idx - 1];
                 currConnectedEnv.url = newApplicationObj.isDefault ? record.baseUrl : (record.baseUrl + customAppPath + newApplicationId); // update url with new application id
+                currConnectedEnv.isCurrentAppDeleted = false;
+                currConnectedEnv.isCurrentAppAccessLimited = false;
                 this.setState({ linkedEnvs: newLinkedEnvs }); // update state
                 this.handleEnvConnectionsChange({
                     current: currEnvConnections.current || linkedCurrentEnv.name,
