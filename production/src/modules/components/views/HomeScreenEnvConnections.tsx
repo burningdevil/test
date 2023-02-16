@@ -73,13 +73,14 @@ const getApplicationOptionLabel = (name: string, logo: ThemePropObject) => (
     </div>
 );
 
-const getApplicationMissingJSX = (tooltipTitle: string, label: string) => (<Tooltip
-            title={tooltipTitle}
-            placement='top'
-         >
-            <span>{label}</span>
-        </Tooltip>
-    );
+const getApplicationMissingJSX = (tooltipTitle: string, label: string) => (
+    <Tooltip
+        title={tooltipTitle}
+        placement='top'
+    >
+        <span>{label}</span>
+    </Tooltip>
+);
 
 const processErrorResponse = (error: RestApiError, envName: string) => {
     message.error({
@@ -203,10 +204,10 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
     }
 
     /**
-     * Checks whether the currently condfigured application has been deleted on the server 
+     * Checks whether the currently configured application has been deleted on the server 
      * OR if the user does not have read access to the application 
      * @param envUrl - environment url containing the current application
-     * @param isEnvConnected - boolean value to indicte the connected status of the env
+     * @param isEnvConnected - boolean value to indicate the connected status of the env
      * @param applicationList - list of applications on the env
      * @returns 
      */
@@ -236,7 +237,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
                 if (err instanceof RestApiError) {
                     const { errorCode } = err;
                     isCurrentAppDeleted = errorCode === 'ERR004'; // Application has been deleted
-                    isCurrentAppAccessLimited = errorCode === 'ERR017'; // Application cannot be read as useer lacks read privileges
+                    isCurrentAppAccessLimited = errorCode === 'ERR017'; // Application cannot be read as user lacks read privileges
                 }
             }
         }
@@ -402,17 +403,18 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
         }));
 
          
-        if (isCurrentAppDeleted || isCurrentAppAccessLimited) {
-            let msg = isCurrentAppAccessLimited ? localizedStrings.CURRENT_APP_LIMITED_ACCESS_LABEL : '';
-            msg = isCurrentAppDeleted ? localizedStrings.CURRENT_APP_DELETED_LABEL : msg;
-
-            let tooltipTitle = isCurrentAppAccessLimited ? localizedStrings.CURRENT_APP_LIMITED_ACCESS_TOOLTIP : '';
-            tooltipTitle = isCurrentAppDeleted ? localizedStrings.CURRENT_APP_DELETED_TOOLTIP : tooltipTitle;
-
+        if (isCurrentAppDeleted) {
             const app = {
                 value: application.id,
                 isDefault: false,
-                label: getApplicationMissingJSX(tooltipTitle, msg)
+                label: getApplicationMissingJSX(localizedStrings.CURRENT_APP_DELETED_TOOLTIP, localizedStrings.CURRENT_APP_DELETED_LABEL)
+            };
+            applicationSelectOptionsList.unshift(app);
+        } else if (isCurrentAppAccessLimited) {
+            const app = {
+                value: application.id,
+                isDefault: false,
+                label: getApplicationMissingJSX(localizedStrings.CURRENT_APP_LIMITED_ACCESS_TOOLTIP, localizedStrings.CURRENT_APP_LIMITED_ACCESS_LABEL)
             };
             applicationSelectOptionsList.unshift(app);
         }
