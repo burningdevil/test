@@ -2,7 +2,7 @@ import * as React from 'react';
 import { message } from 'antd';
 import * as api from '../../../../services/Api';
 import { RestApiError } from '../../../../server/RestApiError';
-import { EnvironmentApplicationType } from "src/types/data-model/HomeScreenConfigModels";
+import { EnvironmentConnectionApplicationType, HomeScreenConfigType } from "src/types/data-model/HomeScreenConfigModels";
 import { isLibraryServerVersionMatch, isIServerVersionMatch } from '../../../../utils';
 import { localizedStrings } from '../../HomeScreenConfigConstant';
 
@@ -45,7 +45,7 @@ const processErrorResponse = (error: RestApiError, envName: string) => {
  * @returns envApplicationList
 */
 export const getApplicationListFromServer = async (envBaseUrl: string, envName: string, isEnvConnected: boolean, errorObject: { errorMessage?: string }) => {
-    let envApplicationList: Array<EnvironmentApplicationType> = [];
+    let envApplicationList: Array<EnvironmentConnectionApplicationType> = [];
 
     if (isEnvConnected) {
         try {
@@ -54,7 +54,7 @@ export const getApplicationListFromServer = async (envBaseUrl: string, envName: 
             if (isCustomAppsSupported) {
                 const response = await api.fetchAllApplicationsForOtherEnv(envBaseUrl);
                 const { applications: fetchedEnvApplicationList } = response;
-                envApplicationList = fetchedEnvApplicationList.map((app: EnvironmentApplicationType) => ({ name: app.name, id: app.id, isDefault: app.isDefault, logo: app.homeScreen?.theme?.logos?.web }));
+                envApplicationList = fetchedEnvApplicationList.map((app: HomeScreenConfigType) => ({ name: app.name, id: app.id, isDefault: app.isDefault, logo: app.homeScreen?.theme?.logos?.web }));
             } else {
                 errorObject.errorMessage =  localizedStrings.CUSTOM_APPS_NOT_SUPPORTED_MSG;
             }

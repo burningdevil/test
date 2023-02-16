@@ -1,11 +1,13 @@
 import { Return } from 'wd/lib/special-keys'
 import ApplicationPage from '../../pages/webPages/customApp/ApplicationPage'
 import SettingPage from '../../pages/webPages/customApp/SettingPage'
+import AppThemePage from '../../pages/webPages/customApp/AppThemePage'
 import { wsConfig, imageCompareConfig } from '../../config/constants'
 const { expect } = require('chai')
 const { Given, When, Then, setDefaultTimeout } = require('cucumber')
 const applicationPage = new ApplicationPage()
 const settingPage = new SettingPage()
+const appThemePage = new AppThemePage()
 const { mainWindow } = pageObj
 const { switchToWindow } = require('../../utils/wsUtils/windowHelper')
 
@@ -470,4 +472,39 @@ When('switch to user {string} with password {string}', async function (userName,
         await mainWindow.smartTab.scrollOnSmartTab('down')
         await mainWindow.app.sleep(500)
     }
-})  
+});
+
+When('I input WebLogo url {string} in appearance editor', async function (url) {
+    await appThemePage.inputWebLogoURL(url)
+    return mainWindow.app.sleep(8000)
+});
+
+When('I input WebFavicon url {string} in appearance editor', async function (url) {
+    await appThemePage.inputWebFaviconURL(url)
+    return mainWindow.app.sleep(5000)
+});
+
+When('I input MobileLogo url {string} in appearance editor', async function (url) {
+    await appThemePage.inputMobileLogoURL(url)
+    return mainWindow.app.sleep(5000)
+});
+
+When('I select color theme {string} in appearance editor', async function (color) {
+    await appThemePage.setAppThemeColor(color)
+    return mainWindow.app.sleep(1000)
+});
+
+Then('I set custom theme property {string} via color picker in appearance editor', async function (name) {
+    await appThemePage.setCustomColorBox(name)
+    return mainWindow.app.sleep(1000)
+});
+
+Then('I select color picker color {string}', async function (color) {
+    await appThemePage.pickColorPickerColor(color)
+    return mainWindow.app.sleep(1000)
+});
+
+Then('I set custom theme property {string} via input {string} in appearance editor', async function (name, color) {
+    await appThemePage.setCustomColorInputBox(name, color)
+    return mainWindow.app.sleep(1000)
+});

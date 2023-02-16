@@ -7,7 +7,7 @@ import EditableLabel from '../editable-label';
 import { default as VC } from '../../../HomeScreenConfigConstant';
 import { LinkedEnvsSectionProps } from './interface';
 import { envConnectionsUrlCustomAppPath, envConnectionsClassNamePrefix, getBaseUrl, getApplicationIdFromUrl } from '../env-connections-util';
-import { ThemePropObject, EnvironmentConnectionTableDataType, EnvironmentApplicationType } from "src/types/data-model/HomeScreenConfigModels";
+import { ThemePropObject, EnvironmentConnectionTableDataType, EnvironmentConnectionApplicationType } from "src/types/data-model/HomeScreenConfigModels";
 import { localizedStrings } from '../../../HomeScreenConfigConstant';
 import './styles.scss';
 
@@ -33,11 +33,11 @@ const LinkedEnvsSection = ({ currEnvConnections, wsCurrentEnv, linkedCurrentEnv,
      * @param idx - index of the linked environment
      * @returns application list dropdown JSX
     */
-    const getApplicationDropDown = (record: EnvironmentConnectionTableDataType, application: EnvironmentApplicationType, idx: number) => {
+    const getApplicationDropDown = (record: EnvironmentConnectionTableDataType, application: EnvironmentConnectionApplicationType, idx: number) => {
         const isFirstRow = idx === 0;
         const selectedApplicationValue = (!isFirstRow && record.isConfigured && record.isConnected) ? application?.id : undefined;
         const sortedApplicationList = _.sortBy(record.applicationList, (a) => a.name); // sort application list alphabetically
-        const applicationSelectOptionsList = sortedApplicationList.map((a: EnvironmentApplicationType) => ({
+        const applicationSelectOptionsList = sortedApplicationList.map((a: EnvironmentConnectionApplicationType) => ({
             label: getApplicationOptionLabel(a.name, a.logo),
             value: a.id,
             isDefault: a.isDefault
@@ -92,7 +92,11 @@ const LinkedEnvsSection = ({ currEnvConnections, wsCurrentEnv, linkedCurrentEnv,
             const baseUrl = getBaseUrl(env.url);
             const selectedApplicationId = getApplicationIdFromUrl(env.url);
             let wsName = '';
-            let selectedApplication: EnvironmentApplicationType = { id: selectedApplicationId };
+            let selectedApplication: EnvironmentConnectionApplicationType = {
+                id: selectedApplicationId,
+                isDefault: false,
+                name: ''
+            };
             if (env.isConfigured) {
                 // get and update env's WS saved name. this is accessible as long as the env is configured on user's WS
                 const wsEnvObj = wsOtherEnvs.find(e => e.url === baseUrl);
@@ -195,7 +199,7 @@ const LinkedEnvsSection = ({ currEnvConnections, wsCurrentEnv, linkedCurrentEnv,
             dataIndex={VC.SELECTED_APPLICATION}
             key={VC.SELECTED_APPLICATION}
             width={224}
-            render={(application: EnvironmentApplicationType, record: EnvironmentConnectionTableDataType, idx) => {
+            render={(application: EnvironmentConnectionApplicationType, record: EnvironmentConnectionTableDataType, idx) => {
                 const isFirstRow = idx === 0;
                 return isFirstRow ? null : getApplicationDropDown(record, application, idx);
             }}
