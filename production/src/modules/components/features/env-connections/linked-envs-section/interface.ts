@@ -8,5 +8,5 @@ export type LinkedEnvsSectionProps = {
     wsOtherEnvs: Array<EnvironmentConnectionInterface>,
     linkedEnvs: Array<EnvironmentConnectionInterface>,
     onUpdateLinkedCurrentEnv(newLinkedCurrentEnv: EnvironmentConnectionInterface, newEnvConnections: EnvironmentConnectionSettingType): void,
-    onUpdateLinkedEnvs(newLinkedEnvs: Array<EnvironmentConnectionInterface>, newEnvConnections: EnvironmentConnectionSettingType): void 
+    onUpdateLinkedEnvs(newLinkedEnvs: Array<EnvironmentConnectionInterface>, newEnvConnections: EnvironmentConnectionSettingType): void
 }

@@ -23,7 +23,7 @@ export interface ActionButtonInterface {
         "backgroundColor": string,
         "fontColor": string,
         "text": string
-        },
+    },
     "mobileButtonStyle": {
         "backgroundColor": string,
         "fontColor": string,
@@ -86,6 +86,8 @@ export interface EnvironmentConnectionInterface {
     applicationList?: Array<EnvironmentConnectionApplicationType>,
     isConfigured?: boolean,
     isConnected?: boolean,
+    isCurrentAppDeleted?: boolean,
+    isCurrentAppAccessLimited?: boolean,
     errorMessage?: string
 }
 
@@ -110,7 +112,9 @@ export interface EnvironmentConnectionTableDataType {
     applicationList?: Array<EnvironmentConnectionApplicationType>,
     isConfigured: boolean,
     isConnected: boolean,
-    errorMessage?: string
+    errorMessage?: string,
+    isCurrentAppDeleted?: boolean,
+    isCurrentAppAccessLimited?: boolean
 }
 
 export interface HomeScreenConfigType {
@@ -126,8 +130,8 @@ export interface HomeScreenConfigType {
     'objectNames': [],
     'objectAcl': [],
     'homeScreen': {
-        mode: number, 
-        homeLibrary: { 
+        mode: number,
+        homeLibrary: {
             icons: Array<string>,
             sidebars: Array<string>,
             customizedItems: any,
@@ -136,7 +140,7 @@ export interface HomeScreenConfigType {
             defaultGroupsName: string,
             toolbarMode: number,
             toolbarEnabled: boolean
-        }, 
+        },
         homeDocument: {
             url: string,
             icons: Array<string>,
@@ -151,7 +155,7 @@ export interface HomeScreenConfigType {
         disablePreferences: boolean,
         networkTimeout: number,
         cacheClearMode: number,
-        clearCacheOnLogout: boolean, 
+        clearCacheOnLogout: boolean,
         maxLogSize: number,
         logLevel: number,
         updateInterval: number
@@ -177,11 +181,11 @@ export interface HomeScreenBundleContentListItem {
     type: number,
     viewMedia: number,
     dateModified: string,
-    owner: {name: string, id: string},
+    owner: { name: string, id: string },
     name: string
     dateCreated: string,
     acg: number,
-    certifiedInfo: {certified: any}
+    certifiedInfo: { certified: any }
 }
 
 export interface ThemePropObject {
@@ -195,25 +199,25 @@ export interface ApplicationLogos {
 }
 
 export interface ThemeColorFormats {
-  toolbarFill: string,
-  toolbarColor: string,
+    toolbarFill: string,
+    toolbarColor: string,
 
-  sidebarFill: string,
-  sidebarColor: string,
+    sidebarFill: string,
+    sidebarColor: string,
 
-  sidebarActiveFill: string,
-  sidebarActiveColor: string,
+    sidebarActiveFill: string,
+    sidebarActiveColor: string,
 
-  panelFill: string,
-  panelColor: string,
+    panelFill: string,
+    panelColor: string,
 
-  canvasFill: string,
-  
-  accentFill: string,
+    canvasFill: string,
 
-  buttonColor: string,
+    accentFill: string,
 
-  notificationBadgeFill: string
+    buttonColor: string,
+
+    notificationBadgeFill: string
 }
 export interface ApplicationColor {
     selectedTheme?: string,

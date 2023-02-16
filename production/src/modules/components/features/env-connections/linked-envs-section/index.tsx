@@ -13,16 +13,19 @@ import './styles.scss';
 const LinkedEnvsSection = ({ currEnvConnections, wsCurrentEnv, linkedCurrentEnv, wsOtherEnvs, linkedEnvs, onUpdateLinkedCurrentEnv, onUpdateLinkedEnvs }: LinkedEnvsSectionProps) => {
     const getApplicationOptionLabel = (name: string, logo: ThemePropObject) => (
         <div className="application-list-obj">
-            {logo?.value ? (
-                <div
-                    className="application-list-obj-icn"
-                    style={{ backgroundImage: `url(${logo.value})` }}
-                />
-            ) : (
-                <div className="application-list-obj-icn" />
-            )}
+            {
+                logo?.value
+                    ? <div className="application-list-obj-icn" style={{ backgroundImage: `url(${logo.value})` }} />
+                    : <div className="application-list-obj-icn" />
+            }
             <div className="application-list-obj-text">{name}</div>
         </div>
+    );
+
+    const getApplicationMissingJSX = (tooltipTitle: string, label: string) => (
+        <Tooltip title={tooltipTitle} placement='top'>
+            <span>{label}</span>
+        </Tooltip>
     );
 
     /** 
@@ -33,16 +36,32 @@ const LinkedEnvsSection = ({ currEnvConnections, wsCurrentEnv, linkedCurrentEnv,
      * @returns application list dropdown JSX
     */
     const getApplicationDropDown = (record: EnvironmentConnectionTableDataType, application: EnvironmentConnectionApplicationType, idx: number) => {
+        const { isConfigured, isConnected, applicationList, isCurrentAppDeleted, isCurrentAppAccessLimited, errorMessage } = record;
         const isFirstRow = idx === 0;
-        const selectedApplicationValue = (!isFirstRow && record.isConfigured && record.isConnected) ? application?.id : undefined;
-        const sortedApplicationList = _.sortBy(record.applicationList, (a) => a.name); // sort application list alphabetically
+        const isErrorPresent = !!errorMessage;
+        const selectedApplicationValue = (!isFirstRow && isConfigured && isConnected) ? application?.id : undefined;
+        const sortedApplicationList = _.sortBy(applicationList, (a) => a.name); // sort application list alphabetically
         const applicationSelectOptionsList = sortedApplicationList.map((a: EnvironmentConnectionApplicationType) => ({
             label: getApplicationOptionLabel(a.name, a.logo),
             value: a.id,
             isDefault: a.isDefault
         }));
-        const { errorMessage } = record;
-        const isErrorPresent = !!errorMessage;
+
+        if (isCurrentAppDeleted) {
+            const app = {
+                value: application.id,
+                isDefault: false,
+                label: getApplicationMissingJSX(localizedStrings.CURRENT_APP_DELETED_TOOLTIP, localizedStrings.CURRENT_APP_DELETED_LABEL)
+            };
+            applicationSelectOptionsList.unshift(app);
+        } else if (isCurrentAppAccessLimited) {
+            const app = {
+                value: application.id,
+                isDefault: false,
+                label: getApplicationMissingJSX(localizedStrings.CURRENT_APP_LIMITED_ACCESS_TOOLTIP, localizedStrings.CURRENT_APP_LIMITED_ACCESS_LABEL)
+            };
+            applicationSelectOptionsList.unshift(app);
+        }
 
         const applicationDropDown = (<Select
             className='connected-env-application-select'
@@ -52,26 +71,26 @@ const LinkedEnvsSection = ({ currEnvConnections, wsCurrentEnv, linkedCurrentEnv,
             placeholder={''}
             options={applicationSelectOptionsList}
             bordered={false}
-            onChange={(newApplicationId, newApplicationObj : { label: JSX.Element, value: string, isDefault: boolean}) => {
+            onChange={(newApplicationId, newApplicationObj: { label: JSX.Element, value: string, isDefault: boolean }) => {
                 // update url based on application selection
                 let newLinkedEnvs = [...linkedEnvs];
                 let currConnectedEnv = newLinkedEnvs[idx - 1];
                 currConnectedEnv.url = newApplicationObj.isDefault ? record.baseUrl : (record.baseUrl + envConnectionsUrlCustomAppPath + newApplicationId); // update url with new application id
+                currConnectedEnv.isCurrentAppDeleted = false;
+                currConnectedEnv.isCurrentAppAccessLimited = false;
                 onUpdateLinkedEnvs(newLinkedEnvs, {
                     current: currEnvConnections.current || linkedCurrentEnv.name,
                     other: newLinkedEnvs
                 });
             }}
-        />)
+        />);
 
-        return isErrorPresent ? (
-        <Tooltip
-            title = {errorMessage}
-            placement = 'top'
-        >
-            {applicationDropDown}
-        </Tooltip>) : applicationDropDown
-    };
+        return isErrorPresent
+            ? <Tooltip title={errorMessage} placement='top'>
+                {applicationDropDown}
+            </Tooltip>
+            : applicationDropDown
+    }
 
     // take existing current/linked env information and convert it into dataSource format readable by Table component
     const getLinkedEnvsTableDataSource = () => {
@@ -105,8 +124,8 @@ const LinkedEnvsSection = ({ currEnvConnections, wsCurrentEnv, linkedCurrentEnv,
                     // set selectedApplication as the corresponding application obj. if we don't have
                     // a selectedApplicationId, it is because the user has selected the default application
                     selectedApplication = selectedApplicationId
-                    ? env.applicationList.find(a => a.id === selectedApplicationId)
-                    : env.applicationList.find(a => a.isDefault);
+                        ? env.applicationList.find(a => a.id === selectedApplicationId) || { id: selectedApplicationId, isDefault: false, name: '' }
+                        : env.applicationList.find(a => a.isDefault);
                 }
             }
             dataSource.push({
@@ -115,10 +134,12 @@ const LinkedEnvsSection = ({ currEnvConnections, wsCurrentEnv, linkedCurrentEnv,
                 wsName, // represents name of env as saved in WS
                 baseUrl,
                 selectedApplication,
+                isCurrentAppDeleted: env.isCurrentAppDeleted,
+                isCurrentAppAccessLimited: env.isCurrentAppAccessLimited,
                 applicationList: env.applicationList || [],
                 isConfigured: env.isConfigured,
                 isConnected: env.isConnected,
-                errorMessage: env.errorMessage 
+                errorMessage: env.errorMessage
             })
         })
 
@@ -135,47 +156,47 @@ const LinkedEnvsSection = ({ currEnvConnections, wsCurrentEnv, linkedCurrentEnv,
                 const isFirstRow = idx === 0;
                 return (
                     <div className='connected-env-name-wrapper'>
-                            <div className='connected-env-name-icn' />
-                            <div className={classnames('connected-env-name-text', { 'is-current-env': isFirstRow })}>
-                                {
-                                    isFirstRow
-                                        ? <React.Fragment>
-                                                <EditableLabel
-                                                    className={'current-env-name'}
-                                                    value={name}
-                                                    allowEmptySave
-                                                    onValueChange={(newName: string) => {
-                                                        const newNameToSave = newName || record.wsName; // fall back to WS saved current env name if user saves empty string
-                                                        let newCurrentEnv = { ...linkedCurrentEnv };
-                                                        newCurrentEnv.name = newNameToSave; // update name in current env's object entry
-                                                        onUpdateLinkedCurrentEnv(newCurrentEnv, {
-                                                            current: newNameToSave,
-                                                            other: currEnvConnections.other
-                                                        });
-                                                    }}
-                                                    wsName={record.wsName}
-                                                />
-                                                <div className='current-env-suffix'>{localizedStrings.CURRENT_ENV_LABEL}</div>
-                                        </React.Fragment>
-                                        : <EditableLabel
-                                            className={'connected-env-name'}
+                        <div className='connected-env-name-icn' />
+                        <div className={classnames('connected-env-name-text', { 'is-current-env': isFirstRow })}>
+                            {
+                                isFirstRow
+                                    ? <React.Fragment>
+                                        <EditableLabel
+                                            className={'current-env-name'}
                                             value={name}
                                             allowEmptySave
                                             onValueChange={(newName: string) => {
-                                                const newNameToSave = newName || record.wsName; // fall back to WS saved env name if user saves empty string
-                                                let newLinkedEnvs = [...linkedEnvs];
-                                                let currConnectedEnv = newLinkedEnvs[idx - 1];
-                                                currConnectedEnv.name = newNameToSave; // update name in env's object entry
-                                                newLinkedEnvs = _.sortBy(newLinkedEnvs, (e) => e.name); // re-sort in case new name moves it out of position
-                                                onUpdateLinkedEnvs(newLinkedEnvs, {
-                                                    current: currEnvConnections.current || linkedCurrentEnv.name,
-                                                    other: newLinkedEnvs
+                                                const newNameToSave = newName || record.wsName; // fall back to WS saved current env name if user saves empty string
+                                                let newCurrentEnv = { ...linkedCurrentEnv };
+                                                newCurrentEnv.name = newNameToSave; // update name in current env's object entry
+                                                onUpdateLinkedCurrentEnv(newCurrentEnv, {
+                                                    current: newNameToSave,
+                                                    other: currEnvConnections.other
                                                 });
                                             }}
                                             wsName={record.wsName}
                                         />
-                                }
-                            </div>
+                                        <div className='current-env-suffix'>{localizedStrings.CURRENT_ENV_LABEL}</div>
+                                    </React.Fragment>
+                                    : <EditableLabel
+                                        className={'connected-env-name'}
+                                        value={name}
+                                        allowEmptySave
+                                        onValueChange={(newName: string) => {
+                                            const newNameToSave = newName || record.wsName; // fall back to WS saved env name if user saves empty string
+                                            let newLinkedEnvs = [...linkedEnvs];
+                                            let currConnectedEnv = newLinkedEnvs[idx - 1];
+                                            currConnectedEnv.name = newNameToSave; // update name in env's object entry
+                                            newLinkedEnvs = _.sortBy(newLinkedEnvs, (e) => e.name); // re-sort in case new name moves it out of position
+                                            onUpdateLinkedEnvs(newLinkedEnvs, {
+                                                current: currEnvConnections.current || linkedCurrentEnv.name,
+                                                other: newLinkedEnvs
+                                            });
+                                        }}
+                                        wsName={record.wsName}
+                                    />
+                            }
+                        </div>
                     </div>
                 )
             }}

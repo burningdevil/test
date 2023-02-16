@@ -3,5 +3,5 @@ import { EnvironmentConnectionInterface } from "src/types/data-model/HomeScreenC
 export type AvailableEnvsSectionProps = {
     wsOtherEnvs: Array<EnvironmentConnectionInterface>,
     linkedEnvs: Array<EnvironmentConnectionInterface>,
-    onAddEnv(env: EnvironmentConnectionInterface) : void
+    onAddEnv(env: EnvironmentConnectionInterface): void
 }

@@ -11,7 +11,7 @@ import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { EnvironmentConnectionSettingType, EnvironmentConnectionInterface, HomeScreenConfigType } from '../../../types/data-model/HomeScreenConfigModels';
 import { selectCurrentConfig, selectCurrEnvConnections } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import { localizedStrings } from '../HomeScreenConfigConstant';
-import { envConnectionsClassNamePrefix, getBaseUrl, getApplicationListFromServer } from '../features/env-connections/env-connections-util';
+import { envConnectionsClassNamePrefix, getBaseUrl, getApplicationListFromServer, isCurrAppDeletedOrAccessLimited } from '../features/env-connections/env-connections-util';
 import LinkedEnvsSection from '../features/env-connections/linked-envs-section';
 import AvailableEnvsSection from '../features/env-connections/available-envs-section';
 import '../scss/env-connections/HomeScreenEnvConnections.scss';
@@ -22,7 +22,7 @@ const screenClassNamePrefix = `${envConnectionsClassNamePrefix}-screen`;
 interface HomeScreenEnvConnectionsProps {
     currConfig: Partial<HomeScreenConfigType>,
     currEnvConnections: EnvironmentConnectionSettingType,
-    updateCurrentConfig(settings: Partial<HomeScreenConfigType>) : {
+    updateCurrentConfig(settings: Partial<HomeScreenConfigType>): {
         type: string,
         data: Partial<HomeScreenConfigType>
     }
@@ -73,8 +73,11 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
             const isEnvConnected = availableEnvObj?.status === EnvironmentStatus.Connected;
             const errorObject: { errorMessage?: string } = {};
             const envApplicationList = await getApplicationListFromServer(envBaseUrl, env.name, isEnvConnected, errorObject);
-            
+            const { isCurrentAppDeleted, isCurrentAppAccessLimited } = await isCurrAppDeletedOrAccessLimited(env.url, isEnvConnected, envApplicationList);
+
             linkedEnvs[idx].applicationList = envApplicationList;
+            linkedEnvs[idx].isCurrentAppDeleted = isCurrentAppDeleted;
+            linkedEnvs[idx].isCurrentAppAccessLimited = isCurrentAppAccessLimited;
             linkedEnvs[idx].errorMessage = errorObject.errorMessage;
             linkedEnvs[idx].isConfigured = !!availableEnvObj;
             linkedEnvs[idx].isConnected = !!isEnvConnected;
@@ -131,7 +134,7 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
         const wsOtherEnvs = workstationAvailableEnvs
             .filter(env => (env.url !== workstationCurrentEnv.url))
             .map(env => ({ name: env.name, url: env.url, isConnected: env.status === EnvironmentStatus.Connected }));
-        
+
         this.setState({ isRefreshing: true });
         // update linkedEnvs with application lists
         const newLinkedEnvs = await Promise.all(linkedEnvs.map(async (env) => {
@@ -140,10 +143,13 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
             const isEnvConnected = availableEnvObj?.isConnected;
             const errorObject: { errorMessage?: string } = {};
             const envApplicationList = await getApplicationListFromServer(envBaseUrl, env.name, isEnvConnected, errorObject);
+            const { isCurrentAppDeleted, isCurrentAppAccessLimited } = await isCurrAppDeletedOrAccessLimited(env.url, isEnvConnected, envApplicationList);
 
             return {
                 ...env,
                 applicationList: envApplicationList,
+                isCurrentAppDeleted,
+                isCurrentAppAccessLimited,
                 errorMessage: errorObject.errorMessage,
                 isConfigured: !!availableEnvObj, // true, since we are in this code block which checks for isEnvConnected
                 isConnected: !!isEnvConnected // true, since we are in this code block which checks for isEnvConnected
@@ -157,18 +163,18 @@ class HomeScreenEnvConnections extends React.Component<HomeScreenEnvConnectionsP
             linkedEnvs: newLinkedEnvs
         });
     }
- 
+
     render() {
         const { currEnvConnections } = this.props;
         const { wsCurrentEnv, linkedCurrentEnv, wsOtherEnvs, linkedEnvs, isRefreshing } = this.state;
         return (
             <div className={screenClassNamePrefix}>
                 <div className={`${screenClassNamePrefix}-title-row`}>
-                <div className={`${screenClassNamePrefix}-title`}>{localizedStrings.NAVBAR_ENVIRONMENT_CONNECTION_SETTINGS.toUpperCase()}</div>
-                <div className={`${screenClassNamePrefix}-refresh`} onClick={this.refreshEnvironments}>
-                    <div className={classnames(`${screenClassNamePrefix}-refresh-icn`, { 'disabled': isRefreshing })} />
-                    <div className={`${screenClassNamePrefix}-refresh-text`}>{localizedStrings.REFRESH}</div>
-                </div>
+                    <div className={`${screenClassNamePrefix}-title`}>{localizedStrings.NAVBAR_ENVIRONMENT_CONNECTION_SETTINGS.toUpperCase()}</div>
+                    <div className={`${screenClassNamePrefix}-refresh`} onClick={this.refreshEnvironments}>
+                        <div className={classnames(`${screenClassNamePrefix}-refresh-icn`, { 'disabled': isRefreshing })} />
+                        <div className={`${screenClassNamePrefix}-refresh-text`}>{localizedStrings.REFRESH}</div>
+                    </div>
                 </div>
                 <div className={`${screenClassNamePrefix}-desc`}>{localizedStrings.ENVIRONMENT_CONNECTION_SETTINGS_DESC}</div>
                 <Spin spinning={isRefreshing}>

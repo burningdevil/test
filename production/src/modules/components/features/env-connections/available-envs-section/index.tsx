@@ -16,7 +16,7 @@ const AvailableEnvsSection = ({ wsOtherEnvs, linkedEnvs, onAddEnv }: AvailableEn
         <div className={`${envConnectionsClassNamePrefix}-available-envs-table`}>
             <div className={`${envConnectionsClassNamePrefix}-available-envs-table-desc`}>{localizedStrings.ENVIRONMENT_CONNECTION_AVAILABLE_ENVS_DESC}</div>
             {
-                availableToLinkEnvs.length 
+                availableToLinkEnvs.length
                     ? availableToLinkEnvs.map((env: EnvironmentConnectionInterface, idx) => (
                         <div className='available-env-row' key={idx}>
                             <div className='available-env-name' title={env.name}>
