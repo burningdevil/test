@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Delete Confirmation Dialog Snapshot Test Set Default Confirmation Dialoig Snapshot Test 1`] = `
+"<ConfirmationDialog isConfirmationDialogDisplayed={true} triggerAction={[Function: mockConstructor] { _isMockFunction: true, getMockImplementation: [Function (anonymous)], mock: { calls: [], instances: [], invocationCallOrder: [], results: [] }, mockClear: [Function (anonymous)], mockReset: [Function (anonymous)], mockRestore: [Function (anonymous)], mockReturnValueOnce: [Function (anonymous)], mockResolvedValueOnce: [Function (anonymous)], mockRejectedValueOnce: [Function (anonymous)], mockReturnValue: [Function (anonymous)], mockResolvedValue: [Function (anonymous)], mockRejectedValue: [Function (anonymous)], mockImplementationOnce: [Function (anonymous)], mockImplementation: [Function (anonymous)], mockReturnThis: [Function (anonymous)], mockName: [Function (anonymous)], getMockName: [Function (anonymous)] }} closeDialog={[Function: mockConstructor] { _isMockFunction: true, getMockImplementation: [Function (anonymous)], mock: { calls: [], instances: [], invocationCallOrder: [], results: [] }, mockClear: [Function (anonymous)], mockReset: [Function (anonymous)], mockRestore: [Function (anonymous)], mockReturnValueOnce: [Function (anonymous)], mockResolvedValueOnce: [Function (anonymous)], mockRejectedValueOnce: [Function (anonymous)], mockReturnValue: [Function (anonymous)], mockResolvedValue: [Function (anonymous)], mockRejectedValue: [Function (anonymous)], mockImplementationOnce: [Function (anonymous)], mockImplementation: [Function (anonymous)], mockReturnThis: [Function (anonymous)], mockName: [Function (anonymous)], getMockName: [Function (anonymous)] }} wordings={{...}}>
+  <div id={[undefined]} className=\\"confirmation-dialog-wrapper\\">
+    <InformationDialog isOpen={true} title=\\"Delete Confirmation\\" hideTitle={false} content={{...}} buttonConfig={{...}} appElement={{...}} className=\\"confirmation-dialog\\" ariaLabel=\\"Delete Confirmation\\" theme=\\"\\" onClose={[Function: handleWindowClose]} ariaLabeledby=\\"\\">
+      <div className=\\"information-dialog-panel\\" id=\\"information-dialog-panel confirmation-dialog\\">
+        <Dialog isOpen={true} title={{...}} hideTitle={false} content={{...}} footer={{...}} appElement={{...}} className=\\"information-dialog confirmation-dialog\\" theme=\\"\\" ariaLabel=\\"Delete Confirmation\\" ariaLabeledby=\\"\\" hideFooter={false}>
+          <Modal isOpen={true} appElement={{...}} className=\\"mstr-rc-dialog information-dialog confirmation-dialog\\" overlayClassName=\\"mstr-rc-dialog-curtain mstr--dialog-theme\\" contentLabel={{...}} shouldCloseOnOverlayClick={false} aria={{...}} portalClassName=\\"ReactModalPortal\\" bodyOpenClassName=\\"ReactModal__Body--open\\" role=\\"dialog\\" ariaHideApp={true} closeTimeoutMS={0} shouldFocusAfterRender={true} shouldCloseOnEsc={true} shouldReturnFocusAfterClose={true} preventScroll={false} parentSelector={[Function: parentSelector]} overlayElement={[Function: overlayElement]} contentElement={[Function: contentElement]}>
+            <Portal containerInfo={{...}}>
+              <ModalPortal defaultStyles={{...}} isOpen={true} appElement={{...}} className=\\"mstr-rc-dialog information-dialog confirmation-dialog\\" overlayClassName=\\"mstr-rc-dialog-curtain mstr--dialog-theme\\" contentLabel={{...}} shouldCloseOnOverlayClick={false} aria={{...}} portalClassName=\\"ReactModalPortal\\" bodyOpenClassName=\\"ReactModal__Body--open\\" role=\\"dialog\\" ariaHideApp={true} closeTimeoutMS={0} shouldFocusAfterRender={true} shouldCloseOnEsc={true} shouldReturnFocusAfterClose={true} preventScroll={false} parentSelector={[Function: parentSelector]} overlayElement={[Function: overlayElement]} contentElement={[Function: contentElement]} style={{...}}>
+                <div className=\\"ReactModal__Overlay mstr-rc-dialog-curtain mstr--dialog-theme\\" style={{...}} onClick={[Function (anonymous)]} onMouseDown={[Function (anonymous)]}>
+                  <div id={[undefined]} style={{...}} className=\\"ReactModal__Content mstr-rc-dialog information-dialog confirmation-dialog\\" tabIndex=\\"-1\\" onKeyDown={[Function (anonymous)]} onMouseDown={[Function (anonymous)]} onMouseUp={[Function (anonymous)]} onClick={[Function (anonymous)]} role=\\"dialog\\" aria-label=\\"Delete Confirmation\\" aria-modal={true} aria-labelledby=\\"\\" data-testid={[undefined]}>
+                    <div className=\\"mstr-rc-dialog-title\\">
+                      <div className=\\"information-dialog title\\">
+                        <div className=\\"information-dialog title label\\">
+                          Delete Confirmation
+                        </div>
+                        <div className=\\"information-dialog title close-button\\" onClick={[Function: onClick]} role=\\"button\\" tabIndex={0} onKeyDown={[Function: onKeyDown]}>
+                           
+                          <i className=\\"ws-icon-18 ws-icon-close-button-cross\\" />
+                           
+                        </div>
+                      </div>
+                    </div>
+                    <div className=\\"mstr-rc-dialog-content\\">
+                      <div className=\\"confirmation-dialog-dialog-container\\">
+                        <div className=\\"confirmation-dialog-warning-icon\\">
+                          <i className=\\"ws-icon-60 ws-icon-mstr-warning\\" />
+                        </div>
+                        <div className=\\"confirmation-dialog-content-container\\">
+                          <div tabIndex={0} className=\\"confirmation-dialog-summary\\">
+                            <span>
+                              Items to be deleted
+                            </span>
+                          </div>
+                          <div tabIndex={0} className=\\"confirmation-dialog-details\\">
+                            <span>
+                              This operation cannot be undone.
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className=\\"mstr-rc-dialog-footer\\">
+                      <div className=\\"footer button-container\\">
+                        <Button title=\\"Delete\\" className=\\"confirmation-dialog-action-button\\" onClick={[Function: handleAction]} type=\\"primary\\" size=\\"regular\\">
+                          <div className=\\"mstr-button-container\\">
+                            <Button data-testid=\\"\\" block={[undefined]} className=\\"confirmation-dialog-action-button mstr-button mstr-button__primary-type mstr-button__regular-size\\" id=\\"\\" size=\\"middle\\" type=\\"primary\\" disabled={false} onClick={[Function: handleAction]}>
+                              <ForwardRef disabled={false}>
+                                <InternalWave disabled={false}>
+                                  <button data-testid=\\"\\" id=\\"\\" onClick={[Function: handleClick]} type=\\"button\\" className=\\"ant-btn ant-btn-primary confirmation-dialog-action-button mstr-button mstr-button__primary-type mstr-button__regular-size\\" disabled={false}>
+                                    <LoadingIcon existIcon={false} prefixCls=\\"ant-btn\\" loading={false}>
+                                      <CSSMotion visible={false} motionName=\\"ant-btn-loading-icon-motion\\" removeOnLeave={true} onAppearStart={[Function: getCollapsedWidth]} onAppearActive={[Function: getRealWidth]} onEnterStart={[Function: getCollapsedWidth]} onEnterActive={[Function: getRealWidth]} onLeaveStart={[Function: getRealWidth]} onLeaveActive={[Function: getCollapsedWidth]}>
+                                        <DomWrapper />
+                                      </CSSMotion>
+                                    </LoadingIcon>
+                                    <span>
+                                      Delete
+                                    </span>
+                                  </button>
+                                </InternalWave>
+                              </ForwardRef>
+                            </Button>
+                          </div>
+                        </Button>
+                        <Button title=\\"Cancel\\" className=\\"confirmation-dialog-cancel-button\\" onClick={[Function: handleCancel]}>
+                          <div className=\\"mstr-button-container\\">
+                            <Button data-testid=\\"\\" block={[undefined]} className=\\"confirmation-dialog-cancel-button mstr-button mstr-button__regular-type mstr-button__regular-size\\" id=\\"\\" size=\\"middle\\" type=\\"default\\" disabled={false} onClick={[Function: handleCancel]}>
+                              <ForwardRef disabled={false}>
+                                <InternalWave disabled={false}>
+                                  <button data-testid=\\"\\" id=\\"\\" onClick={[Function: handleClick]} type=\\"button\\" className=\\"ant-btn ant-btn-default confirmation-dialog-cancel-button mstr-button mstr-button__regular-type mstr-button__regular-size\\" disabled={false}>
+                                    <LoadingIcon existIcon={false} prefixCls=\\"ant-btn\\" loading={false}>
+                                      <CSSMotion visible={false} motionName=\\"ant-btn-loading-icon-motion\\" removeOnLeave={true} onAppearStart={[Function: getCollapsedWidth]} onAppearActive={[Function: getRealWidth]} onEnterStart={[Function: getCollapsedWidth]} onEnterActive={[Function: getRealWidth]} onLeaveStart={[Function: getRealWidth]} onLeaveActive={[Function: getCollapsedWidth]}>
+                                        <DomWrapper />
+                                      </CSSMotion>
+                                    </LoadingIcon>
+                                    <span>
+                                      Cancel
+                                    </span>
+                                  </button>
+                                </InternalWave>
+                              </ForwardRef>
+                            </Button>
+                          </div>
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ModalPortal>
+            </Portal>
+          </Modal>
+        </Dialog>
+      </div>
+    </InformationDialog>
+  </div>
+</ConfirmationDialog>"
+`;
