@@ -33,7 +33,7 @@ const EditableLabel = ({ className = '', value = '', onValueChange = () => { /* 
             <div className='ws-env-name'><span>{localizedStrings.ENVIRONMENT_WS_NAME_TOOLTIP}:</span> <span>{wsName}</span></div>
         </div>
     );
-  
+
     return editing
         ? <Input
             ref={editingDiv}
@@ -46,7 +46,7 @@ const EditableLabel = ({ className = '', value = '', onValueChange = () => { /* 
         />
         : (
             <div
-                className={classnames(className, 'mstr-singleline-label-editable', { empty : isEmpty })}
+                className={classnames(className, 'mstr-singleline-label-editable', { empty: isEmpty })}
                 onDoubleClick={() => {
                     if (trigger === ENUM_TRIGGER_TYPE.DOUBLECLICK) {
                         setEditing(true);
@@ -60,7 +60,7 @@ const EditableLabel = ({ className = '', value = '', onValueChange = () => { /* 
             >
                 <Tooltip
                     className='mstr-editable-label-tooltip'
-                    title={customTooltipDefn} 
+                    title={customTooltipDefn}
                     placement='right'
                 >
                     <div className='editable-label-value'>{displayedValue}</div>

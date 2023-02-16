@@ -2,22 +2,22 @@
 @import '../../../scss/variables.scss';
 
 .ant-tooltip.mstr-editable-label-tooltip {
-    max-width: 500px !important;
-    font-family: $font-family;
-    font-size: $font-size;
-    color: $msdl-black;
-    line-height: 18px;
-    padding-left: 10px;
+  max-width: 500px !important;
+  font-family: $font-family;
+  font-size: $font-size;
+  color: $msdl-black;
+  line-height: 18px;
+  padding-left: 10px;
 
-    .ant-tooltip-inner {
-        padding: 10px 12px;
+  .ant-tooltip-inner {
+    padding: 10px 12px;
+  }
+
+  .ws-env-name {
+    word-break: break-all;
+
+    span:last-child {
+      font-weight: 600;
     }
-
-    .ws-env-name {
-      word-break: break-all;
-
-      span:last-child {
-        font-weight: 600;
-      }
-    }
+  }
 }

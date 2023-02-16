@@ -1,4 +1,27 @@
 @import '../variables.scss';
 
-$env-connection-screen-height: calc(#{$tabs-content-screen-height} - #{$btn-bar-outer-padding} - #{$btn-bar-height});  // reduce height to give space to btn bar
+@mixin applicationIcnText($web-logo-path: '../../images/web-logo.svg') {
+  .application-list-obj {
+    display: grid;
+    grid-template-columns: 16px auto;
+    grid-gap: 6px;
+    align-items: baseline;
+
+    &-icn {
+      width: 16px;
+      height: 16px;
+      background-image: url($web-logo-path);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      margin: auto; // to help center align it
+    }
+
+    &-text {
+      @extend .overflow;
+    }
+  }
+}
+
+$env-connection-screen-height: calc(#{$tabs-content-screen-height} - #{$btn-bar-outer-padding} - #{$btn-bar-height}); // reduce height to give space to btn bar
 $env-connection-screen-padding: 24px 30px 0;

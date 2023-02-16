@@ -68,7 +68,7 @@ export const getApiPathForGetBundleContents = (
 };
 
 export const getServerStatus = async (envUrl: string = '') => {
-    const response = await HttpProxy.get('/status',{}, undefined, undefined, envUrl);
+    const response = await HttpProxy.get('/status', {}, undefined, undefined, envUrl);
     return response;
 };
 
@@ -111,12 +111,12 @@ export const updateConfig = (configId: string, config: any) => {
 export const loadConfig = (configId: string, envUrl: string = '') => {
     return HttpProxy.get(
         CONFIG_ENDPOINTS +
-            configId +
-            '?outputFlag=INCLUDE_LOCALE&outputFlag=INCLUDE_ACL',
-            {},
-            PARSE_METHOD.JSON,
-            undefined,
-            envUrl
+        configId +
+        '?outputFlag=INCLUDE_LOCALE&outputFlag=INCLUDE_ACL',
+        {},
+        PARSE_METHOD.JSON,
+        undefined,
+        envUrl
     );
 };
 
@@ -139,8 +139,8 @@ export const loadContentBundleList = () => {
 export const loadCurrentEditConfig = (configId: string) => {
     return HttpProxy.get(
         CONFIG_ENDPOINTS +
-            configId +
-            '?outputFlag=INCLUDE_LOCALE&outputFlag=INCLUDE_ACL'
+        configId +
+        '?outputFlag=INCLUDE_LOCALE&outputFlag=INCLUDE_ACL'
     ).then((response: any) => {
         let data = response?.data ?? response;
         if (!_.has(data, VC.PLATFORM)) {
@@ -340,5 +340,3 @@ export const fetchAllApplicationsForOtherEnv = (envUrl: string) => {
     // call get function with isAbsoluteUrl = true, then include env url we want to fetch applications for
     return HttpProxy.get(CONFIG_ENDPOINTS, {}, undefined, undefined, envUrl);
 };
-
-
