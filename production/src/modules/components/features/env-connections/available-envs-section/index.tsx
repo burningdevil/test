@@ -6,7 +6,7 @@ import { EnvironmentConnectionInterface } from "src/types/data-model/HomeScreenC
 import { localizedStrings } from '../../../HomeScreenConfigConstant';
 import './styles.scss';
 
-const AvailableEnvsSection = ({ wsOtherEnvs, linkedEnvs, onAddEnv = () => {} }: AvailableEnvsSectionProps) => {
+const AvailableEnvsSection = ({ wsOtherEnvs, linkedEnvs, onAddEnv }: AvailableEnvsSectionProps) => {
     let availableToLinkEnvs = [...wsOtherEnvs];
     // filter to only include environments currently connected to WS and remove any environments that are already linked
     availableToLinkEnvs = availableToLinkEnvs.filter(currEnv => currEnv.isConnected && !linkedEnvs.find(connectedEnv => (currEnv.url === getBaseUrl(connectedEnv.url))));

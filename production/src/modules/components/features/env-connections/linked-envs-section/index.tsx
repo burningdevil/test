@@ -4,11 +4,10 @@ import classnames from 'classnames';
 import { Select, Table } from 'antd';
 import { Tooltip } from '@mstr/rc';
 import EditableLabel from '../editable-label';
-import { default as VC } from '../../../HomeScreenConfigConstant';
+import { default as VC, localizedStrings } from '../../../HomeScreenConfigConstant';
 import { LinkedEnvsSectionProps } from './interface';
 import { envConnectionsUrlCustomAppPath, envConnectionsClassNamePrefix, getBaseUrl, getApplicationIdFromUrl } from '../env-connections-util';
 import { ThemePropObject, EnvironmentConnectionTableDataType, EnvironmentConnectionApplicationType } from "src/types/data-model/HomeScreenConfigModels";
-import { localizedStrings } from '../../../HomeScreenConfigConstant';
 import './styles.scss';
 
 const LinkedEnvsSection = ({ currEnvConnections, wsCurrentEnv, linkedCurrentEnv, wsOtherEnvs, linkedEnvs, onUpdateLinkedCurrentEnv, onUpdateLinkedEnvs }: LinkedEnvsSectionProps) => {
