@@ -18,7 +18,6 @@ import {
     defaultColorSet
 } from '../../../utils/appThemeColorHelper';
 import ColorPickerComponent from '../../../Components/ColorPicker';
-import * as _ from 'lodash';
 
 type ColorPropEditorProps = {
     color: ApplicationColor;
