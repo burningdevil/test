@@ -15,6 +15,7 @@ import {
     colorPropTitles,
     EnumFormattingPropNames,
     isColorCodeValid,
+    defaultColorSet
 } from '../../../utils/appThemeColorHelper';
 import ColorPickerComponent from '../../../Components/ColorPicker';
 
@@ -41,8 +42,10 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
         (key) => (initColorCodeValidity[key] = true)
     );
 
+    const initalFormats = { ...defaultColorSet, ...formatting };
+
     // current list of color format values
-    const [formats, setFormats] = React.useState<ThemeColorFormats>(formatting);
+    const [formats, setFormats] = React.useState<ThemeColorFormats>(initalFormats);
 
     // List of booleans indicating whether current list of color format values are valid 3 or 6 digit hex values
     const [isColorCodeListValid, setIsColorCodeListValid] = React.useState(
