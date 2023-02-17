@@ -113,6 +113,9 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
 
         // insert color prop fields
         props.forEach(p => {
+            if (!formats[p.name]) {
+                return;
+            }
             colorPropRows.push(<Row gutter={[gutterHorizontal, gutterVertical]}>
                 {
                     getColorPropCols(
