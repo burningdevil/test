@@ -60,6 +60,28 @@ export const EnumFormattingPropNames = {
     notificationBadgeFill: 'notificationBadgeFill',
 };
 
+export const defaultColorSet = {
+    [EnumFormattingPropNames.toolbarFill]: '',
+    [EnumFormattingPropNames.toolbarColor]: '',
+
+    [EnumFormattingPropNames.sidebarFill]: '',
+    [EnumFormattingPropNames.sidebarColor]: '',
+
+    [EnumFormattingPropNames.sidebarActiveFill]: '',
+    [EnumFormattingPropNames.sidebarActiveColor]: '',
+
+    [EnumFormattingPropNames.panelFill]: '',
+    [EnumFormattingPropNames.panelColor]: '',
+
+    [EnumFormattingPropNames.canvasFill]: '',
+
+    [EnumFormattingPropNames.accentFill]: '',
+
+    [EnumFormattingPropNames.buttonColor]: '',
+
+    [EnumFormattingPropNames.notificationBadgeFill]: ''
+}
+
 // color set for library predefined themes, coming from UX
 export const prefinedColorSets = {
     [EnumSelectedThemes.RED]: {

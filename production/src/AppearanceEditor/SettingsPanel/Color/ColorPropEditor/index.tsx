@@ -15,8 +15,10 @@ import {
     colorPropTitles,
     EnumFormattingPropNames,
     isColorCodeValid,
+    defaultColorSet
 } from '../../../utils/appThemeColorHelper';
 import ColorPickerComponent from '../../../Components/ColorPicker';
+import * as _ from 'lodash';
 
 type ColorPropEditorProps = {
     color: ApplicationColor;
@@ -41,8 +43,10 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
         (key) => (initColorCodeValidity[key] = true)
     );
 
+    const initalFormats = { ...defaultColorSet, ...formatting };
+
     // current list of color format values
-    const [formats, setFormats] = React.useState<ThemeColorFormats>(formatting);
+    const [formats, setFormats] = React.useState<ThemeColorFormats>(initalFormats);
 
     // List of booleans indicating whether current list of color format values are valid 3 or 6 digit hex values
     const [isColorCodeListValid, setIsColorCodeListValid] = React.useState(
@@ -113,9 +117,6 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
 
         // insert color prop fields
         props.forEach(p => {
-            if (!formats[p.name]) {
-                return;
-            }
             colorPropRows.push(<Row gutter={[gutterHorizontal, gutterVertical]}>
                 {
                     getColorPropCols(
