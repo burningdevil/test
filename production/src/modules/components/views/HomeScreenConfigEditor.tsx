@@ -188,7 +188,6 @@ class HomeScreenConfigEditor extends React.Component<any, any> {
         const configId = this.parseConfigId(
             _.get(this.props, 'location.search', undefined)
         );
-        console.log(this.props.location,this.props.searchParams,  configId, extraContextJson);
         if (configId) {
             api.loadCurrentEditConfig(configId)?.catch((e: any) => {
                 this.processErrorResponse(e, localizedStrings.ERR_APP_LOAD);
