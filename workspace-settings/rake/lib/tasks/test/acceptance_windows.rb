@@ -22,7 +22,13 @@ task :install_workstation_windows do
 end
 
 task :replace_plugin_windows do
-  replace_plugin_windows
+  unless ENV['ghprbTargetBranch'].nil?
+    branch_name = ENV['ghprbSourceBranch']
+  else
+    branch_name = Common::Version.application_branch
+  end
+  group_id = "#{$WORKSPACE_SETTINGS[:nexus][:base_coordinates][:group_id]}.#{branch_name}"
+  replace_plugin_windows(group_name: group_id)
   plugin = { 'name' => plugin_name_mapping || @artifact_info[:artifact_base_file_name] }
   plugin_path = "C:/Program Files/MicroStrategy/Workstation/Plugins/#{plugin['name']}"
   enable_feature_flag(plugin_path)
@@ -43,6 +49,7 @@ end
 task :do_test_when_test_file_changed do |t,args|
   info "====== Run UI automation tests ======"
   Rake::Task['install_workstation_windows'].invoke
+  Rake::Task['replace_plugin_windows'].invoke
   Rake::Task['deploy_or_prepared_tanzu_environment'].invoke
   Rake::Task['override_library'].invoke
   Rake::Task['sanity_test_win'].invoke

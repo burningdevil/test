@@ -18,7 +18,7 @@
         font-size: 12px;
         span:first-child {
             flex: 0 0 20%;
-            max-width: 30%;
+            // max-width: 30%;
             text-align: right;
         }
         .mstr-input-container {
@@ -140,6 +140,9 @@
         .mstr-input-container {
             width: 68px;
             margin-left: 0px !important;
+            .mstr-input {
+                padding: 4px 0 4px 0;
+            }
             .mstr-input-container__error-message-container {
                 width: 100% !important;
             }

@@ -44,12 +44,16 @@
     padding-left: 15px !important;
     padding-right: 15px !important;
 }
-// ant checkbox
-.ant-radio-inner:after {
-    margin-top: 0px !important;
-    margin-left: 0px !important;
-}
+
+
 // mstr rc
+// not sure which version of mstr/rc is fixed, so have to override it SearchInput
+.mstr-filter-search-input-wrapper .mstr-input {
+    padding-top: 4px !important;
+}
+.mstr-input-container .mstr-input {
+    line-height: 18px !important;
+}
 
 
 .mstr-ws-icons-copy {
@@ -122,6 +126,7 @@
 .ant-popover-arrow {
     top: 0px !important; // multiple antd version introduced by rc;
 }
+
 
 
 
