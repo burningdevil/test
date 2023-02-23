@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 export PROJECT_NAME='workstation-homescreen-admin'
-export ORGANIZATION_NAME='Kiai'
+export ORGANIZATION_NAME='mstr-kiai'
 export COMPANY_NAME='microstrategy'
-export ECOSYSTEM_ROOT_VERSION=${ECOSYSTEM_ROOT_VERSION:='next'}
+export ECOSYSTEM_ROOT_VERSION=${ECOSYSTEM_ROOT_VERSION:='cloud'}
 
 
 #<(((((((((((((((-------------------------------------------------------------------)))))))))))))))>#
