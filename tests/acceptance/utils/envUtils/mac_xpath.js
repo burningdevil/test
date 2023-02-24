@@ -122,6 +122,8 @@ const macXPath = {
       },
       searchResultPage: `${stdWindow}/AXSplitGroup[0]/AXStaticText[@AXValue='Searching']`,
       searchingFolder: `${stdWindow}/AXSplitGroup[0]/AXCheckBox[@AXTitle='ReplaceMe']`,
+      envSelector: `${stdWindow}/AXSplitGroup[0]/AXGroup[1]/AXMenuButton`,
+      envSelectorListItem: `${stdWindow}/AXSplitGroup[0]/AXGroup[1]/AXMenuButton/AXMenu[0]/AXMenuItem[@AXTitle='ReplaceMe' and @AXIdentifier='_popUpItemAction:']`
     },
     menuBar: {
       menuItem: `${menuBar}/AXMenuBarItem[@AXTitle='ReplaceMenuItemName']`,

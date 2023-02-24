@@ -101,6 +101,28 @@ export default class MainCanvas extends RootApp {
     })
   }
 
+  async getEnvSelector() {
+    return this.getNativeElement({
+      windows: {
+        locators: [
+          { method: 'Name', value: 'EnvironmentSelectorComboBox' }
+        ]
+      },
+      mac: { xpath: mainCanvas.envSelector }
+    })
+  }
+
+  async getEnvSelectorListItem(envName) {
+    return this.getNativeElement({
+      windows: {
+        locators: [
+          { method: 'Name', value: envName }
+        ]
+      },
+      mac: { xpath: mainCanvas.envSelectorListItem.replace(/ReplaceMe/g, envName) }
+    })
+  }
+
   // actions
   async clickOnItem({ itemName, itemType }) {
     const elem = await this.getItem({ itemName, itemType })
@@ -136,6 +158,16 @@ export default class MainCanvas extends RootApp {
     const item = await this.getSearchFolder(folderName)
     await this.moveToAndClick(item)
     return this.app.sleep(500)
+  }
+
+  // switch env by clicking the native env selector dropdown and choosing a new item 
+  async switchApplicationEnv(envName) {
+    const envSelector = await this.getEnvSelector()
+    await this.moveToAndClick(envSelector)
+    await this.app.sleep(500)
+    const envListItem = await this.getEnvSelectorListItem(envName)
+    await this.moveToAndClick(envListItem)
+    return this.app.sleep(1000)
   }
 
   // assertions
