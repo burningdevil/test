@@ -74,6 +74,10 @@ export default class SettingPage extends BasePage {
     return this.element(by.xpath(`//span[@class='content-bundle-content-picker-grid-right-name-text' and text()='${gridCellValue}']`))
   }
 
+  getSearchBoxInChooseHomeDossierDialog() {
+    return this.element(by.xpath(`//input[@aria-label='Search Input']`))
+  }
+
   getGridCellInPaletteListView(gridCellValue) {
     return this.element(by.xpath(`//div[@class='overflow' and text() = '${gridCellValue}']/../../../../div[@class='ag-selection-checkbox']`))
   }
@@ -441,11 +445,16 @@ export default class SettingPage extends BasePage {
     await browser.sleep(5000 * this.ratio)
   }
 
+  async searchForObjectAsHomeScreen(name) {
+    await this.getSearchBoxInChooseHomeDossierDialog(name).click()
+    await this.input(name)
+    await this.waitForWebElementToBeVisiable(this.getGridCellInDossierListView(name))
+  }
+
   async pickDossierByName(name) {
     await browser.sleep(5000 * this.ratio)
-    // const dossierItem = await this.getGridCellInDossierListView(name)
-    // await this.click({ elem: dossierItem })
-    await this.wait(this.EC.visibilityOf(this.getGridCellInDossierListView(name)), 60000 * this.ratio, 'The target dossier was not displayed')
+    await this.waitForWebElementToDisappear(this.getGridCellInDossierListView('Loading'))
+    await this.searchForObjectAsHomeScreen(name)
     await this.getGridCellInDossierListView(name).click()
     await browser.sleep(6000 * this.ratio)
     await this.getSelectButton().click()
