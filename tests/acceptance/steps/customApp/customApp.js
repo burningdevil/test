@@ -2,12 +2,14 @@ import { Return } from 'wd/lib/special-keys'
 import ApplicationPage from '../../pages/webPages/customApp/ApplicationPage'
 import SettingPage from '../../pages/webPages/customApp/SettingPage'
 import AppThemePage from '../../pages/webPages/customApp/AppThemePage'
+import EnvConnectionsPage from '../../pages/webPages/customApp/EnvConnectionsPage'
 import { wsConfig, imageCompareConfig } from '../../config/constants'
 const { expect } = require('chai')
 const { Given, When, Then, setDefaultTimeout } = require('cucumber')
 const applicationPage = new ApplicationPage()
 const settingPage = new SettingPage()
 const appThemePage = new AppThemePage()
+const envConnectionsPage = new EnvConnectionsPage()
 const { mainWindow } = pageObj
 const { switchToWindow } = require('../../utils/wsUtils/windowHelper')
 
@@ -506,5 +508,40 @@ Then('I select color picker color {string}', async function (color) {
 
 Then('I set custom theme property {string} via input {string} in appearance editor', async function (name, color) {
     await appThemePage.setCustomColorInputBox(name, color)
+    return mainWindow.app.sleep(1000)
+});
+
+When('I switch application environment to {string}', async function (name) {
+    await mainWindow.mainCanvas.switchApplicationEnv(name)
+    return mainWindow.app.sleep(1000)
+});
+
+When('I add env {string} to linked envs', async function (name) {
+    await envConnectionsPage.addEnvByName(name)
+    return mainWindow.app.sleep(1000)
+});
+
+When('I double click the {string} name cell to focus on it', async function (name) {
+    await envConnectionsPage.doubleClickNameCell(name)
+    return mainWindow.app.sleep(1000)
+});
+
+When('I rename linked env {string} to {string}', async function (name, newName) {
+    await envConnectionsPage.renameLinkedEnv(name, newName)
+    return mainWindow.app.sleep(1000)
+})
+
+When('I hover over {string} to display tooltip', async function (name) {
+    await envConnectionsPage.hoverLinkedEnv(name)
+    return mainWindow.app.sleep(1000)
+});
+
+When ('I open the application selector dropdown for environment {string}', async function (name) {
+    await envConnectionsPage.openLinkedEnvApplicationSelectorDropdown(name)
+    return mainWindow.app.sleep(1000)
+});
+
+Then ('I select the {string} application list item', async function(name) {
+    await envConnectionsPage.selectLinkedEnvApplicationSelectorDropdownListItem(name)
     return mainWindow.app.sleep(1000)
 });
