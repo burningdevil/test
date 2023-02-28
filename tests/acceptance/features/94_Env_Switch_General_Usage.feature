@@ -20,5 +20,5 @@ Feature: 94_Env_Switch_General_Usage
         Then check the screenshot by comparing "94_env_switch_general_usage_02"
         Then I click "Save" button in the tab "environmentConnectionSettings"
         Then I delete the application "WS_SwitchEnv"
-        Then I select tab "Environments"
+        Then I scroll "up" to click tab "Environments"
         Then I remove environment "z-env-connection"
