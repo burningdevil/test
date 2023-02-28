@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
-import { LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION, LIBRARY_SERVER_SUPPORT_INSIGHTS_CONTROL, LIBRARY_SUPPORT_CONTENT_DISCOVERY_VERSION } from '../../utils';
+import { LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION, LIBRARY_SERVER_SUPPORT_INSIGHTS_CONTROL, LIBRARY_SUPPORT_CONTENT_DISCOVERY_VERSION, LIBRARY_SUPPORT_GRANULAR_CONTROL } from '../../utils';
 import { t } from '../../i18n/i18next';
+import { ICON_KEY_ENUM } from './views/home-screen-components/icon-key-enum';
 
 export const CONSTANTS = {
     GENERAL: 'general',
@@ -46,6 +47,7 @@ export const CONSTANTS = {
     CACHE_CLEAR_MODE: 'cacheClearMode',
     CLEAR_CACHE_ON_LOGOUT: 'clearCacheOnLogout',
     CLEAR_CACHE_ON_CLOSE: 'clearCacheOnClose',
+    CACHE_SMART_DOWNLOAD: 'smart_download',
     //Config Constants
     DEFAULT_NETWORK_TIMEOUT: 180,
     UPDATE_INTERVAL_DISABLED: -1,
@@ -92,6 +94,7 @@ export const CONSTANTS = {
     ICON_NEW_DOSSIER: 'new_dossier',
     ICON_EDIT_DOSSIER: 'edit_dossier',
     ICON_ADD_LIBRARY: 'add_library_server',
+    ICON_SWITCH_LIBRARY: 'switch_library_server',
     ICON_UNDO_REDO: 'undo_and_redo',
     ICON_INSIGHT_LIST: 'insights',
 
@@ -132,6 +135,10 @@ export const CONSTANTS = {
     FONT_SIDEBAR_PREVIEW_TABLET: 'icon-sidebar_preview_tablet',
     FONT_INSIGHT_LIST: 'icon-watchlist',
     FONT_CONTENT_DISCOVERY: 'icon-content_discovery',
+    FONT_SIDEBAR_DOWNLOADS: 'icon-pnl_commentpage',
+    FONT_CONTENT_CREATOR: 'icon-tb_profile_n',
+    FONT_MODIFIED_DATE: 'icon-clock-lines',
+    FONT_INFO_WINDOW: 'icon-home_info',
 
     // preview use only
     FONT_HOME: 'icon-tb_home',
@@ -231,6 +238,7 @@ export interface iconDetail {
     displayText: string;
     iconName: string;
     key: string;
+    expandable?: boolean;
 }
 
 export interface BundleRecipient {
@@ -467,18 +475,24 @@ export const localizedStrings = {
     CURRENT_APP_LIMITED_ACCESS_TOOLTIP: t('accessLimitedTooltip'),
     CURRENT_APPLICATION: t('currentApplication'),
 
-    INSIGHTS_WEB_ONLY: t('insightsWebOnly')
+    INSIGHTS_WEB_ONLY: t('insightsWebOnly'),
+    CONTENT_INFO: t('contentInfo'),
+    INVALID_EMAIL_ADDRESS: t('invalidEmailAddress')
 };
 
 export const sectionTitle = {
+    GLOBAL: t('globalSettings'),
     DESC: t('mobileOnlyDesc'),
     SECURITY: t('security'),
     ACCESS: t('access'),
+    FEEDBACK: t('send_email'),
     CONNECTIVITY: t('connectivity'),
     LOGGING: t('logging'),
     CACHE: t('cache'),
 };
-
+export const sectionFeedback = {
+    FEEDBACK_REPORT_EMAIL: t('feedbackReportEmail'),
+};
 export const sectionAccess = {
     ACCESS_PREFERENCE: t('allowPreference'),
     ACCESS_ADVANCED_SETTINGS: t('allowAdvancedSettings'),
@@ -505,6 +519,7 @@ export const logLevelStr = {
 export const sectionCache = {
     CLEAR_CACHE_ON_CLOSE: t('clearCacheOnClose'),
     CLEAR_CACHE_ON_LOGOUT: t('clearCacheOnLogout'),
+    SMART_DOWNLOAD: t('smartDownloadCheckbox')
 };
 
 export const metricStr = {
@@ -661,6 +676,112 @@ export const paletteCountsStr = (count: number) => {
 export const serverRestartStr = (icon: string) => {
     return t('serverRestartTip', { icon: icon})
 }
+export enum IconEnum {
+    sidebar = 'sidebar',
+    sortAndFilter  ='sortAndFilter',
+    multiSelect = 'multiSelect',
+    search = 'search',
+    notification = 'notification',
+    account = 'account',
+    accountWeb = 'accountWeb',
+    accountWebDossierHome = 'accountWebDossier',
+    toc  = 'toc',
+    bookmark = 'bookmark',
+    reset = 'reset',
+    filter = 'filter',
+    comment = 'comment',
+    share = 'share',
+    dataSearch = 'dataSearch',
+    hyper = 'hyper',
+    aaFont = 'aaFont',
+    all =  'all',
+    favorites = 'favorites',
+    recents = 'recents',
+    defaultGroup = 'defaultGroup',
+    myGroup = 'myGroup',
+    myContent = 'myContent',
+    mySubscribe = 'mySubscribe',
+    contentDiscovery = 'contentDiscovery',
+    sidebar_downloads = 'sidebarDownloads',
+    accountMobile = 'accountMobile',
+    accountMobileDossierHome  = 'accountMobileDossier',
+    newDossier = 'newDossier',
+    editDossier = 'editDossier',
+    addLibrary = 'addLibrary',
+    undoRedo = 'undoRedo',
+    redo  = 'redo',
+    insights = 'insights',
+    home = 'home',
+    deskHome = 'deskHome',
+    previewSidebar = 'previewSidebar',
+    previewLibraryWeb = 'previewLibraryWeb',
+    previewLibraryMobile  = 'previewLibraryMobile',
+    previewSidebarMobile = 'previewSidebarMobile',
+    previewSidebarTablet = 'previewSidebarTablet',
+    previewAccountMobile = 'previewAccountMobile',
+    previewTocPhone =  'previewTocPhone',
+    previewFullScreen = 'previewFullScreen',
+    previewFullScreenTablet = 'previewFullScreenTablet',
+    previewListViewMobile = 'previewListViewMobile',
+    previewAaFontMobile = 'previewAaFontMobile',
+    previewContextMenuMobile = 'previewContextMenuMobile',
+    // new added from the US388075, will use the a_b_c to indicate the level relation
+    // account mobile
+    mobile_userName = 'mobile_userName',
+    mobile_preferences = 'mobile_preferences',
+    mobile_preferences_myLanguage = 'mobile_preferences_myLanguage',
+    mobile_preferences_myTimeZone = 'mobile_preferences_myTimeZone',
+    mobile_preferences_myCalendar = 'mobile_preferences_myCalendar',
+    mobile_preferences_faceIDLogin = 'mobile_preferences_faceIDLogin',
+    mobile_preferences_takeATour = 'mobile_preferences_takeATour',
+    mobile_preferences_refreshViewAutomatically = 'mobile_preferences_refreshViewAutomatically',
+    mobile_preferences_smartDownload = 'mobile_preferences_smartDownload',
+    mobile_preferences_automaticallyAddToLibrary = 'mobile_preferences_automaticallyAddToLibrary',
+
+    mobile_advancedSettings = 'mobile_advancedSettings',
+    mobile_advancedSettings_appSettings = 'mobile_advancedSettings_appSettings',
+    mobile_advancedSettings_securitySettings = 'mobile_advancedSettings_securitySettings',
+    mobile_advancedSettings_logging  ='mobile_advancedSettings_logging',
+
+    mobile_helpAndLegal = 'mobile_helpAndLegal',
+    mobile_helpAndLegal_help = 'mobile_helpAndLegal_help',
+    mobile_helpAndLegal_legal = 'mobile_helpAndLegal_legal',
+    mobile_helpAndLegal_reportProblem = 'mobile_helpAndLegal_reportProblem',
+
+    mobile_logOut = 'mobile_logOut',
+    // new added by account web and desktop
+    web_userName = 'web_userName',
+    web_myLibraries = 'web_myLibraries',
+    web_manageLibrary = 'web_manageLibrary',
+    web_preferences = 'web_preferences',
+    web_preferences_myLanguage = 'web_preferences_myLanguage',
+    web_preferences_myTimeZone = 'web_preferences_myTimeZone',
+    web_preferences_myCalendar = 'web_preferences_myCalendar',
+    web_switchWorkspace = 'web_switchWorkspace',
+    web_takeATour = 'web_takeATour',
+    web_help = 'web_help',
+    web_logOut = 'web_logOut',
+
+    // new added by share
+    share_share = 'share_share',
+    share_exportToExcel = 'share_exportToExcel',
+    share_exportToPDF = 'share_exportToPDF',
+    share_download  = 'share_download',
+    share_subscribe = 'share_subscribe',
+    share_annotate = 'share_annotate',
+    // new added by content info
+    contentCreator = 'contentCreator',
+    modifiedDate = 'modifiedDate',
+    infoWindow = 'infoWindow',
+    // new added in the dossier window
+    filterSummary = 'filter_summary',
+    toc_header = 'toc_header',
+    toc_contentinfo = 'toc_contentinfo',
+    toc_chapter = 'toc_chapter',
+    switch_library = 'switch_library'
+
+
+}
 export interface IconType {
     displayText: string;
     iconName: string;
@@ -669,12 +790,12 @@ export interface IconType {
     tipMsg?: string;
     deps?: string[];
 }
-export interface IconTypes {
-    [props: string]: IconType;
+export type IconTypes = {
+    [key in IconEnum]: IconType;
 }
 export const REVERSE = '!';
 export const iconTypes: IconTypes = {
-    sidebar: {
+    [IconEnum.sidebar]: {
         displayText: t('sidebar'),
         iconName: CONSTANTS.FONT_SIDEBAR,
         key: CONSTANTS.ICON_SIDEBAR,
@@ -682,32 +803,32 @@ export const iconTypes: IconTypes = {
         deps: [REVERSE + CONSTANTS.ICON_SIDEBAR],
         tipMsg: localizedStrings.DISABLE_SIDEBAR_TOOLTIP,
     },
-    sortAndFilter: {
+    [IconEnum.sortAndFilter]: {
         displayText: t('librarySortFilter'),
         iconName: CONSTANTS.FONT_SORT_FILTER,
         key: CONSTANTS.ICON_SORT_FILTER,
     },
-    multiSelect: {
+    [IconEnum.multiSelect]: {
         displayText: t('multiSelect'),
         iconName: CONSTANTS.FONT_MULTI_SELECT,
         key: CONSTANTS.ICON_MULTI_SELECT,
     },
-    search: {
+    [IconEnum.search]: {
         displayText: t('search'),
         iconName: CONSTANTS.FONT_SEARCH,
         key: CONSTANTS.ICON_SEARCH,
     },
-    notification: {
+    [IconEnum.notification]: {
         displayText: t('notification'),
         iconName: CONSTANTS.FONT_NOTIFICATIONS,
         key: CONSTANTS.ICON_NOTIFICATIONS,
     },
-    account: {
+    [IconEnum.account]: {
         displayText: t('account'),
         iconName: CONSTANTS.FONT_OPTIONS,
         key: CONSTANTS.ICON_OPTIONS,
     },
-    accountWeb: {
+    [IconEnum.accountWeb]: {
         displayText: t('accountWeb'),
         iconName: CONSTANTS.FONT_OPTIONS,
         key: CONSTANTS.ICON_OPTIONS + '__web',
@@ -718,101 +839,122 @@ export const iconTypes: IconTypes = {
         ],
         tipMsg: localizedStrings.DISABLE_ACCOUNT_TOOLTIP,
     },
-    toc: {
+    [IconEnum.accountWebDossierHome]: {
+        displayText: t('webAndDesktop'),
+        iconName: '',
+        key: ICON_KEY_ENUM.account_web_dossier_home,
+    },
+    [IconEnum.toc]: {
         displayText: t('toc'),
         iconName: CONSTANTS.FONT_TOCS,
         key: CONSTANTS.ICON_TOCS,
     },
-    bookmark: {
+    [IconEnum.bookmark]: {
         displayText: t('bookmark'),
         iconName: CONSTANTS.FONT_BOOKMARK,
         key: CONSTANTS.ICON_BOOKMARK,
     },
-    reset: {
+    [IconEnum.reset]: {
         displayText: t('reset'),
         iconName: CONSTANTS.FONT_RESET,
         key: CONSTANTS.ICON_RESET,
     },
-    filter: {
+    [IconEnum.filter]: {
         displayText: t('filter'),
         iconName: CONSTANTS.FONT_FILTER,
         key: CONSTANTS.ICON_FILTER,
     },
-    comment: {
+    [IconEnum.filterSummary]: {
+        displayText: t('filterSummary'),
+        iconName: CONSTANTS.FONT_FILTER,
+        deps: [REVERSE + CONSTANTS.ICON_FILTER],
+        key: ICON_KEY_ENUM.filter_summary,
+    },
+    [IconEnum.comment]: {
         displayText: t('comments'),
         iconName: CONSTANTS.FONT_COMMENTS,
         key: CONSTANTS.ICON_COMMENTS,
     },
-    share: {
+    [IconEnum.share]: {
         displayText: t('share'),
         iconName: CONSTANTS.FONT_SHARE,
         key: CONSTANTS.ICON_SHARE,
     },
     // platform specified
-    dataSearch: {
+    [IconEnum.dataSearch]: {
         displayText: t('dataSearchText'),
         iconName: CONSTANTS.FONT_DATA_SEARCH,
         key: CONSTANTS.ICON_DATA_SEARCH,
     },
-    hyper: {
+    [IconEnum.hyper]: {
         displayText: t('hyperIconText'),
         iconName: CONSTANTS.FONT_HYPER,
         key: CONSTANTS.ICON_HYPER,
     },
-    aaFont: {
+    [IconEnum.aaFont]: {
         displayText: t('fontIconText'),
         iconName: CONSTANTS.FONT_AA_FONT,
         key: CONSTANTS.ICON_AA_FONT,
     },
     // sidebar children
-    all: {
+    [IconEnum.all]: {
         displayText: t('all'),
         iconName: CONSTANTS.FONT_ALL,
         key: CONSTANTS.ICON_ALL,
     },
-    favorites: {
+    [IconEnum.favorites]: {
         displayText: t('favorites'),
         iconName: CONSTANTS.FONT_FAV,
         key: CONSTANTS.ICON_FAV,
     },
-    recents: {
+    [IconEnum.recents]: {
         displayText: t('recents'),
         iconName: CONSTANTS.FONT_RECENT,
         key: CONSTANTS.ICON_RECENENT,
     },
-    defaultGroup: {
+    [IconEnum.defaultGroup]: {
         displayText: t('defaultGroups'),
         iconName: CONSTANTS.FONT_DEFAULT_GROUP,
         key: CONSTANTS.ICON_DEFAULT_GROUP,
     },
-    myGroup: {
+    [IconEnum.myGroup]: {
         displayText: t('myGroup'),
         iconName: CONSTANTS.FONT_MY_GROUP,
         key: CONSTANTS.ICON_MY_GROUP,
     },
-    myContent: {
+    [IconEnum.myContent]: {
         displayText: t('myContent'),
         iconName: CONSTANTS.FONT_MY_CONTENT,
         key: CONSTANTS.ICON_MY_CONTENT,
     },
-    mySubscribe: {
+    [IconEnum.mySubscribe]: {
         displayText: t('mySubscribe'),
         iconName: CONSTANTS.FONT_MY_SUBSCRIBE,
         key: CONSTANTS.ICON_MY_SUBSCRIBE,
     },
-    contentDiscovery: {
+    [IconEnum.contentDiscovery]: {
         displayText: t('contentDiscovery'),
         iconName: CONSTANTS.FONT_CONTENT_DISCOVERY,
         key: CONSTANTS.ICON_CONTENT_DISCOVERY,
         supportTip: true,
         tipMsg: localizedStrings.DISABLE_CONTENT_DISCOVERY_TOOLTIP,
     },
-    accountMobile: {
+    [IconEnum.sidebar_downloads]: {
+        displayText: t('sidebar_downloads'),
+        iconName: CONSTANTS.FONT_SIDEBAR_DOWNLOADS,
+        key: ICON_KEY_ENUM.sidebar_downloads,
+    },
+    [IconEnum.accountMobile]: {
         displayText: t('accountMobile'),
         iconName: CONSTANTS.FONT_OPTIONS,
         key: CONSTANTS.ICON_OPTIONS + '__mobile',
     },
-    newDossier: {
+    [IconEnum.accountMobileDossierHome]: {
+        displayText: t('mobile'),
+        iconName: '',
+        key: ICON_KEY_ENUM.account_mobile_dossier_home,
+    },
+    [IconEnum.newDossier]: {
         displayText: t('newDossier'),
         iconName: CONSTANTS.FONT_NEW_DOSSIER,
         key: CONSTANTS.ICON_NEW_DOSSIER,
@@ -820,7 +962,7 @@ export const iconTypes: IconTypes = {
         deps: [REVERSE + CONSTANTS.ICON_NEW_DOSSIER],
         tipMsg: localizedStrings.DISABLE_NEW_DOSSIER_TOOLTIP,
     },
-    editDossier: {
+    [IconEnum.editDossier]: {
         displayText: t('editDossier'),
         iconName: CONSTANTS.FONT_EDIT_DOSSIER,
         key: CONSTANTS.ICON_EDIT_DOSSIER,
@@ -828,102 +970,319 @@ export const iconTypes: IconTypes = {
         deps: [REVERSE + CONSTANTS.ICON_EDIT_DOSSIER],
         tipMsg: localizedStrings.DISABLE_EDIT_DOSSIER_TOOLTIP,
     },
-    addLibrary: {
+    [IconEnum.addLibrary]: {
         displayText: t('addLibrary'),
         iconName: CONSTANTS.FONT_ADD_LIBRARY,
         key: CONSTANTS.ICON_ADD_LIBRARY,
     },
-    undoRedo: {
+    [IconEnum.undoRedo]: {
         displayText: t('undoRedo'),
         iconName: CONSTANTS.FONT_UNDO_REDO,
         key: CONSTANTS.ICON_UNDO_REDO,
     },
-    redo: {
+    [IconEnum.redo]: {
         displayText: t('undoRedo'),
         iconName: CONSTANTS.FONT_REDO,
         key: CONSTANTS.ICON_UNDO_REDO,
     },
-    insights: {
+    [IconEnum.insights]: {
         displayText: t('insights'),
         iconName: CONSTANTS.FONT_INSIGHT_LIST,
         key: CONSTANTS.ICON_INSIGHT_LIST,
     },
     //// for preview. Localization not needed.
     // home button
-    home: {
+    [IconEnum.home]: {
         displayText: t('home'),
         iconName: CONSTANTS.FONT_HOME,
         key: CONSTANTS.ICON_HOME,
     },
-    deskHome: {
+    [IconEnum.deskHome]: {
         displayText: t('home'),
         iconName: CONSTANTS.FONT_DESK_HOME,
         key: CONSTANTS.ICON_HOME,
     },
     // stands for 'sidebar' in library
-    previewSidebar: {
+    [IconEnum.previewSidebar]: {
         displayText: t('sidebar'),
         iconName: CONSTANTS.FONT_PREVIEWSIDEBAR,
         key: CONSTANTS.ICON_SIDEBAR,
     },
     // stands for 'library' in dossier
-    previewLibraryWeb: {
+    [IconEnum.previewLibraryWeb]: {
         displayText: t('home'),
         iconName: CONSTANTS.FONT_PREVIEWSIDEBAR,
         key: CONSTANTS.ICON_HOME,
     },
-    previewLibraryMobile: {
+    [IconEnum.previewLibraryMobile]: {
         displayText: t('home'),
         iconName: CONSTANTS.FONT_LIBRARY_MOBILE,
         key: CONSTANTS.ICON_HOME,
     },
     // phone sidebar
-    previewSidebarMobile: {
+    [IconEnum.previewSidebarMobile]: {
         displayText: t('sidebar'),
         iconName: CONSTANTS.FONT_PREVIEWSIDEBAR_MOBILE,
         key: CONSTANTS.ICON_SIDEBAR,
     },
     // tablet sidebar
-    previewSidebarTablet: {
+    [IconEnum.previewSidebarTablet]: {
         displayText: t('sidebar'),
         iconName: CONSTANTS.FONT_PREVIEWSIDEBAR_TABLET,
         key: CONSTANTS.ICON_SIDEBAR,
     },
-    previewAccountMobile: {
+    [IconEnum.previewAccountMobile]: {
         displayText: t('account'),
         iconName: CONSTANTS.FONT_PREVIEWOPTIONS,
         key: CONSTANTS.ICON_OPTIONS + '_mobile',
     },
-    previewTocPhone: {
+    [IconEnum.previewTocPhone]: {
         displayText: t('toc'),
         iconName: CONSTANTS.FONT_PREVIEWTOC,
         key: CONSTANTS.ICON_TOCS,
     },
-    previewFullScreen: {
+    [IconEnum.previewFullScreen]: {
         displayText: 'Full Screen',
         iconName: CONSTANTS.FONT_FULLSCREEN,
         key: CONSTANTS.ICON_FULL_SCREEN,
     },
-    previewFullScreenTablet: {
+    [IconEnum.previewFullScreenTablet]: {
         displayText: 'Full Screen',
         iconName: CONSTANTS.FONT_FULLSCREEN_TABLET,
         key: CONSTANTS.ICON_FULL_SCREEN,
     },
-    previewListViewMobile: {
+    [IconEnum.previewListViewMobile]: {
         displayText: t('sidebar'),
         iconName: CONSTANTS.MOBILE_FONT_LIST_VIEW,
         key: CONSTANTS.ICON_SIDEBAR,
     },
-    previewAaFontMobile: {
+    [IconEnum.previewAaFontMobile]: {
         displayText: t('fontIconText'),
         iconName: CONSTANTS.MOBILE_AA_FONT,
         key: CONSTANTS.ICON_AA_FONT,
     },
-    previewContextMenuMobile: {
+    [IconEnum.previewContextMenuMobile]: {
         displayText: t('sidebar'),
         iconName: CONSTANTS.MOBILE_CONTEXT_MENU,
         key: CONSTANTS.ICON_SIDEBAR
-    }
+    },
+    // US388075; add more granular control;
+    [IconEnum.mobile_userName]: {
+        displayText: t('userName'),
+        iconName: '',
+        key: ICON_KEY_ENUM.mobile_userName,
+    },
+    [IconEnum.mobile_preferences]: {
+        displayText: t('mobile_preferences'),
+        iconName: '',
+        key: ICON_KEY_ENUM.mobile_preferences,
+    },
+    [IconEnum.mobile_preferences_myLanguage]: {
+        displayText: t('mobile_preferences_myLanguage'),
+        iconName: '',
+        key: ICON_KEY_ENUM.mobile_preferences_myLanguage,
+    },
+    [IconEnum.mobile_preferences_myTimeZone]: {
+        displayText: t('mobile_preferences_myTimeZone'),
+        iconName: '',
+        key: ICON_KEY_ENUM.mobile_preferences_myTimeZone,
+    },
+    [IconEnum.mobile_preferences_myCalendar]: {
+        displayText: t('mobile_preferences_myCalendar'),
+        iconName: '',
+        key: ICON_KEY_ENUM.mobile_preferences_myCalendar,
+    },
+    [IconEnum.mobile_preferences_faceIDLogin]: {
+        displayText: t('mobile_preferences_faceIDLogin'),
+        iconName: '',
+        key: ICON_KEY_ENUM.mobile_preferences_faceIDLogin,
+    },
+    [IconEnum.mobile_preferences_takeATour]: {
+        displayText: t('mobile_preferences_takeATour'),
+        iconName: '',
+        key: ICON_KEY_ENUM.mobile_preferences_takeATour,
+    },
+    [IconEnum.mobile_preferences_refreshViewAutomatically]: {
+        displayText: t('mobile_preferences_refreshViewAutomatically'),
+        iconName: '',
+        key: ICON_KEY_ENUM.mobile_preferences_refreshViewAutomatically,
+    },
+    [IconEnum.mobile_preferences_smartDownload]: {
+        displayText: t('mobile_preferences_smartDownload'),
+        iconName: '',
+        key: ICON_KEY_ENUM.mobile_preferences_smartDownload,
+    },
+    [IconEnum.mobile_preferences_automaticallyAddToLibrary]: {
+        displayText: t('mobile_preferences_automaticallyAddToLibrary'),
+        iconName: '',
+        key: ICON_KEY_ENUM.mobile_preferences_automaticallyAddToLibrary,
+    },
+    [IconEnum.mobile_advancedSettings]: {
+        displayText: t('mobile_advancedSettings'),
+        iconName: '',
+        key: ICON_KEY_ENUM.mobile_advancedSettings,
+    },
+    [IconEnum.mobile_advancedSettings_appSettings]: {
+        displayText: t('mobile_advancedSettings_appSettings'),
+        iconName: '',
+        key: ICON_KEY_ENUM.mobile_advancedSettings_appSettings,
+    },
+    [IconEnum.mobile_advancedSettings_securitySettings]: {
+        displayText: t('mobile_advancedSettings_securitySettings'),
+        iconName: '',
+        key: ICON_KEY_ENUM.mobile_advancedSettings_securitySettings,
+    },
+    [IconEnum.mobile_advancedSettings_logging]: {
+        displayText: t('mobile_advancedSettings_logging'),
+        iconName: '',
+        key: ICON_KEY_ENUM.mobile_advancedSettings_logging,
+    },
+    [IconEnum.mobile_helpAndLegal]: {
+        displayText: t('mobile_helpAndLegal'),
+        iconName: '',
+        key: ICON_KEY_ENUM.mobile_helpAndLegal,
+    },
+    [IconEnum.mobile_helpAndLegal_help]: {
+        displayText: t('mobile_helpAndLegal_help'),
+        iconName: '',
+        key: ICON_KEY_ENUM.mobile_helpAndLegal_help,
+    },
+    [IconEnum.mobile_helpAndLegal_legal]: {
+        displayText: t('mobile_helpAndLegal_legal'),
+        iconName: '',
+        key: ICON_KEY_ENUM.mobile_helpAndLegal_legal,
+    },
+    [IconEnum.mobile_helpAndLegal_reportProblem]: {
+        displayText: t('mobile_helpAndLegal_reportProblem'),
+        iconName: '',
+        key: ICON_KEY_ENUM.mobile_helpAndLegal_reportProblem,
+    },
+    [IconEnum.mobile_logOut]: {
+        displayText: t('mobile_logOut'),
+        iconName: '',
+        key: ICON_KEY_ENUM.mobile_logOut,
+    },
+    [IconEnum.web_userName]: {
+        displayText: t('userName'),
+        iconName: '',
+        key: ICON_KEY_ENUM.web_userName,
+    },
+    [IconEnum.web_myLibraries]: {
+        displayText: t('web_myLibraries'),
+        iconName: '',
+        key: ICON_KEY_ENUM.web_myLibraries,
+    },
+    [IconEnum.web_manageLibrary]: {
+        displayText: t('web_manageLibrary'),
+        iconName: '',
+        key: ICON_KEY_ENUM.web_manageLibrary,
+    },
+    [IconEnum.web_preferences]: {
+        displayText: t('web_preferences'),
+        iconName: '',
+        key: ICON_KEY_ENUM.web_preferences,
+    },
+    [IconEnum.web_preferences_myCalendar]: {
+        displayText: t('web_preferences_myCalendar'),
+        iconName: '',
+        key: ICON_KEY_ENUM.web_preferences_myCalendar,
+    },
+    [IconEnum.web_preferences_myLanguage]: {
+        displayText: t('web_preferences_myLanguage'),
+        iconName: '',
+        key: ICON_KEY_ENUM.web_preferences_myLanguage,
+    },
+    [IconEnum.web_preferences_myTimeZone]: {
+        displayText: t('web_preferences_myTimeZone'),
+        iconName: '',
+        key: ICON_KEY_ENUM.web_preferences_myTimeZone,
+    },
+    [IconEnum.web_switchWorkspace]: {
+        displayText: t('web_switchWorkspace'),
+        iconName: '',
+        key: ICON_KEY_ENUM.web_switchWorkspace,
+    },
+    [IconEnum.web_takeATour]: {
+        displayText: t('web_takeATour'),
+        iconName: '',
+        key: ICON_KEY_ENUM.web_takeATour,
+    },
+    [IconEnum.web_help]: {
+        displayText: t('web_help'),
+        iconName: '',
+        key: ICON_KEY_ENUM.web_help,
+    },
+    [IconEnum.web_logOut]: {
+        displayText: t('web_logOut'),
+        iconName: '',
+        key: ICON_KEY_ENUM.web_logOut,
+    },
+    [IconEnum.share_share]: {
+        displayText: t('share_share'),
+        iconName: 'icon-share_dossier',
+        key: ICON_KEY_ENUM.share_share,
+    },
+    [IconEnum.share_exportToExcel]: {
+        displayText: t('share_exportToExcel'),
+        iconName: 'icon-share_excel',
+        key: ICON_KEY_ENUM.share_exportToExcel,
+    },
+    [IconEnum.share_exportToPDF]: {
+        displayText: t('share_exportToPDF'),
+        iconName: 'icon-share_pdf',
+        key: ICON_KEY_ENUM.share_exportToPDF,
+    },
+    [IconEnum.share_download]: {
+        displayText: t('share_download'),
+        iconName: 'icon-info_download',
+        key: ICON_KEY_ENUM.share_download,
+    },
+    [IconEnum.share_subscribe]: {
+        displayText: t('share_subscribe'),
+        iconName: CONSTANTS.FONT_MY_SUBSCRIBE,
+        key: ICON_KEY_ENUM.share_subscribe,
+    },
+    [IconEnum.share_annotate]: {
+        displayText: t('annotate_share'),
+        iconName: 'icon-share_dossier',
+        key: ICON_KEY_ENUM.share_annotate,
+    },
+    [IconEnum.contentCreator]: {
+        displayText: t('contentCreator'),
+        iconName: CONSTANTS.FONT_CONTENT_CREATOR,
+        key: ICON_KEY_ENUM.contentCreator,
+    },
+    [IconEnum.modifiedDate]: {
+        displayText: t('modifiedDate'),
+        iconName: CONSTANTS.FONT_MODIFIED_DATE,
+        key: ICON_KEY_ENUM.modifiedDate,
+    },
+    [IconEnum.infoWindow]: {
+        displayText: t('infoWindow'),
+        iconName: CONSTANTS.FONT_INFO_WINDOW,
+        key: ICON_KEY_ENUM.infoWindow,
+    },
+    [IconEnum.toc_header]: {
+        displayText: t('toc_header'),
+        iconName: '',
+        key: ICON_KEY_ENUM.toc_header
+    },
+    [IconEnum.toc_contentinfo]: {
+        displayText: t('toc_content_info'),
+        iconName: '',
+        key: ICON_KEY_ENUM.toc_content_info
+    },
+    [IconEnum.toc_chapter]: {
+        displayText: t('toc_chapter'),
+        iconName: '',
+        key: ICON_KEY_ENUM.toc_chapter
+    },
+    [IconEnum.switch_library]: {
+        displayText: t('switchLibrary'),
+        iconName: CONSTANTS.FONT_ADD_LIBRARY,
+        key: CONSTANTS.ICON_SWITCH_LIBRARY,
+    },
+    
 };
 
 /// for icon switch
@@ -948,6 +1307,7 @@ export const dossierIcons = [
     iconTypes.reset,
     iconTypes.undoRedo,
     iconTypes.filter,
+    iconTypes.filter_summary,
     iconTypes.comment,
     iconTypes.share,
     iconTypes.editDossier,
@@ -959,6 +1319,7 @@ export const dossierIconsDossierHome = [
     iconTypes.bookmark,
     iconTypes.undoRedo,
     iconTypes.filter,
+    iconTypes.filter_summary,
     iconTypes.comment,
     iconTypes.share,
     iconTypes.notification,
@@ -971,6 +1332,12 @@ export const platformSpecificIcons = [
     iconTypes.hyper,
     iconTypes.aaFont,
 ];
+// content info
+export const contentInfoIcons = [
+    iconTypes.contentCreator,
+    iconTypes.modifiedDate,
+    iconTypes.infoWindow
+]
 // extra icons for specified platforms
 export const extraDesktopIcons = [iconTypes.dataSearch, iconTypes.hyper];
 export const extraMobileIcons = [iconTypes.aaFont];
@@ -985,9 +1352,11 @@ export const childrenIcons = [
     iconTypes.insights,
     iconTypes.mySubscribe,
     iconTypes.contentDiscovery,
+    iconTypes.sidebarDownloads,
     iconTypes.defaultGroup,
     iconTypes.myGroup,
     iconTypes.accountMobile,
+    iconTypes.switch_library
 ];
 // used by the Custom App Theme previewer to display a custom set of tabs
 export const appearancePreviewSidebarIcons = [
@@ -1003,7 +1372,7 @@ export const appearancePreviewSidebarIcons = [
 
 // for accountMobile and accountWeb to remove suffix
 export const iconValidKey = (iconKey: string) =>
-    iconKey.split('__').length > 0 ? iconKey.split('__')[0] : iconKey;
+    iconKey?.split('__').length > 0 ? iconKey?.split('__')[0] : iconKey;
 
 export const dossierIconKeys = dossierIcons.map((element) => element.key);
 export const libraryIconKeys = libraryIcons.map((element) => element.key);
@@ -1011,6 +1380,51 @@ export const sidebarIconKeys = childrenIcons.map((element) => element.key);
 export const platformSpecificIconKeys = platformSpecificIcons.map(
     (element) => element.key
 );
+export const granularControlNewAddedIcons = [
+    // added by the granular control
+    iconTypes.mobile_userName,
+    iconTypes.mobile_preferences_myLanguage,
+    iconTypes.mobile_preferences_myTimeZone,
+    iconTypes.mobile_preferences_myCalendar,
+    iconTypes.mobile_preferences_faceIDLogin,
+    iconTypes.mobile_preferences_takeATour,
+    iconTypes.mobile_preferences_refreshViewAutomatically,
+    iconTypes.mobile_preferences_smartDownload,
+    iconTypes.mobile_preferences_automaticallyAddToLibrary,
+    iconTypes.mobile_advancedSettings_appSettings,
+    iconTypes.mobile_advancedSettings_securitySettings,
+    iconTypes.mobile_advancedSettings_logging,
+    iconTypes.mobile_helpAndLegal,
+    iconTypes.mobile_helpAndLegal_help,
+    iconTypes.mobile_helpAndLegal_legal,
+    iconTypes.mobile_helpAndLegal_reportProblem,
+    iconTypes.mobile_logOut,
+    iconTypes.filter_summary,
+    iconTypes.share_share,
+    iconTypes.share_exportToExcel,
+    iconTypes.share_exportToPDF,
+    iconTypes.share_download,
+    iconTypes.share_subscribe,
+    iconTypes.share_annotate,
+    iconTypes.web_userName,
+    iconTypes.web_myLibraries,
+    iconTypes.web_manageLibrary,
+    iconTypes.web_preferences,
+    iconTypes.web_preferences_myCalendar,
+    iconTypes.web_preferences_myLanguage,
+    iconTypes.web_preferences_myTimeZone,
+    iconTypes.web_switchWorkspace,
+    iconTypes.web_takeATour,
+    iconTypes.web_help,
+    iconTypes.web_logOut,
+    iconTypes.sidebarDownloads,
+    iconTypes.accountMobileDossier,
+    iconTypes.accountWebDossier,
+    iconTypes.toc_header,
+    iconTypes.toc_contentinfo,
+    iconTypes.toc_chapter,
+    iconTypes.switch_library
+].concat(contentInfoIcons)
 export const libraryCustomizedIcons = [
     iconTypes.myContent,
     iconTypes.mySubscribe,
@@ -1023,7 +1437,7 @@ export const libraryCustomizedIcons = [
     iconTypes.undoRedo,
     iconTypes.insights,
     iconTypes.contentDiscovery,
-];
+].concat(granularControlNewAddedIcons);
 export const libraryCustomizedIconKeys = libraryCustomizedIcons.map(
     (element) => element.key
 );
@@ -1040,11 +1454,60 @@ export const libraryCustomizedIconDefaultValues = Object.freeze({
     [iconTypes.undoRedo.key]: true,
     [iconTypes.insights.key]: true,
     [iconTypes.contentDiscovery.key]: false,
-});
+    // newly-added by granular control feature
+    [iconTypes.mobile_userName.key]: true,
+    [iconTypes.mobile_preferences_myLanguage.key]: true,
+    [iconTypes.mobile_preferences_myTimeZone.key]: true,
+    [iconTypes.mobile_preferences_myCalendar.key]: true,
+    [iconTypes.mobile_preferences_faceIDLogin.key]: true,
+    [iconTypes.mobile_preferences_takeATour.key]: true,
+    [iconTypes.mobile_preferences_refreshViewAutomatically.key]: true,
+    [iconTypes.mobile_preferences_smartDownload.key]: true,
+    [iconTypes.mobile_preferences_automaticallyAddToLibrary.key]: true,
+    [iconTypes.mobile_advancedSettings_appSettings.key]: true,
+    [iconTypes.mobile_advancedSettings_securitySettings.key]: true,
+    [iconTypes.mobile_advancedSettings_logging.key]: true,
+    [iconTypes.mobile_helpAndLegal.key]: true,
+    [iconTypes.mobile_helpAndLegal_help.key]: true,
+    [iconTypes.mobile_helpAndLegal_legal.key]: true,
+    [iconTypes.mobile_helpAndLegal_reportProblem.key]: true,
+    [iconTypes.mobile_logOut.key]: true,
+    [iconTypes.filter_summary.key]: true,
+    [iconTypes.contentCreator.key]: true,
+    [iconTypes.modifiedDate.key]: true,
+    [iconTypes.infoWindow.key]: true,
+    [iconTypes.share_share.key]: true,
+    [iconTypes.share_exportToExcel.key]: true,
+    [iconTypes.share_exportToPDF.key]: true,
+    [iconTypes.share_download.key]: true,
+    [iconTypes.share_subscribe.key]: true,
+    [iconTypes.share_annotate.key]: true,
+    [iconTypes.web_userName.key]: true,
+    [iconTypes.web_myLibraries.key]: true,
+    [iconTypes.web_manageLibrary.key]: true,
+    [iconTypes.web_preferences.key]: true,
+    [iconTypes.web_preferences_myCalendar.key]: true,
+    [iconTypes.web_preferences_myLanguage.key]: true,
+    [iconTypes.web_preferences_myTimeZone.key]: true,
+    [iconTypes.web_switchWorkspace.key]: true,
+    [iconTypes.web_takeATour.key]: true,
+    [iconTypes.web_help.key]: true,
+    [iconTypes.web_logOut.key]: true,
+    [iconTypes.sidebarDownloads.key]: true,
+    [iconTypes.toc_header.key]: true,
+    [iconTypes.toc_contentinfo.key]: true,
+    [iconTypes.toc_chapter.key]: true,
+    [iconTypes.switch_library.key]: true
 
-export const libraryCustomizedIconStartVersion = {
+});
+const granularControlAddedIconsStartVersion: any = {}
+granularControlNewAddedIcons.forEach(v => granularControlAddedIconsStartVersion[v.key] = LIBRARY_SUPPORT_GRANULAR_CONTROL);
+    
+    export const libraryCustomizedIconStartVersion = {
     [iconTypes.insights.key]: LIBRARY_SERVER_SUPPORT_INSIGHTS_CONTROL,
     [iconTypes.contentDiscovery.key]: LIBRARY_SUPPORT_CONTENT_DISCOVERY_VERSION,
+    ...granularControlAddedIconsStartVersion
+
 };
 
 

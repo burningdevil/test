@@ -135,6 +135,7 @@ export interface HomeScreenConfigType {
             icons: Array<string>,
             sidebars: Array<string>,
             customizedItems: any,
+            customizedItemProperties: any;
             contentBundleIds: Array<string>,
             showAllContents: boolean,
             defaultGroupsName: string,

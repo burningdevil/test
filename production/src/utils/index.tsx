@@ -25,6 +25,7 @@ export const LIBRARY_SUPPORT_ALLOW_CONTENTS_WITH_CONTENT_GROUPS = '11.3.0960';
 export const LIBRARY_SUPPORT_MOBILE_INSIGHTS = '11.3.0960';
 export const LIBRARY_SUPPORT_DOSSIER_AS_HOME_BOOKMARK = '11.3.1060';
 export const LIBRARY_SUPPORT_CONTENT_DISCOVERY_VERSION = '11.3.1060';
+export const LIBRARY_SUPPORT_GRANULAR_CONTROL = '11.3.1060';
 
 
 /**
@@ -33,12 +34,12 @@ export const LIBRARY_SUPPORT_CONTENT_DISCOVERY_VERSION = '11.3.1060';
  * @param {string} threshold the minimum version required
  */
 export const isLibraryServerVersionMatch = (
-    version: string,
+    version: string = '0.0.0',
     baseLineVersion: string = LIBRARY_SERVER_VERSION_THRESHOLD
 ) => {
-    const filteredVersionNums = version.split('.');
-    filteredVersionNums.pop();
-    return compareVersions(filteredVersionNums.join('.'), baseLineVersion) >= 0;
+    const filteredVersionNums = version?.split('.');
+    filteredVersionNums?.pop();
+    return compareVersions(filteredVersionNums?.join('.'), baseLineVersion) >= 0;
 };
 
 export const isIServerVersionMatch = (version: string, baseLineVersion: string = ISERVER_VERSION_THRESHOLD) => {

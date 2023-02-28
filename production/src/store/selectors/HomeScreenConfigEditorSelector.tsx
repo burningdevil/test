@@ -127,6 +127,11 @@ export const selectSelectedLibraryCustomizedItems = createSelector(
   (config) => _.get(config, 'homeScreen.homeLibrary.customizedItems', {})
 )
 
+export const selectSelectedLibrarycustomizedItemProperties = createSelector(
+  selectCurrentConfig,
+  (config) => _.get(config, 'homeScreen.homeLibrary.customizedItemProperties', {})
+)
+
 export const selectSelectedLibraryIcons = createSelector(
   selectCurrentConfig,
   (config) => {

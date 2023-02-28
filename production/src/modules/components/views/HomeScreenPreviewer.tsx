@@ -39,9 +39,9 @@ import {
 } from '../../../store/selectors/HomeScreenConfigEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import { Tooltip } from '@mstr/rc';
-import { getNonsupportIconKeys } from './HomeScreenUtils';
+import { filterNonsupportIcons, getNonsupportIconKeys } from './HomeScreenUtils';
 import { WebVersionContext } from './HomeScreenConfigEditor';
-import { isLibraryServerVersionMatch, LIBRARY_SERVER_VERSION_THRESHOLD, LIBRARY_SUPPORT_DOSSIER_AS_HOME_BOOKMARK, LIBRARY_SUPPORT_MOBILE_INSIGHTS } from '../../../../src/utils';
+import { isLibraryServerVersionMatch, LIBRARY_SERVER_VERSION_THRESHOLD, LIBRARY_SUPPORT_DOSSIER_AS_HOME_BOOKMARK, LIBRARY_SUPPORT_GRANULAR_CONTROL, LIBRARY_SUPPORT_MOBILE_INSIGHTS } from '../../../../src/utils';
 
 const classNamePrefix = 'homeScreenPreviewer';
 
@@ -208,6 +208,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
         previewType: any,
         webVersion?: string
     ) => {
+        iconsToRender = filterNonsupportIcons(iconsToRender, webVersion);
         if (!this.contentBundleEnable) {
             iconsToRender = iconsToRender.filter(
                 (v) => v.key !== iconTypes.defaultGroup.key
@@ -221,6 +222,11 @@ class HomeScreenPreviewer extends React.Component<any, any> {
         if(previewType !== reviewType.WEB && !isLibraryServerVersionMatch(webVersion, LIBRARY_SUPPORT_MOBILE_INSIGHTS) ){
             iconsToRender = iconsToRender.filter(
                 (v) => v.key !== iconTypes.insights.key
+            );
+        }
+        if(previewType === reviewType.WEB ||  previewType === reviewType.DESKTOP){
+            iconsToRender = iconsToRender.filter(
+                (v) => ![iconTypes.sidebarDownloads.key, iconTypes.switch_library.key].includes(v.key)
             );
         }
         iconsToRender = iconsToRender.filter(

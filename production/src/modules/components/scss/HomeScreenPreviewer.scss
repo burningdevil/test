@@ -344,6 +344,9 @@ $tablet-scale: 0.85;
             height: 100%;
             flex-direction: column;
             justify-items: flex-start;
+            .homeScreenPreviewer-pad-overview-left-text {
+                line-height: 14px;
+            }
         }
 
         .ant-layout-header {
@@ -456,7 +459,7 @@ $tablet-scale: 0.85;
             }
         }
         .homeScreenPreviewer-pad-overview-left-text {
-            line-height: 14px;
+            line-height: 12px;
         }
         .ant-layout-header {
             flex: auto;

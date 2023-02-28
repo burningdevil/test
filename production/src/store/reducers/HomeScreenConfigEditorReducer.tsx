@@ -75,7 +75,7 @@ export const DEFAULT_EMAIL_SETTING = {
 
 }
 
-const initialState: HomeScreenConfigEditorState = {
+export const initialState: HomeScreenConfigEditorState = {
   currentConfig: {
     'name': '',
     'description': '',
@@ -89,11 +89,12 @@ const initialState: HomeScreenConfigEditorState = {
         icons: libraryIconKeys.filter(key => !libraryCustomizedIconKeys.includes(key)).map((key) => iconValidKey(key)), 
         sidebars: sidebarIconKeys.filter((key) => !_.includes(libraryCustomizedIconKeys, key)).map((key) => iconValidKey(key)),
         customizedItems: {},
+        customizedItemProperties: {},
         contentBundleIds: [],
         showAllContents: false,
         defaultGroupsName: localizedStrings.DEFAULT_GROUPS,
         toolbarMode: CONSTANTS.SHOW_TOOLBAR,
-        toolbarEnabled: true,
+        toolbarEnabled: true
       }, 
       homeDocument: {
         url: '', 

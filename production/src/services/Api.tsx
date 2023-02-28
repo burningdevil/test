@@ -13,6 +13,7 @@ import {
 import { HomeScreenConfigType } from '../../src/types/data-model/HomeScreenConfigModels';
 import { ConfigListModel } from '../../src/types/api-model/requestModels';
 import { PARSE_METHOD } from '../utils/ParseMethods';
+import { initialState } from 'src/store/reducers/HomeScreenConfigEditorReducer';
 
 const CONFIG_ENDPOINTS = '/v2/applications/';
 
@@ -146,7 +147,11 @@ export const loadCurrentEditConfig = (configId: string) => {
         if (!_.has(data, VC.PLATFORM)) {
             _.assign(data, { platforms: [platformType.web] });
         }
-
+        if (!_.has(data, 'homeScreen')) {
+            data.homeScreen = {
+                ...initialState.currentConfig?.homeScreen
+            };
+        }
         if (!_.has(data, 'homeScreen.homeLibrary')) {
             data.homeScreen.homeLibrary = {
                 icons: [],

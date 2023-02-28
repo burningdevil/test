@@ -1,12 +1,18 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import '../scss/HomeScreenMoreSetting.scss'
-import { default as VC, sectionAccess, sectionCache, sectionConnectivity, sectionLogging, sectionTitle, logLevelStr, tooltipStr, metricStr } from '../HomeScreenConfigConstant'
-import { Button, Checkbox, Divider, Dropdown, Menu, Input, Tooltip} from 'antd'
+import { default as VC, sectionAccess, sectionCache, sectionConnectivity, sectionLogging, sectionTitle, logLevelStr, tooltipStr, metricStr, sectionFeedback, localizedStrings } from '../HomeScreenConfigConstant'
+import { Button, Checkbox, Divider, Dropdown, Menu, Input, Tooltip, Form} from 'antd';
+import {Input as MstrInput} from '@mstr/rc';
 import { DownOutlined } from '@ant-design/icons'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
 import { selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEditorSelector'
 import * as Actions from '../../../store/actions/ActionsCreator'
+import { WebVersionContext } from './HomeScreenConfigEditor'
+import { LIBRARY_SERVER_VERSION_THRESHOLD, LIBRARY_SUPPORT_GRANULAR_CONTROL, isLibraryServerVersionMatch } from '../../../../src/utils'
+import * as _ from 'lodash';
+import { validateEmail } from '../features/custom-email-v2/custom-email.util';
+import { ICON_KEY_ENUM } from './home-screen-components/icon-key-enum';
 
 const classNamePrefix = 'home-screen-moresetting';
 const MAX_UPDATE_INTERVAL = 2400;//100 days
@@ -25,6 +31,7 @@ class HomeScreenMoreSetting extends React.Component<any, any> {
         intervalValid: true,
         timeoutValid: true,
         loggingSizeValid: true,
+        reportProblemAddress: ''
     }
 
     resetTooltipState = (dispatchAfter: number) => {
@@ -40,6 +47,8 @@ class HomeScreenMoreSetting extends React.Component<any, any> {
     // call back
     onInputChange = (type: string, value: any) => {
         const number = Number(value)
+        const currentConfig = this.props.config;
+        const customizedItems = _.get(currentConfig, `${VC.HOME_SCREEN}.${VC.HOME_LIBRARY}.${VC.CUSTOMIZED_ITEMS}`);
         let update = {}
         switch (type) {
             case VC.UPDATE_INTERVAL:
@@ -99,6 +108,16 @@ class HomeScreenMoreSetting extends React.Component<any, any> {
             case VC.CLEAR_CACHE_ON_CLOSE:
                 update = {[VC.CACHE_CLEAR_MODE]: value ? VC.CLEAR_ON_CLOSE : VC.CLEAR_AUTOMATIC}
                 break;
+            case ICON_KEY_ENUM.mobile_helpAndLegal_reportProblem_addr:
+                _.set(currentConfig, ICON_KEY_ENUM.mobile_helpAndLegal_reportProblem_addr, value);
+                this.props.updateCurrentConfig(currentConfig);
+                break;
+            case VC.CACHE_SMART_DOWNLOAD:
+                // const customizedItems = _.get(currentConfig, `${VC.HOME_SCREEN}.${VC.HOME_LIBRARY}.${VC.CUSTOMIZED_ITEMS}`);
+                customizedItems[VC.CACHE_SMART_DOWNLOAD] = value;
+                _.set(currentConfig, `${VC.HOME_SCREEN}.${VC.HOME_LIBRARY}.${VC.CUSTOMIZED_ITEMS}`, customizedItems);
+                this.props.updateCurrentConfig(currentConfig);
+                break;
             default:
                 update = {[type]: number}
                 break;
@@ -156,6 +175,22 @@ class HomeScreenMoreSetting extends React.Component<any, any> {
                 onChange={onChange} />
         </Tooltip>
     }
+    validateInputRender = (disabled: boolean, value: string, onChange: React.ChangeEventHandler<HTMLInputElement>, placeholder?: string, enableValid?: boolean, errorMsg?: string) => {
+        return <div className={`${classNamePrefix}-cfg-advance-email`}><MstrInput 
+            disabled={disabled}
+            value={value}
+            placeholder= {placeholder}
+            onValidate={
+                (e: string) => {
+                    return validateEmail(e);
+                }
+            }
+            isErrorDisplayed= {true}
+            errorMessage={localizedStrings.INVALID_EMAIL_ADDRESS}
+            onBlur={() => this.resetTooltipState(0)}
+            onChange={onChange} /> </div>
+    
+    }
 
     checkboxRender = (checked: boolean, value: string, title: string) => {
         return <Checkbox id={value}
@@ -169,8 +204,25 @@ class HomeScreenMoreSetting extends React.Component<any, any> {
     sectionTitleRender = (title: string) => {
         return <div className={`${classNamePrefix}-title`} >{title}</div>
     }
+    renderGlobalSetting = () => {
+        const reportEmailAddress = _.get(this.props.config, ICON_KEY_ENUM.mobile_helpAndLegal_reportProblem_addr) 
+        return (
+            <>
+                <div className={`${classNamePrefix}-desc`}>
+                        {sectionTitle.GLOBAL}
+                </div>
+                {/* Feedback email , not supported until the granular control*/}
+                    {this.sectionTitleRender(sectionTitle.FEEDBACK)}
+                        <div className={`${classNamePrefix}-box`}>
+                            <span>{sectionFeedback.FEEDBACK_REPORT_EMAIL}</span>
+                            {this.validateInputRender(false, reportEmailAddress, (e) => this.onInputChange(ICON_KEY_ENUM.mobile_helpAndLegal_reportProblem_addr, e.target.value), 'example@example.com', true, localizedStrings.INVALID_EMAIL_ADDRESS)}
+                        </div>
+                    <Divider/>
 
-    render() {
+            </>
+        )
+    }
+    renderMoreSetting = (version: string) => {
         const {
             disableAdvancedSettings,
             disablePreferences,
@@ -181,21 +233,30 @@ class HomeScreenMoreSetting extends React.Component<any, any> {
             cacheClearMode,
             clearCacheOnLogout,
         } = this.props.config.general;
-
-        return <div className={`${classNamePrefix}-cfg-advance`}>
+        const smart_download  = _.get(this.props.config, `${VC.HOME_SCREEN}.${VC.HOME_LIBRARY}.${VC.CUSTOMIZED_ITEMS}.${VC.CACHE_SMART_DOWNLOAD}`, true)
+        return (
+        <div className={`${classNamePrefix}-cfg-advance`}>
+                    
+                    {isLibraryServerVersionMatch(version, LIBRARY_SUPPORT_GRANULAR_CONTROL) && this.renderGlobalSetting()}
                     <div className={`${classNamePrefix}-desc`}>
                         {sectionTitle.DESC}
                     </div>
 
-                    {/* Access section */}
-                    {this.sectionTitleRender(sectionTitle.ACCESS)}
-                    <div className={`${classNamePrefix}-box`}>
-                        {this.checkboxRender(!disablePreferences, VC.DISABLE_PREFERENCES, sectionAccess.ACCESS_PREFERENCE)}
-                    </div> 
-                    <div className={`${classNamePrefix}-box`}>
-                        {this.checkboxRender(!disableAdvancedSettings, VC.DISABLE_ADVANCED_SETTINGS, sectionAccess.ACCESS_ADVANCED_SETTINGS)}
-                    </div>
-                    <Divider/>
+                    {/* Access section , supported until the granular control*/}
+                    {
+                        !isLibraryServerVersionMatch(version, LIBRARY_SUPPORT_GRANULAR_CONTROL) && <>
+                        {this.sectionTitleRender(sectionTitle.ACCESS)}
+                        <div className={`${classNamePrefix}-box`}>
+                            {this.checkboxRender(!disablePreferences, VC.DISABLE_PREFERENCES, sectionAccess.ACCESS_PREFERENCE)}
+                        </div> 
+                        <div className={`${classNamePrefix}-box`}>
+                            {this.checkboxRender(!disableAdvancedSettings, VC.DISABLE_ADVANCED_SETTINGS, sectionAccess.ACCESS_ADVANCED_SETTINGS)}
+                        </div>
+                        <Divider/>
+                        </>
+                    }
+                    
+                    
         
                     {/* Connectivity section */}
                     {this.sectionTitleRender(sectionTitle.CONNECTIVITY)}
@@ -239,7 +300,23 @@ class HomeScreenMoreSetting extends React.Component<any, any> {
                     <div className={`${classNamePrefix}-box`}>
                         {this.checkboxRender(clearCacheOnLogout, VC.CLEAR_CACHE_ON_LOGOUT, sectionCache.CLEAR_CACHE_ON_LOGOUT)}
                     </div>
+                    <div className={`${classNamePrefix}-box`}>
+                        {this.checkboxRender(smart_download, VC.CACHE_SMART_DOWNLOAD, sectionCache.SMART_DOWNLOAD)}
+                    </div>
                 </div>
+        )
+    }
+    render() {
+        
+        return (
+            <WebVersionContext.Consumer>
+            {(value) => {
+                return (
+                    this.renderMoreSetting(value.webVersion ?? LIBRARY_SERVER_VERSION_THRESHOLD)
+                );
+            }}
+            </WebVersionContext.Consumer> 
+        )
     }
 }
 

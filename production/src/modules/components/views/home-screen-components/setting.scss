@@ -1,0 +1,37 @@
+@import '~@mstr/rc/es/assets/scss/variables.scss';
+.icon-settings {
+    display: inline-block;
+    vertical-align: middle;
+    width: 18px;
+    height: 18px;
+    background: url('../../images/18_18.svg');
+    background-repeat: no-repeat;
+    background-position: -18px -54px;
+    transform: scale(0.75);
+}
+.icon-settings-disabled {
+    opacity: 0.2;
+}
+.icon-settings-open {
+    display: inline-block;
+    vertical-align: middle;
+    width: 18px;
+    height: 18px;
+    background: url('../../images/18_18.svg');
+    background-repeat: no-repeat;
+    background-position: -126px -54px;
+    transform: scale(0.75);
+}
+.ant-popover-content {
+    .ant-popover-arrow {
+        left: 28% !important;
+    }
+    .ant-checkbox-wrapper {
+        .ant-checkbox {
+            transform: scale(0.75);
+        }
+        span {
+            font-size: 12px;
+        }
+    }
+}

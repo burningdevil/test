@@ -131,7 +131,7 @@ export function filterCustomizedIconDefaultValue(webVersion: string = '0.0.0'){
 
 export function filterNonsupportIcons(targetIcons: any[], webVersion: string = '0.0.0') {
   const nonsupportIcons = getNonsupportIconKeys(webVersion);
-  return targetIcons.filter(v => !nonsupportIcons.includes(v.key));
+  return targetIcons?.filter(v => !nonsupportIcons.includes(v.key));
 }
 
 export function awaitWrap<T, U = any>(promise: Promise<T>): Promise<[U | null, T | null]> {

@@ -101,19 +101,27 @@ $line-height-small: 13px;
         margin-bottom: 12px;
         margin-left: 16px;
         user-select: none;
-
+        .table-text {
+            font-family: $font-family;
+            font-size: $font-size;
+            color: $msdl-black;
+            display: inline-block;
+            vertical-align: middle;
+            @extend .overflow;
+            max-width: 200px;
+        }
         .ant-table-tbody > tr:nth-child(n-1)  > td {
             padding: 12px 0px;
-            .home-screen-components-table-text {
-                font-family: $font-family;
-                font-size: $font-size;
-                color: $msdl-black;
+            .home-screen-components-table-text{
+                @extend .table-text;
                 margin-left: 10px;
                 margin-right: 7px;
-                display: inline-block;
-                vertical-align: middle;
-                @extend .overflow;
-                max-width: 200px;
+                
+            }
+            .home-screen-components-table-text-no-icon {
+                @extend .table-text;
+                margin-left: 12px;
+                margin-right: 6px;
             }
         }
         .ant-table-tbody > tr:nth-last-child(1)  > td {
@@ -132,7 +140,7 @@ $line-height-small: 13px;
     }
     &-sidebar-caret {
         margin-left: -15px;
-        margin-right: 5px;
+        margin-right: 2px;
     }
     .ant-table {
         font-size: 13px;
@@ -159,6 +167,47 @@ $line-height-small: 13px;
         background-repeat: no-repeat;
         background-position: -324px -126px;
     }
+    .home-components-operation-default-item {
+        color: gray;
+        float: left;
+        margin-left: -50px;
+    }
+    .home-components-operation-item {
+        display: none;
+        float: left;
+        // margin-top: 5px;
+        margin-left: -50px;
+    }
+    .operation-row {
+        display: inline-block;
+    }
+    .group-row {
+        line-height: 30px;
+    }
+    .ant-table-row:hover {
+        .home-components-operation-item {
+            display: inline-block;
+            cursor: pointer;
+            // &:hover {
+            //     color: $mobile-primary-blue;
+            // }
+        }
+    }
 }
+.toc_tooltip {
+    width: 180px;
+    height: 90px;
+    
+    background-repeat: no-repeat;
+}
+.toc_header_bg {
+    @extend .toc_tooltip;
+    background-image: url('../images/home-components/toc_header_tooltip.png');
+}
+.toc_content_bg {
+    @extend .toc_tooltip;
+    background-image: url('../images/home-components/toc_content_tooltip.png');
+}
+
 
 
