@@ -63,6 +63,19 @@ task :premerge do
   )
 end
 
+desc "Upload premerge binaries for testing"
+task :upload_pre_binaries => [:package] do
+  artifact_info = Compiler::Maven.artifact_info
+  Nexus.upload_artifact(
+    group_id:       "#{$WORKSPACE_SETTINGS[:nexus][:base_coordinates][:group_id]}.#{ENV['ghprbSourceBranch']}",
+    artifact_id:    artifact_info[:artifact_base_file_name],
+    artifact_ext:   artifact_info[:artifact_file_extension],
+    version:        artifact_info[:artifact_version],
+    repository:     $WORKSPACE_SETTINGS[:nexus][:repos][:release],
+    artifact_path:  artifact_info[:artifact_file_path]
+  )
+end
+
 def generate_sonar_inclusions
   pull_request_id = ENV['ghprbPullId']
   org,repo = ENV['ghprbGhRepository'].split('/')
