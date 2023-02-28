@@ -25,5 +25,5 @@ Feature: 95_Env_Switch_Rename_Linked_Env
         Then check the screenshot by comparing "95_env_switch_rename_linked_env_03"
         Then I click "Save" button in the tab "environmentConnectionSettings"
         Then I delete the application "WS_SwitchEnv_Rename"
-        Then I select tab "Environments"
+        Then I scroll "up" to click tab "Environments"
         Then I remove environment "z-env-connection"
