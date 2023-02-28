@@ -48,7 +48,6 @@ end
 
 task :do_test_when_test_file_changed do |t,args|
   info "====== Run UI automation tests ======"
-  puts Nexus::NexusDefaults.group_id
   Rake::Task['install_workstation_windows'].invoke
   Rake::Task['replace_plugin_windows'].invoke
   Rake::Task['deploy_or_prepared_tanzu_environment'].invoke
