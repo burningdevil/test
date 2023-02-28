@@ -3,7 +3,7 @@ import '../scss/ContentBundleContentPicker.scss';
 import { SearchInput } from '@mstr/rc';
 import { Modal, Button, Menu } from 'antd';
 import * as _ from 'lodash';
-import { ReactWsGrid } from '@mstr/react-ws-grid';
+import { AgGridReact } from 'ag-grid-react';
 import {
   SelectionChangedEvent,
   GridReadyEvent,
@@ -64,18 +64,8 @@ class ContentBundleContentPicker extends React.Component<any, any> {
   bundleContentPickerDataSource(server: any) {
     return {
       getRows: function (params: IServerSideGetRowsParams) {
-        console.log('[Datasource] - rows requested by grid: ', params.request);
         var response = server.getData(params);
-        setTimeout(function () {
-          if (response?.success) {
-            params.success({
-              rowData: response.rows,
-              rowCount: response.lastRow,
-            });
-          } else {
-            // params.fail();
-          }
-        }, 200);
+        console.log('[Datasource] - rows requested by grid: ', params.request);
       },
     };
   }
@@ -266,7 +256,6 @@ class ContentBundleContentPicker extends React.Component<any, any> {
       activeTab: param.key,
     });
     this.handleSelectionChanged({});
-
     this.updateData();
     if (gridApi) {
       gridApi.deselectAll();
@@ -370,6 +359,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
       ? this.props.loadingDossierData
       : this.props.loadingDocumentData;
   }
+
   render() {
     return (
       <Modal
@@ -418,7 +408,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                     </span>
                   </Menu.Item>
                   <Menu.Item
-                    tabIndex={0}
+                    tabIndex={1}
                     aria-label={localizedStrings.DOCUMENT_TAB_TEXT}
                     key={HomeScreenHomeObjectType.DOCUMENT}
                     className={`${classNamePrefix}-grid-menu-tab2`}
@@ -435,16 +425,19 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                 <div style={{ width: '100%', height: '100%' }}>
                   <div
                     id='contentPickerGrid'
+                    className = "ag-theme-alpine react-ws-grid"
                     style={{ height: '100%', width: '100%' }}
                   >
-                    <ReactWsGrid
+                    
+                    <AgGridReact
                       rowMultiSelectWithClick={true}
                       onSelectionChanged={this.onSelectionChanged}
                       onSortChanged={this.onSortChanged}
                       // @ts-ignore: RC Component Support error
                       rowSelection={rowSelectionType}
                       rowModelType='serverSide'
-                      serverSideStoreType={'partial' as ServerSideStoreType}
+                      headerHeight = {26}
+                      serverSideStoreType={ServerSideStoreType.Partial}
                       getRowHeight={this.getRowHeight}
                       columnDefs={[
                         {
@@ -527,11 +520,10 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                           headerName: localizedStrings.DATE_MODIFIED,
                         },
                       ]}
-                      isLoading={this.judgeLoading()}
                       defaultColDef={{
                         resizable: true,
+                        suppressMenu: true
                       }}
-                      noDataMessage={localizedStrings.NO_DATA_MESSAGE}
                       onGridReady={this.onGridReady}
                     />
                   </div>
