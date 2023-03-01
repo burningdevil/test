@@ -32,4 +32,4 @@ Feature: 96_Env_Switch_Err_Handling
         Then check the screenshot by comparing "96_env_switch_err_handling_02"
         Then I click "Save" button in the tab "environmentConnectionSettings"
         Then I scroll "up" to click tab "Environments"
-        Then I remove environment "z-env-connection"
+        Then I remove all connected environments
