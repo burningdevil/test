@@ -1,6 +1,6 @@
 import * as React from 'react';
 import '../scss/ContentBundleContentPicker.scss';
-import { SearchInput } from '@mstr/rc';
+import { SearchInput, SplashScreen } from '@mstr/rc';
 import { Modal, Button, Menu } from 'antd';
 import * as _ from 'lodash';
 import { AgGridReact } from 'ag-grid-react';
@@ -51,7 +51,6 @@ let projectMap: any = {};
 let isSupportViewMediaType = false;
 // let activeTab = 'Dossier';
 // let searchNameFilter = '';
-
 class ContentBundleContentPicker extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
@@ -359,7 +358,6 @@ class ContentBundleContentPicker extends React.Component<any, any> {
       ? this.props.loadingDossierData
       : this.props.loadingDocumentData;
   }
-
   render() {
     return (
       <Modal
@@ -428,8 +426,9 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                     className = "ag-theme-alpine react-ws-grid"
                     style={{ height: '100%', width: '100%' }}
                   >
-                    
-                    <AgGridReact
+                    {this.judgeLoading() && <SplashScreen></SplashScreen>}
+
+                    {!this.judgeLoading() && <AgGridReact
                       rowMultiSelectWithClick={true}
                       onSelectionChanged={this.onSelectionChanged}
                       onSortChanged={this.onSortChanged}
@@ -525,7 +524,7 @@ class ContentBundleContentPicker extends React.Component<any, any> {
                         suppressMenu: true
                       }}
                       onGridReady={this.onGridReady}
-                    />
+                    />}
                   </div>
                 </div>
               </div>
