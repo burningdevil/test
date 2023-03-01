@@ -49,7 +49,7 @@ end
 task :do_test_when_test_file_changed do |t,args|
   info "====== Run UI automation tests ======"
   Rake::Task['install_workstation_windows'].invoke
-  Rake::Task['replace_plugin_windows'].invoke
+
   Rake::Task['deploy_or_prepared_tanzu_environment'].invoke
   Rake::Task['override_library'].invoke
   Rake::Task['sanity_test_win'].invoke
@@ -218,6 +218,7 @@ task :sanity_test_win do |t,args|
   info "====== starting test ======"
   environmentName = ""
   begin
+    Rake::Task['replace_plugin_windows'].invoke
     libraryUrl, environmentName = get_library_and_environment()
     info "====== yarn install starting ======"
     shell_command! "npm install", cwd: "#{$WORKSPACE_SETTINGS[:paths][:project][:home]}/tests/acceptance"
