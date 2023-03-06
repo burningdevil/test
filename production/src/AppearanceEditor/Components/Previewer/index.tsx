@@ -855,6 +855,7 @@ class Previewer extends React.Component<any, any> {
         deviceType: string,
         isNoTheme: boolean
     ) => {
+        const notificationDate = '08/24/2021';
         const popoverContent = <React.Fragment>
             <div className='notification-list'>
                 <div className='notification-wrapper'>
@@ -864,7 +865,7 @@ class Previewer extends React.Component<any, any> {
                             <div className='header'>
                                 You have 1 new message in a discussion in <span>ITS</span>.
                             </div>
-                            <div className='date'>08/24/2021</div>
+                            <div className='date'>{notificationDate}</div>
                         </div>
                     </div>
                 </div>
@@ -878,7 +879,7 @@ class Previewer extends React.Component<any, any> {
                                 <div className='subheader'>
                                     Hi, here is the information I mentioned in our discussion earlier today. Thanks!
                                 </div>
-                            <div className='date'>08/24/2021</div>
+                            <div className='date'>{notificationDate}</div>
                         </div>
                     </div>
                 </div>
@@ -896,7 +897,7 @@ class Previewer extends React.Component<any, any> {
                                     <div className={classnames('accept-btn', { 'no-theme': isNoTheme })}>Accept</div>
                                     <div className={classnames('ignore-btn', { 'no-theme': isNoTheme })}>Ignore</div>
                                 </div>
-                            <div className='date'>08/24/2021</div>
+                            <div className='date'>{notificationDate}</div>
                         </div>
                     </div>
                 </div>
