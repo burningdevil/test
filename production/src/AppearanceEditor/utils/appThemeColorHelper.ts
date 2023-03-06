@@ -53,7 +53,7 @@ export const EnumFormattingPropNames = {
 
     canvasFill: 'canvasFill',
 
-    accentFill: 'accentFill',
+    accentColor: 'accentColor',
 
     buttonColor: 'buttonColor',
 
@@ -75,7 +75,7 @@ export const defaultColorSet = {
 
     [EnumFormattingPropNames.canvasFill]: '',
 
-    [EnumFormattingPropNames.accentFill]: '',
+    [EnumFormattingPropNames.accentColor]: '',
 
     [EnumFormattingPropNames.buttonColor]: '',
 
@@ -99,7 +99,7 @@ export const prefinedColorSets = {
 
         [EnumFormattingPropNames.canvasFill]: '#F3F1F1',
 
-        [EnumFormattingPropNames.accentFill]: '#D0192B',
+        [EnumFormattingPropNames.accentColor]: '#D0192B',
 
         [EnumFormattingPropNames.buttonColor]: '#FFFFFF',
 
@@ -120,7 +120,7 @@ export const prefinedColorSets = {
 
         [EnumFormattingPropNames.canvasFill]: '#F4F4F3',
 
-        [EnumFormattingPropNames.accentFill]: '#F7AE13',
+        [EnumFormattingPropNames.accentColor]: '#F7AE13',
 
         [EnumFormattingPropNames.buttonColor]: '#1E1A16',
 
@@ -141,7 +141,7 @@ export const prefinedColorSets = {
 
         [EnumFormattingPropNames.canvasFill]: '#F1F2F2',
 
-        [EnumFormattingPropNames.accentFill]: '#00875F',
+        [EnumFormattingPropNames.accentColor]: '#00875F',
 
         [EnumFormattingPropNames.buttonColor]: '#FFFFFF',
 
@@ -162,7 +162,7 @@ export const prefinedColorSets = {
 
         [EnumFormattingPropNames.canvasFill]: '#F3F4F4',
 
-        [EnumFormattingPropNames.accentFill]: '#0077D7',
+        [EnumFormattingPropNames.accentColor]: '#0077D7',
 
         [EnumFormattingPropNames.buttonColor]: '#FFFFFF',
 
@@ -183,7 +183,7 @@ export const prefinedColorSets = {
 
         [EnumFormattingPropNames.canvasFill]: '#F0F2F3',
 
-        [EnumFormattingPropNames.accentFill]: '#3067BB',
+        [EnumFormattingPropNames.accentColor]: '#3067BB',
 
         [EnumFormattingPropNames.buttonColor]: '#FFFFFF',
 
@@ -204,7 +204,7 @@ export const prefinedColorSets = {
 
         [EnumFormattingPropNames.canvasFill]: '#000000',
 
-        [EnumFormattingPropNames.accentFill]: '#529AFE',
+        [EnumFormattingPropNames.accentColor]: '#529AFE',
 
         [EnumFormattingPropNames.buttonColor]: '#29313B',
 
@@ -225,7 +225,7 @@ export const prefinedColorSets = {
 
         [EnumFormattingPropNames.canvasFill]: '#F7F8FA', 
 
-        [EnumFormattingPropNames.accentFill]: '#0E6FF9',
+        [EnumFormattingPropNames.accentColor]: '#0E6FF9',
 
         [EnumFormattingPropNames.buttonColor]: '#FFFFFF',
 
@@ -300,7 +300,7 @@ export const colorPropTitles = [
             },
             {
                 displayName: t('accentColor'), 
-                name: EnumFormattingPropNames.accentFill,
+                name: EnumFormattingPropNames.accentColor,
                 desc: t('accentColorInfo')
             },
             {

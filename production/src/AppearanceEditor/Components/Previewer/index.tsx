@@ -16,7 +16,7 @@ import {
     libraryCustomizedIconDefaultValues,
     CONSTANTS,
 } from '../../../modules/components/HomeScreenConfigConstant';
-import { Layout, Radio } from 'antd';
+import { Layout, Radio, Popover } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import './styles.scss';
 import * as _ from 'lodash';
@@ -41,7 +41,7 @@ const views = {
     MOBILE: 'mobile',
 };
 
-const applyThemeColorsToPreviewer = (el: any, formats: any) => {
+const applyThemeColorsToPreviewer = (formats: any) => {
     const {
         toolbarFill,
         toolbarColor,
@@ -54,20 +54,23 @@ const applyThemeColorsToPreviewer = (el: any, formats: any) => {
         buttonColor,
         notificationBadgeFill,
         panelColor,
+        panelFill
     } = formats || {};
+    const root = document.documentElement;
 
-    if (el) {
-        el.style.setProperty('--toolbar-fill', toolbarFill);
-        el.style.setProperty('--toolbar-color', toolbarColor);
-        el.style.setProperty('--sidebar-fill', sidebarFill);
-        el.style.setProperty('--sidebar-color', sidebarColor);
-        el.style.setProperty('--sidebar-active-fill', sidebarActiveFill);
-        el.style.setProperty('--sidebar-active-color', sidebarActiveColor);
-        el.style.setProperty('--canvas-fill', canvasFill);
-        el.style.setProperty('--panel-color', panelColor);
-        el.style.setProperty('--accent-color', accentColor);
-        el.style.setProperty('--button-color', buttonColor);
-        el.style.setProperty(
+    if (root) {
+        root.style.setProperty('--toolbar-fill', toolbarFill);
+        root.style.setProperty('--toolbar-color', toolbarColor);
+        root.style.setProperty('--sidebar-fill', sidebarFill);
+        root.style.setProperty('--sidebar-color', sidebarColor);
+        root.style.setProperty('--sidebar-active-fill', sidebarActiveFill);
+        root.style.setProperty('--sidebar-active-color', sidebarActiveColor);
+        root.style.setProperty('--canvas-fill', canvasFill);
+        root.style.setProperty('--panel-color', panelColor);
+        root.style.setProperty('--panel-fill', panelFill);
+        root.style.setProperty('--accent-color', accentColor);
+        root.style.setProperty('--button-color', buttonColor);
+        root.style.setProperty(
             '--notification-badge-fill',
             notificationBadgeFill
         );
@@ -848,6 +851,74 @@ class Previewer extends React.Component<any, any> {
         );
     };
 
+    getNotificationPanelViewLayout = (
+        deviceType: string,
+        isNoTheme: boolean
+    ) => {
+        const popoverContent = <React.Fragment>
+            <div className='notification-list'>
+                <div className='notification-wrapper'>
+                    <div className={classnames('notification', 'n1', { 'no-theme': isNoTheme })}>
+                        <div className={classnames('notification-icn', 'n1')} />
+                        <div className={classnames('notification-content', { 'no-theme': isNoTheme })}>
+                            <div className='header'>
+                                You have 1 new message in a discussion in <span>ITS</span>.
+                            </div>
+                            <div className='date'>08/24/2021</div>
+                        </div>
+                    </div>
+                </div>
+                <div className='notification-wrapper'>
+                    <div className={classnames('notification', 'n2', { 'no-theme': isNoTheme })}>
+                        <div className={classnames('notification-icn', 'n2')} />
+                            <div className={classnames('notification-content', { 'no-theme': isNoTheme })}>
+                                <div className='header'>
+                                    <span>Xiao, Qing</span> shared <span>TEC.PD</span> with you.
+                                </div>
+                                <div className='subheader'>
+                                    Hi, here is the information I mentioned in our discussion earlier today. Thanks!
+                                </div>
+                            <div className='date'>08/24/2021</div>
+                        </div>
+                    </div>
+                </div>
+                <div className='notification-wrapper'>
+                    <div className={classnames('notification', 'n3', { 'no-theme': isNoTheme })}>
+                        <div className={classnames('notification-icn', 'n3')} />
+                            <div className={classnames('notification-content', { 'no-theme': isNoTheme })}>
+                                <div className='header'>
+                                    <span>Kelley, Alan</span> shared <span>TEC.PD</span> with you.
+                                </div>
+                                <div className='subheader'>
+                                    Here's the bookmark to find our features.
+                                </div>
+                                <div className='btn-row'>
+                                    <div className={classnames('accept-btn', { 'no-theme': isNoTheme })}>Accept</div>
+                                    <div className={classnames('ignore-btn', { 'no-theme': isNoTheme })}>Ignore</div>
+                                </div>
+                            <div className='date'>08/24/2021</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className={classnames('clear-btn', { 'no-theme': isNoTheme })}>Clear All</div>
+        </React.Fragment>
+
+        return (
+            <Popover
+                className={this.previewerClassName(deviceType, '-notification-panel')}
+                overlayClassName={classnames(this.previewerClassName(deviceType, '-notification-panel-overlay'), { 'no-theme': isNoTheme })}
+                content={popoverContent}
+                title='Notifications'
+                placement='bottom'
+                transitionName='none'
+                open
+            >
+                <div />
+            </Popover>
+        )
+    };
+
     componentWillReceiveProps(nextProps: any) {
         this.contentBundleEnable = nextProps.contentBundleFeatureEnable;
     }
@@ -861,12 +932,8 @@ class Previewer extends React.Component<any, any> {
 
         const { selectedTheme, formatting } = theme?.color || {};
         const isCustomColor = isCustomColorTheme(selectedTheme);
-        const formats = !isCustomColor
-            ? prefinedColorSets[selectedTheme]
-            : formatting;
-
-        const previewerRef = (el: any) =>
-            applyThemeColorsToPreviewer(el, formats);
+        const formats = !isCustomColor ? prefinedColorSets[selectedTheme] : formatting;
+        applyThemeColorsToPreviewer(formats);
 
         const showExpanderOverlay = toolbarCollapsed && !toolbarHidden;
         const hideHeader = toolbarHidden || toolbarCollapsed;
@@ -880,41 +947,50 @@ class Previewer extends React.Component<any, any> {
         const isNoTheme = !selectedTheme || selectedTheme === 'light';
 
         return (
-            <div className={classNamePrefix} ref={previewerRef}>
-                {/* library toolbars */}
-                {!isDossierHome &&
-                    this.titleRender(localizedStrings.LIBRARY_WINDOW)}
-                {!isDossierHome && (
+            <div className={classNamePrefix}>
+                <div className={classNamePrefix + '-left'}>
+                    {/* library toolbars */}
+                    {!isDossierHome &&
+                        this.titleRender(localizedStrings.LIBRARY_WINDOW)}
+                    {!isDossierHome && (
+                        <div style={{ position: 'relative' }}>
+                            {this.getLibraryViewLayout(
+                                deviceType,
+                                hideHeader,
+                                libraryHeaderIcons,
+                                padLeftClassName,
+                                isNoTheme
+                            )}
+                            {showExpanderOverlay && this.overlayRender(false, true)}
+                        </div>
+                    )}
+
+                    {/* dossier toolbars */}
+                    {this.titleRender(
+                        isDossierHome
+                            ? localizedStrings.DOSSIER_WINDOW_HOME
+                            : localizedStrings.DOSSIER_WINDOW
+                    )}
                     <div style={{ position: 'relative' }}>
-                        {this.getLibraryViewLayout(
+                        {this.getDossierViewLayout(
                             deviceType,
                             hideHeader,
-                            libraryHeaderIcons,
-                            padLeftClassName,
+                            dossierHeaderIcons,
                             isNoTheme
                         )}
                         {showExpanderOverlay && this.overlayRender(false, true)}
                     </div>
-                )}
-
-                {/* dossier toolbars */}
-                {this.titleRender(
-                    isDossierHome
-                        ? localizedStrings.DOSSIER_WINDOW_HOME
-                        : localizedStrings.DOSSIER_WINDOW
-                )}
-                <div style={{ position: 'relative' }}>
-                    {this.getDossierViewLayout(
-                        deviceType,
-                        hideHeader,
-                        dossierHeaderIcons,
-                        isNoTheme
-                    )}
-                    {showExpanderOverlay && this.overlayRender(false, true)}
                 </div>
-
-                {/* notification panel */}
-                {/* {this.titleRender(sectionTitle.notificationPanel)} */}
+                <div className={classNamePrefix + '-right'}>
+                    {/* notification panel */}
+                    {this.titleRender('Notification Panel')}
+                    <div style={{ position: 'relative' }}>
+                        {this.getNotificationPanelViewLayout(
+                            deviceType,
+                            isNoTheme
+                        )}
+                    </div>
+                </div>
             </div>
         );
     }

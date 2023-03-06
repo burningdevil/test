@@ -213,7 +213,7 @@ export interface ThemeColorFormats {
 
     canvasFill: string,
 
-    accentFill: string,
+    accentColor: string,
 
     buttonColor: string,
 
