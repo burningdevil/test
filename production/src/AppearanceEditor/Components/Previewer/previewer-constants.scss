@@ -1,0 +1,44 @@
+@import "~@mstr/rc/es/assets/scss/variables.scss";
+@import "../../../modules/components/scss/variables.scss";
+
+$background-color: rgba(255, 255, 255, 0.7);
+$preview-width: 482px;
+$preview-height: 324px;
+$preview-header-height: 38px;
+$panel-preview-width: 280px;
+$panel-preview-height: 482px;
+$preview-horizontal-margin: 50px; // space between both columns of previewer
+$sidebar-width: 91px;
+$container-width: $preview-width + $preview-horizontal-margin + $panel-preview-width; // width of entire previewer container
+
+$preview-width-phone: 178px;
+$library-preview-horizontal-margin-phone: 30px;
+$preview-horizontal-margin-phone: 152px;
+$container-width-phone: ($preview-width-phone * 2) + $library-preview-horizontal-margin-phone + $preview-horizontal-margin-phone + $preview-width-phone;
+
+$default-text-color: #d9d9d9;
+$default-active-text-fill: #e9f2ff;
+$default-canvas-fill: #f7f8fa;
+$toolbar-icon-font-size: 14px;
+$toolbar-icon-box-background: rgba(255, 255, 255, 0.2);
+$overview-right-padding: 10px;
+$font-size-side: 7px;
+$line-height-side: 15px;
+
+$icon-margin-right: 8px;
+
+$phone-scale: 0.85;
+$tablet-scale: 0.85;
+
+$header-text-color: var(--toolbar-color, $default-text-color);
+$header-bg-color: var(--toolbar-fill, $msdl-white);
+$sidebar-bg-color: var(--sidebar-fill, $background-color);
+$sidebar-text-color: var(--sidebar-color, $default-text-color);
+$sidebar-active-bg-color: var(--sidebar-active-fill, $msdl-black);
+$sidebar-active-text-color: var(--sidebar-active-color, $msdl-white);
+$canvas-bg-color: var(--canvas-fill, $background-color);
+$panel-text-color: var(--panel-color, $dark-background);
+$panel-bg-color: var(--panel-fill, $msdl-white);
+$button-text-color: var(--button-color, $msdl-black);
+$accent-color: var(--accent-color, $msdl-black);
+$notification-badge-bg-color: var(--notification-badge-fill, $msdl-white);

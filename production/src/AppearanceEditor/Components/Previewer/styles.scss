@@ -1,27 +1,6 @@
 @import "~@mstr/rc/es/assets/scss/variables.scss";
 @import "../../../modules/components/scss/variables.scss";
-
-$background-color: rgba(255, 255, 255, 0.7);
-$container-width: 482px;
-$container-width-phone: 103px;
-$preview-width: 482px;
-$preview-height: 324px;
-$preview-width-phone: 121px;
-$preview-header-height: 38px;
-$sidebar-width: 91px;
-$default-text-color: #d9d9d9;
-$default-active-text-fill: #e9f2ff;
-$default-canvas-fill: #f7f8fa;
-$toolbar-icon-font-size: 14px;
-$toolbar-icon-box-background: rgba(255, 255, 255, 0.2);
-$overview-right-padding: 10px;
-$font-size-side: 7px;
-$line-height-side: 15px;
-
-$icon-margin-right: 8px;
-
-$phone-scale: 0.85;
-$tablet-scale: 0.85;
+@import "./previewer-constants.scss";
 
 :root {
     --toolbar-fill: $msdl-white;
@@ -34,22 +13,9 @@ $tablet-scale: 0.85;
     --notification-badge-fill: $msdl-white;
     --button-color: $msdl-black;
     --panel-fill: $msdl-white;
-    --panel-color: $default-text-color;
+    --panel-color: $dark-background;
     --canvas-fill: $msdl-white;
 }
-
-$header-text-color: var(--toolbar-color, $default-text-color);
-$header-bg-color: var(--toolbar-fill, $msdl-white);
-$sidebar-bg-color: var(--sidebar-fill, $background-color);
-$sidebar-text-color: var(--sidebar-color, $default-text-color);
-$sidebar-active-bg-color: var(--sidebar-active-fill, $msdl-black);
-$sidebar-active-text-color: var(--sidebar-active-color, $msdl-white);
-$canvas-bg-color: var(--canvas-fill, $background-color);
-$panel-text-color: var(--panel-color, $default-text-color);
-$panel-bg-color: var(--panel-fill, $msdl-white);
-$button-text-color: var(--button-color, $msdl-black);
-$accent-color: var(--accent-color, $msdl-black);
-$notification-badge-bg-color: var(--notification-badge-fill, $msdl-white);
 
 // put all icons here
 @mixin iconFeatures() {
@@ -403,6 +369,9 @@ $notification-badge-bg-color: var(--notification-badge-fill, $msdl-white);
 }
 
 .Previewer {
+    display: grid;
+    grid-template-columns: $preview-width $panel-preview-width;
+    grid-gap: $preview-horizontal-margin;
     font-family: $font-family;
     font-size: $font-size;
     color: $msdl-black;

@@ -31,5 +31,6 @@ Feature: 96_Env_Switch_Err_Handling
         Then I switch to menu "Environment Connection"
         Then check the screenshot by comparing "96_env_switch_err_handling_02"
         Then I click "Save" button in the tab "environmentConnectionSettings"
+        Then I delete the application "WS_SwitchEnv_Err_Handling"
         Then I scroll "up" to click tab "Environments"
         Then I remove all connected environments

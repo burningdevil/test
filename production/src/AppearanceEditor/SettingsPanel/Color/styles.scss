@@ -71,7 +71,7 @@ $ant-radio-blue: #0E6FF9;
         }
 
         &.dark {
-          background: #29313b;
+          background: $dark-background;
           border: 1px solid rgba(41, 49, 59, 0.4);
         }
 

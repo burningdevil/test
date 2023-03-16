@@ -16,7 +16,7 @@ import {
     libraryCustomizedIconDefaultValues,
     CONSTANTS,
 } from '../../../modules/components/HomeScreenConfigConstant';
-import { Layout, Radio } from 'antd';
+import { Layout, Radio, } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import './styles.scss';
 import * as _ from 'lodash';
@@ -33,6 +33,7 @@ import {
     isCustomColorTheme,
     prefinedColorSets,
 } from '../../utils/appThemeColorHelper';
+import NotificationPanelPreviewer from './NotificationPanelPreviewer';
 
 const classNamePrefix = 'Previewer';
 const views = {
@@ -41,7 +42,7 @@ const views = {
     MOBILE: 'mobile',
 };
 
-const applyThemeColorsToPreviewer = (el: any, formats: any) => {
+const applyThemeColorsToPreviewer = (formats: any) => {
     const {
         toolbarFill,
         toolbarColor,
@@ -54,20 +55,23 @@ const applyThemeColorsToPreviewer = (el: any, formats: any) => {
         buttonColor,
         notificationBadgeFill,
         panelColor,
+        panelFill
     } = formats || {};
+    const root = document.documentElement;
 
-    if (el) {
-        el.style.setProperty('--toolbar-fill', toolbarFill);
-        el.style.setProperty('--toolbar-color', toolbarColor);
-        el.style.setProperty('--sidebar-fill', sidebarFill);
-        el.style.setProperty('--sidebar-color', sidebarColor);
-        el.style.setProperty('--sidebar-active-fill', sidebarActiveFill);
-        el.style.setProperty('--sidebar-active-color', sidebarActiveColor);
-        el.style.setProperty('--canvas-fill', canvasFill);
-        el.style.setProperty('--panel-color', panelColor);
-        el.style.setProperty('--accent-color', accentColor);
-        el.style.setProperty('--button-color', buttonColor);
-        el.style.setProperty(
+    if (root) {
+        root.style.setProperty('--toolbar-fill', toolbarFill);
+        root.style.setProperty('--toolbar-color', toolbarColor);
+        root.style.setProperty('--sidebar-fill', sidebarFill);
+        root.style.setProperty('--sidebar-color', sidebarColor);
+        root.style.setProperty('--sidebar-active-fill', sidebarActiveFill);
+        root.style.setProperty('--sidebar-active-color', sidebarActiveColor);
+        root.style.setProperty('--canvas-fill', canvasFill);
+        root.style.setProperty('--panel-color', panelColor);
+        root.style.setProperty('--panel-fill', panelFill);
+        root.style.setProperty('--accent-color', accentColor);
+        root.style.setProperty('--button-color', buttonColor);
+        root.style.setProperty(
             '--notification-badge-fill',
             notificationBadgeFill
         );
@@ -861,12 +865,8 @@ class Previewer extends React.Component<any, any> {
 
         const { selectedTheme, formatting } = theme?.color || {};
         const isCustomColor = isCustomColorTheme(selectedTheme);
-        const formats = !isCustomColor
-            ? prefinedColorSets[selectedTheme]
-            : formatting;
-
-        const previewerRef = (el: any) =>
-            applyThemeColorsToPreviewer(el, formats);
+        const formats = !isCustomColor ? prefinedColorSets[selectedTheme] : formatting;
+        applyThemeColorsToPreviewer(formats);
 
         const showExpanderOverlay = toolbarCollapsed && !toolbarHidden;
         const hideHeader = toolbarHidden || toolbarCollapsed;
@@ -880,41 +880,47 @@ class Previewer extends React.Component<any, any> {
         const isNoTheme = !selectedTheme || selectedTheme === 'light';
 
         return (
-            <div className={classNamePrefix} ref={previewerRef}>
-                {/* library toolbars */}
-                {!isDossierHome &&
-                    this.titleRender(localizedStrings.LIBRARY_WINDOW)}
-                {!isDossierHome && (
+            <div className={classNamePrefix}>
+                <div className={classNamePrefix + '-left'}>
+                    {/* library toolbars */}
+                    {!isDossierHome &&
+                        this.titleRender(localizedStrings.LIBRARY_WINDOW)}
+                    {!isDossierHome && (
+                        <div style={{ position: 'relative' }}>
+                            {this.getLibraryViewLayout(
+                                deviceType,
+                                hideHeader,
+                                libraryHeaderIcons,
+                                padLeftClassName,
+                                isNoTheme
+                            )}
+                            {showExpanderOverlay && this.overlayRender(false, true)}
+                        </div>
+                    )}
+
+                    {/* dossier toolbars */}
+                    {this.titleRender(
+                        isDossierHome
+                            ? localizedStrings.DOSSIER_WINDOW_HOME
+                            : localizedStrings.DOSSIER_WINDOW
+                    )}
                     <div style={{ position: 'relative' }}>
-                        {this.getLibraryViewLayout(
+                        {this.getDossierViewLayout(
                             deviceType,
                             hideHeader,
-                            libraryHeaderIcons,
-                            padLeftClassName,
+                            dossierHeaderIcons,
                             isNoTheme
                         )}
                         {showExpanderOverlay && this.overlayRender(false, true)}
                     </div>
-                )}
-
-                {/* dossier toolbars */}
-                {this.titleRender(
-                    isDossierHome
-                        ? localizedStrings.DOSSIER_WINDOW_HOME
-                        : localizedStrings.DOSSIER_WINDOW
-                )}
-                <div style={{ position: 'relative' }}>
-                    {this.getDossierViewLayout(
-                        deviceType,
-                        hideHeader,
-                        dossierHeaderIcons,
-                        isNoTheme
-                    )}
-                    {showExpanderOverlay && this.overlayRender(false, true)}
                 </div>
-
-                {/* notification panel */}
-                {/* {this.titleRender(sectionTitle.notificationPanel)} */}
+                <div className={classNamePrefix + '-right'}>
+                    {/* notification panel */}
+                    {this.titleRender('Notification Panel')}
+                    <div style={{ position: 'relative' }}>
+                        <NotificationPanelPreviewer deviceType={deviceType} isNoTheme={isNoTheme} previewerClassName={this.previewerClassName} />
+                    </div>
+                </div>
             </div>
         );
     }
