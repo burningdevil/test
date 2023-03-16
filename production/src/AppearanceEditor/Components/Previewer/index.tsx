@@ -16,7 +16,7 @@ import {
     libraryCustomizedIconDefaultValues,
     CONSTANTS,
 } from '../../../modules/components/HomeScreenConfigConstant';
-import { Layout, Radio, Popover } from 'antd';
+import { Layout, Radio, } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import './styles.scss';
 import * as _ from 'lodash';
