@@ -438,6 +438,7 @@ export const localizedStrings = {
     CURRENT_APP_LIMITED_ACCESS_LABEL: t('accessLimited'),
     CURRENT_APP_DELETED_TOOLTIP: t('applicationDeletedTooltip'),
     CURRENT_APP_LIMITED_ACCESS_TOOLTIP: t('accessLimitedTooltip'),
+    CURRENT_APPLICATION: t('currentApplication'),
 
     INSIGHTS_WEB_ONLY: t('insightsWebOnly')
 };

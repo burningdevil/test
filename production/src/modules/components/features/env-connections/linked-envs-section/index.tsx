@@ -221,7 +221,9 @@ const LinkedEnvsSection = ({ currEnvConnections, wsCurrentEnv, linkedCurrentEnv,
             width={224}
             render={(application: EnvironmentConnectionApplicationType, record: EnvironmentConnectionTableDataType, idx) => {
                 const isFirstRow = idx === 0;
-                return isFirstRow ? null : getApplicationDropDown(record, application, idx);
+                return isFirstRow
+                    ? <div className='current-application-label' title={localizedStrings.CURRENT_APPLICATION}>{localizedStrings.CURRENT_APPLICATION}</div>
+                    : getApplicationDropDown(record, application, idx);
             }}
         />
         <Table.Column
