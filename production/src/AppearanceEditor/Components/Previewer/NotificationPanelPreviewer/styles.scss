@@ -1,0 +1,155 @@
+@import "~@mstr/rc/es/assets/scss/variables.scss";
+@import "../../../../modules/components/scss/variables.scss";
+@import "../previewer-constants.scss";
+
+.Previewer {
+    &-web {
+        &-notification-panel {
+            &-overlay {
+                font-family: $font-family;
+                width: $panel-preview-width;
+                padding-top: 10px;
+
+                .ant-popover-content {
+                    .ant-popover-arrow-content::before {
+                        background-color: $panel-bg-color;
+                    }
+
+                    .ant-popover-inner {
+                        color: $panel-text-color;
+                        background-color: $panel-bg-color;
+                    }
+                }
+
+                &.no-theme .ant-popover-content {
+                    .ant-popover-arrow-content::before {
+                        background-color: $msdl-white;
+                    }
+
+                    .ant-popover-inner {
+                        color: $dark-background;
+                        background-color: $msdl-white;
+                    }
+                }
+
+                .ant-popover-title {
+                    line-height: 20px;
+                    padding: 15px 15px 10px 16px;
+                    border: none;
+                    font-size: 16px;
+                    font-weight: 300;
+                    color: inherit;
+                }
+
+                .ant-popover-inner-content {
+                    padding: 0 0 10px 0;
+
+                    .notification-wrapper {
+                        padding: 15px 16px 15px 2px;
+
+                        .notification {
+                            display: grid;
+                            grid-template-columns: 42px auto;
+                            grid-gap: 12px;
+                            border-left: 3px solid $accent-color;
+
+                            &.no-theme {
+                                border-left: 3px solid $mobile-primary-blue;
+                            }
+
+                            &-icn {
+                                width: 30px;
+                                height: 30px;
+                                margin-left: 12px;
+                                
+                                &.n1 {
+                                    background: url("../../../../modules/components/images/web-preview-notification-1-icon.svg");
+                                }
+
+                                &.n2 {
+                                    background: url("../../../../modules/components/images/web-preview-notification-2-icon.svg");
+                                }
+
+                                &.n3 {
+                                    background: url("../../../../modules/components/images/web-preview-notification-3-icon.svg");
+                                }
+                            }
+
+                            &-content {
+                                display: grid;
+                                grid-template-rows: auto;
+                                grid-gap: 8px;
+                                color: $panel-text-color;
+
+                                &.no-theme {
+                                    color: $dark-background;
+                                }
+
+                                .header {
+                                    font-size: 14px;
+                                    line-height: 18px;
+
+                                    span {
+                                        font-weight: 600;
+                                    }
+                                }
+
+                                .subheader {
+                                    font-size: 12px;
+                                    line-height: 16px;
+                                }
+
+                                .btn-row {
+                                    display: flex;
+                                    height: 24px;
+                                    line-height: 24px;
+
+                                    .accept-btn {
+                                        border-radius: 4px;
+                                        padding: 0 12px;
+                                        color: $button-text-color;
+                                        background-color: $accent-color;
+                                        user-select: none;
+
+                                        &.no-theme {
+                                            color: $msdl-white;
+                                            background-color: $mobile-primary-blue;
+                                        }
+                                    }
+
+                                    .ignore-btn {
+                                        margin-left: 15px;
+                                        color: $accent-color;
+                                        user-select: none;
+
+                                        &.no-theme {
+                                            color: $mobile-primary-blue;
+                                        }
+                                    }
+                                }
+
+                                .date {
+                                    font-size: 11px;
+                                    line-height: 14px;
+                                }
+                            }
+                        }
+                    }
+
+                    .clear-btn {
+                        height: 34px;
+                        line-height: 34px;
+                        font-size: 14px;
+                        text-align: center;
+                        color: $accent-color;
+                        user-select: none;
+
+                        &.no-theme {
+                            color: $mobile-primary-blue;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -33,6 +33,7 @@ import {
     isCustomColorTheme,
     prefinedColorSets,
 } from '../../utils/appThemeColorHelper';
+import NotificationPanelPreviewer from './NotificationPanelPreviewer';
 
 const classNamePrefix = 'Previewer';
 const views = {
@@ -851,75 +852,6 @@ class Previewer extends React.Component<any, any> {
         );
     };
 
-    getNotificationPanelViewLayout = (
-        deviceType: string,
-        isNoTheme: boolean
-    ) => {
-        const notificationDate = '08/24/2021';
-        const popoverContent = <React.Fragment>
-            <div className='notification-list'>
-                <div className='notification-wrapper'>
-                    <div className={classnames('notification', 'n1', { 'no-theme': isNoTheme })}>
-                        <div className={classnames('notification-icn', 'n1')} />
-                        <div className={classnames('notification-content', { 'no-theme': isNoTheme })}>
-                            <div className='header'>
-                                You have 1 new message in a discussion in <span>ITS</span>.
-                            </div>
-                            <div className='date'>{notificationDate}</div>
-                        </div>
-                    </div>
-                </div>
-                <div className='notification-wrapper'>
-                    <div className={classnames('notification', 'n2', { 'no-theme': isNoTheme })}>
-                        <div className={classnames('notification-icn', 'n2')} />
-                            <div className={classnames('notification-content', { 'no-theme': isNoTheme })}>
-                                <div className='header'>
-                                    <span>Xiao, Qing</span> shared <span>TEC.PD</span> with you.
-                                </div>
-                                <div className='subheader'>
-                                    Hi, here is the information I mentioned in our discussion earlier today. Thanks!
-                                </div>
-                            <div className='date'>{notificationDate}</div>
-                        </div>
-                    </div>
-                </div>
-                <div className='notification-wrapper'>
-                    <div className={classnames('notification', 'n3', { 'no-theme': isNoTheme })}>
-                        <div className={classnames('notification-icn', 'n3')} />
-                            <div className={classnames('notification-content', { 'no-theme': isNoTheme })}>
-                                <div className='header'>
-                                    <span>Kelley, Alan</span> shared <span>TEC.PD</span> with you.
-                                </div>
-                                <div className='subheader'>
-                                    Here's the bookmark to find our features.
-                                </div>
-                                <div className='btn-row'>
-                                    <div className={classnames('accept-btn', { 'no-theme': isNoTheme })}>Accept</div>
-                                    <div className={classnames('ignore-btn', { 'no-theme': isNoTheme })}>Ignore</div>
-                                </div>
-                            <div className='date'>{notificationDate}</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className={classnames('clear-btn', { 'no-theme': isNoTheme })}>Clear All</div>
-        </React.Fragment>
-
-        return (
-            <Popover
-                className={this.previewerClassName(deviceType, '-notification-panel')}
-                overlayClassName={classnames(this.previewerClassName(deviceType, '-notification-panel-overlay'), { 'no-theme': isNoTheme })}
-                content={popoverContent}
-                title='Notifications'
-                placement='bottom'
-                transitionName='none'
-                open
-            >
-                <div />
-            </Popover>
-        )
-    };
-
     componentWillReceiveProps(nextProps: any) {
         this.contentBundleEnable = nextProps.contentBundleFeatureEnable;
     }
@@ -986,10 +918,7 @@ class Previewer extends React.Component<any, any> {
                     {/* notification panel */}
                     {this.titleRender('Notification Panel')}
                     <div style={{ position: 'relative' }}>
-                        {this.getNotificationPanelViewLayout(
-                            deviceType,
-                            isNoTheme
-                        )}
+                        <NotificationPanelPreviewer deviceType={deviceType} isNoTheme={isNoTheme} previewerClassName={this.previewerClassName} />
                     </div>
                 </div>
             </div>
