@@ -334,5 +334,6 @@
     "accessLimited": "Access Limited",
     "accessLimitedTooltip": "You don't have access to the current application",
     "applicationDeleted": "Application Deleted",
-    "applicationDeletedTooltip": "The current application has been deleted"
+    "applicationDeletedTooltip": "The current application has been deleted",
+    "currentApplication": "Current application"
 }
