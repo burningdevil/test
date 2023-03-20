@@ -51,7 +51,7 @@ const applyThemeColorsToPreviewer = (formats: any) => {
         sidebarActiveFill,
         sidebarActiveColor,
         canvasFill,
-        accentColor,
+        accentFill,
         buttonColor,
         notificationBadgeFill,
         panelColor,
@@ -69,7 +69,7 @@ const applyThemeColorsToPreviewer = (formats: any) => {
         root.style.setProperty('--canvas-fill', canvasFill);
         root.style.setProperty('--panel-color', panelColor);
         root.style.setProperty('--panel-fill', panelFill);
-        root.style.setProperty('--accent-color', accentColor);
+        root.style.setProperty('--accent-color', accentFill);
         root.style.setProperty('--button-color', buttonColor);
         root.style.setProperty(
             '--notification-badge-fill',

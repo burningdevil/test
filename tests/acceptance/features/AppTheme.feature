@@ -76,7 +76,7 @@ Feature: App Theme cases
         Then I set custom theme property "panelFill" via input "1C8DD4" in appearance editor
         Then I set custom theme property "panelColor" via input "3A2471" in appearance editor
         Then I set custom theme property "canvasFill" via input "F3F1F1" in appearance editor
-        Then I set custom theme property "accentColor" via input "7B5B31" in appearance editor
+        Then I set custom theme property "accentFill" via input "7B5B31" in appearance editor
         Then I set custom theme property "buttonColor" via input "35383A" in appearance editor
         Then I set custom theme property "notificationBadgeFill" via input "FFDA18" in appearance editor
         Then check the screenshot by comparing "customTheme_all"
