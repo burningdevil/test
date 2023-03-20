@@ -1,4 +1,4 @@
-@TC87870 @Regression @Sanity
+@TC87870 @Regression
 Feature: 37_New_dossier_in_appears
     1. add environment
     2. create application
