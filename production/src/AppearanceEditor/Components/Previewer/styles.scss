@@ -9,7 +9,7 @@
     --sidebar-color: $default-text-color;
     --sidebar-active-fill: $msdl-black;
     --sidebar-active-color: $msdl-white;
-    --accent-color: $msdl-white;
+    --accent-fill: $msdl-white;
     --notification-badge-fill: $msdl-white;
     --button-color: $msdl-black;
     --panel-fill: $msdl-white;
@@ -424,6 +424,12 @@
         margin-bottom: 6px;
         font-size: $font-size;
         font-family: $font-family;
+
+        &[class*="icon-"]::before {
+            font-size: 14px;
+            margin-left: 6px;
+            margin-right: 6px;
+        }
     }
     &-preview-title {
         text-align: center;

@@ -18,7 +18,7 @@ const NotificationPanelPreviewer: React.FC<NotificationPanelPreviewerType> = ({ 
                     <div className={classnames('notification-icn', 'n1')} />
                     <div className={classnames('notification-content', { 'no-theme': isNoTheme })}>
                         <div className='header'>
-                            You have 1 new message in a discussion in <span>ITS</span>.
+                            You have 1 new message in a discussion in <span>Discussion</span>.
                         </div>
                         <div className='date'>{notificationDate}</div>
                     </div>
@@ -29,7 +29,7 @@ const NotificationPanelPreviewer: React.FC<NotificationPanelPreviewerType> = ({ 
                     <div className={classnames('notification-icn', 'n2')} />
                         <div className={classnames('notification-content', { 'no-theme': isNoTheme })}>
                             <div className='header'>
-                                <span>Xiao, Qing</span> shared <span>TEC.PD</span> with you.
+                                <span>User A</span> shared <span>Dossier A</span> with you.
                             </div>
                             <div className='subheader'>
                                 Hi, here is the information I mentioned in our discussion earlier today. Thanks!
@@ -43,7 +43,7 @@ const NotificationPanelPreviewer: React.FC<NotificationPanelPreviewerType> = ({ 
                     <div className={classnames('notification-icn', 'n3')} />
                         <div className={classnames('notification-content', { 'no-theme': isNoTheme })}>
                             <div className='header'>
-                                <span>Kelley, Alan</span> shared <span>TEC.PD</span> with you.
+                                <span>User B</span> shared <span>Dossier B</span> with you.
                             </div>
                             <div className='subheader'>
                                 Here's the bookmark to find our features.

@@ -15,8 +15,9 @@ import {
     extraMobileIcons,
     libraryCustomizedIconDefaultValues,
     CONSTANTS,
+    IconType,
 } from '../../../modules/components/HomeScreenConfigConstant';
-import { Layout, Radio, } from 'antd';
+import { Layout, Radio } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import './styles.scss';
 import * as _ from 'lodash';
@@ -51,7 +52,7 @@ const applyThemeColorsToPreviewer = (formats: any) => {
         sidebarActiveFill,
         sidebarActiveColor,
         canvasFill,
-        accentColor,
+        accentFill,
         buttonColor,
         notificationBadgeFill,
         panelColor,
@@ -69,7 +70,7 @@ const applyThemeColorsToPreviewer = (formats: any) => {
         root.style.setProperty('--canvas-fill', canvasFill);
         root.style.setProperty('--panel-color', panelColor);
         root.style.setProperty('--panel-fill', panelFill);
-        root.style.setProperty('--accent-color', accentColor);
+        root.style.setProperty('--accent-fill', accentFill);
         root.style.setProperty('--button-color', buttonColor);
         root.style.setProperty(
             '--notification-badge-fill',
@@ -254,8 +255,8 @@ class Previewer extends React.Component<any, any> {
     };
 
     // render of titles
-    titleRender = (title: string) => {
-        return <div className={`${classNamePrefix}-title`}>{title}</div>;
+    titleRender = (title: string, prefixIcon?: IconType) => {
+        return <div className={classnames(`${classNamePrefix}-title`, prefixIcon?.iconName)}>{title}</div>;
     };
 
     getRenderedIcon = (element: any, elementIndex: number, view: string, isNoTheme: boolean) => {
@@ -916,7 +917,7 @@ class Previewer extends React.Component<any, any> {
                 </div>
                 <div className={classNamePrefix + '-right'}>
                     {/* notification panel */}
-                    {this.titleRender('Notification Panel')}
+                    {this.titleRender('Notification Panel', iconTypes.notification)}
                     <div style={{ position: 'relative' }}>
                         <NotificationPanelPreviewer deviceType={deviceType} isNoTheme={isNoTheme} previewerClassName={this.previewerClassName} />
                     </div>
