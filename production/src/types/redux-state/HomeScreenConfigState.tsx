@@ -46,6 +46,7 @@ export interface HomeScreenEditorColorPaletteState {
 
 export interface AppearanceEditorState {
     theme: ApplicationTheme;
+    appearancePreviewDeviceType: string;
 }
 
 export interface RootState {

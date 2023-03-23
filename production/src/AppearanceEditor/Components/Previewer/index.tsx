@@ -23,10 +23,8 @@ import './styles.scss';
 import * as _ from 'lodash';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { connect } from 'react-redux';
-import {
-    selectCurrentConfig,
-    selectPreviewDeviceType,
-} from '../../../store/selectors/HomeScreenConfigEditorSelector';
+import { selectCurrentConfig } from '../../../store/selectors/HomeScreenConfigEditorSelector';
+import { selectAppearancePreviewDeviceType } from '../../../store/selectors/AppearanceEditorSelector';
 import * as Actions from '../../../store/actions/ActionsCreator';
 import { Tooltip } from '@mstr/rc';
 import classnames from 'classnames';
@@ -175,7 +173,7 @@ class Previewer extends React.Component<any, any> {
 
     // call back
     onDeviceTypeChange = (e: any) => {
-        this.props.handleDeviceTypeChange(e.target.value);
+        this.props.handleAppearanceDeviceTypeChange(e.target.value);
     };
     handleTooltip = (event: any, index: number) => {
         if (event.target?.offsetWidth < event.target?.scrollWidth) {
@@ -928,12 +926,12 @@ class Previewer extends React.Component<any, any> {
 }
 
 const mapState = (state: RootState) => ({
-    deviceType: selectPreviewDeviceType(state),
+    deviceType: selectAppearancePreviewDeviceType(state),
     config: selectCurrentConfig(state),
 });
 
 const connector = connect(mapState, {
-    handleDeviceTypeChange: Actions.updatePreviewDeviceType,
+    handleAppearanceDeviceTypeChange: Actions.updateAppearancePreviewDeviceType,
 });
 
 export default connector(Previewer);

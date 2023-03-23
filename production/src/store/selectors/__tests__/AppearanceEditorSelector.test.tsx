@@ -67,7 +67,9 @@ const storeState : RootState = {
     loadingContentBundle: false,
     loadingContentBundleFinish: false
   },
-  appearanceEditor: {}
+  appearanceEditor: {
+    appearancePreviewDeviceType: reviewType.WEB
+  }
 }
 
 const theme1 = {

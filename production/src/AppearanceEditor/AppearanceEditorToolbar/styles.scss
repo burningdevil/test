@@ -16,8 +16,48 @@
     min-width: $title-bar-btn-section-min-width;
     margin-right: 24px;
 
+    .ant-radio-group.mstr-appearance-editor-preview-device-type-radio-group {
+      margin-right: 40px;
+  
+      .ant-radio-button-wrapper {
+        height: $title-bar-btn-height;
+        border-color: $appearance-preview-device-type-btn-accent-color;
+        padding: 0;
+        background: transparent;
+
+        &::before {
+          background-color: $appearance-preview-device-type-btn-accent-color;
+        }
+  
+        &-checked {
+          background: $appearance-preview-device-type-btn-accent-color;
+
+          &:focus-within {
+            box-shadow: none;
+          }
+        }
+
+        .preview-device-type-icn {
+          height: calc($title-bar-btn-height - 2px); // subtract 2px, since 1px of border on both ends
+          width: $appearance-preview-device-type-btn-width;
+          background-repeat: no-repeat;
+          background-position: center;
+
+          &.Web {
+            background-image: url('../../modules/components/images/web-preview-device-type-icon.svg');
+
+          }
+
+          &.Phone {
+            background-image: url('../../modules/components/images/phone-preview-device-type-icon.svg');
+
+          }
+        }
+      }
+    }
+
     .btn {
-      height: 30px;
+      height: $title-bar-btn-height;
       min-width: $title-bar-btn-min-width;
       border: none;
       box-shadow: none;

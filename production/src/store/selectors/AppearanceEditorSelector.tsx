@@ -17,3 +17,8 @@ export const selectCurrentThemeColor = createSelector(
   selectAppearanceEditorTheme,
   (theme) => theme.color || {}
 )
+
+export const selectAppearancePreviewDeviceType = createSelector(
+  selectAppearanceEditorRoot,
+  (appearanceEditorRoot) => appearanceEditorRoot.appearancePreviewDeviceType
+)
