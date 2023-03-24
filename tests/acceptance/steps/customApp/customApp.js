@@ -203,6 +203,8 @@ Then('check the screenshot on element {string} by comparing {string}', async fun
             await applicationPage.takeScreenshotOnElement(element, text)
         case imageCompareConfig.customEmail:
             await settingPage.takeScreenshotOnElement(element, text)
+        case imageCompareConfig.envConnectionCurrentUrl:
+            await envConnectionsPage.takeScreenshotOnElement(element, text)
     }
     return mainWindow.app.sleep(500)
 })

@@ -1,4 +1,6 @@
 import BasePage from "../../basePages/BasePage";
+import { imageCompareConfig } from "../../../config/constants";
+const { join } = require('path');
 
 export default class EnvConnectionsPage extends BasePage {
   getAddEnvIcnByName(envName) {
@@ -19,6 +21,10 @@ export default class EnvConnectionsPage extends BasePage {
 
   getLinkedEnvApplicationListItemByName(appName) {
     return this.element(by.xpath(`//div[contains(@class, 'ant-select-dropdown')]//div[@class='application-list-obj-text' and text()='${appName}']/parent::div/parent::div/parent::div`))
+  }
+
+  getCurrentEnvUrl() {
+    return this.element(by.xpath(`//tr[contains(@class, 'ant-table-row-level-0')]//div[@class='connected-env-url']`))
   }
 
   async addEnvByName(envName) {
@@ -61,5 +67,25 @@ export default class EnvConnectionsPage extends BasePage {
     await this.click({
       elem: appListItem
     })
+  }
+
+  async takeScreenshotOnElement(webElement, screenshot) {
+    //await this.switchToCustomAppWindow()
+    await browser.sleep(1000 * this.ratio)
+    const fileName = join(process.platform === 'win32' ? 'win' : 'mac', screenshot)
+    await browser.actions().mouseMove({ x: 0, y: 10000 }).perform()
+    let elementLocator
+    switch (webElement) {
+      case imageCompareConfig.envConnectionCurrentUrl:
+        elementLocator = this.getCurrentEnvUrl()
+        await this.waitForWebElementToBeVisiable(elementLocator)
+        await this.hideElementByScript(elementLocator)
+        expect(await browser.imageComparison.checkScreen(fileName, {
+         // hideElements: [elementLocator],
+          disableCSSAnimation: true,
+          hideScrollBars: true,
+        })).to.below(customArgObj.args.imageCompare ? imageCompareConfig.tolerance : imageCompareConfig.toleranceMax);
+        await this.showElementByScript(elementLocator)
+    }
   }
 }

@@ -158,7 +158,7 @@ export default class EnvSection extends RootApp {
     return this.getNativeElement({
       windows: {
         locators: [
-          { method: 'Name', value: 'EnvIconBrowsingUserControl' },
+          { method: 'ClassName', value: 'EnvIconBrowsingUserControl' },
           { method: 'Name', value: `${environmentName}\nRestEnvironment` }
         ]
       },

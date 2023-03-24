@@ -14,6 +14,7 @@ export const wsConfig = {
 export const imageCompareConfig = {
     appDetailGrid: 'detailGrid', // application list grid in custom app main home
     customEmail: 'customEmail',   // custom email settings section in app editor
+    envConnectionCurrentUrl: 'envConnectionCurrentUrl', // env connections current env url
     tolerance: 0.02,
     toleranceMax: 100
 
