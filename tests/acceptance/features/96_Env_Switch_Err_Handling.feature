@@ -33,4 +33,4 @@ Feature: 96_Env_Switch_Err_Handling
         Then I click "Save" button in the tab "environmentConnectionSettings"
         Then I delete the application "WS_SwitchEnv_Err_Handling"
         Then I scroll "up" to click tab "Environments"
-        Then I remove all connected environments
+        Then I remove environment "z-env-connection"
