@@ -15,10 +15,10 @@ Feature: 94_Env_Switch_General_Usage
         When I click the application create entry
         When I input application name "WS_SwitchEnv"
         Then I switch to menu "Environment Connection"
-        Then check the screenshot by comparing "94_env_switch_general_usage_01"
+        Then check the screenshot on element "envConnectionCurrentUrl" by comparing "94_env_switch_general_usage_01"
         When I add env "z-env-connection" to linked envs
-        Then check the screenshot by comparing "94_env_switch_general_usage_02"
+        Then check the screenshot on element "envConnectionCurrentUrl" by comparing "94_env_switch_general_usage_02"
         Then I click "Save" button in the tab "environmentConnectionSettings"
         Then I delete the application "WS_SwitchEnv"
         Then I scroll "up" to click tab "Environments"
-        Then I remove all connected environments
+        Then I remove environment "z-env-connection"

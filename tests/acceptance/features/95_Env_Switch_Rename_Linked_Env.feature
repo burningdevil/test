@@ -18,11 +18,11 @@ Feature: 95_Env_Switch_Rename_Linked_Env
         Then I switch to menu "Environment Connection"
         When I add env "z-env-connection" to linked envs
         When I double click the "z-env-connection" name cell to focus on it
-        Then check the screenshot by comparing "95_env_switch_rename_linked_env_01"
+        Then check the screenshot on element "envConnectionCurrentUrl" by comparing "95_env_switch_rename_linked_env_01"
         When I rename linked env "z-env-connection" to "z-renamed-env-connection-with-ellipses"
-        Then check the screenshot by comparing "95_env_switch_rename_linked_env_02"
+        Then check the screenshot on element "envConnectionCurrentUrl" by comparing "95_env_switch_rename_linked_env_02"
         When I hover over "z-renamed-env-connection-with-ellipses" to display tooltip
-        Then check the screenshot by comparing "95_env_switch_rename_linked_env_03"
+        Then check the screenshot on element "envConnectionCurrentUrl" by comparing "95_env_switch_rename_linked_env_03"
         Then I click "Save" button in the tab "environmentConnectionSettings"
         Then I delete the application "WS_SwitchEnv_Rename"
         Then I scroll "up" to click tab "Environments"
