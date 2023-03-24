@@ -1,5 +1,6 @@
 import BasePage from "../../basePages/BasePage";
 import { imageCompareConfig } from "../../../config/constants";
+const { join } = require('path');
 
 export default class EnvConnectionsPage extends BasePage {
   getAddEnvIcnByName(envName) {
