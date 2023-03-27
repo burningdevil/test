@@ -3,12 +3,12 @@ import '../scss/ContentBundleList.scss';
 import ContentBundlePicker from './ContentBundlePicker'
 import * as _ from "lodash";
 import { SearchInput, Input, Tooltip } from '@mstr/rc';
-import { WorkstationModule } from '@mstr/workstation-types';
+import { ObjectEditorSettings, PropertiesSettings, WorkstationModule } from '@mstr/workstation-types';
 import { HttpProxy } from '../../../main';
 import { AgGridReact } from 'ag-grid-react';
-import { default as VC, BundleInfo, iconTypes, BundleRecipientType, localizedStrings, SPECIAL_CHARACTER_REGEX, CONTENT_BUNDLE_DEFAULT_GROUP_NAME } from '../HomeScreenConfigConstant'
+import CONSTANTS, { default as VC, BundleInfo, iconTypes, BundleRecipientType, localizedStrings, SPECIAL_CHARACTER_REGEX, CONTENT_BUNDLE_DEFAULT_GROUP_NAME } from '../HomeScreenConfigConstant'
 import { PlusCircleOutlined, DownOutlined, EnterOutlined } from '@ant-design/icons'
-import { HomeScreenBundleListDatasource, getHomeScreenBundleListGroupCellInnerRenderer, validName } from './HomeScreenUtils'
+import { HomeScreenBundleListDatasource, getHomeScreenBundleListGroupCellInnerRenderer, validName, isUserHasManageContentBundlePrivilege } from './HomeScreenUtils'
 import {
   GridReadyEvent,
   SelectionChangedEvent,
@@ -101,7 +101,9 @@ class ContentBundleList extends React.Component<any, any> {
       currentBundleList: [],
       showBundlePicker: false,
       showEmptyView: false,
-      nameFilter: ''
+      nameFilter: '',
+      currentEnv: null,
+      userHasManageContentBundlePrivilege: false
     };
   }
 
@@ -132,8 +134,17 @@ class ContentBundleList extends React.Component<any, any> {
       console.info('loaded all projects failed, so using the selected projects instead');
       const currentEnv = await workstation.environments.getCurrentEnvironment();
       currentProjs = currentEnv.projects.map(o => o.id);
+      this.setState({
+        currentEnv
+      })
     }
     loadProjects().catch(loadSelectedProjects);
+    const currentEnv = await workstation.environments.getCurrentEnvironment();
+    const userHasManageContentBundlePrivilege = isUserHasManageContentBundlePrivilege(currentEnv?.privileges);
+      this.setState({
+        currentEnv,
+        userHasManageContentBundlePrivilege
+      })
     
     
 
@@ -230,12 +241,58 @@ class ContentBundleList extends React.Component<any, any> {
       params.api.deselectAll();
       params.api.clearFocusedCell();
     };
+    const handleEditContentGroup = () => {
+      
+      const contextMenuTarget = params.node.data;
+      const objType = CONSTANTS.CONTENT_EDITOR_OBJTYPE;
+      const bundles = this.props.allBundleList.map((bundle: BundleInfo) => ({
+        id: bundle.id,
+        name: bundle.name
+      }));
+      const allProjects = this.state.currentEnv?.projects?.reduce((acc: { [key: string]: any }, cur: any) => {
+        acc[cur.id] = { id: cur.id, name: cur.name }
+        return acc
+      }, {})
+      let options: ObjectEditorSettings = {
+        objectId: contextMenuTarget.id,
+        objectType: objType,
+        environment: this.state.currentEnv,
+        extraContext: JSON.stringify({ bundles, allProjects })
+      }
 
+      workstation.dialogs.openObjectEditor(options).catch(e => workstation.dialogs.error({
+        message: 'Open content group editor failed with error',
+        additionalInformation: JSON.stringify(e)
+      }))
+    }
+    const handleClickInfo = () => {
+      const contextMenuTarget = params.node.data;
+      console.log(contextMenuTarget);
+      const mstrBundleObject: any = {
+        id: contextMenuTarget.id,
+        name: contextMenuTarget.name,
+        type: 77,
+        subType: 19712 // DssSubTypeContentBundle = 0x4d00
+      }
+      const options: PropertiesSettings = {
+        objects: [mstrBundleObject],
+        environment: this.state.currentEnv,
+        tabId: '0'
+      }
+
+      workstation.dialogs.openProperties(options).catch((e) =>
+          workstation.dialogs.error({
+              message: 'Open object properties failed with error',
+              additionalInformation: JSON.stringify(e),
+          })
+      );
+  };
     var result: any[] = [
       {
         name: localizedStrings.REMOVE_BUNDLE,
         action: handleClickDelete
-      }];
+      }
+    ];
     if(params.api.getSelectedNodes().length > 1){
       result.unshift(
         {
@@ -244,6 +301,20 @@ class ContentBundleList extends React.Component<any, any> {
           disabled: true
         }
       )
+    }else{
+      result = result.concat([
+        {
+          name: localizedStrings.EDIT,
+          action: handleEditContentGroup
+        },
+        {
+          name: localizedStrings.GETINFO,
+          action: handleClickInfo
+        }
+      ])
+    }
+    if(!this.state.userHasManageContentBundlePrivilege){
+        result = result.filter(v => v.name !== localizedStrings.EDIT);
     }
     return result;
   }

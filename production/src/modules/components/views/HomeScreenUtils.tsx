@@ -6,6 +6,7 @@ import {
     libraryCustomizedIconDefaultValues,
     libraryCustomizedIconKeys,
     libraryCustomizedIconStartVersion,
+    MANAGE_CONTENT_BUNDLE_PRIVILEGE,
     SPECIAL_CHARACTER_REGEX,
 } from '../HomeScreenConfigConstant';
 import { Environment } from '@mstr/workstation-types';
@@ -134,4 +135,6 @@ export function awaitWrap<T, U = any>(promise: Promise<T>): Promise<[U | null, T
       .then<[null, T]>((data: T) => [null, data])
       .catch<[U, null]>(err => [err, null])
 }
+
+export const isUserHasManageContentBundlePrivilege = (privileges: number[]): boolean => privileges.includes(MANAGE_CONTENT_BUNDLE_PRIVILEGE)
 
