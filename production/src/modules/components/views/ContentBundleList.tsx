@@ -6,7 +6,7 @@ import { SearchInput, Input, Tooltip } from '@mstr/rc';
 import { ObjectEditorSettings, PropertiesSettings, WorkstationModule } from '@mstr/workstation-types';
 import { HttpProxy } from '../../../main';
 import { AgGridReact } from 'ag-grid-react';
-import CONSTANTS, { default as VC, BundleInfo, iconTypes, BundleRecipientType, localizedStrings, SPECIAL_CHARACTER_REGEX, CONTENT_BUNDLE_DEFAULT_GROUP_NAME } from '../HomeScreenConfigConstant'
+import CONSTANTS, { default as VC, BundleInfo, iconTypes, BundleRecipientType, localizedStrings, CONTENT_BUNDLE_DEFAULT_GROUP_NAME } from '../HomeScreenConfigConstant'
 import { PlusCircleOutlined, DownOutlined, EnterOutlined } from '@ant-design/icons'
 import { HomeScreenBundleListDatasource, getHomeScreenBundleListGroupCellInnerRenderer, validName, isUserHasManageContentBundlePrivilege } from './HomeScreenUtils'
 import {
