@@ -209,6 +209,7 @@ export const DocumentViewMediaList = [
 export enum HomeScreenHomeObjectType {
     DOCUMENT = 'Document',
     DOSSIER = 'Dossier',
+    REPORT  = 'Report'
 }
 
 export enum BundleRecipientType {

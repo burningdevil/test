@@ -80,7 +80,8 @@ function FakeHomeScreenBundleListServer(allData: BundleInfo[]) {
                 name: d.name,
                 expand: false,
                 viewMedia: d.viewMedia,
-                certified: d.isCertified
+                certified: d.isCertified,
+                type: d.type
               };
             });
             lastRow = arr.length;
