@@ -2,7 +2,7 @@ const { After, Before, Status, setDefaultTimeout } = require('cucumber');
 const { recordVideoForScenario, removeVideo, stopRecord, uploadVideo } = require('../utils/ciUtils/video-helper')
 const { sleep } = require('../utils/ciUtils/os-helper')
 const { clearJoints } = require('./mimo')
-const { appInfo, appWindow, envWindow } = pageObj
+const { appInfo, appWindow, envWindow, mainWindow } = pageObj
 const { registerNewWindow, switchToWindow, unregisterWindow } = require('../utils/wsUtils/windowHelper')
 
 
@@ -150,6 +150,44 @@ After({ tags: '@hook_close_application_editor_dialog_if_necessary' }, async func
         console.log('[INFO] Edit application window is open, close it.')
     } catch (e) {
         console.log('[INFO] Edit application window is already closed.')
+    }
+
+    await workstationApp.sleep(1000)
+})
+
+After({ tags: '@hook_close_application_editor_dialog_if_necessary_then_remove_env_connection_environment' }, async function () {
+    try {
+        await switchToWindow('New Application')
+        await appWindow.clickCloseDialogButton('New Application')
+        await unregisterWindow('New Application')
+        console.log('[INFO] New application window is open, close it.')
+    } catch (e) {
+        console.log('[INFO] New application window is already closed.')
+    }
+
+    try {
+        await switchToWindow('Edit Application')
+        await appWindow.clickCloseDialogButton('Edit Application')
+        await unregisterWindow('Edit Application')
+        console.log('[INFO] Edit application window is open, close it.')
+    } catch (e) {
+        console.log('[INFO] Edit application window is already closed.')
+    }
+
+    await workstationApp.sleep(1000)
+
+    try {
+        await switchToWindow('Workstation Main Window')
+        await mainWindow.smartTab.scrollOnSmartTab('up')
+        await mainWindow.smartTab.selectTab('Environments')
+        if (await mainWindow.mainCanvas.envSection.isEnvAdded('z-env-connection')) {
+            await mainWindow.mainCanvas.envSection.removeEnv('z-env-connection')
+            console.log('[INFO] Remove extra environment used for Environment Connection testing')
+        } else {
+            console.log('[INFO] Could not find extra environment used for Environment Connection testing, moving forward with testing')
+        }
+    } catch (e) {
+        console.log('[ERROR] Failed to remove Environment Connection testing environment' )
     }
 
     await workstationApp.sleep(1000)
