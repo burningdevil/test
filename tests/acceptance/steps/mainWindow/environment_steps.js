@@ -49,7 +49,3 @@ When('I import LDAP users on env {string}', async function(envName) {
 Then('{string} is connected', async function (envName) {
   return expect(mainWindow.mainCanvas.envSection.isEnvAdded(envName)).become(true)
 })
-
-Then('I remove all connected environments', async function () {
-  return mainWindow.mainCanvas.envSection.removeAllEnv() 
-})

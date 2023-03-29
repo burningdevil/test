@@ -9,7 +9,7 @@ Feature: 95_Env_Switch_Rename_Linked_Env
         Given I remove all custom apps except "MicroStrategy" by api
         Given configure workstation engine test environment for environment connection testing
 
-    @hook_close_application_editor_dialog_if_necessary
+    @hook_close_application_editor_dialog_if_necessary_then_remove_env_connection_environment
     Scenario: 95_Env_Switch_Rename_Linked_Env
         When I select tab "Applications"
         When I switch application environment to "shared"
@@ -25,5 +25,3 @@ Feature: 95_Env_Switch_Rename_Linked_Env
         Then check the screenshot on element "envConnectionCurrentUrl" by comparing "95_env_switch_rename_linked_env_03"
         Then I click "Save" button in the tab "environmentConnectionSettings"
         Then I delete the application "WS_SwitchEnv_Rename"
-        Then I scroll "up" to click tab "Environments"
-        Then I remove environment "z-env-connection"

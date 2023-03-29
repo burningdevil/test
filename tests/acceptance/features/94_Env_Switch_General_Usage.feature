@@ -8,7 +8,7 @@ Feature: 94_Env_Switch_General_Usage
         Given I remove all custom apps except "MicroStrategy" by api
         Given configure workstation engine test environment for environment connection testing
 
-    @hook_close_application_editor_dialog_if_necessary
+    @hook_close_application_editor_dialog_if_necessary_then_remove_env_connection_environment
     Scenario: 94_Env_Switch_General_Usage
         When I select tab "Applications"
         When I switch application environment to "shared"
@@ -20,5 +20,3 @@ Feature: 94_Env_Switch_General_Usage
         Then check the screenshot on element "envConnectionCurrentUrl" by comparing "94_env_switch_general_usage_02"
         Then I click "Save" button in the tab "environmentConnectionSettings"
         Then I delete the application "WS_SwitchEnv"
-        Then I scroll "up" to click tab "Environments"
-        Then I remove environment "z-env-connection"

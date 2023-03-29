@@ -6,7 +6,7 @@ Feature: 96_Env_Switch_Err_Handling
         Given I remove all custom apps except "MicroStrategy" by api
         Given configure workstation engine test environment for environment connection testing
 
-    @hook_close_application_editor_dialog_if_necessary
+    @hook_close_application_editor_dialog_if_necessary_then_remove_env_connection_environment
     Scenario: 96_Env_Switch_Err_Handling
         When I select tab "Applications"
         When I switch application environment to "z-env-connection"
@@ -32,5 +32,3 @@ Feature: 96_Env_Switch_Err_Handling
         Then check the screenshot on element "envConnectionCurrentUrl" by comparing "96_env_switch_err_handling_02"
         Then I click "Save" button in the tab "environmentConnectionSettings"
         Then I delete the application "WS_SwitchEnv_Err_Handling"
-        Then I scroll "up" to click tab "Environments"
-        Then I remove environment "z-env-connection"
