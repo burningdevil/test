@@ -39,18 +39,3 @@ When('I select local disk folder', async function () {
 When('I double click to expand or collapse {string}', async function (folderName) {
   return mainWindow.folderTab.expandFolder(folderName)
 })
-
-// This step allows us to get to any non-Analysis given tab from the Applications tab. 
-// On Windows, it will scroll in the provided direction to bring the necessary tab into view.
-// On Mac, it will skip the scrolling since the tab should be visible already
-Then('I scroll {string} to click tab {string}', async function (direction, tabName) {
-  if (OSType === 'windows') {
-    await mainWindow.smartTab.scrollOnSmartTab(direction)
-    await mainWindow.app.sleep(500)
-    // double scroll to ensure tab comes into view
-    await mainWindow.smartTab.scrollOnSmartTab(direction) 
-    await mainWindow.app.sleep(500)
-  }
-  await mainWindow.smartTab.selectTab(tabName)
-  return mainWindow.app.sleep(4000)
-});
