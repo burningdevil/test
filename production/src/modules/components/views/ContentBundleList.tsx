@@ -264,15 +264,14 @@ class ContentBundleList extends React.Component<any, any> {
     }
     const handleClickInfo = () => {
       const contextMenuTarget = params.node.data;
-      console.log(contextMenuTarget);
-      const mstrBundleObject: any = {
+      const bundleObject: any = {
         id: contextMenuTarget.id,
         name: contextMenuTarget.name,
         type: 77,
         subType: 19712 // DssSubTypeContentBundle = 0x4d00
       }
       const options: PropertiesSettings = {
-        objects: [mstrBundleObject],
+        objects: [bundleObject],
         environment: this.state.currentEnv,
         tabId: '0'
       }
@@ -299,13 +298,13 @@ class ContentBundleList extends React.Component<any, any> {
         }
       )
     }else{
-      result = result.concat([
+      result.unshift([
         {
           name: localizedStrings.EDIT,
           action: handleEditContentGroup
         },
         {
-          name: localizedStrings.GETINFO,
+          name: localizedStrings.PROPERTIES,
           action: handleClickInfo
         }
       ])
