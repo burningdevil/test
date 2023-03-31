@@ -85,15 +85,15 @@ export  const getHomeScreenBundleListGroupCellInnerRenderer: ICellRendererFunc =
           const { viewMedia, type } = data
           const contentType: HomeScreenHomeObjectType = getContentType(viewMedia)
           if (contentType === HomeScreenHomeObjectType.DOSSIER) {
-            iconElem.classList.add('icon-dossier')
+            iconElem.classList.add('icon-object-dossier')
             iconElem.style.color = '#3492ed'
           } else if(contentType === HomeScreenHomeObjectType.DOCUMENT) {
             if(type === 3){
               // marked as report
-              iconElem.classList.add('icon-report-cover')
+              iconElem.classList.add('icon-object-report')
               iconElem.style.color = '#4774C6'
             }else {
-              iconElem.classList.add('icon-rsd-cover');
+              iconElem.classList.add('icon-object-document');
               iconElem.style.color = '#ff4000';
             }
           }
