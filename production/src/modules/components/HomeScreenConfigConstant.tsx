@@ -907,6 +907,7 @@ export const dossierIcons = [
 // dossier icons when mode is dossier as home
 export const dossierIconsDossierHome = [
     iconTypes.toc,
+    iconTypes.bookmark,
     iconTypes.undoRedo,
     iconTypes.filter,
     iconTypes.comment,

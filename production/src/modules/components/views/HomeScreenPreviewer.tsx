@@ -415,6 +415,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                 headerIcons = isDossierHome
                     ? [
                           iconTypes.toc,
+                          iconTypes.bookmark,
                           iconTypes.undoRedo,
                           iconTypes.redo,
                           iconTypes.editDossier,
