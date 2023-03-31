@@ -8,7 +8,7 @@ import { HttpProxy } from '../../../main';
 import { AgGridReact } from 'ag-grid-react';
 import CONSTANTS, { default as VC, BundleInfo, iconTypes, BundleRecipientType, localizedStrings, CONTENT_BUNDLE_DEFAULT_GROUP_NAME } from '../HomeScreenConfigConstant'
 import { PlusCircleOutlined, DownOutlined, EnterOutlined } from '@ant-design/icons'
-import { HomeScreenBundleListDatasource, getHomeScreenBundleListGroupCellInnerRenderer, validName, isUserHasManageContentBundlePrivilege } from './HomeScreenUtils'
+import { HomeScreenBundleListDatasource, getHomeScreenBundleListGroupCellInnerRenderer, validName } from './HomeScreenUtils'
 import {
   GridReadyEvent,
   SelectionChangedEvent,
@@ -102,8 +102,7 @@ class ContentBundleList extends React.Component<any, any> {
       showBundlePicker: false,
       showEmptyView: false,
       nameFilter: '',
-      currentEnv: null,
-      userHasManageContentBundlePrivilege: false
+      currentEnv: null
     };
   }
 
@@ -140,10 +139,8 @@ class ContentBundleList extends React.Component<any, any> {
     }
     loadProjects().catch(loadSelectedProjects);
     const currentEnv = await workstation.environments.getCurrentEnvironment();
-    const userHasManageContentBundlePrivilege = isUserHasManageContentBundlePrivilege(currentEnv?.privileges);
       this.setState({
-        currentEnv,
-        userHasManageContentBundlePrivilege
+        currentEnv
       })
     
     
@@ -312,9 +309,6 @@ class ContentBundleList extends React.Component<any, any> {
           action: handleClickInfo
         }
       ])
-    }
-    if(!this.state.userHasManageContentBundlePrivilege){
-        result = result.filter(v => v.name !== localizedStrings.EDIT);
     }
     return result;
   }
