@@ -133,9 +133,6 @@ class ContentBundleList extends React.Component<any, any> {
       console.info('loaded all projects failed, so using the selected projects instead');
       const currentEnv = await workstation.environments.getCurrentEnvironment();
       currentProjs = currentEnv.projects.map(o => o.id);
-      this.setState({
-        currentEnv
-      })
     }
     loadProjects().catch(loadSelectedProjects);
     const currentEnv = await workstation.environments.getCurrentEnvironment();
@@ -258,7 +255,7 @@ class ContentBundleList extends React.Component<any, any> {
       }
 
       workstation.dialogs.openObjectEditor(options).catch(e => workstation.dialogs.error({
-        message: 'Open content group editor failed with error',
+        message: t('openContentGroupEditorError'),
         additionalInformation: JSON.stringify(e)
       }))
     }
@@ -278,7 +275,7 @@ class ContentBundleList extends React.Component<any, any> {
 
       workstation.dialogs.openProperties(options).catch((e) =>
           workstation.dialogs.error({
-              message: 'Open object properties failed with error',
+              message: t('openObjectPropertiesError'),
               additionalInformation: JSON.stringify(e),
           })
       );
@@ -298,7 +295,7 @@ class ContentBundleList extends React.Component<any, any> {
         }
       )
     }else{
-      result.unshift([
+      result = [
         {
           name: localizedStrings.EDIT,
           action: handleEditContentGroup
@@ -307,7 +304,7 @@ class ContentBundleList extends React.Component<any, any> {
           name: localizedStrings.PROPERTIES,
           action: handleClickInfo
         }
-      ])
+      ].concat(result)
     }
     return result;
   }
