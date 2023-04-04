@@ -337,6 +337,6 @@
     "applicationDeletedTooltip": "The current application has been deleted",
     "currentApplication": "Current application",
     "properties": "Properties",
-    "openContentGroupEditorError": "'Open content group editor failed with error'",
+    "openContentGroupEditorError": "Open content group editor failed with error",
     "openObjectPropertiesError": "Open object properties failed with error"
 }
