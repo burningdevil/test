@@ -136,5 +136,3 @@ export function awaitWrap<T, U = any>(promise: Promise<T>): Promise<[U | null, T
       .catch<[U, null]>(err => [err, null])
 }
 
-export const isUserHasManageContentBundlePrivilege = (privileges: number[]): boolean => privileges.includes(MANAGE_CONTENT_BUNDLE_PRIVILEGE)
-

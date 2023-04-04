@@ -1010,4 +1010,3 @@ export const GENERAL_PREVIEW_FEATURE_FLAG = 'preview-features';
 export const APPLICATIONS_AUTH_MODES_FLAG = 'features.auth.applicationAuthModes.enabled';
 export const CUSTOM_EMAIL_HOST_PORTAL_HELP_LINK = 'https://microstrategy.github.io/embedding-sdk-docs/add-functionality/use-custom-dossier-link/';
 export const CUSTOM_EMAIL_WHITE_LIST_HELP_LINK = 'https://www2.microstrategy.com/producthelp/Current/InstallConfig/en-us/Content/library_admin_control_panel.htm';
-export const MANAGE_CONTENT_BUNDLE_PRIVILEGE = 294;
