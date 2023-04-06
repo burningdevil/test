@@ -81,14 +81,20 @@ export  const getHomeScreenBundleListGroupCellInnerRenderer: ICellRendererFunc =
           iconElem.style.color = color;
 
         } else {
-          const { viewMedia } = data
-          const type: HomeScreenHomeObjectType = getContentType(viewMedia)
-          if (type === HomeScreenHomeObjectType.DOSSIER) {
-            iconElem.classList.add('icon-dossier')
+          const { viewMedia, type } = data
+          const contentType: HomeScreenHomeObjectType = getContentType(viewMedia)
+          if (contentType === HomeScreenHomeObjectType.DOSSIER) {
+            iconElem.classList.add('icon-object-dossier')
             iconElem.style.color = '#3492ed'
           } else {
-            iconElem.classList.add('icon-rsd-cover')
-            iconElem.style.color = '#ff4000'
+            if(type === 3){
+              // marked as report
+              iconElem.classList.add('icon-object-report')
+              iconElem.style.color = '#4774C6'
+            }else {
+              iconElem.classList.add('icon-object-document');
+              iconElem.style.color = '#ff4000';
+            }
           }
         }
       }
