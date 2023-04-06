@@ -41,7 +41,7 @@ import * as Actions from '../../../store/actions/ActionsCreator';
 import { Tooltip } from '@mstr/rc';
 import { getNonsupportIconKeys } from './HomeScreenUtils';
 import { WebVersionContext } from './HomeScreenConfigEditor';
-import { isLibraryServerVersionMatch, LIBRARY_SERVER_VERSION_THRESHOLD, LIBRARY_SUPPORT_MOBILE_INSIGHTS } from '../../../../src/utils';
+import { isLibraryServerVersionMatch, LIBRARY_SERVER_VERSION_THRESHOLD, LIBRARY_SUPPORT_DOSSIER_AS_HOME_BOOKMARK, LIBRARY_SUPPORT_MOBILE_INSIGHTS } from '../../../../src/utils';
 
 const classNamePrefix = 'homeScreenPreviewer';
 
@@ -354,15 +354,17 @@ class HomeScreenPreviewer extends React.Component<any, any> {
     // dossier preview icons to render
     // split in header icons and footer icons
     // order : left most 1 -> ... -> left most n -> right most 1 -> right most n
-    dossierIconsToRender = () => {
+    dossierIconsToRender = (contextVersion: string) => {
         const { deviceType, isDossierHome } = this.props;
         let headerIcons: iconDetail[] = [];
         let footerIcons: iconDetail[] = [];
+        const isSupportDosAsHomeShowBookmark = isLibraryServerVersionMatch(contextVersion, LIBRARY_SUPPORT_DOSSIER_AS_HOME_BOOKMARK)
         switch (deviceType) {
             case reviewType.TABLET:
                 headerIcons = isDossierHome
                     ? [
                           iconTypes.toc,
+                          iconTypes.bookmark,
                           iconTypes.undoRedo,
                           iconTypes.redo,
                           iconTypes.account,
@@ -397,6 +399,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                     ? [
                           iconTypes.undoRedo,
                           iconTypes.redo,
+                          iconTypes.bookmark,
                           iconTypes.filter,
                           iconTypes.comment,
                           iconTypes.notification,
@@ -415,6 +418,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                 headerIcons = isDossierHome
                     ? [
                           iconTypes.toc,
+                          iconTypes.bookmark,
                           iconTypes.undoRedo,
                           iconTypes.redo,
                           iconTypes.editDossier,
@@ -442,6 +446,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                 headerIcons = isDossierHome
                     ? [
                           iconTypes.toc,
+                          iconTypes.bookmark,
                           iconTypes.undoRedo,
                           iconTypes.redo,
                           iconTypes.editDossier,
@@ -469,6 +474,11 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                 break;
             default:
                 break;
+        }
+        // if the version not support bookmark when isDocAsHome, should filter the bookmark
+        if(!isSupportDosAsHomeShowBookmark && isDossierHome){
+            headerIcons = headerIcons.filter(v => v.key !== iconTypes.bookmark.key);
+            footerIcons = footerIcons.filter(v => v.key !== iconTypes.bookmark.key)
         }
         return {
             dossierHeaderIcons: headerIcons,
@@ -572,7 +582,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
         const { libraryHeaderIcons, libraryFooterIcons } =
             this.libraryIconsToRender();
         const { dossierHeaderIcons, dossierFooterIcons } =
-            this.dossierIconsToRender();
+            this.dossierIconsToRender(contextVersion);
         const { sidebarHeaderIcons } = this.sidebarHeaderIconsToRender();
 
         const showSideBar =

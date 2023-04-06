@@ -10,7 +10,7 @@ import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
 import { selectCurrentConfig, selectIsDossierAsHome, selectIsToolbarHidden, selectIsToolbarCollapsed, selectSelectedSideBarIcons, selectSelectedLibraryCustomizedItems, selectSelectedLibraryIcons, selectSelectedDocumentIcons, selectCurrentConfigContentBundleIds, selectDefaultGroupsName, selectUserViewAllContentEnabled } from '../../../store/selectors/HomeScreenConfigEditorSelector'
 import * as Actions from '../../../store/actions/ActionsCreator';
 import { Tooltip } from '@mstr/rc';
-import { isLibraryServerVersionMatch, isUserHasManageContentGroupPrivilege, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION, LIBRARY_SERVER_VERSION_THRESHOLD, LIBRARY_SUPPORT_MOBILE_INSIGHTS } from '../../../utils';
+import { isLibraryServerVersionMatch, isUserHasManageContentGroupPrivilege, LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION, LIBRARY_SERVER_VERSION_THRESHOLD, LIBRARY_SUPPORT_DOSSIER_AS_HOME_BOOKMARK, LIBRARY_SUPPORT_MOBILE_INSIGHTS } from '../../../utils';
 import { Environment, WorkstationModule } from '@mstr/workstation-types'
 import { filterNonsupportIcons } from './HomeScreenUtils'
 import { WebVersionContext } from './HomeScreenConfigEditor'
@@ -436,7 +436,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                         // dossier as home group
                         this.props.isDossierHome && <div className={`${classNamePrefix}-icons`}>
                             { this.renderTableTitle(localizedStrings.DOSSIER_WINDOW_HOME) }
-                            { this.renderTable(dossierIconsDossierHome, webVersion) }
+                            { this.renderTable(isLibraryServerVersionMatch(webVersion, LIBRARY_SUPPORT_DOSSIER_AS_HOME_BOOKMARK) ? dossierIconsDossierHome : dossierIconsDossierHome.filter(v => v.key !== iconTypes.bookmark.key), webVersion)}
                             { this.renderTableTitle(localizedStrings.PLATFORM_SPECIFIC) }
                             { this.renderTable(platformSpecificIcons, webVersion) }
                         </div>
