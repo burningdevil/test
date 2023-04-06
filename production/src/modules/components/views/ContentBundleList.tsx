@@ -238,7 +238,7 @@ class ContentBundleList extends React.Component<any, any> {
     const handleEditContentGroup = () => {
       
       const contextMenuTarget = params.node.data;
-      const objType = CONSTANTS.CONTENT_EDITOR_OBJTYPE;
+      const objType = CONSTANTS.CONTENT_GROUP_OBJTYPE;
       const bundles = this.props.allBundleList.map((bundle: BundleInfo) => ({
         id: bundle.id,
         name: bundle.name

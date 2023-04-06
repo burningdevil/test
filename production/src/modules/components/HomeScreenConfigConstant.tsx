@@ -172,7 +172,7 @@ export const CONSTANTS = {
 
     // ObjectEditor Type
     CONFIG_EDITOR_OBJTYPE: "HomeScreenConfig",
-    CONTENT_EDITOR_OBJTYPE: "ContentBundle",
+    CONTENT_GROUP_OBJTYPE: "ContentBundle",
     APPEARANCE_OBJ_TYPE: 'Appearance',
 
     BASE_URL: 'baseUrl',

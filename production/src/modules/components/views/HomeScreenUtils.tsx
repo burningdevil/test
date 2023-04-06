@@ -6,10 +6,8 @@ import {
     libraryCustomizedIconDefaultValues,
     libraryCustomizedIconKeys,
     libraryCustomizedIconStartVersion,
-    MANAGE_CONTENT_BUNDLE_PRIVILEGE,
     SPECIAL_CHARACTER_REGEX,
 } from '../HomeScreenConfigConstant';
-import { Environment } from '@mstr/workstation-types';
 import { isLibraryServerVersionMatch } from '../../../utils';
 
 export function getContentType(viewMedia: number) {
