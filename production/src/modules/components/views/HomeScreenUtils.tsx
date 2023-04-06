@@ -87,7 +87,7 @@ export  const getHomeScreenBundleListGroupCellInnerRenderer: ICellRendererFunc =
           if (contentType === HomeScreenHomeObjectType.DOSSIER) {
             iconElem.classList.add('icon-object-dossier')
             iconElem.style.color = '#3492ed'
-          } else if(contentType === HomeScreenHomeObjectType.DOCUMENT) {
+          } else {
             if(type === 3){
               // marked as report
               iconElem.classList.add('icon-object-report')
