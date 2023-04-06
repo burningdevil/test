@@ -172,6 +172,7 @@ export const CONSTANTS = {
 
     // ObjectEditor Type
     CONFIG_EDITOR_OBJTYPE: "HomeScreenConfig",
+    CONTENT_GROUP_OBJTYPE: "ContentBundle",
     APPEARANCE_OBJ_TYPE: 'Appearance',
 
     BASE_URL: 'baseUrl',
@@ -357,6 +358,7 @@ export const localizedStrings = {
     DUPLICATE_APP_NAME_ERROR: t('duplicateAppNameError'),
     INVALID_CHARACTER_APP_NAME_ERROR: t('invalidCharacterAppNameError'),
     GETINFO: t('getInfo'),
+    PROPERTIES: t('properties'),
     INVALID_COLOR_PALETTE_NAME_ERROR: t('invalidPaletteNameError'),
 
     // Dossier Setting Strings

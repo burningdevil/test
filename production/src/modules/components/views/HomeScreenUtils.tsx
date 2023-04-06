@@ -8,7 +8,6 @@ import {
     libraryCustomizedIconStartVersion,
     SPECIAL_CHARACTER_REGEX,
 } from '../HomeScreenConfigConstant';
-import { Environment } from '@mstr/workstation-types';
 import { isLibraryServerVersionMatch } from '../../../utils';
 
 export function getContentType(viewMedia: number) {
