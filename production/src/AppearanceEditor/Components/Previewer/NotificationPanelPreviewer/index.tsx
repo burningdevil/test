@@ -67,13 +67,13 @@ const NotificationPanelPreviewer: React.FC<NotificationPanelPreviewerType> = ({ 
                 const popoverContent = (
                     <React.Fragment>
                         {notificationListDiv}
-                        <div className={classnames('clear-btn', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}>Clear All</div>
+                        <div className={classnames('clear-btn', { 'no-theme': isNoTheme })}>Clear All</div>
                     </React.Fragment>
                 );
                 return (
                     <Popover
                         className={previewerClassName(deviceType, '-notification-panel')}
-                        overlayClassName={classnames(previewerClassName(deviceType, '-notification-panel-overlay'), { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}
+                        overlayClassName={classnames(previewerClassName(deviceType, '-notification-panel-overlay'), { 'no-theme': isNoTheme })}
                         content={popoverContent}
                         title='Notifications'
                         placement='bottom'
