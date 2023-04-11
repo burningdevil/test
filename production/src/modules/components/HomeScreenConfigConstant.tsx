@@ -144,6 +144,11 @@ export const CONSTANTS = {
     FONT_LIBRARY_MOBILE: 'icon-tb_appicon',
     FONT_ERROR: 'icon-error',
 
+    // mobile appearance preview font codes
+    MOBILE_FONT_LIST_VIEW: 'mobile-icon-list_view_ios',
+    MOBILE_AA_FONT: 'mobile-icon-aa',
+    MOBILE_CONTEXT_MENU: 'mobile-icon-context_menu',
+
     //common use
     PLATFORM: 'platforms',
     PLATFORM_STR: 'platformstr',
@@ -875,6 +880,21 @@ export const iconTypes: IconTypes = {
         iconName: CONSTANTS.FONT_FULLSCREEN_TABLET,
         key: CONSTANTS.ICON_FULL_SCREEN,
     },
+    previewListViewMobile: {
+        displayText: t('sidebar'),
+        iconName: CONSTANTS.MOBILE_FONT_LIST_VIEW,
+        key: CONSTANTS.ICON_SIDEBAR,
+    },
+    previewAaFontMobile: {
+        displayText: t('fontIconText'),
+        iconName: CONSTANTS.MOBILE_AA_FONT,
+        key: CONSTANTS.ICON_AA_FONT,
+    },
+    previewContextMenuMobile: {
+        displayText: t('sidebar'),
+        iconName: CONSTANTS.MOBILE_CONTEXT_MENU,
+        key: CONSTANTS.ICON_SIDEBAR
+    }
 };
 
 /// for icon switch

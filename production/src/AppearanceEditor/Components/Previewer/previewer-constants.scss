@@ -30,6 +30,24 @@ $icon-margin-right: 8px;
 $phone-scale: 0.85;
 $tablet-scale: 0.85;
 
+// Light Theme Mobile Colors
+$primary-background-light: #ffffff;
+$secondary-background-light: #f7f8fa;
+$primary-text-light: #29313b;
+$secondary-text-light: #575a5d;
+$button-primary-text-light: #ffffff;
+$primary-blue-light: #0e6ff9;
+$pale-line-light: rgba($secondary-text-light, .1);
+
+// Dark Theme Mobile Colors
+$primary-background-dark: #29313b;
+$secondary-background-dark: #23262a;
+$primary-text-dark: #ffffff;
+$secondary-text-dark: #d6d8db;
+$button-primary-text-dark: #29313b;
+$primary-blue-dark: #529afe;
+$pale-line-dark: rgba($secondary-text-dark, .1);
+
 $header-text-color: var(--toolbar-color, $default-text-color);
 $header-bg-color: var(--toolbar-fill, $msdl-white);
 $sidebar-bg-color: var(--sidebar-fill, $background-color);

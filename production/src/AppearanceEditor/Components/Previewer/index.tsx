@@ -20,6 +20,7 @@ import {
 import { Layout, Radio } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import './styles.scss';
+import '../../../assets/fonts/mobile_dossier_ios/css/mobile_dossier_ios.css';
 import * as _ from 'lodash';
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState';
 import { connect } from 'react-redux';
@@ -257,7 +258,7 @@ class Previewer extends React.Component<any, any> {
         return <div className={classnames(`${classNamePrefix}-title`, prefixIcon?.iconName)}>{title}</div>;
     };
 
-    getRenderedIcon = (element: any, elementIndex: number, view: string, isNoTheme: boolean) => {
+    getRenderedIcon = (element: any, elementIndex: number, view: string, isNoTheme: boolean, isDarkTheme?: boolean) => {
         const {
             web: webLogo = { type: 'URL', value: '' },
             mobile: mobileLogo = { type: 'URL', value: '' },
@@ -275,16 +276,17 @@ class Previewer extends React.Component<any, any> {
         const isLibraryWebLogo = element.iconName === VC.FONT_PREVIEWSIDEBAR;
         const isLibraryMobileLogo = element.iconName === VC.FONT_LIBRARY_MOBILE;
         let renderedLogo = (
-            <span className={element.iconName} key={elementIndex}>
+            <span className={classnames(element.iconName, { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })} key={elementIndex}>
                 {' '}
             </span>
         );
 
-        if (element.iconName === CONSTANTS.FONT_SEARCH) {
-            renderedLogo = (
+        if (element.iconName === CONSTANTS.FONT_SEARCH ) {
+            renderedLogo = 
+                view === views.LIBRARY ? (
                 <div className="icon_search_container">
                     <div
-                        className={classnames('icon_search_box', {'no-theme': isNoTheme})}
+                        className={classnames('icon_search_box', {'no-theme': isNoTheme}, { 'dark-theme': isDarkTheme })}
                         style={{ background: getBoxBackground(toolbarFill) }}
                     >
                         <span className={element.iconName} key={elementIndex}>
@@ -292,13 +294,18 @@ class Previewer extends React.Component<any, any> {
                         </span>
                     </div>
                 </div>
+            ) : (
+                <span
+                    className={classnames(element.iconName, { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}
+                    key={elementIndex}
+                ></span>
             );
         } else if (element.iconName === CONSTANTS.FONT_SORT_FILTER) {
             renderedLogo =
                 view === views.LIBRARY ? (
                     <div className="icon_sort_filter_container">
                         <div
-                            className={classnames('icon_sort_filter_box', {'no-theme': isNoTheme})}
+                            className={classnames('icon_sort_filter_box', {'no-theme': isNoTheme}, { 'dark-theme': isDarkTheme })}
                             style={{
                                 background: getBoxBackground(toolbarFill),
                             }}
@@ -314,7 +321,7 @@ class Previewer extends React.Component<any, any> {
                     </div>
                 ) : (
                     <span
-                        className={element.iconName}
+                        className={classnames(element.iconName, { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}
                         key={elementIndex}
                     ></span>
                 );
@@ -347,7 +354,7 @@ class Previewer extends React.Component<any, any> {
         return renderedLogo;
     };
 
-    getRenderedIconArray = (iconsToRender: iconDetail[], view: string, isNoTheme: boolean) => {
+    getRenderedIconArray = (iconsToRender: iconDetail[], view: string, isNoTheme: boolean, isDarkTheme?: boolean) => {
         return iconsToRender.map((element: any, index: number) => {
             if (
                 !this.iconShouldShow(element) ||
@@ -355,14 +362,14 @@ class Previewer extends React.Component<any, any> {
             ) {
                 return;
             } else {
-                return this.getRenderedIcon(element, index, view, isNoTheme);
+                return this.getRenderedIcon(element, index, view, isNoTheme, isDarkTheme);
             }
         });
     };
 
     // render array of icons
-    toolbarIconsRender = (iconsToRender: iconDetail[], view: string, isNoTheme: boolean) => {
-        const renderedIcons = this.getRenderedIconArray(iconsToRender, view, isNoTheme);
+    toolbarIconsRender = (iconsToRender: iconDetail[], view: string, isNoTheme: boolean, isDarkTheme?: boolean) => {
+        const renderedIcons = this.getRenderedIconArray(iconsToRender, view, isNoTheme, isDarkTheme);
 
         const toolbarTitle = (
             <div
@@ -380,19 +387,19 @@ class Previewer extends React.Component<any, any> {
     };
 
     // render array of side bar icons
-    sidebarIconsRender = (rootClassName: string, isNoTheme: boolean) => {
+    sidebarIconsRender = (rootClassName: string, isNoTheme: boolean, isDarkTheme?: boolean) => {
         const sidebarIcons = [];
 
         for (let i = 1; i <= 6; i++) {
             sidebarIcons.push(
                 <div
-                    className={classnames(`${classNamePrefix}-pad-overview-left-text`, {'no-theme': isNoTheme})}
+                    className={classnames(`${classNamePrefix}-pad-overview-left-text`, { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}
                 >
                     <span
-                        className={classnames(`sidebar-icon-${i}`, {'no-theme': isNoTheme})}
+                        className={classnames(`sidebar-icon-${i}`, { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}
                     />
                     <span
-                        className={classnames(`sidebar-text-${i}`, {'no-theme': isNoTheme})}
+                        className={classnames(`sidebar-text-${i}`, { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}
                     />
                 </div>
             );
@@ -408,7 +415,8 @@ class Previewer extends React.Component<any, any> {
                 {this.toolbarIconsRender(
                     [iconTypes.accountMobile],
                     views.MOBILE,
-                    isNoTheme
+                    isNoTheme,
+                    isDarkTheme
                 )}
             </div>
         );
@@ -455,28 +463,22 @@ class Previewer extends React.Component<any, any> {
     placeHolderRender = (
         left: string,
         renderExpander: boolean,
-        top?: string
+        isNoTheme: boolean,
+        isDarkTheme: boolean
     ) => {
         const width = renderExpander ? '40px' : '30px';
         return (
             <div
                 style={{
                     left: left,
-                    top: top ? top : '8px',
                     width: width,
-                    height: '5px',
+                    height: '25px',
                     display: 'flex',
                     alignItems: 'center',
                     position: 'absolute',
                 }}
             >
-                <span
-                    style={{
-                        backgroundColor: 'rgb(224, 224, 224)',
-                        width: '100%',
-                        height: '5px',
-                    }}
-                />
+                <span className={classnames('icon-text-placeholder', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })} />
                 {renderExpander && (
                     <DownOutlined
                         style={{ fontSize: '5px', marginLeft: '5px' }}
@@ -524,7 +526,7 @@ class Previewer extends React.Component<any, any> {
                     : [
                           iconTypes.previewLibraryMobile,
                           iconTypes.share,
-                          iconTypes.aaFont,
+                          iconTypes.previewAaFontMobile,
                       ];
                 footerIcons = isDossierHome
                     ? [
@@ -640,7 +642,10 @@ class Previewer extends React.Component<any, any> {
                 ];
                 break;
             case reviewType.PHONE:
-                headerIcons = [iconTypes.previewSidebarMobile];
+                headerIcons = [
+                    iconTypes.previewSidebarMobile,
+                    iconTypes.previewListViewMobile
+                ];
                 footerIcons = [
                     iconTypes.search,
                     iconTypes.sortAndFilter,
@@ -672,7 +677,7 @@ class Previewer extends React.Component<any, any> {
                 ];
                 break;
             case reviewType.PHONE:
-                headerIcons = [iconTypes.addLibrary];
+                headerIcons = [iconTypes.previewContextMenuMobile];
                 break;
             default:
                 break;
@@ -687,6 +692,8 @@ class Previewer extends React.Component<any, any> {
             case reviewType.WEB:
             case reviewType.DESKTOP:
                 return `${classNamePrefix}-web` + appender;
+            case reviewType.PHONE:
+                return `${classNamePrefix}-phone` + appender;
             default:
                 return '';
         }
@@ -695,160 +702,326 @@ class Previewer extends React.Component<any, any> {
     getLibraryViewLayout = (
         deviceType: string,
         hideHeader: boolean,
+        showSideBar: boolean,
         libraryHeaderIcons: iconDetail[],
+        libraryFooterIcons: iconDetail[],
+        sidebarHeaderIcons: iconDetail[],
         padLeftClassName: string,
-        isNoTheme: boolean
+        isNoTheme: boolean,
+        isDarkTheme: boolean,
     ) => {
-        return (
-            <Layout className={this.previewerClassName(deviceType, '')}>
-                {!hideHeader && (
-                    <Layout.Header
-                        className={classnames(
-                            'library-header',
-                            {
-                                'no-theme': isNoTheme
-                            }
-                        )}
-                    >
-                        {this.toolbarIconsRender(
-                            libraryHeaderIcons,
-                            views.LIBRARY,
-                            isNoTheme
-                        )}
-                    </Layout.Header>
-                )}
-                <Layout>
-                    <Layout.Content
-                        className={this.previewerClassName(
-                            deviceType,
-                            '-content'
-                        )}
-                    >
-                        <Layout
-                            className={this.previewerClassName(
-                                deviceType,
-                                '-container'
-                            )}
-                        >
-                            <div
-                                className={this.previewerClassName(
-                                    deviceType,
-                                    '-overview'
+        switch (deviceType) {
+            case reviewType.WEB:
+                return (
+                    <Layout className={this.previewerClassName(deviceType, '')}>
+                        {!hideHeader && (
+                            <Layout.Header
+                                className={classnames(
+                                    'library-header',
+                                    {
+                                        'no-theme': isNoTheme
+                                    }
                                 )}
                             >
-                                {this.sidebarIconsRender(padLeftClassName, isNoTheme)}
-                                <div
-                                    className={classnames(
-                                        this.previewerClassName(
-                                            deviceType,
-                                            '-overview-right'
-                                        ),
-                                        'library-content',
-                                        {'no-theme': isNoTheme}
+                                {this.toolbarIconsRender(
+                                    libraryHeaderIcons,
+                                    views.LIBRARY,
+                                    isNoTheme
+                                )}
+                            </Layout.Header>
+                        )}
+                        <Layout>
+                            <Layout.Content
+                                className={this.previewerClassName(
+                                    deviceType,
+                                    '-content'
+                                )}
+                            >
+                                <Layout
+                                    className={this.previewerClassName(
+                                        deviceType,
+                                        '-container'
                                     )}
                                 >
-                                    <div className="library-content-filter">
-                                        <div className="title-wrapper">
-                                            <span
-                                                className={classnames('title', {'no-theme': isNoTheme})}
-                                            ></span>
-                                            <span
-                                                className={classnames('arrow', {'no-theme': isNoTheme})}
-                                            >
-                                                {'\u2304'}
-                                            </span>
+                                    <div
+                                        className={this.previewerClassName(
+                                            deviceType,
+                                            '-overview'
+                                        )}
+                                    >
+                                        {this.sidebarIconsRender(padLeftClassName, isNoTheme)}
+                                        <div
+                                            className={classnames(
+                                                this.previewerClassName(
+                                                    deviceType,
+                                                    '-overview-right'
+                                                ),
+                                                'library-content',
+                                                {'no-theme': isNoTheme}
+                                            )}
+                                        >
+                                            <div className="library-content-filter">
+                                                <div className="title-wrapper">
+                                                    <span
+                                                        className={classnames('title', {'no-theme': isNoTheme})}
+                                                    ></span>
+                                                    <span
+                                                        className={classnames('arrow', {'no-theme': isNoTheme})}
+                                                    >
+                                                        {'\u2304'}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div className="library-content-list">
+                                                {
+                                                    <div className="library-item-col">
+                                                        {' '}
+                                                    </div>
+                                                }
+                                                {
+                                                    <div className="library-item-col">
+                                                        {' '}
+                                                    </div>
+                                                }
+                                                {
+                                                    <div className="library-item-col">
+                                                        {' '}
+                                                    </div>
+                                                }
+                                            </div>
                                         </div>
                                     </div>
-                                    <div className="library-content-list">
-                                        {
-                                            <div className="library-item-col">
-                                                {' '}
-                                            </div>
-                                        }
-                                        {
-                                            <div className="library-item-col">
-                                                {' '}
-                                            </div>
-                                        }
-                                        {
-                                            <div className="library-item-col">
-                                                {' '}
-                                            </div>
-                                        }
-                                    </div>
-                                </div>
-                            </div>
+                                </Layout>
+                            </Layout.Content>
                         </Layout>
-                    </Layout.Content>
-                </Layout>
-            </Layout>
-        );
+                    </Layout>
+                );
+            case reviewType.PHONE:
+                return (
+                    <div className={`${classNamePrefix}-horcontainer`}>
+                        {/* library sidebar */}
+                        {showSideBar && (
+                            <Layout
+                                className={classnames('sidebar', `${classNamePrefix}-phone`)}
+                            >
+                                {
+                                    // Should always show header for phone sidebar even when toolbar collapse
+                                    <Layout.Header className={classnames('sidebar-header', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}>
+                                        {this.toolbarIconsRender(
+                                            sidebarHeaderIcons,
+                                            reviewType.PHONE,
+                                            isNoTheme,
+                                            isDarkTheme
+                                        )}
+                                        {this.placeHolderRender(
+                                            'auto',
+                                            true,
+                                            isNoTheme,
+                                            isDarkTheme
+                                        )}
+                                    </Layout.Header>
+                                }
+                                <Layout.Content
+                                    className={`${classNamePrefix}-phone-content`}
+                                >
+                                    {this.sidebarIconsRender(padLeftClassName, isNoTheme, isDarkTheme)}
+                                </Layout.Content>
+                            </Layout>
+                        )}
+
+                        {/* library toolbar */}
+                        {(
+                            <Layout
+                                className={classnames('main-view', `${classNamePrefix}-phone`)}
+                            >
+                                {!hideHeader && (
+                                    <Layout.Header className={classnames('main-view-header', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}>
+                                        {this.toolbarIconsRender(
+                                            libraryHeaderIcons,
+                                            reviewType.PHONE,
+                                            isNoTheme,
+                                            isDarkTheme
+                                        )}
+                                        {this.placeHolderRender(
+                                            showSideBar
+                                                ? '345px'
+                                                : '123px',
+                                            false,
+                                            isNoTheme,
+                                            isDarkTheme
+                                        )}
+                                    </Layout.Header>
+                                )}
+                                <Layout.Content
+                                    className={`${classNamePrefix}-phone-content`}
+                                >
+                                    <Layout
+                                        className={`${classNamePrefix}-phone-container`}
+                                    >
+                                        <div className={classnames('library-content-list', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}>
+                                            {
+                                                <div className="library-item-col">
+                                                    {' '}
+                                                </div>
+                                            }
+                                            {
+                                                <div className="library-item-col">
+                                                    {' '}
+                                                </div>
+                                            }
+                                            {
+                                                <div className="library-item-col">
+                                                    {' '}
+                                                </div>
+                                            }
+                                            {
+                                                <div className="library-item-col">
+                                                    {' '}
+                                                </div>
+                                            }
+                                        </div>
+                                    </Layout>
+                                </Layout.Content>
+                                {!hideHeader && (
+                                    <footer
+                                        className={`${classNamePrefix}-phone-footer`}
+                                    >
+                                        <span />
+                                        {this.toolbarIconsRender(
+                                            libraryFooterIcons,
+                                            reviewType.PHONE,
+                                            isNoTheme,
+                                            isDarkTheme
+                                        )}
+                                        <span />
+                                    </footer>
+                                )}
+                            </Layout>
+                        )}
+                    </div>
+                );
+        }
     };
 
     getDossierViewLayout = (
         deviceType: string,
         hideHeader: boolean,
+        showTocOnPhone: boolean,
         dossierHeaderIcons: iconDetail[],
-        isNoTheme: boolean
+        dossierFooterIcons: iconDetail[],
+        isNoTheme: boolean,
+        isDarkTheme: boolean,
     ) => {
-        return (
-            <Layout className={this.previewerClassName(deviceType, '')}>
-                {!hideHeader && (
-                    <Layout.Header
-                        className={classnames(
-                            'dossier-header',
-                            {
-                                'no-theme': isNoTheme,
-                            }
-                        )}
-                    >
-                        {this.toolbarIconsRender(
-                            dossierHeaderIcons,
-                            views.DOSSIER,
-                            isNoTheme
-                        )}
-                    </Layout.Header>
-                )}
-                <Layout.Content
-                    className={this.previewerClassName(deviceType, '-content')}
-                >
-                    <Layout
-                        className={this.previewerClassName(
-                            deviceType,
-                            '-container'
-                        )}
-                    >
-                        <div
-                            className={this.previewerClassName(
-                                deviceType,
-                                '-overview'
-                            )}
-                        >
-                            <div
-                                className={this.previewerClassName(
-                                    deviceType,
-                                    '-overview-right'
+        switch (deviceType) {
+            case reviewType.WEB:
+                return (
+                    <Layout className={this.previewerClassName(deviceType, '')}>
+                        {!hideHeader && (
+                            <Layout.Header
+                                className={classnames(
+                                    'dossier-header',
+                                    {
+                                        'no-theme': isNoTheme,
+                                    }
                                 )}
                             >
-                                <div className="library-content-list">
-                                    {!hideHeader && (
-                                        <div className="dossier-item-col" />
+                                {this.toolbarIconsRender(
+                                    dossierHeaderIcons,
+                                    views.DOSSIER,
+                                    isNoTheme
+                                )}
+                            </Layout.Header>
+                        )}
+                        <Layout.Content
+                            className={this.previewerClassName(deviceType, '-content')}
+                        >
+                            <Layout
+                                className={this.previewerClassName(
+                                    deviceType,
+                                    '-container'
+                                )}
+                            >
+                                <div
+                                    className={this.previewerClassName(
+                                        deviceType,
+                                        '-overview'
                                     )}
-                                    {hideHeader && (
-                                        <div
-                                            className={this.previewerClassName(
-                                                deviceType,
-                                                '-overview-right-dossier-nobar'
+                                >
+                                    <div
+                                        className={this.previewerClassName(
+                                            deviceType,
+                                            '-overview-right'
+                                        )}
+                                    >
+                                        <div className="library-content-list">
+                                            {!hideHeader && (
+                                                <div className="dossier-item-col" />
                                             )}
-                                        />
-                                    )}
+                                            {hideHeader && (
+                                                <div
+                                                    className={this.previewerClassName(
+                                                        deviceType,
+                                                        '-overview-right-dossier-nobar'
+                                                    )}
+                                                />
+                                            )}
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            </Layout>
+                        </Layout.Content>
                     </Layout>
-                </Layout.Content>
-            </Layout>
-        );
+                );
+            case reviewType.PHONE:
+                return (
+                    <Layout className={classnames('dossier', `${classNamePrefix}-phone`)}>
+                        {!hideHeader && (
+                            <Layout.Header className={classnames('dossier-header', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}>
+                                {this.toolbarIconsRender(
+                                    dossierHeaderIcons,
+                                    reviewType.PHONE,
+                                    isNoTheme,
+                                    isDarkTheme
+                                )}
+                                {showTocOnPhone &&
+                                    this.placeHolderRender(
+                                        '227px',
+                                        false,
+                                        isNoTheme,
+                                        isDarkTheme
+                                    )}
+                            </Layout.Header>
+                        )}
+                        <Layout.Content
+                            className={`${classNamePrefix}-phone-content`}
+                        >
+                            <Layout
+                                className={`${classNamePrefix}-phone-container`}
+                            >
+                                {(
+                                    <div
+                                        className={classnames(`${classNamePrefix}-phone-container-dossier`, { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}
+                                    />
+                                )}
+                            </Layout>
+                        </Layout.Content>
+                        {(
+                            <footer
+                                className={classnames(`${classNamePrefix}-phone-footer`, { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}
+                            >
+                                <span />
+                                {this.toolbarIconsRender(
+                                    dossierFooterIcons,
+                                    reviewType.PHONE,
+                                    isNoTheme,
+                                    isDarkTheme
+                                )}
+                                <span />
+                            </footer>
+                        )}
+                    </Layout>
+                );
+        }
     };
 
     componentWillReceiveProps(nextProps: any) {
@@ -859,14 +1032,20 @@ class Previewer extends React.Component<any, any> {
 
         const { isDossierHome, toolbarHidden, toolbarCollapsed } = this.state;
 
-        const { libraryHeaderIcons } = this.libraryIconsToRender();
-        const { dossierHeaderIcons } = this.dossierIconsToRender();
+        const { libraryHeaderIcons, libraryFooterIcons } = this.libraryIconsToRender();
+        const { dossierHeaderIcons, dossierFooterIcons } = this.dossierIconsToRender();
+        const { sidebarHeaderIcons } = this.sidebarHeaderIconsToRender();
 
         const { selectedTheme, formatting } = theme?.color || {};
         const isCustomColor = isCustomColorTheme(selectedTheme);
         const formats = !isCustomColor ? prefinedColorSets[selectedTheme] : formatting;
-        applyThemeColorsToPreviewer(formats);
+        selectedTheme && applyThemeColorsToPreviewer(formats); // only apply theme colors when a theme is selected
 
+        const showSideBar =
+            this.iconShouldShow(iconTypes.sidebar) && !toolbarHidden; // when toolbar disabled, sidebar will hide as well
+        const showTocOnPhone =
+            this.iconShouldShow(iconTypes.toc) &&
+            deviceType === reviewType.PHONE;
         const showExpanderOverlay = toolbarCollapsed && !toolbarHidden;
         const hideHeader = toolbarHidden || toolbarCollapsed;
 
@@ -877,6 +1056,8 @@ class Previewer extends React.Component<any, any> {
 
         //Don't use theme color when no theme defined or light theme
         const isNoTheme = !selectedTheme || selectedTheme === 'light';
+        //Mainly used for mobile preview, since no/light theme and dark theme have slightly different color palettes
+        const isDarkTheme = selectedTheme === 'dark';
 
         return (
             <div className={classNamePrefix}>
@@ -889,9 +1070,13 @@ class Previewer extends React.Component<any, any> {
                             {this.getLibraryViewLayout(
                                 deviceType,
                                 hideHeader,
+                                showSideBar,
                                 libraryHeaderIcons,
+                                libraryFooterIcons,
+                                sidebarHeaderIcons,
                                 padLeftClassName,
-                                isNoTheme
+                                isNoTheme,
+                                isDarkTheme
                             )}
                             {showExpanderOverlay && this.overlayRender(false, true)}
                         </div>
@@ -907,8 +1092,11 @@ class Previewer extends React.Component<any, any> {
                         {this.getDossierViewLayout(
                             deviceType,
                             hideHeader,
+                            showTocOnPhone,
                             dossierHeaderIcons,
-                            isNoTheme
+                            dossierFooterIcons,
+                            isNoTheme,
+                            isDarkTheme
                         )}
                         {showExpanderOverlay && this.overlayRender(false, true)}
                     </div>
@@ -917,7 +1105,7 @@ class Previewer extends React.Component<any, any> {
                     {/* notification panel */}
                     {this.titleRender('Notification Panel', iconTypes.notification)}
                     <div style={{ position: 'relative' }}>
-                        <NotificationPanelPreviewer deviceType={deviceType} isNoTheme={isNoTheme} previewerClassName={this.previewerClassName} />
+                        <NotificationPanelPreviewer deviceType={deviceType} isNoTheme={isNoTheme} isDarkTheme={isDarkTheme} previewerClassName={this.previewerClassName} />
                     </div>
                 </div>
             </div>
