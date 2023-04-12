@@ -96,7 +96,7 @@ const storeStateWithTheme = cloneDeep(storeState)
 storeStateWithTheme.appearanceEditor.theme = theme1
 
 const storeStateWithPhoneDeviceType = cloneDeep(storeState)
-storeStateWithTheme.appearanceEditor.ui.appearancePreviewDeviceType = reviewType.PHONE
+storeStateWithPhoneDeviceType.appearanceEditor.ui.appearancePreviewDeviceType = reviewType.PHONE
 
 
 describe('Application Appearance Editor Selectors selectTheme', () => {

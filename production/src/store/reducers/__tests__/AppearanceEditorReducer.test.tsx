@@ -44,7 +44,9 @@ describe('Application Appearance Editor Reducers setTheme', () => {
     state1 = ADEReducer(initialState, setTheme(undefined))
     expect(state1).toEqual({
       theme: {},
-      appearancePreviewDeviceType: reviewType.WEB
+      ui: {
+        appearancePreviewDeviceType: reviewType.WEB
+      }
     })
   })
   it('theme exists in config', () => {
