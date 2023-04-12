@@ -1,7 +1,7 @@
 import * as React from 'react';
 import classnames from 'classnames';
 import { Popover } from 'antd';
-import { reviewType } from 'src/modules/components/HomeScreenConfigConstant';
+import { reviewType } from '../../../../modules/components/HomeScreenConfigConstant';
 import './styles.scss';
 
 type NotificationPanelPreviewerType = {
