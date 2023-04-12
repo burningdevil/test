@@ -4,7 +4,8 @@ import {
     HomeScreenBundleContentListItem,
     HomeScreenConfigInfo,
     ColorPaletteType,
-    ApplicationTheme
+    ApplicationTheme,
+    AppearanceEditorUiState
 } from '../data-model/HomeScreenConfigModels';
 
 export interface HomeScreenConfigEditorState {
@@ -46,7 +47,7 @@ export interface HomeScreenEditorColorPaletteState {
 
 export interface AppearanceEditorState {
     theme: ApplicationTheme;
-    appearancePreviewDeviceType: string;
+    ui: AppearanceEditorUiState;
 }
 
 export interface RootState {

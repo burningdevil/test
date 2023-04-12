@@ -68,7 +68,9 @@ const storeState : RootState = {
     loadingContentBundleFinish: false
   },
   appearanceEditor: {
-    appearancePreviewDeviceType: reviewType.WEB
+    ui: {
+      appearancePreviewDeviceType: reviewType.WEB
+    }
   }
 }
 

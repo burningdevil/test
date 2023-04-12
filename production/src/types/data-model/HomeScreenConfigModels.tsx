@@ -228,4 +228,8 @@ export interface ApplicationTheme {
     schemaVersion: number,
     logos: ApplicationLogos,
     color: ApplicationColor
-} 
+}
+
+export interface AppearanceEditorUiState {
+    appearancePreviewDeviceType: string
+}

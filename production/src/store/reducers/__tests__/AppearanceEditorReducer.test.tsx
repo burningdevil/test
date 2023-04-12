@@ -3,7 +3,10 @@ import { setTheme, updateTheme } from '../../actions/ActionsCreator'
 import { AppearanceEditorState } from '../../../types/redux-state/HomeScreenConfigState'
 
 let initialState : AppearanceEditorState = {
-  theme: undefined
+  theme: undefined,
+  ui: {
+    appearancePreviewDeviceType: ''
+  }
 }
 const initalStateThemeExists : AppearanceEditorState = {
   theme: {
