@@ -1,7 +1,7 @@
 import BasePage from '../../basePages/BasePage'
 import { OSType } from '../../../utils/envUtils/constants'
 import { protractor } from 'protractor'
-import { wsConfig, imageCompareConfig, wsWebViews} from '../../../config/constants'
+import { wsConfig, imageCompareConfig, wsWebViews, wsNativeWindows } from '../../../config/constants'
 const { join } = require('path');
 import { times } from 'lodash'
 const { registerNewWindow, switchToWindow, unregisterWindow } = require('../../../utils/wsUtils/windowHelper')
@@ -369,9 +369,9 @@ export default class SettingPage extends BasePage {
       await this.getConfirmCancelButton(pageId).click()
     }
     await this.waitForWebViewWindowDisappear(wsWebViews.customAppEditor)
-    await unregisterWindow('New Application')
-    await unregisterWindow('Edit Application')
-    await switchToWindow('Workstation Main Window')
+    await unregisterWindow(wsNativeWindows.newCustomAppWindow)
+    await unregisterWindow(wsNativeWindows.editCustomAppWindow)
+    await switchToWindow(wsNativeWindows.wsMainWindow)
     await this.switchToHomeScreenMain()
   }
 
@@ -446,6 +446,7 @@ export default class SettingPage extends BasePage {
   }
 
   async searchForObjectAsHomeScreen(name) {
+    await this.waitForWebElementToDisappear(this.getGridCellInDossierListView('Loading'))
     await this.getSearchBoxInChooseHomeDossierDialog(name).click()
     await this.input(name)
     await this.waitForWebElementToBeVisiable(this.getGridCellInDossierListView(name))
@@ -453,7 +454,6 @@ export default class SettingPage extends BasePage {
 
   async pickDossierByName(name) {
     await browser.sleep(5000 * this.ratio)
-    await this.waitForWebElementToDisappear(this.getGridCellInDossierListView('Loading'))
     await this.searchForObjectAsHomeScreen(name)
     await this.getGridCellInDossierListView(name).click()
     await browser.sleep(6000 * this.ratio)
@@ -699,8 +699,8 @@ export default class SettingPage extends BasePage {
   async enterAppearanceEditorDialog() {
     await this.getEnterAppearanceEditor().click()
     await browser.sleep(1000 * this.ratio)
-    await registerNewWindow('Appearance Editor')
-    await switchToWindow('Appearance Editor')
+    await registerNewWindow(wsNativeWindows.themeEditor)
+    await switchToWindow(wsNativeWindows.themeEditor)
     await this.switchToAppearanceEditorDialog()
   }
 
@@ -708,9 +708,9 @@ export default class SettingPage extends BasePage {
     await this.getApplyButtonInAppearanceEditor().click()
     await browser.sleep(1000 * this.ratio)
     await this.waitForWebViewWindowDisappear(wsWebViews.appearanceEditor)
-    await unregisterWindow('Appearance Editor')
-    await unregisterWindow('Appearance Editor')
-    await switchToWindow('New Application')
+    await unregisterWindow(wsNativeWindows.themeEditor)
+    await unregisterWindow(wsNativeWindows.themeEditor)
+    await switchToWindow(wsNativeWindows.newCustomAppWindow)
     await this.switchToCustomAppEditorDialog()
   }
 
@@ -718,8 +718,8 @@ export default class SettingPage extends BasePage {
     await this.getExistingTheme().click()
     await this.getEditAppearanceButton().click()
     await browser.sleep(1000 * this.ratio)
-    await registerNewWindow('Appearance Editor')
-    await switchToWindow('Appearance Editor')
+    await registerNewWindow(wsNativeWindows.themeEditor)
+    await switchToWindow(wsNativeWindows.themeEditor)
     await this.switchToAppearanceEditorDialog()
 
   }
@@ -736,7 +736,7 @@ export default class SettingPage extends BasePage {
         await this.waitForWebElementToBeVisiable(elementLocator)
         await this.hideElementByScript(elementLocator)
         expect(await browser.imageComparison.checkScreen(fileName, {
-         // hideElements: [elementLocator],
+          // hideElements: [elementLocator],
           disableCSSAnimation: true,
           hideScrollBars: true,
         })).to.below(customArgObj.args.imageCompare ? imageCompareConfig.tolerance : imageCompareConfig.toleranceMax);

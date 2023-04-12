@@ -111,7 +111,7 @@ const macXPath = {
         loginMode: `${dialog}/AXRadioButton[@AXTitle='ReplaceLoginMode']`,
         userName: `${dialog}/AXTextField[0]`,
         userPwd: `${dialog}/AXTextField[1]`,
-        rememberMe: `${dialog}/AXCheckBox[@AXTitle='Remember Me']`,
+        rememberMe: `${dialog}/AXCheckBox[@AXTitle='Remember me']`,
         connect: `${dialog}/AXButton[@AXTitle='Connect']`,
         continueToConnect: `${dialog}/AXButton[@AXTitle='Continue']`,
         projectList: `${dialog}`,
@@ -159,6 +159,11 @@ const macXPath = {
       envinfowindow: `${application}/AXWindow[@AXTitle='ReplaceMe' and @AXSubrole='AXStandardWindow']`,
       closewindowbutton: `${application}/AXWindow[@AXTitle='ReplaceMe' and @AXSubrole='AXStandardWindow']/AXButton[@AXSubrole='AXCloseButton']`,
       confirmclosewindowbutton: `${application}/AXWindow[@AXTitle='ReplaceMe' and @AXSubrole='AXStandardWindow']/AXSheet[0]/AXButton[@AXTitle='No']`
+    },
+    contentGroupInfo: {
+      title: `${application}/AXWindow[@AXTitle='ReplaceMe' and @AXSubrole='AXStandardWindow']/AXScrollArea[1]/AXStaticText[@AXValue='ReplaceMe']`,
+      nameinput: `${application}/AXWindow[@AXTitle='ReplaceMe' and @AXSubrole='AXStandardWindow']/AXScrollArea[1]/AXTextField[@AXValue='ReplaceMe']`,
+      closewindowbutton: `${application}/AXWindow[@AXTitle='ReplaceMe' and @AXSubrole='AXStandardWindow']/AXButton[@AXSubrole='AXCloseButton']`
     }
   }
 }

@@ -3,6 +3,7 @@ import ApplicationPage from '../../pages/webPages/customApp/ApplicationPage'
 import SettingPage from '../../pages/webPages/customApp/SettingPage'
 import AppThemePage from '../../pages/webPages/customApp/AppThemePage'
 import EnvConnectionsPage from '../../pages/webPages/customApp/EnvConnectionsPage'
+import ContentsPage from '../../pages/webPages/customApp/ContentBundlesPage'
 import { wsConfig, imageCompareConfig } from '../../config/constants'
 const { expect } = require('chai')
 const { Given, When, Then, setDefaultTimeout } = require('cucumber')
@@ -10,6 +11,7 @@ const applicationPage = new ApplicationPage()
 const settingPage = new SettingPage()
 const appThemePage = new AppThemePage()
 const envConnectionsPage = new EnvConnectionsPage()
+const contentGroupPage = new ContentsPage()
 const { mainWindow } = pageObj
 const { switchToWindow } = require('../../utils/wsUtils/windowHelper')
 
@@ -104,6 +106,17 @@ Then('I choose {string} menu and pick document {string}', async function (menu, 
     return mainWindow.app.sleep(500)
 }
 );
+
+When('I choose tab {string} and search for {string} in home dossier picker', async function (menu, name) {
+    await settingPage.switchDossierDocumentTab(menu)
+    await settingPage.searchForObjectAsHomeScreen(name)
+    return mainWindow.app.sleep(500)
+})
+
+When('I pick dossier {string} in home screen picker', async function (name) {
+    await settingPage.getGridCellInDossierListView(name).click()
+    await settingPage.getSelectButton().click()
+})
 
 
 Then('I choose the toolbar mode {string}', async function (toolbarmode) {
@@ -205,6 +218,9 @@ Then('check the screenshot on element {string} by comparing {string}', async fun
             await settingPage.takeScreenshotOnElement(element, text)
         case imageCompareConfig.envConnectionCurrentUrl:
             await envConnectionsPage.takeScreenshotOnElement(element, text)
+        case imageCompareConfig.contextMenuInContentTab:
+            await contentGroupPage.takeScreenshotOnElement(element, text)
+
     }
     return mainWindow.app.sleep(500)
 })
@@ -538,12 +554,12 @@ When('I hover over {string} to display tooltip', async function (name) {
     return mainWindow.app.sleep(1000)
 });
 
-When ('I open the application selector dropdown for environment {string}', async function (name) {
+When('I open the application selector dropdown for environment {string}', async function (name) {
     await envConnectionsPage.openLinkedEnvApplicationSelectorDropdown(name)
     return mainWindow.app.sleep(1000)
 });
 
-Then ('I select the {string} application list item', async function(name) {
+Then('I select the {string} application list item', async function (name) {
     await envConnectionsPage.selectLinkedEnvApplicationSelectorDropdownListItem(name)
     return mainWindow.app.sleep(1000)
 });

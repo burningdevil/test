@@ -6,8 +6,8 @@ export default async function logout({ baseUrl, session }) {
         url: baseUrl + 'logout',
         method: 'POST',
         headers: {
-            'X-MSTR-AuthToken': session.token,
-            'Cookie': session.cookie
+            'x-mstr-authtoken': session.token,
+            'cookie': session.cookie
         },
         form: {
             'sessionId': session.token
@@ -27,6 +27,7 @@ export default async function logout({ baseUrl, session }) {
                 }
             } else {
                 errorLog('Logout failed.');
+                errorLog(error)
                 reject(error);
             }
         });

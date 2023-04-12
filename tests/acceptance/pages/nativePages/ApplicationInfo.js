@@ -142,7 +142,6 @@ export default class ApplicationInfo extends RootApp {
       const elem = await this.getUserOrUserGroupByName(name)
       return elem.isDisplayed()
     } catch (err) {
-      console.log(err)
       return false
     }
   }
