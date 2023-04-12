@@ -38,7 +38,7 @@ const AppearanceEditorToolbar: React.FC<AppearanceEditorToolbarProps> = ({ theme
             <div className='label'>{t('appearanceEditorWindowSubtitle')}</div>
             <div className='btn-section'>
                 <Radio.Group
-                    className='mstr-appearance-editor-preview-device-type-radio-group'
+                    className='preview-device-type-radio-group'
                     value={appearancePreviewDeviceType}
                     buttonStyle='solid'
                     onChange={(e) => handleAppearancePreviewDeviceTypeChange(e?.target?.value)}
