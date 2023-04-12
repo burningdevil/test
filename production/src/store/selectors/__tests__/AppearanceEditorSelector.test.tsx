@@ -1,4 +1,4 @@
-import { selectAppearanceEditorTheme } from '../AppearanceEditorSelector'
+import { selectAppearanceEditorTheme, selectAppearancePreviewDeviceType } from '../AppearanceEditorSelector'
 import { CONSTANTS, localizedStrings, reviewType, platformType } from '../../../modules/components/HomeScreenConfigConstant'
 import { cloneDeep } from 'lodash'
 import { RootState } from '../../../types/redux-state/HomeScreenConfigState'
@@ -95,6 +95,9 @@ const theme1 = {
 const storeStateWithTheme = cloneDeep(storeState)
 storeStateWithTheme.appearanceEditor.theme = theme1
 
+const storeStateWithPhoneDeviceType = cloneDeep(storeState)
+storeStateWithTheme.appearanceEditor.ui.appearancePreviewDeviceType = reviewType.PHONE
+
 
 describe('Application Appearance Editor Selectors selectTheme', () => {
 
@@ -110,5 +113,22 @@ describe('Application Appearance Editor Selectors selectTheme', () => {
   it('theme exists in config - selectTheme', () => {
     const theme = selectAppearanceEditorTheme(storeStateWithTheme)
     expect(theme).toEqual(theme1)
+  })
+})
+
+describe('Application Appearance Editor Selectors selectAppearancePreviewDeviceType', () => {
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  it('Web device type - selectAppearancePreviewDeviceType', () => {
+    const previewDeviceType = selectAppearancePreviewDeviceType(storeState)
+    expect(previewDeviceType).toEqual(reviewType.WEB)
+  })
+
+  it('Phone device type - selectAppearancePreviewDeviceType', () => {
+    const previewDeviceType = selectAppearancePreviewDeviceType(storeStateWithPhoneDeviceType)
+    expect(previewDeviceType).toEqual(reviewType.PHONE)
   })
 })
