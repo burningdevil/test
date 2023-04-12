@@ -262,14 +262,11 @@ class Previewer extends React.Component<any, any> {
         const {
             web: webLogo = { type: 'URL', value: '' },
             mobile: mobileLogo = { type: 'URL', value: '' },
-        } = (this.props.theme && this.props.theme.logos) || {};
+        } = this.props?.theme?.logos || {};
 
-        const { selectedTheme, formatting } =
-            (this.props.theme && this.props.theme.color) || {};
+        const { selectedTheme, formatting } = this.props?.theme?.color || {};
         const isCustomColor = isCustomColorTheme(selectedTheme);
-        const formats = !isCustomColor
-            ? prefinedColorSets[selectedTheme]
-            : formatting;
+        const formats = !isCustomColor ? prefinedColorSets[selectedTheme] : formatting;
 
         const { toolbarFill } = formats || {};
 
