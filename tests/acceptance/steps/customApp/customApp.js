@@ -4,7 +4,7 @@ import SettingPage from '../../pages/webPages/customApp/SettingPage'
 import AppThemePage from '../../pages/webPages/customApp/AppThemePage'
 import EnvConnectionsPage from '../../pages/webPages/customApp/EnvConnectionsPage'
 import ContentsPage from '../../pages/webPages/customApp/ContentBundlesPage'
-import { wsConfig, imageCompareConfig } from '../../config/constants'
+import { wsConfig, imageCompareConfig, componentStatus } from '../../config/constants'
 const { expect } = require('chai')
 const { Given, When, Then, setDefaultTimeout } = require('cucumber')
 const applicationPage = new ApplicationPage()
@@ -223,6 +223,11 @@ Then('check the screenshot on element {string} by comparing {string}', async fun
 
     }
     return mainWindow.app.sleep(500)
+})
+
+Then('I verify content group context menu option {string} should {string}', async function (option, status) {
+    const isDisplayed = await contentGroupPage.isContextMenuOptionDisplay(option)
+    expect(isDisplayed).to.equal(status === componentStatus.shown)
 })
 
 When('I input the params by number in the more setting {string} {string}', async function (number, val) {

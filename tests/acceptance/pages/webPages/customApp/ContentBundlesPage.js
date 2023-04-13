@@ -46,7 +46,7 @@ export default class ContentsPage extends BasePage {
     }
 
     getContextMenuInContentGroupGrid() {
-       return this.element(by.xpath(`//div[contains(@class,'ag-menu ')]`))
+        return this.element(by.xpath(`//div[contains(@class,'ag-menu ')]`))
     }
 
     async inputName(name) {
@@ -135,6 +135,11 @@ export default class ContentsPage extends BasePage {
             await contentItem.click()
             await browser.sleep(1000 * this.ratio)
         }
+    }
+
+    async isContextMenuOptionDisplay(option) {
+        const status = await this.getContentMenuInCustomAppListView(option).isPresent()
+        return status
     }
 
     async takeScreenshotOnElement(webElement, screenshot) {

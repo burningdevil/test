@@ -22,9 +22,15 @@ Feature: 38_Edit_Content_Groups_entry_in_app_editor
         Then I finished select content bundle
         When I select content groups by name "G1,G2" in application editor
         When I right click on "G1" to open context menu
-        Then check the screenshot on element "contextMenuOfContentTab" by comparing "38_LH_single_select_content_groups_01"
+        #Then check the screenshot on element "contextMenuOfContentTab" by comparing "38_LH_single_select_content_groups_01"
+        Then I verify content group context menu option "Edit" should "hide"
+        Then I verify content group context menu option "Properties" should "hide"
+        Then I verify content group context menu option "Remove" should "show"
         When I select content groups by name "G1" in application editor
         When I right click on "G1" to open context menu
-        Then check the screenshot on element "contextMenuOfContentTab" by comparing "38_LH_multi_select_content_groups_02"
+        #Then check the screenshot on element "contextMenuOfContentTab" by comparing "38_LH_multi_select_content_groups_02"
+        Then I verify content group context menu option "Edit" should "show"
+        Then I verify content group context menu option "Properties" should "show"
+        Then I verify content group context menu option "Remove" should "show"
         Then I click "Save" button in the tab "contentBundles"
 

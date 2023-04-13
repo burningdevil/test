@@ -19,7 +19,7 @@ export default async function updateContents({ baseUrl, session, contentGroupId,
             if (!error) {
                 if (response.statusCode === 204) {
                     successLog(`Update Content '${contentGroupId}' is successful.`);
-                    resolve(body);
+                    setTimeout(() => { resolve(body); }, 1000);
                 } else {
                     errorLog(`Update Content '${contentGroupId}' failed. Status code: ${response.statusCode}. Message: ${body.message}`);
                     reject(body.message);

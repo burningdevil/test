@@ -19,7 +19,7 @@ export default async function createContentGroupWithoutContent({ baseUrl, sessio
             if (!error) {
                 if (response.statusCode === 201) {
                     successLog(`Creating Content Group '${contentGroupInfo.name}' is successful. id = '${body.id}'`);
-                    resolve(body.id);
+                    setTimeout(() => { resolve(body.id); }, 1000);
                 } else {
                     errorLog(`Creating Content Group '${contentGroupInfo.name}' failed. Status code: ${response.statusCode}. Message: ${body.message}`);
                     reject(body.message);

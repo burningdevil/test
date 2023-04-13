@@ -36,5 +36,10 @@ export const wsNativeWindows = {
     themeEditor: 'Appearance Editor'
 }
 
+export const componentStatus = {
+    shown: 'show',
+    hidden: "hide"
+}
+
 
 
