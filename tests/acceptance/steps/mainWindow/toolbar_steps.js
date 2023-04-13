@@ -5,7 +5,7 @@ When('I select view {string}', async function (viewName) {
   return mainWindow.toolbar.switchViewTo(viewName)
 })
 
-When('I refresh workstation cache', async function() {
+When('I refresh workstation cache', async function () {
   return mainWindow.toolbar.refresh()
 })
 

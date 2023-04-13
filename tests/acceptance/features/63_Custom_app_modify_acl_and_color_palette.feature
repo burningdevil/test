@@ -2,7 +2,7 @@
 Feature: 63_Custom_app_modify_acl_and_color_palette
     1. add Environment
     2. add new application
-    3. open custom app get info
+    3. open custom app Properties dialog
     4. modify acl by remove user group
     5. edit custom app color palette
     6. review acl user groups

@@ -33,7 +33,7 @@ export default async function authentication({ baseUrl, authMode, credentials })
                     if (response.statusCode === 204) {
                         authToken = response.headers['x-mstr-authtoken'];
                         successLog(`Creating session for user '${credentials.username}' is successful. AuthToken: ${authToken}`);
-                        resolve({ token: authToken, cookie: jsessionCookie });
+                        setTimeout(() => { resolve({ token: authToken, cookie: jsessionCookie }); }, 1000);
                     } else {
                         errorLog(`Authentication failed. Status code: ${response.statusCode}. Message: ${body}`);
                         reject(body);

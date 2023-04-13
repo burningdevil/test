@@ -1,3 +1,6 @@
+import cleanContentGroupAPI from '../api/contentGroup/cleanContentGroupAPI'
+import cleanCustomAppAPI from '../api/cleanCustomAppAPI'
+import { wsConfig } from "../config/constants";
 const { After, Before, Status, setDefaultTimeout } = require('cucumber');
 const { recordVideoForScenario, removeVideo, stopRecord, uploadVideo } = require('../utils/ciUtils/video-helper')
 const { sleep } = require('../utils/ciUtils/os-helper')
@@ -187,7 +190,30 @@ After({ tags: '@hook_close_application_editor_dialog_if_necessary_then_remove_en
             console.log('[INFO] Could not find extra environment used for Environment Connection testing, moving forward with testing')
         }
     } catch (e) {
-        console.log('[ERROR] Failed to remove Environment Connection testing environment' )
+        console.log('[ERROR] Failed to remove Environment Connection testing environment')
+    }
+
+    await workstationApp.sleep(1000)
+})
+
+After({ tags: '@hook_clean_content_groups' }, async function () {
+    const { envUrl, userName, userPwd } = browser.params.envInfo[0]
+    try {
+        await cleanCustomAppAPI({
+            baseUrl: envUrl, credentials: { username: userName, password: userPwd },
+            except: wsConfig.defaultApplicationName
+        })
+    } catch (e) {
+        console.log('[ERROR] Failed to clean custom apps in after hook.')
+    }
+    try {
+        await cleanContentGroupAPI({
+            baseUrl: envUrl, credentials: { username: userName, password: userPwd },
+            except: wsConfig.contentGroupNotDelete
+        })
+        console.log('[INFO] Clean content groups in after hook.')
+    } catch (e) {
+        console.log('[ERROR] Failed to clean content groups in after hook.')
     }
 
     await workstationApp.sleep(1000)
