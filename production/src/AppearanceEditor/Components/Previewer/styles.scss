@@ -112,20 +112,6 @@
                 font-size: 18px;
             }
         }
-        .replaced-logo-wrapper {
-            display: flex;
-            float: left;
-            height: 100%;
-            width: 25px;
-            align-items: center;
-            justify-content: center;
-            margin-left: 4.5px;
-
-            .replaced-logo {
-                max-height: $preview-panel-replaced-logo-height;
-                max-width: $preview-panel-replaced-logo-width;
-            }
-        }
         @include iconFeatures();
     }
     &-content {
@@ -488,6 +474,21 @@
                     color: $mobile-primary-blue;
                 }
             }
+
+            .replaced-logo-wrapper {
+                display: flex;
+                float: left;
+                height: 100%;
+                width: 25px;
+                align-items: center;
+                justify-content: center;
+                margin-left: 4.5px;
+            
+                .replaced-logo {
+                    max-height: $preview-panel-replaced-web-logo-height;
+                    max-width: $preview-panel-replaced-web-logo-width;
+                }
+            }
         }
 
         .library-header {
@@ -690,6 +691,20 @@
 
             .icon-tb_appicon {
                 margin-left: 0;
+            }
+
+            .replaced-logo-wrapper {
+                display: flex;
+                float: left;
+                height: 100%;
+                width: 20px;
+                align-items: center;
+                justify-content: center;
+            
+                .replaced-logo {
+                    max-height: $preview-panel-replaced-mobile-logo-height;
+                    max-width: $preview-panel-replaced-mobile-logo-width;
+                }
             }
         }
         &-content {
