@@ -322,6 +322,13 @@ class Previewer extends React.Component<any, any> {
                         key={elementIndex}
                     ></span>
                 );
+        } else if (element.iconName === CONSTANTS.FONT_NOTIFICATIONS) {
+            renderedLogo = (
+                <div className="icon_notif_container">
+                    <span className={classnames(element.iconName, { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })} key={elementIndex} />
+                    <span className={classnames('icon_notif_badge', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })} />
+                </div>
+            )
         }
 
         if (isLibraryWebLogo && webLogo.type === 'URL' && webLogo.value) {

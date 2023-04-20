@@ -71,7 +71,6 @@
     .icon-pnl_shared,
     .icon-tb_select_n,
     .icon-user-profile,
-    .icon-tb_notif_n,
     .icon-tb_comments_n,
     .icon-tb_filter_n,
     .icon-aa_font,
@@ -82,6 +81,9 @@
     .mobile-icon-context_menu  {
         float: right;
         margin-right: $icon-margin-right;
+        color: $header-text-color;
+    }
+    .icon-tb_notif_n {
         color: $header-text-color;
     }
     .mobile-title-text {
@@ -602,6 +604,26 @@
                 }
             }
         }
+
+        .icon_notif_container {
+            position: relative;
+            float: right;
+            margin-right: $icon-margin-right;
+    
+            .icon_notif_badge {
+                position: absolute;
+                height: 6px;
+                width: 6px;
+                right: 0;
+                bottom: 30%;
+                border-radius: 50%;
+                background-color: $notification-badge-bg-color;
+    
+                &.no-theme {
+                    background-color: $notification-badge-light;
+                }
+            }
+        }
     }
 
     &-phone {
@@ -856,6 +878,29 @@
                 }
                 &.dark-theme {
                     color: $primary-blue-dark;
+                }
+            }
+        }
+
+        .icon_notif_container {
+            position: relative;
+            float: right;
+            margin-right: $icon-margin-right;
+    
+            .icon_notif_badge {
+                position: absolute;
+                height: 6px;
+                width: 6px;
+                right: 5%;
+                top: 12%;
+                border-radius: 50%;
+                background-color: $notification-badge-bg-color;
+    
+                &.no-theme {
+                    background-color: $notification-badge-light;
+                }
+                &.dark-theme {
+                    background-color: $notification-badge-dark;
                 }
             }
         }
