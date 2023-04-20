@@ -75,7 +75,12 @@ const NotificationPanelPreviewer: React.FC<NotificationPanelPreviewerType> = ({ 
                         className={previewerClassName(deviceType, '-notification-panel')}
                         overlayClassName={classnames(previewerClassName(deviceType, '-notification-panel-overlay'), { 'no-theme': isNoTheme })}
                         content={popoverContent}
-                        title='Notifications'
+                        title={(
+                            <React.Fragment>
+                                <div className='title-text' title={'Notifications' /*TBA: i18n*/}>Notifications</div>
+                                <div className='icon-pnl_close' />
+                            </React.Fragment>
+                        )}
                         placement='bottom'
                         transitionName='none'
                         open
