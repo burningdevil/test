@@ -325,5 +325,18 @@
     "availableEnvsInfoMsg": "Only connected environments are included in the list.",
     "allowUsersViewAllContentMsg": "Allow users to view and create new content",
     "limitUsersViewAllContentMsg": "Limit Library content in this application to above Content Groups",
-    "allowUsersViewAllContentTip": "Users can view the Content Groups added above if they have been added as recipients."
+    "allowUsersViewAllContentTip": "Users can view the Content Groups added above if they have been added as recipients.",
+    "insightsWebOnly": "Insights(Web only)",
+    "nameInWorkstation": "Name in Workstation",
+    "customAppsNotSupported": "Custom Application is not supported on this environment.",
+    "pleaseConnectToEnv": "Please connect to the environment to get access to the application list.",
+    "panelInfo": "Panels, popups triggered by clicking an icon or button, also including the card of contents in Library Home and other tabs.",
+    "accessLimited": "Access Limited",
+    "accessLimitedTooltip": "You don't have access to the current application",
+    "applicationDeleted": "Application Deleted",
+    "applicationDeletedTooltip": "The current application has been deleted",
+    "currentApplication": "Current application",
+    "properties": "Properties",
+    "openContentGroupEditorError": "Open content group editor failed with error",
+    "openObjectPropertiesError": "Open object properties failed with error"
 }

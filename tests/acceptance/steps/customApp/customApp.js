@@ -1,11 +1,17 @@
 import { Return } from 'wd/lib/special-keys'
 import ApplicationPage from '../../pages/webPages/customApp/ApplicationPage'
 import SettingPage from '../../pages/webPages/customApp/SettingPage'
-import { wsConfig, imageCompareConfig } from '../../config/constants'
+import AppThemePage from '../../pages/webPages/customApp/AppThemePage'
+import EnvConnectionsPage from '../../pages/webPages/customApp/EnvConnectionsPage'
+import ContentsPage from '../../pages/webPages/customApp/ContentBundlesPage'
+import { wsConfig, imageCompareConfig, componentStatus } from '../../config/constants'
 const { expect } = require('chai')
 const { Given, When, Then, setDefaultTimeout } = require('cucumber')
 const applicationPage = new ApplicationPage()
 const settingPage = new SettingPage()
+const appThemePage = new AppThemePage()
+const envConnectionsPage = new EnvConnectionsPage()
+const contentGroupPage = new ContentsPage()
 const { mainWindow } = pageObj
 const { switchToWindow } = require('../../utils/wsUtils/windowHelper')
 
@@ -100,6 +106,17 @@ Then('I choose {string} menu and pick document {string}', async function (menu, 
     return mainWindow.app.sleep(500)
 }
 );
+
+When('I choose tab {string} and search for {string} in home dossier picker', async function (menu, name) {
+    await settingPage.switchDossierDocumentTab(menu)
+    await settingPage.searchForObjectAsHomeScreen(name)
+    return mainWindow.app.sleep(500)
+})
+
+When('I pick dossier {string} in home screen picker', async function (name) {
+    await settingPage.getGridCellInDossierListView(name).click()
+    await settingPage.getSelectButton().click()
+})
 
 
 Then('I choose the toolbar mode {string}', async function (toolbarmode) {
@@ -199,8 +216,18 @@ Then('check the screenshot on element {string} by comparing {string}', async fun
             await applicationPage.takeScreenshotOnElement(element, text)
         case imageCompareConfig.customEmail:
             await settingPage.takeScreenshotOnElement(element, text)
+        case imageCompareConfig.envConnectionCurrentUrl:
+            await envConnectionsPage.takeScreenshotOnElement(element, text)
+        case imageCompareConfig.contextMenuInContentTab:
+            await contentGroupPage.takeScreenshotOnElement(element, text)
+
     }
     return mainWindow.app.sleep(500)
+})
+
+Then('I verify content group context menu option {string} should {string}', async function (option, status) {
+    const isDisplayed = await contentGroupPage.isContextMenuOptionDisplay(option)
+    expect(isDisplayed).to.equal(status === componentStatus.shown)
 })
 
 When('I input the params by number in the more setting {string} {string}', async function (number, val) {
@@ -470,4 +497,74 @@ When('switch to user {string} with password {string}', async function (userName,
         await mainWindow.smartTab.scrollOnSmartTab('down')
         await mainWindow.app.sleep(500)
     }
-})  
+});
+
+When('I input WebLogo url {string} in appearance editor', async function (url) {
+    await appThemePage.inputWebLogoURL(url)
+    return mainWindow.app.sleep(8000)
+});
+
+When('I input WebFavicon url {string} in appearance editor', async function (url) {
+    await appThemePage.inputWebFaviconURL(url)
+    return mainWindow.app.sleep(5000)
+});
+
+When('I input MobileLogo url {string} in appearance editor', async function (url) {
+    await appThemePage.inputMobileLogoURL(url)
+    return mainWindow.app.sleep(5000)
+});
+
+When('I select color theme {string} in appearance editor', async function (color) {
+    await appThemePage.setAppThemeColor(color)
+    return mainWindow.app.sleep(1000)
+});
+
+Then('I set custom theme property {string} via color picker in appearance editor', async function (name) {
+    await appThemePage.setCustomColorBox(name)
+    return mainWindow.app.sleep(1000)
+});
+
+Then('I select color picker color {string}', async function (color) {
+    await appThemePage.pickColorPickerColor(color)
+    return mainWindow.app.sleep(1000)
+});
+
+Then('I set custom theme property {string} via input {string} in appearance editor', async function (name, color) {
+    await appThemePage.setCustomColorInputBox(name, color)
+    return mainWindow.app.sleep(1000)
+});
+
+When('I switch application environment to {string}', async function (name) {
+    await mainWindow.mainCanvas.switchApplicationEnv(name)
+    return mainWindow.app.sleep(1000)
+});
+
+When('I add env {string} to linked envs', async function (name) {
+    await envConnectionsPage.addEnvByName(name)
+    return mainWindow.app.sleep(1000)
+});
+
+When('I double click the {string} name cell to focus on it', async function (name) {
+    await envConnectionsPage.doubleClickNameCell(name)
+    return mainWindow.app.sleep(1000)
+});
+
+When('I rename linked env {string} to {string}', async function (name, newName) {
+    await envConnectionsPage.renameLinkedEnv(name, newName)
+    return mainWindow.app.sleep(1000)
+})
+
+When('I hover over {string} to display tooltip', async function (name) {
+    await envConnectionsPage.hoverLinkedEnv(name)
+    return mainWindow.app.sleep(1000)
+});
+
+When('I open the application selector dropdown for environment {string}', async function (name) {
+    await envConnectionsPage.openLinkedEnvApplicationSelectorDropdown(name)
+    return mainWindow.app.sleep(1000)
+});
+
+Then('I select the {string} application list item', async function (name) {
+    await envConnectionsPage.selectLinkedEnvApplicationSelectorDropdownListItem(name)
+    return mainWindow.app.sleep(1000)
+});

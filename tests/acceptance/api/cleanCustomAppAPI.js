@@ -5,7 +5,7 @@ import deleteCustomAppAPI from './deleteCustomAppAPI';
 import { groupLog, groupLogEnd } from '../config/consoleFormat';
 
 
-// cerify/decerfify dossier/document
+// delete all custom apps except the given custom app
 export default async function cleanCustomAppAPI({ baseUrl, credentials, except }) {
     groupLog()
     const session = await authentication({ baseUrl, authMode: 1, credentials })

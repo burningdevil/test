@@ -1,7 +1,7 @@
 
 import BasePage from '../../basePages/BasePage'
 import { OSType } from '../../../utils/envUtils/constants'
-import { imageCompareConfig } from '../../../config/constants'
+import { imageCompareConfig, wsNativeWindows } from '../../../config/constants'
 const { join } = require('path');
 const { registerNewWindow, switchToWindow, unregisterWindow } = require('../../../utils/wsUtils/windowHelper')
 
@@ -145,15 +145,15 @@ export default class ApplicationPage extends BasePage {
 
   async switchToNewApplicationWindow() {
     await browser.sleep(1000 * this.ratio)
-    await registerNewWindow('New Application')
-    await switchToWindow('New Application')
+    await registerNewWindow(wsNativeWindows.newCustomAppWindow)
+    await switchToWindow(wsNativeWindows.newCustomAppWindow)
     await this.switchToCustomAppEditorDialog()
   }
 
   async switchToEditApplicationWindow() {
     await browser.sleep(1000 * this.ratio)
-    await registerNewWindow('Edit Application')
-    await switchToWindow('Edit Application')
+    await registerNewWindow(wsNativeWindows.editCustomAppWindow)
+    await switchToWindow(wsNativeWindows.editCustomAppWindow)
     await this.switchToCustomAppEditorDialog()
   }
 
@@ -164,8 +164,8 @@ export default class ApplicationPage extends BasePage {
 
   async switchToApplicationInfoWindow() {
     await browser.sleep(10000 * this.ratio)
-    await registerNewWindow('Application info')
-    await switchToWindow('Application info')
+    await registerNewWindow(wsNativeWindows.customAppInfo)
+    await switchToWindow(wsNativeWindows.customAppInfo)
   }
 
   async waitForCustomAppMainWindow() {
@@ -220,8 +220,8 @@ export default class ApplicationPage extends BasePage {
     await this.waitForCustomAppMainWindow();
     const appItem = await this.getGridCellInCustomAppListView(name)
     await this.rightClick({ elem: appItem })
-    await this.waitForContentMenu('Get Info')
-    await this.getContentMenuInCustomAppListView('Get Info').click()
+    await this.waitForContentMenu('Properties')
+    await this.getContentMenuInCustomAppListView('Properties').click()
     await this.switchToApplicationInfoWindow()
   }
 
@@ -263,10 +263,7 @@ export default class ApplicationPage extends BasePage {
       .actions()
       .mouseMove({ x: 0, y: 10000 })
       .perform()
-    expect(await browser.imageComparison.checkScreen(fileName, {
-      disableCSSAnimation: true,
-      hideScrollBars: true,
-    })).to.below(customArgObj.args.imageCompare ? imageCompareConfig.tolerance : imageCompareConfig.toleranceMax);
+    expect(await browser.imageComparison.checkScreen(fileName)).to.below(customArgObj.args.imageCompare ? imageCompareConfig.tolerance : imageCompareConfig.toleranceMax);
   }
 
 

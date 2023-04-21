@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { mount } from 'enzyme'
-import { ConfirmationDialog } from './confirmation-dialog'
+import { ConfirmationDialog } from '../common-components/confirmation-dialog/confirmation-dialog'
 
 
 const mockProps = {

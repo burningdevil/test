@@ -9,6 +9,8 @@
     "module": "commonjs",
     "target": "es5",
     "jsx": "react",
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
     "allowJs": true
   },
   "include": [

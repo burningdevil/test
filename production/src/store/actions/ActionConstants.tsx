@@ -38,6 +38,7 @@ export const ASYNC_INIT_APPEARANCE_EDITOR = 'ASYNC_INIT_APPEARANCE_EDITOR'
 export const SET_THEME = 'SET_THEME'
 export const UPDATE_THEME = 'UPDATE_THEME'
 export const DELETE_THEME_LOGO = 'DELETE_THEME_LOGO'
+export const UPDATE_APPEARANCE_PREVIEW_DEVICE_TYPE = 'UPDATE_APPEARANCE_PREVIEW_DEVICE_TYPE'
 
 /* ------------------------------ Color palette fetch State ----------------------------*/
 export const START_LOADING_COLOR_PALETTE_LIST = 'START_LOADING_COLOR_PALETTE_LIST'

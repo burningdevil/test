@@ -159,3 +159,8 @@ export const setCustomAuthError = (isError: boolean) => ({
   data: isError
 })
 
+export const updateAppearancePreviewDeviceType = (type: string) => ({
+  type: Actions.UPDATE_APPEARANCE_PREVIEW_DEVICE_TYPE,
+  data: type
+})
+

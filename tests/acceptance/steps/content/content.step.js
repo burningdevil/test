@@ -1,8 +1,11 @@
 
 import ContentsPage from '../../pages/webPages/customApp/ContentBundlesPage'
+import createContentGroupAPI from '../../api/contentGroup/createContentGroupAPI'
+import * as sampleRequestData from '../../api/data/contentGroupData'
 const { Given, When, Then, setDefaultTimeout } = require('cucumber')
 const contentPage = new ContentsPage()
-const { mainWindow } = pageObj
+const { mainWindow, contentGroupInfo } = pageObj
+
 
 
 
@@ -58,6 +61,56 @@ When('I choose {string} all content setting under content tab', async (text) => 
     await contentPage.setAllContentSettings(text)
     return mainWindow.app.sleep(500)
 })
+
+Given('I create content groups by rest api', async () => {
+    const { envUrl, userName, userPwd } = browser.params.envInfo[0]
+    await createContentGroupAPI({
+        baseUrl: envUrl, credentials: { username: userName, password: userPwd },
+        contentGroupInfo: sampleRequestData.contentGroupInfoOfG1,
+        contentInfo: sampleRequestData.contentInfo
+    })
+    await createContentGroupAPI({
+        baseUrl: envUrl, credentials: { username: userName, password: userPwd },
+        contentGroupInfo: sampleRequestData.contentGroupInfoOfG2,
+        contentInfo: sampleRequestData.contentInfo
+    })
+    return mainWindow.app.sleep(500)
+})
+
+When('I select content groups by name {string} in application editor', async (contentGroupNames) => {
+    await contentPage.selectContentGroupsByNames(contentGroupNames)
+    return mainWindow.app.sleep(500)
+})
+
+When('I right click on {string} to open context menu', async (contentGroup) => {
+    // to dismiss context menu if any
+    await contentPage.getContentGroupGrid().click()
+    const contentItem = await contentPage.getGridCellInDossierListView(contentGroup)
+    await contentPage.rightClick({ elem: contentItem })
+    return mainWindow.app.sleep(1000)
+})
+
+When('I edit content group {string}', async (contentGroupName) => {
+    await contentPage.editContentGroup(contentGroupName)
+    return mainWindow.app.sleep(500)
+})
+
+When('I open properties dialog of content group {string}', async (contentGroupName) => {
+    await contentPage.openPropertiesDialog(contentGroupName)
+    return mainWindow.app.sleep(500)
+})
+
+When('I close content group info dialog of {string}', async (name) => {
+    await contentGroupInfo.closeContentGroupInfoWindow(name)
+    return mainWindow.app.sleep(500)
+})
+
+When('check group name is {string} in content group info window', async (name) => {
+    const isDisplayed = await contentGroupInfo.isContentGroupNameDisplayed(name)
+    expect(isDisplayed).to.equal(true)
+})
+
+
 
 
 

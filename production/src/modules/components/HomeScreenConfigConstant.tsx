@@ -144,6 +144,11 @@ export const CONSTANTS = {
     FONT_LIBRARY_MOBILE: 'icon-tb_appicon',
     FONT_ERROR: 'icon-error',
 
+    // mobile appearance preview font codes
+    MOBILE_FONT_LIST_VIEW: 'mobile-icon-list_view_ios',
+    MOBILE_AA_FONT: 'mobile-icon-aa',
+    MOBILE_CONTEXT_MENU: 'mobile-icon-context_menu',
+
     //common use
     PLATFORM: 'platforms',
     PLATFORM_STR: 'platformstr',
@@ -172,6 +177,7 @@ export const CONSTANTS = {
 
     // ObjectEditor Type
     CONFIG_EDITOR_OBJTYPE: "HomeScreenConfig",
+    CONTENT_GROUP_OBJTYPE: "ContentBundle",
     APPEARANCE_OBJ_TYPE: 'Appearance',
 
     BASE_URL: 'baseUrl',
@@ -357,6 +363,7 @@ export const localizedStrings = {
     DUPLICATE_APP_NAME_ERROR: t('duplicateAppNameError'),
     INVALID_CHARACTER_APP_NAME_ERROR: t('invalidCharacterAppNameError'),
     GETINFO: t('getInfo'),
+    PROPERTIES: t('properties'),
     INVALID_COLOR_PALETTE_NAME_ERROR: t('invalidPaletteNameError'),
 
     // Dossier Setting Strings
@@ -433,7 +440,14 @@ export const localizedStrings = {
     EMPTY_AVAILABLE_ENVS_MSG: t('emptyAvailableEnvsMsg'),
     AVAILABLE_ENVS_INFO_MSG: t('availableEnvsInfoMsg'),
     CONNECT_TO_ENV_MSG: t('pleaseConnectToEnv'),
-    CUSTOM_APPS_NOT_SUPPORTED_MSG: t('customAppsNotSupported')
+    CUSTOM_APPS_NOT_SUPPORTED_MSG: t('customAppsNotSupported'),
+    CURRENT_APP_DELETED_LABEL: t('applicationDeleted'),
+    CURRENT_APP_LIMITED_ACCESS_LABEL: t('accessLimited'),
+    CURRENT_APP_DELETED_TOOLTIP: t('applicationDeletedTooltip'),
+    CURRENT_APP_LIMITED_ACCESS_TOOLTIP: t('accessLimitedTooltip'),
+    CURRENT_APPLICATION: t('currentApplication'),
+
+    INSIGHTS_WEB_ONLY: t('insightsWebOnly')
 };
 
 export const sectionTitle = {
@@ -868,6 +882,21 @@ export const iconTypes: IconTypes = {
         iconName: CONSTANTS.FONT_FULLSCREEN_TABLET,
         key: CONSTANTS.ICON_FULL_SCREEN,
     },
+    previewListViewMobile: {
+        displayText: t('sidebar'),
+        iconName: CONSTANTS.MOBILE_FONT_LIST_VIEW,
+        key: CONSTANTS.ICON_SIDEBAR,
+    },
+    previewAaFontMobile: {
+        displayText: t('fontIconText'),
+        iconName: CONSTANTS.MOBILE_AA_FONT,
+        key: CONSTANTS.ICON_AA_FONT,
+    },
+    previewContextMenuMobile: {
+        displayText: t('sidebar'),
+        iconName: CONSTANTS.MOBILE_CONTEXT_MENU,
+        key: CONSTANTS.ICON_SIDEBAR
+    }
 };
 
 /// for icon switch
@@ -900,6 +929,7 @@ export const dossierIcons = [
 // dossier icons when mode is dossier as home
 export const dossierIconsDossierHome = [
     iconTypes.toc,
+    iconTypes.bookmark,
     iconTypes.undoRedo,
     iconTypes.filter,
     iconTypes.comment,

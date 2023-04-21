@@ -17,12 +17,12 @@ task :build do
   FileUtils.rm_rf(node_modules_folder) if File.exist?(node_modules_folder)
   FileUtils.mkdir_p(app_locale_folder) unless File.exist?(app_locale_folder)
   FileUtils.mkdir_p(menu_locale_folder) unless File.exist?(menu_locale_folder)
-
   app_database_name = $WORKSPACE_SETTINGS[:project][:name].upcase.gsub('-', '_')
   shell_command!(
     "docker run -v #{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}:/mnt/production -e APP_DATABASE_NAME=#{app_database_name} --entrypoint '/bin/sh' maven:alpine /mnt/production/i18n.sh",
     cwd: $WORKSPACE_SETTINGS[:paths][:project][:production][:home]
   )
+  
   shell_command!(
     "docker run -v #{$WORKSPACE_SETTINGS[:paths][:project][:production][:home]}:/mnt/production -e APPLICATION_VERSION=#{Common::Version.application_version} --entrypoint '/bin/sh' #{docker_image_name} /mnt/production/build.sh",
     cwd: $WORKSPACE_SETTINGS[:paths][:project][:production][:home]
@@ -60,6 +60,19 @@ task :premerge do
   shell_command!(
     "docker run -v #{$WORKSPACE_SETTINGS[:paths][:project][:tests][:acceptance][:home]}:/mnt/tests/acceptance --entrypoint '/bin/sh' #{docker_image_name} /mnt/tests/acceptance/premerge.sh",
     cwd: $WORKSPACE_SETTINGS[:paths][:project][:production][:home]
+  )
+end
+
+desc "Upload premerge binaries for testing"
+task :upload_pre_binaries => [:package] do
+  artifact_info = Compiler::Maven.artifact_info
+  Nexus.upload_artifact(
+    group_id:       "#{$WORKSPACE_SETTINGS[:nexus][:base_coordinates][:group_id]}.#{ENV['ghprbSourceBranch']}",
+    artifact_id:    artifact_info[:artifact_base_file_name],
+    artifact_ext:   artifact_info[:artifact_file_extension],
+    version:        artifact_info[:artifact_version],
+    repository:     $WORKSPACE_SETTINGS[:nexus][:repos][:release],
+    artifact_path:  artifact_info[:artifact_file_path]
   )
 end
 

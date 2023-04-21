@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 export APPLICATION_SHORT_VERSION_PREFIX="11.3."
-export APPLICATION_LONG_VERSION_PREFIX="${APPLICATION_SHORT_VERSION_PREFIX}0950."
+export APPLICATION_LONG_VERSION_PREFIX="${APPLICATION_SHORT_VERSION_PREFIX}1060."
 
 export GROUP_ID_BASE='com.microstrategy'
 export ARTIFACT_ID_BASE='workstation-homescreen-admin'
@@ -47,8 +47,8 @@ else
   export PATH=~/.npm-global/bin:$PATH
 fi
 
-export BASE_BRANCH='nodeJS18'
-export BRANCH_OFF_COMMIT=f4e324505210ef6c08c5d6ad9c37f61b3acd030b
+export BASE_BRANCH='m2021'
+export BRANCH_OFF_COMMIT=22f24cb2538bc2a8aaacad316417bbd93ae6a852
 
 export BASE_VERSION=0
 

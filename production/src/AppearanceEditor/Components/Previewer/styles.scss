@@ -1,55 +1,21 @@
 @import "~@mstr/rc/es/assets/scss/variables.scss";
 @import "../../../modules/components/scss/variables.scss";
-
-$background-color: rgba(255, 255, 255, 0.7);
-$container-width: 482px;
-$container-width-phone: 103px;
-$preview-width: 482px;
-$preview-height: 324px;
-$preview-width-phone: 121px;
-$preview-header-height: 38px;
-$sidebar-width: 91px;
-$default-text-color: #d9d9d9;
-$default-active-text-fill: #e9f2ff;
-$default-canvas-fill: #f7f8fa;
-$toolbar-icon-font-size: 14px;
-$toolbar-icon-box-background: rgba(255, 255, 255, 0.2);
-$overview-right-padding: 10px;
-$font-size-side: 7px;
-$line-height-side: 15px;
-
-$icon-margin-right: 8px;
-
-$phone-scale: 0.85;
-$tablet-scale: 0.85;
+@import "./previewer-constants.scss";
 
 :root {
-    --toolbar-fill: $msdl-white;
-    --toolbar-color: $msdl-black;
-    --sidebar-fill: $background-color;
-    --sidebar-color: $default-text-color;
-    --sidebar-active-fill: $msdl-black;
-    --sidebar-active-color: $msdl-white;
-    --accent-color: $msdl-white;
-    --notification-badge-fill: $msdl-white;
-    --button-color: $msdl-black;
-    --panel-fill: $msdl-white;
-    --panel-color: $default-text-color;
-    --canvas-fill: $msdl-white;
+    --toolbar-fill: #{$msdl-white};
+    --toolbar-color: #{$msdl-black};
+    --sidebar-fill: #{$background-color};
+    --sidebar-color: #{$default-text-color};
+    --sidebar-active-fill: #{$msdl-black};
+    --sidebar-active-color: #{$msdl-white};
+    --accent-fill: #{$msdl-white};
+    --notification-badge-fill: #{$msdl-white};
+    --button-color: #{$msdl-black};
+    --panel-fill: #{$msdl-white};
+    --panel-color: #{$dark-background};
+    --canvas-fill: #{$msdl-white};
 }
-
-$header-text-color: var(--toolbar-color, $default-text-color);
-$header-bg-color: var(--toolbar-fill, $msdl-white);
-$sidebar-bg-color: var(--sidebar-fill, $background-color);
-$sidebar-text-color: var(--sidebar-color, $default-text-color);
-$sidebar-active-bg-color: var(--sidebar-active-fill, $msdl-black);
-$sidebar-active-text-color: var(--sidebar-active-color, $msdl-white);
-$canvas-bg-color: var(--canvas-fill, $background-color);
-$panel-text-color: var(--panel-color, $default-text-color);
-$panel-bg-color: var(--panel-fill, $msdl-white);
-$button-text-color: var(--button-color, $msdl-black);
-$accent-color: var(--accent-color, $msdl-black);
-$notification-badge-bg-color: var(--notification-badge-fill, $msdl-white);
 
 // put all icons here
 @mixin iconFeatures() {
@@ -86,16 +52,6 @@ $notification-badge-bg-color: var(--notification-badge-fill, $msdl-white);
         margin-left: 4.5px;
         color: $header-text-color;
     }
-    .icon-aa_font {
-        float: right;
-        vertical-align: middle;
-        width: 18px;
-        height: 18px;
-        transform: scale(0.75);
-        background: url("../../../modules/components/images/18_18.svg");
-        background-repeat: no-repeat;
-        background-position: -540px -126px;
-    }
     .icon-sidebar_preview_tablet {
         float: left;
         margin: 3px 4.5px 0 0;
@@ -118,11 +74,20 @@ $notification-badge-bg-color: var(--notification-badge-fill, $msdl-white);
     .icon-tb_notif_n,
     .icon-tb_comments_n,
     .icon-tb_filter_n,
+    .icon-aa_font,
     .icon-tb_share_n,
-    .icon-tb_profile_n {
+    .icon-tb_profile_n,
+    .mobile-icon-list_view_ios,
+    .mobile-icon-aa,
+    .mobile-icon-context_menu  {
         float: right;
         margin-right: $icon-margin-right;
         color: $header-text-color;
+    }
+    .icon-text-placeholder {
+        width: 100%;
+        height: 5px;
+        background-color: $header-text-color;
     }
 }
 
@@ -403,6 +368,9 @@ $notification-badge-bg-color: var(--notification-badge-fill, $msdl-white);
 }
 
 .Previewer {
+    display: grid;
+    grid-template-columns: $preview-width $panel-preview-width;
+    grid-gap: $preview-horizontal-margin;
     font-family: $font-family;
     font-size: $font-size;
     color: $msdl-black;
@@ -455,6 +423,12 @@ $notification-badge-bg-color: var(--notification-badge-fill, $msdl-white);
         margin-bottom: 6px;
         font-size: $font-size;
         font-family: $font-family;
+
+        &[class*="icon-"]::before {
+            font-size: 14px;
+            margin-left: 6px;
+            margin-right: 6px;
+        }
     }
     &-preview-title {
         text-align: center;
@@ -630,14 +604,14 @@ $notification-badge-bg-color: var(--notification-badge-fill, $msdl-white);
     }
 
     &-phone {
-        width: $container-width-phone;
+        //@include padOrWebSetting();
+        width: $preview-width-phone;
         height: $preview-height;
         flex: none;
         margin-left: auto;
         margin-right: auto;
         font-size: $font-size-side;
         line-height: $line-height-side;
-        font-family: $font-family;
 
         &-sidebar {
             border-radius: 2px;
@@ -653,33 +627,67 @@ $notification-badge-bg-color: var(--notification-badge-fill, $msdl-white);
         }
 
         .ant-layout-header {
-            height: 20px;
+            height: 26px;
             padding: 0 2px 0 5px;
             text-align: center;
-            border: 0.03rem solid lightgrey;
             border-radius: 4px 4px 0 0;
-            border-bottom: 0;
-            line-height: 20px;
             background-color: $header-bg-color;
-            font-size: $font-size-mini;
+            line-height: 26px;
+            font-size: $toolbar-icon-font-size;
             @include iconFeatures();
+
+            // sidebar header has slightly different color coordination
+            &.sidebar-header {
+                background-color: $sidebar-bg-color;
+                &.no-theme {
+                    background-color: $primary-background-light;
+                }
+                &.dark-theme {
+                    background-color: $primary-background-dark;
+                }
+
+                .icon-text-placeholder {
+                    background-color: $sidebar-text-color;
+                }
+
+                .mobile-icon-context_menu  {
+                    color: $accent-fill;
+                }
+            }
+
             span {
                 transform: scale($phone-scale);
+            }
+
+            [class^="icon-"], [class*=" icon-"], [class^="mobile-icon-"], [class*=" mobile-icon-"] {
+                &.no-theme {
+                    color: $primary-blue-light;
+                }
+                &.dark-theme {
+                    color: $primary-blue-dark;
+                }
             }
             .icon-backarrow {
                 margin-left: -2.5px;
             }
-            .icon-tb_create_dossier {
+
+            .icon-text-placeholder {
+                &.no-theme {
+                    background-color: $primary-text-light;
+                }
+                &.dark-theme {
+                    background-color: $primary-text-dark;
+                }
+            }
+
+            .icon-tb_create_dossier,
+            .mobile-icon-list_view_ios,
+            .mobile-icon-aa,
+            .icon-tb_share_n,
+            .mobile-icon-context_menu   {
                 margin-right: 0;
             }
 
-            .icon-tb_share_n {
-                margin-right: $icon-margin-right;
-            }
-            .icon-aa_font {
-                margin-right: -2.5px;
-                margin-top: 2px;
-            }
             .icon-tb_appicon {
                 margin-left: 0;
             }
@@ -688,32 +696,119 @@ $notification-badge-bg-color: var(--notification-badge-fill, $msdl-white);
             flex: auto;
             height: 100%;
             padding: 0;
+            box-shadow: 0 -1px 0 0 rgba($mbde-pure-black, 0.1);
         }
         &-container {
             flex: auto;
             height: 100%;
-            padding: 4px;
-            border: 0.03rem solid lightgrey;
             background-color: $background-color;
 
-            &-library {
-                width: 100%;
+            .library-content-list {
+                display: grid;
+                grid-template-rows: 1fr 1fr;
+                grid-template-columns: 1fr 1fr;
+                grid-gap: 4px;
                 height: 100%;
-                background: url("../../../modules/components/images/dossier-list-on-phone.svg") repeat-y;
+                width: 100%;
+                background-color: $canvas-bg-color;
+
+                padding: 8px $overview-right-padding $overview-right-padding;
+                justify-content: space-between;
+
+                &.no-theme {
+                    background-color: $secondary-background-light;
+                }
+                &.dark-theme {
+                    background-color: $secondary-background-dark;
+                }
+
+                .library-item-col {
+                    width: 100%;
+                    height: 100%;
+                    background: url("../../../modules/components/images/library-preview-sample.svg") no-repeat;
+                    background-size: 152px;
+                    background-position: 5px;
+                }
+
+                .library-nosidebar {
+                    margin-left: 5px;
+                    width: 33%;
+                    height: 100%;
+                    background: url("../../../modules/components/images/library-preview-sample.svg") no-repeat;
+                }
+
+                .dossier-item-col {
+                    width: 100%;
+                    height: 100%;
+                    background: url("../../../modules/components/images/dossier-preview-sample.svg") no-repeat center;
+                }
+
+                .dossier-nobar {
+                    width: 100%;
+                    height: 100%;
+                    margin-top: 5px;
+                    background: url("../../../modules/components/images/dossier-preview-sample.svg") no-repeat center;
+                }
             }
 
             &-dossier {
                 width: 100%;
                 height: 100%;
-                margin: 10px 0;
+                padding: 10px 0;
                 background: url("../../../modules/components/images/dossier-vis-on-phone.svg") no-repeat;
+                background-size: 170px;
+                background-position: 2px;
+                background-color: $white;
             }
+        }
 
-            &-dossier-nobar {
-                width: 100%;
+        &-overview {
+            &-left {
                 height: 100%;
-                margin: 10px 0;
-                background: url("../../../modules/components/images/dossier-vis-on-phone.svg") repeat-y;
+                width: 100%;
+                background-color: $sidebar-bg-color;
+
+                &.no-theme {
+                    background-color: $primary-background-light;
+                }
+                &.dark-theme {
+                    background-color: $primary-background-dark;
+                }
+
+                .Previewer-pad-overview-left-text {
+                    max-width: 178px;
+
+                    &:first-child {
+                        &.no-theme {
+                            background-color: $primary-blue-light;
+
+                            .sidebar-icon-1, .sidebar-text-1 {
+                                background-color: $primary-background-light;
+                            }
+                        }
+                        &.dark-theme {
+                            background: $primary-blue-dark;
+
+                            .sidebar-icon-1, .sidebar-text-1 {
+                                background-color: $primary-background-dark;
+                            }
+                        }
+                    }
+
+                    [class^="sidebar-icon"], [class*=" sidebar-icon"], [class^="sidebar-text"], [class*=" sidebar-text"] {
+                        &.no-theme {
+                            background-color: $primary-text-light;
+                        }
+                        &.dark-theme {
+                            background-color: $primary-text-dark;
+                        }
+                    }
+                }
+
+                .Previewer-pad-overview-left-down {
+                    position: absolute;
+                    bottom: 0;
+                }
             }
         }
 
@@ -721,17 +816,31 @@ $notification-badge-bg-color: var(--notification-badge-fill, $msdl-white);
             padding: 0;
             width: 100%;
             height: 24px;
-            border: 0.03rem solid lightgrey;
-            border-top: 0;
+            box-shadow: 0 -1px 0 0 rgba($mbde-pure-black, 0.1);
             border-radius: 0 0 4px 4px;
             line-height: 24px;
-            background-color: $background-color;
+            background-color: $header-bg-color;
             display: flex;
             justify-content: space-between;
+            @include iconFeatures();
+
+            &.no-theme {
+                background-color: $primary-background-light;
+            }
+            &.dark-theme {
+                background-color: $primary-background-dark;
+            }
+
             span {
-                font-size: 10px;
-                color: $mobile-primary-blue;
+                font-size: $toolbar-icon-font-size;
                 transform: scale($phone-scale);
+
+                &.no-theme {
+                    color: $primary-blue-light;
+                }
+                &.dark-theme {
+                    color: $primary-blue-dark;
+                }
             }
         }
     }
@@ -756,7 +865,7 @@ $notification-badge-bg-color: var(--notification-badge-fill, $msdl-white);
             height: 100%;
             flex-direction: column;
             justify-items: flex-start;
-            .icon-tb_create_dossier {
+            .mobile-icon-context_menu  {
                 margin-right: 0px !important;
             }
         }
@@ -778,7 +887,7 @@ $notification-badge-bg-color: var(--notification-badge-fill, $msdl-white);
             span {
                 transform: scale($tablet-scale);
             }
-            .icon-tb_create_dossier {
+            .mobile-icon-context_menu  {
                 margin-right: 0px !important;
             }
         }

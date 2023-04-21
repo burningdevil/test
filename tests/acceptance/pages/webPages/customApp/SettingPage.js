@@ -1,7 +1,7 @@
 import BasePage from '../../basePages/BasePage'
 import { OSType } from '../../../utils/envUtils/constants'
 import { protractor } from 'protractor'
-import { wsConfig, imageCompareConfig, wsWebViews} from '../../../config/constants'
+import { wsConfig, imageCompareConfig, wsWebViews, wsNativeWindows } from '../../../config/constants'
 const { join } = require('path');
 import { times } from 'lodash'
 const { registerNewWindow, switchToWindow, unregisterWindow } = require('../../../utils/wsUtils/windowHelper')
@@ -72,6 +72,10 @@ export default class SettingPage extends BasePage {
     //   return text === gridCellValue
     // }).first()
     return this.element(by.xpath(`//span[@class='content-bundle-content-picker-grid-right-name-text' and text()='${gridCellValue}']`))
+  }
+
+  getSearchBoxInChooseHomeDossierDialog() {
+    return this.element(by.xpath(`//input[@aria-label='Search Input']`))
   }
 
   getGridCellInPaletteListView(gridCellValue) {
@@ -271,7 +275,7 @@ export default class SettingPage extends BasePage {
 
   getDescriptionInputBox(field) {
     //text: Display Name, Email Address, Image URL, Link Text, Host Web Portal, Sent By
-    return this.element(by.xpath(`//span[text()='${field}']/following-sibling::div//input[@class='ant-input mstr-input mstr-input__bordered mstr-input__display_error']`))
+    return this.element(by.xpath(`//span[text()='${field}']/following-sibling::div//span[@class='ant-input-affix-wrapper mstr-input mstr-input__bordered mstr-input__display_error']/input`))
   }
 
   getButtonInputBox(button) {
@@ -365,9 +369,9 @@ export default class SettingPage extends BasePage {
       await this.getConfirmCancelButton(pageId).click()
     }
     await this.waitForWebViewWindowDisappear(wsWebViews.customAppEditor)
-    await unregisterWindow('New Application')
-    await unregisterWindow('Edit Application')
-    await switchToWindow('Workstation Main Window')
+    await unregisterWindow(wsNativeWindows.newCustomAppWindow)
+    await unregisterWindow(wsNativeWindows.editCustomAppWindow)
+    await switchToWindow(wsNativeWindows.wsMainWindow)
     await this.switchToHomeScreenMain()
   }
 
@@ -441,11 +445,16 @@ export default class SettingPage extends BasePage {
     await browser.sleep(5000 * this.ratio)
   }
 
+  async searchForObjectAsHomeScreen(name) {
+    await this.waitForWebElementToDisappear(this.getGridCellInDossierListView('Loading'))
+    await this.getSearchBoxInChooseHomeDossierDialog(name).click()
+    await this.input(name)
+    await this.waitForWebElementToBeVisiable(this.getGridCellInDossierListView(name))
+  }
+
   async pickDossierByName(name) {
     await browser.sleep(5000 * this.ratio)
-    // const dossierItem = await this.getGridCellInDossierListView(name)
-    // await this.click({ elem: dossierItem })
-    await this.wait(this.EC.visibilityOf(this.getGridCellInDossierListView(name)), 60000 * this.ratio, 'The target dossier was not displayed')
+    await this.searchForObjectAsHomeScreen(name)
     await this.getGridCellInDossierListView(name).click()
     await browser.sleep(6000 * this.ratio)
     await this.getSelectButton().click()
@@ -690,8 +699,8 @@ export default class SettingPage extends BasePage {
   async enterAppearanceEditorDialog() {
     await this.getEnterAppearanceEditor().click()
     await browser.sleep(1000 * this.ratio)
-    await registerNewWindow('Appearance Editor')
-    await switchToWindow('Appearance Editor')
+    await registerNewWindow(wsNativeWindows.themeEditor)
+    await switchToWindow(wsNativeWindows.themeEditor)
     await this.switchToAppearanceEditorDialog()
   }
 
@@ -699,9 +708,9 @@ export default class SettingPage extends BasePage {
     await this.getApplyButtonInAppearanceEditor().click()
     await browser.sleep(1000 * this.ratio)
     await this.waitForWebViewWindowDisappear(wsWebViews.appearanceEditor)
-    await unregisterWindow('Appearance Editor')
-    await unregisterWindow('Appearance Editor')
-    await switchToWindow('New Application')
+    await unregisterWindow(wsNativeWindows.themeEditor)
+    await unregisterWindow(wsNativeWindows.themeEditor)
+    await switchToWindow(wsNativeWindows.newCustomAppWindow)
     await this.switchToCustomAppEditorDialog()
   }
 
@@ -709,8 +718,8 @@ export default class SettingPage extends BasePage {
     await this.getExistingTheme().click()
     await this.getEditAppearanceButton().click()
     await browser.sleep(1000 * this.ratio)
-    await registerNewWindow('Appearance Editor')
-    await switchToWindow('Appearance Editor')
+    await registerNewWindow(wsNativeWindows.themeEditor)
+    await switchToWindow(wsNativeWindows.themeEditor)
     await this.switchToAppearanceEditorDialog()
 
   }
@@ -727,7 +736,7 @@ export default class SettingPage extends BasePage {
         await this.waitForWebElementToBeVisiable(elementLocator)
         await this.hideElementByScript(elementLocator)
         expect(await browser.imageComparison.checkScreen(fileName, {
-         // hideElements: [elementLocator],
+          // hideElements: [elementLocator],
           disableCSSAnimation: true,
           hideScrollBars: true,
         })).to.below(customArgObj.args.imageCompare ? imageCompareConfig.tolerance : imageCompareConfig.toleranceMax);

@@ -50,9 +50,9 @@ export default class BasePage {
 
   }
 
-  async waitForWebViewWindowDisappear(url){
+  async waitForWebViewWindowDisappear(url) {
     let flag = false
-    try{
+    try {
       for (let j = 0; j < wsConfig.webViewQueryTimeout; j++) {
         const handles = await browser.getAllWindowHandles()
         for (let i = handles.length - 1; i >= 0; i--) {
@@ -63,13 +63,13 @@ export default class BasePage {
             break
           }
         }
-        if(!flag) break
+        if (!flag) break
         await browser.sleep(1000)
       }
-    } catch(e) {
+    } catch (e) {
       await browser.sleep(500)
     }
-   
+
   }
 
   async switchToHomeScreenMain() {
@@ -86,6 +86,10 @@ export default class BasePage {
 
   async switchToAppearanceEditorDialog() {
     await this.switchToNewWebView(wsWebViews.appearanceEditor)
+  }
+
+  async switchToContentGroupEditorDialog() {
+    await this.switchToNewWebView(wsWebViews.contentGroupEditor)
   }
 
   async switchToDefaultWebView() {
@@ -137,12 +141,20 @@ export default class BasePage {
     await this.wait(this.EC.visibilityOf(object), wsConfig.waitForWebElementTimeout * this.ratio, `Web element was still not displayed after ${wsConfig.waitForWebElementTimeout * this.ratio / 1000}s!`);
   }
 
+  async waitForWebElementToDisappear(object) {
+    await this.wait(this.EC.invisibilityOf(object), wsConfig.waitForWebElementTimeout * this.ratio, `Web element was still displayed after ${wsConfig.waitForWebElementTimeout * this.ratio / 1000}s!`);
+  }
+
   async hideElementByScript(elem) {
     await this.executeScript('arguments[0].setAttribute(\'style\',\'visibility:hidden\')', elem)
   }
 
   async showElementByScript(elem) {
     await this.executeScript('arguments[0].removeAttribute(\'style\')', elem)
+  }
+
+  async getInputValue(elem) {
+    return browser.driver.executeScript('return arguments[0].value', elem.getWebElement())
   }
 
 }

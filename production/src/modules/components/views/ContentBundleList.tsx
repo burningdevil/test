@@ -3,10 +3,10 @@ import '../scss/ContentBundleList.scss';
 import ContentBundlePicker from './ContentBundlePicker'
 import * as _ from "lodash";
 import { SearchInput, Input, Tooltip } from '@mstr/rc';
-import { WorkstationModule } from '@mstr/workstation-types';
+import { ObjectEditorSettings, PropertiesSettings, WorkstationModule } from '@mstr/workstation-types';
 import { HttpProxy } from '../../../main';
 import { AgGridReact } from 'ag-grid-react';
-import { default as VC, BundleInfo, iconTypes, BundleRecipientType, localizedStrings, SPECIAL_CHARACTER_REGEX, CONTENT_BUNDLE_DEFAULT_GROUP_NAME } from '../HomeScreenConfigConstant'
+import CONSTANTS, { default as VC, BundleInfo, iconTypes, BundleRecipientType, localizedStrings, CONTENT_BUNDLE_DEFAULT_GROUP_NAME } from '../HomeScreenConfigConstant'
 import { PlusCircleOutlined, DownOutlined, EnterOutlined } from '@ant-design/icons'
 import { HomeScreenBundleListDatasource, getHomeScreenBundleListGroupCellInnerRenderer, validName } from './HomeScreenUtils'
 import {
@@ -80,7 +80,8 @@ function FakeHomeScreenBundleListServer(allData: BundleInfo[]) {
                 name: d.name,
                 expand: false,
                 viewMedia: d.viewMedia,
-                certified: d.isCertified
+                certified: d.isCertified,
+                type: d.type
               };
             });
             lastRow = arr.length;
@@ -101,7 +102,8 @@ class ContentBundleList extends React.Component<any, any> {
       currentBundleList: [],
       showBundlePicker: false,
       showEmptyView: false,
-      nameFilter: ''
+      nameFilter: '',
+      currentEnv: null
     };
   }
 
@@ -134,6 +136,10 @@ class ContentBundleList extends React.Component<any, any> {
       currentProjs = currentEnv.projects.map(o => o.id);
     }
     loadProjects().catch(loadSelectedProjects);
+    const currentEnv = await workstation.environments.getCurrentEnvironment();
+      this.setState({
+        currentEnv
+      })
     
     
 
@@ -230,12 +236,57 @@ class ContentBundleList extends React.Component<any, any> {
       params.api.deselectAll();
       params.api.clearFocusedCell();
     };
+    const handleEditContentGroup = () => {
+      
+      const contextMenuTarget = params.node.data;
+      const objType = CONSTANTS.CONTENT_GROUP_OBJTYPE;
+      const bundles = this.props.allBundleList.map((bundle: BundleInfo) => ({
+        id: bundle.id,
+        name: bundle.name
+      }));
+      const allProjects = this.state.currentEnv?.projects?.reduce((acc: { [key: string]: any }, cur: any) => {
+        acc[cur.id] = { id: cur.id, name: cur.name }
+        return acc
+      }, {})
+      let options: ObjectEditorSettings = {
+        objectId: contextMenuTarget.id,
+        objectType: objType,
+        environment: this.state.currentEnv,
+        extraContext: JSON.stringify({ bundles, allProjects })
+      }
 
+      workstation.dialogs.openObjectEditor(options).catch(e => workstation.dialogs.error({
+        message: t('openContentGroupEditorError'),
+        additionalInformation: JSON.stringify(e)
+      }))
+    }
+    const handleClickInfo = () => {
+      const contextMenuTarget = params.node.data;
+      const bundleObject: any = {
+        id: contextMenuTarget.id,
+        name: contextMenuTarget.name,
+        type: 77,
+        subType: 19712 // DssSubTypeContentBundle = 0x4d00
+      }
+      const options: PropertiesSettings = {
+        objects: [bundleObject],
+        environment: this.state.currentEnv,
+        tabId: '0'
+      }
+
+      workstation.dialogs.openProperties(options).catch((e) =>
+          workstation.dialogs.error({
+              message: t('openObjectPropertiesError'),
+              additionalInformation: JSON.stringify(e),
+          })
+      );
+  };
     var result: any[] = [
       {
         name: localizedStrings.REMOVE_BUNDLE,
         action: handleClickDelete
-      }];
+      }
+    ];
     if(params.api.getSelectedNodes().length > 1){
       result.unshift(
         {
@@ -244,6 +295,17 @@ class ContentBundleList extends React.Component<any, any> {
           disabled: true
         }
       )
+    }else{
+      result = [
+        {
+          name: localizedStrings.EDIT,
+          action: handleEditContentGroup
+        },
+        {
+          name: localizedStrings.PROPERTIES,
+          action: handleClickInfo
+        }
+      ].concat(result)
     }
     return result;
   }

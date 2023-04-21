@@ -266,7 +266,7 @@
     }
     .no-fill-text-container {
         // display: grid;
-        display: none;
+        display: none !important;
         grid-template-columns: auto auto auto;
     }
     .color-saturation {

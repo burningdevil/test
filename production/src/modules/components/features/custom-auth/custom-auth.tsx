@@ -131,7 +131,7 @@ const CustomAuth: React.FC<any> = () => {
                                         option.value === dm && <span className = "defaultClass">{localizedStrings.DEFAULT_AUTH}</span>
                                     }
                                     {
-                                        option.value !== dm && !option.disabled&& <span className = "operation-item" onClick={() => onDefaultChange(option)}>{localizedStrings.SET_AS_DEFAULT}</span>
+                                        option.value !== dm && !option.disabled&& <span className = "custom-auth-operation-item" onClick={() => onDefaultChange(option)}>{localizedStrings.SET_AS_DEFAULT}</span>
                                     }
                                 </div>
                                 

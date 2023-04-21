@@ -38,6 +38,7 @@ rake run_unit_test
 rake veracode
 rake generate_sonar_inclusions
 rake build
+rake upload_pre_binaries
 '
     end
     sonarqube do

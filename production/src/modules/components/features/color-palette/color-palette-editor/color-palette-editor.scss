@@ -8,8 +8,13 @@
         }
         input {
             border-radius: 4px;
-            height: 26px;
-            width: 142px !important;
+            height: 16px;
+            width: 135px !important;
+        }
+        .mstr-input-container {
+            .mstr-input {
+                padding: 4px 5px 4px 5px !important; // after upgrading the mstr/rc, the mstr-input adding extra padding to the input
+            }
         }
     }
     .modal-content-palette-list {
@@ -62,10 +67,10 @@
 }
 .palette-picker {
     .colorGridTitle {
-        display: none;
+        display: none !important;
     }
     .color-grid {
-        display: none;
+        display: none !important;
     }
 }
 .color-palette-editor-btn {

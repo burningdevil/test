@@ -15,6 +15,7 @@ import {
     colorPropTitles,
     EnumFormattingPropNames,
     isColorCodeValid,
+    defaultColorSet
 } from '../../../utils/appThemeColorHelper';
 import ColorPickerComponent from '../../../Components/ColorPicker';
 
@@ -41,8 +42,10 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
         (key) => (initColorCodeValidity[key] = true)
     );
 
+    const initalFormats = { ...defaultColorSet, ...formatting };
+
     // current list of color format values
-    const [formats, setFormats] = React.useState<ThemeColorFormats>(formatting);
+    const [formats, setFormats] = React.useState<ThemeColorFormats>(initalFormats);
 
     // List of booleans indicating whether current list of color format values are valid 3 or 6 digit hex values
     const [isColorCodeListValid, setIsColorCodeListValid] = React.useState(
@@ -89,34 +92,43 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
     };
 
     /**
-     * Returns a grid row with either a color category or a format property. For ex:
+     * Returns grid rows with a color category and a set of format fields. 
+     * Color category
+     *      format field1
+     *      format field2
+     * 
+     * For ex:
      *  Toolbar
-     *    or
-     *  Background    [ ] #F24AC1
+     *    Background    [ ] F24AC1
+     *    Icon          [ ] 29313B
      *
      * @param row
-     * @returns
+     * @returns Array<Row> []
      */
-    const getColorPropRow = (row: number) => {
-        const cols = [];
+    const getColorCategoryWithProps = (row: number) => {
+        const colorPropRows = [];
 
-        const propName = colorPropTitles[row][0];
-        if (colorPropTitles[row].length === 1) {
-            cols.push(getCategoryLableCols(propName));
-        } else {
-            const title = colorPropTitles[row][1];
-            const titleDetailInfo = colorPropTitles[row][2];
-            cols.push(
-                getColorPropCols(
-                    propName,
-                    title,
-                    formats[propName].substring(1),
-                    titleDetailInfo,
-                )
-            );
-        }
+        // insert color prop category 
+        const { title, desc, props } = colorPropTitles[row];
+        colorPropRows.push(
+            (<Row gutter={[gutterHorizontal, gutterVertical]}>{[getCategoryLableCols(title, desc)]}</Row>)
+        );
 
-        return <Row gutter={[gutterHorizontal, gutterVertical]}>{cols}</Row>;
+        // insert color prop fields
+        props.forEach(p => {
+            colorPropRows.push(<Row gutter={[gutterHorizontal, gutterVertical]}>
+                {
+                    getColorPropCols(
+                        p.name,
+                        p.displayName,
+                        formats[p.name].substring(1),
+                        p.desc,
+                    )
+                }
+            </Row>
+            )
+        });
+        return colorPropRows;
     };
 
     /**
@@ -215,16 +227,27 @@ const ColorPropEditor: React.FC<ColorPropEditorProps> = ({
         );
     };
 
-    const getCategoryLableCols = (propName: string) => (
-        <Tooltip title={propName} placement="bottomLeft" mouseLeaveDelay={0}>
-            <div className="color-prop-category-title">{propName}</div>
-        </Tooltip>
+    const getCategoryLableCols = (title: string, desc: string) => (
+
+        <div className="color-prop-category">
+            <Tooltip title={title} placement="bottomLeft" mouseLeaveDelay={0}>
+                <div className="color-prop-category-title" >{title}</div>
+            </Tooltip>
+            {!!desc && 
+                <Tooltip
+                    title={desc}
+                    placement="bottomLeft"
+                    mouseLeaveDelay={0}
+                >
+                    <span className="icon-msg_info"></span>
+                </Tooltip>}
+        </div>
     );
 
     const rows = [];
 
     for (let i = 0; i < colorPropTitles.length; i++) {
-        rows.push(getColorPropRow(i));
+        rows.push(...getColorCategoryWithProps(i));
     }
 
     return (

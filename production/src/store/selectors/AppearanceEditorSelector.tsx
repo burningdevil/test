@@ -8,6 +8,11 @@ export const selectAppearanceEditorTheme = createSelector(
   (appearanceEditorRoot) => appearanceEditorRoot.theme
 )
 
+export const selectAppearanceEditorUi = createSelector(
+  selectAppearanceEditorRoot,
+  (appearanceEditorRoot) => appearanceEditorRoot.ui
+)
+
 export const selectCurrentThemeLogos = createSelector(
   selectAppearanceEditorTheme,
   (theme) => theme.logos || {}
@@ -16,4 +21,9 @@ export const selectCurrentThemeLogos = createSelector(
 export const selectCurrentThemeColor = createSelector(
   selectAppearanceEditorTheme,
   (theme) => theme.color || {}
+)
+
+export const selectAppearancePreviewDeviceType = createSelector(
+  selectAppearanceEditorUi,
+  (ui) => ui.appearancePreviewDeviceType
 )

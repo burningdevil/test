@@ -158,7 +158,7 @@ export default class EnvSection extends RootApp {
     return this.getNativeElement({
       windows: {
         locators: [
-          { method: 'Name', value: 'EnvIconBrowsingUserControl' },
+          { method: 'ClassName', value: 'EnvIconBrowsingUserControl' },
           { method: 'Name', value: `${environmentName}\nRestEnvironment` }
         ]
       },
@@ -203,7 +203,7 @@ export default class EnvSection extends RootApp {
     return this.getNativeElement({
       windows: {
         locators: [
-          { method: 'Name', value: 'Remember Me' }
+          { method: 'Name', value: 'Remember me' }
         ]
       },
       mac: { xpath: mainCanvas.env.rememberMe }

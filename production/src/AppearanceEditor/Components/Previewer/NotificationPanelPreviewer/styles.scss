@@ -1,0 +1,370 @@
+@import "~@mstr/rc/es/assets/scss/variables.scss";
+@import "../../../../modules/components/scss/variables.scss";
+@import "../previewer-constants.scss";
+
+.Previewer {
+    &-web {
+        &-notification-panel {
+            &-overlay {
+                font-family: $font-family;
+                width: $panel-preview-width;
+                padding-top: 10px;
+
+                .ant-popover-content {
+                    .ant-popover-arrow-content::before {
+                        background-color: $panel-bg-color;
+                    }
+
+                    .ant-popover-inner {
+                        color: $panel-text-color;
+                        background-color: $panel-bg-color;
+                    }
+                }
+
+                &.no-theme .ant-popover-content {
+                    .ant-popover-arrow-content::before {
+                        background-color: $msdl-white;
+                    }
+
+                    .ant-popover-inner {
+                        color: $dark-background;
+                        background-color: $msdl-white;
+                    }
+                }
+
+                .ant-popover-title {
+                    line-height: 20px;
+                    padding: 15px 15px 10px 16px;
+                    border: none;
+                    font-size: 16px;
+                    font-weight: 300;
+                    color: inherit;
+                }
+
+                .ant-popover-inner-content {
+                    padding: 0 0 10px 0;
+
+                    .notification-wrapper {
+                        padding: 15px 16px 15px 2px;
+
+                        .notification {
+                            display: grid;
+                            grid-template-columns: 42px auto;
+                            grid-gap: 12px;
+                            border-left: 3px solid $accent-fill;
+
+                            &.no-theme {
+                                border-left: 3px solid $mobile-primary-blue;
+                            }
+
+                            &-icn {
+                                width: 30px;
+                                height: 30px;
+                                margin-left: 12px;
+                                
+                                &.n1 {
+                                    background: url("../../../../modules/components/images/web-preview-notification-1-icon.svg");
+                                }
+
+                                &.n2 {
+                                    background: url("../../../../modules/components/images/web-preview-notification-2-icon.svg");
+                                }
+
+                                &.n3 {
+                                    background: url("../../../../modules/components/images/web-preview-notification-3-icon.svg");
+                                }
+                            }
+
+                            &-content {
+                                display: grid;
+                                grid-template-rows: auto;
+                                grid-gap: 8px;
+                                color: $panel-text-color;
+
+                                &.no-theme {
+                                    color: $dark-background;
+                                }
+
+                                .header {
+                                    font-size: 14px;
+                                    line-height: 18px;
+
+                                    span {
+                                        font-weight: 600;
+                                    }
+                                }
+
+                                .subheader {
+                                    font-size: 12px;
+                                    line-height: 16px;
+                                }
+
+                                .btn-row {
+                                    display: flex;
+                                    height: 24px;
+                                    line-height: 24px;
+
+                                    .accept-btn {
+                                        border-radius: 4px;
+                                        padding: 0 12px;
+                                        color: $button-text-color;
+                                        background-color: $accent-fill;
+                                        user-select: none;
+
+                                        &.no-theme {
+                                            color: $msdl-white;
+                                            background-color: $mobile-primary-blue;
+                                        }
+                                    }
+
+                                    .ignore-btn {
+                                        margin-left: 15px;
+                                        color: $accent-fill;
+                                        user-select: none;
+
+                                        &.no-theme {
+                                            color: $mobile-primary-blue;
+                                        }
+                                    }
+                                }
+
+                                .date {
+                                    font-size: 11px;
+                                    line-height: 14px;
+                                }
+                            }
+                        }
+                    }
+
+                    .clear-btn {
+                        height: 34px;
+                        line-height: 34px;
+                        font-size: 14px;
+                        text-align: center;
+                        color: $accent-fill;
+                        user-select: none;
+
+                        &.no-theme {
+                            color: $mobile-primary-blue;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &-phone {
+        &-notification-panel {
+            width: $preview-width-phone;
+            height: $preview-height;
+            color: $panel-text-color;
+            background-color: $panel-bg-color;
+            font-family: $font-family;
+            border-radius: 4px;
+            margin: auto;
+
+            &.no-theme {
+                color: $primary-text-light;
+                background-color: $primary-background-light;
+            }
+            &.dark-theme {
+                color: $primary-text-dark;
+                background-color: $primary-background-dark;
+            }
+
+            .notification-panel-title-section {
+                height: 26px;
+                line-height: 26px;
+                position: relative;
+                font-size: 8px;
+                $divider-color: rgba($panel-text-color, .1);
+
+                // add full border to bottom of title section
+                &::after {
+                    content: '';
+                    width: 178px;
+                    height: 1px;
+                    background-color: $panel-text-color;
+                    opacity: .1;
+                    position: absolute;
+                }
+
+                &.no-theme::after {
+                    background-color: $pale-line-light;
+                    opacity: 1;
+                }
+                &.dark-theme::after {
+                    background-color: $pale-line-dark;
+                    opacity: 1;
+                }
+
+                .close-btn,
+                .edit-btn {
+                    position: absolute;
+                    color: $accent-fill;
+
+                    &.no-theme {
+                        color: $primary-blue-light;
+                    }
+                    &.dark-theme {
+                        color: $primary-blue-dark;
+                    }
+                }
+
+                .close-btn {
+                    left: 8px;
+                }
+
+                .edit-btn {
+                    right: 8px;
+                }
+
+                .title-text {
+                    text-align: center;
+                    font-weight: 600;
+                }
+            }
+
+            .notification-list {
+                height: 186px;
+                .notification-wrapper {
+                    position: relative;
+                    padding: 2px 8px 2px 0;
+
+                    // add partial border to bottom of each notification
+                    &::after {
+                        content: '';
+                        width: 170px;
+                        height: 1px;
+                        background-color: $panel-text-color;
+                        opacity: .1;
+                        position: absolute;
+                        bottom: -1px;
+                        right: 0;
+                    }
+
+                    &.no-theme::after {
+                        background-color: $pale-line-light;
+                        opacity: 1;
+                    }
+                    &.dark-theme::after {
+                        background-color: $pale-line-dark;
+                        opacity: 1;
+                    }
+
+                    .notification {
+                        display: grid;
+                        grid-template-columns: 21px auto;
+                        grid-gap: 8px;
+                        padding: 6px 0;
+                        border-left: 2px solid $accent-fill;
+
+                        &.no-theme {
+                            border-color: $primary-blue-light;
+                        }
+                        &.dark-theme {
+                            border-color: $primary-blue-dark;
+                        }
+
+                        &-icn {
+                            width: 14px;
+                            height: 14px;
+                            background-size: 14px;
+                            margin-left: 7px;
+                            
+                            &.n1 {
+                                background-image: url("../../../../modules/components/images/web-preview-notification-1-icon.svg");
+                            }
+
+                            &.n2 {
+                                background-image: url("../../../../modules/components/images/web-preview-notification-2-icon.svg");
+                            }
+
+                            &.n3 {
+                                background-image: url("../../../../modules/components/images/web-preview-notification-3-icon.svg");
+                            }
+                        }
+
+                        &-content {
+                            display: grid;
+                            grid-template-rows: auto;
+                            grid-gap: 5px;
+                            color: $panel-text-color;
+                            letter-spacing: -0.11px;
+
+                            &.no-theme {
+                                color: $dark-background;
+                            }
+
+                            .header {
+                                font-size: 7px;
+                                line-height: 9px;
+
+                                span {
+                                    font-weight: 600;
+                                }
+                            }
+
+                            .subheader {
+                                font-size: 7px;
+                                line-height: 8px;
+                            }
+
+                            .btn-row {
+                                display: flex;
+                                height: 14px;
+                                line-height: 14px;
+                                font-size: 7px;
+
+                                .accept-btn {
+                                    border-radius: 2px;
+                                    padding: 0 6px;
+                                    color: $button-text-color;
+                                    background-color: $accent-fill;
+                                    user-select: none;
+
+                                    &.no-theme {
+                                        color: $button-primary-text-light;
+                                        background-color: $primary-blue-light;
+                                    }
+                                    &.dark-theme {
+                                        color: $button-primary-text-dark;
+                                        background-color: $primary-blue-dark;
+                                    }
+                                }
+
+                                .ignore-btn {
+                                    margin-left: 10px;
+                                    color: $accent-fill;
+                                    user-select: none;
+
+                                    &.no-theme {
+                                        color: $primary-blue-light;
+                                    }
+                                    &.dark-theme {
+                                        color: $primary-blue-dark;
+                                    }
+                                }
+                            }
+
+                            .date {
+                                font-size: 6px;
+                                line-height: 8px;
+                                opacity: .8;
+
+                                &.no-theme {
+                                    color: $secondary-text-light;
+                                    opacity: 1;
+                                }
+                                &.dark-theme {
+                                    color: $secondary-text-dark;
+                                    opacity: 1;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -11,6 +11,7 @@ $line-height-mini: 13px;
 $right-background: #f4f4f4;
 $mobile-primary-blue: #0e6ff9;
 $white: #fff;
+$dark-background: #29313b;
 
 // Common Element Sizes
 $tabs-content-screen-height: 708px;
@@ -32,10 +33,14 @@ $appearance-editor-height: 878px;
 
 $title-bar-height: 62px;
 $title-bar-bg-color: #323852;
+$title-bar-btn-height: 30px;
 $title-bar-btn-section-min-width: 168px;
 $title-bar-btn-min-width: 74px;
 $title-bar-cancel-btn-font-color: #262626;
 $title-bar-save-btn-bg: linear-gradient(180deg, #69b1fa 0%, #0b7fff 100%);
+
+$appearance-preview-device-type-btn-accent-color: rgba(#fff, .3);
+$appearance-preview-device-type-btn-width: 30px;
 
 $content-height: 816px;
 $settings-panel-width: 505px;

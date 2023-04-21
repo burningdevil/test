@@ -887,7 +887,7 @@ class HomeScreenConfigMainView extends React.Component<any, any> {
             });
 
             contextMenuItems.push({
-                name: localizedStrings.GETINFO,
+                name: localizedStrings.PROPERTIES,
                 action: handleClickInfo,
             });
 

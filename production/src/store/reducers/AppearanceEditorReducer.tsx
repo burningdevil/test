@@ -1,6 +1,7 @@
 import { AppearanceEditorState } from '../../types/redux-state/HomeScreenConfigState'
 import { ApplicationLogos } from 'src/types/data-model/HomeScreenConfigModels'
 import { ActionTypes } from '../actions/ActionTypes'
+import { reviewType } from '../../modules/components/HomeScreenConfigConstant'
 import * as Actions from '../actions/ActionConstants'
 import * as _ from 'lodash'
 
@@ -9,6 +10,9 @@ const initialState: AppearanceEditorState = {
     schemaVersion: 1,
     logos: {},
     color: {}
+  },
+  ui: {
+    appearancePreviewDeviceType: reviewType.WEB
   }
 }
 
@@ -38,6 +42,14 @@ const AppearanceEditorReducer = (state: AppearanceEditorState = initialState, ac
         theme: {
           ...state.theme,
           logos: updatedThemeLogos
+        }
+      }
+    case Actions.UPDATE_APPEARANCE_PREVIEW_DEVICE_TYPE:
+      return {
+        ...state,
+        ui: {
+          ...state.ui,
+          appearancePreviewDeviceType: data
         }
       }
     default:

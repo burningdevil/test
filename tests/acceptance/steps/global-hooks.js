@@ -1,8 +1,11 @@
+import cleanContentGroupAPI from '../api/contentGroup/cleanContentGroupAPI'
+import cleanCustomAppAPI from '../api/cleanCustomAppAPI'
+import { wsConfig } from "../config/constants";
 const { After, Before, Status, setDefaultTimeout } = require('cucumber');
 const { recordVideoForScenario, removeVideo, stopRecord, uploadVideo } = require('../utils/ciUtils/video-helper')
 const { sleep } = require('../utils/ciUtils/os-helper')
 const { clearJoints } = require('./mimo')
-const { appInfo, appWindow, envWindow } = pageObj
+const { appInfo, appWindow, envWindow, mainWindow } = pageObj
 const { registerNewWindow, switchToWindow, unregisterWindow } = require('../utils/wsUtils/windowHelper')
 
 
@@ -150,6 +153,67 @@ After({ tags: '@hook_close_application_editor_dialog_if_necessary' }, async func
         console.log('[INFO] Edit application window is open, close it.')
     } catch (e) {
         console.log('[INFO] Edit application window is already closed.')
+    }
+
+    await workstationApp.sleep(1000)
+})
+
+After({ tags: '@hook_close_application_editor_dialog_if_necessary_then_remove_env_connection_environment' }, async function () {
+    try {
+        await switchToWindow('New Application')
+        await appWindow.clickCloseDialogButton('New Application')
+        await unregisterWindow('New Application')
+        console.log('[INFO] New application window is open, close it.')
+    } catch (e) {
+        console.log('[INFO] New application window is already closed.')
+    }
+
+    try {
+        await switchToWindow('Edit Application')
+        await appWindow.clickCloseDialogButton('Edit Application')
+        await unregisterWindow('Edit Application')
+        console.log('[INFO] Edit application window is open, close it.')
+    } catch (e) {
+        console.log('[INFO] Edit application window is already closed.')
+    }
+
+    await workstationApp.sleep(1000)
+
+    try {
+        await switchToWindow('Workstation Main Window')
+        await mainWindow.smartTab.scrollOnSmartTab('up')
+        await mainWindow.smartTab.selectTab('Environments')
+        if (await mainWindow.mainCanvas.envSection.isEnvAdded('z-env-connection')) {
+            await mainWindow.mainCanvas.envSection.removeEnv('z-env-connection')
+            console.log('[INFO] Remove extra environment used for Environment Connection testing')
+        } else {
+            console.log('[INFO] Could not find extra environment used for Environment Connection testing, moving forward with testing')
+        }
+    } catch (e) {
+        console.log('[ERROR] Failed to remove Environment Connection testing environment')
+    }
+
+    await workstationApp.sleep(1000)
+})
+
+After({ tags: '@hook_clean_content_groups' }, async function () {
+    const { envUrl, userName, userPwd } = browser.params.envInfo[0]
+    try {
+        await cleanCustomAppAPI({
+            baseUrl: envUrl, credentials: { username: userName, password: userPwd },
+            except: wsConfig.defaultApplicationName
+        })
+    } catch (e) {
+        console.log('[ERROR] Failed to clean custom apps in after hook.')
+    }
+    try {
+        await cleanContentGroupAPI({
+            baseUrl: envUrl, credentials: { username: userName, password: userPwd },
+            except: wsConfig.contentGroupNotDelete
+        })
+        console.log('[INFO] Clean content groups in after hook.')
+    } catch (e) {
+        console.log('[ERROR] Failed to clean content groups in after hook.')
     }
 
     await workstationApp.sleep(1000)

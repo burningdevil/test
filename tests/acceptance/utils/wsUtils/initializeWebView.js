@@ -9,7 +9,7 @@ async function initializeWebView() {
     // const tabDossier = await workstationApp.elementByName('Dossiers')
     // const createDossierButton = await tabDossier.elementByClassName('Button')
     // await createDossierButton.click()
-
+    await workstationApp.sleep(2000)
     const fileMenuContainer = await workstationApp.elementByClassName('MenuItem')
     const fileMenu = await fileMenuContainer.elementByName('File')
     fileMenu.click()
