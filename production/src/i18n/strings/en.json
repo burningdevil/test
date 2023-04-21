@@ -214,7 +214,7 @@
     "newThemeText": "Enter Appearance Editor",
 
     "appearanceEditorWindowTitle": "{{application}} - Appearance",
-    "appearanceEditorWindowSubtitle": "Library Home - Web Interface",
+    "appearanceEditorWindowSubtitle": "Library Appearance - Web Interface",
 
     "pasteImageUrl": "Paste an image URL",
     "imageUrlWithHttpErrMessage": "Enter a URL with http or https protocol.",
