@@ -483,7 +483,7 @@ class Previewer extends React.Component<any, any> {
         let toolbarTitleText;
         switch (windowType) {
             case views.DOSSIER:
-                toolbarTitleText = 'Page name'; // TBA: i18n
+                toolbarTitleText = localizedStrings.PAGE_NAME;
                 break;
             case views.LIBRARY:
                 toolbarTitleText = localizedStrings.LIBRARY;

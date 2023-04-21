@@ -314,6 +314,9 @@
     "invalidImageAddressTip": "Please ensure that the URL points to a valid image file",
     "portalLinkAclForbiddenMsg": "You do not have the privilege to get the URL whitelist.",
 
+    "pageName": "Page name",
+    "iconText": "Icon/Text",
+
     "environmentConnectionSettingsDesc": "Select to add environment connecting points to this application, for users to switch to different workspaces in Library Web and Library Mobile.",
     "environmentConnectionAvailableEnvsDesc": "Select to add environments from the available list",
     "currentEnvLabel": "(Current)",

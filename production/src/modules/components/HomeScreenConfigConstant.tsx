@@ -429,6 +429,9 @@ export const localizedStrings = {
     DEFAULT_AUTH: t('defaultAuth'),
     STANDARD: t('standard'),
 
+    // Appearance Editor strings
+    PAGE_NAME: t('pageName'),
+
     // Environment Connection strings
     ENVIRONMENT_WS_NAME_TOOLTIP: t('nameInWorkstation'),
     ENVIRONMENT_CONNECTION_SETTINGS_DESC: t('environmentConnectionSettingsDesc'),

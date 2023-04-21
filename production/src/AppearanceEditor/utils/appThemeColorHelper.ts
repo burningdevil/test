@@ -249,7 +249,7 @@ export const colorPropTitles = [
                 name: EnumFormattingPropNames.toolbarFill
             },
             {
-                displayName: t('icon'), 
+                displayName: t('iconText'), 
                 name: EnumFormattingPropNames.toolbarColor
             }
         ]
