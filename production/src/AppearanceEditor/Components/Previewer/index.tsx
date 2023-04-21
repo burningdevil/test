@@ -322,6 +322,13 @@ class Previewer extends React.Component<any, any> {
                         key={elementIndex}
                     ></span>
                 );
+        } else if (element.iconName === CONSTANTS.FONT_NOTIFICATIONS) {
+            renderedLogo = (
+                <div className="icon_notif_container">
+                    <span className={classnames(element.iconName, { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })} key={elementIndex} />
+                    <span className={classnames('icon_notif_badge', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })} />
+                </div>
+            )
         }
 
         if (isLibraryWebLogo && webLogo.type === 'URL' && webLogo.value) {
@@ -367,16 +374,25 @@ class Previewer extends React.Component<any, any> {
     // render array of icons
     toolbarIconsRender = (iconsToRender: iconDetail[], view: string, isNoTheme: boolean, isDarkTheme?: boolean) => {
         const renderedIcons = this.getRenderedIconArray(iconsToRender, view, isNoTheme, isDarkTheme);
+        let toolbarTitleText;
+        switch (view) {
+            case views.DOSSIER:
+                toolbarTitleText = localizedStrings.DOSSIER;
+                break;
+            case views.LIBRARY:
+                toolbarTitleText = localizedStrings.LIBRARY;
+                break;
+        }
 
         const toolbarTitle = (
             <div
                 className={classnames('toolbar-title-wrapper', {'no-theme': isNoTheme})}
             >
-                <span className="title"></span>
+                <span className="title">{toolbarTitleText}</span>
             </div>
         );
 
-        if (view === views.DOSSIER) {
+        if (view === views.DOSSIER || view === views.LIBRARY) {
             renderedIcons.push(toolbarTitle);
         }
 
@@ -457,25 +473,35 @@ class Previewer extends React.Component<any, any> {
         );
     };
 
-    placeHolderRender = (
-        left: string,
+    mobileTitleRender = (
         renderExpander: boolean,
+        windowType: string,
+        centerTitle: boolean,
         isNoTheme: boolean,
         isDarkTheme: boolean
     ) => {
-        const width = renderExpander ? '40px' : '30px';
+        let toolbarTitleText;
+        switch (windowType) {
+            case views.DOSSIER:
+                toolbarTitleText = localizedStrings.PAGE_NAME;
+                break;
+            case views.LIBRARY:
+                toolbarTitleText = localizedStrings.LIBRARY;
+                break;
+        }
         return (
             <div
                 style={{
-                    left: left,
-                    width: width,
-                    height: '25px',
+                    left: centerTitle ? '50%' : 'auto',
+                    width: 'auto',
+                    height: '30px',
                     display: 'flex',
                     alignItems: 'center',
                     position: 'absolute',
+                    transform: centerTitle ? 'translate(-50%, 0)' : undefined
                 }}
             >
-                <span className={classnames('icon-text-placeholder', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })} />
+                <span className={classnames('mobile-title-text', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}>{toolbarTitleText}</span>
                 {renderExpander && (
                     <DownOutlined
                         style={{ fontSize: '5px', marginLeft: '5px' }}
@@ -810,9 +836,10 @@ class Previewer extends React.Component<any, any> {
                                             isNoTheme,
                                             isDarkTheme
                                         )}
-                                        {this.placeHolderRender(
-                                            'auto',
+                                        {this.mobileTitleRender(
                                             true,
+                                            views.LIBRARY,
+                                            false,
                                             isNoTheme,
                                             isDarkTheme
                                         )}
@@ -839,11 +866,10 @@ class Previewer extends React.Component<any, any> {
                                             isNoTheme,
                                             isDarkTheme
                                         )}
-                                        {this.placeHolderRender(
-                                            showSideBar
-                                                ? '345px'
-                                                : '123px',
+                                        {this.mobileTitleRender(
                                             false,
+                                            views.LIBRARY,
+                                            true,
                                             isNoTheme,
                                             isDarkTheme
                                         )}
@@ -981,9 +1007,10 @@ class Previewer extends React.Component<any, any> {
                                     isDarkTheme
                                 )}
                                 {showTocOnPhone &&
-                                    this.placeHolderRender(
-                                        '227px',
+                                    this.mobileTitleRender(
                                         false,
+                                        views.DOSSIER,
+                                        true,
                                         isNoTheme,
                                         isDarkTheme
                                     )}

@@ -71,7 +71,6 @@
     .icon-pnl_shared,
     .icon-tb_select_n,
     .icon-user-profile,
-    .icon-tb_notif_n,
     .icon-tb_comments_n,
     .icon-tb_filter_n,
     .icon-aa_font,
@@ -84,10 +83,13 @@
         margin-right: $icon-margin-right;
         color: $header-text-color;
     }
-    .icon-text-placeholder {
+    .icon-tb_notif_n {
+        color: $header-text-color;
+    }
+    .mobile-title-text {
         width: 100%;
-        height: 5px;
-        background-color: $header-text-color;
+        height: 30px;
+        color: $header-text-color;
     }
 }
 
@@ -110,20 +112,6 @@
             // make library icon a little larger to emphasize it
             &.icon-library {
                 font-size: 18px;
-            }
-        }
-        .replaced-logo-wrapper {
-            display: flex;
-            float: left;
-            height: 100%;
-            width: 25px;
-            align-items: center;
-            justify-content: center;
-            margin-left: 4.5px;
-
-            .replaced-logo {
-                max-height: $preview-panel-replaced-logo-height;
-                max-width: $preview-panel-replaced-logo-width;
             }
         }
         @include iconFeatures();
@@ -483,21 +471,13 @@
         }
 
         .ant-layout-header {
+            position: relative;
             &.no-theme {
                 .icon-library {
                     color: $mobile-primary-blue;
                 }
             }
-        }
 
-        .library-header {
-            &.no-theme {
-                background: $msdl-white;
-            }
-        }
-
-        .dossier-header {
-            position: relative;
             .toolbar-title-wrapper {
                 display: flex;
                 align-items: center;
@@ -509,18 +489,41 @@
 
                 .title {
                     width: 50px;
-                    height: 10px;
+                    line-height: 100%;
                     border-radius: 6px;
-                    background-color: $header-text-color;
+                    color: $header-text-color;
                 }
 
                 &.no-theme {
                     .title {
-                        background-color: $default-text-color;
+                        color: $default-text-color;
                     }
                 }
             }
 
+            .replaced-logo-wrapper {
+                display: flex;
+                float: left;
+                height: 100%;
+                width: 25px;
+                align-items: center;
+                justify-content: center;
+                margin-left: 4.5px;
+            
+                .replaced-logo {
+                    max-height: $preview-panel-replaced-web-logo-height;
+                    max-width: $preview-panel-replaced-web-logo-width;
+                }
+            }
+        }
+
+        .library-header {
+            &.no-theme {
+                background: $msdl-white;
+            }
+        }
+
+        .dossier-header {
             &.no-theme {
                 background: $msdl-white;
             }
@@ -601,6 +604,26 @@
                 }
             }
         }
+
+        .icon_notif_container {
+            position: relative;
+            float: right;
+            margin-right: $icon-margin-right;
+    
+            .icon_notif_badge {
+                position: absolute;
+                height: 6px;
+                width: 6px;
+                right: 0;
+                bottom: 30%;
+                border-radius: 50%;
+                background-color: $notification-badge-bg-color;
+    
+                &.no-theme {
+                    background-color: $notification-badge-light;
+                }
+            }
+        }
     }
 
     &-phone {
@@ -627,6 +650,7 @@
         }
 
         .ant-layout-header {
+            position: relative;
             height: 26px;
             padding: 0 2px 0 5px;
             text-align: center;
@@ -634,6 +658,7 @@
             background-color: $header-bg-color;
             line-height: 26px;
             font-size: $toolbar-icon-font-size;
+            box-shadow: 0 1px 0 0 rgba($mbde-pure-black, 0.1);
             @include iconFeatures();
 
             // sidebar header has slightly different color coordination
@@ -646,8 +671,8 @@
                     background-color: $primary-background-dark;
                 }
 
-                .icon-text-placeholder {
-                    background-color: $sidebar-text-color;
+                .mobile-title-text {
+                    color: $sidebar-text-color;
                 }
 
                 .mobile-icon-context_menu  {
@@ -671,12 +696,12 @@
                 margin-left: -2.5px;
             }
 
-            .icon-text-placeholder {
+            .mobile-title-text {
                 &.no-theme {
-                    background-color: $primary-text-light;
+                    color: $primary-text-light;
                 }
                 &.dark-theme {
-                    background-color: $primary-text-dark;
+                    color: $primary-text-dark;
                 }
             }
 
@@ -691,12 +716,25 @@
             .icon-tb_appicon {
                 margin-left: 0;
             }
+
+            .replaced-logo-wrapper {
+                display: flex;
+                float: left;
+                height: 100%;
+                width: 20px;
+                align-items: center;
+                justify-content: center;
+            
+                .replaced-logo {
+                    max-height: $preview-panel-replaced-mobile-logo-height;
+                    max-width: $preview-panel-replaced-mobile-logo-width;
+                }
+            }
         }
         &-content {
             flex: auto;
             height: 100%;
             padding: 0;
-            box-shadow: 0 -1px 0 0 rgba($mbde-pure-black, 0.1);
         }
         &-container {
             flex: auto;
@@ -840,6 +878,29 @@
                 }
                 &.dark-theme {
                     color: $primary-blue-dark;
+                }
+            }
+        }
+
+        .icon_notif_container {
+            position: relative;
+            float: right;
+            margin-right: $icon-margin-right;
+    
+            .icon_notif_badge {
+                position: absolute;
+                height: 6px;
+                width: 6px;
+                right: 5%;
+                top: 12%;
+                border-radius: 50%;
+                background-color: $notification-badge-bg-color;
+    
+                &.no-theme {
+                    background-color: $notification-badge-light;
+                }
+                &.dark-theme {
+                    background-color: $notification-badge-dark;
                 }
             }
         }
