@@ -26,7 +26,7 @@
     "prettier": "cd ../ && prettier --write $(git diff --cached --name-only --diff-filter d |  xargs)"
   },
   "proxy": "http://localhost:3005",
-  "license": "MIT",
+  "license": "UNLICENSED",
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@mstr/mstr-icons": "^2.0.1",
