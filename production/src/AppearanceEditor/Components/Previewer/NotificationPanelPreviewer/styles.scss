@@ -33,12 +33,27 @@
                 }
 
                 .ant-popover-title {
+                    display: grid;
+                    grid-template-columns: auto 10px;
+                    grid-gap: 6px;
                     line-height: 20px;
                     padding: 15px 15px 10px 16px;
                     border: none;
                     font-size: 16px;
                     font-weight: 300;
                     color: inherit;
+
+                    .title-text {
+                        @extend .ellipsis;
+                    }
+
+                    .icon-pnl_close {
+                        font-size: 10px;
+
+                        &::before {
+                            margin: 0;
+                        }
+                    }
                 }
 
                 .ant-popover-inner-content {
@@ -367,4 +382,12 @@
             }
         }
     }
+}
+.ellipsis {
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
 }
