@@ -148,6 +148,9 @@ export default class ContentGroupEdtior extends BasePage {
         if (tabName === 'Document') {
             await this.click({ elem: this.getContentMenuByName('Documents') })
         }
+        if (tabName === 'Report') {
+            await this.click({ elem: this.getContentMenuByName('Reports') })
+        }
         await this.waitForWebElementToDisappear(this.getLoadingContentIndicator())
     }
 

@@ -48,4 +48,32 @@ export const contentInfo =
             ]
         },
     ]
+}
+
+export const contentInfoWithReport =
+{
+    'operationList': [
+        {
+            'id': 1,
+            'op': 'add',
+            'path': '/B7CA92F04B9FAE8D941C3E9B7E0CD754',
+            'value': [
+                {
+                    'id': 'F3DA2FE611E75A9600000080EFC5B53B',
+                    'type': 3
+                }
+            ]
+        },
+        {
+            'id': 2,
+            'op': 'add',
+            'path': '/B7CA92F04B9FAE8D941C3E9B7E0CD754',
+            'value': [
+                {
+                    'id': '913F458647C9BB1627623E90A53D9009',
+                    'type': 3
+                }
+            ]
+        },
+    ]
 };

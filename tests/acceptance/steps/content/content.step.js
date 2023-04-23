@@ -77,6 +77,16 @@ Given('I create content groups by rest api', async () => {
     return mainWindow.app.sleep(500)
 })
 
+Given('I create content groups with reports by rest api', async () => {
+    const { envUrl, userName, userPwd } = browser.params.envInfo[0]
+    await createContentGroupAPI({
+        baseUrl: envUrl, credentials: { username: userName, password: userPwd },
+        contentGroupInfo: sampleRequestData.contentGroupInfoOfG1,
+        contentInfo: sampleRequestData.contentInfoWithReport
+    })
+    return mainWindow.app.sleep(500)
+})
+
 When('I select content groups by name {string} in application editor', async (contentGroupNames) => {
     await contentPage.selectContentGroupsByNames(contentGroupNames)
     return mainWindow.app.sleep(500)
