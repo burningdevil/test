@@ -7,7 +7,6 @@ import {
     libraryCustomizedIconKeys,
     libraryCustomizedIconStartVersion,
     SPECIAL_CHARACTER_REGEX,
-    GENERAL_PREVIEW_FEATURE_FLAG,
 } from '../HomeScreenConfigConstant';
 import { isLibraryServerVersionMatch } from '../../../utils';
 

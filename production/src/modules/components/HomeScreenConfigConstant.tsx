@@ -1020,7 +1020,6 @@ export const libraryCustomizedIconDefaultValues = Object.freeze({
 
 export const libraryCustomizedIconStartVersion = {
     [iconTypes.insights.key]: LIBRARY_SERVER_SUPPORT_INSIGHTS_CONTROL,
-    [iconTypes.contentDiscovery.key]: LIBRARY_SUPPORT_CONTENT_DISCOVERY_VERSION,
 };
 
 
