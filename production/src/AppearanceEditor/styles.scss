@@ -1,8 +1,8 @@
 @import '../modules/components/scss/variables.scss';
 
 .mstr-appearance-editor {
-  height: $appearance-editor-height;
-  width: $appearance-editor-width;
+  height: 100%;
+  width: 100%;
 
   .title-section {
     display: flex;
