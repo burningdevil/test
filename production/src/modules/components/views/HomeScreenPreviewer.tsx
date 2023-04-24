@@ -47,6 +47,7 @@ const classNamePrefix = 'homeScreenPreviewer';
 
 class HomeScreenPreviewer extends React.Component<any, any> {
     contentBundleEnable = false;
+    contentDiscoveryFeatureEnable = false;
     hasContent = false;
     constructor(props: any) {
         super(props);
@@ -211,6 +212,11 @@ class HomeScreenPreviewer extends React.Component<any, any> {
             iconsToRender = iconsToRender.filter(
                 (v) => v.key !== iconTypes.defaultGroup.key
             );
+        }
+        if (!this.contentDiscoveryFeatureEnable) {
+            iconsToRender = iconsToRender.filter(
+              (v) => v.key !== iconTypes.contentDiscovery.key
+          );
         }
         if(previewType !== reviewType.WEB && !isLibraryServerVersionMatch(webVersion, LIBRARY_SUPPORT_MOBILE_INSIGHTS) ){
             iconsToRender = iconsToRender.filter(
@@ -574,6 +580,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
     };
     componentWillReceiveProps(nextProps: any) {
         this.contentBundleEnable = nextProps.contentBundleFeatureEnable;
+        this.contentDiscoveryFeatureEnable = nextProps.contentDiscoveryFeatureEnable;
         this.hasContent = nextProps.hasContent;
     }
     renderPreviews(contextVersion?: string) {
@@ -790,7 +797,7 @@ class HomeScreenPreviewer extends React.Component<any, any> {
             case reviewType.WEB:
             case reviewType.DESKTOP:
                 return (
-                    
+
                     <div>
                         <div className={`${classNamePrefix}-preview-title`}>
                             {localizedStrings.PREVIEW}
@@ -1121,10 +1128,10 @@ class HomeScreenPreviewer extends React.Component<any, any> {
                     this.renderPreviews(value.webVersion ?? LIBRARY_SERVER_VERSION_THRESHOLD)
                 );
             }}
-            </WebVersionContext.Consumer> 
+            </WebVersionContext.Consumer>
         )
-        
-        
+
+
     }
 }
 const mapState = (state: RootState) => ({

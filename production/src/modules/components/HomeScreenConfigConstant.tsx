@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { LIBRARY_SERVER_SUPPORT_INSIGHTS_CONTROL } from '../../utils';
+import { LIBRARY_SERVER_SUPPORT_INSIGHTS_CONTROL, LIBRARY_SUPPORT_CONTENT_DISCOVERY_VERSION } from '../../utils';
 import { t } from '../../i18n/i18next';
 
 export const CONSTANTS = {
@@ -86,6 +86,7 @@ export const CONSTANTS = {
     ICON_MY_GROUP: 'my_groups',
     ICON_MY_CONTENT: 'my_content',
     ICON_MY_SUBSCRIBE: 'subscriptions',
+    ICON_CONTENT_DISCOVERY: 'content_discovery',
     ICON_HOME: 'home',
     ICON_FULL_SCREEN: 'fullScreen',
     ICON_NEW_DOSSIER: 'new_dossier',
@@ -130,6 +131,7 @@ export const CONSTANTS = {
     FONT_REDO: 'icon-tb_redo',
     FONT_SIDEBAR_PREVIEW_TABLET: 'icon-sidebar_preview_tablet',
     FONT_INSIGHT_LIST: 'icon-watchlist',
+    FONT_CONTENT_DISCOVERY: 'icon-content_discovery',
 
     // preview use only
     FONT_HOME: 'icon-tb_home',
@@ -411,9 +413,11 @@ export const localizedStrings = {
     ALLOW_USERS_VIEW_ALL_CONTENT_MSG: t('allowUsersViewAllContentMsg'),
     LIMIT_USERS_VIEW_ALL_CONTENT_MSG: t('limitUsersViewAllContentMsg'),
     ALLOW_USERS_VIEW_ALL_CONTENT_TIP: t('allowUsersViewAllContentTip'),
+    ALLOW_USERS_VIEW_ALL_CONTENT_TIP2: t('allowUsersViewAllContentTip2'),
     DISABLE_NEW_DOSSIER_TOOLTIP: t('disableNewDossierTooltip'),
     DISABLE_EDIT_DOSSIER_TOOLTIP: t('disableEditDossierTooltip'),
     DISABLE_NEW_DOSSIER_TOOLTIP_CONTENT: t('disableNewDossierTooltipContent'),
+    DISABLE_CONTENT_DISCOVERY_TOOLTIP: t('disableContentDiscoveryTooltip'),
     PROJECT_NAME: t('project'),
     CONTINUE: t('continue'),
     OK: t('ok'),
@@ -783,6 +787,13 @@ export const iconTypes: IconTypes = {
         iconName: CONSTANTS.FONT_MY_SUBSCRIBE,
         key: CONSTANTS.ICON_MY_SUBSCRIBE,
     },
+    contentDiscovery: {
+        displayText: t('contentDiscovery'),
+        iconName: CONSTANTS.FONT_CONTENT_DISCOVERY,
+        key: CONSTANTS.ICON_CONTENT_DISCOVERY,
+        supportTip: true,
+        tipMsg: localizedStrings.DISABLE_CONTENT_DISCOVERY_TOOLTIP,
+    },
     accountMobile: {
         displayText: t('accountMobile'),
         iconName: CONSTANTS.FONT_OPTIONS,
@@ -960,6 +971,7 @@ export const childrenIcons = [
     iconTypes.recents,
     iconTypes.insights,
     iconTypes.mySubscribe,
+    iconTypes.contentDiscovery,
     iconTypes.defaultGroup,
     iconTypes.myGroup,
     iconTypes.accountMobile,
@@ -985,7 +997,8 @@ export const libraryCustomizedIcons = [
     iconTypes.hyper,
     iconTypes.aaFont,
     iconTypes.undoRedo,
-    iconTypes.insights
+    iconTypes.insights,
+    iconTypes.contentDiscovery,
 ];
 export const libraryCustomizedIconKeys = libraryCustomizedIcons.map(
     (element) => element.key
@@ -1002,10 +1015,12 @@ export const libraryCustomizedIconDefaultValues = Object.freeze({
     [iconTypes.aaFont.key]: true,
     [iconTypes.undoRedo.key]: true,
     [iconTypes.insights.key]: true,
+    [iconTypes.contentDiscovery.key]: false,
 });
 
 export const libraryCustomizedIconStartVersion = {
     [iconTypes.insights.key]: LIBRARY_SERVER_SUPPORT_INSIGHTS_CONTROL,
+    [iconTypes.contentDiscovery.key]: LIBRARY_SUPPORT_CONTENT_DISCOVERY_VERSION,
 };
 
 
