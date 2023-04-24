@@ -1,7 +1,7 @@
 import * as React from 'react';
 import classnames from 'classnames';
 import { Popover } from 'antd';
-import { reviewType } from '../../../../modules/components/HomeScreenConfigConstant';
+import { reviewType, localizedStrings } from '../../../../modules/components/HomeScreenConfigConstant';
 import './styles.scss';
 
 type NotificationPanelPreviewerType = {
@@ -12,6 +12,21 @@ type NotificationPanelPreviewerType = {
 }
 
 const NotificationPanelPreviewer: React.FC<NotificationPanelPreviewerType> = ({ deviceType, isNoTheme, isDarkTheme, previewerClassName }) => {
+    // replaces placeholders in string with a JSX bold span element 
+    const replacePlaceholdersWithBoldString = (originalString: string, replacementStrings: Array<string>) => {
+        const placeholderRegex = /{{[a-zA-Z]+}}/;
+        const splitString = originalString.split(placeholderRegex);
+        let replacedStringArr = [];
+        for (let i = 0; i < replacementStrings.length; i++) {
+            replacedStringArr.push([
+                splitString[i],
+                <span style={{ fontWeight: '600' }}>{replacementStrings[i]}</span>
+            ]);
+        };
+
+        return replacedStringArr;
+    };
+
     const renderNotificationPanelPreview = (deviceType: string) => {
         const notificationDate = '08/24/2021';
         const notificationListDiv = (
@@ -21,7 +36,7 @@ const NotificationPanelPreviewer: React.FC<NotificationPanelPreviewerType> = ({ 
                         <div className={classnames('notification-icn', 'n1')} />
                         <div className={classnames('notification-content', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}>
                             <div className='header'>
-                                You have 1 new message in a discussion in <span>Discussion</span>.
+                                {replacePlaceholdersWithBoldString(localizedStrings.SAMPLE_NOTIFICATION_TITLE_1, ['Travel Agency Transactions'])}
                             </div>
                             <div className={classnames('date', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}>{notificationDate}</div>
                         </div>
@@ -32,10 +47,10 @@ const NotificationPanelPreviewer: React.FC<NotificationPanelPreviewerType> = ({ 
                         <div className={classnames('notification-icn', 'n2')} />
                             <div className={classnames('notification-content', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}>
                                 <div className='header'>
-                                    <span>User A</span> shared <span>Dossier A</span> with you.
+                                    {replacePlaceholdersWithBoldString(localizedStrings.SAMPLE_NOTIFICATION_TITLE_2, ['James Ortega', 'Bitcoin Analytics'])}
                                 </div>
                                 <div className='subheader'>
-                                    Hi, here is the information I mentioned in our discussion earlier today. Thanks!
+                                    {localizedStrings.SAMPLE_NOTIFICATION_SUBTITLE_1}
                                 </div>
                                 <div className={classnames('date', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}>{notificationDate}</div>
                         </div>
@@ -46,14 +61,14 @@ const NotificationPanelPreviewer: React.FC<NotificationPanelPreviewerType> = ({ 
                         <div className={classnames('notification-icn', 'n3')} />
                             <div className={classnames('notification-content', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}>
                                 <div className='header'>
-                                    <span>User B</span> shared <span>Dossier B</span> with you.
+                                    {replacePlaceholdersWithBoldString(localizedStrings.SAMPLE_NOTIFICATION_TITLE_2, ['Skyla Gonzalez', 'Retail Insights'])}
                                 </div>
                                 <div className='subheader'>
-                                    Here's the bookmark to find our features.
+                                    {localizedStrings.SAMPLE_NOTIFICATION_SUBTITLE_2}
                                 </div>
                                 <div className='btn-row'>
-                                    <div className={classnames('accept-btn', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}>Accept</div>
-                                    <div className={classnames('ignore-btn', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}>Ignore</div>
+                                    <div className={classnames('accept-btn', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}>{localizedStrings.ACCEPT}</div>
+                                    <div className={classnames('ignore-btn', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}>{localizedStrings.IGNORE}</div>
                                 </div>
                             <div className={classnames('date', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}>{notificationDate}</div>
                         </div>
@@ -67,7 +82,7 @@ const NotificationPanelPreviewer: React.FC<NotificationPanelPreviewerType> = ({ 
                 const popoverContent = (
                     <React.Fragment>
                         {notificationListDiv}
-                        <div className={classnames('clear-btn', { 'no-theme': isNoTheme })}>Clear All</div>
+                        <div className={classnames('clear-btn', { 'no-theme': isNoTheme })}>{localizedStrings.CLEAR_ALL}</div>
                     </React.Fragment>
                 );
                 return (
@@ -77,7 +92,7 @@ const NotificationPanelPreviewer: React.FC<NotificationPanelPreviewerType> = ({ 
                         content={popoverContent}
                         title={(
                             <React.Fragment>
-                                <div className='title-text' title={'Notifications' /*TBA: i18n*/}>Notifications</div>
+                                <div className='title-text' title={localizedStrings.NOTIFICATIONS}>{localizedStrings.NOTIFICATIONS}</div>
                                 <div className='icon-pnl_close' />
                             </React.Fragment>
                         )}
@@ -96,9 +111,9 @@ const NotificationPanelPreviewer: React.FC<NotificationPanelPreviewerType> = ({ 
                         { 'dark-theme': isDarkTheme }
                     )}>
                         <div className={classnames('notification-panel-title-section', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}>
-                            <div className={classnames('close-btn', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}>Close</div>
-                            <div className={classnames('edit-btn', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}>Edit</div>
-                            <div className={classnames('title-text', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}>Notifications</div>
+                            <div className={classnames('close-btn', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}>{localizedStrings.CLOSE}</div>
+                            <div className={classnames('edit-btn', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}>{localizedStrings.EDIT}</div>
+                            <div className={classnames('title-text', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}>{localizedStrings.NOTIFICATIONS}</div>
                         </div>
                         {notificationListDiv}
                     </div>
