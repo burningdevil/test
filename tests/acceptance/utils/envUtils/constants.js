@@ -69,7 +69,7 @@ const resetWinEnv = function resetWinEnv() {
 }
 
 // export
-export const APPIUM_SERVER_URL = 'http://localhost:4723/wd/hub'
+export const APPIUM_SERVER_URL = 'http://127.0.0.1:4723/wd/hub'
 export const MAC_XPATH = macXPath
 export const MAC_XPATH_GENERAL = macXPath.general
 export const OSType = setValuePerPlatform('windows', 'mac')

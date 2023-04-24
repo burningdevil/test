@@ -33,7 +33,7 @@ else
   export WS_TEST_PLATFORM=mac
 fi
 
-nodejs_version="16.19.1"
+nodejs_version="18.15.0"
 export nodejs_image_tag=$nodejs_version
 if uname -a | grep -q "Darwin"; then
   export NODE_HOME=/usr/local/nodejs-binary-$nodejs_version
@@ -49,7 +49,5 @@ fi
 
 export BASE_BRANCH='m2021'
 export BRANCH_OFF_COMMIT=22f24cb2538bc2a8aaacad316417bbd93ae6a852
-
-export BASE_VERSION=0
 
 export BASE_VERSION=0
