@@ -47,7 +47,7 @@ const NotificationPanelPreviewer: React.FC<NotificationPanelPreviewerType> = ({ 
                         <div className={classnames('notification-icn', 'n2')} />
                             <div className={classnames('notification-content', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}>
                                 <div className='header'>
-                                    {replacePlaceholdersWithBoldString(localizedStrings.SAMPLE_NOTIFICATION_TITLE_2, ['James Ortega', 'Bitcoin Analytics'])}
+                                    {replacePlaceholdersWithBoldString(localizedStrings.SAMPLE_NOTIFICATION_TITLE_2, ['Smith, Cassie', 'Bitcoin Analytics'])}
                                 </div>
                                 <div className='subheader'>
                                     {localizedStrings.SAMPLE_NOTIFICATION_SUBTITLE_1}
@@ -61,7 +61,7 @@ const NotificationPanelPreviewer: React.FC<NotificationPanelPreviewerType> = ({ 
                         <div className={classnames('notification-icn', 'n3')} />
                             <div className={classnames('notification-content', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}>
                                 <div className='header'>
-                                    {replacePlaceholdersWithBoldString(localizedStrings.SAMPLE_NOTIFICATION_TITLE_2, ['Skyla Gonzalez', 'Retail Insights'])}
+                                    {replacePlaceholdersWithBoldString(localizedStrings.SAMPLE_NOTIFICATION_TITLE_2, ['Hurtt, Mike', 'Retail Insights'])}
                                 </div>
                                 <div className='subheader'>
                                     {localizedStrings.SAMPLE_NOTIFICATION_SUBTITLE_2}
