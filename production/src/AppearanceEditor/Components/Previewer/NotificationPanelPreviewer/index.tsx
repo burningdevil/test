@@ -17,10 +17,10 @@ const NotificationPanelPreviewer: React.FC<NotificationPanelPreviewerType> = ({ 
         const placeholderRegex = /{{[a-zA-Z]+}}/;
         const splitString = originalString.split(placeholderRegex);
         let replacedStringArr = [];
-        for (let i = 0; i < replacementStrings.length; i++) {
+        for (let i = 0; i < splitString.length; i++) {
             replacedStringArr.push([
                 splitString[i],
-                <span style={{ fontWeight: '600' }} key={i}>{replacementStrings[i]}</span>
+                replacementStrings[i] ? <span style={{ fontWeight: '600' }} key={i}>{replacementStrings[i]}</span> : null
             ]);
         };
 
