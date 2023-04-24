@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'dossier';
-  src: url('../font/dossier.eot?4026054');
-  src: url('../font/dossier.eot?4026054#iefix') format('embedded-opentype'),
-       url('../font/dossier.woff2?4026054') format('woff2'),
-       url('../font/dossier.woff?4026054') format('woff'),
-       url('../font/dossier.ttf?4026054') format('truetype'),
-       url('../font/dossier.svg?4026054#dossier') format('svg');
+  src: url('../font/dossier.eot?97580370');
+  src: url('../font/dossier.eot?97580370#iefix') format('embedded-opentype'),
+       url('../font/dossier.woff2?97580370') format('woff2'),
+       url('../font/dossier.woff?97580370') format('woff'),
+       url('../font/dossier.ttf?97580370') format('truetype'),
+       url('../font/dossier.svg?97580370#dossier') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -15,7 +15,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'dossier';
-    src: url('../font/dossier.svg?4026054#dossier') format('svg');
+    src: url('../font/dossier.svg?97580370#dossier') format('svg');
   }
 }
 */
@@ -129,7 +129,7 @@
 .icon-comments11:before { content: '\e848'; } /* '' */
 .icon-views:before { content: '\e849'; } /* '' */
 .icon-updated:before { content: '\e84a'; } /* '' */
-.icon-info13:before { content: '\e84b'; } /* '' */
+.icon-info-1:before { content: '\e84b'; } /* '' */
 .icon-certified:before { content: '\e84c'; } /* '' */
 .icon-cert-check:before { content: '\e84d'; } /* '' */
 .icon-rsd-cover:before { content: '\e84e'; } /* '' */
@@ -203,7 +203,7 @@
 .icon-stop:before { content: '\e892'; } /* '' */
 .icon-play:before { content: '\e893'; } /* '' */
 .icon-profiler:before { content: '\e894'; } /* '' */
-.icon-minimize:before { content: '\e895'; } /* '' */
+.icon-minimize-1:before { content: '\e895'; } /* '' */
 .icon-gear:before { content: '\e896'; } /* '' */
 .icon-dldossier:before { content: '\e897'; } /* '' */
 .icon-dldossier_sm:before { content: '\e898'; } /* '' */
@@ -367,4 +367,34 @@
 .icon-auth-report:before { content: '\e936'; } /* '' */
 .icon-stream_pause:before { content: '\e937'; } /* '' */
 .icon-stream_resume:before { content: '\e938'; } /* '' */
-.icon-re-execute:before { content: '\e93b'}/* '' */
+.icon-recents:before { content: '\e939'; } /* '' */
+.icon-dossier-template:before { content: '\e93a'; } /* '' */
+.icon-reexecute:before { content: '\e93b'; } /* '' */
+.icon-cont_insight:before { content: '\e93c'; } /* '' */
+.icon-cube:before { content: '\e93d'; } /* '' */
+.icon-drill:before { content: '\e93e'; } /* '' */
+.icon-maximize:before { content: '\e93f'; } /* '' */
+.icon-minimize:before { content: '\e940'; } /* '' */
+.icon-tb_create_dossier_a:before { content: '\e941'; } /* '' */
+.icon-import:before { content: '\e942'; } /* '' */
+.icon-info_updated:before { content: '\e943'; } /* '' */
+.icon-info_created:before { content: '\e944'; } /* '' */
+.icon-info_dataset:before { content: '\e945'; } /* '' */
+.icon-info_theme:before { content: '\e946'; } /* '' */
+.icon-info_toc:before { content: '\e947'; } /* '' */
+.icon-info_dossier:before { content: '\e948'; } /* '' */
+.icon-info_certified:before { content: '\e949'; } /* '' */
+.icon-export:before { content: '\e94a'; } /* '' */
+.icon-orientation-tall:before { content: '\e94b'; } /* '' */
+.icon-report-filter-group:before { content: '\e94c'; } /* '' */
+.icon-report-filter-ungroup:before { content: '\e94d'; } /* '' */
+.icon-create-group-lg:before { content: '\e94e'; } /* '' */
+.icon-not:before { content: '\e94f'; } /* '' */
+.icon-orientation-wide:before { content: '\e950'; } /* '' */
+.icon-share_csv:before { content: '\e951'; } /* '' */
+.icon-pnl_favorite:before { content: '\e952'; } /* '' */
+.icon-content_discovery:before { content: '\e953'; } /* '' */
+.icon-add-to-library:before { content: '\e954'; } /* '' */
+.icon-folder_solid:before { content: '\e955'; } /* '' */
+.icon-dossier-in-library-badge:before { content: '\e956'; } /* '' */
+.icon-sort_clear:before { content: '\e959'; } /* '' */

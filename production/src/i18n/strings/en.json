@@ -329,6 +329,7 @@
     "allowUsersViewAllContentMsg": "Allow users to view and create new content",
     "limitUsersViewAllContentMsg": "Limit Library content in this application to above Content Groups",
     "allowUsersViewAllContentTip": "Users can view the Content Groups added above if they have been added as recipients.",
+    "allowUsersViewAllContentTip2": "If the first option is selected, the entry point of 'Content Discovery' will be disabled automatically.",
     "insightsWebOnly": "Insights(Web only)",
     "nameInWorkstation": "Name in Workstation",
     "customAppsNotSupported": "Custom Application is not supported on this environment.",
@@ -341,5 +342,7 @@
     "currentApplication": "Current application",
     "properties": "Properties",
     "openContentGroupEditorError": "Open content group editor failed with error",
-    "openObjectPropertiesError": "Open object properties failed with error"
+    "openObjectPropertiesError": "Open object properties failed with error",
+    "contentDiscovery": "Content Discovery",
+    "disableContentDiscoveryTooltip": "Library content is set to limit to the content groups only."
 }
