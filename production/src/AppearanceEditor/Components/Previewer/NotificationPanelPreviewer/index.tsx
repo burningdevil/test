@@ -20,7 +20,7 @@ const NotificationPanelPreviewer: React.FC<NotificationPanelPreviewerType> = ({ 
         for (let i = 0; i < replacementStrings.length; i++) {
             replacedStringArr.push([
                 splitString[i],
-                <span style={{ fontWeight: '600' }}>{replacementStrings[i]}</span>
+                <span style={{ fontWeight: '600' }} key={i}>{replacementStrings[i]}</span>
             ]);
         };
 
