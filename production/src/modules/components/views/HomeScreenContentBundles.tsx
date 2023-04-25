@@ -11,7 +11,7 @@ import { default as VC } from '../HomeScreenConfigConstant'
 import { Tooltip, Select } from '@mstr/rc';
 import { Environment } from '@mstr/workstation-types';
 import { getFeatureFlag } from './HomeScreenUtils';
-import { LIBRARY_SUPPORT_CONTENT_DISCOVERY_VERSION, isLibraryServerVersionMatch } from 'src/utils';
+import { LIBRARY_SUPPORT_CONTENT_DISCOVERY_VERSION, isLibraryServerVersionMatch } from '../../../utils';
 const { Option } = Select;
 const classNamePrefix = 'home-screen-bundle-content';
 const bundleIdPath = 'homeScreen.homeLibrary.contentBundleIds';
@@ -76,8 +76,17 @@ class HomeScreenContentBundles extends React.Component<any, HomeScreenContentBun
     });
   }
 
+
   render() {
-    const contentDiscoveryShow = this.state.contentDiscoveryFeatureEnable;
+    const contentDiscoveryTooltip = this.state.contentDiscoveryFeatureEnable ?
+    (
+      <>
+      { localizedStrings.ALLOW_USERS_VIEW_ALL_CONTENT_TIP }
+      <br/>
+      <br/>
+      { localizedStrings.ALLOW_USERS_VIEW_ALL_CONTENT_TIP2}
+      </>
+    ) : localizedStrings.ALLOW_USERS_VIEW_ALL_CONTENT_TIP;
     return (
       <div className={`${classNamePrefix}-container`}>
         <ContentBundleList includedIds = {this.props.contentBundleIds} handleSelection = {this.handleSelection} handleDeletion = {this.handleBundleDelete} handleAdd = {this.handleBundleAdd} allowDelete={true}/>
@@ -92,18 +101,11 @@ class HomeScreenContentBundles extends React.Component<any, HomeScreenContentBun
                     </Select>
             }
             {/* should be differnt when content discovery is not available. Tooltip did not support new line, use JSX instead. */}
-            {contentDiscoveryShow && <Tooltip
-              title={<span>{localizedStrings.ALLOW_USERS_VIEW_ALL_CONTENT_TIP}<br/><br/>{localizedStrings.ALLOW_USERS_VIEW_ALL_CONTENT_TIP2}</span>}
+            <Tooltip
+              title={contentDiscoveryTooltip}
               placement='rightTop'>
               <span className={VC.FONT_MSG_INFO}> </span>
             </Tooltip>
-            }
-            {!contentDiscoveryShow && <Tooltip
-              title={localizedStrings.ALLOW_USERS_VIEW_ALL_CONTENT_TIP}
-              placement='rightTop'>
-              <span className={VC.FONT_MSG_INFO}> </span>
-            </Tooltip>
-            }
           </>}
 
           {
