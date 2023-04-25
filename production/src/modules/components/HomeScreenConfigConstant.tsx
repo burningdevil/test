@@ -435,6 +435,16 @@ export const localizedStrings = {
 
     // Appearance Editor strings
     PAGE_NAME: t('pageName'),
+    NOTIFICATION_PANEL: t('notificationPanel'),
+    NOTIFICATIONS: t('notifications'),
+    SAMPLE_NOTIFICATION_TITLE_1: t('sampleNotificationTitle1'),
+    SAMPLE_NOTIFICATION_TITLE_2: t('sampleNotificationTitle2'),
+    SAMPLE_NOTIFICATION_SUBTITLE_1: t('sampleNotificationSubtitle1'),
+    SAMPLE_NOTIFICATION_SUBTITLE_2: t('sampleNotificationSubtitle2'),
+    ACCEPT: t('accept'),
+    IGNORE: t('ignore'),
+    CLOSE: t('close'),
+    CLEAR_ALL: t('clearAll'),
 
     // Environment Connection strings
     ENVIRONMENT_WS_NAME_TOOLTIP: t('nameInWorkstation'),
