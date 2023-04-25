@@ -1,11 +1,13 @@
 @import '~@mstr/rc/es/assets/scss/variables.scss';
 @import './variables.scss';
 
+$extra-container-height: 22px;
+
 $background-color: rgba(255, 255, 255, .7);
 $container-width: 274px;
 $container-width-phone: 103px;
 $preview-width: 241px;
-$preview-height: 162px;
+$preview-height: calc(162px + $extra-container-height);
 $preview-width-phone: 121px;
 $preview-header-height: 19px;
 $sidebar-width: 91px;
@@ -78,7 +80,7 @@ $tablet-scale: 0.85;
     .icon-pnl_shared,
     .icon-tb_select_n,
     .icon-user-profile,
-    
+
     .icon-tb_notif_n,
     .icon-tb_comments_n,
     .icon-tb_filter_n,
@@ -87,7 +89,7 @@ $tablet-scale: 0.85;
         float: right;
         margin-right: 4.5px;
         color: $color;
-    } 
+    }
 }
 
 @mixin padOrWebSetting($color) {
@@ -140,7 +142,7 @@ $tablet-scale: 0.85;
             line-height: $line-height-side;
             font-family: $font-family;
 
-            &-text {        
+            &-text {
                 display: flex;
                 align-items: center;
                 max-width: 97px;
@@ -177,13 +179,13 @@ $tablet-scale: 0.85;
             flex-direction: row;
             background-color: $background-color;
             padding: 10px;
-            display: flex;  
+            display: flex;
             justify-content: space-between;
 
             &-library {
                 width: 50%;
                 height: 100%;
-                background: url('../images/library-home-dossiers.svg') repeat-y; 
+                background: url('../images/library-home-dossiers.svg') repeat-y;
             }
 
             &-library-nosidebar {
@@ -196,13 +198,14 @@ $tablet-scale: 0.85;
             &-dossier {
                 width: 100%;
                 height: 100%;
-                background: url('../images/dossier-window-vis.svg') no-repeat; 
+                margin-top: calc($extra-container-height / 2);
+                background: url('../images/dossier-window-vis.svg') no-repeat;
             }
 
             &-dossier-nobar {
                 width: 100%;
                 height: 100%;
-                margin-top: 5px;
+                margin-top: calc(5px + $extra-container-height / 2);
                 background: url('../images/dossier-window-vis-notoolbar.svg') no-repeat;
             }
         }
@@ -234,19 +237,19 @@ $tablet-scale: 0.85;
     }
     &-overlay-icon {
         position: absolute;
-        z-index: 103; 
+        z-index: 103;
 
         font-size: 9px;
         padding: 3px 3px;
     }
     &-overlay-icon-custom {
         position: absolute;
-        z-index: 103; 
+        z-index: 103;
         margin-top: -2px;
         font-size: 9px;
         padding: 0 3px 5px 3px;
     }
-    
+
     .ant-radio-button-wrapper {
         font-size: $font-size-mini;
         font-weight: 400;
@@ -282,7 +285,7 @@ $tablet-scale: 0.85;
             box-shadow: none !important;
         }
     }
-    
+
     &-horcontainer {
         display: flex;
         flex-direction: row;
@@ -334,7 +337,7 @@ $tablet-scale: 0.85;
             border-radius: 2px;
             padding-left: 3px;
             background-color: $background-color;
-            
+
             border: .03rem solid lightgrey;
             display: flex;
             flex: auto;
@@ -387,7 +390,7 @@ $tablet-scale: 0.85;
             padding: 4px;
             border: .03rem solid lightgrey;
             background-color: $background-color !important;
-             
+
             &-library {
                 width: 100%;
                 height: 100%;
@@ -397,7 +400,7 @@ $tablet-scale: 0.85;
             &-dossier {
                 width: 100%;
                 height: 100%;
-                margin: 10px 0;
+                margin: calc(10px + $extra-container-height / 2) 0;
                 background: url('../images/dossier-vis-on-phone.svg') no-repeat;
             }
 
@@ -408,7 +411,7 @@ $tablet-scale: 0.85;
                 background: url('../images/dossier-vis-on-phone.svg') repeat-y;
             }
         }
-        
+
         &-footer {
             padding: 0;
             width: 100%;
@@ -488,7 +491,7 @@ $tablet-scale: 0.85;
             // border: 1px solid lightgrey;
             border-left: 0 !important;
             background-color: $background-color;
-             
+
             &-library {
                 width: 100%;
                 height: 100%;
@@ -509,8 +512,8 @@ $tablet-scale: 0.85;
                 background: url('../images/dossier-vis-on-phone.svg') repeat-y;
             }
         }
-        
-        
+
+
     }
     &-tablet-content {
         width: $container-width - $sidebar-width;
@@ -547,7 +550,7 @@ $tablet-scale: 0.85;
             line-height: 24px;
             background-color: $background-color;
             font-size: $font-size-mini;
-            @include iconFeatures($mobile-primary-blue) 
+            @include iconFeatures($mobile-primary-blue)
         }
         &-content {
             flex: auto;
@@ -560,7 +563,7 @@ $tablet-scale: 0.85;
             padding: 4px;
             border: 0.3px solid lightgrey;
             background-color: $background-color;
-             
+
             &-library {
                 width: 100%;
                 height: 100%;
@@ -581,8 +584,8 @@ $tablet-scale: 0.85;
                 background: url('../images/dossier-vis-on-phone.svg') repeat-y;
             }
         }
-        
-        
+
+
     }
     &-pad {
         .dossier-header {

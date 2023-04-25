@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { LIBRARY_SERVER_SUPPORT_INSIGHTS_CONTROL, LIBRARY_SUPPORT_CONTENT_DISCOVERY_VERSION } from '../../utils';
+import { LIBRARY_SERVER_SUPPORT_CONTENT_GROUP_VERSION, LIBRARY_SERVER_SUPPORT_INSIGHTS_CONTROL, LIBRARY_SUPPORT_CONTENT_DISCOVERY_VERSION } from '../../utils';
 import { t } from '../../i18n/i18next';
 
 export const CONSTANTS = {
@@ -1020,6 +1020,7 @@ export const libraryCustomizedIconDefaultValues = Object.freeze({
 
 export const libraryCustomizedIconStartVersion = {
     [iconTypes.insights.key]: LIBRARY_SERVER_SUPPORT_INSIGHTS_CONTROL,
+    [iconTypes.contentDiscovery.key]: LIBRARY_SUPPORT_CONTENT_DISCOVERY_VERSION,
 };
 
 
