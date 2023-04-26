@@ -266,7 +266,7 @@ export const colorPropTitles = [
                 name: EnumFormattingPropNames.sidebarColor
             },
             {
-                displayName: t('active'),
+                displayName: t('activeBackground'),
                 name: EnumFormattingPropNames.sidebarActiveFill
             },
             {
