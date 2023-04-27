@@ -319,35 +319,31 @@
             }
 
             .library-content-list {
-                flex: auto;
-                flex-direction: row;
+                display: grid;
+                height: calc(100% - 17px);
+                width: 100%;
+                grid-template-columns: 1fr 1fr 1fr;
+                grid-template-rows: 1fr 1fr;
                 padding: 8px $overview-right-padding $overview-right-padding;
-                display: flex;
                 justify-content: space-between;
 
                 .library-item-col {
-                    width: 50%;
+                    width: 100%;
                     height: 100%;
                     background: url("../../../modules/components/images/library-preview-sample.svg") no-repeat;
                 }
+            }
 
-                .library-nosidebar {
-                    margin-left: 5px;
-                    width: 33%;
-                    height: 100%;
-                    background: url("../../../modules/components/images/library-preview-sample.svg") no-repeat;
-                }
-
+            .dossier-content-list {
+                display: flex;
+                flex: auto;
+                flex-direction: row;
+                padding: 8px $overview-right-padding $overview-right-padding;
+                justify-content: space-between;
+                
                 .dossier-item-col {
                     width: 100%;
                     height: 100%;
-                    background: url("../../../modules/components/images/dossier-preview-sample.svg") no-repeat center;
-                }
-
-                .dossier-nobar {
-                    width: 100%;
-                    height: 100%;
-                    margin-top: 5px;
                     background: url("../../../modules/components/images/dossier-preview-sample.svg") no-repeat center;
                 }
             }
@@ -743,14 +739,13 @@
 
             .library-content-list {
                 display: grid;
-                grid-template-rows: 1fr 1fr;
-                grid-template-columns: 1fr 1fr;
-                grid-gap: 4px;
                 height: 100%;
                 width: 100%;
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: 1fr 1fr 1fr;
+                grid-gap: 4px;
                 background-color: $canvas-bg-color;
-
-                padding: 8px $overview-right-padding $overview-right-padding;
+                padding: 12px 4px 0;
                 justify-content: space-between;
 
                 &.no-theme {
@@ -758,34 +753,6 @@
                 }
                 &.dark-theme {
                     background-color: $secondary-background-dark;
-                }
-
-                .library-item-col {
-                    width: 100%;
-                    height: 100%;
-                    background: url("../../../modules/components/images/library-preview-sample.svg") no-repeat;
-                    background-size: 152px;
-                    background-position: 5px;
-                }
-
-                .library-nosidebar {
-                    margin-left: 5px;
-                    width: 33%;
-                    height: 100%;
-                    background: url("../../../modules/components/images/library-preview-sample.svg") no-repeat;
-                }
-
-                .dossier-item-col {
-                    width: 100%;
-                    height: 100%;
-                    background: url("../../../modules/components/images/dossier-preview-sample.svg") no-repeat center;
-                }
-
-                .dossier-nobar {
-                    width: 100%;
-                    height: 100%;
-                    margin-top: 5px;
-                    background: url("../../../modules/components/images/dossier-preview-sample.svg") no-repeat center;
                 }
             }
 

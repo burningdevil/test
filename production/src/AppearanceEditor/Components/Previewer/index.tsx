@@ -34,6 +34,7 @@ import {
     prefinedColorSets,
 } from '../../utils/appThemeColorHelper';
 import NotificationPanelPreviewer from './NotificationPanelPreviewer';
+import DossierTilePreviewer from './DossierTilePreviewer';
 
 const classNamePrefix = 'Previewer';
 const views = {
@@ -796,21 +797,13 @@ class Previewer extends React.Component<any, any> {
                                                 </div>
                                             </div>
                                             <div className="library-content-list">
-                                                {
-                                                    <div className="library-item-col">
-                                                        {' '}
-                                                    </div>
-                                                }
-                                                {
-                                                    <div className="library-item-col">
-                                                        {' '}
-                                                    </div>
-                                                }
-                                                {
-                                                    <div className="library-item-col">
-                                                        {' '}
-                                                    </div>
-                                                }
+                                                    {
+                                                        Array.from({ length: 6 })
+                                                            .map((_, idx) => (
+                                                                <DossierTilePreviewer key={idx} deviceType={deviceType} isNoTheme={isNoTheme} isDarkTheme={isDarkTheme} previewerClassName={this.previewerClassName} />
+                                                            )    
+                                                        )
+                                                    }
                                             </div>
                                         </div>
                                     </div>
@@ -883,24 +876,11 @@ class Previewer extends React.Component<any, any> {
                                     >
                                         <div className={classnames('library-content-list', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}>
                                             {
-                                                <div className="library-item-col">
-                                                    {' '}
-                                                </div>
-                                            }
-                                            {
-                                                <div className="library-item-col">
-                                                    {' '}
-                                                </div>
-                                            }
-                                            {
-                                                <div className="library-item-col">
-                                                    {' '}
-                                                </div>
-                                            }
-                                            {
-                                                <div className="library-item-col">
-                                                    {' '}
-                                                </div>
+                                                Array.from({ length: 6 })
+                                                    .map((_, idx) => (
+                                                        <DossierTilePreviewer key={idx} deviceType={deviceType} isNoTheme={isNoTheme} isDarkTheme={isDarkTheme} previewerClassName={this.previewerClassName} />
+                                                    )    
+                                                )
                                             }
                                         </div>
                                     </Layout>
@@ -976,18 +956,8 @@ class Previewer extends React.Component<any, any> {
                                             '-overview-right'
                                         )}
                                     >
-                                        <div className="library-content-list">
-                                            {!hideHeader && (
-                                                <div className="dossier-item-col" />
-                                            )}
-                                            {hideHeader && (
-                                                <div
-                                                    className={this.previewerClassName(
-                                                        deviceType,
-                                                        '-overview-right-dossier-nobar'
-                                                    )}
-                                                />
-                                            )}
+                                        <div className="dossier-content-list">
+                                            <div className="dossier-item-col" />
                                         </div>
                                     </div>
                                 </div>
