@@ -445,6 +445,7 @@ export const localizedStrings = {
     IGNORE: t('ignore'),
     CLOSE: t('close'),
     CLEAR_ALL: t('clearAll'),
+    DOSSIER_NAME: t('dossierName'),
 
     // Environment Connection strings
     ENVIRONMENT_WS_NAME_TOOLTIP: t('nameInWorkstation'),

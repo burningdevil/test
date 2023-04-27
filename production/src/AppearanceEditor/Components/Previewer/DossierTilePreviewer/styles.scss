@@ -1,0 +1,77 @@
+@import "~@mstr/rc/es/assets/scss/variables.scss";
+@import "../../../../modules/components/scss/variables.scss";
+@import "../previewer-constants.scss";
+
+
+.Previewer {
+    &-web {
+        &-library-dossier-tile {
+            height: 94px;
+            width: 114px;
+            margin: 2px 4px;
+            border-radius: 1px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+        
+            .dossier-background {
+                height: calc(100% - 34px);
+                width: 100%;
+                background: url('../../../../modules/components/images/dossier-item-background.svg');
+                border-top-left-radius: inherit;
+                border-top-right-radius: inherit;
+            }
+        
+            .dossier-name {
+                height: 34px;
+                width: 100%;
+                line-height: 34px;
+                text-align: center;
+                background-color: $panel-bg-color;
+                color: $panel-text-color;
+                font-size: 10px;
+        
+                &.no-theme {
+                    background-color: $msdl-white;
+                    color: $default-panel-text;
+                }
+            }
+        }
+    }
+
+    &-phone {
+        &-library-dossier-tile {
+            height: 62px;
+            width: 75px;
+            margin: 2px 4px;
+            border-radius: 1px;
+            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.12);
+        
+            .dossier-background {
+                height: calc(100% - 20px);
+                width: 100%;
+                background: url('../../../../modules/components/images/dossier-item-background.svg');
+                background-size: 82px;
+                border-top-left-radius: inherit;
+                border-top-right-radius: inherit;
+            }
+        
+            .dossier-name {
+                height: 20px;
+                width: 100%;
+                line-height: 20px;
+                text-align: center;
+                background-color: $panel-bg-color;
+                color: $panel-text-color;
+                font-size: 8px;
+        
+                &.no-theme {
+                    background-color: $primary-background-light;
+                    color: $primary-text-light;
+                }
+                &.dark-theme {
+                    background-color: $primary-background-dark;
+                    color: $primary-text-dark;
+                }
+            }
+        }
+    }
+}
