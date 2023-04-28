@@ -355,5 +355,5 @@
     "openContentGroupEditorError": "Open content group editor failed with error",
     "openObjectPropertiesError": "Open object properties failed with error",
     "contentDiscovery": "Content Discovery",
-    "disableContentDiscoveryTooltip": "Library content is set to limit to the content groups only."
+    "disableContentDiscoveryTooltip": "Please select 'Allow users to view and create new content' in the Contents tab to enable this option"
 }
