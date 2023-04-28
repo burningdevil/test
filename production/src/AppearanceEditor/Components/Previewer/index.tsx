@@ -800,7 +800,7 @@ class Previewer extends React.Component<any, any> {
                                                     {
                                                         Array.from({ length: 6 })
                                                             .map((_, idx) => (
-                                                                <DossierTilePreviewer key={idx} deviceType={deviceType} isNoTheme={isNoTheme} isDarkTheme={isDarkTheme} previewerClassName={this.previewerClassName} />
+                                                                <DossierTilePreviewer key={`tile${idx}`} deviceType={deviceType} isNoTheme={isNoTheme} isDarkTheme={isDarkTheme} previewerClassName={this.previewerClassName} />
                                                             )    
                                                         )
                                                     }
@@ -878,7 +878,7 @@ class Previewer extends React.Component<any, any> {
                                             {
                                                 Array.from({ length: 6 })
                                                     .map((_, idx) => (
-                                                        <DossierTilePreviewer key={idx} deviceType={deviceType} isNoTheme={isNoTheme} isDarkTheme={isDarkTheme} previewerClassName={this.previewerClassName} />
+                                                        <DossierTilePreviewer key={`tile${idx}`} deviceType={deviceType} isNoTheme={isNoTheme} isDarkTheme={isDarkTheme} previewerClassName={this.previewerClassName} />
                                                     )    
                                                 )
                                             }
