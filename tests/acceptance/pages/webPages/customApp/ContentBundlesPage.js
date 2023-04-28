@@ -33,6 +33,10 @@ export default class ContentsPage extends BasePage {
         return this.$('.mstr-select-container.mstr-select-container__enabled')
     }
 
+    getTooltipOfAllContentSetting() {
+        return this.element(by.xpath(`//div[@class='home-screen-bundle-content-message-tip']//span[contains(@class, 'icon-msg_info')]`))
+    }
+
     getAllContentSettingOptionsByName(name) {
         if (name === 'allow') {
             return this.element(by.xpath(`//div[@class='ant-select-item-option-content' and text()='Allow users to view and create new content']`))
@@ -125,6 +129,14 @@ export default class ContentsPage extends BasePage {
 
     async setAllContentSettings(option) {
         await this.getAllContentSettingOptionsByName(option).click()
+        await browser.sleep(1000 * this.ratio)
+    }
+
+    async hoverOnTooltipOfAllContentSettings() {
+        const tooltip = await this.getTooltipOfAllContentSetting()
+        await this.hover({
+            elem: tooltip
+        })
         await browser.sleep(1000 * this.ratio)
     }
 

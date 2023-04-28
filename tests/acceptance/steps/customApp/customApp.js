@@ -136,6 +136,11 @@ When('I show toolbar icon {string}', async function (text) {
     return mainWindow.app.sleep(500)
 });
 
+When('I hover over {string} to display tooltip on components tab', async function (text) {
+    await settingPage.showTooltipOnComponentsSettings(text)
+    return mainWindow.app.sleep(500)
+});
+
 When('I choose the {string} client preview in the tab {string}', async function (client, pageId) {
     await settingPage.choosePreview(client, pageId)
     return mainWindow.app.sleep(500)
