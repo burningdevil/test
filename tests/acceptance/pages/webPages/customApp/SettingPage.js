@@ -345,6 +345,10 @@ export default class SettingPage extends BasePage {
     return this.$('.existing-theme-icn')
   }
 
+  getTooltipOfComponentsSetting(text) {
+    return this.element(by.xpath(`//span[@class='home-screen-components-table-text' and text()='${text}']//ancestor::tr//span[contains(@class, 'icon-msg_info')]`))
+  }
+
   // actions
   // for WebView management
   // async switchToNewWebView() {
@@ -423,6 +427,12 @@ export default class SettingPage extends BasePage {
 
   async choosePreview(client, tab) {
     await this.getPreview(client, tab).click()
+    //When hover on the selected preview tab(mobile/web/desktop), it's light blue
+    //If hover on it the selected tab, it's blue
+    await browser
+      .actions()
+      .mouseMove({ x: 0, y: 10000 })
+      .perform()
     await browser.sleep(3000 * this.ratio)
   }
 
@@ -722,6 +732,13 @@ export default class SettingPage extends BasePage {
     await switchToWindow(wsNativeWindows.themeEditor)
     await this.switchToAppearanceEditorDialog()
 
+  }
+
+  async showTooltipOnComponentsSettings(text) {
+    const tooltip = await this.getTooltipOfComponentsSetting(text)
+    await this.hover({
+      elem: tooltip
+    })
   }
 
   async takeScreenshotOnElement(webElement, screenshot) {

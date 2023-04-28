@@ -115,10 +115,17 @@ When('I close content group info dialog of {string}', async (name) => {
     return mainWindow.app.sleep(500)
 })
 
-When('check group name is {string} in content group info window', async (name) => {
+Then('check group name is {string} in content group info window', async (name) => {
     const isDisplayed = await contentGroupInfo.isContentGroupNameDisplayed(name)
     expect(isDisplayed).to.equal(true)
 })
+
+When('I hover on allow content setting tooltip', async () => {
+    await contentPage.hoverOnTooltipOfAllContentSettings()
+    return mainWindow.app.sleep(500)
+})
+
+
 
 
 
