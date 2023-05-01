@@ -797,13 +797,13 @@ class Previewer extends React.Component<any, any> {
                                                 </div>
                                             </div>
                                             <div className="library-content-list">
-                                                    {
-                                                        Array.from({ length: 6 })
-                                                            .map((_, idx) => (
-                                                                <DossierTilePreviewer key={idx} deviceType={deviceType} isNoTheme={isNoTheme} isDarkTheme={isDarkTheme} previewerClassName={this.previewerClassName} />
-                                                            )    
+                                                {
+                                                    [0, 1, 2, 3, 4, 5]
+                                                        .map((value) => (
+                                                            <DossierTilePreviewer key={value} deviceType={deviceType} isNoTheme={isNoTheme} isDarkTheme={isDarkTheme} previewerClassName={this.previewerClassName} />
                                                         )
-                                                    }
+                                                    )
+                                                }
                                             </div>
                                         </div>
                                     </div>
@@ -876,10 +876,10 @@ class Previewer extends React.Component<any, any> {
                                     >
                                         <div className={classnames('library-content-list', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}>
                                             {
-                                                Array.from({ length: 6 })
-                                                    .map((_, idx) => (
-                                                        <DossierTilePreviewer key={idx} deviceType={deviceType} isNoTheme={isNoTheme} isDarkTheme={isDarkTheme} previewerClassName={this.previewerClassName} />
-                                                    )    
+                                                [0, 1, 2, 3, 4, 5]
+                                                    .map((value) => (
+                                                        <DossierTilePreviewer key={value} deviceType={deviceType} isNoTheme={isNoTheme} isDarkTheme={isDarkTheme} previewerClassName={this.previewerClassName} />
+                                                    )
                                                 )
                                             }
                                         </div>
