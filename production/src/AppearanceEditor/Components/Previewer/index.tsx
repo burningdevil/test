@@ -1097,7 +1097,7 @@ class Previewer extends React.Component<any, any> {
                 </div>
                 <div className={classNamePrefix + '-right'}>
                     {/* notification panel */}
-                    {this.titleRender('Notification Panel', iconTypes.notification)}
+                    {this.titleRender(localizedStrings.NOTIFICATION_PANEL, iconTypes.notification)}
                     <div style={{ position: 'relative' }}>
                         <NotificationPanelPreviewer deviceType={deviceType} isNoTheme={isNoTheme} isDarkTheme={isDarkTheme} previewerClassName={this.previewerClassName} />
                     </div>
