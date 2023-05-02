@@ -133,7 +133,7 @@
         width: 100%;
         // padding: 8px;
         &-left {
-            padding: 8px 0 8px 3px;
+            padding: 8px 0 8px 0;
             background-color: $sidebar-bg-color;
             width: $sidebar-width;
             box-shadow: 1px 0 6px 0 rgba(0, 0, 0, 0.12);
@@ -169,75 +169,22 @@
 
                     .sidebar-icon,
                     .sidebar-text {
-                        &-1,
-                        &-2,
-                        &-3,
-                        &-4,
-                        &-5,
-                        &-6 {
-                            background-color: $sidebar-active-text-color;
-                        }
+                        color: $sidebar-active-text-color;
                     }
                 }
 
-                .sidebar-icon {
-                    &-1,
-                    &-2,
-                    &-3,
-                    &-4,
-                    &-5,
-                    &-6 {
-                        width: 5px;
-                        height: 5px;
-                        border-radius: 50%;
-                        background-color: $sidebar-text-color;
-
-                        &.no-theme {
-                            background-color: $default-text-color;
-                        }
-                    }
-
-                    &-5,
-                    &-6 {
-                        margin-left: 14px;
-                    }
-                }
+                .sidebar-icon,
                 .sidebar-text {
-                    &-1 {
-                        width: 21px;
-                        height: 5px;
-                    }
+                    color: $sidebar-text-color;
 
-                    &-2 {
-                        width: 28px;
-                        height: 5px;
+                    &.no-theme {
+                        color: $default-text-color;
                     }
+                }
 
-                    &-3,
-                    &-5,
-                    &-6 {
-                        width: 25px;
-                        height: 5px;
-                    }
-
-                    &-4 {
-                        width: 31px;
-                        height: 5px;
-                    }
-
-                    &-1,
-                    &-2,
-                    &-3,
-                    &-4,
-                    &-5,
-                    &-6 {
-                        border-radius: 3px;
-                        background-color: $sidebar-text-color;
-
-                        &.no-theme {
-                            background-color: $default-text-color;
-                        }
-                    }
+                .sidebar-text {
+                    @extend .ellipsis;
+                    font-size: 8px;
                 }
             }
 
@@ -281,12 +228,13 @@
                 }
             }
 
-            .library-content-filter {
+            .library-content-filter,
+            .library-content-all {
                 display: flex;
                 align-items: center;
                 padding: 4px $overview-right-padding;
                 padding-top: 16px;
-                height: 17px;
+                height: 28px;
                 width: 100%;
                 
 
@@ -294,16 +242,14 @@
                     display: flex;
                     align-items: center;
                     height: 100%;
+                    font-size: 10px;
 
                     .title {
-                        width: 28px;
-                        height: 5px;
-                        border-radius: 3px;
                         margin-left: 5px;
-                        background-color: $panel-text-color;
+                        color: $panel-text-color;
 
                         &.no-theme {
-                            background-color: $default-text-color;
+                            color: $default-text-color;
                         }
                     }
 
@@ -318,12 +264,15 @@
                 }
             }
 
+            .library-content-all {
+                height: 20px;
+                padding-top: 4px;
+            }
+
             .library-content-list {
                 display: grid;
-                height: calc(100% - 17px);
                 width: 100%;
                 grid-template-columns: 1fr 1fr 1fr;
-                grid-template-rows: 1fr 1fr;
                 padding: 8px $overview-right-padding $overview-right-padding;
                 justify-content: space-between;
 
@@ -460,6 +409,7 @@
     }
 
     &-web {
+        background-color: transparent;
         @include padOrWebSetting();
         .library-header .icon-tb_filter_n {
             float: left !important;
@@ -631,6 +581,7 @@
         margin-right: auto;
         font-size: $font-size-side;
         line-height: $line-height-side;
+        background-color: transparent;
 
         &-sidebar {
             border-radius: 2px;
@@ -735,25 +686,67 @@
         &-container {
             flex: auto;
             height: 100%;
-            background-color: $background-color;
+            background-color: $canvas-bg-color;
+            &.no-theme {
+                background-color: $secondary-background-light;
+            }
+            &.dark-theme {
+                background-color: $secondary-background-dark;
+            }
+
+            .library-content-filter,
+            .library-content-all {
+                display: flex;
+                align-items: center;
+                padding: 10px 4px 4px;
+                height: 20px;
+                width: 100%;
+
+                .title-wrapper {
+                    display: flex;
+                    align-items: center;
+                    height: 100%;
+                    font-size: 8px;
+
+                    .title {
+                        margin-left: 5px;
+                        color: $panel-text-color;
+
+                        &.no-theme {
+                            color: $primary-text-light;
+                        }
+                        &.dark-theme {
+                            color: $primary-text-dark;
+                        }
+                    }
+
+                    .arrow {
+                        padding: 0 0 6px 3px;
+                        color: $panel-text-color;
+
+                        &.no-theme {
+                            color: $primary-text-light;
+                        }
+                        &.dark-theme {
+                            color: $primary-text-dark;
+                        }
+                    }
+                }
+            }
+
+            .library-content-all {
+                height: 20px;
+                padding-top: 4px;
+            }
 
             .library-content-list {
                 display: grid;
-                height: 100%;
                 width: 100%;
                 grid-template-columns: 1fr 1fr;
-                grid-template-rows: 1fr 1fr 1fr;
+                grid-template-rows: 1fr;
                 grid-gap: 4px;
-                background-color: $canvas-bg-color;
-                padding: 12px 4px 0;
+                padding: 4px;
                 justify-content: space-between;
-
-                &.no-theme {
-                    background-color: $secondary-background-light;
-                }
-                &.dark-theme {
-                    background-color: $secondary-background-dark;
-                }
             }
 
             &-dossier {
@@ -787,25 +780,25 @@
                         &.no-theme {
                             background-color: $primary-blue-light;
 
-                            .sidebar-icon-1, .sidebar-text-1 {
-                                background-color: $primary-background-light;
+                            .sidebar-icon, .sidebar-text {
+                                color: $primary-background-light;
                             }
                         }
                         &.dark-theme {
-                            background: $primary-blue-dark;
+                            background-color: $primary-blue-dark;
 
-                            .sidebar-icon-1, .sidebar-text-1 {
-                                background-color: $primary-background-dark;
+                            .sidebar-icon, .sidebar-text {
+                                color: $primary-background-dark;
                             }
                         }
                     }
 
                     [class^="sidebar-icon"], [class*=" sidebar-icon"], [class^="sidebar-text"], [class*=" sidebar-text"] {
                         &.no-theme {
-                            background-color: $primary-text-light;
+                            color: $primary-text-light;
                         }
                         &.dark-theme {
-                            background-color: $primary-text-dark;
+                            color: $primary-text-dark;
                         }
                     }
                 }
