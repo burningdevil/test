@@ -739,10 +739,10 @@ class Previewer extends React.Component<any, any> {
                 const webPreviewLibraryContentList = (
                     <div className='library-content-list'>
                         {
-                            Array.from({ length: 3 })
-                                .map((_, idx) => (
-                                    <DossierTilePreviewer key={idx} deviceType={deviceType} isNoTheme={isNoTheme} isDarkTheme={isDarkTheme} previewerClassName={this.previewerClassName} />
-                                )    
+                            [0, 1, 2]
+                                .map((value) => (
+                                    <DossierTilePreviewer key={value} deviceType={deviceType} isNoTheme={isNoTheme} isDarkTheme={isDarkTheme} previewerClassName={this.previewerClassName} />
+                                )
                             )
                         }
                 </div>
@@ -832,10 +832,10 @@ class Previewer extends React.Component<any, any> {
                 const phonePreviewLibraryContentList = (
                     <div className='library-content-list'>
                         {
-                            Array.from({ length: 2 })
-                                .map((_, idx) => (
-                                    <DossierTilePreviewer key={idx} deviceType={deviceType} isNoTheme={isNoTheme} isDarkTheme={isDarkTheme} previewerClassName={this.previewerClassName} />
-                                )    
+                            [0, 1]
+                                .map((value) => (
+                                    <DossierTilePreviewer key={value} deviceType={deviceType} isNoTheme={isNoTheme} isDarkTheme={isDarkTheme} previewerClassName={this.previewerClassName} />
+                                )
                             )
                         }
                     </div>
@@ -1140,7 +1140,7 @@ class Previewer extends React.Component<any, any> {
                 </div>
                 <div className={classNamePrefix + '-right'}>
                     {/* notification panel */}
-                    {this.titleRender('Notification Panel', iconTypes.notification)}
+                    {this.titleRender(localizedStrings.NOTIFICATION_PANEL, iconTypes.notification)}
                     <div style={{ position: 'relative' }}>
                         <NotificationPanelPreviewer deviceType={deviceType} isNoTheme={isNoTheme} isDarkTheme={isDarkTheme} previewerClassName={this.previewerClassName} />
                     </div>
