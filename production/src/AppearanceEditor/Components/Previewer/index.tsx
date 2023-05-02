@@ -406,6 +406,7 @@ class Previewer extends React.Component<any, any> {
         const sidebarIcons = customAppThemeChildrenIcons.map((icon) => (
             <div
                 className={classnames(`${classNamePrefix}-pad-overview-left-text`, { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}
+                key={icon.key}
             >
                 <span
                     className={classnames(`sidebar-icon`, icon.iconName, { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}
