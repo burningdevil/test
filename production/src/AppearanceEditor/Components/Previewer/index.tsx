@@ -16,7 +16,7 @@ import {
     libraryCustomizedIconDefaultValues,
     CONSTANTS,
     IconType,
-    customAppThemeChildrenIcons
+    customThemePreviewSidebarChildrenIcons
 } from '../../../modules/components/HomeScreenConfigConstant';
 import { Layout, Radio } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
@@ -403,7 +403,7 @@ class Previewer extends React.Component<any, any> {
 
     // render array of side bar icons
     sidebarIconsRender = (rootClassName: string, isNoTheme: boolean, isDarkTheme?: boolean) => {
-        const sidebarIcons = customAppThemeChildrenIcons.map((icon) => (
+        const sidebarIcons = customThemePreviewSidebarChildrenIcons.map((icon) => (
             <div
                 className={classnames(`${classNamePrefix}-pad-overview-left-text`, { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}
                 key={icon.key}
