@@ -446,6 +446,8 @@ export const localizedStrings = {
     CLOSE: t('close'),
     CLEAR_ALL: t('clearAll'),
     DOSSIER_NAME: t('dossierName'),
+    FAVORITES: t('favorites'),
+    ALL: t('all'),
 
     // Environment Connection strings
     ENVIRONMENT_WS_NAME_TOOLTIP: t('nameInWorkstation'),
@@ -986,6 +988,17 @@ export const childrenIcons = [
     iconTypes.defaultGroup,
     iconTypes.myGroup,
     iconTypes.accountMobile,
+];
+// used by the Custom App Theme previewer to display a custom set of tabs
+export const appearancePreviewSidebarIcons = [
+    iconTypes.all,
+    iconTypes.myContent,
+    iconTypes.favorites,
+    iconTypes.recents,
+    iconTypes.insights,
+    iconTypes.mySubscribe,
+    iconTypes.defaultGroup,
+    iconTypes.myGroup,
 ];
 
 // for accountMobile and accountWeb to remove suffix

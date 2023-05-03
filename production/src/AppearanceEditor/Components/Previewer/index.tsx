@@ -16,6 +16,7 @@ import {
     libraryCustomizedIconDefaultValues,
     CONSTANTS,
     IconType,
+    appearancePreviewSidebarIcons
 } from '../../../modules/components/HomeScreenConfigConstant';
 import { Layout, Radio } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
@@ -402,22 +403,30 @@ class Previewer extends React.Component<any, any> {
 
     // render array of side bar icons
     sidebarIconsRender = (rootClassName: string, isNoTheme: boolean, isDarkTheme?: boolean) => {
-        const sidebarIcons = [];
-
-        for (let i = 1; i <= 6; i++) {
-            sidebarIcons.push(
-                <div
-                    className={classnames(`${classNamePrefix}-pad-overview-left-text`, { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}
+        const sidebarIcons = appearancePreviewSidebarIcons.map((icon) => (
+            <div
+                className={classnames(`${classNamePrefix}-pad-overview-left-text`, { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}
+                key={icon.key}
+            >
+                <span
+                    className={classnames('sidebar-icon', icon.iconName, { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}
+                />
+                <span
+                    className={classnames('sidebar-text', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}
+                    title={icon.displayText}
                 >
-                    <span
-                        className={classnames(`sidebar-icon-${i}`, { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}
-                    />
-                    <span
-                        className={classnames(`sidebar-text-${i}`, { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}
-                    />
-                </div>
-            );
-        }
+                    {icon.displayText}
+                </span>
+                {
+                    // add + icon for My Groups tab
+                    (icon.key === iconTypes.myGroup.key)
+                        ? <span
+                            className={classnames('sidebar-additional-icon', VC.FONT_ADD_NEW, { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}
+                        />
+                        : null
+                }
+            </div>
+        ));
 
         // account for mobile
         const { deviceType } = this.props;
@@ -736,6 +745,18 @@ class Previewer extends React.Component<any, any> {
     ) => {
         switch (deviceType) {
             case reviewType.WEB:
+                const webPreviewLibraryContentList = (
+                    <div className='library-content-list'>
+                        {
+                            [0, 1, 2]
+                                .map((value) => (
+                                    <DossierTilePreviewer key={value} deviceType={deviceType} isNoTheme={isNoTheme} isDarkTheme={isDarkTheme} previewerClassName={this.previewerClassName} />
+                                )
+                            )
+                        }
+                </div>
+                );
+
                 return (
                     <Layout className={this.previewerClassName(deviceType, '')}>
                         {!hideHeader && (
@@ -788,7 +809,9 @@ class Previewer extends React.Component<any, any> {
                                                 <div className="title-wrapper">
                                                     <span
                                                         className={classnames('title', {'no-theme': isNoTheme})}
-                                                    ></span>
+                                                    >
+                                                        {localizedStrings.FAVORITES}
+                                                    </span>
                                                     <span
                                                         className={classnames('arrow', {'no-theme': isNoTheme})}
                                                     >
@@ -796,15 +819,17 @@ class Previewer extends React.Component<any, any> {
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div className="library-content-list">
-                                                {
-                                                    [0, 1, 2, 3, 4, 5]
-                                                        .map((value) => (
-                                                            <DossierTilePreviewer key={value} deviceType={deviceType} isNoTheme={isNoTheme} isDarkTheme={isDarkTheme} previewerClassName={this.previewerClassName} />
-                                                        )
-                                                    )
-                                                }
+                                            {webPreviewLibraryContentList}
+                                            <div className="library-content-all">
+                                                <div className="title-wrapper">
+                                                    <span
+                                                        className={classnames('title', {'no-theme': isNoTheme})}
+                                                    >
+                                                        {localizedStrings.ALL}
+                                                    </span>
+                                                </div>
                                             </div>
+                                            {webPreviewLibraryContentList}
                                         </div>
                                     </div>
                                 </Layout>
@@ -813,6 +838,18 @@ class Previewer extends React.Component<any, any> {
                     </Layout>
                 );
             case reviewType.PHONE:
+                const phonePreviewLibraryContentList = (
+                    <div className='library-content-list'>
+                        {
+                            [0, 1]
+                                .map((value) => (
+                                    <DossierTilePreviewer key={value} deviceType={deviceType} isNoTheme={isNoTheme} isDarkTheme={isDarkTheme} previewerClassName={this.previewerClassName} />
+                                )
+                            )
+                        }
+                    </div>
+                );
+
                 return (
                     <div className={`${classNamePrefix}-horcontainer`}>
                         {/* library sidebar */}
@@ -821,7 +858,6 @@ class Previewer extends React.Component<any, any> {
                                 className={classnames('sidebar', `${classNamePrefix}-phone`)}
                             >
                                 {
-                                    // Should always show header for phone sidebar even when toolbar collapse
                                     <Layout.Header className={classnames('sidebar-header', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}>
                                         {this.toolbarIconsRender(
                                             sidebarHeaderIcons,
@@ -872,17 +908,33 @@ class Previewer extends React.Component<any, any> {
                                     className={`${classNamePrefix}-phone-content`}
                                 >
                                     <Layout
-                                        className={`${classNamePrefix}-phone-container`}
+                                        className={classnames(`${classNamePrefix}-phone-container`, { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}
                                     >
-                                        <div className={classnames('library-content-list', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}>
-                                            {
-                                                [0, 1, 2, 3, 4, 5]
-                                                    .map((value) => (
-                                                        <DossierTilePreviewer key={value} deviceType={deviceType} isNoTheme={isNoTheme} isDarkTheme={isDarkTheme} previewerClassName={this.previewerClassName} />
-                                                    )
-                                                )
-                                            }
+                                        <div className='library-content-filter'>
+                                            <div className="title-wrapper">
+                                                <span
+                                                    className={classnames('title', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}
+                                                >
+                                                    {localizedStrings.FAVORITES}
+                                                </span>
+                                                <span
+                                                    className={classnames('arrow', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}
+                                                >
+                                                    {'\u2304'}
+                                                </span>
+                                            </div>
                                         </div>
+                                        {phonePreviewLibraryContentList}
+                                        <div className='library-content-all'>
+                                            <div className="title-wrapper">
+                                                <span
+                                                    className={classnames('title', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}
+                                                >
+                                                    {localizedStrings.ALL}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        {[phonePreviewLibraryContentList, phonePreviewLibraryContentList]}
                                     </Layout>
                                 </Layout.Content>
                                 {!hideHeader && (
