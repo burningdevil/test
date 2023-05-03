@@ -409,14 +409,22 @@ class Previewer extends React.Component<any, any> {
                 key={icon.key}
             >
                 <span
-                    className={classnames(`sidebar-icon`, icon.iconName, { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}
+                    className={classnames('sidebar-icon', icon.iconName, { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}
                 />
                 <span
-                    className={classnames(`sidebar-text`, { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}
+                    className={classnames('sidebar-text', { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}
                     title={icon.displayText}
                 >
                     {icon.displayText}
                 </span>
+                {
+                    // add + icon for My Groups tab
+                    (icon.key === iconTypes.myGroup.key)
+                        ? <span
+                            className={classnames('sidebar-additional-icon', VC.FONT_ADD_NEW, { 'no-theme': isNoTheme }, { 'dark-theme': isDarkTheme })}
+                        />
+                        : null
+                }
             </div>
         ));
 

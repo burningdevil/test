@@ -174,7 +174,8 @@
                 }
 
                 .sidebar-icon,
-                .sidebar-text {
+                .sidebar-text,
+                .sidebar-additional-icon {
                     color: $sidebar-text-color;
 
                     &.no-theme {
@@ -793,7 +794,9 @@
                         }
                     }
 
-                    [class^="sidebar-icon"], [class*=" sidebar-icon"], [class^="sidebar-text"], [class*=" sidebar-text"] {
+                    [class^="sidebar-icon"], [class*=" sidebar-icon"],
+                    [class^="sidebar-text"], [class*=" sidebar-text"],
+                    [class^="sidebar-additional-icon"], [class*=" sidebar-additional-icon"] {
                         &.no-theme {
                             color: $primary-text-light;
                         }
