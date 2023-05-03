@@ -989,8 +989,8 @@ export const childrenIcons = [
     iconTypes.myGroup,
     iconTypes.accountMobile,
 ];
-// used by the Custom App Theme previewer
-export const customThemePreviewSidebarChildrenIcons = [
+// used by the Custom App Theme previewer to display a custom set of tabs
+export const appearancePreviewSidebarIcons = [
     iconTypes.all,
     iconTypes.myContent,
     iconTypes.favorites,
