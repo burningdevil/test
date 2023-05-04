@@ -129,11 +129,11 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
     try {
       if (pattern !== undefined) {
         let params = ''
-        if(arguments !== undefined && arguments.length > 1){
-          imageName = arguments[arguments.length-2]
-          for(let i=0; i < arguments.length-1; i++){
+        if (arguments !== undefined && arguments.length > 1) {
+          imageName = arguments[arguments.length - 2]
+          for (let i = 0; i < arguments.length - 1; i++) {
             const arg = typeof arguments[i] === 'string' ? arguments[i] : ''
-            params = params + arg + ' ' 
+            params = params + arg + ' '
           }
         }
         console.log('[INFO] [Step] ' + pattern + '; ' + params)
@@ -143,11 +143,10 @@ setDefinitionFunctionWrapper(function (fn, opts, pattern) {
     } catch (e) {
       const imgBuffer = await screenshot({ format: 'png' })
       this.attach(imgBuffer, 'image/png')
-      await attachImages('base', imageName, this)
-      await attachImages('actual', imageName, this)
-      await attachImages('diff', imageName, this)
+      // await attachImages('base', imageName, this)
+      // await attachImages('actual', imageName, this)
+      // await attachImages('diff', imageName, this)
       throw new Error(`Error happened in the function wrapper: ${e.stack}`)
-      
     } finally {
       if (enableUB) {
         clearUBMonitor()

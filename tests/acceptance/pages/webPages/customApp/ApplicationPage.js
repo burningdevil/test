@@ -2,8 +2,10 @@
 import BasePage from '../../basePages/BasePage'
 import { OSType } from '../../../utils/envUtils/constants'
 import { imageCompareConfig, wsNativeWindows } from '../../../config/constants'
+import { spectreImageComparison } from '../../../utils/spectre-protractor'
 const { join } = require('path');
 const { registerNewWindow, switchToWindow, unregisterWindow } = require('../../../utils/wsUtils/windowHelper')
+
 
 export default class ApplicationPage extends BasePage {
   // element locator
@@ -131,6 +133,21 @@ export default class ApplicationPage extends BasePage {
     return this.$('.ag-root')
   }
 
+  getColumnOptionByNameInColumnSelector(option) {
+    return this.element(by.xpath(`//span[@class='ag-column-select-column-label' and text()='${option}']`))
+  }
+
+  getColumnOptionToggleButtonByName(option) {
+    return this.element(by.xpath(`//span[@class='ag-column-select-column-label' and text()='${option}']//ancestor::div[contains(@class,'ag-column-select-column')]//input`))
+  }
+
+  getGridSideButtonByName(option) {
+    return this.element(by.xpath(`//div[contains(@class,'ag-side-button')]//span[text()='${option}']`))
+  }
+
+
+
+
   // actions
   // for WebView management
   // async switchToNewWebView() {
@@ -232,38 +249,40 @@ export default class ApplicationPage extends BasePage {
     await this.click({ elem: columnItem })
   }
 
+  async toggleColumnInCustomAppGrid(options, status) {
+    const opts = options.split(",")
+    const isColumnSelectorShown = await this.getColumnOptionByNameInColumnSelector('Description').isPresent()
+    if (!isColumnSelectorShown) {
+      await this.getGridSideButtonByName('Columns').click()
+      await this.waitForWebElementToBeVisiable(this.getColumnOptionByNameInColumnSelector('Description'))
+    }
+    for (const option of opts) {
+      const isColumnShow = await this.getColumnOptionToggleButtonByName(option).isSelected()
+      if ((status === 'show') !== isColumnShow) {
+        await this.getColumnOptionToggleButtonByName(option).click()
+        await browser.sleep(3000 * this.ratio)
+      }
+    }
+    await this.getGridSideButtonByName('Columns').click()
+    await this.waitForWebElementToDisappear(this.getColumnOptionByNameInColumnSelector('Description'))
+  }
+
   // assertions
-  async takeScreenshotOnElement(webElement, screenshot) {
-    //await this.switchToCustomAppWindow()
+  async takeScreenshotOnElement(webElement, fileName) {
     await browser.sleep(1000 * this.ratio)
-    const fileName = join(process.platform === 'win32' ? 'win' : 'mac', screenshot)
-    await browser.actions().mouseMove({ x: 0, y: 10000 }).perform()
     let elementLocator
     switch (webElement) {
       case imageCompareConfig.appDetailGrid:
-        //await this.waitForCustomAppMainWindow()
-        elementLocator = this.getApplicationListGrid()
+        elementLocator = await this.getApplicationListGrid()
         await this.waitForWebElementToBeVisiable(elementLocator)
-        expect(await browser.imageComparison.checkScreen(fileName
-          //hideElements: [this.getCreateTimeCells(), this.getUpdateTimeCells()]
-        )).to.below(customArgObj.args.imageCompare ? imageCompareConfig.tolerance : imageCompareConfig.toleranceMax);
+        await spectreImageComparison(fileName, { tolerance: imageCompareConfig.tolerance })
         break;
     }
-    //expect(await browser.imageComparison.checkElement(elementLocator, screenshot)).to.below(0.02);
-    //expect(await browser.imageComparison.checkScreen(screenshot)).to.below(0.02);
-    //await this.takeScreenshotOnPage(screenshot)
   }
 
-  async takeScreenshotOnPage(screenshot) {
+  async takeScreenshotOnPage(fileName) {
     await browser.sleep(1000 * this.ratio)
-    // Ensure the mouse stay the same location
-    // const fileName = `${screenshot}_${process.platform === 'win32' ? 'win32' : 'mac'}`
-    const fileName = join(process.platform === 'win32' ? 'win' : 'mac', screenshot)
-    await browser
-      .actions()
-      .mouseMove({ x: 0, y: 10000 })
-      .perform()
-    expect(await browser.imageComparison.checkScreen(fileName)).to.below(customArgObj.args.imageCompare ? imageCompareConfig.tolerance : imageCompareConfig.toleranceMax);
+    await spectreImageComparison(fileName, { tolerance: imageCompareConfig.tolerance })
   }
 
 

@@ -15,16 +15,16 @@ const path = require('path')
 
 exports.config = {
   plugins: [
-    {
-      package: 'protractor-image-comparison',
-      options: {
-        baselineFolder: join(process.cwd(), './results/baseline/'),
-        formatImageName: `{tag}`,
-        screenshotPath: join(process.cwd(), './results/'),
-        savePerInstance: true,
-        autoSaveBaseline: true,
-      },
-    },
+    // {
+    //   package: 'protractor-image-comparison',
+    //   options: {
+    //     baselineFolder: join(process.cwd(), './results/baseline/'),
+    //     formatImageName: `{tag}`,
+    //     screenshotPath: join(process.cwd(), './results/'),
+    //     savePerInstance: true,
+    //     autoSaveBaseline: true,
+    //   },
+    // },
   ],
 
   directConnect: true,
@@ -163,7 +163,7 @@ exports.config = {
       credentials: { username: browser.params.envInfo[0].userName, password: browser.params.envInfo[0].userPwd },
       pwd: newPwd
     })
-    fs.outputFileSync(path.resolve('.','password.txt'), newPwd, 'utf8')
+    fs.outputFileSync(path.resolve('.', 'password.txt'), newPwd, 'utf8')
     browser.params.envInfo[0].userPwd = newPwd
 
     // build global page objects for native and webviews

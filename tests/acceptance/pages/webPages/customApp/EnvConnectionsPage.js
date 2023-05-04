@@ -1,5 +1,6 @@
 import BasePage from "../../basePages/BasePage";
 import { imageCompareConfig } from "../../../config/constants";
+import { spectreImageComparison } from '../../../utils/spectre-protractor'
 const { join } = require('path');
 
 export default class EnvConnectionsPage extends BasePage {
@@ -69,22 +70,16 @@ export default class EnvConnectionsPage extends BasePage {
     })
   }
 
-  async takeScreenshotOnElement(webElement, screenshot) {
+  async takeScreenshotOnElement(webElement, fileName) {
     //await this.switchToCustomAppWindow()
     await browser.sleep(1000 * this.ratio)
-    const fileName = join(process.platform === 'win32' ? 'win' : 'mac', screenshot)
-    await browser.actions().mouseMove({ x: 0, y: 10000 }).perform()
     let elementLocator
     switch (webElement) {
       case imageCompareConfig.envConnectionCurrentUrl:
         elementLocator = this.getCurrentEnvUrl()
         await this.waitForWebElementToBeVisiable(elementLocator)
         await this.hideElementByScript(elementLocator)
-        expect(await browser.imageComparison.checkScreen(fileName, {
-         // hideElements: [elementLocator],
-          disableCSSAnimation: true,
-          hideScrollBars: true,
-        })).to.below(customArgObj.args.imageCompare ? imageCompareConfig.tolerance : imageCompareConfig.toleranceMax);
+        await spectreImageComparison(fileName, { tolerance: imageCompareConfig.tolerance })
         await this.showElementByScript(elementLocator)
     }
   }

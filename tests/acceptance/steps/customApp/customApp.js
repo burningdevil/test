@@ -22,20 +22,18 @@ When('I click the application create entry', async function () {
 }
 );
 
-Then('I sort the application list by {string}', async function (columnname) {
+When('I sort the application list by {string}', async function (columnname) {
     await applicationPage.switchToCustomAppWindow()
     await applicationPage.sortColumn(columnname)
     return mainWindow.app.sleep(500)
 }
 );
 
-Then('I deselect column {string} display', async function (option) {
-    await applicationPage.switchToCustomAppWindow()
-    await applicationPage.deselectColumn(option)
+When('I toggle column {string} in application grid to {string}', async function (options, status) {
+    await applicationPage.toggleColumnInCustomAppGrid(options, status)
     return mainWindow.app.sleep(500)
 }
 );
-
 
 When('I copy link of the application {string}', async function (name) {
     await applicationPage.shareLink(name)

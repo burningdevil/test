@@ -1,5 +1,6 @@
 import BasePage from "../../basePages/BasePage";
 import { imageCompareConfig, wsNativeWindows } from "../../../config/constants";
+import { spectreImageComparison } from '../../../utils/spectre-protractor'
 const { registerNewWindow, switchToWindow, unregisterWindow } = require('../../../utils/wsUtils/windowHelper')
 const { join } = require('path');
 
@@ -21,6 +22,9 @@ export default class ContentsPage extends BasePage {
     }
     getSelectAll() {
         return this.element(by.xpath(`//div[@class='content-bundle-picker-grid']//div[@class='customHeaderSelectAll']//input`))
+    }
+    getContentGroupItemByName(name) {
+        return this.element(by.xpath(`//span[@class='content-bundle-list-custom-name' and text()='${name}']`))
     }
     getCollapseIcon(name) {
         return this.element(by.xpath(`//span[@class='content-bundle-list-custom-name' and text()='${name}']//ancestor::div[@class='ag-cell-wrapper']//span[@class='ag-icon ag-icon-small-right']`))
@@ -53,6 +57,10 @@ export default class ContentsPage extends BasePage {
         return this.element(by.xpath(`//div[contains(@class,'ag-menu ')]`))
     }
 
+    getLoadingIndicator() {
+        return this.element(by.xpath(`//*[text()='Loading']`))
+    }
+
     async inputName(name) {
         await this.getDefaultGroupInput().click();
         await this.getDefaultGroupInput().clear();
@@ -80,9 +88,15 @@ export default class ContentsPage extends BasePage {
         await this.getSelectAll().click();
         await browser.sleep(2000 * this.ratio);
     }
+
+    async chooseContentGroupByName(name) {
+        await this.waitForWebElementToBeVisiable(this.getContentGroupItemByName(name))
+        await this.getContentGroupItemByName(name).click();
+    }
+
     async collapseContent(name) {
         await this.getCollapseIcon(name).click();
-        await this.wait(this.EC.stalenessOf(this.element(by.xpath(`//*[text()='Loading']`))), 60000 * this.ratio, 'Waiting for loading icon disappear timeout.')
+        await this.waitForWebElementToDisappear(this.getLoadingIndicator())
         await browser.sleep(1000 * this.ratio);
     }
     async waitForContentMenu(text) {
@@ -98,6 +112,8 @@ export default class ContentsPage extends BasePage {
 
     async removeContent(name) {
         await this.chooseOptionInContentGroupGrid(name, 'Remove')
+        await this.waitForWebElementToDisappear(this.getLoadingIndicator())
+        await this.waitForWebElementToDisappear(this.getGridCellInDossierListView(name))
         await browser.sleep(1000 * this.ratio);
     }
 
@@ -154,16 +170,14 @@ export default class ContentsPage extends BasePage {
         return status
     }
 
-    async takeScreenshotOnElement(webElement, screenshot) {
+    async takeScreenshotOnElement(webElement, fileName) {
         await browser.sleep(3000 * this.ratio)
-        const fileName = join(process.platform === 'win32' ? 'win' : 'mac', screenshot)
-        await browser.actions().mouseMove({ x: 0, y: 10000 }).perform()
         let elementLocator
         switch (webElement) {
             case imageCompareConfig.contextMenuInContentTab:
                 elementLocator = this.getContextMenuInContentGroupGrid()
                 await this.waitForWebElementToBeVisiable(elementLocator)
-                expect(await browser.imageComparison.checkElement(elementLocator, fileName)).to.below(customArgObj.args.imageCompare ? imageCompareConfig.tolerance : imageCompareConfig.toleranceMax);
+                await spectreImageComparison(fileName, { tolerance: imageCompareConfig.tolerance })
         }
     }
 
