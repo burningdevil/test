@@ -1,5 +1,5 @@
 @TC88658 @ReportInContent @Regression
-Feature: 42_Report_in_content
+Feature: 42_Edit_Report_in_Content_Groups
     1. add environment
     2. create application
     3. add the content
@@ -12,7 +12,7 @@ Feature: 42_Report_in_content
         Given configure workstation engine test environment
         
     @hook_close_application_editor_dialog_if_necessary @hook_clean_content_groups
-    Scenario: 42_Report_in_content
+    Scenario: 42_Edit_Report_in_Content_Groups
         When I select tab "Applications"
         When I click the application create entry
         When I input application name "WS_edit_report_in_content_groups_42"       
