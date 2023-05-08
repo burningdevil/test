@@ -159,8 +159,9 @@ export default class ContentGroupEdtior extends BasePage {
     }
 
     async searchContentByNameAndAdd(objectName) {
-        await browser.sleep(3000 * this.ratio);
+        await browser.sleep(3000 * this.ratio)
         await this.getContentSearchbox().sendKeys(objectName)
+        await browser.sleep(2000)
         await this.waitForWebElementToDisappear(this.getLoadingContentIndicator())
         await this.waitForWebElementToBeVisiable(this.getSearchResultItem(objectName))
         await this.getCheckboxInContentPickerByName(objectName).click()
