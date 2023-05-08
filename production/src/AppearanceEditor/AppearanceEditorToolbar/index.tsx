@@ -37,17 +37,15 @@ const AppearanceEditorToolbar: React.FC<AppearanceEditorToolbarProps> = ({ theme
         <div className='title-section'>
             <div className='label'>{t('appearanceEditorWindowSubtitle')}</div>
             <div className='btn-section'>
-                {/* Disable temporarily as we don't want to expose the device type switch yet
-                    <Radio.Group
+                <Radio.Group
                     className='preview-device-type-radio-group'
                     value={appearancePreviewDeviceType}
                     buttonStyle='solid'
                     onChange={(e) => handleAppearancePreviewDeviceTypeChange(e?.target?.value)}
-                    >
-                        <Radio.Button value={reviewType.WEB}><div className={classnames('preview-device-type-icn', reviewType.WEB)} /></Radio.Button>
-                        <Radio.Button value={reviewType.PHONE}><div className={classnames('preview-device-type-icn', reviewType.PHONE)} /></Radio.Button>
-                    </Radio.Group>
-                */}
+                >
+                    <Radio.Button value={reviewType.WEB}><div className={classnames('preview-device-type-icn', reviewType.WEB)} /></Radio.Button>
+                    <Radio.Button value={reviewType.PHONE}><div className={classnames('preview-device-type-icn', reviewType.PHONE)} /></Radio.Button>
+                </Radio.Group>
                 <Button className={classnames('btn', 'cancel')} type='default' onClick={handleClose}>{t('cancel')}</Button>
                 <Button className={classnames('btn', 'apply')} type='primary' onClick={handleApplyTheme} loading={applying}>{t('apply')}</Button>
             </div>
