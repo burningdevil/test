@@ -15,7 +15,7 @@ Feature: 11_SortApp
         When I input application description "WS name and description"
         Then I switch to menu "Components"
         Then I click "Save" button in the tab "components"
-        # When I toggle column "Date Modified,Date Created" in application grid to "hide"
+        When I toggle column "Date Modified,Date Created" in application grid to "hide"
         When I sort the application list by "Name"
         Then check the screenshot on element "detailGrid" by comparing "11_sort_name_asc_01"
         When I sort the application list by "Name"
