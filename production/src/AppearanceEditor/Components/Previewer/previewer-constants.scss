@@ -12,6 +12,8 @@ $sidebar-width: 91px;
 $container-width: $preview-width + $preview-horizontal-margin + $panel-preview-width; // width of entire previewer container
 
 $preview-width-phone: 178px;
+$preview-height-notif-panel-phone: 490px;
+$preview-width-notif-panel-phone: 270px;
 $library-preview-horizontal-margin-phone: 30px;
 $preview-horizontal-margin-phone: 152px;
 $container-width-phone: ($preview-width-phone * 2) + $library-preview-horizontal-margin-phone + $preview-horizontal-margin-phone + $preview-width-phone;
