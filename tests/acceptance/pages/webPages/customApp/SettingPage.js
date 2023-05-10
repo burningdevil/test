@@ -2,6 +2,7 @@ import BasePage from '../../basePages/BasePage'
 import { OSType } from '../../../utils/envUtils/constants'
 import { protractor } from 'protractor'
 import { wsConfig, imageCompareConfig, wsWebViews, wsNativeWindows } from '../../../config/constants'
+import { spectreImageComparison } from '../../../utils/spectre-protractor'
 const { join } = require('path');
 import { times } from 'lodash'
 const { registerNewWindow, switchToWindow, unregisterWindow } = require('../../../utils/wsUtils/windowHelper')
@@ -741,22 +742,15 @@ export default class SettingPage extends BasePage {
     })
   }
 
-  async takeScreenshotOnElement(webElement, screenshot) {
-    //await this.switchToCustomAppWindow()
+  async takeScreenshotOnElement(webElement, fileName) {
     await browser.sleep(1000 * this.ratio)
-    const fileName = join(process.platform === 'win32' ? 'win' : 'mac', screenshot)
-    await browser.actions().mouseMove({ x: 0, y: 10000 }).perform()
     let elementLocator
     switch (webElement) {
       case imageCompareConfig.customEmail:
         elementLocator = this.getMobileLink()
         await this.waitForWebElementToBeVisiable(elementLocator)
         await this.hideElementByScript(elementLocator)
-        expect(await browser.imageComparison.checkScreen(fileName, {
-          // hideElements: [elementLocator],
-          disableCSSAnimation: true,
-          hideScrollBars: true,
-        })).to.below(customArgObj.args.imageCompare ? imageCompareConfig.tolerance : imageCompareConfig.toleranceMax);
+        await spectreImageComparison(fileName, { tolerance: imageCompareConfig.tolerance })
         await this.showElementByScript(elementLocator)
     }
   }

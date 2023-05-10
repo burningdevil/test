@@ -34,6 +34,11 @@ Then('I select the all checkbox', async () => {
     await contentPage.selectAll();
     return mainWindow.app.sleep(500);
 })
+When('I choose {string} in content group picker', async (name) => {
+    await contentPage.chooseContentGroupByName(name);
+    return mainWindow.app.sleep(500);
+})
+
 Then('I expand the content bundle {string}', async (name) => {
     await contentPage.collapseContent(name);
     return mainWindow.app.sleep(500);

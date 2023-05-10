@@ -58,7 +58,7 @@ export default class ContentGroupEdtior extends BasePage {
     }
 
     getLoadingContentIndicator() {
-        return this.element(by.xpath(`//*[text()='Loading']`))
+        return this.element(by.xpath(`(//*[text()='Loading'])[0]`))
     }
 
     getSearchResultItem(name) {
@@ -115,7 +115,9 @@ export default class ContentGroupEdtior extends BasePage {
         await this.clickAddContentButtonInContentGroupEditor()
         await this.chooseTabInContentDialog(tabName)
         await this.searchContentByNameAndAdd(objectName)
+        await this.waitForWebElementToBeVisiable(this.getSaveButtonInContentPicker())
         await this.getSaveButtonInContentPicker().click()
+        await this.waitForWebElementToDisappear(this.getSaveButtonInContentPicker())
         await this.waitForWebElementToDisappear(this.getContentPickerWindow())
     }
 
@@ -142,6 +144,8 @@ export default class ContentGroupEdtior extends BasePage {
     }
 
     async chooseTabInContentDialog(tabName) {
+        await this.waitForWebElementToBeVisiable(this.getContentMenuByName('Dossiers'))
+        await browser.sleep(1000 * this.ratio);
         if (tabName === "Dossier") {
             await this.click({ elem: this.getContentMenuByName('Dossiers') })
         }
@@ -155,7 +159,9 @@ export default class ContentGroupEdtior extends BasePage {
     }
 
     async searchContentByNameAndAdd(objectName) {
+        await browser.sleep(3000 * this.ratio)
         await this.getContentSearchbox().sendKeys(objectName)
+        await browser.sleep(2000)
         await this.waitForWebElementToDisappear(this.getLoadingContentIndicator())
         await this.waitForWebElementToBeVisiable(this.getSearchResultItem(objectName))
         await this.getCheckboxInContentPickerByName(objectName).click()

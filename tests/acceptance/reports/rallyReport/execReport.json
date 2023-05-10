@@ -2,7 +2,7 @@
   {
     "description": "    1. add environment\n    2. create application",
     "keyword": "Feature",
-    "name": "Create applications",
+    "name": "12_CreateApp",
     "line": 2,
     "id": "create-applications",
     "tags": [

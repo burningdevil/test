@@ -1,4 +1,4 @@
-@TC88658 @ReportInContent @Regression
+@TC88658_1 @ReportInContent @Regression
 Feature: 42_Edit_Report_in_Content_Groups
     1. add environment
     2. create application

@@ -41,5 +41,12 @@ export const componentStatus = {
     hidden: "hide"
 }
 
+export const spectreServerConfig = {
+    projectNameCI: 'Workstation Custom App E2E Tests - CI',
+    prjectNameLocal: 'Workstation Custom App E2E Tests - Local',
+    //spectreUrl: 'http://10.23.33.4:3000'
+    spectreUrl: 'http://10.23.35.137:3000'
+}
+
 
 

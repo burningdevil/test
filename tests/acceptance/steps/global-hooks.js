@@ -7,6 +7,8 @@ const { sleep } = require('../utils/ciUtils/os-helper')
 const { clearJoints } = require('./mimo')
 const { appInfo, appWindow, envWindow, mainWindow } = pageObj
 const { registerNewWindow, switchToWindow, unregisterWindow } = require('../utils/wsUtils/windowHelper')
+const { initSpectreProtractor } = require('../utils/spectre-protractor')
+const chalk = require('chalk');
 
 
 Before({ timeout: 30000 }, async function (scenario) {
@@ -22,7 +24,9 @@ Before({ timeout: 30000 }, async function (scenario) {
         this.path = path
         this.name = name
     }
-    console.log('[INFO] [Sceanrio] Start ' + scenario.pickle.name)
+    const testSuiteName = scenario.pickle.name
+    console.log(chalk.bold(`[INFO] [Sceanrio] Start ${testSuiteName}`))
+    await initSpectreProtractor(testSuiteName)
     // TODO: investigate why it fails on Windows 10
     // await guaranteeEnvironmentsExist()
 })
