@@ -90,6 +90,11 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                 return true;
             }
         }
+        if(iconKey === iconTypes.addLibrary.key){
+            if(this.props.selectedLibraryCustomizedItems[iconTypes.switch_library.key] === false){
+                return true;
+            }
+        }
         if (iconKey === iconTypes.contentDiscovery.key) {
             if (this.props.contentBundleIds?.length > 0 && !this.props.allowUserViewAllContents) {
               return true;
@@ -267,6 +272,12 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                     selected = false;
                 }
                 if(this.props.contentBundleIds?.length > 0 && !this.props.allowUserViewAllContents){
+                    selected = false;
+                }
+            }
+            // if the switch application is false, should disable the add library
+            if(iconKey === iconTypes.addLibrary.key){
+                if(_.get(this.props.selectedLibraryCustomizedItems, iconTypes.switch_library.key) === false){
                     selected = false;
                 }
             }
@@ -450,6 +461,9 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                 if(iconKey === iconTypes.editDossier.key && value === false){
                     customizedItems[iconTypes.newDossier.key] = value;
                 }
+                if(iconKey === iconTypes.switch_library.key && value === false){
+                    customizedItems[iconTypes.addLibrary.key] = value;
+                }
                 _.set(currentConfig, 'homeScreen.homeLibrary.customizedItems', customizedItems)
                 return true;
             };
@@ -560,10 +574,9 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                 if(this.state.homeScreenSpecialIconMap[parentIcon]?.independentWithChild || !parentIcon){
                     return;
                 }
-                const siblingIcons = this.filterUnsupportIcons(this.state.homeScreenSpecialIconMap[parentIcon]?.children, this.state.webVersion)?.filter(v => v.key !== iconKey).map(v => v.key) ?? [];
+                const siblingIcons = this.filterUnsupportIcons(this.state.homeScreenSpecialIconMap[parentIcon]?.children, this.state.webVersion)?.filter(v => v.key !== iconKey)?.map(v => v.key) ?? [];
                 // if the sibling icons are all off and the current value is off, then switch off the parent icon. And the vice versa.
                 const judgeSame = (targetIcons: IconEnum[], currentVal: boolean) => {
-                    targetIcons?.forEach(t => console.log(t, this.iconContextInfo(t)?.selected))
                     return targetIcons?.every(t => this.iconContextInfo(t)?.selected === currentVal);
                 };
                 

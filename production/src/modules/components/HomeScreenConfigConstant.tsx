@@ -477,7 +477,8 @@ export const localizedStrings = {
 
     INSIGHTS_WEB_ONLY: t('insightsWebOnly'),
     CONTENT_INFO: t('contentInfo'),
-    INVALID_EMAIL_ADDRESS: t('invalidEmailAddress')
+    INVALID_EMAIL_ADDRESS: t('invalidEmailAddress'),
+    DISABLE_ADD_LIBRARY_TIP: t('disableAddLibraryTip')
 };
 
 export const sectionTitle = {
@@ -974,6 +975,9 @@ export const iconTypes: IconTypes = {
         displayText: t('addLibrary'),
         iconName: CONSTANTS.FONT_ADD_LIBRARY,
         key: CONSTANTS.ICON_ADD_LIBRARY,
+        supportTip: true,
+        deps: [REVERSE + CONSTANTS.ICON_SWITCH_LIBRARY],
+        tipMsg: localizedStrings.DISABLE_ADD_LIBRARY_TIP,
     },
     [IconEnum.undoRedo]: {
         displayText: t('undoRedo'),
@@ -1503,7 +1507,7 @@ export const libraryCustomizedIconDefaultValues = Object.freeze({
 const granularControlAddedIconsStartVersion: any = {}
 granularControlNewAddedIcons.forEach(v => granularControlAddedIconsStartVersion[v.key] = LIBRARY_SUPPORT_GRANULAR_CONTROL);
     
-    export const libraryCustomizedIconStartVersion = {
+export const libraryCustomizedIconStartVersion = {
     [iconTypes.insights.key]: LIBRARY_SERVER_SUPPORT_INSIGHTS_CONTROL,
     [iconTypes.contentDiscovery.key]: LIBRARY_SUPPORT_CONTENT_DISCOVERY_VERSION,
     ...granularControlAddedIconsStartVersion
