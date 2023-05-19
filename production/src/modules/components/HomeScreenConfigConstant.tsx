@@ -1319,6 +1319,7 @@ export const dossierIcons = [
 
 // dossier icons when mode is dossier as home
 export const dossierIconsDossierHome = [
+    iconTypes.switch_library,
     iconTypes.toc,
     iconTypes.bookmark,
     iconTypes.undoRedo,

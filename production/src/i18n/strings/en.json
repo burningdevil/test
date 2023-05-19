@@ -419,7 +419,7 @@
     "feedbackReportEmail": "Email Address for reporting a problem",
     "smartDownloadCheckbox": "Smart download (Automatically download dossiers based on users’ usage patterns.)",
     "annotate_share": "Annotate and Share (RSD only)",
-    "switchLibrary": "Switch Library/Application (Mobile Only)",
+    "switchLibrary": "Switch Library (Mobile Only)",
     "submitSuccess": "Submit success!",
-    "disableAddLibraryTip": "Please toggle on 'Switch Library/Application' to enable this option."
+    "disableAddLibraryTip": "Please toggle on 'Switch Library' to enable this option."
 }

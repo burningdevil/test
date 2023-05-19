@@ -62,7 +62,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
     }
     parentIconDisabled = (iconKey: IconEnum) => {
         const parentIcon = this.findParentIcon(iconKey as IconEnum);
-        if(!parentIcon ) return false;
+        if(!parentIcon || this.state.homeScreenSpecialIconMap[parentIcon]?.dummy ) return false;
         return !(this.iconContextInfo(parentIcon)?.selected)
     }
     ancestorIconDisabled = (iconKey: string) => {
@@ -70,7 +70,8 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         let disable = this.parentIconDisabled(currentIcon as IconEnum);
         while(currentIcon && !disable){
             currentIcon = this.findParentIcon(currentIcon as IconEnum);
-            disable = this.parentIconDisabled(currentIcon as IconEnum);if(disable){
+            disable = this.parentIconDisabled(currentIcon as IconEnum);
+            if(disable){
                 return true;
             }
         }
@@ -78,41 +79,73 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
     }
     isIconDisabled = (iconKey: string) => {
         // toolbar hidden
-        const {toolbarHidden} = this.props
-        // side bar hidden
-        const sidebarDisabled = sidebarIconKeys.includes(iconKey) && !(this.iconContextInfo(iconTypes.sidebar.key)?.selected)
+        const { toolbarHidden } = this.props;
         // special case: new dossier will be disabled when the edit dossier is disabled or content bundle length > 0 and not allow the view all contents checkbox.
-        if(iconKey === iconTypes.newDossier.key){
-            if(this.props.contentBundleIds?.length > 0 && !this.props.allowUserViewAllContents){
+        if (iconKey === iconTypes.newDossier.key) {
+            if (
+                this.props.contentBundleIds?.length > 0 &&
+                !this.props.allowUserViewAllContents
+            ) {
                 return true;
             }
-            if(this.props.selectedLibraryCustomizedItems[iconTypes.editDossier.key] === false){
+            if (
+                this.props.selectedLibraryCustomizedItems[
+                    iconTypes.editDossier.key
+                ] === false
+            ) {
                 return true;
             }
         }
-        if(iconKey === iconTypes.addLibrary.key){
-            if(this.props.selectedLibraryCustomizedItems[iconTypes.switch_library.key] === false){
+        if (iconKey === iconTypes.addLibrary.key) {
+            if (
+                this.props.selectedLibraryCustomizedItems[
+                    iconTypes.switch_library.key
+                ] === false
+            ) {
                 return true;
             }
         }
         if (iconKey === iconTypes.contentDiscovery.key) {
-            if (this.props.contentBundleIds?.length > 0 && !this.props.allowUserViewAllContents) {
-              return true;
+            if (
+                this.props.contentBundleIds?.length > 0 &&
+                !this.props.allowUserViewAllContents
+            ) {
+                return true;
             }
         }
-        let disabled = false
-        if (mobileOnlyIconKeys.includes(iconKey) && !this.state.mobileOptionsVisible) {
-            disabled = true
-        } else if (webDesktopOnlyIconKeys.includes(iconKey) && !this.state.webOptionsVisible && !this.props.isDossierHome) {
-            disabled = true
-        }else if (iconKey === iconTypes.all.key) { // disable all switch button by default.
-            disabled = true
+        let disabled = false;
+        if (
+            mobileOnlyIconKeys.includes(iconKey) &&
+            !this.state.mobileOptionsVisible
+        ) {
+            disabled = true;
+        } else if (
+            webDesktopOnlyIconKeys.includes(iconKey) &&
+            !this.state.webOptionsVisible &&
+            !this.props.isDossierHome
+        ) {
+            disabled = true;
+        } else if (iconKey === iconTypes.all.key) {
+            // disable all switch button by default.
+            disabled = true;
         }
         // special logic added by the granular control.
         // the logic flow is firstly find the parent icon if existed. Then judge the parent option whether is off.
-        const parentIconDisabled = this.ancestorIconDisabled(iconKey as IconEnum);
-        
-        return disabled || toolbarHidden || sidebarDisabled || parentIconDisabled;
+        //decouple the switch library icon with the parent sidebar when dossier as home.
+        if (
+            iconKey === iconTypes.switch_library.key &&
+            this.props.isDossierHome
+        ) {
+            return disabled || toolbarHidden;
+        }
+        const parentIconDisabled = this.ancestorIconDisabled(
+            iconKey as IconEnum
+        );
+        // toolbar hidden will not affect the content info section.
+        if (contentInfoIcons.map((v) => v.key).includes(iconKey)) {
+            return disabled || parentIconDisabled;
+        }
+        return disabled || toolbarHidden || parentIconDisabled;
     }
     /**
      *
@@ -190,12 +223,12 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                     <>
                     {
                     !icon[2]?.expandable &&
-                    <span style={ icon[2] && this.ancestorIconDisabled(icon[2]?.iconKey as IconEnum) ?  {opacity: 0.5} : {opacity: 1.0}}>
+                    <span style={ icon[2] && !icon[2]?.dummy && this.isIconDisabled(icon[2]?.iconKey as IconEnum) ?  {opacity: 0.5} : {opacity: 1.0}}>
                         {icon[0] && <span className={icon[0]}/>}
                         <span className={icon[0] ? `${classNamePrefix}-table-text` : `${classNamePrefix}-table-text-no-icon`}>  {icon[1]}  </span> 
                     </span>
                     }
-                    {icon[2]?.configurable && <SettingIcon enabled = {icon[2]?.selected && !this.ancestorIconDisabled(icon[2]?.iconKey as IconEnum)} iconKey = {icon[2]?.iconKey} independentSetting = {icon[2]?.independentSetting}></SettingIcon>}
+                    {icon[2]?.configurable && <SettingIcon enabled = {icon[2]?.selected && !icon[2]?.dummy &&!this.isIconDisabled(icon[2]?.iconKey as IconEnum)} iconKey = {icon[2]?.iconKey} independentSetting = {icon[2]?.independentSetting}></SettingIcon>}
                     {
                              icon[2]?.tooltipStr && <Tooltip 
                                 title={icon[2]?.tooltipStr}
@@ -255,14 +288,10 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         let independentSetting = this.state.homeScreenSpecialIconMap[iconKey]?.independentSetting;
         let tooltipStr = this.state.homeScreenSpecialIconMap[iconKey]?.tooltipStr;
         let dummy = this.state.homeScreenSpecialIconMap[iconKey]?.dummy;
+        const expandable = this.state.homeScreenSpecialIconMap[iconKey]?.expandable;
         let selected = false;
         if(dummy){
-            return {
-                selected: true
-                , iconKey, 
-                expandable: this.state.homeScreenSpecialIconMap[iconKey]?.expandable,
-                configurable, tooltipStr, dummy
-            }
+            iconKey = iconKey.replace('_dossier_home', '');
         }
         if (libraryCustomizedIconKeys.includes(iconKey)) {
             selected = _.get(this.props.selectedLibraryCustomizedItems, iconKey, libraryCustomizedIconDefaultValues[iconKey]);
@@ -281,7 +310,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                     selected = false;
                 }
             }
-                return {selected, iconKey, expandable: this.state.homeScreenSpecialIconMap[iconKey]?.expandable,configurable, tooltipStr, dummy,independentSetting};
+                return {selected, iconKey, expandable, configurable, tooltipStr, dummy,independentSetting};
         }
         // added by the granular control. 
         // there are two special icons depends on the home moreSetting.
@@ -299,6 +328,10 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                 if (dossierToolbarIcons.includes(iconKey)) {
                     selected = this.props.selectedDocumentIcons.includes(validKey)
                 }
+                // Library Icon
+                if (libraryIconKeys.includes(iconKey)) {
+                    selected = this.props.selectedLibraryIcons.includes(validKey)
+                }
             } else {
                 // Library Icon
                 if (libraryIconKeys.includes(iconKey)) {
@@ -311,13 +344,13 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                 }
             }
         }
-        return {selected, iconKey, expandable: this.state.homeScreenSpecialIconMap[iconKey]?.expandable, configurable, tooltipStr, dummy, independentSetting}
+        return {selected, iconKey, expandable, configurable, tooltipStr, dummy, independentSetting}
     }
 
     // components
-    renderTableExpander = (icon: [string, string, any], expanded: boolean) => {
+    renderTableExpander = (icon: [string, string, IconContextInfo], expanded: boolean) => {
         return (
-            <span style={ this.ancestorIconDisabled(icon[2]?.iconKey as IconEnum) ?  {opacity: 0.5} : {opacity: 1.0}}>
+            <span style={ !icon[2]?.dummy && this.isIconDisabled(icon[2]?.iconKey as IconEnum) ?  {opacity: 0.5} : {opacity: 1.0}}>
                 <span className={`${classNamePrefix}-sidebar-caret`}>
                     {expanded && <CaretDownOutlined/>}
                     {!expanded && <CaretRightOutlined/>}
@@ -344,12 +377,13 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         return <div className={`${classNamePrefix}-icons-title`}>{title}</div>
     }
     filterUnsupportIcons = (childrenIcons: IconType[],webVersion: string) => {
+        return childrenIcons;
         let tarChildIcons = filterNonsupportIcons(childrenIcons, webVersion);
         if (!this.state.contentBundleFeatureEnable){
             tarChildIcons = tarChildIcons?.filter(item => item.key !== iconTypes.defaultGroup.key);
         }
         if (!this.state.contentDiscoveryFeatureEnable) {
-            tarChildIcons = tarChildIcons.filter(item => item.key !== iconTypes.contentDiscovery.key)
+            tarChildIcons = tarChildIcons?.filter(item => item.key !== iconTypes.contentDiscovery.key)
         }
         return tarChildIcons;
     }
@@ -408,7 +442,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                 )
             }
         )
-        return <Table className={`${classNamePrefix}-table`} style={this.props.toolbarHidden ? {opacity: 0.5} : {opacity : 1.0}} dataSource={data} columns={this.columns} pagination={false} showHeader={false} expandIcon={(props) => this.customExpandIcon(props)} />
+        return <Table className={`${classNamePrefix}-table`} dataSource={data} columns={this.columns} pagination={false} showHeader={false} expandIcon={(props) => this.customExpandIcon(props)} />
     }
 
     renderOptions = (checked: boolean, value: string, text: string, tip?: boolean) => {
@@ -452,6 +486,9 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
     }
     getAffectedChangeConfig = (value: boolean, iconKey: string, currentConfig: any, recursive?: boolean) => {
         const { isDossierHome } = this.props;
+        if(this.state.homeScreenSpecialIconMap[iconKey]?.dummy){
+            iconKey = iconKey.replace('_dossier_home', '');
+        }
         const validKey = iconValidKey(iconKey);
         const handleCustomizedIcon = (iconKey: string, value: boolean) => {
             if (libraryCustomizedIconKeys.includes(iconKey)) {
@@ -518,6 +555,13 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                     }} 
                     _.set(currentConfig, `${VC.HOME_SCREEN}.${VC.HOME_DOCUMENT}.${VC.ICONS}`, icons);
                     _.set(currentConfig, `${VC.HOME_SCREEN}.${VC.HOME_LIBRARY}.${VC.CUSTOMIZED_ITEMS}`, customizedItems);
+                }
+                // Library Icon
+                if (libraryIconKeys.includes(iconKey)) {
+                    const icons = updateIconsInList(selectedLibraryIcons, validKey, value)
+                    update = {[VC.ICONS] : icons}
+                    updateLibrary = {[VC.HOME_LIBRARY]: update}
+                    _.set(currentConfig, `${VC.HOME_SCREEN}.${VC.HOME_LIBRARY}.${VC.ICONS}`, icons);
                 }
             } else {
                 // Library Icon

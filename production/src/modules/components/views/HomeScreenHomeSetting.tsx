@@ -115,16 +115,6 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
           _.pull(libraryIcons, VC.ICON_NOTIFICATIONS)
         }
       }
-      if (documentIcons.includes(VC.ICON_OPTIONS)) {
-        if (!libraryIcons.includes(VC.ICON_OPTIONS)) {
-          libraryIcons = _.concat(libraryIcons, VC.ICON_OPTIONS)
-        }
-        _.pull(documentIcons, VC.ICON_OPTIONS)
-      } else {
-        if (libraryIcons.includes(VC.ICON_OPTIONS)) {
-          _.pull(libraryIcons, VC.ICON_OPTIONS)
-        }
-      }
     } else {
       // Switch to Dossier Home, try to move notification/accound from library list to document list
       if (libraryIcons.includes(VC.ICON_NOTIFICATIONS)) {
@@ -141,10 +131,10 @@ class HomeScreenHomeSetting extends React.Component<any, any> {
         if (!documentIcons.includes(VC.ICON_OPTIONS)) {
           documentIcons = _.concat(documentIcons, VC.ICON_OPTIONS)
         }
-        _.pull(libraryIcons, VC.ICON_OPTIONS)
+        // _.pull(libraryIcons, VC.ICON_OPTIONS)
       } else {
         if (documentIcons.includes(VC.ICON_OPTIONS)) {
-          _.pull(documentIcons, VC.ICON_OPTIONS)
+          // _.pull(documentIcons, VC.ICON_OPTIONS)
         }
       }
     }

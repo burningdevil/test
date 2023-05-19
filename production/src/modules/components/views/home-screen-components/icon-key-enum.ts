@@ -64,6 +64,6 @@ export enum ICON_KEY_ENUM {
     toc_content_info = 'table_of_contents_content_info',
     toc_chapter = 'table_of_contents_chapter_and_page',
     // newly added for dossier as home
-    account_web_dossier_home = 'account_web_dossier_home',
-    account_mobile_dossier_home = 'account_mobile_dossier_home',
+    account_web_dossier_home = 'options__web_dossier_home',
+    account_mobile_dossier_home = 'options__mobile_dossier_home',
 }

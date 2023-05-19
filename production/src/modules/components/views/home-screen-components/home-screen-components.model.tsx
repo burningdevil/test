@@ -177,7 +177,6 @@ const HomeScreenSpecialIconMap: SpecialIconContextInfo = {
     [iconTypes.accountWebDossier.key]: {
         dummy: true,
         expandable: true,
-        independentWithChild: true,
         children: [
             iconTypes.web_userName,
             iconTypes.web_myLibraries,
@@ -192,7 +191,6 @@ const HomeScreenSpecialIconMap: SpecialIconContextInfo = {
     [iconTypes.accountMobileDossier.key]: {
         dummy: true,
         expandable: true,
-        independentWithChild: true,
         children: [
             iconTypes.mobile_userName,
             iconTypes.mobile_preferences,
