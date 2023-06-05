@@ -1,3 +1,4 @@
+import { TAGS } from 'src/modules/components/HomeScreenConfigConstant';
 import {
     HomeScreenConfigType,
     MainViewContentBundleType,
@@ -50,6 +51,10 @@ export interface AppearanceEditorState {
     ui: AppearanceEditorUiState;
 }
 
+export interface FeatureState {
+  features: TAGS[];
+}
+
 export interface RootState {
     configEditor: HomeScreenConfigEditorState;
     configMain: HomeScreenMainViewState;
@@ -57,4 +62,5 @@ export interface RootState {
     content: HomeScreenEditorContentBundleState;
     colorPalette?: HomeScreenEditorColorPaletteState;
     appearanceEditor: AppearanceEditorState;
+    features?: FeatureState;
 }

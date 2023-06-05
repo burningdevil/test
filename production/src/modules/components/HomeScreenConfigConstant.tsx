@@ -783,9 +783,17 @@ export enum IconEnum {
 
 
 }
+
+export enum TAGS {
+  share = 'share',
+  action = 'action',
+  info = 'info',
+}
+
 export interface IconType {
     displayText: string;
     iconName: string;
+    tag?: TAGS[];
     key: string;
     supportTip?: boolean;
     tipMsg?: string;
@@ -800,6 +808,7 @@ export const iconTypes: IconTypes = {
         displayText: t('sidebar'),
         iconName: CONSTANTS.FONT_SIDEBAR,
         key: CONSTANTS.ICON_SIDEBAR,
+        tag: [TAGS.action],
         supportTip: true,
         deps: [REVERSE + CONSTANTS.ICON_SIDEBAR],
         tipMsg: localizedStrings.DISABLE_SIDEBAR_TOOLTIP,
@@ -807,6 +816,7 @@ export const iconTypes: IconTypes = {
     [IconEnum.sortAndFilter]: {
         displayText: t('librarySortFilter'),
         iconName: CONSTANTS.FONT_SORT_FILTER,
+        tag: [TAGS.info],
         key: CONSTANTS.ICON_SORT_FILTER,
     },
     [IconEnum.multiSelect]: {
@@ -817,11 +827,13 @@ export const iconTypes: IconTypes = {
     [IconEnum.search]: {
         displayText: t('search'),
         iconName: CONSTANTS.FONT_SEARCH,
+        tag: [TAGS.info],
         key: CONSTANTS.ICON_SEARCH,
     },
     [IconEnum.notification]: {
         displayText: t('notification'),
         iconName: CONSTANTS.FONT_NOTIFICATIONS,
+        tag: [TAGS.info],
         key: CONSTANTS.ICON_NOTIFICATIONS,
     },
     [IconEnum.account]: {
@@ -1286,7 +1298,7 @@ export const iconTypes: IconTypes = {
         iconName: CONSTANTS.FONT_ADD_LIBRARY,
         key: CONSTANTS.ICON_SWITCH_LIBRARY,
     },
-    
+
 };
 
 /// for icon switch
@@ -1507,7 +1519,7 @@ export const libraryCustomizedIconDefaultValues = Object.freeze({
 });
 const granularControlAddedIconsStartVersion: any = {}
 granularControlNewAddedIcons.forEach(v => granularControlAddedIconsStartVersion[v.key] = LIBRARY_SUPPORT_GRANULAR_CONTROL);
-    
+
 export const libraryCustomizedIconStartVersion = {
     [iconTypes.insights.key]: LIBRARY_SERVER_SUPPORT_INSIGHTS_CONTROL,
     [iconTypes.contentDiscovery.key]: LIBRARY_SUPPORT_CONTENT_DISCOVERY_VERSION,

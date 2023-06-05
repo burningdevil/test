@@ -1,3 +1,4 @@
+import { TAGS } from 'src/modules/components/HomeScreenConfigConstant'
 import { HomeScreenConfigType, MainViewContentBundleType, HomeScreenBundleContentListItem, ApplicationTheme } from '../../types/data-model/HomeScreenConfigModels'
 
 export interface LoadConfigListSuccessActionType {
@@ -45,5 +46,10 @@ export interface AppearanceEditorActionType {
     data: any
 }
 
+export interface UpdateFeatureActionType {
+    type: string,
+    data: Array<TAGS>
+}
+
 export type ActionTypes = UpdateCurrentConfigActionType | SetCurrentConfigActionType | LoadConfigListSuccessActionType | LoadContentBundleListSuccessActionType | AppendBundleContentDocumentActionType | AppendBundleContentDossierActionType
-| StartLoadingBundleContentList | FinishLoadingBundleContentList | AppearanceEditorActionType
+| StartLoadingBundleContentList | FinishLoadingBundleContentList | AppearanceEditorActionType | UpdateFeatureActionType

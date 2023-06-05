@@ -9,6 +9,7 @@ export const selectConfigMainRoot = (state: RootState) => state.configMain
 export const selectBundleContentRoot = (state: RootState) => state.bundleContent
 export const selectContentRoot = (state: RootState) => state.content
 export const selectColorPaletteRoot = (state: RootState) => state.colorPalette
+export const selectFeatures = (state: RootState) => state.features
 export const selectCurrentConfig = createSelector(
     selectConfigEditorRoot,
   (configEditorRoot) => configEditorRoot.currentConfig
@@ -99,7 +100,7 @@ export const selectLoadingDocumentsFinish = createSelector(
   (bundleContentRoot) => bundleContentRoot.loadingDocumentsFinish
 );
 
-// helper 
+// helper
 export const selectIsDossierAsHome = createSelector(
   selectCurrentConfig,
   (config) => config.homeScreen.mode == CONSTANTS.MODE_USE_DOSSIER_AS_HOME_SCREEN
@@ -148,7 +149,7 @@ export const selectSelectedDocumentIcons = createSelector(
 
 export const selectDefaultGroupsName = createSelector(
   selectCurrentConfig,
-  (config) =>  { 
+  (config) =>  {
     // special handling when encounter with default groups.
     return config.homeScreen.homeLibrary.defaultGroupsName === localizedStrings.DEFAULT_GROUPS ? CONTENT_BUNDLE_DEFAULT_GROUP_NAME : config.homeScreen.homeLibrary.defaultGroupsName
   }
@@ -161,28 +162,28 @@ export const selectCurrentConfigTheme = createSelector(
 
 export const selectAllColorPalettes = createSelector(
   selectColorPaletteRoot,
-  (config) =>  { 
+  (config) =>  {
     return config.data
   }
 )
 
 export const selectApplicationPalettes = createSelector(
   selectCurrentConfig,
-  (config) =>  { 
+  (config) =>  {
     return config.applicationPalettes
   }
 )
 
 export const selectApplicationDefaultPalette = createSelector(
   selectCurrentConfig,
-  (config) =>  { 
+  (config) =>  {
     return config.applicationDefaultPalette
   }
 )
 
 export const selectUseConfigPalettes = createSelector(
   selectCurrentConfig,
-  (config) =>  { 
+  (config) =>  {
     return config.useConfigPalettes
   }
 )

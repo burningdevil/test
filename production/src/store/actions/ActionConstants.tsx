@@ -52,3 +52,6 @@ export const SET_SHOULD_SEND_PREVIEW_EMAIL = `${EDITOR_PREFIX}_SET_SHOULD_SEND_P
 
 /* ------------------------------ Customize Auth Mode State ----------------------------*/
 export const SET_CUSTOM_AUTH_ERROR = `${EDITOR_PREFIX}_SET_CUSTOM_AUTH_ERROR`
+
+/* ------------------------------ Update tags --------------------------------------*/
+export const SET_FEATURE_TAGS = `SET_FEATURE_TAGS`

@@ -4,7 +4,8 @@ import configMainReducer from './reducers/HomeScreenConfigMainReducer'
 import bundleContentReducer from './reducers/HomeScreenBundleContentReducer'
 import contentReducer from './reducers/HomeScreenContentBundleReducer'
 import appearanceEditorReducer from './reducers/AppearanceEditorReducer'
-import colorPaletteReducer from './reducers/HomeScreenColorPaletteReducer';
+import colorPaletteReducer from './reducers/HomeScreenColorPaletteReducer'
+import featureReducer from './reducers/FeatureReducer'
 
 export const rootReducer = combineReducers({
   configEditor: configEditorReducer,
@@ -12,5 +13,6 @@ export const rootReducer = combineReducers({
   bundleContent: bundleContentReducer,
   content: contentReducer,
   appearanceEditor: appearanceEditorReducer,
-  colorPalette: colorPaletteReducer
+  colorPalette: colorPaletteReducer,
+  features: featureReducer,
 })

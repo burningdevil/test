@@ -1,5 +1,6 @@
 import * as Actions from './ActionConstants'
 import { HomeScreenConfigType, MainViewContentBundleType, HomeScreenBundleContentListItem, HomeScreenConfigInfo, ApplicationTheme } from '../../types/data-model/HomeScreenConfigModels'
+import { TAGS } from 'src/modules/components/HomeScreenConfigConstant'
 
 export const loadConfigListSuccess = (configList: Array<HomeScreenConfigType>) => ({
   type: Actions.LOAD_CONFIG_LIST_SUCCESS,
@@ -161,6 +162,11 @@ export const setCustomAuthError = (isError: boolean) => ({
 
 export const updateAppearancePreviewDeviceType = (type: string) => ({
   type: Actions.UPDATE_APPEARANCE_PREVIEW_DEVICE_TYPE,
+  data: type
+})
+
+export const setFeatures = (type: Array<TAGS>) => ({
+  type: Actions.SET_FEATURE_TAGS,
   data: type
 })
 
