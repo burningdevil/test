@@ -1,5 +1,5 @@
-import { Checkbox, Switch, Table, Layout } from 'antd'
-import { CaretDownOutlined, CaretRightOutlined } from '@ant-design/icons'
+import { Checkbox, Switch, Table, Layout, Input, Divider } from 'antd'
+import { CaretDownOutlined, CaretRightOutlined, AudioOutlined } from '@ant-design/icons'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import '../scss/HomeScreenComponents.scss'
@@ -22,6 +22,7 @@ const childrenKeyOffset = 1000;
 const classNamePrefix = 'home-screen-components';
 const columnDisplayText = 'displayText';
 const columnSelected = 'selected';
+const { Search } = Input;
 
 
 interface HomeScreenComponentsState {
@@ -32,7 +33,8 @@ interface HomeScreenComponentsState {
     mobileOptionsVisible: boolean,
     webOptionsVisible: boolean,
     webVersion: string;
-    homeScreenSpecialIconMap: SpecialIconContextInfo
+    homeScreenSpecialIconMap: SpecialIconContextInfo;
+    searchText: string;
 }
 
 class HomeScreenComponents extends React.Component<any, HomeScreenComponentsState> {
@@ -56,9 +58,9 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                 }
                 return resIcons[0];
             }
-            
+
         }
-        
+
     }
     parentIconDisabled = (iconKey: IconEnum) => {
         const parentIcon = this.findParentIcon(iconKey as IconEnum);
@@ -225,12 +227,12 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                     !icon[2]?.expandable &&
                     <span style={ icon[2] && !icon[2]?.dummy && this.isIconDisabled(icon[2]?.iconKey as IconEnum) ?  {opacity: 0.5} : {opacity: 1.0}}>
                         {icon[0] && <span className={icon[0]}/>}
-                        <span className={icon[0] ? `${classNamePrefix}-table-text` : `${classNamePrefix}-table-text-no-icon`}>  {icon[1]}  </span> 
+                        <span className={icon[0] ? `${classNamePrefix}-table-text` : `${classNamePrefix}-table-text-no-icon`}>  {icon[1]}  </span>
                     </span>
                     }
                     {icon[2]?.configurable && <SettingIcon enabled = {icon[2]?.selected && !icon[2]?.dummy &&!this.isIconDisabled(icon[2]?.iconKey as IconEnum)} iconKey = {icon[2]?.iconKey} independentSetting = {icon[2]?.independentSetting}></SettingIcon>}
                     {
-                             icon[2]?.tooltipStr && <Tooltip 
+                             icon[2]?.tooltipStr && <Tooltip
                                 title={icon[2]?.tooltipStr}
                                 placement='right'>
                                 <span className={VC.FONT_MSG_INFO}> </span>
@@ -251,7 +253,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
 
                     <div>
                         {
-                            !this.props.toolbarHidden && this.isHelpTipShow(selectedInfo.iconKey) && <Tooltip 
+                            !this.props.toolbarHidden && this.isHelpTipShow(selectedInfo.iconKey) && <Tooltip
                                 title={Object.values(iconTypes).find(v => v.key === selectedInfo.iconKey).tipMsg}
                                 placement='right'>
                                 <span className={VC.FONT_MSG_INFO}> </span>
@@ -312,7 +314,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
             }
                 return {selected, iconKey, expandable, configurable, tooltipStr, dummy,independentSetting};
         }
-        // added by the granular control. 
+        // added by the granular control.
         // there are two special icons depends on the home moreSetting.
         if(iconKey === iconTypes.mobile_preferences.key){
             selected = !this.props.config?.general?.disablePreferences;
@@ -373,11 +375,28 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         }
     }
 
+    onSearch = (value: string) => {
+      this.setState({
+        searchText: value
+      });
+      console.log(value);
+    }
+
+    renderSearchBar = () => {
+      return <Search
+        placeholder="search component"
+        enterButton="Search"
+        size="large"
+        onSearch={this.onSearch}
+        allowClear
+        enterButton
+      />
+    }
+
     renderTableTitle = (title: string) => {
         return <div className={`${classNamePrefix}-icons-title`}>{title}</div>
     }
     filterUnsupportIcons = (childrenIcons: IconType[],webVersion: string) => {
-        return childrenIcons;
         let tarChildIcons = filterNonsupportIcons(childrenIcons, webVersion);
         if (!this.state.contentBundleFeatureEnable){
             tarChildIcons = tarChildIcons?.filter(item => item.key !== iconTypes.defaultGroup.key);
@@ -389,9 +408,9 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
     }
     generateChildrenData = (iconKey: string, webVersion: string) => {
         if(!this.state.homeScreenSpecialIconMap[iconKey]?.expandable) return null;
-        
+
         let tarChildIcons = this.filterUnsupportIcons(this.state.homeScreenSpecialIconMap[iconKey]?.children, this.state.webVersion);
-    
+
         const expandChildren = tarChildIcons
         .map( (icon, index) =>  {
             let displayText = icon.displayText
@@ -419,11 +438,11 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                     {key: index + icon.key, displayText: [icon.iconName, displayText, this.iconContextInfo(icon.key)], selected: this.iconContextInfo(icon.key), expandable: false}
                 )
             }
-            
+
         }
         )
         return expandChildren
-        
+
     }
     renderTable = (icons: Array<iconDetail>, webVersion: string) => {
         // let tarChildIcons = filterNonsupportIcons(childrenIcons, this.state.webVersion);
@@ -431,8 +450,8 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         //     tarChildIcons = tarChildIcons.filter(item => item.key !== iconTypes.defaultGroup.key);
         // }
         // let tarChildIcons = this.filterUnsupportIcons(childrenIcons, this.state.webVersion);
-        
-        const data = icons
+
+        let data = icons
             .map( (icon, index) => {
                 // const hasChildren = iconExpandable(icon.displayText);
                 const childrenIcons = this.generateChildrenData(icon.key, webVersion);
@@ -442,6 +461,13 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                 )
             }
         )
+        data = data.filter( (icon) => {
+            if (this.state.searchText) {
+              console.log(this.state.searchText);
+              return icon.displayText[1].toLowerCase().includes(this.state.searchText.toLowerCase());
+            }
+            return true;
+        })
         return <Table className={`${classNamePrefix}-table`} dataSource={data} columns={this.columns} pagination={false} showHeader={false} expandIcon={(props) => this.customExpandIcon(props)} />
     }
 
@@ -516,7 +542,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
             return false;
         }
         if(handleSpecialIcon(iconKey, value)) return currentConfig;
-        
+
         let update = {};
         const updateIconsInList = (targetIcons: string[], validKey: string, value: boolean) => {
             if (!value){
@@ -552,7 +578,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                         [VC.HOME_DOCUMENT]: update,
                         [VC.HOME_LIBRARY]: {
                             [VC.CUSTOMIZED_ITEMS]: customizedItems
-                    }} 
+                    }}
                     _.set(currentConfig, `${VC.HOME_SCREEN}.${VC.HOME_DOCUMENT}.${VC.ICONS}`, icons);
                     _.set(currentConfig, `${VC.HOME_SCREEN}.${VC.HOME_LIBRARY}.${VC.CUSTOMIZED_ITEMS}`, customizedItems);
                 }
@@ -581,7 +607,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                         [VC.HOME_LIBRARY]: {
                             [VC.CUSTOMIZED_ITEMS]: customizedItems
                         }
-                    } 
+                    }
                     _.set(currentConfig, `${VC.HOME_SCREEN}.${VC.HOME_DOCUMENT}.${VC.ICONS}`, icons);
                     _.set(currentConfig, `${VC.HOME_SCREEN}.${VC.HOME_LIBRARY}.${VC.CUSTOMIZED_ITEMS}`, customizedItems);
                 }
@@ -591,10 +617,10 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         return currentConfig;
 
     }
-    onIconStateChange = (value: boolean, iconKey: string, recursive?: boolean) => { 
+    onIconStateChange = (value: boolean, iconKey: string, recursive?: boolean) => {
         let currentConfig = this.props.config;
         currentConfig  = this.getAffectedChangeConfig(value, iconKey, currentConfig);
-        
+
         const handleParentDependentChange = (iconKey: string, value: boolean) => {
             if(recursive) return;
             // handle the children case, if all the children icons are off, enable the parent icon will turn on the children icons automatically.
@@ -623,7 +649,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                 const judgeSame = (targetIcons: IconEnum[], currentVal: boolean) => {
                     return targetIcons?.every(t => this.iconContextInfo(t)?.selected === currentVal);
                 };
-                
+
                 const isSame = judgeSame(siblingIcons as IconEnum[], value);
                 if (isSame){
                     currentConfig = this.getAffectedChangeConfig(value, parentIcon, currentConfig)
@@ -633,7 +659,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                 }
             }
             offTheAncestor(iconKey as IconEnum);
-            
+
 
         }
         handleParentDependentChange(iconKey, value);
@@ -664,8 +690,8 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
             contentBundleFeatureEnable: contentBundleEnable,
             contentDiscoveryFeatureEnable: contentDiscoveryEnable,
             webVersion: curEnv.webVersion,
-            homeScreenSpecialIconMap: getHomeScreenSpecialIconMap(curEnv?.webVersion)
-             
+            homeScreenSpecialIconMap: getHomeScreenSpecialIconMap(curEnv?.webVersion),
+            searchText: null
         });
       }
     generateContentInfo(webVersion: string) {
@@ -696,6 +722,13 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
 
                     {this.renderOptions(this.props.toolbarHidden, VC.TOOLBAR_ENABLED, localizedStrings.DISABLE_TOOLBAR, true)}
                     {this.renderOptions(this.props.toolbarCollapsed, VC.TOOLBAR_MODE, localizedStrings.COLLAPSE_TOOLBAR)}
+
+                    {
+                      //searchbar
+                      this.renderSearchBar()
+                    }
+
+                    <Divider/>
 
                     <div className={`${classNamePrefix}-scrollcontainer`}>
                     {

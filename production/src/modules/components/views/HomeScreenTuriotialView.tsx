@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Layout, Carousel } from 'antd';
+import type { CarouselRef } from 'antd/lib/carousel';
 import { TAGS } from '../HomeScreenConfigConstant';
 import { selectFeatures } from 'src/store/selectors/HomeScreenConfigEditorSelector';
 import { RootState } from 'src/types/redux-state/HomeScreenConfigState';
@@ -13,6 +14,8 @@ type AppearanceEditorProps = {
 }
 
 class HomeScreenTuriotialView extends React.Component<any, any> {
+    carRef = React.createRef<CarouselRef>()
+
     render(): React.ReactNode {
       // const [tags, setTags] = React.useState(availableTags);
       const { features } = this.props;
@@ -20,7 +23,7 @@ class HomeScreenTuriotialView extends React.Component<any, any> {
         console.log(currentSlide);
       };
       const items = features.features.map(
-        (item: TAGS) => <HomeScreenTuriotialViewComponent item={item}/>
+        (item: TAGS) => <HomeScreenTuriotialViewComponent item={item} ref={this.carRef}/>
       )
 
       return (
@@ -38,8 +41,6 @@ const mapState = (state: RootState) => ({
 const connector = connect(mapState, {
   setfeatures: Actions.setFeatures
 })
-
-
 
 const overStyle: React.CSSProperties = {
   margin: 0,
@@ -61,7 +62,9 @@ const contentStyle: React.CSSProperties = {
 
 // 1 question and 2 options
 const HomeScreenTuriotialViewComponent: React.FC<any> = (props: any) => {
+  // const carRef = React.createRef<CarouselRef>()
   const onChange = (item) => {
+    props.ref.current?.next()
     console.log(item)
   }
 
