@@ -379,7 +379,6 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
       this.setState({
         searchText: value
       });
-      console.log(value);
     }
 
     renderSearchBar = () => {
@@ -406,7 +405,7 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         }
         return tarChildIcons;
     }
-    generateChildrenData = (iconKey: string, webVersion: string) => {
+    generateChildrenData = (iconKey: string, webVersion: string, keepChildren: boolean) => {
         if(!this.state.homeScreenSpecialIconMap[iconKey]?.expandable) return null;
 
         let tarChildIcons = this.filterUnsupportIcons(this.state.homeScreenSpecialIconMap[iconKey]?.children, this.state.webVersion);
@@ -428,10 +427,11 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                     displayText = localizedStrings.INSIGHTS_WEB_ONLY;
                 }
             }
-            children = this.generateChildrenData(icon.key, webVersion)
+            children = this.generateChildrenData(icon.key, webVersion, keepChildren)
+
             if(children) {
                 return (
-                    {key: index + icon.key, displayText: [icon.iconName, displayText, this.iconContextInfo(icon.key)], selected: this.iconContextInfo(icon.key), children: this.generateChildrenData(icon.key, webVersion), expandable: true}
+                    {key: index + icon.key, displayText: [icon.iconName, displayText, this.iconContextInfo(icon.key)], selected: this.iconContextInfo(icon.key), children: this.generateChildrenData(icon.key, webVersion, keepChildren), expandable: true}
                 )
             }else{
                 return (
@@ -441,9 +441,25 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
 
         }
         )
-        return expandChildren
+        return expandChildren.filter( (icon) => {
+          // if this icon is filtered as search result, then all its descendants should be kept
+          return this.filterSearch(icon) || keepChildren
+        })
 
     }
+
+    filterSearch = (icon) => {
+      if (this.state.searchText) {
+        // if this icon's children is kept, should keep its parent
+        const children = icon.children;
+        if (children && children.length > 0) {
+          return true;
+        }
+        return icon.displayText[1].toLowerCase().includes(this.state.searchText.toLowerCase());
+      }
+      return true
+    }
+
     renderTable = (icons: Array<iconDetail>, webVersion: string) => {
         // let tarChildIcons = filterNonsupportIcons(childrenIcons, this.state.webVersion);
         // if (!this.state.contentBundleFeatureEnable){
@@ -454,7 +470,8 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         let data = icons
             .map( (icon, index) => {
                 // const hasChildren = iconExpandable(icon.displayText);
-                const childrenIcons = this.generateChildrenData(icon.key, webVersion);
+                const keepChildren = this.filterSearch({displayText: [icon.iconName, icon.displayText, null]})
+                const childrenIcons = this.generateChildrenData(icon.key, webVersion, keepChildren);
                 const selectedInfo = this.iconContextInfo(icon.key)
                 return (
                     childrenIcons ? {key: icon.key, displayText: [icon.iconName, icon.displayText, selectedInfo], selected: selectedInfo, children: childrenIcons, expandable: true} : {key: icon.key, displayText: [icon.iconName, icon.displayText, selectedInfo], selected: selectedInfo, expandable: false}
@@ -462,13 +479,13 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
             }
         )
         data = data.filter( (icon) => {
-            if (this.state.searchText) {
-              console.log(this.state.searchText);
-              return icon.displayText[1].toLowerCase().includes(this.state.searchText.toLowerCase());
-            }
-            return true;
+          return this.filterSearch(icon)
         })
-        return <Table className={`${classNamePrefix}-table`} dataSource={data} columns={this.columns} pagination={false} showHeader={false} expandIcon={(props) => this.customExpandIcon(props)} />
+        if (data.length > 0) {
+          return <Table className={`${classNamePrefix}-table`} dataSource={data} columns={this.columns} pagination={false} showHeader={false} expandIcon={(props) => this.customExpandIcon(props)} />
+        } else {
+          return null;
+        }
     }
 
     renderOptions = (checked: boolean, value: string, text: string, tip?: boolean) => {
@@ -700,11 +717,26 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
         }
         return (
             <>
-                { this.renderTableTitle(localizedStrings.CONTENT_INFO) }
-                { this.renderTable(contentInfoIcons, webVersion) }
+                {this.renderTablePair(localizedStrings.CONTENT_INFO, contentInfoIcons, webVersion)}
+                {/* { this.renderTableTitle(localizedStrings.CONTENT_INFO) }
+                { this.renderTable(contentInfoIcons, webVersion) } */}
             </>
          )
     }
+
+    renderTablePair(title: string, icons: any, webVersion: string) {
+      const table = this.renderTable(icons, webVersion)
+      if (table == null) {
+        return <div></div>
+      }
+      return (
+        <>
+          {this.renderTableTitle(title)}
+          {table}
+        </>
+      )
+    }
+
     render() {
         return (
             <WebVersionContext.Consumer>
@@ -713,6 +745,12 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                     return (
                         <Layout className={`${classNamePrefix}`}>
                 <Layout.Content className={`${classNamePrefix}-left`}>
+                    {
+                      //searchbar
+                      this.renderSearchBar()
+                    }
+                    <Divider/>
+
                     <div className = {`${classNamePrefix}-enable-feature`}>
                         {localizedStrings.ENABLE_FEATURE_TITLE}
                         <div className={`${classNamePrefix}-enable-feature-description`}>
@@ -723,35 +761,33 @@ class HomeScreenComponents extends React.Component<any, HomeScreenComponentsStat
                     {this.renderOptions(this.props.toolbarHidden, VC.TOOLBAR_ENABLED, localizedStrings.DISABLE_TOOLBAR, true)}
                     {this.renderOptions(this.props.toolbarCollapsed, VC.TOOLBAR_MODE, localizedStrings.COLLAPSE_TOOLBAR)}
 
-                    {
-                      //searchbar
-                      this.renderSearchBar()
-                    }
-
-                    <Divider/>
-
                     <div className={`${classNamePrefix}-scrollcontainer`}>
                     {
                         // dossier as home group
                         this.props.isDossierHome && <div className={`${classNamePrefix}-icons`}>
-                            { this.renderTableTitle(localizedStrings.DOSSIER_WINDOW_HOME) }
-                            { this.renderTable(isLibraryServerVersionMatch(webVersion, LIBRARY_SUPPORT_DOSSIER_AS_HOME_BOOKMARK) ? dossierIconsDossierHome : dossierIconsDossierHome.filter(v => v.key !== iconTypes.bookmark.key), webVersion)}
+                            {/* { this.renderTableTitle(localizedStrings.DOSSIER_WINDOW_HOME) }
+                            { this.renderTable(isLibraryServerVersionMatch(webVersion, LIBRARY_SUPPORT_DOSSIER_AS_HOME_BOOKMARK) ? dossierIconsDossierHome : dossierIconsDossierHome.filter(v => v.key !== iconTypes.bookmark.key), webVersion)} */}
+                            {this.renderTablePair(localizedStrings.DOSSIER_WINDOW_HOME, isLibraryServerVersionMatch(webVersion, LIBRARY_SUPPORT_DOSSIER_AS_HOME_BOOKMARK) ? dossierIconsDossierHome : dossierIconsDossierHome.filter(v => v.key !== iconTypes.bookmark.key), webVersion)}
                             { this.generateContentInfo(webVersion)}
-                            { this.renderTableTitle(localizedStrings.PLATFORM_SPECIFIC) }
-                            { this.renderTable(platformSpecificIcons, webVersion) }
+                            {this.renderTablePair(localizedStrings.PLATFORM_SPECIFIC, platformSpecificIcons, webVersion)}
+                            {/* { this.renderTableTitle(localizedStrings.PLATFORM_SPECIFIC) }
+                            { this.renderTable(platformSpecificIcons, webVersion) } */}
                         </div>
                     }
 
                     {
                         // library as home group
                         !this.props.isDossierHome && <div className={`${classNamePrefix}-icons`}>
-                            { this.renderTableTitle(localizedStrings.LIBRARY_WINDOW) }
-                            { this.renderTable(libraryIcons, webVersion) }
-                            { this.renderTableTitle(localizedStrings.DOSSIER_WINDOW) }
-                            { this.renderTable(dossierIcons, webVersion) }
+                            { this.renderTablePair(localizedStrings.LIBRARY_WINDOW, libraryIcons, webVersion)}
+                            {/* { this.renderTableTitle(localizedStrings.LIBRARY_WINDOW) }
+                            { this.renderTable(libraryIcons, webVersion) } */}
+                            { this.renderTablePair(localizedStrings.DOSSIER_WINDOW, dossierIcons, webVersion)}
+                            {/* { this.renderTableTitle(localizedStrings.DOSSIER_WINDOW) }
+                            { this.renderTable(dossierIcons, webVersion) } */}
                             { this.generateContentInfo(webVersion)}
-                            { this.renderTableTitle(localizedStrings.PLATFORM_SPECIFIC) }
-                            { this.renderTable(platformSpecificIcons, webVersion) }
+                            { this.renderTablePair(localizedStrings.PLATFORM_SPECIFIC, platformSpecificIcons, webVersion)}
+                            {/* { this.renderTableTitle(localizedStrings.PLATFORM_SPECIFIC) }
+                            { this.renderTable(platformSpecificIcons, webVersion) } */}
                         </div>
                     }
                     </div>
